@@ -1,46 +1,23 @@
+= Aesia AS3 Lib
+╔═══════════════════════════════════════════════════════════════════════════════════╗
+║                   				  READ ME		  		                        ║
+╚═══════════════════════════════════════════════════════════════════════════════════╝
+
+The Aesia library is a general purpose actionscript library. This library contains four
+distinct parts : 
+ - The aesia.com.mon and aesia.com.patibility packages contains all the general utilities, 
+   interfaces and classes used by the rest of the library. In aesia.com.patibility you can
+   find all the codecs and the gettext implementation used by the rest of the library.
+ - The aesia.com.mands and the aesia.com.munication packages contains all the command
+   pattern's implementations and some concret implementations of commands dealing with
+   server call and web services.
+ - The aesia.com.motion and the aesia.com.media packages contains the classes in
+   charge of making things move.
+ - The aesia.com.ponents package contains the complete sets of components I created, with
+   their own interfaces, classes and utilities. 
+
 
 ╔═══════════════════════════════════════════════════════════════════════════════════╗
-║                   À PROPOS DE LA COMPILATION CONDITIONNELLE                       ║
+║                   	ABOUT THE CONDITIONNAL COMPILATION	                        ║
 ╚═══════════════════════════════════════════════════════════════════════════════════╝
-Les composants font un usage intensif de la compilation conditionnelle, il est donc
-impératif de patcher votre fichier flex-config.xml (ou en créer un autre) à l'aide
-du fichier patch-flex-config.txt.
-
-Mon conseil, lorsqu'on engage un nouveau projet, est de créer deux fichiers (au minimum)
-de configuration. Un pour la version debug et l'autre pour la version release. Dans la
-version debug, vous activez la constante CONFIG::DEBUG, et vous pouvez laisser toutes les
-features des composants actives. En version release, vous passez CONFIG::RELEASE à true
-(et donc CONFIG::DEBUG à false), et vous pouvez ensuite désactiver toutes les features des
-composants dont vous ne vous servez pas. Ainsi on élmimine du fichier final un paquet de
-code inutilisés.
-
-╔═══════════════════════════════════════════════════════════════════════════════════╗
-║                   À PROPOS DU CHANGEMENT DE MOTEUR DE TEXTE                       ║
-╚═══════════════════════════════════════════════════════════════════════════════════╝
-Attention, cette fonctionnalité est encore clairement expérimentale. Ça signifie qu'elle
-ne fonctionne pas encore "out of the box" est qu'elle est soumise à de nombreuses contraintes.
-
-Dans la listes des contraintes, il y a l'impossibilité de passer le champ de texte animé
-en mode input. Inutile donc de chercher à créer des composants de saisie avec le moteur
-de texte animé. 
-
-Ensuite il y a le problème de release des caractères du champ de texte. J'ai pas encore pu
-débugger complètement cette partie, donc, lorsque vous n'avez plus besoin d'un champ de texte, 
-ou que vous voulez le vider pour récupérer de la mémoire, il est impératif d'appeller la méthode
-clear sur l'objet AdvancedTextField.
-
-╔═══════════════════════════════════════════════════════════════════════════════════╗
-║                       À PROPOS DU SKINNING DES COMPOSANTS                         ║
-╚═══════════════════════════════════════════════════════════════════════════════════╝
-Cette partie est plutôt fonctionelle, mais pour le moment dépourvu de mécanique simple
-pour charger des styles ou pour les éditer.
-
-A l'instar des fonctionnalités liées à la compilation conditionnelle, le skinning des 
-composants nécessite l'activation à la compilation des balises de méta-données Skin
-et Skinable. En effet, l'ensemble des styles de base des composants sont construits
-au runtime, selon les besoin, à l'aide de ces balises. 
-
-J'ai commencé à rédiger une annexes de la doc à ce sujet. Elle est incomplète mais elle
-devrait vous permettre de comprendre un peu mieux comment tout ça est construit. 
-
 
