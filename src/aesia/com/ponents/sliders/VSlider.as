@@ -1,0 +1,497 @@
+package aesia.com.ponents.sliders 
+{
+	import aesia.com.mands.ProxyCommand;
+	import aesia.com.mon.utils.Color;
+	import aesia.com.mon.utils.KeyStroke;
+	import aesia.com.mon.utils.Keys;
+	import aesia.com.mon.utils.MathUtils;
+	import aesia.com.mon.utils.StageUtils;
+	import aesia.com.ponents.buttons.Button;
+	import aesia.com.ponents.buttons.ButtonDisplayModes;
+	import aesia.com.ponents.core.AbstractContainer;
+	import aesia.com.ponents.core.Component;
+	import aesia.com.ponents.core.focus.Focusable;
+	import aesia.com.ponents.events.ButtonEvent;
+	import aesia.com.ponents.events.ComponentEvent;
+	import aesia.com.ponents.events.PropertyEvent;
+	import aesia.com.ponents.forms.FormComponent;
+	import aesia.com.ponents.layouts.components.BoxSettings;
+	import aesia.com.ponents.layouts.components.VBoxLayout;
+	import aesia.com.ponents.models.BoundedRangeModel;
+	import aesia.com.ponents.models.DefaultBoundedRangeModel;
+	import aesia.com.ponents.text.TextInput;
+	import aesia.com.ponents.utils.Alignments;
+	import flash.events.Event;
+	import flash.events.FocusEvent;
+	import flash.events.MouseEvent;
+	import flash.text.TextField;
+
+	[Event(name="dataChange", type="aesia.com.ponents.events.ComponentEvent")]
+	[Style(name="inputWidth", type="Number")]
+	[Style(name="buttonSize", type="Number")]
+	[Style(name="trackSize", type="Number")]
+	[Style(name="tickSize", type="Number")]
+	[Style(name="tickMargin", type="Number")]
+	[Style(name="tickColor", type="aesia.com.mon.utils.Color")]
+	[Style(name="icon", type="aesia.com.ponents.skinning.icons.Icon")]
+	[Skinable(skin="VSlider")]
+	[Skin(define="VSlider",
+		  inherit="EmptyComponent",
+		  preview="aesia.com.ponents.sliders::VSlider.defaultVSliderPreview",
+		  
+		  custom_inputWidth="30",
+		  custom_buttonSize="20",		  custom_trackSize="150",		  custom_tickSize="8",		  custom_tickMargin="5",
+		  custom_tickColor="aesia.com.mon.utils::Color.DimGray",
+		  custom_icon="icon(aesia.com.ponents.sliders::VSlider.SLIDER_ICON)"
+	)]
+	[Skin(define="VSliderButton",
+		  inherit="Button",
+		  shortcuts="cutils=aesia.com.ponents.utils",
+		  preview="aesia.com.ponents.sliders::VSlider.defaultVSliderPreview",
+		  previewAcceptStyleSetup="false",
+		  
+		  state__all__corners="new cutils::Corners(3)",
+		  state__all__insets="new cutils::Insets(5)"
+	)]
+	[Skin(define="VSliderInput",
+		  inherit="Text",
+		  preview="aesia.com.ponents.sliders::VSlider.defaultVSliderPreview",
+		  previewAcceptStyleSetup="false"
+	)]
+	[Skin(define="VSliderTrack",
+		  inherit="EmptyComponent",
+		  shortcuts="utils=aesia.com.mon.utils,cutils=aesia.com.ponents.utils,deco=aesia.com.ponents.sliders",
+		  preview="aesia.com.ponents.sliders::VSlider.defaultVSliderPreview",
+		  previewAcceptStyleSetup="false",
+		  
+		  state__all__background="new deco::VSliderTrackFill( utils::Color.Gray, utils::Color.DimGray, 4, 10)",		  state__1_5_9_13__background="new deco::VSliderTrackFill( utils::Color.DarkGray, utils::Color.Gray, 4, 10)",
+		  state__all__corners="new cutils::Corners(2)",		  state__all__insets="new cutils::Insets(2,10,2,10)"
+	)]
+	public class VSlider extends AbstractContainer implements FormComponent
+	{
+		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
+		static public function defaultVSliderPreview () : VSlider
+		{
+			return new VSlider(new DefaultBoundedRangeModel(10, 0, 100, 1), 5, 10, true, true, true );
+		}
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
+		static private const DEPENDENCIES : Array = [VSliderTrackFill];
+		
+		[Embed(source="../skinning/icons/vgrip.png")]
+		static public var SLIDER_ICON : Class;
+		
+		protected var _input : TextInput;
+		protected var _track : Button;
+		protected var _slider : Button;
+		protected var _model : BoundedRangeModel;
+		
+		protected var _dragging : Boolean;
+		protected var _pressedX : Number;
+		protected var _pressedY : Number;
+		
+		protected var _minorTickSpacing : Number;
+		protected var _majorTickSpacing : Number;
+		protected var _displayTicks : Boolean;
+		protected var _snapToTicks : Boolean;
+		
+		protected var _preComponent : Component; 
+		protected var _postComponent : Component; 
+		
+		protected var _tickColor : Color;
+		
+		protected var _displayInput : Boolean;
+		
+		public function VSlider ( model : BoundedRangeModel, 
+								 majorTickSpacing : Number = 10, 
+								 minorTickSpacing : Number = 5, 
+								 displayTicks : Boolean = false, 
+								 snapToTicks : Boolean = false,
+								 displayInput : Boolean = true,
+								 preComp : Component = null,
+								 postComp : Component = null )
+		{
+			super();
+			
+			_childrenContextEnabled = false;
+			_minorTickSpacing = minorTickSpacing;
+			_majorTickSpacing = majorTickSpacing;
+			_displayTicks = displayTicks;
+			_snapToTicks = snapToTicks;
+			_displayInput = displayInput;
+			
+			_input = new TextInput();
+			_input.styleKey = "VSliderInput";
+			_input.preferredWidth = _style.inputWidth;
+			_input.isComponentIndependent = false;
+			
+			_slider = new Button();
+			_slider.styleKey = "VSliderButton";
+			_slider.icon = _style.icon.clone();
+			_slider.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+			_slider.preferredHeight = _style.buttonSize;
+			_slider.isComponentIndependent = false;
+			
+			_track = new Button();
+			_track.styleKey = "VSliderTrack";
+			_track.label = "";
+			_track.allowFocus = false;
+			_track.allowOver = false;
+			_track.allowPressed = false;
+			_track.isComponentIndependent = false;
+			
+			_tickColor = _style.tickColor;
+			
+			addComponent( _track );
+			
+			if( _displayInput )
+				addComponent( _input );
+			
+			addComponent( _slider );
+			
+			var layout : VBoxLayout = new VBoxLayout( this, 3, 
+											new BoxSettings( 0, "center", "center", null ),
+											new BoxSettings( _style.trackSize, "center", "center", _track, true, true, true ),
+											new BoxSettings( 0, "center", "center", null ),
+											new BoxSettings( 0, "left", "center", _displayInput ? _input : null )
+											 );
+			childrenLayout = layout;
+			
+			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT ) ] = new ProxyCommand( down );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT ) ] = new ProxyCommand( up );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( validateInput );
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			this.model = model;
+		}
+		
+		public function get disabledMode () : uint { return _input.disabledMode; }		
+		public function set disabledMode (b : uint) : void
+		{
+			_input.disabledMode = b;
+		}
+
+		public function get disabledValue () : * { return _input.disabledValue; }
+		public function set disabledValue (v : *) : void
+		{
+			_input.disabledValue;
+		}
+		
+		public function get input () : TextInput { return _input; }		
+		public function get track () : Button { return _track; }	
+		public function get slider () : Button { return _slider; }
+		
+		public function get value () : * { return _model.value; }
+		public function set value ( n : * ) : void
+		{
+			_model.value = n;
+		}
+		
+		public function get model () : BoundedRangeModel { return _model; } 		
+		public function set model (model : BoundedRangeModel) : void
+		{
+			if( !model )
+				return;
+			
+			if( _model )
+				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+			
+			_model = model;
+			if( _model )
+			{
+				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				dataChanged(null);
+			}
+		}
+		public function get minorTickSpacing () : Number { return _minorTickSpacing; }		
+		public function set minorTickSpacing (minorTickSpacing : Number) : void
+		{
+			_minorTickSpacing = minorTickSpacing;
+			invalidate( true );
+		}
+		public function get majorTickSpacing () : Number { return _majorTickSpacing; }		
+		public function set majorTickSpacing (majorTickSpacing : Number) : void
+		{
+			_majorTickSpacing = majorTickSpacing;
+			invalidate( true );
+		}
+		public function get displayTicks () : Boolean { return _displayTicks; }		
+		public function set displayTicks (displayTicks : Boolean) : void
+		{
+			_displayTicks = displayTicks;
+			this.graphics.clear();
+			invalidate( true );
+		}
+		public function get snapToTicks () : Boolean { return _snapToTicks; }		
+		public function set snapToTicks (snapToTicks : Boolean) : void
+		{
+			_snapToTicks = snapToTicks;
+		}
+		
+		public function get preComponent () : Component { return _preComponent; }		
+		public function set preComponent (preComponent : Component) : void
+		{
+			if( _preComponent )
+			{
+				removeComponent( _preComponent );
+				(childrenLayout as VBoxLayout).setObjectForBox( null, 2 );
+			}
+			
+			_preComponent = preComponent;
+			if( _preComponent )
+			{
+				_preComponent.isComponentIndependent = false;
+				addComponent( _preComponent );
+				(childrenLayout as VBoxLayout).setObjectForBox( _preComponent, 2 );
+			}
+		}
+		public function get postComponent () : Component { return _postComponent; }	
+		public function set postComponent (postComponent : Component) : void
+		{
+			if( _postComponent )
+			{
+				removeComponent( _postComponent );
+				(childrenLayout as VBoxLayout).setObjectForBox( null, 0 );
+			}
+			
+			_postComponent = postComponent;
+			if( _postComponent )
+			{
+				_postComponent.isComponentIndependent = false;
+				addComponent( _postComponent );
+				(childrenLayout as VBoxLayout).setObjectForBox( _postComponent, 0 );
+			}
+		}
+		override protected function registerToOnStageEvents () : void 
+		{
+			super.registerToOnStageEvents( );
+			
+			_slider.addWeakEventListener( MouseEvent.MOUSE_DOWN, dragStart );
+			_slider.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
+			_slider.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_track.addWeakEventListener( MouseEvent.MOUSE_DOWN, trackDragStart );
+			_track.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
+			_track.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );	
+			
+			addWeakEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+		}
+
+		override protected function unregisterFromOnStageEvents () : void 
+		{
+			super.unregisterFromOnStageEvents( );
+			
+			_slider.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
+			_slider.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
+			_slider.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_track.removeEventListener( MouseEvent.MOUSE_DOWN, trackDragStart );
+			_track.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
+			_track.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );	
+			
+			removeEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+		}
+		
+		
+		protected function getTransformedValue ( n : Number ) : Number
+		{
+			if( _snapToTicks )
+				return n - ( n % _minorTickSpacing );
+			else
+				return n;
+		}
+		
+		private function trackDragStart ( e : MouseEvent ) : void
+		{
+			if( _enabled )
+			{
+				//_slider.y = mouseY - _slider.height / 2;
+				dragStart ( e );
+			}
+		}
+
+		protected function dragStart ( e : MouseEvent ) : void
+		{
+			if( _enabled )
+			{
+				_dragging = true;
+				_pressedX = 0;
+				_pressedY = 0;
+				drag ( null );
+				if( stage )
+					stage.addEventListener( MouseEvent.MOUSE_MOVE, drag );
+			}
+		}
+		protected function dragEnd ( e : Event ) : void
+		{
+			drag ( null );
+			_dragging = false;
+			if( stage )
+				stage.removeEventListener( MouseEvent.MOUSE_MOVE, drag );
+		}
+		protected function drag ( e : MouseEvent ) : void
+		{
+			if( _dragging )
+			{
+				//_slider.y = MathUtils.restrict( mouseY - _pressedY, _track.y, _track.y + _track.height - _slider.height );
+				var v : Number = MathUtils.map( _track.mouseY - _pressedY, _slider.height/2, _track.height - _slider.height/2, _model.maximum, _model.minimum );
+				_model.value = getTransformedValue( v );
+			}
+		}
+		protected function up () : void
+		{
+			if( _enabled )
+			{
+				if( _snapToTicks )
+					_model.value = getTransformedValue( _model.value + _minorTickSpacing );
+				else
+					_model.value = getTransformedValue( _model.value + 1 );
+			}
+		}
+		protected function down () : void
+		{
+			if( _enabled )
+			{
+				if( _snapToTicks )
+					_model.value = getTransformedValue( _model.value - _minorTickSpacing );
+				else
+					_model.value = getTransformedValue( _model.value - 1 );
+			}
+		}
+		protected function validateInput() : void
+		{
+			var n : Number = parseFloat(_input.value);
+			if( !isNaN( n ) )
+				_model.value = getTransformedValue (n);
+			else
+				_input.value = _model.displayValue;
+		}
+		override public function repaint () : void
+		{
+			super.repaint();
+			placeSlider();
+			if( _displayTicks )
+				paintTicks();
+		}
+
+		protected function placeSlider () : void
+		{
+			_slider.y = _track.y + MathUtils.map( _model.value , _model.minimum, _model.maximum, _track.height - _slider.height, 0 );
+			_slider.x = Alignments.alignHorizontal( _slider.width , width, _style.insets, "center" );
+		}
+		protected function paintTicks () : void
+		{
+			var y : Number;
+			var i : Number;
+			var w : Number = _style.tickSize;
+			var x : Number = _track.x + _track.width/2 - _style.tickMargin;
+			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
+			for( i = _model.minimum; i <= _model.maximum; i += _majorTickSpacing )
+			{
+				y = _track.y + _slider.height/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.height - _slider.height );
+				_background.graphics.moveTo( x - w, y );
+				_background.graphics.lineTo( x, y );
+			}
+			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
+			for( i = _model.minimum; i <= _model.maximum; i += _minorTickSpacing )
+			{
+				y = _track.y + _slider.height/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.height - _slider.height );
+				_background.graphics.moveTo( x - w/4, y );
+				_background.graphics.lineTo( x - w*0.75, y );
+			}
+			_background.graphics.lineStyle();
+		}
+
+		override public function focusIn (e : FocusEvent) : void
+		{
+			_focusIn( e );
+			if( _displayInput && !( e.target is TextField ) && e.target != _input )
+				StageUtils.stage.focus = _input;
+		}
+
+		override public function focusOut (e : FocusEvent) : void
+		{
+			super.focusOut( e );
+			validateInput();
+		}
+
+		override public function focusNextChild (child : Focusable) : void
+		{
+			focusNext();
+		}
+		override public function focusPreviousChild (child : Focusable) : void
+		{
+			focusPrevious();
+		}
+		protected function mouseWheel ( e : MouseEvent ) : void
+		{
+			e.stopPropagation();
+			if( _enabled )
+			{
+				if( e.delta > 0 )
+					up();
+				else
+					down();
+			}
+		}
+		protected function dataChanged (event : ComponentEvent) : void
+		{			
+			_input.value = _model.displayValue;
+			invalidate( true );
+			_input.selectAll();
+			
+			fireDataChange();
+		}
+		
+		public function get displayInput () : Boolean { return _displayInput; }		
+		public function set displayInput (displayInput : Boolean) : void
+		{
+			_displayInput = displayInput;
+			
+			var b : BoxSettings = (_childrenLayout as VBoxLayout).boxes[3];
+			
+			b.object = _displayInput ? _input : null;
+			
+			if( !_displayInput && containsComponent( _input ) )
+				removeComponent( _input );
+			else if( _displayInput && !containsComponent( _input ) )
+				addComponent( _input );
+				
+		}
+		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		{
+			switch( event.propertyName )
+			{
+				case "icon" :
+					_slider.icon = _style.icon.clone();
+					break;
+				case "buttonSize" :
+					_slider.preferredHeight = event.propertyValue;
+					break;
+				case "inputWidth" :
+					_input.preferredWidth = event.propertyValue;
+					break;
+				case "tickSize" : 
+				case "tickMargin" : 
+					invalidate();
+					break;
+				case "tickColor" : 
+					_tickColor = event.propertyValue;
+					invalidatePreferredSizeCache();
+					break;
+				case "trackSize" : 
+					(_childrenLayout as VBoxLayout).boxes[1].size = event.propertyValue;
+					invalidatePreferredSizeCache();
+					break;
+				default : 
+					super.stylePropertyChanged( event );
+					break;
+			}
+		}
+		protected function fireDataChange () : void 
+		{
+			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+		}
+	}
+}

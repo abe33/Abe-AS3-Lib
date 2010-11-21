@@ -1,0 +1,189 @@
+package aesia.com.ponents.layouts.components 
+{
+	import aesia.com.mon.geom.Dimension;
+	import aesia.com.ponents.containers.AbstractScrollContainer;
+	import aesia.com.ponents.containers.Viewport;
+	import aesia.com.ponents.core.Component;
+	import aesia.com.ponents.core.Container;
+	import aesia.com.ponents.utils.Alignments;
+	import aesia.com.ponents.utils.Insets;
+
+	/**
+	 * @author cedric
+	 */
+	public class FlowLayout extends AbstractComponentLayout 
+	{
+		protected var _hgap : Number;
+		protected var _vgap : Number;
+		protected var _align : String;
+		protected var _gapAtExtremity : Boolean;
+		protected var _adjustToScrollContainer : Boolean;
+		
+		private var _tmpWidthRest : Number;
+
+		public function FlowLayout ( container : Container = null, 
+									 hgap : Number = 0, 
+									 vgap : Number = 0, 
+									 align : String = "left",
+									 gapAtExtremity : Boolean = false,
+									 adjustToScrollContainer : Boolean = false )
+		{
+			super( container );
+			_hgap = hgap;
+			_vgap = vgap;
+			_align = align;
+			_gapAtExtremity = gapAtExtremity;
+			_adjustToScrollContainer = adjustToScrollContainer;
+		}
+
+		override public function get preferredSize () : Dimension 
+		{
+			return estimateSize();
+		}
+		
+		public function get gapAtExtremity () : Boolean { return _gapAtExtremity; }		
+		public function set gapAtExtremity (gapAtExtremity : Boolean) : void
+		{
+			_gapAtExtremity = gapAtExtremity;
+		}
+		
+		public function get adjustToScrollContainer () : Boolean { return _adjustToScrollContainer; }		
+		public function set adjustToScrollContainer (adjustToScrollContainer : Boolean) : void
+		{
+			_adjustToScrollContainer = adjustToScrollContainer;
+		}
+		
+		public function get align () : String { return _align; }		
+		public function set align (align : String) : void
+		{
+			_align = align;
+		}
+
+		override public function layout ( preferredSize : Dimension = null, insets : Insets = null ) : void 
+		{
+			insets = insets ? insets : new Insets();
+			
+			var prefDim : Dimension = preferredSize ? preferredSize.grow( -insets.horizontal, -insets.vertical ) : estimateSize();
+			var x : Number = insets.left + (_gapAtExtremity ? _hgap : 0 );
+			var y : Number = insets.top + (_gapAtExtremity ? _vgap : 0 );
+			var l : Number = _container.childrenCount;
+			var i : Number = 0;
+			var c : Component;
+			var h : Number = 0;			var line : Array = [];
+			
+			for( i = 0; i < l; i++ )
+			{
+				c = _container.children[i];
+				if( c.visible )
+				{
+					if ( x + c.preferredWidth > prefDim.width )
+					{
+						y += h + _vgap;
+						_tmpWidthRest = prefDim.width - ( x - _hgap );
+						x = insets.left + (_gapAtExtremity ? _hgap : 0 );
+						alignLine ( line );
+						line = [];
+					}
+					
+					c.x = x;
+					c.y = y;
+					h = Math.max( h, c.preferredHeight );
+					line.push( c );
+					x += c.preferredWidth + _hgap;
+				}
+			}
+			_tmpWidthRest = prefDim.width - ( x - _hgap );
+			alignLine ( line );
+			line = [];
+						
+			_tmpWidthRest = NaN;
+		}
+
+		protected function alignLine (line : Array) : void 
+		{
+			var d : Number;
+			var l : uint = line.length;
+			var i : uint;
+			var c : Component;
+			
+			switch( _align )
+			{
+				case Alignments.CENTER : 
+					d = _tmpWidthRest/2;	
+					break;
+				case Alignments.RIGHT : 
+					d = _tmpWidthRest;
+					break;
+				case Alignments.LEFT : 
+				default : 
+					d = 0;
+					break;
+			}
+			for( i = 0; i < l; i++ )
+			{
+				c = line[i];
+				c.x += d;	
+			}
+		}
+
+		protected function estimateSize () : Dimension
+		{
+			var w : Number = 0;			var h : Number = 0;
+			var l : uint = _container.childrenCount;
+			var i : uint;
+			var c : Component;
+			var lh : Number = _gapAtExtremity ? _vgap*2 : 0;			var lw : Number = _gapAtExtremity ? _hgap*2 : 0;
+			var p : Container;			var sc : AbstractScrollContainer;
+			
+			if( _adjustToScrollContainer )
+			{
+				p = _container.parentContainer;
+				if( p is Viewport )
+				{
+					sc = p.parentContainer as AbstractScrollContainer;
+				}
+			}
+			
+			for( i = 0; i < l; i++ )
+			{
+				var isFirstComponent : Boolean = i == 0;
+				var g : Number = ( isFirstComponent && !_gapAtExtremity ) ? 0 : _hgap;
+				c = _container.children[i];
+				if( c.visible )
+				{
+					if( sc )
+					{
+						if( lw + c.preferredSize.width > sc.contentSize.width )
+						{
+							h += lh + _hgap;
+							w = Math.max(w, lw);
+							lw = c.preferredSize.width + (_gapAtExtremity ? _hgap : 0);
+							lh = c.preferredSize.height;
+						}
+						else
+						{
+							lw += c.preferredSize.width + g;
+							lh = Math.max( lh , c.preferredSize.height );
+						}
+					}
+					else
+					{
+						w += c.preferredSize.width + g;
+						h = Math.max( h , c.preferredSize.height + (_gapAtExtremity ? _vgap : 0 ) );
+					}
+				}
+			}
+			if( sc )
+			{
+				h += lh;
+				w = Math.max(w, lw);
+			}
+			if( _gapAtExtremity )
+			{
+				h += _vgap*2;
+			}
+			
+			return new Dimension( w, h );
+		}
+	}
+}

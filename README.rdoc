@@ -9,21 +9,21 @@ distinct parts :
 
 == About the conditionnal compilation
 
-The Aesia library make an heavy use of the actionscript's conditionnal compilation feature,
+The Aesia library make an heavy use of the actionscript's conditionnal compilation features,
 conditionnal compilation is used to differenciate builds and to include or exclude functionnalities
 from the components.
 
-The list and description of all the conditionnal compilation constant are available in the 
+The list and description of all the conditionnal compilation constants are available in the 
 documentation annexes. See also the patch-flex-config.xml for a standard configuration.
 	
 == About the custom metadata tags
 
 The Aesia library use four custom metadatas tags : 
 
- * Skin
- * SKinable
- * Form
- * FormList
+* Skin
+* SKinable
+* Form
+* FormList
 
 Those tags are mainly used by the components. The two first tags, Skin and Skinable, are
 used to declare and link styles to components. The two last tags, Form and FormList, are
@@ -34,4 +34,4 @@ See also the patch-flex-config.xml for a standard configuration.
 
 == About the documentation
 
-The documentation is currently written in French, an English one sould arrive someday.
+The documentation is currently written in French, I actually look for a way to translate the whole translation without having to change all the source code documentation.

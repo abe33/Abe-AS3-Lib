@@ -1,0 +1,84 @@
+package aesia.com.ponents.skinning.decorations 
+{
+	import aesia.com.mon.utils.Color;
+	import aesia.com.ponents.core.Component;
+	import aesia.com.ponents.utils.Borders;
+	import aesia.com.ponents.utils.Corners;
+	import aesia.com.ponents.utils.Orientations;
+
+	import flash.display.Graphics;
+	import flash.geom.Rectangle;
+	import flash.utils.getQualifiedClassName;
+
+	/**
+	 * @author Cédric Néhémie
+	 */
+	public class SeparatorDecoration extends EmptyFill implements ComponentDecoration 
+	{
+		public var colorLight : Color;
+		public var colorShadow : Color;
+		public var orientation : uint;
+		public var bevelSize : Number;
+		public var padding : Number;
+
+		public function SeparatorDecoration ( colorLight : Color = null, 
+										 	  colorShadow : Color = null, 
+										 	  orientation : uint = 0, 
+										 	  bevelSize : Number = 1, 
+										 	  padding : Number = 4 )
+		{
+			this.colorLight = colorLight ? colorLight : Color.White;
+			this.colorShadow = colorShadow ? colorShadow : Color.Black;
+			this.orientation = orientation;
+			this.bevelSize = bevelSize;
+			this.padding = padding;
+		}
+
+		override public function toReflectionSource () : String 
+		{
+			return "new "+ getQualifiedClassName(this) + "(color(0x" + colorLight.rgba+ 
+															  "), color(0x" + colorShadow.rgba + 
+															  "), " + orientation + 
+															  ", " + bevelSize +
+															  ", " + padding + ")";
+		}
+
+		override public function equals (o : *) : Boolean 
+		{
+			if( o is SeparatorDecoration )
+			{
+				var d : SeparatorDecoration = o as SeparatorDecoration;
+				return d.orientation == orientation && 
+						d.colorLight.equals( colorLight ) &&
+						d.colorShadow.equals( colorShadow ) && 
+						d.bevelSize == bevelSize && 
+						d.padding == padding;
+			}
+			return false;
+		}
+
+		override public function draw (r : Rectangle, g : Graphics, c : Component, borders : Borders = null, corners : Corners = null, smoothing : Boolean = false) : void
+		{
+			super.draw( r, g, c, borders, corners, smoothing );
+			switch( orientation )
+			{
+				case Orientations.HORIZONTAL : 
+					g.beginFill( colorShadow.hexa, colorShadow.alpha/255 );
+					g.drawRect(padding, Math.floor(r.height / 2 - bevelSize), r.width - padding * 2, bevelSize );
+					g.endFill();
+					
+					g.beginFill( colorLight.hexa, colorLight.alpha/255 );					g.drawRect(padding, Math.floor(r.height / 2), r.width - padding * 2, bevelSize );
+					g.endFill();
+					break;
+				case Orientations.VERTICAL : 
+				default :
+					g.beginFill( colorShadow.hexa, colorShadow.alpha/255 );
+					g.drawRect( Math.floor(r.width / 2 )-  bevelSize, padding, bevelSize, r.height - padding * 2 );
+					g.endFill();
+					
+					g.beginFill( colorLight.hexa, colorLight.alpha/255 );					g.drawRect( Math.floor( r.width / 2 ), padding, bevelSize, r.height - padding * 2 );
+					g.endFill();
+			}
+		}
+	}
+}
