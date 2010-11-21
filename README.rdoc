@@ -2,6 +2,7 @@
 
 The Aesia library is a general purpose actionscript library. This library contains four
 distinct parts : 
+<<<<<<< HEAD
 * The aesia.com.mon and aesia.com.patibility packages contains all the general utilities, interfaces and classes used by the rest of the library. In aesia.com.patibility you can find all the codecs and the gettext implementation used by the rest of the library.
 * The aesia.com.mands and the aesia.com.munication packages contains all the command pattern's implementations and some concret implementations of commands dealing with server call and web services.
 * The aesia.com.motion and the aesia.com.media packages contains the classes in charge of making things move.
@@ -14,16 +15,43 @@ conditionnal compilation is used to differenciate builds and to include or exclu
 from the components.
 
 The list and description of all the conditionnal compilation constants are available in the 
+=======
+ * The aesia.com.mon and aesia.com.patibility packages contains all the general utilities, 
+   interfaces and classes used by the rest of the library. In aesia.com.patibility you can
+   find all the codecs and the gettext implementation used by the rest of the library.
+ * The aesia.com.mands and the aesia.com.munication packages contains all the command
+   pattern's implementations and some concret implementations of commands dealing with
+   server call and web services.
+ * The aesia.com.motion and the aesia.com.media packages contains the classes in
+   charge of making things move.
+ * The aesia.com.ponents package contains the complete sets of components I created, with
+   their own interfaces, classes and utilities. 
+
+== About the conditionnal compilation
+
+The Aesia library make an heavy use of the actionscript's conditionnal compilation feature,
+conditionnal compilation is used to differenciate builds and to include or exclude functionnalities
+from the components.
+
+The list and description of all the conditionnal compilation constant are available in the 
+>>>>>>> origin/master
 documentation annexes. See also the patch-flex-config.xml for a standard configuration.
 	
 == About the custom metadata tags
 
 The Aesia library use four custom metadatas tags : 
 
+<<<<<<< HEAD
 * Skin
 * SKinable
 * Form
 * FormList
+=======
+ * Skin
+ * SKinable
+ * Form
+ * FormList
+>>>>>>> origin/master
 
 Those tags are mainly used by the components. The two first tags, Skin and Skinable, are
 used to declare and link styles to components. The two last tags, Form and FormList, are
@@ -34,4 +62,8 @@ See also the patch-flex-config.xml for a standard configuration.
 
 == About the documentation
 
+<<<<<<< HEAD
 The documentation is currently written in French, I actually look for a way to translate the whole translation without having to change all the source code documentation.
+=======
+The documentation is currently written in French, an English one sould arrive someday.
+>>>>>>> origin/master
