@@ -41,7 +41,6 @@ package aesia.com.ponents.tools
 	import flash.filters.GradientGlowFilter;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
-
 	/**
 	 * @author cedric
 	 */
@@ -232,6 +231,7 @@ package aesia.com.ponents.tools
 		}
 	}
 }
+
 import aesia.com.mon.geom.Dimension;
 import aesia.com.mon.utils.Color;
 import aesia.com.ponents.core.AbstractComponent;
@@ -277,9 +277,9 @@ internal class FilterPreview extends AbstractComponent
 		super.invalidatePreferredSizeCache( );
 	}
 
-	override protected function _repaint (size : Dimension) : void
+	override protected function _repaint (size : Dimension, forceClear : Boolean = true ) : void
 	{
-		super._repaint( size );
+		super._repaint( size, forceClear );
 		_childrenLayout.layout( size, _style.insets );
 	}
 

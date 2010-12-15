@@ -1,7 +1,7 @@
 package aesia.com.ponents.events 
 {
 	import aesia.com.ponents.tools.CameraCanvas;
-	import aesia.com.ponents.tools.ToolManager;
+	import aesia.com.ponents.tools.canvas.ToolManager;
 
 	import flash.geom.Point;
 

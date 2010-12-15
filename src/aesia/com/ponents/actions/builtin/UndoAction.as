@@ -31,7 +31,7 @@ package aesia.com.ponents.actions.builtin
 			actionEnabled = _manager.canUndo;
 		}
 		protected function checkUndoState () : void 
-		{
+		{			
 			actionEnabled = _manager.canUndo;
 			if( actionEnabled )
 				name = StringUtils.tokenReplace( _( "Undo $0" ), _manager.undoObject.label );

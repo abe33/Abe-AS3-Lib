@@ -3,13 +3,14 @@
  */
 package aesia.com.edia.camera
 {
-	import aesia.com.mon.logs.Log;
+	import aesia.com.mon.core.Randomizable;
 	import aesia.com.mon.core.Runnable;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.geom.Range;
 	import aesia.com.mon.geom.Rectangle2;
 	import aesia.com.mon.geom.pt;
 	import aesia.com.mon.utils.PointUtils;
+	import aesia.com.mon.utils.Random;
 	import aesia.com.mon.utils.RandomUtils;
 	import aesia.com.motion.Impulse;
 	import aesia.com.motion.ImpulseEvent;
@@ -63,7 +64,7 @@ package aesia.com.edia.camera
 	 * <code>CameraEvent.CAMERA_CHANGE</code> d'une caméra.
 	 * </p>
 	 */
-	public class Camera extends EventDispatcher implements Runnable
+	public class Camera extends EventDispatcher implements Runnable, Randomizable
 	{
 /*--------------------------------------------------------------------
  *	PROTECTED PROPERTIES
@@ -167,7 +168,10 @@ package aesia.com.edia.camera
 		 * @default 0
 		 */
 		protected var _rotation : Number;
-
+		/**
+		 * 
+		 */
+		protected var _randomSource : Random;
 		/**
 		 * Créer une nouvelle instance de la classe <code>Camera</code>. Si aucun paramètre n'est
 		 * renseigné, la caméra est initialisé aux dimensions du fichier SWF tel que renvoyer par
@@ -196,6 +200,7 @@ package aesia.com.edia.camera
 								 zoomIncrement : Number = 0.1,
 								 silent : Boolean = false )
 		{
+			_randomSource = RandomUtils.RANDOM;
 			_screen = screen ? screen : new Rectangle2( 0, 0, ToolKit.mainLevel.stage.stageWidth, ToolKit.mainLevel.stage.stageHeight );
 
 			_safeWidth = _screen.width;
@@ -219,7 +224,6 @@ package aesia.com.edia.camera
 		 * <listing>var r : Rectangle2 = camera.screen;</listing>
 		 */
 		public function get screen () : Rectangle2 { return _screen; }
-
 		/**
 		 * Accès en lecture et en écriture à la position en x du coin supérieur
 		 * gauche du champ de la caméra.
@@ -285,7 +289,6 @@ package aesia.com.edia.camera
 		{
 			_zoomIncrement = n;
 		}
-
 		/**
 		 * Accès en lecture et en écriture à la plage de zoom autorisé pour
 		 * cette instance la classe <code>Camera</code>.
@@ -303,7 +306,15 @@ package aesia.com.edia.camera
 		 * Cette valeur sert de référence lors des calculs de zoom.
 		 * </p>
 		 */
-		public function get safeWidth () : Number { return _safeWidth; }
+		public function get safeWidth () : Number { return _safeWidth; }		public function set safeWidth ( n : Number ) : void 
+		{ 
+			var z : Number = zoom;
+			var c : Point = screenCenter;
+			zoom = 1;
+			width = n;
+			zoom = z;
+			screenCenter = c;
+		}
 		/**
 		 * Hauteur du champ de la caméra sans les transformations opérées
 		 * lors du zoom.
@@ -311,7 +322,15 @@ package aesia.com.edia.camera
 		 * Cette valeur sert de référence lors des calculs de zoom.
 		 * </p>
 		 */
-		public function get safeHeight () : Number { return _safeHeight; }
+		public function get safeHeight () : Number { return _safeHeight; }		public function set safeHeight ( n : Number ): void
+		{ 
+			var z : Number = zoom;
+			var c : Point = screenCenter;
+			zoom = 1;
+			height = n;
+			zoom = z;
+			screenCenter = c;
+		}
 
 /*--------------------------------------------------------------------
  *	CENTER GETTER & SETTERS
@@ -333,7 +352,6 @@ package aesia.com.edia.camera
 		{
 			center ( p );
 		}
-
 		/**
 		 * Accès en lecture et en écriture à la coordonnée en x du centre du champ de la caméra.
 		 */
@@ -342,7 +360,6 @@ package aesia.com.edia.camera
 		{
 			centerX( n );
 		}
-
 		/**
 		 * Accès en lecture et en écriture à la coordonnée en y du centre du champ de la caméra.
 		 */
@@ -350,6 +367,14 @@ package aesia.com.edia.camera
 		public function set screenCenterY ( n : Number ) : void
 		{
 			centerY( n );
+		}
+		/**
+		 * @inheritDoc
+		 */
+		public function get randomSource () : Random { return _randomSource;	}
+		public function set randomSource (randomSource : Random) : void
+		{
+			_randomSource = randomSource;
 		}
 /*--------------------------------------------------------------------
  *	CENTER METHODS
@@ -582,7 +607,6 @@ package aesia.com.edia.camera
 		{
 			translateXY ( p.x, p.y );
 		}
-
 		/**
 		 * Déplace le coin supérieur gauche du champ de la caméra d'autant de pixels
 		 * que spécifié en paramètres.
@@ -606,7 +630,6 @@ package aesia.com.edia.camera
 				fireSilentCameraChange ();
 			}
 		}
-
 		/**
 		 * Déplace le coin supérieur gauche du champ de la caméra d'autant de pixels
 		 * que spécifié en paramètres.
@@ -894,8 +917,8 @@ package aesia.com.edia.camera
 		 */
 		protected function tick ( e : ImpulseEvent ) : void
 		{
-			var nx : Number = _safeCenter.x - _screen.width / 2 + RandomUtils.balance( _shakingStrength ) ;
-			var ny : Number = _safeCenter.y - _screen.height / 2 + RandomUtils.balance( _shakingStrength );
+			var nx : Number = _safeCenter.x - _screen.width / 2 + _randomSource.balance( _shakingStrength ) ;
+			var ny : Number = _safeCenter.y - _screen.height / 2 + _randomSource.balance( _shakingStrength );
 
 			if( nx !=  _screen.x || ny != _screen.y )
 			{

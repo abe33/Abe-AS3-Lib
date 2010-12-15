@@ -9,7 +9,6 @@ package aesia.com.ponents.core.paint
 
 	import flash.events.Event;
 	import flash.utils.Dictionary;
-
 	/**
 	 * La classe <code>RepaintManager</code> implémente la gestion des redessin 
 	 * des composants.
@@ -142,7 +141,7 @@ package aesia.com.ponents.core.paint
 			
 			if( !contains(cc) )
 				append( cc );
-				
+			
 			if( _invalidComponents.length == 1 )
 				StageUtils.root.addEventListener( Event.EXIT_FRAME, exitFrame );
 		}

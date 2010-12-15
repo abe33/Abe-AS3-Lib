@@ -1,12 +1,14 @@
-package aesia.com.ponents.tools 
+package aesia.com.ponents.tools.canvas 
 {
 	import aesia.com.mon.utils.KeyStroke;
+	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.ponents.events.ToolEvent;
 	import aesia.com.ponents.skinning.cursors.Cursor;
+	import aesia.com.ponents.tools.CameraCanvas;
+	import aesia.com.ponents.tools.canvas.core.NullTool;
 
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
-	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.KeyboardEvent;
@@ -266,23 +268,8 @@ package aesia.com.ponents.tools
 		
 		protected function getCanvasChildUnderTheMouse () : DisplayObject
 		{
-			var l : Number = _oCanvas.layers.length;
-			for( var i : Number = l-1 ; i >=0 ; i-- )
-			{
-				var layer : Sprite = _oCanvas.getLayerAt(i);
-				var cl : Number = layer.numChildren;
-				
-				for( var j : Number = cl-1; j >= 0; j--)
-				{
-					var o : DisplayObject = layer.getChildAt( j );
-				
-					if( o.hitTestPoint( _oCanvas.stage.mouseX, _oCanvas.stage.mouseY, true ) )
-						return o;
-				}
-			}
-			return null;
+			return _oCanvas.getObjectUnderTheMouse();
 		}
-		
 		protected function getEvent ( type : String = "" ) : ToolEvent
 		{
 			var event : ToolEvent = new ToolEvent( type, this );
@@ -314,8 +301,9 @@ package aesia.com.ponents.tools
 		protected function registerToCanvasEvents ( canvas : DisplayObjectContainer ) : void
 		{
 			canvas.addEventListener( MouseEvent.MOUSE_DOWN, 	mouseDown );				canvas.addEventListener( MouseEvent.MOUSE_UP, 		mouseUp );				canvas.addEventListener( MouseEvent.MOUSE_OVER, 	mouseOver );				canvas.addEventListener( MouseEvent.MOUSE_OUT, 		mouseOut );	
-			canvas.stage.addEventListener( KeyboardEvent.KEY_DOWN, 	keyDown );				canvas.stage.addEventListener( KeyboardEvent.KEY_UP, 	keyUp );	
-			canvas.stage.addEventListener( MouseEvent.MOUSE_MOVE,	mouseMove );				canvas.stage.addEventListener( MouseEvent.MOUSE_UP, 	mouseUpOutside );	
+			
+			StageUtils.stage.addEventListener( KeyboardEvent.KEY_DOWN, 	keyDown );				StageUtils.stage.addEventListener( KeyboardEvent.KEY_UP, 	keyUp );	
+			StageUtils.stage.addEventListener( MouseEvent.MOUSE_MOVE,	mouseMove );				StageUtils.stage.addEventListener( MouseEvent.MOUSE_UP, 	mouseUpOutside );	
 		}
 		protected function unregisterToCanvasEvents ( canvas : DisplayObjectContainer ) : void
 		{
@@ -324,10 +312,10 @@ package aesia.com.ponents.tools
 			canvas.removeEventListener( MouseEvent.MOUSE_OVER, 		mouseOver );	
 			canvas.removeEventListener( MouseEvent.MOUSE_OUT, 		mouseOut );	
 			
-			canvas.stage.removeEventListener( KeyboardEvent.KEY_DOWN, 	keyDown );	
-			canvas.stage.removeEventListener( KeyboardEvent.KEY_UP, 	keyUp );
-			canvas.stage.removeEventListener( MouseEvent.MOUSE_MOVE,	mouseMove );	
-			canvas.stage.removeEventListener( MouseEvent.MOUSE_UP, 		mouseUpOutside );		
+			StageUtils.stage.removeEventListener( KeyboardEvent.KEY_DOWN, 	keyDown );	
+			StageUtils.stage.removeEventListener( KeyboardEvent.KEY_UP, 	keyUp );
+			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_MOVE,	mouseMove );	
+			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_UP, 		mouseUpOutside );		
 		}
 
 		protected function fireToolSelected () : void

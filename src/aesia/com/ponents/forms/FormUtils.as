@@ -1,6 +1,5 @@
 package aesia.com.ponents.forms 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.Gradient;
@@ -58,7 +57,6 @@ package aesia.com.ponents.forms
 	import flash.net.URLRequest;
 	import flash.text.TextFormat;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -127,7 +125,7 @@ package aesia.com.ponents.forms
 		{
 			var o : Object = {};
 			
-			o[ ColorMatrixFilter ] = getColorMatrixFilterForm;
+			o[ ColorMatrixFilter ] = getColorMatrixFilterForm;			o[ Object ] = getObjectForm;
 			
 			return o;
 		}
@@ -349,7 +347,8 @@ package aesia.com.ponents.forms
 		 * <tr><td>defaultValue</td><td>Valeur par défaut pour ce champ, la valeur par défaut sera utilisée si l'objet ne possède pas de valeur
 		 * dans la propriété correspondante. La chaîne de valeur par défaut est évaluée selon les règles définie par la méthode <code>Reflection.get()</code></td></tr>
 		 * 
-		 * <tr><td>description</td><td>Un texte de description de ce champ de formulaire</td></tr>		 * </table>
+		 * <tr><td>description</td><td>Un texte de description de ce champ de formulaire</td></tr>
+		 * 		 * <tr><td>enabled</td><td>Le champ est-il éditable ?</td></tr>		 * </table>
 		 * 
 		 * <p>Certains type de champ définissent certaines propriétés additionelles dont voici la liste :</p>
 		 * 
@@ -590,10 +589,15 @@ package aesia.com.ponents.forms
 			var formField : FormField;
 			var categoryOrder : Number;
 			var fieldExclusion : Object = {};
-			var memberType : String;			var description : String;
+			var memberType : String;			var disabled : Boolean;			var description : String;
 			
 			/**
 			 * <meta name="FormList"><arg key="fields" value="foo,oof"/></meta>
+			 */
+			/*
+			 * Looping through the list of [FormList] tags of the object
+			 * and construct a single array with the fields names.
+			 * Then the map fieldExclusion is filled.
 			 */
 			if( excludeList.length() > 0 )
 			{
@@ -608,17 +612,23 @@ package aesia.com.ponents.forms
 			
 			for each( var member : XML in members )
 			{
+				/*
+				 * First checking the member's name against the eclusion list. 
+				 */
 				name = member.@name;
 				memberType = member.@type;
 				if( fieldExclusion.hasOwnProperty(name) )
 					continue;
-				
+								
+				/*
+				 * Getting the whole data from meta and member
+				 */
 				meta = member.metadata.(@name=="Form");
 				args = getArguments(meta.children());
-				
 				type = meta.arg.(@key=="type").@value;				label = meta.arg.(@key=="label").@value;				category = meta.arg.(@key=="category").@value;				categoryOrder = parseFloat( meta.arg.(@key=="categoryOrder").@value );				order = meta.arg.(@key=="order").@value;
 				defaultValue = Reflection.get( meta.arg.(@key=="defaultValue").@value );
 				description = meta.arg.(@key=="description").@value;
+				disabled = meta.arg.(@key=="enabled").@value == "false";
 				var objHasValue : Boolean = NUMBER_TYPES.indexOf(memberType)!= -1 ? !isNaN( o[name]) : o[name] != null;
 				
 				if( objHasValue )
@@ -645,6 +655,8 @@ package aesia.com.ponents.forms
 						if( XMLUtils.hasAttribute( member, "access" ) && 
 							member.@access == "readonly" )
 							c.enabled = false;
+						else
+							c.enabled = !disabled;
 						
 						if( category && !hasCategories )
 						{
@@ -741,7 +753,17 @@ package aesia.com.ponents.forms
 /*-----------------------------------------------------------------------------------*
  * NATIVE FORM FUNCTION
  *-----------------------------------------------------------------------------------*/
- 		
+ 		static private function getObjectForm ( o : Object ) : FormObject 
+		{
+			var fields : Array = [];
+			var n : uint = 0;
+			for( var i : String in o )
+			{
+				var f : FormField = new FormField( i, i, getComponentForType(o[i]), n++, Reflection.getClass(o[i]) );
+				fields.push(f);
+			}
+			return new FormObject( o, fields );
+		}
 		static private function getColorMatrixFilterForm ( o : ColorMatrixFilter ) : FormObject 
 		{
 			return new FormObject( o , 

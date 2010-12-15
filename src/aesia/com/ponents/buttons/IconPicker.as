@@ -117,7 +117,7 @@ package aesia.com.ponents.buttons
 		 */
 		protected function buildChildren () : void
 		{
-			_editIcon = new Button(new EditObjectPropertiesAction( null, "") );
+			_editIcon = new Button(new EditObjectPropertiesAction( null, null, "") );
 			_editIcon.action.addEventListener(CommandEvent.COMMAND_END, editCommandEnd );
 			_editIcon.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			_editIcon.isComponentIndependent = false;

@@ -190,11 +190,13 @@ package aesia.com.ponents.text
 		{
 			if( _autoCompleteDropDown )
 				_autoCompleteDropDown.up();
+			grabFocus();
 		}
 		protected function down () : void
 		{
 			if( _autoCompleteDropDown )
 				_autoCompleteDropDown.down();
+			grabFocus();
 		}
 		protected function keyUp (event : KeyboardEvent) : void
 		{

@@ -218,7 +218,9 @@ package aesia.com.ponents.containers
 		}
 		protected function updateButtons () : void
 		{
-			_windowMaximize.label = _window.maximized ? "2" : "1";			_windowMinimize.label = _window.minimized ? "2" : "0";
+			if( _windowMaximize )
+				_windowMaximize.label = _window.maximized ? "2" : "1";
+			if( _windowMinimize )				_windowMinimize.label = _window.minimized ? "2" : "0";
 		}
 	}
 }

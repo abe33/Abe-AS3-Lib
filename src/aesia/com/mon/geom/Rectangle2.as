@@ -3,11 +3,13 @@
  */
 package aesia.com.mon.geom
 {
+	import aesia.com.mon.core.Randomizable;
 	import aesia.com.mon.core.Serializable;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.GeometryUtils;
 	import aesia.com.mon.utils.MathUtils;
 	import aesia.com.mon.utils.PointUtils;
+	import aesia.com.mon.utils.Random;
 	import aesia.com.mon.utils.RandomUtils;
 	import aesia.com.mon.utils.StringUtils;
 
@@ -15,7 +17,6 @@ package aesia.com.mon.geom
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe <code>Rectangle2</code> étend la classe <code>Rectangle</code>
 	 * principalement pour fournir un contrôle de la rotation du rectangle.
@@ -37,7 +38,9 @@ package aesia.com.mon.geom
 	public class Rectangle2 extends Rectangle implements Serializable,
 														 Path,
 														 Geometry,
-														 Surface
+														 ClosedGeometry,
+														 Surface,
+														 Randomizable
 	{
 		/**
 		 * Une valeur booléenne indiquant si les calculs d'une position
@@ -108,6 +111,14 @@ package aesia.com.mon.geom
 				this.rotation = rotation;
 			}
 			this.pathBasedOnLength = pathBasedOnLength;
+			_randomSource = RandomUtils.RANDOM;
+		}
+
+		protected var _randomSource : Random;
+		public function get randomSource () : Random { return _randomSource; }
+		public function set randomSource (randomSource : Random) : void
+		{
+			_randomSource = randomSource;
 		}
 		/**
 		 * Un objet représentant le vecteur de l'arrête supérieur.
@@ -327,8 +338,15 @@ package aesia.com.mon.geom
 		 */
 		public function getRandomPointInSurface () : Point
 		{
-			return topLeft.add( PointUtils.scaleNew( topEdge, RandomUtils.random() ) )
-						  .add( PointUtils.scaleNew( leftEdge, RandomUtils.random() ) );
+			return topLeft.add( PointUtils.scaleNew( topEdge, _randomSource.random() ) )
+						  .add( PointUtils.scaleNew( leftEdge, _randomSource.random() ) );
+		}
+		public function getPointAtAngle (a : Number) : Point
+		{
+			var s : Point = center;
+			var e : Point = s.add(pt(Math.cos(a)*10000,Math.sin(a)*10000));
+			
+			return GeometryUtils.vectorGeomIntersection( s, e, this )[0];
 		}
 		/**
 		 * Effectue une rotation de cet objet <code>Rectangle2</code> autour

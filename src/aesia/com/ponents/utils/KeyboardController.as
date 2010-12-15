@@ -7,8 +7,10 @@ package aesia.com.ponents.utils
 	import aesia.com.mands.NullCommand;
 	import aesia.com.mands.events.CommandEvent;
 	import aesia.com.mon.core.Cancelable;
+	import aesia.com.mon.core.ITextField;
 	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.KeyStroke;
+	import aesia.com.mon.utils.Keys;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.Container;
 
@@ -18,8 +20,8 @@ package aesia.com.ponents.utils
 	import flash.events.EventDispatcher;
 	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
+	import flash.text.TextFieldType;
 	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -136,7 +138,6 @@ package aesia.com.ponents.utils
 		protected function focusIn ( e : FocusEvent ) : void
 		{
 			var d : DisplayObject = e.target as DisplayObject;
-			 
 			restoreDefaultContext();
 			
 			while( d.parent )
@@ -145,6 +146,22 @@ package aesia.com.ponents.utils
 				if( c != null )
 				{
 					setKeyStrokesContext( c );
+					if( e.target is ITextField && ( e.target as ITextField).type == TextFieldType.INPUT )
+					{
+						for(var k : * in _aCurrentKeyStrokesContext )
+						{
+							var ks : KeyStroke = k as KeyStroke;
+							if( ( ks.modifiers & KeyStroke.CTRL_MASK ) == 0 && 
+									[ Keys.BACKSPACE,
+									  Keys.ENTER,
+									  Keys.ESCAPE,
+									  Keys.DOWN,
+									  Keys.UP,
+									  Keys.LEFT,
+									  Keys.RIGHT ].indexOf(ks.keyCode) == -1 )
+								delete _aCurrentKeyStrokesContext[ks];
+						}
+					}
 					return;
 				}
 				d = d.parent;

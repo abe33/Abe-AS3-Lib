@@ -1,5 +1,6 @@
-package aesia.com.ponents.tools 
+package aesia.com.ponents.tools.canvas.core 
 {
+	import aesia.com.ponents.tools.canvas.Tool;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.ponents.events.ToolEvent;
 	import aesia.com.ponents.skinning.cursors.Cursor;

@@ -26,6 +26,7 @@ package aesia.com.ponents.buttons
 	import aesia.com.ponents.skinning.icons.Icon;
 	import aesia.com.ponents.text.TextFieldImpl;
 	import aesia.com.ponents.utils.KeyboardControllerInstance;
+
 	import flash.display.DisplayObject;
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -371,6 +372,8 @@ package aesia.com.ponents.buttons
 			else
 			{
 				_safeLabel = val;
+				if( !_icon )
+					setLabel(val);
 			}
 
 			firePropertyEvent( "label", _label );

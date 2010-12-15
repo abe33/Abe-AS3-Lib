@@ -3,6 +3,7 @@
  */
 package aesia.com.mon.utils
 {
+	import flash.utils.getQualifiedClassName;
 
 	/**
 	 * Classe utilitaires fournissant des méthodes opérant sur
@@ -561,6 +562,12 @@ package aesia.com.mon.utils
 			return '"' + string.replace ( regx, _quote ) + '"';
 			// "
 		}
+		public static function escape ( string : String ) : String
+		{
+			var regx : RegExp = /[\\"\r\n]/g;
+			return string.replace ( regx, _quote );
+			// "
+		}
 		/**
 		 * Supprime toutes les occurences de <code>remove</code> dans la chaîne <code>string</code>.
 		 *
@@ -903,7 +910,7 @@ package aesia.com.mon.utils
 		 * @param	password	la chaîne de mot de passe à vérifier
 		 * @return	un entier représentant le degré de sécurité de la chaîne
 		 */
-		public static function checkStrength( password : String ) : uint
+		static public function checkStrength( password : String ) : uint
 		{
 			var strength : uint = 0;
 			
@@ -921,6 +928,56 @@ package aesia.com.mon.utils
 			
 			return strength;
 		}
+		
+		static public function prettyPrint( o:*, indent:String = ""):String
+		{
+			if( typeof o != "object" )
+			{
+				if( o is String )
+					return "'"+escape(o)+"'";
+				else
+					return String( o );
+			}
+			else
+			{
+				var s : String = "";
+				var s2 : String = "";
+				var i:String;
+				if( o is Array )
+				{
+					s = "[";
+					s2 = "";
+					for( i in o )
+					{
+						s2 += indent + "\t\t" + prettyPrint(o[i], indent + "\t\t") + ",\n";
+					}
+					if( s2 != "" )
+						s += "\n" + s2 + indent;
+					s += "]";
+					return s;
+				}
+				else
+				{
+					s ="";
+					if( Reflection.getClass(o)!=Object )
+					{
+						s += getQualifiedClassName(o);
+						o = Reflection.asAnonymousObject(o);
+					}
+					s += "{";
+					s2 = "";
+					for( i in o )
+					{
+						s2 += indent + "\t\t'" + escape(i) + "' : " + prettyPrint(o[i], indent + "\t\t") + ",\n";
+					}
+					if( s2 != "" )
+						s += "\n"+s2+indent;
+					s += "}";
+					return s;
+				}
+			}
+		}
+		
 		/* **************************************************************** */
 		/*	These are helper methods used by some of the above methods.		*/
 		/* **************************************************************** */
@@ -939,7 +996,7 @@ package aesia.com.mon.utils
 		{
 			return Math.min ( a, Math.min ( b, Math.min ( c, a ) ) );
 		}
-
+		
 		private static function _quote ( string : String, ...args ) : String
 		{
 			switch (string)

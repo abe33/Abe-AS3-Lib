@@ -3,6 +3,7 @@
  */
 package aesia.com.ponents.core
 {
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.core.IDisplayObject;
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;
@@ -70,6 +71,12 @@ package aesia.com.ponents.core
 	 * @eventType flash.events.Event.CHANGE
 	 */
 	[Event(name="change", type="flash.events.Event")]
+	/**
+	 * Évènement diffusé lorsque la position du composant à été changé.
+	 * 
+	 * @eventType aesia.com.ponents.events.ComponentEvent.POSITION_CHANGE
+	 */
+	[Event(name="positionChange", type="flash.events.Event")]
 	/**
 	 * Évènement diffusé lorsque le contenu du composant est déplacé à l'aide des
 	 * propriétés <code>contentScrollH</code> et <code>contentScrollV</code>.
@@ -882,10 +889,11 @@ package aesia.com.ponents.core
 		public function get position () : Point	{return new Point( x, y ); }
 		public function set position (p : Point) : void
 		{
-			x = p.x;
-			y = p.y;
-			fireChangeEvent( );
+			super.x = _integerForSpatialInformations ? Math.floor( p.x ) : p.x;
+			super.y = _integerForSpatialInformations ? Math.floor( p.y ) : p.y;
+			fireChangeEvent();
 			firePropertyEvent( "position", p );
+			firePositionChangeEvent();
 			invalidate();
 		}
 		/**
@@ -902,7 +910,8 @@ package aesia.com.ponents.core
 		{
 			super.x = _integerForSpatialInformations ? Math.floor( value ) : value;
 			fireChangeEvent();
-			firePropertyEvent( "position", position );		}
+			firePropertyEvent( "position", position );
+			firePositionChangeEvent();		}
 		/**
 		 * Réecriture de l'accesseur défini dans <code>DisplayObject</code>
 		 * afin de prendre en compte la gestion des entiers dans les coordonnées
@@ -918,6 +927,7 @@ package aesia.com.ponents.core
 			super.y = _integerForSpatialInformations ? Math.floor( value ) : value;
 			fireChangeEvent();
 			firePropertyEvent( "position", position );
+			firePositionChangeEvent();
 		}
 		/**
 		 * Réecriture de l'accesseur défini dans <code>DisplayObject</code>
@@ -1684,7 +1694,7 @@ package aesia.com.ponents.core
 		 */
 		public function invalidate ( asValidateRoot : Boolean = false ) : void
 		{
-			_validateRoot = asValidateRoot && _validateRoot;
+			_validateRoot = asValidateRoot;
 			checkState();
 			//if( stage && visible )
 			RepaintManagerInstance.invalidate( this );
@@ -1750,12 +1760,18 @@ package aesia.com.ponents.core
 		 * </p>
 		 * @param	size	la taille à laquelle dessiner le composant
 		 */
-		protected function _repaint ( size : Dimension ) : void
+		protected function _repaint ( size : Dimension, forceClear : Boolean = true ) : void
 		{
 			_validateRoot = true;
-
-			clearBackgroundGraphics();			clearForegroundGraphics();
-
+			
+			if( forceClear )
+			{
+				_background.graphics.clear();				_foreground.graphics.clear();
+			}
+			else
+			{
+				clearBackgroundGraphics();				clearForegroundGraphics();
+			}
 			if( size )
 			{
 				_style.draw( new Rectangle( 0, 0, size.width, size.height ), _background.graphics, _foreground.graphics, this );
@@ -3517,6 +3533,13 @@ package aesia.com.ponents.core
 		protected function fireChangeEvent () : void
 		{
 			dispatchEvent( new Event( Event.CHANGE, true, true ) );
+		}
+		/**
+		 * Diffuse un évènement de type <code>Event.CHANGE</code> pour ce composant.
+		 */
+		protected function firePositionChangeEvent () : void
+		{
+			dispatchEvent( new ComponentEvent( ComponentEvent.POSITION_CHANGE, true, true ) );
 		}
 		/**
 		 * Diffuse un évènement de type <code>ComponentEvent.COMPONENT_RESIZE</code> pour ce composant seulement

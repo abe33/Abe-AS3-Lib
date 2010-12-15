@@ -1,6 +1,5 @@
 package aesia.com.mon.utils
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.Geometry;
 	import aesia.com.mon.geom.Surface;
 

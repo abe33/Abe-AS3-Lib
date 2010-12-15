@@ -52,12 +52,16 @@ package aesia.com.mon.utils
 				return v;
 			case "object" :
 			case "xml" :
-				registerClassAlias( getQualifiedClassName(v).replace("::", ".") , Reflection.getClass( v ) );
-
 				if( v is Array )
-					for(var i : String in v)
-						registerClassAlias( getQualifiedClassName(v[i]).replace("::", ".") , Reflection.getClass( v[i] ) );
-
+				{
+					var l : uint = (v as Array).length;
+					var a : Array = [];
+					for(var i : uint = 0; i <l; i++)
+						a.push(magicClone(v[i]));
+					return a;
+				}
+				registerClassAlias( getQualifiedClassName(v).replace("::", ".") , Reflection.getClass( v ) );
+				
 				var ba : ByteArray = new ByteArray();
 				ba.writeObject( v );
 				ba.position = 0;

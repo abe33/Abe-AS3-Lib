@@ -71,7 +71,7 @@ package aesia.com.ponents.menus
 			_menuItemClass = _menuItemClass ? _menuItemClass : MenuItem;
 			
 			var layout : DOHBoxLayout = new DOHBoxLayout( _childrenContainer, 0, 
-											new DOBoxSettings( _popupMenu.preferredWidth, "left", "center", null, true, true ), 
+											new DOBoxSettings( _popupMenu.preferredWidth, "left", "center", null, true, true, true ), 
 											new DOBoxSettings( 0, "center"),											new DOBoxSettings( 16, "center")
 											);
 			

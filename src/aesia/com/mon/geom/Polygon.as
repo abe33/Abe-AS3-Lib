@@ -3,12 +3,14 @@ package aesia.com.mon.geom
 	import aesia.com.mon.core.Cloneable;
 	import aesia.com.mon.core.Equatable;
 	import aesia.com.mon.core.FormMetaProvider;
+	import aesia.com.mon.core.Randomizable;
 	import aesia.com.mon.core.Serializable;
 	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.GeometryUtils;
 	import aesia.com.mon.utils.MathUtils;
 	import aesia.com.mon.utils.PointUtils;
+	import aesia.com.mon.utils.Random;
 	import aesia.com.mon.utils.RandomUtils;
 	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.mon.utils.magicToReflectionSource;
@@ -16,7 +18,6 @@ package aesia.com.mon.geom
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe <code>Polygon</code> permet de représenter des géométries planes,
 	 * fermées, constituées d'un nombre indéfini de sommets.
@@ -26,7 +27,7 @@ package aesia.com.mon.geom
 	 *
 	 * @author Cédric Néhémie
 	 */
-	public class Polygon implements Serializable, Cloneable, Equatable, Geometry, Path, Surface, FormMetaProvider
+	public class Polygon implements Serializable, Cloneable, Equatable, Geometry, ClosedGeometry, Path, Surface, FormMetaProvider, Randomizable
 	{
 		/**
 		 * Une instance globale de la classe <code>Triangulate</code> utilisée
@@ -120,6 +121,14 @@ package aesia.com.mon.geom
 		{
 			this.vertices = vertices;
 			this.pathBasedOnLength = pathBasedOnLength;
+			_randomSource = RandomUtils.RANDOM;
+		}
+
+		protected var _randomSource : Random;
+		public function get randomSource () : Random { return _randomSource; }
+		public function set randomSource (randomSource : Random) : void
+		{
+			_randomSource = randomSource;
 		}
 		/**
 		 * Un tableau contenant l'ensemble des sommets de ce polygone.
@@ -274,10 +283,14 @@ package aesia.com.mon.geom
 		{
 			if( _triangles )
 			{
-				return ( RandomUtils.inArrayWithRatios ( _triangles, _acreageSteps, true, _acreage ) as Triangle ).getRandomPointInSurface ();
+				return ( _randomSource.inArrayWithRatios ( _triangles, _acreageSteps, true, _acreage ) as Triangle ).getRandomPointInSurface ();
 			}
 			else
 				return null;
+		}
+		public function getPointAtAngle (a : Number) : Point
+		{
+			return null;
 		}
 		/**
 		 * Renvoie une copie parfaite de cet objet <code>Polygon</code>.

@@ -90,7 +90,7 @@ package aesia.com.ponents.buttons
 		 */
 		protected function buildChildren () : void
 		{
-			_editDecoration = new Button(new EditObjectPropertiesAction( null, _("No Object") ) );
+			_editDecoration = new Button(new EditObjectPropertiesAction( null, null, _("No Object") ) );
 			_editDecoration.action.addEventListener(CommandEvent.COMMAND_END, editCommandEnd);
 			_editDecoration.isComponentIndependent = false;
 

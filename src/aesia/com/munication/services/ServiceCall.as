@@ -3,15 +3,16 @@
  */
 package aesia.com.munication.services
 {
-	import flash.utils.clearTimeout;
 	import aesia.com.mands.AbstractCommand;
 	import aesia.com.mon.utils.RandomUtils;
+	import aesia.com.munication.services.middleware.ServiceMiddleware;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.lang._$;
 
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.net.NetConnection;
+	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
 
 	[Event(name="serviceResult", type="aesia.com.munication.services.ServiceEvent")]
@@ -115,13 +116,22 @@ package aesia.com.munication.services
 		protected function serviceResult( e : ServiceEvent ):void
 		{
 			clearTimeout(_timeout);
-			dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_RESULT, e.results ) );			globalDispatcher.dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_RESULT, e.results ) );
+			var res : * = e.results;
+			
+			if( ServiceMiddlewares.length > 0 )
+				res = processMiddlewaresResults( res, ServiceMiddlewares );
+				
+			dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_RESULT, res ) );			globalDispatcher.dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_RESULT, res ) );
 			fireCommandEnd();
 			unregisterFromServiceEvents();
 		}
 		protected function serviceError(e : ServiceEvent):void
 		{
 			clearTimeout(_timeout);
+			
+			if( ServiceMiddlewares.length > 0 )
+				processMiddlewaresException( e.results, ServiceMiddlewares );
+			
 			var errorMsg : String = _$(_("$0\nError Code:$1"), e.results.description, e.results.code );
 			dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_ERROR, errorMsg ) );			globalDispatcher.dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_ERROR, errorMsg ) );
 			fireCommandEnd();
@@ -140,6 +150,22 @@ package aesia.com.munication.services
 			globalDispatcher.dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_ERROR, errorMsg ) );
 			fireCommandEnd();
 			unregisterFromServiceEvents();
+		}
+		protected function processMiddlewaresResults( res : *, middlewares : Array ) : *
+		{
+			var l : uint = middlewares.length;
+			
+			for( var i : uint = 0; i <l ; i++)
+				res = ( middlewares[i] as ServiceMiddleware ).processResult(res);
+			
+			return res;
+		}
+		protected function processMiddlewaresException( error : *, middlewares : Array ) : void
+		{
+			var l : uint = middlewares.length;
+			
+			for( var i : uint = 0; i <l ; i++)
+				( middlewares[i] as ServiceMiddleware ).processException(error);
 		}
 		protected function registerToServiceEvents () : void
 		{

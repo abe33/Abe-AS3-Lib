@@ -1,5 +1,6 @@
-package aesia.com.ponents.tools 
+package aesia.com.ponents.tools.canvas.core 
 {
+	
 	import aesia.com.ponents.skinning.cursors.Cursor;
 
 	/**

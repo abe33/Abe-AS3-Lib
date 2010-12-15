@@ -3,15 +3,12 @@
  */
 package  aesia.com.edia.camera
 {
-	import aesia.com.mon.logs.Log;
-	import aesia.com.mon.utils.MathUtils;
-	import aesia.com.mon.utils.MatrixUtils;
 	import aesia.com.mon.geom.Rectangle2;
+	import aesia.com.mon.utils.MatrixUtils;
 
 	import flash.display.Sprite;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
-
 	/**
 	 * Une implémentation standard d'un écouteur de la classe <code>Camera</code>.
 	 * Dans la plupart des situations, il suffit de créer une instance et de lui

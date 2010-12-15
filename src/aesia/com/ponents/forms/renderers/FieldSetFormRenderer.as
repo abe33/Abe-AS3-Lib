@@ -2,6 +2,7 @@ package aesia.com.ponents.forms.renderers
 {
 	import aesia.com.ponents.containers.FieldSet;
 	import aesia.com.ponents.containers.Panel;
+	import aesia.com.ponents.containers.ScrollablePanel;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.events.ComponentEvent;
 	import aesia.com.ponents.forms.FormCategory;
@@ -11,7 +12,6 @@ package aesia.com.ponents.forms.renderers
 	import aesia.com.ponents.layouts.components.HBoxLayout;
 	import aesia.com.ponents.layouts.components.InlineLayout;
 	import aesia.com.ponents.text.Label;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -36,7 +36,7 @@ package aesia.com.ponents.forms.renderers
 			_tmpMaxCompSize = 0;
 			_tmpMaxLabelSize = 0;
 			_tmpFieldsLines = [];
-			var p : Panel = new Panel();
+			var p : ScrollablePanel = new ScrollablePanel();
 			p.childrenLayout = new InlineLayout(p, 5, "center", "top", "topToBottom", true );
 			
 			var l : int;			var i : int;

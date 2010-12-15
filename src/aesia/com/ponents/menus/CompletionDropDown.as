@@ -2,7 +2,6 @@ package aesia.com.ponents.menus
 {
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.geom.Dimension;
-	import aesia.com.mon.geom.Range;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Keys;
 	import aesia.com.mon.utils.StageUtils;
@@ -103,9 +102,10 @@ package aesia.com.ponents.menus
 				if( hasMoreThanOneEntries || firstResultLongerThanMatch )
 				{
 					var a : Array = lastSuggestions.concat();
+					
 					for( var i : String in a )
 					{
-						a[ i ] = (a[i] as String).replace( new RegExp( "^("+ autoComplete.last+")", "gi" ), "<u><b>$1</b></u>");
+						a[ i ] = (a[i] as String).replace( new RegExp( "^("+ autoComplete.last+")", "i" ), "<font color='#888888'>$1</font>" );
 					}
 					
 					( _autoCompleteList.model as DefaultListModel ).removeAllElements();					( _autoCompleteList.model as DefaultListModel ).addMany(0, a);
@@ -171,8 +171,10 @@ package aesia.com.ponents.menus
 			}				
 		}
 		public function selectionChange ( e : Event ) : void
-		{			
+		{	
+			/*		
 			var s : String = _autoCompleteList.selectedValue as String;
+			
 			if( s )
 			{
 				if( _autoComplete.checkWordAtCaret )
@@ -186,14 +188,15 @@ package aesia.com.ponents.menus
 				{
 					_targetText.value = StringUtils.stripTags(s);
 				}
-			}
+			}*/
 		}
 		public function validateCompletion ( e : Event = null ) : void
 		{
 			if( _autoCompletePopup )
 			{
 				hide();
-				_targetText.setSelection( _targetText.text.length, _targetText.text.length );
+				//_targetText.setSelection( _targetText.text.length, _targetText.text.length );
+				_targetText.value = StringUtils.stripTags( _autoCompleteList.selectedValue as String );
 				//_targetText.grabFocus();
 			}
 		}

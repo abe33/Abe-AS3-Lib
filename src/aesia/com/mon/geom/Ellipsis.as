@@ -6,17 +6,19 @@ package  aesia.com.mon.geom
 	import aesia.com.mon.core.Cloneable;
 	import aesia.com.mon.core.Equatable;
 	import aesia.com.mon.core.FormMetaProvider;
+	import aesia.com.mon.core.Randomizable;
 	import aesia.com.mon.core.Serializable;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.GeometryUtils;
 	import aesia.com.mon.utils.MathUtils;
 	import aesia.com.mon.utils.PointUtils;
+	import aesia.com.mon.utils.Random;
 	import aesia.com.mon.utils.RandomUtils;
+	import aesia.com.mon.utils.StringUtils;
 
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe <code>Ellipsis</code> fournie une représentation mathématique
 	 * d'une géométrie elliptique.
@@ -27,9 +29,11 @@ package  aesia.com.mon.geom
 									 Serializable,
 									 Equatable,
 									 Geometry,
+									 ClosedGeometry,
 									 Path,
 									 Surface,
-									 FormMetaProvider
+									 FormMetaProvider, 
+									 Randomizable
 	{
 		/**
 		 * Un entier définissant la finesse de dessin de la géométrie
@@ -104,11 +108,12 @@ package  aesia.com.mon.geom
 		/**
 		 * Constructeur de la classe <code>Ellipsis</code>.
 		 *
-		 * @param	x		position en x de l'ellipse
-		 * @param	y		position en y de l'ellipse
-		 * @param	radius1	premier rayon de l'ellipse
-		 * @param	radius2	second rayon de l'ellipse
+		 * @param	x			position en x de l'ellipse
+		 * @param	y			position en y de l'ellipse
+		 * @param	radius1		premier rayon de l'ellipse
+		 * @param	radius2		second rayon de l'ellipse
 		 * @param	rotation	rotation de l'ellipse en radians
+		 * @param	bias		la précision dans le dessin de l'ellipse
 		 */
 		public function Ellipsis ( x : Number = 0,
 								   y : Number = 0,
@@ -126,6 +131,14 @@ package  aesia.com.mon.geom
 
 			clockWisePath = true;
 			pathOffset = 0;
+			_randomSource = RandomUtils.RANDOM;
+		}
+
+		protected var _randomSource : Random;
+		public function get randomSource () : Random { return _randomSource; }
+		public function set randomSource (randomSource : Random) : void
+		{
+			_randomSource = randomSource;
 		}
 		/**
 		 * @inheritDoc
@@ -183,11 +196,11 @@ package  aesia.com.mon.geom
 		 */
 		public function getRandomPointInSurface () : Point
 		{
-			var p1 : Point = getPointAtAngle( RandomUtils.random() * MathUtils.PI2 );
+			var p1 : Point = getPointAtAngle( _randomSource.random() * MathUtils.PI2 );
 			var p2 : Point = pt(x,y);
 			var d:Point = p1.subtract(p2);
 
-			return p2.add( PointUtils.scaleNew( d, Math.sqrt( RandomUtils.random() ) ) );
+			return p2.add( PointUtils.scaleNew( d, Math.sqrt( _randomSource.random() ) ) );
 		}
 		/**
 		 * Dessine les contours de l'ellipse dans l'objet <code>g</code>
@@ -201,14 +214,15 @@ package  aesia.com.mon.geom
 			var p : Point;
 			var pend : Point;
 
-			p = pend = getPointAtAngle( 0 );
+			p = getPointAtAngle( 0 );
+			pend = getPointAtAngle( MathUtils.PI2 );
 
 			g.lineStyle( 0, c.hexa, c.alpha/255 );
 			g.moveTo( p.x, p.y);
 
-			for( var n : Number = 1; n < DRAWING_BIAS; n++ )
+			for( var n : Number = 1; n < drawBias; n++ )
 			{
-				p = getPointAtAngle( n / DRAWING_BIAS * Math.PI * 2 );
+				p = getPointAtAngle( n / drawBias * Math.PI * 2 );
 				g.lineTo( p.x, p.y);
 			}
 			g.lineTo( pend.x, pend.y);
@@ -345,7 +359,7 @@ package  aesia.com.mon.geom
 		 */
 		public function toReflectionSource () : String
 		{
-			return "new "+ getQualifiedClassName(this) +"(" + x + ", " + y + ", " + radius1 + ", " + radius2 + ", " + rotation + ")";
+			return StringUtils.tokenReplace( "new $0($1,$2,$3,$4,$5,$6)", getQualifiedClassName(this), x, y, radius1, radius2, rotation, drawBias );
 		}
 		/**
 		 * Renvoie la représentation de l'objet sous forme de chaîne.

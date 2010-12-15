@@ -1,6 +1,7 @@
 package aesia.com.ponents.tools 
 {
 
+	import aesia.com.ponents.tools.canvas.Tool;
 	/**
 	 * @author cedric
 	 */

@@ -3,6 +3,8 @@
  */
 package aesia.com.munication.services
 {
+	import aesia.com.mon.logs.Log;
+	import aesia.com.munication.services.middleware.ServiceMiddleware;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;
@@ -108,7 +110,7 @@ package aesia.com.munication.services
 		protected function fireServiceResultEvent ( result : *) : void
 		{
 			dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_RESULT, result ) );
-		}
+		}		
 		/**
 		 * Diffuse un évènement de type <code>ServiceEvent.SERVICE_ERROR</code> aux
 		 * écouteurs de ce service.

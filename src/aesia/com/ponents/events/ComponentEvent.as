@@ -44,6 +44,22 @@ package aesia.com.ponents.events
 		 * @eventType scroll
 		 */		static public const SCROLL : String = "scroll";
 		/**
+		 * La constante <code>ComponentEvent.POSITION_CHANGE</code> définie la
+		 * valeur du <code>type</code> de l'objet <code>ComponentEvent</code>
+		 * pour l'évènement <code>positionChange</code>.
+		 *
+		 * <p>L'objet <code>ComponentEvent</code> possède les propriétés suivantes :</p>
+		 * <table class='innertable'>
+		 * <tr><th>Property</th><th>Value</th></tr>
+		 * <tr><td><code>bubbles</code></td><td><code>false</code></td></tr>
+		 * <tr><td><code>cancelable</code></td><td><code>false</code></td></tr>
+		 * <tr><td><code>target</code></td><td>L'objet ayant diffusé l'évènement.</td></tr>
+		 * </table>
+		 *
+		 * @eventType positionChange
+		 */
+		static public const POSITION_CHANGE : String = "positionChange";
+		/**
 		 * La constante <code>ComponentEvent.ENABLED_CHANGE</code> définie la
 		 * valeur du <code>type</code> de l'objet <code>ComponentEvent</code>
 		 * pour l'évènement <code>enableChange</code>.

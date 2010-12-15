@@ -67,12 +67,9 @@ package aesia.com.ponents.skinning.icons
 			_checkerBitmapData.fillRect(new Rectangle(0,0,_checkerSize,_checkerSize), _checkerColor1.hexa );			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,_checkerSize,_checkerSize,_checkerSize), _checkerColor1.hexa );			_checkerBitmapData.fillRect(new Rectangle(0,_checkerSize,_checkerSize,_checkerSize), _checkerColor2.hexa );			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,0,_checkerSize,_checkerSize), _checkerColor2.hexa );
 			
 		}
-		override protected function _repaint (size : Dimension) : void
+		override protected function _repaint (size : Dimension, forceClear : Boolean = true ) : void
 		{
-			_background.graphics.clear();
-			_foreground.graphics.clear();
-			
-			super._repaint( size );
+			super._repaint( size, forceClear );
 			
 			drawChecker();
 			drawColor();

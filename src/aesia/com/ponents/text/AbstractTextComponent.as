@@ -457,7 +457,6 @@ package aesia.com.ponents.text
 					break;
 			}
 		}
-
 		public function registerValue ( e : Event = null ) : void
 		{
 			if( _label )
@@ -476,7 +475,13 @@ package aesia.com.ponents.text
 			}
 			_focusIn( e );
 		}
-/*-----------------------------------------------------------------
+		override public function focusOut (e : FocusEvent) : void 
+		{
+			registerValue();
+			super.focusOut( e );
+		}
+
+		/*-----------------------------------------------------------------
  * 	CONTEXT MENUS
  *----------------------------------------------------------------*/
 		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/

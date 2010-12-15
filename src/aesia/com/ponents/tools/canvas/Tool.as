@@ -1,4 +1,4 @@
-package aesia.com.ponents.tools 
+package aesia.com.ponents.tools.canvas 
 {
 	import aesia.com.ponents.events.ToolEvent;
 	import aesia.com.ponents.skinning.cursors.Cursor;

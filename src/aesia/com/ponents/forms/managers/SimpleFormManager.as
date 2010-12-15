@@ -64,7 +64,7 @@ package aesia.com.ponents.forms.managers
 		public function updateTargetWithFields () : void
 		{
 			for each ( var f: FormField in _formObject.fields )
-				if( f.component )
+				if( f.component && f.component.enabled )
 					_formObject.target[ f.memberName ] = f.component["value"];
 			
 			dispatchEvent( new Event(Event.CHANGE ));

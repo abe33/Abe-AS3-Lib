@@ -42,9 +42,9 @@ package aesia.com.ponents.builder.styles
 			invalidate(true);
 		}
 
-		override protected function _repaint ( size : Dimension ) : void
+		override protected function _repaint ( size : Dimension, forceClear : Boolean = true ) : void
 		{
-			super._repaint( size );
+			super._repaint( size, forceClear );
 			_txt.x = _style.insets.left;
 			_txt.y = _style.insets.top;
 			_txt.defaultTextFormat = _style.format;

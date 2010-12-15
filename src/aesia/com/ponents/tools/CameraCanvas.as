@@ -3,14 +3,15 @@ package aesia.com.ponents.tools
 	import aesia.com.edia.camera.Camera;
 	import aesia.com.edia.camera.CameraEvent;
 	import aesia.com.edia.camera.CameraLayer;
-	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.geom.Range;
+	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.ponents.core.AbstractContainer;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.events.ContainerEvent;
 
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
+	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 
 	/**
@@ -30,21 +31,27 @@ package aesia.com.ponents.tools
 
 		public function CameraCanvas ()
 		{
-			super();
+			super( );
+			allowMask = false;
 			_camera = new Camera( null, 1, new Range ( 0.2, 2 ) );
-			_layers = new Vector.<CameraLayer>( );
+			_layers = new Vector.<CameraLayer>();
 			_billboards = [];
-
+			
 			invalidatePreferredSizeCache();
-			_camera.addEventListener( CameraEvent.CAMERA_CHANGE, cameraChange );
-		}
-
+			_camera.addEventListener( CameraEvent.CAMERA_CHANGE, cameraChange );		}
 		protected function cameraChange (event : CameraEvent) : void
 		{
+			//Log.debug( "in cameraChange : "+_camera.screen );
 			for each ( var o : DisplayObject in _billboards )
 				updateBillboard( o );
 		}
-
+		override public function set doubleClickEnabled (enabled : Boolean) : void 
+		{
+			super.doubleClickEnabled = enabled;
+			_childrenContainer.doubleClickEnabled = enabled;
+			for each( var layer : CameraLayer in _layers)
+				layer.doubleClickEnabled = enabled;
+		}
 		public function get camera () : Camera { return _camera; }		public function get canvasLevel () : DisplayObjectContainer { return _childrenContainer; }
 
 		public function get hasLayers() : Boolean { return _layers.length > 0; }		public function get hasManyLayers() : Boolean { return _layers.length > 1; }		public function get bottomLayer () : CameraLayer { return hasLayers ? _layers[0] : null; }
@@ -131,7 +138,23 @@ package aesia.com.ponents.tools
 		/*---------------------------------------------------------------
 		 * MISC
 		 *--------------------------------------------------------------*/
-
+		public function getObjectUnderTheMouse () : DisplayObject
+		{
+			var l : Number = _layers.length;
+			for( var i : Number = l-1 ; i >=0 ; i-- )
+			{
+				var layer : Sprite = getLayerAt(i);				
+				var cl : Number = layer.numChildren;
+				
+				while( cl--)
+				{
+					var o : DisplayObject = layer.getChildAt( cl );				
+					if( o.hitTestPoint( StageUtils.stage.mouseX, StageUtils.stage.mouseY, true ) )
+						return o;
+				}
+			}
+			return null;
+		}
 		public function getLocalCameraScreen ( c : Camera ) : Rectangle
 		{
 			return new Rectangle( c.x,
@@ -160,8 +183,11 @@ package aesia.com.ponents.tools
 		}
 		override public function repaint () : void
 		{
-			_camera.width = width;
-			_camera.height = height;
+			if( _camera.safeWidth != width || _camera.safeHeight != height )
+			{
+				_camera.safeWidth = width;
+				_camera.safeHeight = height;
+			}
 			super.repaint();
 		}
 	}

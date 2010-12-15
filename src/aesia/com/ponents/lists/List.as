@@ -3,11 +3,13 @@
  */
 package aesia.com.ponents.lists 
 {
+	import aesia.com.ponents.buttons.Button;
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.core.IDisplayObject;
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;
 	import aesia.com.mon.geom.Dimension;
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.AllocatorInstance;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Keys;
@@ -172,6 +174,7 @@ package aesia.com.ponents.lists
 		public function getItemPreferredSize ( i : int ) : Dimension
 		{
 			setCell( _sampleListCellInstance, _model.getElementAt(i), i );
+						
 			return _sampleListCellInstance.preferredSize;	
 		}
 		
@@ -179,7 +182,9 @@ package aesia.com.ponents.lists
 		public function set itemFormatingFunction ( itemFormatingFunction : Function ) : void
 		{
 			_itemFormatingFunction = itemFormatingFunction;
-			updateCellsData();
+			listLayout.clearEstimatedSize();
+			updateCellsData( );
+			invalidatePreferredSizeCache();
 		}
 		public function get hasFormatingFunction () : Boolean
 		{

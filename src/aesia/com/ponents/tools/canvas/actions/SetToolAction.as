@@ -1,9 +1,11 @@
-package aesia.com.ponents.tools 
+package aesia.com.ponents.tools.canvas.actions 
 {
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.ponents.actions.AbstractAction;
 	import aesia.com.ponents.events.ToolEvent;
 	import aesia.com.ponents.skinning.icons.Icon;
+	import aesia.com.ponents.tools.canvas.Tool;
+	import aesia.com.ponents.tools.canvas.ToolManager;
 
 	import flash.events.Event;
 
@@ -53,6 +55,7 @@ package aesia.com.ponents.tools
 		override public function execute ( e : Event = null ) : void
 		{
 			manager.tool = tool;	
+			fireCommandEnd();
 		}
 		
 		public function get selected () : Boolean { return _selected; }		

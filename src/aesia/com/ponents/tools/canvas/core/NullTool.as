@@ -1,11 +1,11 @@
-package aesia.com.ponents.tools 
+package aesia.com.ponents.tools.canvas.core 
 {
 	import aesia.com.ponents.events.ToolEvent;
 	import aesia.com.ponents.skinning.cursors.Cursor;
+	import aesia.com.ponents.tools.canvas.Tool;
 
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

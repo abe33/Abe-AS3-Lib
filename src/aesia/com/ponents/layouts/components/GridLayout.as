@@ -33,11 +33,13 @@ package aesia.com.ponents.layouts.components
 			var innerPref : Dimension = estimatedSize();
 			var prefDim : Dimension = preferredSize ? preferredSize : innerPref.grow( insets.horizontal, insets.vertical );
 			
-			var cols : Number = _cols;
-			if( _container.childrenCount > _cols * _rows )
+			var cols : Number = _cols;			var rows : Number = _rows;
+			if( isNaN( rows ) )
+				rows = Math.ceil( _container.childrenCount / _cols );
+			else if( _container.childrenCount > _cols * _rows )
 				cols = Math.ceil( _container.childrenCount / _rows );
 			
-			var cellWidth : Number = ( prefDim.width - ( _hgap * ( cols-1 ) ) - insets.horizontal ) / cols;			var cellHeight : Number = ( prefDim.height - ( _vgap * ( _rows-1 ) ) - insets.vertical ) / _rows;
+			var cellWidth : Number = ( prefDim.width - ( _hgap * ( cols-1 ) ) - insets.horizontal ) / cols;			var cellHeight : Number = ( prefDim.height - ( _vgap * ( rows-1 ) ) - insets.vertical ) / rows;
 			
 			var l : Number = _container.childrenCount;
 			var i : Number = 0;
@@ -77,11 +79,14 @@ package aesia.com.ponents.layouts.components
 			var height : Number;
 			var maxSize : Dimension = maxComponentSize();
 			
-			var cols : Number = _cols;
+			var cols : Number = _cols;			var rows : Number = _rows;
+			if( isNaN( rows ) )
+				rows = Math.ceil( _container.childrenCount / _cols );
+			else 
 			if( _container.childrenCount > _cols * _rows )
 				cols = Math.ceil( _container.childrenCount / _rows );
 			
-			width = maxSize.width * cols + _hgap * (_cols-1);			height = maxSize.height * _rows + _vgap * (_rows-1);
+			width = maxSize.width * cols + _hgap * (cols-1);			height = maxSize.height * rows + _vgap * (rows-1);
 			
 			return new Dimension( width, height );
 		}

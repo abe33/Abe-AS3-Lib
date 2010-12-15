@@ -6,14 +6,13 @@ package aesia.com.ponents.demos
 	import aesia.com.ponents.buttons.Button;
 	import aesia.com.ponents.completion.AutoCompletion;
 	import aesia.com.ponents.completion.InputMemory;
-	import aesia.com.ponents.monitors.LogView;
 	import aesia.com.ponents.text.TextArea;
 	import aesia.com.ponents.text.TextInput;
+	import aesia.com.ponents.tools.DebugPanel;
 	import aesia.com.ponents.utils.KeyboardControllerInstance;
 	import aesia.com.ponents.utils.ToolKit;
 
 	import flash.display.Sprite;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -25,17 +24,16 @@ package aesia.com.ponents.demos
 			StageUtils.flexibleStage();
 			ToolKit.initializeToolKit();
 			
-			var lv : LogView;			
-			lv = new LogView();
-			ToolKit.mainLevel.addChild(lv);
-			StageUtils.lockToStage(lv,257);
+			var p : DebugPanel = new DebugPanel();
+			ToolKit.popupLevel.addChild(p);
 			
 			KeyboardControllerInstance.eventProvider = stage;
 			
 			try
 			{
 				var input1 : TextInput = new TextInput();
-				input1.x = 10;				input1.y = 10;
+				input1.x = 10;
+				input1.y = 10;
 				
 				var input2 : TextInput = new TextInput();
 				input2.x = 10;
@@ -51,7 +49,8 @@ package aesia.com.ponents.demos
 					c1.collection = [ "Abe", "Fred", "Gate", "Mel", "Mounir", 
 									 "Marie", "Maria", "Marius", "Marcel", "Martine", "Marco", "Marcus", "Marion", "Marbella", "Maurice" ];
 					c1.charactersCountBeforeSuggest = 1;
-					input1.autoComplete = c1;					
+					input1.autoComplete = c1;
+					
 					var c2 : InputMemory = new InputMemory( input2, "demo", true );
 					c2.charactersCountBeforeSuggest = 1;
 					var bt : Button = new Button( new ProxyAction( c2.registerCurrent, "Register Current" ) );
@@ -69,7 +68,9 @@ package aesia.com.ponents.demos
 					bt.y = 40;
 					
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-				ToolKit.mainLevel.addChild( input1 );						ToolKit.mainLevel.addChild( input2 );						ToolKit.mainLevel.addChild( tarea );		
+				ToolKit.mainLevel.addChild( input1 );		
+				ToolKit.mainLevel.addChild( input2 );		
+				ToolKit.mainLevel.addChild( tarea );
 			}
 			catch( e : Error ) 
 			{

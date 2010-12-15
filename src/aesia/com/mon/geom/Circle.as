@@ -24,7 +24,8 @@ package  aesia.com.mon.geom
 													Geometry,
 													Path,
 													Surface,
-													FormMetaProvider
+													FormMetaProvider,
+													ClosedGeometry
 	{
 		/**
 		 * Constructeur de la classe <code>Circle</code>.

@@ -3,12 +3,7 @@
  */
 package  aesia.com.edia.camera
 {
-	import aesia.com.edia.camera.CameraEvent;
-	import aesia.com.edia.camera.CameraLayer;
-	import aesia.com.edia.camera.DOFCamera;
-
 	import flash.filters.BlurFilter;
-
 	/**
 	 * Une implémentation standard d'un écouteur de la classe <code>DOFCamera</code>.
 	 * Dans la plupart des situations, il suffit de créer une instance et de lui

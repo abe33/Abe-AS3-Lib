@@ -29,7 +29,7 @@ package aesia.com.patibility.codecs
 		/**
 		 * Constante de caractère d'encadrement des chaînes de messages.
 		 */
-		static public const QUOTE_CHAR : String = "\"";
+		static public const QUOTE_CHAR : String = '"';
 		/**
 		 * @inheritDoc
 		 */
@@ -59,7 +59,7 @@ package aesia.com.patibility.codecs
 			{
 				var s : String = o as String;
 				// Removes the comments and empty lines
-				s = s.replace( new RegExp( "^" + COMMENT_CHAR +"(.*)$", "gmi" ), "" );				s = s.replace( new RegExp( "^\s*", "gmi" ), "" );
+				s = s.replace( new RegExp( "^" + COMMENT_CHAR +"(.*)$", "gmi" ), "" );				s = StringUtils.trim(s);
 
 				// Split using the msgid token
 				var a : Array = s.split( ID_PREFIX );
@@ -74,8 +74,7 @@ package aesia.com.patibility.codecs
 					var b : Array = (a[i] as String).split( STR_PREFIX );
 					var key : String = StringUtils.trim(b[0]);					var value : String = StringUtils.trim(b[1]);
 
-					key = key.replace( new RegExp("^"+QUOTE_CHAR+"|" + QUOTE_CHAR +"$", "gi"), "" );					value = value.replace( new RegExp("^"+QUOTE_CHAR+"|" + QUOTE_CHAR +"$", "gi"), "" );
-
+					key = key.replace( new RegExp( QUOTE_CHAR, "gi"), "" ).replace( /[\r\n]*/g, "" ).replace(/\\n*/g, "\n" );					value = value.replace( new RegExp( QUOTE_CHAR, "gi"), "" ).replace( /[\r\n]*/g, "" ).replace( /\\n*/g, "\n" );
 					ob[key]=value;
 				}
 				return ob;

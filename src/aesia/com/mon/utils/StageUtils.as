@@ -3,6 +3,7 @@
  */
 package aesia.com.mon.utils
 {
+	import aesia.com.mon.logs.Log;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;

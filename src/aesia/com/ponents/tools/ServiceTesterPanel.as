@@ -8,6 +8,7 @@ package aesia.com.ponents.tools
 	import aesia.com.munication.services.ServiceCall;
 	import aesia.com.munication.services.ServiceEvent;
 	import aesia.com.patibility.lang._;
+	import aesia.com.patibility.lang._$;
 	import aesia.com.ponents.actions.ProxyAction;
 	import aesia.com.ponents.buttons.Button;
 	import aesia.com.ponents.completion.InputMemory;
@@ -21,7 +22,6 @@ package aesia.com.ponents.tools
 	import aesia.com.ponents.text.Label;
 	import aesia.com.ponents.text.TextInput;
 	import aesia.com.ponents.utils.Insets;
-
 	/**
 	 * @author cedric
 	 */
@@ -95,7 +95,11 @@ package aesia.com.ponents.tools
 			(_tservice.autoComplete as InputMemory ).registerCurrent();
 			try
 			{
-				Log.info( "Calling : " + _tgateway.value + _tservice.value + "/"+ _tmethod.value + "/" + _argumentsList.value.join("/") );
+				Log.info( _$( "Calling : $0 $1.$2($3)", 
+							 _tgateway.value, 
+							 _tservice.value, 
+							 _tmethod.value, 
+							 _argumentsList.value.join(", ")));
 				_call = Reflection.buildInstance(ServiceCall, [ _tmethod.value, 
 															    _tservice.value, 
 															    NetConnectionFactory.get( _tgateway.value ),
@@ -115,18 +119,54 @@ package aesia.com.ponents.tools
 		{
 			var res : * = e.results;
 			
-			Log.debug( "result = " + res );
-			Log.debug( "result is of type " + Reflection.getClass( res ) );
-			
-			for ( var i:String in res )
-			{
-				Log.debug( "res."+i+" = " + res[i] );
-			}
+			Log.debug( "Result:\n" + recursivePrint( res ) );			
 		}
 
 		protected function handleError ( e : ServiceEvent ) : void
 		{
 			Log.error( "Error!\n" + e.results );
+		}
+		protected function recursivePrint( o:*, indent:String = ""):String
+		{
+			if( typeof o != "object" )
+			{
+				if( o is String )
+					return "'"+o+"'";
+				else
+					return String( o );
+			}
+			else
+			{
+				var s : String = "";
+				var s2 : String = "";
+				var i:String;
+				if( o is Array )
+				{
+					s = "[";
+					s2 = "";
+					for( i in o )
+					{
+						s2 += indent + "\t\t" + recursivePrint(o[i], indent + "\t\t") + ",\n";
+					}
+					if( s2 != "" )
+						s += "\n" + s2 + indent;
+					s += "]";
+					return s;
+				}
+				else
+				{
+					s = "{";
+					s2 = "";
+					for( i in o )
+					{
+						s2 += indent + "\t\t'" + i + "' : " +recursivePrint(o[i], indent + "\t\t") + ",\n";
+					}
+					if( s2 != "" )
+						s += "\n"+s2+indent;
+					s += "}";
+					return s;
+				}
+			}
 		}
 	}
 }

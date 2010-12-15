@@ -28,6 +28,8 @@ package aesia.com.ponents.containers
 	{
 		protected var _rowHeader : Viewport;
 		protected var _colHeader : Viewport;
+		protected var _vscrollbar : ScrollPane_ScrollBar;
+		protected var _hscrollbar : ScrollPane_ScrollBar;
 
 		public function ScrollPane ( policy : String = "auto" )
 		{
@@ -50,16 +52,16 @@ package aesia.com.ponents.containers
 			addComponent( _colHeader );
 			layout.colHead = _colHeader;
 			
-			var vscrollbar : ScrollBar = new ScrollPane_ScrollBar( viewport, 1, 0, 1, 0, 10 );
-			vscrollbar.model = _vmodel;
-			addComponent( vscrollbar );
-			layout.vscrollbar = vscrollbar;
-			vscrollbar.addWeakEventListener( ComponentEvent.SCROLL, vscrollOccured );
-						var hscrollbar : ScrollBar = new ScrollPane_ScrollBar( viewport, 0, 0, 1, 0, 10 );
-			hscrollbar.model = _hmodel;
-			addComponent( hscrollbar );
-			layout.hscrollbar = hscrollbar;
-			hscrollbar.addWeakEventListener( ComponentEvent.SCROLL, hscrollOccured );
+			_vscrollbar = new ScrollPane_ScrollBar( viewport, 1, 0, 1, 0, 10 );
+			_vscrollbar.model = _vmodel;
+			addComponent( _vscrollbar );
+			layout.vscrollbar = _vscrollbar;
+			_vscrollbar.addWeakEventListener( ComponentEvent.SCROLL, vscrollOccured );
+						_hscrollbar = new ScrollPane_ScrollBar( viewport, 0, 0, 1, 0, 10 );
+			_hscrollbar.model = _hmodel;
+			addComponent( _hscrollbar );
+			layout.hscrollbar = _hscrollbar;
+			_hscrollbar.addWeakEventListener( ComponentEvent.SCROLL, hscrollOccured );
 		}
 		
 		protected function mouseWheel (event : MouseEvent) : void
@@ -99,8 +101,8 @@ package aesia.com.ponents.containers
 		
 		override public function get scrollPolicy () : String { return layout.scrollPolicy; }		override public function set scrollPolicy ( s : String ) : void { layout.scrollPolicy = s; }
 		
-		public function get vscrollbar () : ScrollBar { return layout.vscrollbar; }		
-		public function get hscrollbar () : ScrollBar { return layout.hscrollbar; }		
+		public function get vscrollbar () : ScrollBar { return _vscrollbar; }		
+		public function get hscrollbar () : ScrollBar { return _hscrollbar; }		
 		
 		public function get colHead () : Component { return layout.colHead.view; }	
 		public function set colHead (colHead : Component) : void 

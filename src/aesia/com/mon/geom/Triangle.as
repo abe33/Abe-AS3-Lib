@@ -6,11 +6,13 @@ package aesia.com.mon.geom
 	import aesia.com.mon.core.Cloneable;
 	import aesia.com.mon.core.Equatable;
 	import aesia.com.mon.core.FormMetaProvider;
+	import aesia.com.mon.core.Randomizable;
 	import aesia.com.mon.core.Serializable;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.GeometryUtils;
 	import aesia.com.mon.utils.MathUtils;
 	import aesia.com.mon.utils.PointUtils;
+	import aesia.com.mon.utils.Random;
 	import aesia.com.mon.utils.RandomUtils;
 	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.mon.utils.magicToReflectionSource;
@@ -18,7 +20,6 @@ package aesia.com.mon.geom
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe <code>Triangle</code> fournie une représentation
 	 * d'un triangle définie par trois objets <code>Point</code>.
@@ -36,8 +37,10 @@ package aesia.com.mon.geom
 									 Equatable,
 									 FormMetaProvider,
 									 Geometry,
+									 ClosedGeometry,
 									 Path,
-									 Surface
+									 Surface,
+									 Randomizable
 	{
 		[Form(type="point",
 			  label="A",
@@ -99,6 +102,14 @@ package aesia.com.mon.geom
 		{
 			this.a = a;			this.b = b;			this.c = c;
 			this.pathBasedOnLength = pathBasedOnLength;
+			_randomSource = RandomUtils.RANDOM;
+		}
+
+		protected var _randomSource : Random;
+		public function get randomSource () : Random { return _randomSource; }
+		public function set randomSource (randomSource : Random) : void
+		{
+			_randomSource = randomSource;
 		}
 		/**
 		 * Un objet <code>Point</code> représentant le vecteur
@@ -243,8 +254,8 @@ package aesia.com.mon.geom
 		 */
 		public function getRandomPointInSurface () : Point
 		{
-			var a1 : Number = RandomUtils.random();
-			var a2 : Number = RandomUtils.random();
+			var a1 : Number = _randomSource.random();
+			var a2 : Number = _randomSource.random();
 			var p : Point = a.add( PointUtils.scaleNew( ab, a1 ).add( PointUtils.scaleNew( ca, a2 * -1 ) ) );
 			if( containsPoint( p ) )
 				return p;
@@ -255,6 +266,10 @@ package aesia.com.mon.geom
 				p = p.add( PointUtils.scaleNew( d, 2 ) );
 				return p;
 			}
+		}
+		public function getPointAtAngle (a : Number) : Point
+		{
+			return null;
 		}
 		/**
 		 * Effectue une rotation de cet objet <code>Triangle</code> autour

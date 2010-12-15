@@ -3,6 +3,7 @@
  */
 package  aesia.com.mon.utils 
 {
+	import aesia.com.mon.logs.Log;
 	import flash.geom.ColorTransform;
 
 	import aesia.com.mon.core.Equatable;
@@ -2029,8 +2030,8 @@ package  aesia.com.mon.utils
 						// "0xffffff"
 						case 6 :
 							_r = parseInt( "0x" + scol.substr( 0, 2 ) );
-							_g = parseInt( "0x" + scol.substr( 1, 2 ) );
-							_b = parseInt( "0x" + scol.substr( 2, 2 ) );
+							_g = parseInt( "0x" + scol.substr( 2, 2 ) );
+							_b = parseInt( "0x" + scol.substr( 4, 2 ) );
 							break;
 						default : 
 							_r = 0x00;

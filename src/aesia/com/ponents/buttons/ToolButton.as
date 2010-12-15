@@ -3,8 +3,9 @@
  */
 package aesia.com.ponents.buttons 
 {
+	import aesia.com.ponents.tools.canvas.actions.SetToolAction;
+	import aesia.com.ponents.actions.Action;
 	import aesia.com.ponents.events.PropertyEvent;
-	import aesia.com.ponents.skinning.icons.Icon;
 
 	import flash.events.Event;
 
@@ -41,9 +42,10 @@ package aesia.com.ponents.buttons
 		 * @param	actionOrLabel	un objet <code>Action</code> ou une chaîne de caractère
 		 * @param	icon			un objet <code>Icon</code>
 		 */	
-		public function ToolButton ( actionOrLabel : * = null, icon : Icon = null)
+		public function ToolButton ( action : Action )
 		{
-			super( actionOrLabel, icon );
+			super( action );
+			selected = ( action as SetToolAction ).selected;
 		}
 		/**
 		 * @inheritDoc

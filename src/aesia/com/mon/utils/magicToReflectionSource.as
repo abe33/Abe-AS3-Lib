@@ -37,6 +37,9 @@ package aesia.com.mon.utils
 	 */
 	public function magicToReflectionSource ( o : Object ) : String
 	{
+		if( o == null )
+			return "null";
+		
 		if( o is Serializable )
 			return (o as Serializable).toReflectionSource();
 

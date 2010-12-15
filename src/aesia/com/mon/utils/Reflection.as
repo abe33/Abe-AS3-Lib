@@ -3,6 +3,8 @@
  */
 package aesia.com.mon.utils
 {
+	import flash.utils.getQualifiedClassName;
+
 	import aesia.com.mon.logs.Log;
 
 	import flash.errors.IllegalOperationError;
@@ -10,8 +12,6 @@ package aesia.com.mon.utils
 	import flash.system.ApplicationDomain;
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe utilitaire <code>Reflection</code> fournit un ensemble de méthodes
 	 * permettant de récupérer nombre d'informations sur les objets et classes
@@ -119,7 +119,14 @@ package aesia.com.mon.utils
 		 */
 		static public function getClass( o : Object, domain : ApplicationDomain = null ) : Class
         {
-        	return ( domain ? domain : ApplicationDomain.currentDomain ).getDefinition( getQualifiedClassName( o ) ) as Class;
+        	if( o == null )
+        		return null;
+        	
+        	var s : String = getQualifiedClassName(o);
+        	
+        	if( s == null )
+        		return null;
+        	return ( domain ? domain : ApplicationDomain.currentDomain ).getDefinition( s ) as Class;
         }
         /**
 		 * Renvoie le nom de la classe de <code>v</code> sans le chemin
@@ -154,8 +161,9 @@ package aesia.com.mon.utils
          */
 		static public function describeClass ( o : *, useCache : Boolean = true ) : XML
 		{
-			if( _describeTypeCache[ o ] )
-				return _describeTypeCache[ o ];
+			var cls : String = getQualifiedClassName(o);
+			if( _describeTypeCache[ cls ] )
+				return _describeTypeCache[ cls ];
 			else
 			{
 				if( useCache )
@@ -164,12 +172,16 @@ package aesia.com.mon.utils
 					{
 						delete _describeTypeCache[ _describeTypeCacheKeys.shift() ];
 					}
-					_describeTypeCacheKeys.push( o );
-					return _describeTypeCache[ o ] = describeType( o );
+					_describeTypeCacheKeys.push( String(cls) );
+					return _describeTypeCache[ cls ] = describeType( o );
 				}
 				else
 					return describeType( o );
 			}
+		}
+		public static function isObject ( o : * ) : Boolean 
+		{
+			return getClass(o) == Object;
 		}
 		/**
          * Renvoie un objet <code>XMLList</code> contenant la description des balises de
@@ -397,6 +409,18 @@ package aesia.com.mon.utils
 		{
 			var xml : XML = Reflection.describeClass(o);
 			return xml..variable + xml..accessor;
+		}
+		static public function asAnonymousObject( o : Object ) : Object
+		{
+			var members : XMLList = getPublicMembers(o);
+			
+			var res : Object = {};
+			for each( var x : XML in members )
+			{
+				if( o.hasOwnProperty(x.@name) )
+					res[x.@name] = o[x.@name];
+			}
+			return res;
 		}
 		/**
 		 * Renvoie le résultat de l'évaluation de la chaîne <code>query</code>.
@@ -803,6 +827,7 @@ package aesia.com.mon.utils
         static private function _build29( clazz : Class ,a1:*,a2:*,a3:*,a4:*,a5:*,a6:*,a7:*,a8:*,a9:*,a10:*,a11:*,a12:*,a13:*,a14:*,a15:*,a16:*,a17:*,a18:*,a19:*,a20:*,a21:*,a22:*,a23:*,a24:*,a25:*,a26:*,a27:*,a28:*,a29:* ) : Object
         { return new clazz( a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29 ); }
         static private function _build30( clazz : Class ,a1:*,a2:*,a3:*,a4:*,a5:*,a6:*,a7:*,a8:*,a9:*,a10:*,a11:*,a12:*,a13:*,a14:*,a15:*,a16:*,a17:*,a18:*,a19:*,a20:*,a21:*,a22:*,a23:*,a24:*,a25:*,a26:*,a27:*,a28:*,a29:*,a30:* ) : Object
-        { return new clazz( a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30 ); }
+        { return new clazz( a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23,a24,a25,a26,a27,a28,a29,a30 ); 
+		}
 	}
 }

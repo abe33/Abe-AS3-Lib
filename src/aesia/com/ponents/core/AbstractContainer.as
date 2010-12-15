@@ -3,7 +3,6 @@
  */
 package aesia.com.ponents.core
 {
-	import aesia.com.ponents.events.ComponentEvent;
 	import aesia.com.mon.core.IDisplayObject;
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;

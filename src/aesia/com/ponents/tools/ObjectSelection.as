@@ -39,6 +39,17 @@ package aesia.com.ponents.tools
 				objects.push( o );
 			fireSelectionChangeEvent ();
 		}
+		public function addMany( a : Array ):void
+		{
+			var l : uint = a.length;
+			for( var i:uint = 0;i<l;i++ )
+			{
+				var o : * = a[i];
+				if( !contains(o) )
+					objects.push(o);
+			}
+			fireSelectionChangeEvent();
+		}
 		public function contains( o : Object ) : Boolean
 		{
 			return objects.indexOf(o) != -1;
@@ -51,7 +62,17 @@ package aesia.com.ponents.tools
 			
 			fireSelectionChangeEvent ();
 		}
-		
+		public function removeMany ( a : Array) : void 
+		{
+			var l : uint = a.length;
+			while ( l-- )
+			{
+				var o : * = a[l];
+				if( contains(o) )
+					objects.splice( objects.indexOf(o), 1 );
+			}
+			fireSelectionChangeEvent();
+		}
 		public function removeAll () : void
 		{
 			objects = [];

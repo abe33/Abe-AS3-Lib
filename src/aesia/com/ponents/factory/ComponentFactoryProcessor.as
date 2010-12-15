@@ -10,13 +10,29 @@ package aesia.com.ponents.factory
 	import aesia.com.ponents.events.ComponentFactoryEvent;
 
 	import flash.events.EventDispatcher;
-
+	
+	/**
+	 * Évènement diffusé lors du démarrage de la construction des composants.
+	 *  
+	 * @eventType aesia.com.ponents.events.ComponentFactoryEvent.BUILD_START
+	 */
 	[Event(name="buildStart",type="aesia.com.ponents.events.ComponentFactoryEvent")]
+	/**
+	 * Évènement diffusé lors de la fin de la construction des composants.
+	 *  
+	 * @eventType aesia.com.ponents.events.ComponentFactoryEvent.BUILD_COMPLETE
+	 */
 	[Event(name="buildComplete",type="aesia.com.ponents.events.ComponentFactoryEvent")]
+	/**
+	 * Évènement diffusé durant la construction des composants.
+	 *  
+	 * @eventType aesia.com.ponents.events.ComponentFactoryEvent.BUILD_PROGRESS
+	 */
 	[Event(name="buildProgress",type="aesia.com.ponents.events.ComponentFactoryEvent")]
 	/**
 	 * La classe <code>ComponentFactoryProcessor</code> est utilisé afin de rendre asynchrone
-	 * le processus de construction des  
+	 * le processus de construction des composants.
+	 * 
 	 * @author Cédric Néhémie
 	 */
 	public class ComponentFactoryProcessor extends EventDispatcher implements ComponentFactory

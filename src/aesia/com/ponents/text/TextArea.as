@@ -19,6 +19,7 @@ package aesia.com.ponents.text
 	import flash.events.MouseEvent;
 
 	[Event(name="dataChange", type="aesia.com.ponents.events.ComponentEvent")]
+	[Skinable(skin="Text")]
 	public class TextArea extends AbstractTextComponent
 	{
 		protected var _scrollbar : ScrollBar;

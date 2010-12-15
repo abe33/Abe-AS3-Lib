@@ -1,13 +1,14 @@
-package aesia.com.ponents.tools 
+package aesia.com.ponents.tools.canvas.navigations 
 {
 	import aesia.com.edia.camera.Camera;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.ponents.events.ToolEvent;
 	import aesia.com.ponents.skinning.cursors.Cursor;
+	import aesia.com.ponents.tools.canvas.core.AbstractTool;
+	import aesia.com.ponents.tools.canvas.Tool;
 
 	import flash.display.StageQuality;
 	import flash.geom.Point;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
