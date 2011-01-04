@@ -3,16 +3,13 @@
  */
 package  aesia.com.mon.utils 
 {
-	import aesia.com.mon.logs.Log;
-	import flash.geom.ColorTransform;
-
-	import aesia.com.mon.core.Equatable;
 	import aesia.com.mon.core.Cloneable;
+	import aesia.com.mon.core.Equatable;
 	import aesia.com.mon.core.FormMetaProvider;
 	import aesia.com.mon.core.Serializable;
 
+	import flash.geom.ColorTransform;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe <code>Color</code> fournit des contrôles de base
 	 * pour manipuler des couleurs au format RGB et RGBA. De même
@@ -2247,7 +2244,9 @@ package  aesia.com.mon.utils
 		 */
 		public function toString () : String
 		{
-			return getQualifiedClassName( this ) + "( " + red + ", " + green + ", " + blue + ", " + alpha + ", \"" + _name + "\" )";
+			if( name )
+				return StringUtils.stringify(this, {rgba:"0x"+rgba,name:name} );			else
+				return StringUtils.stringify(this, {rgba:"0x"+rgba} );
 		}
 		/**
 		 * Renvoie la représentation du code source permettant 
@@ -2284,6 +2283,18 @@ package  aesia.com.mon.utils
 			return new Color( red, green, blue, alpha );
 		}
 		
+		public function brighterClone ( add : uint = 0 ) : Color
+		{
+			return new Color( Math.min( red + add ,255 ),
+							  Math.min( green + add ,255 ), 
+							  Math.min( blue + add ,255 ), alpha );
+		}
+		public function darkerClone ( rm : uint = 0 ) : Color
+		{
+			return new Color( Math.max( red-rm, 0 ),
+							  Math.max( green-rm, 0 ), 
+							  Math.max( blue-rm, 0 ), alpha );
+		}
 		/**
 		 * Renvoie une copie de l'objet courant mais avec un canal
 		 * alpha modifié avec la valeur tramsmise à la fonction.

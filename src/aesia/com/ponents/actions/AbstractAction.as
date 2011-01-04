@@ -7,6 +7,8 @@ package aesia.com.ponents.actions
 	import aesia.com.mands.Command;
 	import aesia.com.mon.core.Runnable;
 	import aesia.com.mon.utils.KeyStroke;
+	import aesia.com.ponents.buttons.Button;
+	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.events.PropertyEvent;
 	import aesia.com.ponents.skinning.icons.Icon;
 	import aesia.com.ponents.utils.KeyboardControllerInstance;
@@ -141,6 +143,10 @@ package aesia.com.ponents.actions
 			_actionEnabled = actionEnabled;
 			firePropertyEvent( "actionEnabled", actionEnabled );
 		}
+		/**
+		 * @inheritDoc
+		 */
+		public function get component () : Component { return new Button(this); }
 		/**
 		 * Diffuse un évènement de type <code>PropertyEvent.PROPERTY_CHANGE</code> pour ce composant.
 		 * 

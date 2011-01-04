@@ -7,10 +7,10 @@ package  aesia.com.mon.geom
 	import aesia.com.mon.core.Equatable;
 	import aesia.com.mon.core.FormMetaProvider;
 	import aesia.com.mon.core.Serializable;
+	import aesia.com.mon.utils.StringUtils;
 
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * Un objet <code>Dimension</code> contient les données nécessaire à la représentation
 	 * d'une surface en deux dimensions.
@@ -186,8 +186,7 @@ package  aesia.com.mon.geom
 		 */
 		public function toString() : String
 		{
-			return getQualifiedClassName( this ) + "[" + width + ", " + height +"]";
+			return StringUtils.stringify(this,{ width:width, height:height } );
 		}
-
 	}
 }

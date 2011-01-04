@@ -22,8 +22,8 @@ package aesia.com.ponents.lists
 		  preview="aesia.com.ponents.lists::ListLineRuler.defaultListLineRulerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( color(LightGrey) )",
-		  state__all__insets="new aesia.com.ponents.utils::Insets(3,0,3,0)"
+		  state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",
+		  state__all__insets="new cutils::Insets(3,0,3,0)"
 	)]
 	public class ListLineRuler extends List 
 	{

@@ -1,6 +1,5 @@
 package aesia.com.mon.utils
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.core.Copyable;
 	/**
 	 * @author cedric
@@ -29,7 +28,7 @@ package aesia.com.mon.utils
 			}
 			else
 			{
-				var o : Object = Reflection.asAnonymousObject(a);
+				var o : Object = Reflection.asAnonymousObject( a, false );
 				for( i in o )
 					if( b.hasOwnProperty(i) )
 						b[i] = o[i];

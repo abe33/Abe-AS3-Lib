@@ -18,39 +18,39 @@ package aesia.com.ponents.tabs
 		  preview="aesia.com.ponents.tabs::TabbedPane.northTabbedPanePreview",
 		  previewAcceptStyleSetup="false",
 
-		  state__all__borders="new aesia.com.ponents.utils::Borders(1,1,1,0)",
-		  state__all__corners="new aesia.com.ponents.utils::Corners(6,6,0,0)"
+		  state__all__borders="new cutils::Borders(1,1,1,0)",
+		  state__all__corners="new cutils::Corners(6,6,0,0)"
 	)]
 	[Skin(define="Tab_South",
 		  inherit="Tab",
 		  preview="aesia.com.ponents.tabs::TabbedPane.southTabbedPanePreview",
 		  previewAcceptStyleSetup="false",
 
-		  state__all__borders="new aesia.com.ponents.utils::Borders(1,0,1,1)",
-		  state__all__corners="new aesia.com.ponents.utils::Corners(0,0,6,6)"
+		  state__all__borders="new cutils::Borders(1,0,1,1)",
+		  state__all__corners="new cutils::Corners(0,0,6,6)"
 	)]
 	[Skin(define="Tab_East",
 		  inherit="Tab",
 		  preview="aesia.com.ponents.tabs::TabbedPane.eastTabbedPanePreview",
 		  previewAcceptStyleSetup="false",
 
-		  state__all__borders="new aesia.com.ponents.utils::Borders(0,1,1,1)",
-		  state__all__corners="new aesia.com.ponents.utils::Corners(0,6,0,6)"
+		  state__all__borders="new cutils::Borders(0,1,1,1)",
+		  state__all__corners="new cutils::Corners(0,6,0,6)"
 	)]
 	[Skin(define="Tab_West",
 		  inherit="Tab",
 		  preview="aesia.com.ponents.tabs::TabbedPane.westTabbedPanePreview",
 		  previewAcceptStyleSetup="false",
 
-		  state__all__borders="new aesia.com.ponents.utils::Borders(1,1,0,1)",
-		  state__all__corners="new aesia.com.ponents.utils::Corners(6,0,6,0)"
+		  state__all__borders="new cutils::Borders(1,1,0,1)",
+		  state__all__corners="new cutils::Corners(6,0,6,0)"
 	)]
 	[Skin(define="Tab",
-		  inherit="DefaultComponent",
+		  inherit="DefaultGradientComponent",
 		  preview="aesia.com.ponents.tabs::TabbedPane.defaultTabbedPanePreview",
 		  previewAcceptStyleSetup="false",
 
-		  state__all__insets="new aesia.com.ponents.utils::Insets(4)"
+		  state__all__insets="new cutils::Insets(4)"
 	)]
 	public class SimpleTab extends DraggableButton implements Tab
 	{
@@ -115,7 +115,6 @@ package aesia.com.ponents.tabs
 					break;
 			}
 		}
-
 		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
 		override public function get allowDrag () : Boolean { return super.allowDrag && _enabled; }
 		override public function get transferData () : Transferable

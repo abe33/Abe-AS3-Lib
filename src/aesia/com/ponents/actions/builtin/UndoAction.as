@@ -6,24 +6,28 @@ package aesia.com.ponents.actions.builtin
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.patibility.lang._;
-	import aesia.com.ponents.actions.AbstractTerminalAction;
+	import aesia.com.ponents.actions.AbstractAction;
 	import aesia.com.ponents.events.PropertyEvent;
 	import aesia.com.ponents.events.UndoManagerEvent;
 	import aesia.com.ponents.history.UndoManager;
+	import aesia.com.ponents.skinning.icons.magicIconBuild;
 
 	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
 	import flash.ui.ContextMenuItem;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class UndoAction extends AbstractTerminalAction
+	public class UndoAction extends AbstractAction
 	{
+		[Embed(source="../../skinning/icons/undo.png")]
+		static public var iconClass : Class;
+		
 		protected var _manager : UndoManager;
+		
 		public function UndoAction ( accelerator : KeyStroke, manager : UndoManager )
 		{
-			super( _("Undo last operation"), null, _("Undo the last operation."), "undo", "undo", _("Undo the last operation."), null, accelerator );
+			super( _("Undo last operation"), magicIconBuild(iconClass), null, accelerator );
 			_manager = manager;
 			_manager.addEventListener( UndoManagerEvent.UNDO_DONE, undoDone );
 			_manager.addEventListener( UndoManagerEvent.REDO_DONE, redoDone );

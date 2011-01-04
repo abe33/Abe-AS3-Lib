@@ -110,7 +110,7 @@ package aesia.com.ponents.models
 
 		override public function toString () : String
 		{
-			return getQualifiedClassName(this) + "( "+ _minimum +" < "+ _value +" < "+ _maximum +" )";
+			return StringUtils.stringify(this, {'min':_minimum,'max':_maximum,'value':_value});
 		}
 		
 		public function get valuePositionInRange () : Number

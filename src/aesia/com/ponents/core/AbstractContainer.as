@@ -59,7 +59,11 @@ package aesia.com.ponents.core
 		 *
 		 * @default new Vector.<Component>()
 		 */
-		protected var _children : Vector.<Component>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9		protected var _children : Array;
+				TARGET::FLASH_10		protected var _children : Vector.<Component>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _children : Vector.<Component>;
 		/**
 		 * Un objet <code>ComponentLayout</code> chargé de calculer la taille de préférence
 		 * de ce composant et de mettre en forme les composants enfants.
@@ -124,7 +128,10 @@ package aesia.com.ponents.core
 		public function AbstractContainer ()
 		{
 			super();
-			_children = new Vector.<Component>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _children = []; }			TARGET::FLASH_10 { _children = new Vector.<Component>(); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_children = new Vector.<Component>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			_childrenLayout = _childrenLayout ? _childrenLayout : new NoLayout ( this );
 			_childrenContainer.mouseChildren = true;
 			_childrenContainer.mouseEnabled = true;
@@ -143,7 +150,12 @@ package aesia.com.ponents.core
  		/**
  		 * Une copie du vecteur des enfants de ce composant.
  		 */
-		public function get children () : Vector.<Component> { return _children.concat(); }
+ 		/*FDT_IGNORE*/
+ 		TARGET::FLASH_9
+		public function get children () : Array { return _children.concat(); } 		
+ 		TARGET::FLASH_10		public function get children () : Vector.<Component> { return _children.concat(); } 		
+ 		TARGET::FLASH_10_1	/*FDT_IGNORE*/		public function get children () : Vector.<Component> { return _children.concat(); }
+		
 		/**
 		 * Un entier représentant le nombre de composants contenu dans ce <code>Container</code>.
 		 */
@@ -235,7 +247,7 @@ package aesia.com.ponents.core
 			firePropertyEvent("childrenContextEnabled", _childrenContextEnabled );
 			fireChangeEvent();
 		}
-
+		override public function get maximumContentSize () : Dimension { return _childrenLayout.maximumContentSize; }
 		/**
 		 * Une valeur booléenne indiquant si la mise en page des enfants de ce
 		 * composant est vérrouillée lors des phases de re-dessin de ce composant.
@@ -706,7 +718,13 @@ package aesia.com.ponents.core
 		 */
 		override public function invalidatePreferredSizeCache () : void
 		{
-			_childrenLayout.container = this;
+			/*
+			for each ( var c : AbstractComponent in _children )
+				c.invalidatePreferredSizeCache();
+			*/
+			if(!_childrenLayout.container )
+				_childrenLayout.container = this;
+			
 			_preferredSizeCache = _childrenLayout.preferredSize.grow( _style.insets.horizontal, _style.insets.vertical );
 			super.invalidatePreferredSizeCache();
 		}

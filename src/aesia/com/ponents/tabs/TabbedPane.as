@@ -1,12 +1,15 @@
 package aesia.com.ponents.tabs 
 {
-	import aesia.com.ponents.events.TabEvent;
 	import aesia.com.mon.geom.dm;
 	import aesia.com.ponents.containers.Panel;
 	import aesia.com.ponents.containers.SlidePane;
 	import aesia.com.ponents.core.AbstractContainer;
+	import aesia.com.ponents.core.Dockable;
+	import aesia.com.ponents.core.DockableContainer;
 	import aesia.com.ponents.dnd.DragSource;
 	import aesia.com.ponents.events.ActionEvent;
+	import aesia.com.ponents.events.DockEvent;
+	import aesia.com.ponents.events.TabEvent;
 	import aesia.com.ponents.layouts.components.BorderLayout;
 	import aesia.com.ponents.utils.CardinalPoints;
 
@@ -15,20 +18,21 @@ package aesia.com.ponents.tabs
 	/**
 	 * @author Cédric Néhémie
 	 */
+	[Event(name="tabChange",type="aesia.com.ponents.events.TabEvent")]	[Event(name="tabAdd",type="aesia.com.ponents.events.TabEvent")]	[Event(name="tabRemove",type="aesia.com.ponents.events.TabEvent")]	[Event(name="dockAdd",type="aesia.com.ponents.events.DockEvent")]	[Event(name="dockRemove",type="aesia.com.ponents.events.DockEvent")]
 	[Skinable(skin="TabbedPane")]
 	[Skin(define="TabbedPane",
 		  inherit="DefaultComponent",
 		  preview="aesia.com.ponents.tabs::TabbedPane.defaultTabbedPanePreview",
 		  
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()"	)]
+		  state__all__foreground="skin.noDecoration"	)]
 	[Skin(define="TabBarViewport",
 		  inherit="DefaultComponent",
 		  preview="aesia.com.ponents.tabs::TabbedPane.defaultTabbedPanePreview",
 		  acceptStyleSetting="false",
 		  
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()"
+		  state__all__foreground="skin.noDecoration",		  state__all__background="new deco::SimpleFill(skin.rulerBackgroundColor.brighterClone(20))"
 	)]
-	public class TabbedPane extends AbstractContainer 
+	public class TabbedPane extends AbstractContainer implements DockableContainer
 	{
 		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
 		static public function defaultTabbedPanePreview () : TabbedPane
@@ -141,18 +145,20 @@ package aesia.com.ponents.tabs
 		public function set dragEnabled ( b : Boolean ) : void
 		{
 			_tabBar.dragEnabled = b;
-		}
+		}	
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
 		public function addTab ( tab : Tab ) : void
 		{
 			_tabBar.addComponent( tab );
 			setUpTab ( tab );
+			fireDockAddEvent(tab);
 		}
 		public function removeTab ( tab : Tab ) : void
 		{
 			_tabBar.removeComponent( tab );
 			tearDownTab(tab);
+			fireDockRemoveEvent(tab);
 		}
 		public function setUpTab ( tab : Tab ) : void
 		{
@@ -203,7 +209,23 @@ package aesia.com.ponents.tabs
 		}
 		protected function fireTabChangeEvent () : void
 		{
-			dispatchEvent( new TabEvent(TabEvent.TAB_CHANGE));
+			dispatchEvent( new TabEvent(TabEvent.TAB_CHANGE ) );
 		}
+		protected function fireDockAddEvent ( t : Dockable ) : void
+		{
+			dispatchEvent( new DockEvent(DockEvent.DOCK_ADD, t ) );			dispatchEvent( new TabEvent(TabEvent.TAB_ADD, t as Tab ) );		}
+		protected function fireDockRemoveEvent ( t : Dockable ) : void
+		{
+			dispatchEvent( new DockEvent(DockEvent.DOCK_REMOVE, t ) );
+			dispatchEvent( new TabEvent(TabEvent.TAB_REMOVE, t as Tab ) );
+		}
+		public function hasDockableClone (dock : Dockable) : Dockable
+		{
+			for each( var tab : Tab in _tabBar.children )
+				if( dock.content == tab.content )
+					return tab;
+			return null;
+		}
+		public function numDocks () : uint { return _tabBar.children.length; }
 	}
 }

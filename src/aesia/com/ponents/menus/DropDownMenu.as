@@ -23,8 +23,8 @@ package aesia.com.ponents.menus
 		  inherit="DropDownMenu",
 		  preview="aesia.com.ponents.menus::DropDownMenu.defaultDropDownMenuPreview",
 		  
-		  state__0_1_4_5__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()",
-		  state__0_1_4_5__background="new aesia.com.ponents.skinning.decorations::EmptyFill()"
+		  state__0_1_4_5__foreground="skin.noDecoration",
+		  state__0_1_4_5__background="skin.emptyDecoration"
 	)]
 	[Skin(define="DropDownMenu",
 		  inherit="Button",

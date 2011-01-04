@@ -50,7 +50,13 @@ package aesia.com.ponents.tables
 			{
 				var l1 : Number = _columns.length;				var l2 : Number = _children.length;				var l : Number = Math.max( l1, l2 );
 				var i : Number;
-				var a : Vector.<Component> = new Vector.<Component>();
+				
+				/*FDT_IGNORE*/
+				TARGET::FLASH_9 { var a : Array = []; }
+				TARGET::FLASH_10 { var a : Vector.<Component> = new Vector.<Component>(); }
+				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				var a : Vector.<Component> = new Vector.<Component>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
 				var item : TableCell;
 				var column : TableColumn;
 				
@@ -92,7 +98,10 @@ package aesia.com.ponents.tables
 			var column : TableColumn;
 			var item : TableCell;
 			var cl : HBoxLayout = _childrenLayout as HBoxLayout;				
-				cl.boxes = new Vector.<BoxSettings>();	
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { cl.boxes = []; }			TARGET::FLASH_10 { cl.boxes = new Vector.<BoxSettings>(); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			cl.boxes = new Vector.<BoxSettings>();	/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				
 			for( i=0;i<l;i++ )
 			{
@@ -124,10 +133,16 @@ package aesia.com.ponents.tables
 			
 			return item;
 		}
-		public function get cells () : Vector.<Component>
-		{
-			return _children;
-		}
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function get cells () : Array { return _children; }
+		
+		TARGET::FLASH_10
+		public function get cells () : Vector.<Component> { return _children; }
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function get cells () : Vector.<Component> { return _children; }
 		
 		public function set columns ( a : Array ) : void
 		{

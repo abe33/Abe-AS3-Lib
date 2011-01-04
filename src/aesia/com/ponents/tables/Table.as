@@ -103,7 +103,12 @@ package  aesia.com.ponents.tables
 			_list.listLayout.clearEstimatedSize();
 			_list.model = m; 
 		} 
-
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function get items () : Array { return _list.items; }
+		TARGET::FLASH_10
+		public function get items () : Vector.<Component> { return _list.items; }
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		public function get items () : Vector.<Component> { return _list.items; }
 
 		public function get selectedIndex() : Number { return _list.selectedIndex; }

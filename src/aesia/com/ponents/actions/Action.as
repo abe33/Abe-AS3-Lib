@@ -3,6 +3,7 @@
  */
 package aesia.com.ponents.actions 
 {
+	import aesia.com.ponents.core.Component;
 	import aesia.com.mands.Command;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.ponents.skinning.icons.Icon;
@@ -40,10 +41,14 @@ package aesia.com.ponents.actions
 		 * Une référence vers un objet <code>KeyStroke</code> représentant
 		 * la combinaison de touches à réaliser afin de déclencher cette action.
 		 */
-		function get accelerator () : KeyStroke;
+		function get accelerator () : KeyStroke;		function set accelerator ( ks : KeyStroke ) : void;
 		/**
 		 * Une valeur booléenne indiquant si cette action est actuellement active
 		 * et utilisable par les composants l'aggrégeant.
 		 */		function get actionEnabled () : Boolean;
+		/**
+		 * Un composant utilisable pour déclencher/configurer l'action.
+		 */
+		function get component() : Component;
 	}
 }

@@ -4,7 +4,6 @@
 package aesia.com.mon.utils
 {
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * Classe utilitaires fournissant des méthodes opérant sur
 	 * des chaînes de caractères.
@@ -16,6 +15,44 @@ package aesia.com.mon.utils
 	 */
 	public class StringUtils
 	{
+		static public function stringify( o : Object, kwargs : Object = null ) : String
+		{
+			if( o == null )
+				return "null";
+			if( typeof o == "string" )
+				return "'"+o+"'";
+			if( typeof o != "object" )
+				return String(o);
+				
+			var astr : String = "";
+			var args : Array =[];
+			
+ 			if( o is Array )
+			{
+				for( var j:uint=0;j<o.length;j++)
+					args.push(o[j]);
+				
+				return tokenReplace("[$0]", args.join(", ") );
+			}
+			
+			if( kwargs )
+				for( var i : String in kwargs )
+					args.push( i + "=" + stringify(kwargs[i]) );
+			
+			if( o.hasOwnProperty("id") && o["id"] != null )
+				args.push("id='"+o["id"]+"'");
+				
+			if( o.hasOwnProperty("name") && o["name"] != null )
+				args.push("name='"+o["name"]+"'");
+			
+			if( args.length > 0 )
+				astr = "(" + args.join(", ") + ")";
+			
+			return tokenReplace("[$0 $1$2]", 
+								( o is Class ? "class" : typeof o ), 
+								Reflection.getClassName(o), 
+								astr );
+		}
 		/**
 		 * Renvoie l'entier <code>i</code> sous forme d'une chaîne héxadécimale.
 		 *
@@ -929,7 +966,11 @@ package aesia.com.mon.utils
 			return strength;
 		}
 		
-		static public function prettyPrint( o:*, indent:String = ""):String
+		static public function prettyPrint( o:*):String
+		{
+			return _prettyPrint(o);
+		}
+				static public function _prettyPrint( o:*, indent:String = ""):String
 		{
 			if( typeof o != "object" )
 			{
@@ -948,9 +989,8 @@ package aesia.com.mon.utils
 					s = "[";
 					s2 = "";
 					for( i in o )
-					{
-						s2 += indent + "\t\t" + prettyPrint(o[i], indent + "\t\t") + ",\n";
-					}
+						s2 += indent + "\t\t" + _prettyPrint(o[i], indent + "\t\t") + ",\n";
+
 					if( s2 != "" )
 						s += "\n" + s2 + indent;
 					s += "]";
@@ -968,7 +1008,7 @@ package aesia.com.mon.utils
 					s2 = "";
 					for( i in o )
 					{
-						s2 += indent + "\t\t'" + escape(i) + "' : " + prettyPrint(o[i], indent + "\t\t") + ",\n";
+						s2 += indent + "\t\t'" + escape(i) + "' : " + _prettyPrint(o[i], indent + "\t\t") + ",\n";
 					}
 					if( s2 != "" )
 						s += "\n"+s2+indent;

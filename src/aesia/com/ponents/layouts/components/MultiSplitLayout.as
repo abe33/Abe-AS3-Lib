@@ -1,7 +1,8 @@
 package aesia.com.ponents.layouts.components 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.Dimension;
+	import aesia.com.patibility.lang._;
+	import aesia.com.patibility.lang._$;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.Container;
 	import aesia.com.ponents.layouts.components.splits.Divider;
@@ -10,8 +11,8 @@ package aesia.com.ponents.layouts.components
 	import aesia.com.ponents.layouts.components.splits.Split;
 	import aesia.com.ponents.utils.Insets;
 
+	import flash.events.Event;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -24,7 +25,7 @@ package aesia.com.ponents.layouts.components
 		public function MultiSplitLayout (container : Container = null, model : Node = null)
 		{
 			super( container );
-			_modelRoot = model ? model : new Split( );
+			_modelRoot = model ? model : new Split();
 			_dividerSize = 5;
 			_dividerFloating = true;
 		}
@@ -69,7 +70,8 @@ package aesia.com.ponents.layouts.components
 
 		protected function layoutChildren ( s : Split, size : Dimension, x : Number, y : Number ) : void
 		{
-			var c : Vector.<Node> = s.children;
+			var c : Object = s.children;
+			
 			var l : Number = c.length;
 			var oldBounds : Rectangle = s.bounds;
 			var n : Node;
@@ -301,9 +303,13 @@ package aesia.com.ponents.layouts.components
 		}
 		public function dividerAt( root : Node, x : Number, y : Number ) : Divider
 		{
+			if(!root)
+				return null;
+			
 			if (root is Divider) 
 			{
-		            var divider : Divider = root as Divider;
+		        var divider : Divider = root as Divider;
+		        
 			    return divider.bounds.contains(x, y) ? divider : null;
 			}
 			else if (root is Split) 
@@ -332,9 +338,14 @@ package aesia.com.ponents.layouts.components
 			}
 		}
 		
-		public function addSplitChild( parent : Split, child : Node ) : void
+		public function addSplitChild( parent : Split, child : Node, optimize : Boolean = true ) : void
 		{
-			var c : Vector.<Node> = parent.children;
+			if(!parent)
+				throw new ReferenceError(_$(_("The parent can't be null while adding a child to a split node in $0.addSplitChild($1, $2, $3)"),
+											this, parent, child, optimize));
+			
+			var c : Object = parent.children;
+			
 			if( c.length == 0 )
 				c.push( child );
 			else
@@ -345,10 +356,17 @@ package aesia.com.ponents.layouts.components
 				c.push( child );
 			}
 			child.parent = parent;
+			
+			if( optimize )
+				optimizeStructure ();
 		}
-		public function addSplitChildAfter( parent : Split, child : Node, after : Node ) : void
+		public function addSplitChildAfter( parent : Split, child : Node, after : Node, optimize : Boolean = true ) : void
 		{
-			var c : Vector.<Node> = parent.children;
+			if(!parent)
+				throw new ReferenceError(_$(_("The parent can't be null while adding a child to a split node in $0.addSplitChildAfter($1, $2, $3, $4)"),
+											this, parent, child, after, optimize));
+			
+			var c : Object = parent.children;
 			var index : int = c.indexOf(after);
 			if( index != -1 )
 			{
@@ -357,7 +375,10 @@ package aesia.com.ponents.layouts.components
 				d.parent = parent;
 				if( index < c.length )
 				{
-					c.splice(index, 0, d, child );
+					//if( after is Divider )
+						c.splice(index, 0, d, child );
+					/*else
+						c.splice(index, 0, child, d );*/
 				}
 				else
 				{
@@ -366,22 +387,39 @@ package aesia.com.ponents.layouts.components
 				}
 			}
 			child.parent = parent;
+			
+			if( optimize )
+				optimizeStructure ();
 		}
-		public function addSplitChildBefore( parent : Split, child : Node, before : Node ) : void
+		public function addSplitChildBefore( parent : Split, child : Node, before : Node, optimize : Boolean = true ) : void
 		{
-			var c : Vector.<Node> = parent.children;
+			if(!parent)
+				throw new ReferenceError(_$(_("The parent can't be null while adding a child to a split node in $0.addSplitChildBefore($1, $2, $3, $4)"),
+											this, parent, child, before, optimize));
+			
+			var c : Object = parent.children;
 			var index : int = c.indexOf(before);
 			if( index != -1 )
 			{
 				var d : Divider = new Divider();
 				d.parent = parent;
-				c.splice(index, 0, child, d );
+				if( before is Divider )
+					c.splice(index, 0, d, child );
+				else					c.splice(index, 0, child, d );
 			}
 			child.parent = parent;
+			
+			if( optimize )
+				optimizeStructure ();
 		}
-		public function removeSplitChild( parent : Split, child : Node ) : void
+		public function removeSplitChild( parent : Split, child : Node, optimize : Boolean = true ) : void
 		{
-			var c : Vector.<Node> = parent.children;
+			if(!parent)
+				throw new ReferenceError(_$(_("The parent can't be null while removing a child from a split node in $0.removeSplitChild($1, $2, $3)"),
+											this, parent, child, optimize));
+			
+			
+			var c : Object = parent.children;
 			var l : Number = c.length;
 			
 			if( l == 1 && c[0] == child )
@@ -393,19 +431,48 @@ package aesia.com.ponents.layouts.components
 					c.splice( 0, 2 );
 				else if( previous is Divider )
 					c.splice( c.indexOf( previous ) , 2 );
-			}	
+			}
+			
+			if( optimize )
+				optimizeStructure ();
 		}
-		
-		public function replaceSplitChild ( parent : Split, replace : Node, by : Node ) : void
+		public function replaceSplitChild ( parent : Split, replace : Node, by : Node, optimize : Boolean = true ) : void
 		{
-			var c : Vector.<Node> = parent.children;
+			if(!parent)
+				throw new ReferenceError(_$(_("The parent can't be null while replacing a child from a split node in $0.replaceSplitChild($1, $2, $3, $4)"),
+											this, parent, replace, by, optimize));
+
+			var c : Object = parent.children;
 			var index : int = c.indexOf(replace);
 			if( index != -1 )
 			{
 				c.splice(index, 1, by);
+				by.parent = parent;
 			}
+			
+			if( optimize )
+				optimizeStructure ();
 		}
-
+		public function mergeSplitWithParent( split : Split, optimize : Boolean = true ) : void
+		{
+			if( split.parent )
+			{
+				//Log.debug( next );
+				for( var i : uint = 0; i < split.children.length; i++ )
+				{
+					var n : Node = split.children[i];
+					if( !( n is Divider ) )
+					{
+						addSplitChildAfter( split.parent, n, split, false );
+					}
+				}
+				removeSplitChild( split.parent, split, false );
+			}
+			//Log.debug( split.parent.children);
+			
+			if( optimize )
+				optimizeStructure ();
+		}
 		public function getLeafParent ( comp : Component, root : Split = null ) : Leaf
 		{
 			if (!root)
@@ -425,6 +492,65 @@ package aesia.com.ponents.layouts.components
 				}
 			}
 			return null;
+		}
+		public function optimizeStructure () : void
+		{
+			var root : Node = modelRoot;
+			if( root is Split )
+			{
+				var split : Split = root as Split;
+				_optimizeStructure(split, 0);
+			}
+			dispatchEvent( new Event( "optimize") );
+		}
+		protected function _optimizeStructure ( split : Split, d : Number = 0 ) : void
+		{
+			//var s : String = StringUtils.fill( "* ", d, "  ", false );
+			//Log.debug( s + "enter optimize " + split );
+			var l : uint = split.children.length;
+			var n : Node; 
+			
+			if( split == modelRoot )
+			{
+				//Log.debug( s + "is root" );
+				while( l-- )
+				{
+					n = split.children[l];
+					if( n is Split )
+						_optimizeStructure( n as Split, d + 1 );
+				}
+				//Log.debug( s + "after root, children = " + split.children.length );
+			}
+			else
+			{
+				if( l > 0 )
+				{
+					while( l-- )
+					{
+						n = split.children[l];
+						if( n is Split )
+							_optimizeStructure( n as Split, d + 1 );
+					}
+				}
+				l = split.children.length;
+				
+				//Log.debug( s + "after optimize " + split + ", children = " + l );				
+				if( l == 1 )
+				{
+					replaceSplitChild( split.parent, split, split.children[0], false );
+					//Log.debug( s + "replaced split by its first child " + split.children[0] );
+				}
+				else if( l == 0 )
+				{
+					removeSplitChild( split.parent, split, false );
+					//Log.debug( s + "removed split" );
+				}
+				else if( split.parent.rowLayout == split.rowLayout )
+				{
+					mergeSplitWithParent( split, false );
+					//Log.debug( s + "merged split with parent" );
+				}
+			}
 		}
 	}
 }

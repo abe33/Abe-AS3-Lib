@@ -1,10 +1,10 @@
 package aesia.com.ponents.menus 
 {
+	import aesia.com.mon.utils.Reflection;
 	import aesia.com.ponents.models.DefaultComboBoxModel;
 
 	import flash.text.Font;
 	import flash.text.TextFormat;
-
 	/**
 	 * @author cedric
 	 */
@@ -35,7 +35,7 @@ package aesia.com.ponents.menus
 			
 			itemFormatingFunction = function(v:*):String
 			{
-				return "<font face='"+v+"' size='16'>Sample</font>\t"+v;
+				return "<font face='"+v+"' size='16' color='" + Reflection.get("skin.DarkBlue.html") + "'>Sample</font>\t"+v;
 			};
 		}
 		/*

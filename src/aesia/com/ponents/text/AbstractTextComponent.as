@@ -496,7 +496,13 @@ package aesia.com.ponents.text
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 			var b : Array = [];
-			var v : Vector.<ContextMenuItem> = menuContext;
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = menuContext; }
+			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = menuContext; }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var v : Vector.<ContextMenuItem> = menuContext; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			var l : uint = v.length;
 			var c : Array = StageUtils.root.contextMenu["customItems"];
 
@@ -522,7 +528,15 @@ package aesia.com.ponents.text
 		protected var _spellChecker : SpellChecker;
 		protected var _spellCheckerId : String;
 		protected var _spellCheckEnabled : Boolean;
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _lastMispelledWords : Array;
+		TARGET::FLASH_10
 		protected var _lastMispelledWords : Vector.<Range>;
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _lastMispelledWords : Vector.<Range>;
+		
 		protected var _mispelledWordsShape : Shape;
 		protected var _lastMispelledWordSuggestions : Array;
 

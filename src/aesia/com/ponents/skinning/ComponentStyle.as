@@ -46,14 +46,42 @@ package aesia.com.ponents.skinning
 		protected var _styleName : String;
 		protected var _defaultStyleKey : String;
 		protected var _defaultStyleCache : ComponentStyle;	
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _states : Array;
+		
+		TARGET::FLASH_10
 		protected var _states : Vector.<ComponentStateStyle>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _states : Vector.<ComponentStateStyle>;
+		
 		protected var _currentState : uint;
 		
 		protected var _customProperties : Object;
 
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function ComponentStyle ( defaultStyleKey : String = "", styleName : String = "", states : Array = null )
+		{
+			_states = states ? states : new Array( 16 );
+			init ( defaultStyleKey, styleName );
+		}
+		TARGET::FLASH_10
 		public function ComponentStyle ( defaultStyleKey : String = "", styleName : String = "", states : Vector.<ComponentStateStyle> = null )
 		{
 			_states = states ? states : new Vector.<ComponentStateStyle>( 16, true );
+			init ( defaultStyleKey, styleName );
+		}
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function ComponentStyle ( defaultStyleKey : String = "", styleName : String = "", states : Vector.<ComponentStateStyle> = null )
+		{
+			_states = states ? states : new Vector.<ComponentStateStyle>( 16, true );
+			init ( defaultStyleKey, styleName );
+		}
+		
+		private function init( defaultStyleKey : String = "", styleName : String = "" ) : void
+		{
 			_eD = new EventDispatcher( this );
 			this.defaultStyleKey = defaultStyleKey;
 			_styleName = styleName;
@@ -153,16 +181,35 @@ package aesia.com.ponents.skinning
 							_defaultStyleCache = SkinManagerInstance.getStyle( _defaultStyleKey ) : 
 							null; 
 		}
-
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9 {
+			public function get states () : Array { return _states; }
+			public function set states ( o : Array ) : void 
+			{
+				clearStates();
+				_states = o;
+				dispatchEvent( new Event( Event.CHANGE ) );
+			}
+		}
+		TARGET::FLASH_10 {
+			public function get states () : Vector.<ComponentStateStyle> { return _states; }
+			public function set states ( o : Vector.<ComponentStateStyle> ) : void 
+			{
+				clearStates();
+				_states = o;
+				dispatchEvent( new Event( Event.CHANGE ) );
+			}
+		}
+		TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 		public function get states () : Vector.<ComponentStateStyle> { return _states; }
-		public function set states ( states : Vector.<ComponentStateStyle> ) : void
-		{
+		public function set states ( o : Vector.<ComponentStateStyle> ) : void 
+		{ 
 			clearStates();
-			
-			_states = states;
-			
+			_states = o;
 			dispatchEvent( new Event( Event.CHANGE ) );
 		}
+		/*FDT_IGNORE*/}/*FDT_IGNORE*/
+	
 		public function get currentState () : uint { return _currentState; }		
 		public function set currentState (currentState : uint) : void
 		{
@@ -275,8 +322,12 @@ package aesia.com.ponents.skinning
 			for( var i : Number = 0; i<16;i++)
 			{
 				unregisterState( _states[i] );
-			}	
-			_states = new Vector.<ComponentStateStyle>(16, true);
+			}
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _states = []; }
+			TARGET::FLASH_10 { _states = new Vector.<ComponentStateStyle>(16, true); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_states = new Vector.<ComponentStateStyle>(16, true); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		
 		public function toString() : String
@@ -335,8 +386,21 @@ package aesia.com.ponents.skinning
 				
 			fireChangeEvent();
 		}
-
-/*-----------------------------------------------------------------
+		override flash_proxy function hasProperty (name : *) : Boolean 
+		{
+			return _customProperties.hasOwnProperty(name) || 
+				   ["background",
+					"foreground",
+					"textColor",
+					"corners",
+					"format",
+					"insets",
+					"borders",
+					"outerFilters",
+					"innerFilters"].indexOf(name) != -1 || 
+					( _defaultStyleCache ? _defaultStyleCache.hasOwnProperty( name ) : false );
+		}
+		/*-----------------------------------------------------------------
  * 	EVENT HANDLERS
  *----------------------------------------------------------------*/		
 		protected function propertyChange (event : PropertyEvent) : void

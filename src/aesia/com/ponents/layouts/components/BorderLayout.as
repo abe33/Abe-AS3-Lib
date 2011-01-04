@@ -12,11 +12,13 @@ package aesia.com.ponents.layouts.components
 	{
 		protected var _north : Component;		protected var _south : Component;		protected var _east : Component;		protected var _west : Component;		protected var _center : Component;
 		protected var _forceStretch : Boolean;
+		protected var _gap : uint;
 
-		public function BorderLayout (container : Container = null, forceStretch : Boolean = true )
+		public function BorderLayout (container : Container = null, forceStretch : Boolean = true, gap : uint = 0 )
 		{
 			super( container );
 			_forceStretch = forceStretch;
+			_gap = gap;
 		}
 
 		public function get north () : Component { return _north; }		
@@ -47,6 +49,11 @@ package aesia.com.ponents.layouts.components
 		public function set center (center : Component) : void
 		{
 			_center = center;
+		}
+		public function get gap () : uint { return _gap; }
+		public function set gap (gap : uint) : void
+		{
+			_gap = gap;
 		}
 		
 		public function addComponent( component : Component, constraint : String = "center" ) : void
@@ -103,7 +110,9 @@ package aesia.com.ponents.layouts.components
 			insets = insets ? insets : new Insets();
 			
 			var prefDim : Dimension = preferredSize ? preferredSize.grow( -insets.horizontal, -insets.vertical ) : estimatedSize();
-
+			
+			_lastMaximumContentSize = prefDim.clone();
+			
 			var centerWidth : Number = prefDim.width;
 			var centerHeight : Number = prefDim.height;
 			var centerX : Number = insets.left;
@@ -115,8 +124,8 @@ package aesia.com.ponents.layouts.components
 					_north.size = new Dimension( prefDim.width, _north.preferredSize.height );
 				_north.x = centerX;				_north.y = centerY;
 
-				centerHeight -= _north.height;
-				centerY += _north.height;
+				centerHeight -= _north.preferredHeight + _gap;
+				centerY += _north.preferredHeight + _gap;
 			}
 			if( _south && _south.visible )
 			{
@@ -125,7 +134,7 @@ package aesia.com.ponents.layouts.components
 				_south.x = centerX;
 				_south.y = insets.top + prefDim.height - _south.height;
 
-				centerHeight -= _south.height;
+				centerHeight -= _south.preferredHeight+_gap;
 			}
 			if( _west && _west.visible )
 			{
@@ -134,8 +143,8 @@ package aesia.com.ponents.layouts.components
 				_west.x = centerX;
 				_west.y = centerY;
 
-				centerWidth -= _west.width;
-				centerX += _west.width;
+				centerWidth -= _west.preferredWidth+_gap;
+				centerX += _west.preferredWidth+_gap;
 			}
 			if( _east && _east.visible )
 			{
@@ -143,7 +152,7 @@ package aesia.com.ponents.layouts.components
 					_east.size = new Dimension( _east.preferredSize.width, centerHeight );
 				_east.x = insets.left + prefDim.width - _east.width;
 				_east.y = centerY;				
-				centerWidth -= _east.width;
+				centerWidth -= _east.preferredWidth+_gap;
 			}
 			if( _center && _center.visible )
 			{

@@ -1,13 +1,17 @@
 package aesia.com.ponents.layouts.components 
 {
+	import aesia.com.ponents.events.ComponentEvent;
+	import aesia.com.ponents.core.AbstractComponent;
 	import aesia.com.mon.geom.Dimension;
+	import aesia.com.mon.geom.dm;
+	import aesia.com.mon.logs.Log;
 	import aesia.com.ponents.containers.AbstractScrollContainer;
-	import aesia.com.ponents.containers.Viewport;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.Container;
 	import aesia.com.ponents.utils.Alignments;
 	import aesia.com.ponents.utils.Insets;
 
+	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */
@@ -35,7 +39,24 @@ package aesia.com.ponents.layouts.components
 			_gapAtExtremity = gapAtExtremity;
 			_adjustToScrollContainer = adjustToScrollContainer;
 		}
-
+		/*
+		override public function set container (o : Container) : void 
+		{
+			if( _container )
+				_container.removeEventListener( ComponentEvent.COMPONENT_RESIZE, onResize );
+			super.container = o;
+			
+			if( _container )
+				_container.addEventListener( ComponentEvent.COMPONENT_RESIZE, onResize );
+		}
+		public function onResize ( event : ComponentEvent ) : void 
+		{
+			_container.size = null;
+			( _container as AbstractComponent ).invalidatePreferredSizeCache();
+			var p : Container = _container.parentContainer;
+			if( p )
+				p.invalidate();
+		}*/
 		override public function get preferredSize () : Dimension 
 		{
 			return estimateSize();
@@ -126,7 +147,7 @@ package aesia.com.ponents.layouts.components
 			}
 		}
 
-		protected function estimateSize () : Dimension
+		protected function estimateSize ( d : Dimension = null ) : Dimension
 		{
 			var w : Number = 0;			var h : Number = 0;
 			var l : uint = _container.childrenCount;
@@ -134,16 +155,23 @@ package aesia.com.ponents.layouts.components
 			var c : Component;
 			var lh : Number = _gapAtExtremity ? _vgap*2 : 0;			var lw : Number = _gapAtExtremity ? _hgap*2 : 0;
 			var p : Container;			var sc : AbstractScrollContainer;
+			var d2 : Dimension;
+			p = _container.parentContainer;
 			
+			if( p )
+				d2 = dm( p.width, p.height ).grow( -_container.style.insets.horizontal, -_container.style.insets.vertical );
+			
+			if( p )
+				Log.debug( p + ", " + d2 );
+			/*
 			if( _adjustToScrollContainer )
 			{
-				p = _container.parentContainer;
 				if( p is Viewport )
 				{
 					sc = p.parentContainer as AbstractScrollContainer;
 				}
 			}
-			
+			*/
 			for( i = 0; i < l; i++ )
 			{
 				var isFirstComponent : Boolean = i == 0;
@@ -151,14 +179,16 @@ package aesia.com.ponents.layouts.components
 				c = _container.children[i];
 				if( c.visible )
 				{
-					if( sc )
+					//if( sc )					if( d2 )
 					{
-						if( lw + c.preferredSize.width > sc.contentSize.width )
+						//if( lw + c.preferredSize.width > sc.contentSize.width )
+						Log.debug( ( lw + c.preferredSize.width ) + " > "+ d2.width );						if( lw + c.preferredSize.width > d2.width )
 						{
 							h += lh + _hgap;
 							w = Math.max(w, lw);
 							lw = c.preferredSize.width + (_gapAtExtremity ? _hgap : 0);
 							lh = c.preferredSize.height;
+							Log.debug( lw );
 						}
 						else
 						{
@@ -168,21 +198,36 @@ package aesia.com.ponents.layouts.components
 					}
 					else
 					{
-						w += c.preferredSize.width + g;
-						h = Math.max( h , c.preferredSize.height + (_gapAtExtremity ? _vgap : 0 ) );
+						if( d && lw + c.preferredSize.width > d.width )
+						{
+							h += lh + _hgap;
+							w = Math.max(w, lw);
+							lw = c.preferredSize.width + (_gapAtExtremity ? _hgap : 0);
+							lh = c.preferredSize.height;
+						}
+						else
+						{
+							lw += c.preferredSize.width + g;
+							lh = Math.max( h , c.preferredSize.height + (_gapAtExtremity ? _vgap : 0 ) );
+						}
 					}
 				}
 			}
-			if( sc )
-			{
-				h += lh;
-				w = Math.max(w, lw);
-			}
+			
+			h += lh;
+			w = Math.max(w, lw);
+			
 			if( _gapAtExtremity )
 			{
 				h += _vgap*2;
 			}
-			
+			/*
+			while( p )
+			{
+				Log.debug( p + ", size = " + p.size );
+				p = p.parentContainer;
+			}
+			*/
 			return new Dimension( w, h );
 		}
 	}

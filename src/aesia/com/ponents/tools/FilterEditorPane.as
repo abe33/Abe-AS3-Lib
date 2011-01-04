@@ -84,7 +84,7 @@ package aesia.com.ponents.tools
 			_listEdit.contentType = BitmapFilter;
 			_listEdit.list.allowMultiSelection = false;
 			_listEdit.list.loseSelectionOnFocusOut = false;
-			_listEdit.list.itemFormatingFunction = combo.itemFormatingFunction = Reflection.extractClassName;
+			_listEdit.list.itemFormatingFunction = combo.itemFormatingFunction = Reflection.getClassName;
 
 			_listEdit.list.addEventListener(ComponentEvent.SELECTION_CHANGE, listSelectionChange );
 			_listEdit.list.addEventListener(Event.CHANGE, formChange);

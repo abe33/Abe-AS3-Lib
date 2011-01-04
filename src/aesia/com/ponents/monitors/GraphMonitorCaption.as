@@ -27,7 +27,7 @@ package aesia.com.ponents.monitors
 	[Skin(define="GraphMonitorCaption",
 		  inherit="EmptyComponent",
 
-		  state__all__insets="new aesia.com.ponents.utils::Insets(3)"
+		  state__all__insets="new cutils::Insets(3)"
 	)]
 	public class GraphMonitorCaption extends Panel implements Suspendable, ImpulseListener
 	{
@@ -46,7 +46,12 @@ package aesia.com.ponents.monitors
 			super();
 			_monitor = monitor;
 			_captionMode = captionMode;
-			var rcd : Vector.<Recorder> = _monitor.recorders;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var rcd : Array = _monitor.recorders; }
+			TARGET::FLASH_10 { var rcd : Vector.<Recorder> = _monitor.recorders; }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var rcd : Vector.<Recorder> = _monitor.recorders; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			var l : uint = rcd.length;
 
 
@@ -118,7 +123,12 @@ package aesia.com.ponents.monitors
 
 		protected function getGridLayout ( col : int) : ComponentLayout
 		{
-			var rcd : Vector.<Recorder> = _monitor.recorders;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var rcd : Array = _monitor.recorders; }
+			TARGET::FLASH_10 { var rcd : Vector.<Recorder> = _monitor.recorders; }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var rcd : Vector.<Recorder> = _monitor.recorders; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			var l : uint = rcd.length;
 			var rest : uint = l%col;
 			var r : uint = (l-rest)/col;
@@ -230,7 +240,12 @@ package aesia.com.ponents.monitors
 		}
 		public function tick (e : ImpulseEvent) : void
 		{
-			var rcd : Vector.<Recorder> = _monitor.recorders;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var rcd : Array = _monitor.recorders; }
+			TARGET::FLASH_10 { var rcd : Vector.<Recorder> = _monitor.recorders; }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var rcd : Vector.<Recorder> = _monitor.recorders; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			var l : uint = rcd.length;
 			for( var i : uint = 0; i<l;i++ )
 			{

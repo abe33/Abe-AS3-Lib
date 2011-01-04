@@ -9,7 +9,6 @@ package aesia.com.ponents.containers
 
 	import flash.events.Event;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

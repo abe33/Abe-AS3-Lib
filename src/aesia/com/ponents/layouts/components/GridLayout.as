@@ -1,10 +1,10 @@
 package aesia.com.ponents.layouts.components 
 {
 	import aesia.com.mon.geom.Dimension;
+	import aesia.com.mon.geom.dm;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.Container;
 	import aesia.com.ponents.utils.Insets;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -40,6 +40,8 @@ package aesia.com.ponents.layouts.components
 				cols = Math.ceil( _container.childrenCount / _rows );
 			
 			var cellWidth : Number = ( prefDim.width - ( _hgap * ( cols-1 ) ) - insets.horizontal ) / cols;			var cellHeight : Number = ( prefDim.height - ( _vgap * ( rows-1 ) ) - insets.vertical ) / rows;
+			
+			_lastMaximumContentSize = dm( cellWidth, cellHeight );
 			
 			var l : Number = _container.childrenCount;
 			var i : Number = 0;
@@ -85,6 +87,8 @@ package aesia.com.ponents.layouts.components
 			else 
 			if( _container.childrenCount > _cols * _rows )
 				cols = Math.ceil( _container.childrenCount / _rows );
+			
+			_lastMaximumContentSize = dm( maxSize.width, maxSize.height );
 			
 			width = maxSize.width * cols + _hgap * (cols-1);			height = maxSize.height * rows + _vgap * (rows-1);
 			

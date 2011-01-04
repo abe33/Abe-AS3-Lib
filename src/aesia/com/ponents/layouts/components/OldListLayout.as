@@ -18,7 +18,13 @@ package aesia.com.ponents.layouts.components
 	{
 		protected var _gap : Number;
 		protected var _list : List;
-		protected var _estimatedLocations : Vector.<Point>;
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _estimatedLocations : Array;		
+		TARGET::FLASH_10		protected var _estimatedLocations : Vector.<Point>;		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _estimatedLocations : Vector.<Point>;
+		
 		protected var _lastEstimatedSize : Dimension;
 		protected var _modelHasChanged : Boolean;
 		protected var _fixedHeight : Boolean;
@@ -30,7 +36,11 @@ package aesia.com.ponents.layouts.components
 			_list = container;
 			_gap = gap;
 			_fixedHeight = fixedHeight;
-			_estimatedLocations = new Vector.<Point>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _estimatedLocations = []; }
+			TARGET::FLASH_10 { _estimatedLocations = new Vector.<Point>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_estimatedLocations = new Vector.<Point>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		
 		public function get gap () : Number { return _gap; }		
@@ -170,7 +180,11 @@ package aesia.com.ponents.layouts.components
 			
 			if( !_fixedHeight )
 			{
-				_estimatedLocations = new Vector.<Point>( l );
+				/*FDT_IGNORE*/
+				TARGET::FLASH_9 { _estimatedLocations = new Array(l); }
+				TARGET::FLASH_10 { _estimatedLocations = new Vector.<Point>(l); }
+				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				_estimatedLocations = new Vector.<Point>(l); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				
 				for( i = 0; i < l; i++ )
 				{

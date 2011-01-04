@@ -1,7 +1,6 @@
 package aesia.com.ponents.containers 
 {
 	import aesia.com.mon.geom.Dimension;
-	import aesia.com.mon.logs.Log;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.focus.Focusable;
 	import aesia.com.ponents.events.ComponentEvent;
@@ -21,8 +20,8 @@ package aesia.com.ponents.containers
 	[Skin(define="Viewport",
 		  inherit="DefaultComponent",
 		  
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( color(White) )",
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::SimpleBorders( color(DimGray) )"
+		  state__all__background="new deco::SimpleFill( skin.backgroundColor )",
+		  state__all__foreground="new deco::SimpleBorders( skin.borderColor )"
 	)]
 	public class ScrollPane extends AbstractScrollContainer 
 	{
@@ -191,6 +190,7 @@ package aesia.com.ponents.containers
 		}
 	}
 }
+
 import aesia.com.ponents.containers.Viewport;
 import aesia.com.ponents.scrollbars.ScrollBar;
 

@@ -14,7 +14,7 @@ package aesia.com.ponents.tables
 	[Skinable(skin="ColumnHeader")]
 	[Skin(define="ColumnHeader",
 		  //inherit="ListCell",		  inherit="EmptyComponent",
-		  state__all__insets="new aesia.com.ponents.utils::Insets(4,0,0,0)",
+		  state__all__insets="new cutils::Insets(4,0,0,0)",
 		  custom_ascendingIcon="icon(aesia.com.ponents.tables::DefaultTableColumnHeader.ASCENDING_ICON)",		  custom_descendingIcon="icon(aesia.com.ponents.tables::DefaultTableColumnHeader.DESCENDING_ICON)"
 	)]
 	public class DefaultTableColumnHeader extends DefaultTableCell implements TableColumnHeader 

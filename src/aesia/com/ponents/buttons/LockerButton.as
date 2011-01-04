@@ -14,7 +14,7 @@ package aesia.com.ponents.buttons
 	[Event(name="dataChange",type="aesia.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="LockerButton")]
 	[Skin(define="LockerButton",
-		  inherit="CheckBox",
+		  inherit="ToolBar_Button",
 		  preview="aesia.com.ponents.buttons::LockerButton.defaultLockerButtonPreview",  
 		  custom_checkedIcon="icon(aesia.com.ponents.buttons::LockerButton.CHECKED_ICON)",
 		  custom_uncheckedIcon="icon(aesia.com.ponents.buttons::LockerButton.UNCHECKED_ICON)"

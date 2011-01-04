@@ -22,7 +22,7 @@ package aesia.com.ponents.tools.canvas.selections
 	 */
 	public class SelectAndMove extends AbstractTool implements Tool 
 	{
-		static public var SELECTION_COLOR : Color = new Color( "f07746" );
+		static public var SELECTION_COLOR : Color = new Color( "52aed3" );
 		
 		static protected const NONE : Number = 0;		static protected const SELECT : Number = 1;		static protected const MOVE : Number = 2;
 		

@@ -62,14 +62,14 @@ package aesia.com.ponents.buttons
 	[Skinable(skin="CheckBox")]
 	[Skin(define="ToolBar_CheckBox",
 		  inherit="ToolBar_Button",
-		  state__0_1_4_5_8_9_12_13__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()",
-		  state__0_1_4_5_8_9_12_13__background="new aesia.com.ponents.skinning.decorations::EmptyFill()"
+		  state__0_1_4_5_8_9_12_13__foreground="skin.noDecoration",
+		  state__0_1_4_5_8_9_12_13__background="skin.emptyDecoration"
 	)]	
 	[Skin(define="CheckBox",
 		  inherit="EmptyComponent",
 		  preview="aesia.com.ponents.buttons::CheckBox.defaultCheckBoxPreview",
-		  state__all__insets="new aesia.com.ponents.utils::Insets(4,2,4,2)",
-		  state__4_6_7_12_14_15__foreground="new aesia.com.ponents.skinning.decorations::SimpleBorders( aesia.com.mon.utils::Color.ForestGreen )",
+		  state__all__insets="new cutils::Insets(4,2,4,2)",
+		  state__4_6_7_12_14_15__foreground="new deco::SimpleBorders( skin.focusBorderColor )",
 		  
 		  custom_checkedIcon="icon(aesia.com.ponents.skinning.icons::CheckBoxCheckedIcon)",
 		  custom_uncheckedIcon="icon(aesia.com.ponents.skinning.icons::CheckBoxUncheckedIcon)"

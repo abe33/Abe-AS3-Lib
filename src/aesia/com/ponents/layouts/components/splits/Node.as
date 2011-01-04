@@ -23,7 +23,7 @@ package aesia.com.ponents.layouts.components.splits
 		    if (parent == null) 
 		    	return null;
 		    
-		    var siblings : Vector.<Node> = parent.children;
+		    var siblings : Object = parent.children;
 		    var index : int = siblings.indexOf(this);
 		    if (index == -1) 
 		    	return null;

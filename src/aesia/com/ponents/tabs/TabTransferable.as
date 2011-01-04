@@ -1,5 +1,6 @@
 package aesia.com.ponents.tabs 
 {
+	import aesia.com.ponents.core.SimpleDockable;
 	import aesia.com.ponents.transfer.ComponentsFlavors;
 	import aesia.com.ponents.transfer.ComponentsTransferModes;
 	import aesia.com.ponents.transfer.DataFlavor;
@@ -21,8 +22,11 @@ package aesia.com.ponents.tabs
 
 		public function getData (flavor : DataFlavor) : *
 		{
-			if( flavor.equals( ComponentsFlavors.TAB ) )
-				return _tab;
+			if( flavor.equals( ComponentsFlavors.TAB ) )				return _tab;
+			else if( flavor.equals( ComponentsFlavors.DOCKABLE ) )
+				return new SimpleDockable( _tab.content, _tab.id, _tab.label, _tab.icon.clone() );
+			else if( flavor.equals( ComponentsFlavors.COMPONENT ) )
+				return _tab.content;
 		}
 
 		public function transferPerformed () : void
@@ -30,7 +34,8 @@ package aesia.com.ponents.tabs
 			_pane.removeTab( _tab );
 		}
 		
-		public function get flavors () : Array { return [ ComponentsFlavors.TAB ]; }
+		public function get flavors () : Array { return [ ComponentsFlavors.TAB, ComponentsFlavors.DOCKABLE, ComponentsFlavors.COMPONENT ]; 
+		}
 		public function get mode () : String { return ComponentsTransferModes.MOVE;	}
 	}
 }

@@ -3,6 +3,7 @@
  */
 package  aesia.com.ponents.transfer 
 {
+	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.mon.core.Cloneable;
 	import aesia.com.mon.core.Serializable;
 
@@ -85,7 +86,7 @@ package  aesia.com.ponents.transfer
 		 */
 		public function toString () : String
 		{
-			return getQualifiedClassName(this) + "(" + this.type + ")";
+			return StringUtils.stringify(this, {"type":type});
 		}
 	}
 }

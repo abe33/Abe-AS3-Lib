@@ -11,7 +11,11 @@ package aesia.com.ponents.layouts.components
 	 */
 	public class HBoxLayout extends AbstractComponentLayout
 	{
-		protected var _boxes : Vector.<BoxSettings>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9 
+		protected var _boxes : Array;		
+		TARGET::FLASH_10		protected var _boxes : Vector.<BoxSettings>;		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _boxes : Vector.<BoxSettings>;
 		protected var _gap : Number;
 		protected var _align : String;
 		
@@ -19,7 +23,11 @@ package aesia.com.ponents.layouts.components
 		{
 			super( container );
 			_gap = gap;
-			_boxes = boxes ? Vector.<BoxSettings> ( boxes ) : new Vector.<BoxSettings> ();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _boxes = boxes ? boxes : []; }
+			TARGET::FLASH_10 { _boxes = boxes ? Vector.<BoxSettings> ( boxes ) : new Vector.<BoxSettings> (); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_boxes = boxes ? Vector.<BoxSettings> ( boxes ) : new Vector.<BoxSettings> (); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		public function setObjectForBox( object : Component, id : uint = 0 ) : void
 		{
@@ -31,11 +39,19 @@ package aesia.com.ponents.layouts.components
 			_gap = gap;
 		}
 		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9 {
+			public function get boxes () : Array	{ return _boxes; }		
+			public function set boxes (boxes : Array ) : void { _boxes = boxes; }
+		}		TARGET::FLASH_10 {
+			public function get boxes () : Vector.<BoxSettings>	{ return _boxes; }		
+			public function set boxes (boxes : Vector.<BoxSettings>) : void { _boxes = boxes; }	
+		}		TARGET::FLASH_10_1 {
+		/*FDT_IGNORE*/
 		public function get boxes () : Vector.<BoxSettings>	{ return _boxes; }		
-		public function set boxes (boxes : Vector.<BoxSettings>) : void
-		{
-			_boxes = boxes;
-		}
+		public function set boxes (boxes : Vector.<BoxSettings>) : void { _boxes = boxes; }
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
 		public function get align () : String { return _align; }	
 		public function set align (align : String) : void 
 		{

@@ -1,16 +1,17 @@
 package aesia.com.ponents.dnd 
 {
+	import aesia.com.ponents.core.AbstractComponent;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.motion.SingleTween;
 	import aesia.com.motion.TweenEvent;
 	import aesia.com.ponents.core.Component;
+	import aesia.com.ponents.core.Container;
 	import aesia.com.ponents.events.ComponentEvent;
 	import aesia.com.ponents.utils.ToolKit;
 
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -22,7 +23,9 @@ package aesia.com.ponents.dnd
 		protected var _currentTargets : Array;
 		protected var _currentAcceptedTarget : DropTarget;
 		
-		protected var tween : SingleTween;		
+		protected var tween : SingleTween;
+		
+		protected var _drawnShapes : Array;		
 		public function DnDDropRenderer ( manager : DnDManager )
 		{
 			manager.addEventListener( DnDEvent.DROP_TARGETS_CHANGE, dropTargetsChanged );					manager.addEventListener( DnDEvent.DRAG_ACCEPT, dragAccepted );					manager.addEventListener( DnDEvent.DRAG_START, dragStarted );					manager.addEventListener( DnDEvent.DRAG_EXIT, dragExited );		
@@ -81,7 +84,8 @@ package aesia.com.ponents.dnd
 			if( _currentTargets )
 				unregisterFromTargetsEvent( _currentTargets );
 			
-			_currentTargets = DnDManagerInstance.allowedDropTargets;
+			
+			_currentTargets = DnDManagerInstance.allowedDropTargets.concat();
 			
 			if( _currentTargets )
 				registerToTargetsEvent( _currentTargets );
@@ -89,6 +93,7 @@ package aesia.com.ponents.dnd
 			drawDropTargets ();
 			
 		}
+		
 		protected function dropTargetsRepaint (event : Event) : void
 		{
 			drawDropTargets();
@@ -105,9 +110,24 @@ package aesia.com.ponents.dnd
 			for each( var c : Component in currentTargets )
 				c.removeEventListener( ComponentEvent.REPAINT, dropTargetsRepaint );
 		}
-
+		protected function hasAnAncestorInDropTargets ( o : DropTarget, targets : Array ) : Boolean
+		{
+			for each( var dt : DropTarget in targets )
+			{
+				if( lookupAncestors(o, dt) )
+					return true;
+			}
+			return false;
+		}
+		protected function lookupAncestors( a : DropTarget, b : DropTarget ) : Boolean
+		{
+			return a != b && ( b.component is Container ) && (b.component as Container).isDescendant( a.component );
+		}
+		 
 		protected function drawDropTargets () : void
 		{
+			_drawnShapes = [];
+			
 			_shape.graphics.clear();
 			_shape.graphics.beginFill( 0 );			_shape.graphics.drawRect(0, 0, StageUtils.stage.stageWidth, StageUtils.stage.stageHeight );
 			//_shape.graphics.endFill();			
@@ -116,11 +136,23 @@ package aesia.com.ponents.dnd
 			//_shape.graphics.endFill();
 			for each ( o in _currentTargets )
 			{
+				if( hasAnAncestorInDropTargets( o, _currentTargets ) )
+					continue;
+				
 				bb = DnDManagerInstance.getScreenVisibleArea( o );
+				
+				var a: Array = checkDropShape( bb, _drawnShapes );
+				
 
-				//_shape.graphics.beginFill( 0xff0000 );
-				_shape.graphics.drawRect(bb.x, bb.y, bb.width, bb.height );
-				//_shape.graphics.endFill();
+				_shape.graphics.drawRect(bb.x, bb.y, bb.width, bb.height );				_drawnShapes.push(bb);
+				if( a.length > 0 )
+				{
+					for( var i:uint=0;i<a.length;i++)
+					{
+						var r : Rectangle =a[i];
+						_shape.graphics.drawRect(r.x, r.y, r.width, r.height );
+					}
+				}
 			}			_shape.graphics.endFill();
 			
 			for each ( o in _currentTargets )
@@ -128,6 +160,9 @@ package aesia.com.ponents.dnd
 				bb = DnDManagerInstance.getScreenVisibleArea( o );
 				if( o !== _currentAcceptedTarget )
 				{
+					if( hasAnAncestorInDropTargets( _currentAcceptedTarget, _currentTargets ) )
+						continue;
+					
 					_shape.graphics.beginFill( 0, .25 );
 					_shape.graphics.drawRect(bb.x, bb.y, bb.width, bb.height );
 					_shape.graphics.endFill();
@@ -142,6 +177,15 @@ package aesia.com.ponents.dnd
 				_shape.graphics.drawRect(bb.x, bb.y, bb.width, bb.height );
 				_shape.graphics.endFill();
 			}*/
+		}
+		protected function checkDropShape (bb : Rectangle, drawnShapes : Array) : Array 
+		{
+			var a : Array = [];
+			for each( var r : Rectangle in drawnShapes )
+				if( r.intersects( bb ) )
+					a.push(r.intersection( bb ));
+					
+			return a;
 		}
 	}
 }

@@ -45,7 +45,11 @@ package aesia.com.ponents.core
 		 * au <code>Container</code>.
 		 * </p>
 		 */
-		function get children(): Vector.<Component>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		function get children(): Array;		
+		TARGET::FLASH_10		function get children(): Vector.<Component>;		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		function get children(): Vector.<Component>;
 		/**
 		 * Le nombre de sous-composants actuellement dans ce <code>Container</code>.
 		 */

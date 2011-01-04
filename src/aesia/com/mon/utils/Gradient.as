@@ -158,7 +158,7 @@ package  aesia.com.mon.utils
 		 */
 		public function toString () : String
 		{
-			return getQualifiedClassName( this );
+			return StringUtils.stringify(this);
 		}
 		/**
 		 * Renvoie un tableau de couleurs au format héxadécimal tel

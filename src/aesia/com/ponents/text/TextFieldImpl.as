@@ -1,5 +1,7 @@
 package aesia.com.ponents.text 
 {
+	import flash.text.TextFormat;
+
 	import aesia.com.mon.core.ITextField;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.ponents.scrollbars.Scrollable;
@@ -28,6 +30,16 @@ package aesia.com.ponents.text
 		}
 		
 		public function get tracksViewportH () : Boolean { return multiline && wordWrap; }		
-		public function get tracksViewportV () : Boolean { return false; }	
+		public function get tracksViewportV () : Boolean { return false; 
+		}	
+		override public function set defaultTextFormat (format : TextFormat) : void 
+		{
+			if( !styleSheet )				super.defaultTextFormat = format;
+		}
+		override public function set textColor (value : uint) : void 
+		{
+			if( !styleSheet )
+				super.textColor = value;
+		}
 	}
 }

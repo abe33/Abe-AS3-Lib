@@ -15,7 +15,6 @@ package aesia.com.ponents.trees
 
 	import flash.events.ContextMenuEvent;
 	import flash.geom.Point;
-	import flash.ui.ContextMenuItem;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 

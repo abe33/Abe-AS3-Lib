@@ -20,6 +20,13 @@ package aesia.com.ponents.monitors
 		protected var _majorTickSpacing : Number;
 		protected var _snapToTicks : Boolean;
 		protected var _ticksShape : Shape;
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _textFields : Array;
+		TARGET::FLASH_10
+		protected var _textFields : Vector.<TextField>;
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		protected var _textFields : Vector.<TextField>;
 		
 		public function PixelRuler ( target : Component, 
@@ -33,7 +40,13 @@ package aesia.com.ponents.monitors
 			_majorTickSpacing = majorTickSpacing;
 			_snapToTicks = snapToTicks;
 			_ticksShape = new Shape();
-			_textFields = new Vector.<TextField>();
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _textFields = []; }
+			TARGET::FLASH_10 { _textFields = new Vector.<TextField>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_textFields = new Vector.<TextField>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			addChild( _ticksShape );
 		}
 
@@ -111,6 +124,7 @@ package aesia.com.ponents.monitors
 					txt.selectable = false;
 					txt.defaultTextFormat = f;
 					txt.text = String(i);
+					txt.textColor = c.hexa;
 					txt.x = 0;
 					txt.y = y;
 					

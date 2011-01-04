@@ -422,7 +422,7 @@ package aesia.com.mon.geom
 		 */
 		public function toString() : String
 		{
-			return getQualifiedClassName ( this );
+			return StringUtils.stringify(this,{ a:a, b:b, c:c } );
 		}
 	}
 }

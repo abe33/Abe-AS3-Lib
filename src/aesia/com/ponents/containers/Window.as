@@ -31,9 +31,9 @@ package aesia.com.ponents.containers
 		  inherit="DefaultComponent",
 		  preview="aesia.com.ponents.containers::Window.defaultWindowPreview",
 		  
-		  state__all__corners="new aesia.com.ponents.utils::Corners(5)",
+		  state__all__corners="new cutils::Corners(5)",
 		  state__all__outerFilters="aesia.com.ponents.containers::Window.windowShadow()",
-		  state__focus_focusandselected__foreground="new aesia.com.ponents.skinning.decorations::SimpleBorders(color(DimGray))"
+		  state__focus_focusandselected__foreground="new deco::SimpleBorders( skin.borderColor )"
 	)]
 	/**
 	 * 
@@ -126,6 +126,7 @@ package aesia.com.ponents.containers
 					_windowContent.addWeakEventListener(ComponentEvent.COMPONENT_RESIZE, contentResize );			
 			}
 			
+			invalidatePreferredSizeCache();
 			firePropertyEvent("windowContent", _windowContent );
 		}
 
@@ -164,6 +165,7 @@ package aesia.com.ponents.containers
 				(_childrenLayout as BorderLayout).north = _windowTitle;
 				addComponent( _windowTitle );			
 			}
+			invalidatePreferredSizeCache();
 			firePropertyEvent("windowTitle", _windowTitle );
 		}
 
@@ -183,6 +185,7 @@ package aesia.com.ponents.containers
 				(_childrenLayout as BorderLayout).south = _windowStatus;
 				addComponentAt( _windowStatus, 2 );			
 			}
+			invalidatePreferredSizeCache();
 			firePropertyEvent("windowStatus", _windowStatus );
 		}
 		public function get maximized () : Boolean { return _maximized; }		

@@ -1,19 +1,11 @@
 package aesia.com.ponents.demos
 {
-	import aesia.com.mon.geom.dm;
-	import aesia.com.ponents.containers.Accordion;
-	import aesia.com.ponents.containers.AccordionTab;
 	import aesia.com.edia.text.fx.complex.TwinklingChar;
 	import aesia.com.edia.text.fx.loop.TrembleEffect;
-	import aesia.com.mands.Interval;
-	import aesia.com.mands.ParallelCommand;
-	import aesia.com.mands.ProxyCommand;
-	import aesia.com.mands.ReversedQueue;
-	import aesia.com.mands.Timeout;
-	import aesia.com.mands.events.CommandEvent;
 	import aesia.com.mon.geom.ColorMatrix;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.geom.Range;
+	import aesia.com.mon.geom.dm;
 	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.logs.LogEvent;
 	import aesia.com.mon.utils.Color;
@@ -25,13 +17,10 @@ package aesia.com.ponents.demos
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.motion.Impulse;
-	import aesia.com.motion.SingleTween;
-	import aesia.com.motion.easing.Bounce;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.actions.AbstractAction;
 	import aesia.com.ponents.actions.ActionManagerInstance;
 	import aesia.com.ponents.actions.ProxyAction;
-	import aesia.com.ponents.actions.TerminalAction;
 	import aesia.com.ponents.actions.builtin.BuiltInActionsList;
 	import aesia.com.ponents.actions.builtin.CalendarAction;
 	import aesia.com.ponents.actions.builtin.ForceGC;
@@ -49,6 +38,8 @@ package aesia.com.ponents.demos
 	import aesia.com.ponents.buttons.ToggleButton;
 	import aesia.com.ponents.completion.AutoCompletion;
 	import aesia.com.ponents.completion.InputMemory;
+	import aesia.com.ponents.containers.Accordion;
+	import aesia.com.ponents.containers.AccordionTab;
 	import aesia.com.ponents.containers.FieldSet;
 	import aesia.com.ponents.containers.MultiSplitPane;
 	import aesia.com.ponents.containers.Panel;
@@ -98,8 +89,6 @@ package aesia.com.ponents.demos
 	import aesia.com.ponents.monitors.GraphMonitorRuler;
 	import aesia.com.ponents.monitors.LogView;
 	import aesia.com.ponents.monitors.PixelRuler;
-	import aesia.com.ponents.monitors.Terminal;
-	import aesia.com.ponents.monitors.TerminalActionProxy;
 	import aesia.com.ponents.monitors.recorders.FPSRecorder;
 	import aesia.com.ponents.monitors.recorders.ImpulseListenerRecorder;
 	import aesia.com.ponents.monitors.recorders.MemRecorder;
@@ -138,6 +127,7 @@ package aesia.com.ponents.demos
 	import aesia.com.ponents.text.Label;
 	import aesia.com.ponents.text.TextArea;
 	import aesia.com.ponents.text.TextInput;
+	import aesia.com.ponents.tools.DebugPanel;
 	import aesia.com.ponents.trees.Tree;
 	import aesia.com.ponents.trees.TreeHeader;
 	import aesia.com.ponents.utils.Alignments;
@@ -150,7 +140,6 @@ package aesia.com.ponents.demos
 	import aesia.com.ponents.utils.Orientations;
 	import aesia.com.ponents.utils.ToolKit;
 
-	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -213,6 +202,7 @@ package aesia.com.ponents.demos
 
 			try
 			{
+				createDebugTools();
 				/*
 				lv = new LogView();
 				lv.size = new Dimension(200,300);
@@ -254,6 +244,11 @@ package aesia.com.ponents.demos
 				txt.text = a.join("\n");
 				StageUtils.lockToStage(txt);
 			}
+		}
+		protected function createDebugTools () : void
+		{
+			var p : DebugPanel = new DebugPanel();
+			ToolKit.popupLevel.addChild(p);
 		}
 
 		private function createMainPanel () : void
@@ -841,7 +836,7 @@ package aesia.com.ponents.demos
 			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
 				tabbedPane.dndEnabled = false;
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			tabbedPane.addTab( createLogViewTab () );			tabbedPane.addTab( createTerminalTab () );			tabbedPane.addTab( createMonitorsTab () );			tabbedPane.addTab( createFormTab () );
+			tabbedPane.addTab( createMonitorsTab () );			tabbedPane.addTab( createFormTab () );
 
 			var tab : SimpleTab = new SimpleTab( "Advanced Tools", tabbedPane );
 			return tab;
@@ -917,109 +912,6 @@ package aesia.com.ponents.demos
 			bl.north = t;
 
 			var tab : SimpleTab = new SimpleTab( "Monitors", pc );
-			return tab;
-		}
-
-		private function createTerminalTab () : Tab
-		{
-			var terminal : Terminal = new Terminal();
-
-			var s : Shape = new Shape();
-			s.graphics.beginFill( Color.YellowGreen.hexa );
-			s.graphics.drawCircle( 0,0,10);
-			s.graphics.endFill();
-
-
-			function aC () : void
-			{
-				ToolKit.popupLevel.addChild( s );
-				terminal.echo( s + " added" );
-			}
-			function rC () : void
-			{
-				ToolKit.popupLevel.removeChild( s );
-				terminal.echo( s + " removed" );
-			}
-			function foo( s : String ) : void
-			{
-				terminal.echo( s );
-			}
-			function commandEnd ( e : Event ) : void
-			{
-				terminal.echo( "command ended" );
-			}
-			function commandFailed ( e : Event ) : void
-			{
-				terminal.echo( "command failed" );
-			}
-
-			var acc : ProxyCommand = new ProxyCommand( aC );			var rcc : ProxyCommand = new ProxyCommand( rC );
-			var i1 : Interval = new Interval( foo, 1000, 5, "pouet" );
-			var i2 : Timeout = new Timeout( foo, 2000, "plop" );
-			//var l : LoopCommand = new LoopCommand( new Iteration( new StringIterator( "hello world !!!" ), terminal ), 10 );
-			var t1 : SingleTween = new SingleTween( s, "x", StageUtils.stage.stageWidth, 2000 );
-			var t2 : SingleTween = new SingleTween( s, "y", StageUtils.stage.stageHeight, 2000, 0, Bounce.easeOut );
-			var b : ReversedQueue = new ReversedQueue();
-			var p : ParallelCommand = new ParallelCommand();
-
-			p.addCommand( t1 );			p.addCommand( t2 );
-			b.addCommand( i1 );
-			b.addCommand( i2 );
-			//b.addCommand( l );
-			b.addCommand( rcc );
-			b.addCommand( p );
-			b.addCommand( acc );
-
-			b.addEventListener( CommandEvent.COMMAND_END, commandEnd );
-			b.addEventListener( CommandEvent.COMMAND_FAIL, commandFailed );
-			terminal.addCommand( ActionManagerInstance.getAction( BuiltInActionsList.UNDO ) as TerminalAction );			terminal.addCommand( ActionManagerInstance.getAction( BuiltInActionsList.REDO ) as TerminalAction );
-			terminal.addCommand(
-				new TerminalActionProxy( b,
-										 _("Proxy Command"),
-										 null,
-										  _("A TerminalCommandProxy which launch a ReversedQueue with many sub-routines."),
-										 "proxy",										 "proxy",
-										 _("A TerminalCommandProxy which launch a ReversedQueue with many sub-routines.") ) );
-
-			terminal.addCommand(
-				new TerminalActionProxy(
-						new Timeout( function(...args):void {}, 500 ),
-						_("Timeout Command"),
-						null,
-						_("An action proxy demo"),
-						"timeout",						"timeout",
-						_("An action proxy demo.")
-				));
-
-			var tab : SimpleTab = new SimpleTab( "Terminal", terminal );
-			return tab;
-		}
-
-		private function createLogViewTab () : Tab
-		{
-			var p : Panel = createBorderPanel();
-			var t : ToolBar = new ToolBar();
-			var l : LogView = new LogView();
-
-			var i : TextInput = new TextInput();
-			i.preferredWidth = 300;
-			var bd : Button = new Button( new LogAction( "Debug This !", "debug", i, new EmbeddedBitmapIcon( lightbulb)  ) );			var id : Button = new Button( new LogAction( "Info This !", "info", i, new EmbeddedBitmapIcon( information ) ) );			var wd : Button = new Button( new LogAction( "Warn This !", "warn", i, new EmbeddedBitmapIcon( error ) ) );			var ed : Button = new Button( new LogAction( "Error This !", "error", i, new EmbeddedBitmapIcon( exclamation ) ) );			//var fd : Button = new Button( new LogAction( "Fatal This !", "fatal", i, exclamation ) );
-
-			t.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
-			t.addComponent( i );			t.addComponent( bd );			t.addComponent( id );			t.addComponent( wd );			t.addComponent( ed );			//t.addComponent( fd );
-
-			p.addComponent( t );
-			p.addComponent( l );
-
-			(p.childrenLayout as BorderLayout).north = t;			(p.childrenLayout as BorderLayout).center = l;
-
-			Log.debug( "A debug message" );
-			Log.info( "An info message" );
-			Log.warn( "A warning message" );
-			Log.error( "An error message" );
-			Log.fatal( "A fatal message" );
-
-			var tab : SimpleTab = new SimpleTab( "LogView", p );
 			return tab;
 		}
 

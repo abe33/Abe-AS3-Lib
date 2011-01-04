@@ -29,23 +29,22 @@ package aesia.com.ponents.tools
 	)]
 	[Skin(define="GradientCursor",
 		  inherit="DefaultComponent",
-		  shortcuts="utils=aesia.com.mon.utils,cutils=aesia.com.ponents.utils,deco=aesia.com.ponents.skinning.decorations,txt=flash.text",
 
 		  state__all__insets="new cutils::Insets(2,7,2,2)",		  state__all__corners="new cutils::Corners(3)",
 
-		  state__0_3_4_7__background="new deco::ArrowSideFill(utils::Color.LightGrey)",
-		  state__1_2_5_6__background="new deco::ArrowSideFill(utils::Color.Gainsboro)",
-		  state__8_12__background="new deco::ArrowSideFill(utils::Color.LightBlue)",
-		  state__9__background="new deco::ArrowSideFill(utils::Color.LightBlue.alphaClone( 0x66 ))",
-		  state__10_14__background="new deco::ArrowSideFill(utils::Color.PowderBlue)",
-		  state__11_15__background="new deco::ArrowSideFill(utils::Color.LightSkyBlue)",
+		  state__0_3_4_7__background="new deco::ArrowSideFill( skin.backgroundColor )",
+		  state__1_2_5_6__background="new deco::ArrowSideFill( skin.overBackgroundColor )",
+		  state__8_12__background="new deco::ArrowSideFill( skin.selectedBackgroundColor )",
+		  state__9__background="new deco::ArrowSideFill( skin.disabledSelectedBackgroundColor )",
+		  state__10_14__background="new deco::ArrowSideFill( skin.overSelectedBackgroundColor )",
+		  state__11_15__background="new deco::ArrowSideFill( skin.pressedSelectedBackgroundColor )",
 
-		  state__0_3__foreground="new deco::ArrowSideBorders(utils::Color.DimGray)",
-		  state__2__foreground="new deco::ArrowSideBorders(utils::Color.Gray)",
-		  state__focus_focusandselected__foreground="new deco::ArrowSideBorders(utils::Color.ForestGreen)",
-		  state__selected__foreground="new deco::ArrowSideBorders(utils::Color.DodgerBlue)",
-		  state__disabled__foreground="new deco::ArrowSideBorders(utils::Color.Gray)",
-		  state_disabled_selected__foreground="new deco::ArrowSideBorders(utils::Color.DodgerBlue.alphaClone( 0x66 ))"
+		  state__0_3__foreground="new deco::ArrowSideBorders( skin.borderColor )",
+		  state__2__foreground="new deco::ArrowSideBorders( skin.overBorderColor )",
+		  state__focus_focusandselected__foreground="new deco::ArrowSideBorders( skin.focusBorderColor )",
+		  state__selected__foreground="new deco::ArrowSideBorders( skin.selectedBorderColor )",
+		  state__disabled__foreground="new deco::ArrowSideBorders( skin.disabledBorderColor )",
+		  state_disabled_selected__foreground="new deco::ArrowSideBorders( skin.disabledSelectedBorderColor )"
 	)]
 	public class GradientSampler extends Panel
 	{

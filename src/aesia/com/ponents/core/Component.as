@@ -3,6 +3,7 @@
  */
 package aesia.com.ponents.core 
 {
+	import aesia.com.mon.core.Identifiable;
 	import aesia.com.ponents.dnd.DragSource;
 	import aesia.com.mon.core.IInteractiveObject;
 	import aesia.com.mon.core.IDisplayObject;
@@ -28,14 +29,9 @@ package aesia.com.ponents.core
 									   IDisplayObjectContainer, 
 									   IDisplayObject, 
 									   IInteractiveObject,
-									   DragSource
-	{
-		/**
-		 * Un id pour ce composant.
-		 */
-		function get id() : String;
-		function set id( b : String ) : void;
-		
+									   DragSource,
+									   Identifiable
+	{		
 		/**
 		 * État d'activation de ce composant.
 		 * <p>
@@ -108,6 +104,9 @@ package aesia.com.ponents.core
 		 * @see ../../../../components/Size-Layout.html Taille et layouts
 		 */
 		function get preferredSize() : Dimension;		function set preferredSize( d : Dimension ) : void;
+		
+		function get maximumSize() : Dimension;
+		function get maximumContentSize() : Dimension;
 		/**
 		 * Longueur de préférence de ce composant.
 		 * 
@@ -201,7 +200,6 @@ package aesia.com.ponents.core
 		function get keyboardContext() : Dictionary;
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 		/**
 		 * [conditional-compile] Un vecteur contenant les objets <code>ContextMenuItem</code> à afficher
 		 * dans le menu contextuel de ce composant.
@@ -213,8 +211,9 @@ package aesia.com.ponents.core
 		 * </p>
 		 * 
 		 * @see ../../../../components/Conditional-Compilation.html#MENU_CONTEXT Constante FEATURES::MENU_CONTEXT
-		 */		function get menuContext() : Vector.<ContextMenuItem>;
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		 */		
+		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT {
+		TARGET::FLASH_9		function get menuContext() : Array;		TARGET::FLASH_10		function get menuContext() : Vector.<ContextMenuItem>;		TARGET::FLASH_10_1 /*FDT_IGNORE*/		function get menuContext() : Vector.<ContextMenuItem>; /*FDT_IGNORE*/ } /*FDT_IGNORE*/		
 		
 		/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
 		/**

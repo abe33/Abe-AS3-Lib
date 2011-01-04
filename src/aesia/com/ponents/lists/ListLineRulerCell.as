@@ -5,7 +5,11 @@ package aesia.com.ponents.lists
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Skinable(skin="NoDecorationComponent")]
+	[Skinable(skin="ListLineRuler")]
+	[Skin(define="ListLineRuler",
+			  inherit="NoDecorationComponent",
+			  state__all__textColor="skin.rulerTextColor"
+	)]
 	public class ListLineRulerCell extends DefaultListCell
 	{
 		protected var _indexStartAt0 : Boolean;

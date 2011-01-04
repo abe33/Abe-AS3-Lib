@@ -2,6 +2,7 @@ package aesia.com.ponents.menus
 {
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Keys;
+	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.ponents.actions.Action;
 	import aesia.com.ponents.layouts.display.DOBoxSettings;
 	import aesia.com.ponents.layouts.display.DOHBoxLayout;
@@ -22,12 +23,21 @@ package aesia.com.ponents.menus
 	[Skin(define="MenuItem",
 		  inherit="EmptyComponent",
 
-		  state__selected__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.White )",
-		  state__all__insets="new aesia.com.ponents.utils::Insets(1,0,1,0)"
+		  state__selected__background="new deco::SimpleFill( skin.menuSelectedBackgroundColor )",
+		  state__all__insets="new cutils::Insets(1,0,1,0)"
 	)]
 	public class MenuItem extends DefaultListCell //DraggableButton
 	{
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _subItems : Array;
+		
+		TARGET::FLASH_10
 		protected var _subItems : Vector.<MenuItem>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _subItems : Vector.<MenuItem>;
+		
 		protected var _menuContainer : MenuContainer;
 		protected var _acceleratorLabel : TextField;
 		protected var _mnemonic : KeyStroke;
@@ -63,7 +73,13 @@ package aesia.com.ponents.menus
 			_allowFocus = false;
 			//_allowDrag = false;
 			_allowPressed = false;
-			_subItems = new Vector.<MenuItem>();
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _subItems = []; }
+			TARGET::FLASH_10 { _subItems = new Vector.<MenuItem>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_subItems = new Vector.<MenuItem>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			//(_labelTextField as TextField).border = true;
 			( _childrenLayout as DOHBoxLayout ).setObjectForBox( _labelTextField as DisplayObject, 1 );
 			invalidatePreferredSizeCache();
@@ -127,11 +143,20 @@ package aesia.com.ponents.menus
 		{
 			return _subItems && _subItems.length > 0;
 		}
-		public function get subItems () : Vector.<MenuItem> { return _subItems; }
-		public function set subItems (subItems : Vector.<MenuItem>) : void
-		{
-			_subItems = subItems;
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9 {
+		public function get subItems () : Array { return _subItems; }
+		public function set subItems ( o : Array ) : void { _subItems = o; }
 		}
+		TARGET::FLASH_10 {
+		public function get subItems () : Vector.<MenuItem> { return _subItems; }
+		public function set subItems ( o : Vector.<MenuItem> ) : void { _subItems = o; }
+		}
+		TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+		public function get subItems () : Vector.<MenuItem> { return _subItems; }
+		public function set subItems ( o : Vector.<MenuItem> ) : void { _subItems = o; }
+		/*FDT_IGNORE*/}/*FDT_IGNORE*/
 
 		override public function mouseOver (e : MouseEvent) : void
 		{
@@ -187,7 +212,12 @@ package aesia.com.ponents.menus
 
 		public function set columnsSizes ( a : Array ) : void
 		{
-			var v : Vector.<DOBoxSettings> = ( _childrenLayout as DOHBoxLayout ).boxes;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = ( _childrenLayout as DOHBoxLayout ).boxes; }
+			TARGET::FLASH_10 { var v : Vector.<DOBoxSettings> = ( _childrenLayout as DOHBoxLayout ).boxes; }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var v : Vector.<DOBoxSettings> = ( _childrenLayout as DOHBoxLayout ).boxes; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			var l : Number = a.length;
 			for( var i:Number = 0; i<l; i++ )
 				v[ i ].size = a[ i ];
@@ -209,7 +239,7 @@ package aesia.com.ponents.menus
 
 		override public function toString () : String
 		{
-			return super.toString( ) + "(" + _label + ")";
+			return StringUtils.stringify(this, {'label':_label});
 		}
 	}
 }

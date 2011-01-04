@@ -30,6 +30,8 @@ package aesia.com.mon.logs
 		 */
 		static private var instance : Log;
 		
+		protected var _undispatched : Array;
+
 		/**
 		 * Renvoie une référence vers l'instance globale de la classe
 		 * <code>Log</code>.
@@ -43,6 +45,10 @@ package aesia.com.mon.logs
 				instance = new Log();
 			
 			return instance;
+		}
+		public function Log () 
+		{
+			_undispatched = [];
 		}
 		/**
 		 * Diffuse un message de type <code>DEBUG</code> aux écouteurs 
@@ -116,9 +122,25 @@ package aesia.com.mon.logs
 		 */
 		public function log ( msg : String, level : LogLevel, keepHTML : Boolean = false ) : void
 		{
-			dispatchEvent( new LogEvent( LogEvent.LOG_ADD, msg, level, keepHTML ) );
+			if( hasEventListener( LogEvent.LOG_ADD ) )
+				dispatchEvent( new LogEvent( LogEvent.LOG_ADD, msg, level, keepHTML ) );
+			else
+				_undispatched.push( new LogEvent( LogEvent.LOG_ADD, msg, level, keepHTML ) );
 		}
-		
+		override public function addEventListener (type : String, listener : Function, useCapture : Boolean = false, priority : int = 0, useWeakReference : Boolean = false) : void 
+		{
+			if( type == LogEvent.LOG_ADD )
+			{
+				var dealWithUndispatched : Boolean = !hasEventListener(LogEvent.LOG_ADD);
+	
+				super.addEventListener(type, listener, useCapture, priority, useWeakReference);
+				
+				if( dealWithUndispatched )
+					for( var i : uint = 0; i<_undispatched.length;i++)
+						dispatchEvent( _undispatched[i] );
+			}
+			else 				super.addEventListener(type, listener, useCapture, priority, useWeakReference);
+		}
 		/**
 		 * Réécriture de la méthode <code>dispatchEvent</code> afin d'éviter la diffusion
 		 * d'évènement en l'absence d'écouteurs pour cet évènement.

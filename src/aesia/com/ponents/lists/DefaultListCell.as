@@ -27,8 +27,8 @@ package aesia.com.ponents.lists
 		   preview="aesia.com.ponents.lists::List.defaultListPreview",
 		   previewAcceptStyleSetup="false",
 		   
-		   state__all__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()",
-		   state__0_1__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.White )",		   state__2_3_4_6_7__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.Gainsboro.alphaClone( 0x66 ) )",		   state__8_12__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.LightGrey.alphaClone( 0xbb ) )",		   state__9__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.Gainsboro.alphaClone( 0x66 ) )",		   state__10_11_14_15__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.LightGrey )"
+		   state__all__foreground="skin.noDecoration",
+		   state__0_1__background="new deco::SimpleFill( skin.listBackgroundColor )",		   state__2_3_4_6_7__background="new deco::SimpleFill( skin.listOverBackgroundColor )",		   state__8_12__background="new deco::SimpleFill( skin.listSelectedBackgroundColor )",		   state__9__background="new deco::SimpleFill( skin.listDisabledSelectedBackgroundColor )",		   state__10_11_14_15__background="new deco::SimpleFill( skin.listOverSelectedBackgroundColor )"
 	)]
 	public class DefaultListCell extends DraggableButton implements Component, 
 																	IDisplayObject, 

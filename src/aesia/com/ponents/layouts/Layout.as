@@ -48,5 +48,6 @@ package aesia.com.ponents.layouts
 		 * et basé sur le contenu de celui-ci.
 		 */
 		function get preferredSize(): Dimension;
+				function get maximumContentSize(): Dimension;
 	}
 }

@@ -26,8 +26,8 @@ package aesia.com.ponents.progress
 		  inherit="DefaultComponent",
 		  preview="aesia.com.ponents.progress::ProgressBar.defaultProgressBarPreview",
 		  
-		  state__all__background="new aesia.com.ponents.skinning.decorations::GradientFill(gradient([color(0xff333333),color(0xff555555)],[0,1]),90)",
-		  state__disabled__background="new aesia.com.ponents.skinning.decorations::GradientFill(gradient([color(0xff555555),color(0xff777777)],[0,1]),90)"	)]
+		  state__all__background="new deco::GradientFill(gradient([skin.progressBackgroundColor1,skin.progressBackgroundColor2],[0,1]),90)",
+		  state__disabled__background="new deco::GradientFill(gradient([skin.progressDisabledBackgroundColor1,skin.progressDisabledBackgroundColor2],[0,1]),90)"	)]
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -285,7 +285,7 @@ import aesia.com.ponents.core.AbstractComponent;
 	  inherit="DefaultComponent",
 	  preview="aesia.com.ponents.progress::ProgressBar.defaultProgressBarPreview",
 	  previewAcceptStyleSetup="false",
-	  state__all__background="new aesia.com.ponents.skinning.decorations::GradientFill(gradient([color(Gainsboro),color(LightGrey),color(Gainsboro)],[.45,.5,1]),90)"
+	  state__all__background="new deco::GradientFill(gradient([skin.overSelectedBackgroundColor,skin.selectedBackgroundColor,skin.overSelectedBackgroundColor],[.45,.5,1]),90)"
 )]
 internal class Bar extends AbstractComponent
 {

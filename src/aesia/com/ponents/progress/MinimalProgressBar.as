@@ -10,7 +10,7 @@ package aesia.com.ponents.progress
 	[Skinable(skin="MinimalProgress")]
 	[Skin(define="MinimalProgress",
 			  inherit="DefaultComponent",
-			  state__all__background="new aesia.com.ponents.skinning.decorations::EmptyFill()"
+			  state__all__background="skin.emptyDecoration"
 	)]
 	/**
 	 * @author Cédric Néhémie

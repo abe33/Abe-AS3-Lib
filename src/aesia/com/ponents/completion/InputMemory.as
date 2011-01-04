@@ -1,9 +1,7 @@
 package aesia.com.ponents.completion 
 {
-	import aesia.com.ponents.utils.SettingsMemoryChannels;
-	import aesia.com.mon.utils.Cookie;
+	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.ponents.text.AbstractTextComponent;
-
 	public class InputMemory extends AutoCompletion
 	{
 		// id du champ en mémoire
@@ -12,12 +10,10 @@ package aesia.com.ponents.completion
 		// dernière valeur saisie
 		private var _lastValue : String;
 		private var _showLastValue : Boolean;
-		private var _cookie : Cookie;
 
 		public function InputMemory (tf : AbstractTextComponent, id : String = "default", showLast : Boolean = false )
 		{
 			super( tf );
-			_cookie = new Cookie( SettingsMemoryChannels.INPUTS );	
 			_id = id;
 			_showLastValue = showLast;
 
@@ -31,7 +27,13 @@ package aesia.com.ponents.completion
 		}
 		
 		public function get lastValue () : String { return _lastValue; }		
+		
 		public function get id () : String { return _id; }
+		public function set id (id : String) : void
+		{
+			_id = id;
+			retreiveCollection();
+		}
 		
 		public function setup () : void
 		{		
@@ -41,12 +43,9 @@ package aesia.com.ponents.completion
 		}		
 		override protected function retreiveCollection () : void
 		{
-			var save:String;
-			if( _cookie[_id] )
-			{
-				save = _cookie[_id].entries as String;
-				_lastValue = _cookie[_id].lastValue as String;
-			}
+			var save:String = SettingsManagerInstance.get( this, "entries" );
+			_lastValue = SettingsManagerInstance.get( this, "lastValue" );
+			
 			if( save != null )
 			{
 				var a:Array = save.split("\n");
@@ -58,11 +57,9 @@ package aesia.com.ponents.completion
 		public function registerCurrent () : void
 		{
 			var current : String = _textField.value;
-			if( !_cookie[_id] )
-				_cookie[_id] = {};
-				
-			_cookie[_id].lastValue = current;
-
+			
+			SettingsManagerInstance.set( this, "lastValue", current );
+	
 			if( current == "" )
 				return;
 
@@ -76,7 +73,7 @@ package aesia.com.ponents.completion
 			collection.push( current );
 			collection.sort();
 		
-			_cookie[_id].entries = collection.join("\n");
+			SettingsManagerInstance.set( this, "entries", collection.join("\n"));
 		}
 		
 		public function removeEntry ( entry : String ) : void
@@ -84,13 +81,13 @@ package aesia.com.ponents.completion
 			if( collection.indexOf( entry ) != -1 )
 			{
 				collection.splice( collection.indexOf( entry ), 1 );
-				_cookie[_id].entries = collection.join("\n");
+				SettingsManagerInstance.set( this, "entries", collection.join("\n"));
 			}
 		}
 
 		public function clearMemory () : void
 		{
-			_cookie[_id] = null;
+			SettingsManagerInstance.set( this, "entries", null );			SettingsManagerInstance.set( this, "lastValue", null );
 			collection = [];
 		}
 	}

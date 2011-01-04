@@ -1,6 +1,5 @@
 package aesia.com.ponents.tools 
 {
-	import aesia.com.ponents.layouts.components.BorderLayout;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.Palette;
 	import aesia.com.patibility.lang._;
@@ -11,7 +10,7 @@ package aesia.com.ponents.tools
 	import aesia.com.ponents.containers.SplitPane;
 	import aesia.com.ponents.containers.ToolBar;
 	import aesia.com.ponents.events.ComponentEvent;
-	import aesia.com.ponents.layouts.components.InlineLayout;
+	import aesia.com.ponents.layouts.components.BorderLayout;
 	import aesia.com.ponents.lists.ColorListCell;
 	import aesia.com.ponents.lists.List;
 	import aesia.com.ponents.lists.PaletteListCell;
@@ -25,7 +24,7 @@ package aesia.com.ponents.tools
 	[Skinable(skin="PaletteColorEditor")]
 	[Skin(define="PaletteColorEditor",
 			  inherit="EmptyComponent",
-			  state__all__insets="new aesia.com.ponents.utils::Insets(5)"
+			  state__all__insets="new cutils::Insets(5)"
 	)]
 	public class PaletteColorEditor extends Panel 
 	{
@@ -109,6 +108,7 @@ package aesia.com.ponents.tools
 		}
 	}
 }
+
 import aesia.com.mon.utils.Color;
 import aesia.com.mon.utils.KeyStroke;
 import aesia.com.mon.utils.Palette;

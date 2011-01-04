@@ -29,9 +29,8 @@ package aesia.com.ponents.tables
 	[Skinable(skin="TableHeader")]
 	[Skin(define="TableHeader",
 			  inherit="DropPanel",
-			  shortcuts="utils=aesia.com.mon.utils,cutils=aesia.com.ponents.utils,deco=aesia.com.ponents.skinning.decorations,txt=flash.text",
 
-			  state__all__background="new deco::GradientFill(gradient([color(Gainsboro),color(LightGrey),color(Gainsboro)],[.5,.5,1]),90)"
+			  state__all__background="new deco::GradientFill(gradient([skin.overSelectedBackgroundColor,skin.selectedBackgroundColor,skin.overSelectedBackgroundColor],[.5,.5,1]),90)"
 	)]
 	public class TableHeader extends DropPanel
 	{
@@ -182,7 +181,13 @@ package aesia.com.ponents.tables
 				var l2 : Number = _children.length;
 				var l : Number = Math.max( l1, l2 );
 				var i : Number;
-				var a : Vector.<Component> = new Vector.<Component>();
+				
+				/*FDT_IGNORE*/
+				TARGET::FLASH_9 { var a : Array = []; }
+				TARGET::FLASH_10 { var a : Vector.<Component> = new Vector.<Component>(); }
+				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				var a : Vector.<Component> = new Vector.<Component>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
 				var b : Array = [];
 				var item : TableColumnHeader;
 				var column : TableColumn;
@@ -254,7 +259,12 @@ package aesia.com.ponents.tables
 			var column : TableColumn;
 			var item : TableColumnHeader;
 			var cl : HBoxLayout = _childrenLayout as HBoxLayout;
-			cl.boxes = new Vector.<BoxSettings>();
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { cl.boxes = []; }
+			TARGET::FLASH_10 { cl.boxes = new Vector.<BoxSettings>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			cl.boxes = new Vector.<BoxSettings>();	/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 			for(i=0;i<l;i++)
 			{

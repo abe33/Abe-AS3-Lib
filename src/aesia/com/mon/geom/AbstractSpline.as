@@ -7,10 +7,10 @@ package aesia.com.mon.geom
 	import aesia.com.mon.core.Serializable;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.GeometryUtils;
+	import aesia.com.mon.utils.StringUtils;
 
 	import flash.display.Graphics;
 	import flash.geom.Point;
-
 	/**
 	 * La classe <code>AbstractSpline</code> fournie un certains nombre de méthodes
 	 * communes à toutes les implémentations de l'interface <code>Spline</code>.
@@ -298,6 +298,15 @@ package aesia.com.mon.geom
 			return "";
 		}
 		/**
+		 * Renvoie la représentation de l'objet sous forme de chaîne.
+		 *
+		 * @return la représentation de l'objet sous forme de chaîne
+		 */
+		public function toString() : String
+		{
+			return StringUtils.stringify(this);
+		}
+		/**
 		 * @inheritDoc
 		 */
 		public function draw ( g : Graphics, c : Color ) : void
@@ -426,5 +435,6 @@ package aesia.com.mon.geom
 				g.moveTo( pt1.x, pt1.y );				g.lineTo( pt2.x, pt2.y );
 			}
 		}
+		
 	}
 }

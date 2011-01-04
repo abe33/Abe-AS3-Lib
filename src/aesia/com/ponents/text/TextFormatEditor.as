@@ -30,7 +30,7 @@ package aesia.com.ponents.text
 	[Skinable(skin="TextFormatEditor")]
 	[Skin(define="TextFormatEditor",
 			  inherit="DefaultComponent",
-			  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill(color(White))"
+			  state__all__background="new deco::SimpleFill(skin.containerBackgroundColor)"
 			  
 	)]
 	public class TextFormatEditor extends AbstractContainer implements Editor, FormComponent

@@ -21,12 +21,20 @@ package aesia.com.ponents.tools
 	[Skin(define="Canvas",
 		  inherit="DefaultComponent",
 
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.White )"
+		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )"
 	)]
 	public class CameraCanvas extends AbstractContainer
 	{
 		protected var _camera : Camera;
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _layers : Array;
+		TARGET::FLASH_10
 		protected var _layers : Vector.<CameraLayer>;
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _layers : Vector.<CameraLayer>;
+		
 		protected var _billboards : Array;
 
 		public function CameraCanvas ()
@@ -34,7 +42,13 @@ package aesia.com.ponents.tools
 			super( );
 			allowMask = false;
 			_camera = new Camera( null, 1, new Range ( 0.2, 2 ) );
-			_layers = new Vector.<CameraLayer>();
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _layers = []; }
+			TARGET::FLASH_10 { _layers = new Vector.<CameraLayer>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_layers = new Vector.<CameraLayer>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			_billboards = [];
 			
 			invalidatePreferredSizeCache();
@@ -60,10 +74,14 @@ package aesia.com.ponents.tools
 		/*---------------------------------------------------------------
 		 * 	LAYERS
 		 *--------------------------------------------------------------*/
-		public function get layers () : Vector.<CameraLayer>
-		{
-			return _layers;
-		}
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function get layers () : Array { return _layers; }
+		TARGET::FLASH_10
+		public function get layers () : Vector.<CameraLayer> { return _layers; }
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function get layers () : Vector.<CameraLayer> { return _layers; }
+
 		public function getLayerAt( index : uint ) : CameraLayer
 		{
 			return index < _layers.length ? _layers[ index ] : null;
@@ -106,7 +124,16 @@ package aesia.com.ponents.tools
 		/*---------------------------------------------------------------
 		 * LAYERS CONTENT
 		 *--------------------------------------------------------------*/
-
+		override public function addComponent (c : Component) : void 
+		{
+			c.doubleClickEnabled = doubleClickEnabled;
+			super.addComponent( c );
+		}
+		override public function addComponentAt (c : Component, id : uint) : void 
+		{
+			c.doubleClickEnabled = doubleClickEnabled;
+			super.addComponentAt( c, id );
+		}
 		public function addComponentToLayer ( c : Component, lindex : uint ) : void
 		{
 			addComponent(c);

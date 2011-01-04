@@ -28,7 +28,7 @@ package aesia.com.ponents.trees
 		  preview="aesia.com.ponents.trees::Tree.defaultTreePreview",
 		  previewAcceptStyleSetup="false",
 
-		  custom_indentLineColor="aesia.com.mon.utils::Color.DimGray",
+		  custom_indentLineColor="skin.treeIndentLineColor",
 		  custom_leafIcon="icon(aesia.com.ponents.trees::DefaultTreeCell.TREE_LEAF_ICON)",
 		  custom_nodeIcon="icon(aesia.com.ponents.trees::DefaultTreeCell.TREE_NODE_ICON)",
 		  custom_expandIcon="icon(aesia.com.ponents.trees::DefaultTreeCell.TREE_NODE_EXPAND_ICON)",

@@ -368,7 +368,7 @@ package  aesia.com.mon.geom
 		 */
 		public function toString() : String
 		{
-			return getQualifiedClassName ( this );
+			return StringUtils.stringify(this,{ radius1:radius1, radius2:radius2 } );
 		}
 	}
 }

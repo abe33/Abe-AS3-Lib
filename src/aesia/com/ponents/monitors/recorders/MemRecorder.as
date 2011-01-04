@@ -70,6 +70,10 @@ package aesia.com.ponents.monitors.recorders {
 
 		public function rec() : void
 		{
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _values.push( Number(System.totalMemory) / ( 1024 * 1024 ) ); }
+			TARGET::FLASH_10 {  _values.push( Number(System.totalMemory) / ( 1024 * 1024 ) ); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 			switch(_memType)
 			{
 				case FREE : 
@@ -83,6 +87,8 @@ package aesia.com.ponents.monitors.recorders {
 					_values.push( Number(System.totalMemory) / ( 1024 * 1024 ) ); 
 					break;
 			}
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			if( _values.length > 100 )
 				_values.shift();
 		}

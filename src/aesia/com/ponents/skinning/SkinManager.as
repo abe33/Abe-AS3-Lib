@@ -7,55 +7,6 @@ package aesia.com.ponents.skinning
 	import aesia.com.ponents.skinning.decorations.SimpleFill;
 	import aesia.com.ponents.skinning.icons.magicIconBuild;
 
-	[Skin(define="EmptyComponent",
-		  inherit="DefaultComponent",
-		  shortcuts="utils=aesia.com.mon.utils,cutils=aesia.com.ponents.utils,deco=aesia.com.ponents.skinning.decorations,txt=flash.text",
-
-		  state__all__background="new deco::EmptyFill()",
-		  state__all__foreground="new deco::NoDecoration()"
-	)]
-	[Skin(define="NoDecorationComponent",
-		  inherit="DefaultComponent",
-		  shortcuts="utils=aesia.com.mon.utils,cutils=aesia.com.ponents.utils,deco=aesia.com.ponents.skinning.decorations,txt=flash.text",
-
-		  state__all__background="new deco::NoDecoration()",
-		  state__all__foreground="new deco::NoDecoration()"
-	)]
-	[Skin(define="Text",
-		  inherit="DefaultComponent",
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.White )",
-
-		  custom_mispellWordsColor="aesia.com.mon.utils::Color.Red",
-		  custom_embedFonts="false"
-	)]
-	[Skin(define="DefaultComponent",
-		  inherit="",
-		  preview="aesia.com.ponents.core::AbstractComponent.defaultPreview",
-		  shortcuts="utils=aesia.com.mon.utils,cutils=aesia.com.ponents.utils,deco=aesia.com.ponents.skinning.decorations,txt=flash.text",
-
-		  state__all__insets="new cutils::Insets()",
-		  state__all__borders="new cutils::Borders()",
-		  state__all__corners="new cutils::Corners()",
-		  state__all__format="new txt::TextFormat('Verdana',11,0,false,false,false)",
-
-		  state__all__textColor="color(Black)",
-		  state__disabled__textColor="color(Gray)",
-		  state__disabled__innerFilters="aesia.com.ponents.core::AbstractComponent.createDisabledInnerFilters()",
-
-		  state__0_3_4_7__background="new deco::SimpleFill(color(LightGrey))",
-		  state__1_2_5_6__background="new deco::SimpleFill(color(Gainsboro))",
-		  state__8_12__background="new deco::SimpleFill(color(LightBlue))",
-		  state__9__background="new deco::SimpleFill(color(LightBlue).alphaClone( 0x66 ))",
-		  state__10_14__background="new deco::SimpleFill(color(PowderBlue))",
-		  state__11_15__background="new deco::SimpleFill(color(LightSkyBlue))",
-
-		  state__0_3__foreground="new deco::SimpleBorders(color(DimGray))",
-		  state__2__foreground="new deco::SimpleBorders(color(Gray))",
-		  state__focus_focusandselected__foreground="new deco::SimpleBorders(color(ForestGreen))",
-		  state__selected__foreground="new deco::SimpleBorders(color(DodgerBlue))",
-		  state__disabled__foreground="new deco::SimpleBorders(color(Gray))",
-		  state_disabled_selected__foreground="new deco::SimpleBorders(color(DodgerBlue).alphaClone( 0x66 ))"
-	)]
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -70,8 +21,7 @@ package aesia.com.ponents.skinning
 
 		static public const DEFAULT_STYLE_KEY : String = "DefaultComponent";
 		static public const DEFAULT_SKIN_NAME : String = "DefaultSkin";
-		Reflection.addCustomShortcuts("icon(", "aesia.com.ponents.skinning.icons::magicIconBuild(");
-
+		
 		protected var _defaultSkin : Object;
 		protected var _currentSkin : Object;
 		protected var _skins : Object;
@@ -147,7 +97,7 @@ package aesia.com.ponents.skinning
 			}
 		}
 
-		/*--------------------------------------------------------------
+/*--------------------------------------------------------------
  * STYLE MANAGEMENT
  *--------------------------------------------------------------*/
 
@@ -189,7 +139,6 @@ package aesia.com.ponents.skinning
 			}
 
 		}
-
 		public function removeStyle ( style : ComponentStyle ) : void
 		{
 

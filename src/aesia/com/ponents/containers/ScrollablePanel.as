@@ -1,10 +1,10 @@
 package aesia.com.ponents.containers 
 {
 	import aesia.com.mon.geom.Dimension;
+	import aesia.com.ponents.core.AbstractComponent;
 	import aesia.com.ponents.scrollbars.Scrollable;
 
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author cedric
 	 */
@@ -33,7 +33,13 @@ package aesia.com.ponents.containers
 		{
 			return direction * 50;
 		}
-		
+		override public function invalidatePreferredSizeCache () : void 
+		{
+			for each ( var c : AbstractComponent in _children )
+				c.invalidatePreferredSizeCache();
+
+			super.invalidatePreferredSizeCache();
+		}
 		public function get preferredViewportSize () : Dimension {
 			return preferredSize;
 		}

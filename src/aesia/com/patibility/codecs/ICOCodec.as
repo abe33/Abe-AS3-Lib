@@ -23,9 +23,24 @@ package aesia.com.patibility.codecs
 		 */
 		override public function encode (o : *) : *
 		{
-			if( o is Vector.<BitmapData> )
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+				var res : Boolean = o is Array;			}
+			TARGET::FLASH_10 {				var res : Boolean = o is Vector.<BitmapData>;			}
+			TARGET::FLASH_10_1 /*FDT_IGNORE*/			var res : Boolean = o is Vector.<BitmapData>; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			if( res )
 			{
-				var v : Vector.<BitmapData> = o as Vector.<BitmapData>;
+				/*FDT_IGNORE*/
+				TARGET::FLASH_9 {
+					var v : Array = o as Array;
+				}
+				TARGET::FLASH_10 {
+					var v : Vector.<BitmapData> = o as Vector.<BitmapData>;
+				}
+				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				var v : Vector.<BitmapData> = o as Vector.<BitmapData>; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
 				var ico : ByteArray = new ByteArray();
 				ico.endian = Endian.LITTLE_ENDIAN;
 
@@ -69,7 +84,7 @@ package aesia.com.patibility.codecs
 			ico.readShort(); // type
 			return ico.readShort(); // number of images
 		}
-		private function writeICODirectories ( ico : ByteArray, v : Vector.<BitmapData> ) : void
+		private function writeICODirectories ( ico : ByteArray, v : * ) : void
 		{
 			var l : Number = v.length;
 			var offsetPos : Array = [];
@@ -109,9 +124,18 @@ package aesia.com.patibility.codecs
 			}
 
 		}
-		private function readICODirectories ( ico : ByteArray, imgnum : int ) : Vector.<BitmapData>
+		private function readICODirectories ( ico : ByteArray, imgnum : int ) : *
 		{
-			var v : Vector.<BitmapData> = new Vector.<BitmapData>;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+				var v : Array = [];
+			}
+			TARGET::FLASH_10 {
+				var v : Vector.<BitmapData> = new Vector.<BitmapData>();
+			}
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var v : Vector.<BitmapData> = new Vector.<BitmapData>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			for(var i:Number = 0;i<imgnum;i++)
 			{
 				var width : Number = ico.readByte() ; // width				var height : Number = ico.readByte() ; // height

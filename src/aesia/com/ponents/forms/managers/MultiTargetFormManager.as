@@ -1,11 +1,11 @@
 package aesia.com.ponents.forms.managers 
 {
 	import aesia.com.mon.core.Allocable;
-	import aesia.com.mon.utils.Cookie;
 	import aesia.com.mon.utils.Reflection;
 	import aesia.com.mon.utils.magicClone;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.lang._$;
+	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.ponents.builder.dialogs.PreventOverrideDifferentValuesDialog;
 	import aesia.com.ponents.builder.dialogs.PreventOverrideSharedInstance;
 	import aesia.com.ponents.builder.dialogs.PreventOverrideUndefinedValue;
@@ -22,7 +22,6 @@ package aesia.com.ponents.forms.managers
 	import aesia.com.ponents.forms.FormObject;
 	import aesia.com.ponents.forms.FormUtils;
 	import aesia.com.ponents.menus.ComboBox;
-	import aesia.com.ponents.utils.SettingsMemoryChannels;
 	import aesia.com.ponents.utils.firstIndependentComponent;
 
 	import flash.display.DisplayObject;
@@ -164,16 +163,15 @@ package aesia.com.ponents.forms.managers
 			
 			if( valuesWasShared )
 			{
+				var d:PreventOverrideSharedInstance = new PreventOverrideSharedInstance( "<li>" + sharedProperties.join("</li>\n<li>") + "</li>" );
+				
 				/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-					var c : Cookie = new Cookie( SettingsMemoryChannels.DIALOGS );
-					
-					if( c.warningOverrideSharedValues )
-					{
-						fireChangeEvent();
-						return;
-					}
+				if( SettingsManagerInstance.get( d, "ignoreWarning" ) )
+				{
+					fireChangeEvent();
+					return;
+				}
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-				var d:Dialog = new PreventOverrideSharedInstance( "<li>" + sharedProperties.join("</li>\n<li>") + "</li>", "warningOverrideSharedValues", SettingsMemoryChannels.DIALOGS );
 				d.open( Dialog.CLOSE_ON_RESULT );
 			}
 				
@@ -235,15 +233,15 @@ package aesia.com.ponents.forms.managers
 		protected function clickUndefined (event : MouseEvent) : void 
 		{
 			_componentConcernedByWarning = firstIndependentComponent( event.target as DisplayObject );
+			var d : WarningDialog = new PreventOverrideUndefinedValue();
+			
 			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-				var c : Cookie = new Cookie( SettingsMemoryChannels.DIALOGS );
-				if( c.warningOverrideUndefinedValue )
-				{
-					warnOverrideUndefinedValue();
-					return;
-				}
+			if( SettingsManagerInstance.get( d, "ignoreWarning" ) )
+			{
+				warnOverrideUndefinedValue();
+				return;
+			}
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			var d : WarningDialog = new PreventOverrideUndefinedValue( "warningOverrideUndefinedValue", SettingsMemoryChannels.DIALOGS );
 			d.addWeakEventListener(DialogEvent.DIALOG_RESULT, warnOverrideUndefinedValue );
 			d.open( Dialog.CLOSE_ON_RESULT );
 		}
@@ -275,16 +273,15 @@ package aesia.com.ponents.forms.managers
 		protected function clickDifferentAcrossMany (event : MouseEvent) : void 
 		{
 			_componentConcernedByWarning = firstIndependentComponent( event.target as DisplayObject );
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-				var c : Cookie = new Cookie( SettingsMemoryChannels.DIALOGS );
-				if( c.warningOverrideDifferentValues )
-				{
-					warnOverrideDifferentValues();
-					return;
-				}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			var d : WarningDialog = new PreventOverrideDifferentValuesDialog();
 			
-			var d : WarningDialog = new PreventOverrideDifferentValuesDialog( "warningOverrideDifferentValues", SettingsMemoryChannels.DIALOGS );
+			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			if( SettingsManagerInstance.get( d, "ignoreWarning" ) )
+			{
+				warnOverrideDifferentValues();
+				return;
+			}
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			d.addWeakEventListener(DialogEvent.DIALOG_RESULT, warnOverrideDifferentValues );
 			d.open( Dialog.CLOSE_ON_RESULT );
 		}

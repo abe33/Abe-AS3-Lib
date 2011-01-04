@@ -19,7 +19,12 @@ package  aesia.com.mands.load
 	[SWF(backgroundColor="#000000")]
 	public class RootLoader extends Sprite
 	{
-		protected var _entries : Vector.<LoadEntry>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9		protected var _entries : Array;
+		
+		TARGET::FLASH_10		protected var _entries : Vector.<LoadEntry>;		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _entries : Vector.<LoadEntry>;
+		
 		protected var _entryIndex : Number;
 		protected var _loading : Boolean;
 		protected var _currentEntry : LoadEntry;
@@ -29,8 +34,14 @@ package  aesia.com.mands.load
 		{
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9
+			_entries = [];
 			
-			_entries = new Vector.<LoadEntry>();
+			TARGET::FLASH_10			_entries = new Vector.<LoadEntry>();
+			
+			TARGET::FLASH_10_1 /*FDT_IGNORE*/			_entries = new Vector.<LoadEntry>();
+			
 			_entryIndex = -1;
 			_loading = false;
 			prepareAndLoad();

@@ -18,8 +18,8 @@ package aesia.com.ponents.containers
 	)]
 	[Skin(define="AccordionContentContainer",
 			  inherit="DefaultComponent",
-			  state__all__borders="new aesia.com.ponents.utils::Borders(0,0,0,1)",
-			  state__all__background="new aesia.com.ponents.skinning.decorations::EmptyFill()"
+			  state__all__borders="new cutils::Borders(0,0,0,1)",
+			  state__all__background="skin.emptyDecoration"
 	)]
 	/**
 	 * @author cedric

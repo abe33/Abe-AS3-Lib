@@ -24,13 +24,14 @@ package aesia.com.ponents.tools
 			  
 	)]
 	[Skin(define="Calendar_IncrementDecrementButtons",
-		  inherit="Button", 		  state__all__insets="new aesia.com.ponents.utils::Insets(3)",
-		  state__all__corners="new aesia.com.ponents.utils::Corners(2)"
+		  inherit="Button", 		  state__all__insets="new cutils::Insets(3)",
+		  state__all__corners="new cutils::Corners(2)"
 	)]
 	[Skin(define="Calendar_DayCell",
 		  inherit="EmptyComponent", 
-		  state__over_disabled__background="new aesia.com.ponents.skinning.decorations::SimpleFill(new aesia.com.mon.utils::Color(0xffefefef))",
-		  state__selected_focusandselected__background="new aesia.com.ponents.skinning.decorations::SimpleFill(new aesia.com.mon.utils::Color.LightBlue)"
+		  state__over__background="new deco::SimpleFill( skin.overBackgroundColor )",
+		  state__disabled__background="new deco::SimpleFill( skin.disabledBackgroundColor )",
+		  state__selected_focusandselected__background="new deco::SimpleFill( skin.focusSelectedBackgroundColor )"
 	)]
 	public class Calendar extends Panel 
 	{
@@ -52,6 +53,12 @@ package aesia.com.ponents.tools
 		protected var _decrementMonth : Button;
 		protected var _incrementMonth : Button;
 		protected var _daysGrid : Panel;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _daysButtons : Array;
+		TARGET::FLASH_10
+		protected var _daysButtons : Vector.<Button>;
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		protected var _daysButtons : Vector.<Button>;
 
 		public function Calendar ( date : Date = null )
@@ -121,7 +128,13 @@ package aesia.com.ponents.tools
 		{
 			_daysGrid = new Panel( );
 			_daysGrid.childrenLayout = new GridLayout( _daysGrid, 7, 7, 0, 0 );
-			_daysButtons = new Vector.<Button>( 7 * 6 );
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _daysButtons = new Array( 7 * 6 ); }
+			TARGET::FLASH_10 { _daysButtons = new Vector.<Button>( 7 * 6 ); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_daysButtons = new Vector.<Button>( 7 * 6 ); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			var i : uint = 0;
 			var x : int;
 			var y : int;

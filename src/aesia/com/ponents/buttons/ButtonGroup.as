@@ -28,7 +28,11 @@ package aesia.com.ponents.buttons
 		/**
 		 * Un vecteur contenant les boutons gérés par ce <code>ButtonGroup</code>.
 		 */
-		protected var _buttons : Vector.<AbstractButton>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _buttons : Array;		
+		TARGET::FLASH_10		protected var _buttons : Vector.<AbstractButton>;		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _buttons : Vector.<AbstractButton>;
 		/**
 		 * Une référence vers le bouton actuellement sélectionné
 		 * dans ce <code>ButtonGroup</code>.
@@ -47,7 +51,15 @@ package aesia.com.ponents.buttons
 		 */
 		public function ButtonGroup ()
 		{
-			_buttons = new Vector.<AbstractButton>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+				_buttons = [];
+			}
+			TARGET::FLASH_10 {
+				_buttons = new Vector.<AbstractButton>();
+			}
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_buttons = new Vector.<AbstractButton>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		/**
 		 * Une référence vers le bouton actuellement sélectionné

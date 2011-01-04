@@ -11,7 +11,12 @@ package aesia.com.ponents.layouts.components
 	public class ColumnSettings 
 	{
 		public var halign : String;		public var valign : String;
-		public var components : Vector.<Component>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9		public var components : Array;
+				TARGET::FLASH_10		public var components : Vector.<Component>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		public var components : Vector.<Component>;
+		
 		public var gap : Number;
 		public var stretch : Boolean;
 
@@ -21,7 +26,11 @@ package aesia.com.ponents.layouts.components
 			this.valign = valign;
 			this.stretch = stretch;
 			this.gap = gap;
-			this.components = new Vector.<Component>();
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { this.components = [];}			TARGET::FLASH_10 { this.components = new Vector.<Component>();}			TARGET::FLASH_10_1 {
+			/*FDT_IGNORE*/
+			this.components = new Vector.<Component>();/*FDT_IGNORE*/}/*FDT_IGNORE*/
 			
 			if( comps.length > 0 )
 			{

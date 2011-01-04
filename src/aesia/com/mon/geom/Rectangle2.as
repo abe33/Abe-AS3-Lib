@@ -616,5 +616,14 @@ package aesia.com.mon.geom
 					   width,
 					   height, rotation, pathBasedOnLength );
 		}
+		/**
+		 * Renvoie la représentation de l'objet sous forme de chaîne.
+		 *
+		 * @return	la représentation de l'objet sous forme de chaîne
+		 */
+		override public function toString () : String 
+		{
+			return StringUtils.stringify(this,{ x:x, y:y, width:width, height:height, rotation:rotation } );
+		}
 	}
 }

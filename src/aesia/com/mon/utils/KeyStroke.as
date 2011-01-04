@@ -87,8 +87,16 @@ package aesia.com.mon.utils
 		}
 		
 		// Vecteur stockant toutes les instances de KeyStrokes créées.
+		/*FDT_IGNORE*/ 
+		TARGET::FLASH_9
+		static private var instances : Array = [];
+		
+		TARGET::FLASH_10 
 		static private var instances : Vector.<KeyStroke> = new Vector.<KeyStroke> ();
 		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		static private var instances : Vector.<KeyStroke> = new Vector.<KeyStroke> ();
+
 		/*
 		 * Renvoie l'instance stockée avec cette combinaison. Si la combinaison n'existe
 		 * pas la fonction renvoie null

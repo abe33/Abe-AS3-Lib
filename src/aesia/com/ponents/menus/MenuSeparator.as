@@ -8,7 +8,7 @@ package aesia.com.ponents.menus
 	[Skinable(skin="MenuSeparator")]
 	[Skin(define="MenuSeparator",
 		  inherit="MenuItem",
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SeparatorDecoration(color(White),color(Gray),0)"
+		  state__all__background="new deco::SeparatorDecoration(skin.lightColor,skin.shadowColor,0)"
 	)]
 	public class MenuSeparator extends MenuItem 
 	{

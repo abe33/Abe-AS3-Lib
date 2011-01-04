@@ -1,6 +1,9 @@
 package aesia.com.ponents.tabs 
 {
 	import aesia.com.mon.geom.Dimension;
+	import aesia.com.patibility.lang._;
+	import aesia.com.patibility.settings.SettingsManagerInstance;
+	import aesia.com.ponents.buttons.ButtonDisplayModes;
 	import aesia.com.ponents.containers.DropPanel;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.dnd.DnDManagerInstance;
@@ -13,8 +16,10 @@ package aesia.com.ponents.tabs
 	import aesia.com.ponents.transfer.DataFlavor;
 	import aesia.com.ponents.utils.Alignments;
 	import aesia.com.ponents.utils.CardinalPoints;
+	import aesia.com.ponents.utils.ContextMenuItemUtils;
 	import aesia.com.ponents.utils.Directions;
 
+	import flash.events.ContextMenuEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -28,39 +33,43 @@ package aesia.com.ponents.tabs
 		  preview="aesia.com.ponents.tabs::TabbedPane.northTabbedPanePreview",
 		  acceptStyleSetting="false",
 		  
-		  state__all__insets="new aesia.com.ponents.utils::Insets(0,3,0,0)",
-		  state__all__borders="new aesia.com.ponents.utils::Borders(0,0,0,1)"
+		   state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1]), 90 )",
+		  state__all__insets="new cutils::Insets(0,3,0,0)",
+		  state__all__borders="new cutils::Borders(0,0,0,1)"
 	)]
 	[Skin(define="TabBar_South",
 		  inherit="TabBar",
 		  preview="aesia.com.ponents.tabs::TabbedPane.southTabbedPanePreview",
 		  acceptStyleSetting="false",
 		  
-		  state__all__insets="new aesia.com.ponents.utils::Insets(0,0,0,3)",
-		  state__all__borders="new aesia.com.ponents.utils::Borders(0,1,0,0)"
+		   state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1] ), 270 )",
+		  state__all__insets="new cutils::Insets(0,0,0,3)",
+		  state__all__borders="new cutils::Borders(0,1,0,0)"
 	)]
 	[Skin(define="TabBar_East",
 		  inherit="TabBar",
 		  preview="aesia.com.ponents.tabs::TabbedPane.eastTabbedPanePreview",
 		  acceptStyleSetting="false",
 		  
-		  state__all__insets="new aesia.com.ponents.utils::Insets(0,0,3,0)",
-		  state__all__borders="new aesia.com.ponents.utils::Borders(1,0,0,0)"
+		  state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1]), 180 )",
+		  state__all__insets="new cutils::Insets(0,0,3,0)",
+		  state__all__borders="new cutils::Borders(1,0,0,0)"
 	)]
 	[Skin(define="TabBar_West",
 		  inherit="TabBar",
 		  preview="aesia.com.ponents.tabs::TabbedPane.westTabbedPanePreview",
 		  acceptStyleSetting="false",
 		  
-		  state__all__insets="new aesia.com.ponents.utils::Insets(3,0,0,0)",
-		  state__all__borders="new aesia.com.ponents.utils::Borders(0,0,1,0)"
+		  state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1]), 0 )",
+		  state__all__insets="new cutils::Insets(3,0,0,0)",
+		  state__all__borders="new cutils::Borders(0,0,1,0)"
 	)]
 	[Skin(define="TabBar",
 		  inherit="DropPanel",
 		  preview="aesia.com.ponents.tabs::TabbedPane.defaultTabbedPanePreview",
 		  acceptStyleSetting="false",
 		  
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::SimpleBorders(aesia.com.mon.utils::Color.DimGray)",
+		  state__all__foreground="new deco::SimpleBorders( skin.borderColor )",
 		  
 		  custom_tabsSpacing="3"
 	)]
@@ -73,6 +82,10 @@ package aesia.com.ponents.tabs
 		protected var _buttonDisplayMode : uint;
 		protected var _allowSelectTabOnDnD : Boolean;
 
+		/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+		protected var _settingsLoaded : Boolean = false;
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+
 		public function TabBar ( dragEnabled : Boolean = true )
 		{
 			super( dragEnabled );
@@ -84,7 +97,48 @@ package aesia.com.ponents.tabs
 											   "leftToRight", 
 											   true, 
 											   true );
+			
+			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			createContextMenu();
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
+
+		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+		protected function createContextMenu () : void
+		{
+			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Text and icon"), isDisplayModeSelected (0) ),
+								   "textAndIcon", textAndIcon, "toolbar" );
+			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Text only"), isDisplayModeSelected (1) ),
+								   "textOnly", textOnly, "toolbar" );
+			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Icon only"), isDisplayModeSelected (2) ),
+								   "iconOnly", iconOnly, "toolbar" );
+		}
+		protected function isDisplayModeSelected (i : int) : Boolean
+		{
+			return i == _buttonDisplayMode;
+		}
+		protected function updateContextMenuItemCaption () : void
+		{
+			setContextMenuItemCaption( "textAndIcon", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Text and icon"), isDisplayModeSelected (0) ) );
+			setContextMenuItemCaption( "textOnly", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Text only"), isDisplayModeSelected (1) ) );
+			setContextMenuItemCaption( "iconOnly", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Icon only"), isDisplayModeSelected (2) ) );
+		}
+		protected function iconOnly (event : ContextMenuEvent) : void
+		{
+			buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+			updateContextMenuItemCaption();
+		}
+		protected function textOnly (event : ContextMenuEvent) : void
+		{
+			buttonDisplayMode = ButtonDisplayModes.TEXT_ONLY;
+			updateContextMenuItemCaption();
+		}
+		protected function textAndIcon (event : ContextMenuEvent) : void
+		{
+			buttonDisplayMode = ButtonDisplayModes.TEXT_AND_ICON;
+			updateContextMenuItemCaption();
+		}
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
 		public function get styleNamePrefix () : String { return _styleNamePrefix; }		
 		public function set styleNamePrefix (styleNamePrefix : String) : void
@@ -166,6 +220,14 @@ package aesia.com.ponents.tabs
 					bt.buttonDisplayMode = _buttonDisplayMode;
 				}
 			}
+			
+			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			if( tabbedPane.id )
+				SettingsManagerInstance.set( tabbedPane, "buttonDisplayMode", _buttonDisplayMode );
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			updateContextMenuItemCaption();
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			invalidatePreferredSizeCache();
 		}
@@ -334,6 +396,18 @@ package aesia.com.ponents.tabs
 				if( b )
 					_tabbedPane.selectedTab = tab;
 			}
+		}
+		override public function repaint () : void 
+		{
+			super.repaint( );
+			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			if( tabbedPane.id && !_settingsLoaded )
+			{
+				var mode : Number = SettingsManagerInstance.get(tabbedPane, "buttonDisplayMode", _buttonDisplayMode ); 
+				buttonDisplayMode = mode;
+				_settingsLoaded = true;
+			}
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		protected function insertComponentAccordingToMousePosition ( comp : Component ) : void
 		{

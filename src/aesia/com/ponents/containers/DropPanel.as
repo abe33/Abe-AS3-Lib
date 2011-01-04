@@ -17,7 +17,7 @@ package aesia.com.ponents.containers
 	[Skin(define="DropPanel",
 		  inherit="EmptyComponent",
 		  
-		  custom_dropZoneColor="aesia.com.mon.utils::Color.Black"
+		  custom_dropZoneColor="skin.dropZoneColor"
 	)]
 	/**
 	 * @author Cédric Néhémie
@@ -55,6 +55,8 @@ package aesia.com.ponents.containers
 		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
 		protected var _dropEnabled : Boolean;
 		protected var _dropStatusShape : Shape;
+		
+		public function get component () : Component { return this; }		
 		public function set dndEnabled ( b : Boolean ) : void
 		{
 			dragEnabled = dropEnabled = b; 
@@ -100,13 +102,17 @@ package aesia.com.ponents.containers
 		public function dragEnter (e : DropTargetDragEvent) : void {}	
 		public function dragExit (e : DropTargetDragEvent) : void 
 		{
-			_dropStatusShape.graphics.clear();
+			clearStatusShape();
 		}		
 		public function dragOver (e : DropTargetDragEvent) : void 
 		{
-			_dropStatusShape.graphics.clear();
+			clearStatusShape();
 		}		
 		public function drop (e : DropEvent) : void 
+		{
+			clearStatusShape();
+		}
+		protected function clearStatusShape() : void
 		{
 			_dropStatusShape.graphics.clear();
 		}

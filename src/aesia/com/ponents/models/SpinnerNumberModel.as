@@ -107,7 +107,11 @@ package aesia.com.ponents.models
 				_cmiHexa = null;
 				_cmiOctal = null;
 				
-				_modelMenuContext = new Vector.<ContextMenuItem>();
+				/*FDT_IGNORE*/
+				TARGET::FLASH_9 { _modelMenuContext = []; }
+				TARGET::FLASH_10 { _modelMenuContext = new Vector.<ContextMenuItem>(); }
+				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				_modelMenuContext = new Vector.<ContextMenuItem>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				
 				firePropertyChange( "modelMenuContext", _modelMenuContext );
 			}
@@ -247,6 +251,10 @@ package aesia.com.ponents.models
 				return StringUtils.formatNumber( v, _decimals );
 			}
 			return null;	
+		}
+		override public function toString () : String
+		{
+			return StringUtils.stringify(this, {'min':_min,'max':_max,'value':_value});
 		}
 	}
 }

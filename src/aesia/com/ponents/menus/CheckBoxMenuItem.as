@@ -1,12 +1,11 @@
 package aesia.com.ponents.menus 
 {
-	import aesia.com.ponents.events.PropertyEvent;
 	import aesia.com.ponents.events.ActionEvent;
 	import aesia.com.ponents.events.ComponentEvent;
+	import aesia.com.ponents.events.PropertyEvent;
 	import aesia.com.ponents.skinning.icons.CheckBoxCheckedIcon;
 	import aesia.com.ponents.skinning.icons.CheckBoxUncheckedIcon;
 	import aesia.com.ponents.skinning.icons.Icon;
-	import aesia.com.ponents.skinning.icons.magicIconBuild;
 
 	import flash.events.Event;
 

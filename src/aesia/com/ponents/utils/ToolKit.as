@@ -74,21 +74,28 @@ package  aesia.com.ponents.utils
 				return;
 			
 			mainLevel = new Sprite();
-			popupLevel = new Sprite();
+			mainLevel.name = "mainLevel";
 			
-			toolLevel = new Sprite();			
+			popupLevel = new Sprite( );
+			popupLevel.name = "popupLevel";
+			
+			toolLevel = new Sprite();		
+			toolLevel.name = "toolLevel";	
 			toolLevel.mouseEnabled = false;
 			toolLevel.mouseChildren = false;
 			
-			dndLevel = new Sprite();
+			dndLevel = new Sprite( );
+			dndLevel.name = "dndLevel";
 			dndLevel.mouseEnabled = false;
 			dndLevel.mouseChildren = false;
 			
-			cursorLevel = new Sprite();
+			cursorLevel = new Sprite( );
+			cursorLevel.name = "cursorLevel";
 			cursorLevel.mouseEnabled = false;
 			cursorLevel.mouseChildren = false;
 			
-			tooltipLevel = new Sprite();
+			tooltipLevel = new Sprite( );
+			tooltipLevel.name = "toolTipLevel";
 			tooltipLevel.mouseEnabled = false;
 			tooltipLevel.mouseChildren = false;
 			

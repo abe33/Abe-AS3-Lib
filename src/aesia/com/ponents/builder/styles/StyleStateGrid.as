@@ -21,10 +21,18 @@ package aesia.com.ponents.builder.styles
 	{
 		protected var _targetStyle : ComponentStyle;
 		protected var _statesGrid : Panel;
-		protected var _statesPreview : Vector.<StyleStatePreview>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9 {
+			protected var _statesPreview : Array;
+			protected var _selectedStates : Array;
+		}
+		TARGET::FLASH_10 {
+			protected var _statesPreview : Vector.<StyleStatePreview>;
+			protected var _selectedStates : Vector.<uint>;
+		}
+		TARGET::FLASH_10_1 { /*FDT_IGNORE*/		protected var _statesPreview : Vector.<StyleStatePreview>;		protected var _selectedStates : Vector.<uint>;
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
-		protected var _selectedStates : Vector.<uint>;
-
 		public function StyleStateGrid ()
 		{
 			var l : Box9Layout = new Box9Layout(this);
@@ -37,12 +45,24 @@ package aesia.com.ponents.builder.styles
 			_statesGrid.styleKey = "DefaultComponent";
 			l.center = _statesGrid;
 			
-			_selectedStates = new Vector.<uint>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _selectedStates = []; }
+			TARGET::FLASH_10 { _selectedStates = new Vector.<uint>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_selectedStates = new Vector.<uint>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			createStates();
 			addComponent( _statesGrid );
 			createHeaders( );
 		}
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function get selection () : Array { return _selectedStates; }
+		
+		TARGET::FLASH_10
+		public function get selection () : Vector.<uint> { return _selectedStates; }
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		public function get selection () : Vector.<uint> { return _selectedStates; }
 		
 		public function get targetStyle () : ComponentStyle { return _targetStyle; }		
@@ -67,7 +87,12 @@ package aesia.com.ponents.builder.styles
 		
 		public function clearSelection():void
 		{
-			_selectedStates = new Vector.<uint>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _selectedStates = []; }
+			TARGET::FLASH_10 { _selectedStates = new Vector.<uint>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_selectedStates = new Vector.<uint>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			updateSelection();
 			fireSelectionEvent( );
 		}
@@ -82,7 +107,12 @@ package aesia.com.ponents.builder.styles
 
 		public function selectAll () : void
 		{
-			_selectedStates = Vector.<uint>([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _selectedStates = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]; }
+			TARGET::FLASH_10 { _selectedStates = Vector.<uint>([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_selectedStates = Vector.<uint>([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			updateSelection();
 			fireSelectionEvent();
 		}
@@ -234,7 +264,11 @@ package aesia.com.ponents.builder.styles
 		}
 		protected function createStates () : void
 		{
-			_statesPreview = new Vector.<StyleStatePreview>(16,true);
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _statesPreview = new Array(16); }
+			TARGET::FLASH_10 { _statesPreview = new Vector.<StyleStatePreview>(16,true); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_statesPreview = new Vector.<StyleStatePreview>(16,true); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			for( var i:int=0;i<16;i++ )
 			{

@@ -16,8 +16,15 @@ package aesia.com.ponents.models
 		
 		function reset() : void;
 		
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			function get modelMenuContext () : Vector.<ContextMenuItem>;
+		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { 
+		TARGET::FLASH_9
+		function get modelMenuContext () : Array;
+		
+		TARGET::FLASH_10
+		function get modelMenuContext () : Vector.<ContextMenuItem>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		function get modelMenuContext () : Vector.<ContextMenuItem>;
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	}
 }

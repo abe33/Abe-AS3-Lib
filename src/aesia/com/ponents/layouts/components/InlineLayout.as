@@ -81,9 +81,11 @@ package aesia.com.ponents.layouts.components
 			var prefDim : Dimension = preferredSize ? preferredSize : innerPref.grow( insets.horizontal, insets.vertical );
 			var x : Number = 0;
 			var y : Number = 0;
-			var l : Number = _container.childrenCount;
+			var l : Number = _container.children.length;
 			var i : Number = 0;
 			var c : Component;
+			
+			_lastMaximumContentSize = prefDim.grow( -insets.horizontal, -insets.vertical )
 			
 			var xoffset : Number = _spacingAtExtremity ? _spacing : 0;			var yoffset : Number = _spacingAtExtremity ? _spacing : 0;
 			
@@ -96,12 +98,15 @@ package aesia.com.ponents.layouts.components
 						c = _container.children[ i ];
 						
 						if( _fixedSize )
+						{
 							c.width = prefDim.width-insets.horizontal;
+							c.height = c.preferredHeight;
+						}
 						
 						c.x = Alignments.alignHorizontal( c.width, prefDim.width, insets, _halign );
 						c.y = yoffset + y + Alignments.alignVertical( innerPref.height , prefDim.height, insets, _valign );
 						
-						y += c.height + _spacing; 
+						y += c.preferredHeight + _spacing; 
 					}					
 					break;
 				case Directions.BOTTOM_TO_TOP : 
@@ -111,12 +116,14 @@ package aesia.com.ponents.layouts.components
 						c = _container.children[ i ];
 						
 						if( _fixedSize )
+						{
 							c.width = prefDim.width-insets.horizontal;
-							
+							c.height = c.preferredHeight;
+						}
 						c.x = Alignments.alignHorizontal( c.width, prefDim.width, insets, _halign );
 						c.y = yoffset + y - c.height + Alignments.alignVertical( innerPref.height, prefDim.height, insets, _valign );
 											
-						y -= c.height + _spacing; 
+						y -= c.preferredHeight + _spacing; 
 					}					
 					break;
 				case Directions.RIGHT_TO_LEFT : 
@@ -125,8 +132,10 @@ package aesia.com.ponents.layouts.components
 					{
 						c = _container.children[ i ];
 						if( _fixedSize )
+						{
 							c.height = prefDim.height-insets.vertical;
-							
+							c.width = c.preferredWidth;
+						}
 						c.x = xoffset + x - c.width + Alignments.alignHorizontal( innerPref.width, prefDim.width, insets, _halign );
 						c.y = Alignments.alignVertical( c.height, prefDim.height, insets, _valign );
 						
@@ -140,8 +149,10 @@ package aesia.com.ponents.layouts.components
 					{
 						c = _container.children[ i ];
 						if( _fixedSize )
+						{
 							c.height = prefDim.height-insets.vertical;
-							
+							c.width = c.preferredWidth;
+						}
 						c.x = xoffset + x + Alignments.alignHorizontal( innerPref.width , prefDim.width, insets, _halign );
 						c.y = Alignments.alignVertical( c.height, prefDim.height, insets, _valign );
 						
@@ -160,7 +171,7 @@ package aesia.com.ponents.layouts.components
 		{
 			var w : Number = 0;
 			var h : Number = 0;
-			var l : Number = _container.childrenCount;
+			var l : Number = _container.children.length;
 			var i : Number = 0;
 			var c : Component;
 			switch( _direction )

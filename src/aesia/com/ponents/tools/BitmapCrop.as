@@ -28,8 +28,8 @@ package aesia.com.ponents.tools
 	[Skinable(skin="BitmapCrop")]
 	[Skin(define="BitmapCrop",
 			  inherit="DefaultComponent",
-			  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill(color(0xff333333))",
-			  state__all__foreground="new aesia.com.ponents.skinning.decorations::SimpleBorders(color(0xff000000))"
+			  state__all__background="new deco::SimpleFill(color(0xff333333))",
+			  state__all__foreground="new deco::SimpleBorders(color(0xff000000))"
 			  
 	)]
 	/**
@@ -222,7 +222,13 @@ package aesia.com.ponents.tools
 				var p2 : Point = _sourceRect.topRight;
 				var p3 : Point = _sourceRect.bottomRight;
 				var p4 : Point = _sourceRect.bottomLeft;
-				var commands:Vector.<int> = new Vector.<int>(10, true);
+				
+				/*FDT_IGNORE*/
+				TARGET::FLASH_9 { var commands : Array = new Array(10); }
+				TARGET::FLASH_10 { var commands : Vector.<int> = new Vector.<int>(10, true); }
+				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				var commands : Vector.<int> = new Vector.<int>(10, true); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
 				commands[0] = GraphicsPathCommand.MOVE_TO;
 				commands[1] = GraphicsPathCommand.LINE_TO;
 				commands[2] = GraphicsPathCommand.LINE_TO;
@@ -233,8 +239,13 @@ package aesia.com.ponents.tools
 				commands[7] = GraphicsPathCommand.LINE_TO;
 				commands[8] = GraphicsPathCommand.LINE_TO;
 				commands[9] = GraphicsPathCommand.LINE_TO;
-
-				var data:Vector.<Number> = new Vector.<Number>(20, true);
+				
+				/*FDT_IGNORE*/
+				TARGET::FLASH_9 { var data : Array = new Array(20); }
+				TARGET::FLASH_10 { var data : Vector.<Number> = new Vector.<Number>(20, true); }
+				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				var data : Vector.<Number> = new Vector.<Number>(20, true); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
 				data[0] = 0; // x
 				data[1] = 0; // y
 				data[2] = _bitmap.width;

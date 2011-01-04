@@ -3,13 +3,11 @@
  */
 package aesia.com.ponents.lists 
 {
-	import aesia.com.ponents.buttons.Button;
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.core.IDisplayObject;
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;
 	import aesia.com.mon.geom.Dimension;
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.AllocatorInstance;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Keys;
@@ -53,8 +51,8 @@ package aesia.com.ponents.lists
 		  inherit="DropPanel",
 		  preview="aesia.com.ponents.lists::List.defaultListPreview",
 		  
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.White )",
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()"
+		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )",
+		  state__all__foreground="skin.noDecoration"
 	)]
 	/**
 	 * @author Cédric Néhémie
@@ -276,10 +274,16 @@ package aesia.com.ponents.lists
 		}
 
 		public function get length () : Number { return _model.size; }
-		public function get items () : Vector.<Component>
-		{
-			return _children.concat();
-		}
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function get items () : Array { return _children.concat(); }
+		
+		TARGET::FLASH_10
+		public function get items () : Vector.<Component> { return _children.concat(); }
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function get items () : Vector.<Component> { return _children.concat(); }
 		
 		public function get allowMultiSelection () : Boolean { return _allowMultiSelection; }
 		public function set allowMultiSelection ( b : Boolean ) : void
@@ -594,7 +598,7 @@ package aesia.com.ponents.lists
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				
 			}
-			fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+			//fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
 			repaintSelection();
 		}
 		protected function shiftUp () : void
@@ -644,7 +648,11 @@ package aesia.com.ponents.lists
 					releaseCell( item );
 				}
 			}
-			_children = Vector.<Component> ( a );
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _children = a; }
+			TARGET::FLASH_10 { _children = Vector.<Component>( a ); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_children = Vector.<Component>( a ); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		public function updateCellsData () : void
 		{

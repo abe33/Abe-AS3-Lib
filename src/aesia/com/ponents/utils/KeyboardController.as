@@ -152,13 +152,15 @@ package aesia.com.ponents.utils
 						{
 							var ks : KeyStroke = k as KeyStroke;
 							if( ( ks.modifiers & KeyStroke.CTRL_MASK ) == 0 && 
-									[ Keys.BACKSPACE,
+									[ 
+									  Keys.BACKSPACE,
 									  Keys.ENTER,
 									  Keys.ESCAPE,
 									  Keys.DOWN,
 									  Keys.UP,
 									  Keys.LEFT,
-									  Keys.RIGHT ].indexOf(ks.keyCode) == -1 )
+									  Keys.RIGHT,
+									  Keys.F1,									  Keys.F2,									  Keys.F3,									  Keys.F4,									  Keys.F5,									  Keys.F6,									  Keys.F7,									  Keys.F8,									  Keys.F9,									  Keys.F10,									  Keys.F11,									  Keys.F12									].indexOf(ks.keyCode) == -1 )
 								delete _aCurrentKeyStrokesContext[ks];
 						}
 					}

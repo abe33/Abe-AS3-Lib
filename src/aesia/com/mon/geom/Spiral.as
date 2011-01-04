@@ -154,5 +154,12 @@ package aesia.com.mon.geom
 											rotation,
 											drawBias );
 		}
+		/**
+		 * @inheritDoc
+		 */
+		override public function toString () : String 
+		{
+			return StringUtils.stringify(this,{ radius1:radius1, radius2:radius2, twirl:twirl } );
+		}
 	}
 }

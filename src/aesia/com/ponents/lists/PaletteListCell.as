@@ -16,7 +16,7 @@ package aesia.com.ponents.lists
 			  preview="aesia.com.ponents.lists::PaletteListCell.defaultPaletteListCellPreview",
 		   	  previewAcceptStyleSetup="false",
 		   	  
-			  state__all__insets="new aesia.com.ponents.utils::Insets(2)"
+			  state__all__insets="new cutils::Insets(2)"
 	)]
 	public class PaletteListCell extends DefaultListCell
 	{

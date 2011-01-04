@@ -327,7 +327,14 @@ package aesia.com.mon.utils
 		 * @param	a	le vecteur dans lequel prélever une valeur aléatoirement
 		 * @return	une des valeurs de <code>a</code> définie aléatoirement
 		 */
-		public function inVector ( a : Vector ) : *
+		/*FDT_IGNORE*/
+		TARGET::FLASH_10
+		public function inVector ( a : Vector.<*> ) : *
+		{
+			return a[ irandom( a.length-1 ) ];
+		}
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function inVector ( a : Vector.<*> ) : *
 		{
 			return a[ irandom( a.length-1 ) ];
 		}
@@ -375,10 +382,12 @@ package aesia.com.mon.utils
 		 * @throws	Error	Le paramètre <code>total</code> est obligatoire lorsque <code>cumulativeRatios</code>
 		 * 					est à <code>true</code>.
 		 */
-		public function inVectorWithRatios ( a : Vector,
-												   ratios : Array,
-												   total : Number = NaN,
-												   cumulativeRatios : Boolean = true ) : *
+		/*FDT_IGNORE*/
+		TARGET::FLASH_10
+		public function inVectorWithRatios ( a : Vector.<*>,
+											 ratios : Array,
+											 total : Number = NaN,
+											 cumulativeRatios : Boolean = true ) : *
 		{
 			var n : Number = generator.random();
 			if( isNaN( total) )
@@ -406,6 +415,39 @@ package aesia.com.mon.utils
 			}
 			return a[index];
 		}
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function inVectorWithRatios ( a : Vector.<*>,
+											 ratios : Array,
+											 total : Number = NaN,
+											 cumulativeRatios : Boolean = true ) : *
+		{
+			var n : Number = generator.random();
+			if( isNaN( total) )
+			{
+				var t : Number = 0
+				ratios.forEach(function( n : Number, ... args ) : void { t += n; } );
+				total = t;
+			}
+			var l : uint = ratios.length;
+			var step : Number = 0;
+			var index : uint;
+
+			for( var i : int = 0; i < l; i++ )
+			{
+				if( cumulativeRatios )
+					step = ratios[i] / total;
+				else
+					step += ratios[i] / total;
+
+				if( n <= step )
+				{
+					index = i;
+					break;
+				}
+			}
+			return a[index];
+		}
+		
 		/**
 		 * Renvoie une valeur booléenne choisie aléatoirement selon le taux
 		 * passé en paramètre.

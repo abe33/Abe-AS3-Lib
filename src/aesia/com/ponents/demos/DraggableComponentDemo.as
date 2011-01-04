@@ -232,4 +232,9 @@ internal class Target extends AbstractComponent implements DropTarget
 	{
 		_supportedFlavors = supportedFlavors;
 	}
+	public function get component () : Component
+	{
+		// TODO: Auto-generated method stub
+		return null;
+	}
 }

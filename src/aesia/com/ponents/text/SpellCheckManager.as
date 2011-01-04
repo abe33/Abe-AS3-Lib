@@ -84,13 +84,26 @@ package aesia.com.ponents.text
         	else
         		return null;
 		}
+        /*FDT_IGNORE*/
+        TARGET::FLASH_9
+        public function checkText( value : String, sp : SpellChecker ) : Array { return _checkText(value, sp) as Array; }
+        TARGET::FLASH_10
+        public function checkText( value : String, sp : SpellChecker ) : Vector.<Range> { return Vector.<Range> ( _checkText(value, sp) ); }
+        TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function checkText( value : String, sp : SpellChecker ) : Vector.<Range> { return Vector.<Range> ( _checkText(value, sp) ); }
         
-		public function checkText( value : String, sp : SpellChecker ) : Vector.<Range> 
-		{
-            var wordPattern:RegExp =/\b\w+\b/; // match next word...
+        private function _checkText( value : String, sp:SpellChecker) : Object
+        {
+        	var wordPattern:RegExp =/\b\w+\b/; // match next word...
             var inputValue:String = value;
             var offset:int, curPos:int;
-            var v : Vector.<Range> = new Vector.<Range>();
+            
+            /*FDT_IGNORE*/
+            TARGET::FLASH_9 { var v : Array = []; }
+            TARGET::FLASH_10 { var v : Vector.<Range> = new Vector.<Range>(); }
+            TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+            var v : Vector.<Range> = new Vector.<Range>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+            
             for ( ; ; ) 
             {
                 var res:Array = inputValue.match( wordPattern); // lookup word by word....

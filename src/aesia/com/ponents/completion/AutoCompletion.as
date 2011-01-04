@@ -99,7 +99,7 @@ package aesia.com.ponents.completion
 				if( _checkWordAtCaret )
 					current = _textField.getWordAt( _textField.caretIndex );
 				else
-					current = _textField.text.substr( 0, _textField.caretIndex + 1 );
+					current = _textField.text;
 				
 				if( current && current != _last )
 				{
@@ -118,7 +118,7 @@ package aesia.com.ponents.completion
 				if( _checkWordAtCaret )
 					current = _textField.getWordAt( _textField.caretIndex );
 				else
-					current = _textField.text.substr( 0, _textField.caretIndex + 1 );
+					current = _textField.text;
 				
 				if( current )
 				{

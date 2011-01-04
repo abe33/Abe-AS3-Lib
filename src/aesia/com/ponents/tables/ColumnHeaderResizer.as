@@ -13,7 +13,7 @@ package aesia.com.ponents.tables
 	[Skinable(skin="ColumnHeaderResizer")]
 	[Skin(define="ColumnHeaderResizer",
 			  inherit="EmptyComponent",
-			  state__all__background="new aesia.com.ponents.skinning.decorations::SeparatorDecoration(color(White),color(Gray),1)"
+			  state__all__background="new deco::SeparatorDecoration(skin.lightColor,skin.shadowColor,1)"
 	)]
 	public class ColumnHeaderResizer extends AbstractComponent
 	{

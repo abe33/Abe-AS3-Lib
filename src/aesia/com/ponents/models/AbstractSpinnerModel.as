@@ -1,12 +1,11 @@
 package aesia.com.ponents.models 
 {
-	import flash.ui.ContextMenuItem;
-
-	import aesia.com.ponents.events.PropertyEvent;
 	import aesia.com.ponents.events.ComponentEvent;
+	import aesia.com.ponents.events.PropertyEvent;
 
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.ui.ContextMenuItem;
 
 	/**
 	 * @author Cédric Néhémie
@@ -14,12 +13,24 @@ package aesia.com.ponents.models
 	[Event(name="dataChange",type="aesia.com.ponents.events.ComponentEvent")]	[Event(name="propertyChange",type="aesia.com.ponents.events.PropertyEvent")]
 	public class AbstractSpinnerModel extends EventDispatcher implements SpinnerModel
 	{
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _modelMenuContext : Array;
+		
+		TARGET::FLASH_10
+		protected var _modelMenuContext : Vector.<ContextMenuItem>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		protected var _modelMenuContext : Vector.<ContextMenuItem>;
 		
 		public function AbstractSpinnerModel ()
 		{
 			super();
-			_modelMenuContext = new Vector.<ContextMenuItem>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _modelMenuContext = []; }
+			TARGET::FLASH_10 { _modelMenuContext = new Vector.<ContextMenuItem>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_modelMenuContext = new Vector.<ContextMenuItem>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		
 		public function hasNextValue () : Boolean { return false; }		
@@ -49,9 +60,15 @@ package aesia.com.ponents.models
 		 	return true;
 		}
 		
-		public function get modelMenuContext () : Vector.<ContextMenuItem> {
-			return _modelMenuContext;
-		}
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function get modelMenuContext () : Array { return _modelMenuContext; }
+		
+		TARGET::FLASH_10
+		public function get modelMenuContext () : Vector.<ContextMenuItem> { return _modelMenuContext; }
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function get modelMenuContext () : Vector.<ContextMenuItem> { return _modelMenuContext; }
 		
 		public function reset () : void
 		{

@@ -1,6 +1,5 @@
 package aesia.com.ponents.menus 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.utils.KeyStroke;
@@ -22,6 +21,7 @@ package aesia.com.ponents.menus
 	import aesia.com.ponents.layouts.components.MenuListLayout;
 	import aesia.com.ponents.models.DefaultListModel;
 	import aesia.com.ponents.utils.ToolKit;
+
 	import flash.display.InteractiveObject;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -38,7 +38,7 @@ package aesia.com.ponents.menus
 		  inherit="DefaultComponent",
 		  preview="aesia.com.ponents.menus::PopupMenu.defaultPopupMenuPreview",
 		  
-		  state__all__insets="new aesia.com.ponents.utils::Insets(2)",
+		  state__all__insets="new cutils::Insets(2)",
 		  state__all__outerFilters="aesia.com.ponents.menus::PopupMenu.popupShadow()"
 	)]
 	public class PopupMenu extends AbstractContainer implements MenuContainer
@@ -255,10 +255,10 @@ package aesia.com.ponents.menus
 		}
 		public function navigateToRight () : void
 		{
-			if( !isNaN( _menuList.selectedIndex ) )
+			if( !isNaN(_menuList.selectedIndex ) )
 			{
 				var m : Menu = getItem( _menuList.selectedIndex ) as Menu;
-				if( m && _focus )
+				if( m && m.hasSubItems && _focus )
 				{
 				 	StageUtils.stage.focus = m.popupMenu;
 				 	m.popupMenu.down();
@@ -271,8 +271,9 @@ package aesia.com.ponents.menus
 		public function down () : void
 		{
 			_menuList.selectNext();
+			/*
 			if( _menuList.selectedValue is Menu )
-				execute( _menuList.selectedValue as MenuItem );
+				execute( _menuList.selectedValue as MenuItem );*/
 		}
 
 		public function up () : void
@@ -307,6 +308,13 @@ package aesia.com.ponents.menus
 				if( m )
 					addMenuItem( m );
 		}
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function addMenuItemsVector ( args : Array ) : void { for each ( var m : MenuItem in args ) addMenuItem( m ); }
+		TARGET::FLASH_10
+		public function addMenuItemsVector ( args : Vector.<MenuItem> ) : void { for each ( var m : MenuItem in args ) addMenuItem( m ); }
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		public function addMenuItemsVector ( args : Vector.<MenuItem> ) : void
 		{
 			for each ( var m : MenuItem in args )
@@ -398,6 +406,7 @@ package aesia.com.ponents.menus
 		
 		public function checkSize () : void
 		{
+			
 			var size : Dimension = _preferredSizeCache;
 			if( size.height > StageUtils.stage.stageHeight )
 			{

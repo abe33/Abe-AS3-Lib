@@ -38,7 +38,7 @@ package aesia.com.ponents.actions.builtin
 
 		protected function updateName () : void
 		{
-			name = _$( _("Filters : $0"), filters.map( function( o:*, ... args ) : String { return Reflection.extractClassName( o ); } ).join(", ") );
+			name = _$( _("Filters : $0"), filters.map( function( o:*, ... args ) : String { return Reflection.getClassName( o ); } ).join(", ") );
 		}
 
 		override public function execute (e : Event = null) : void

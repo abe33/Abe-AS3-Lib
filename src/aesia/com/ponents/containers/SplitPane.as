@@ -288,12 +288,12 @@ internal class Divider extends AbstractComponent
 [Skin(define="SplitPane_Expander_Vertical",
 		  inherit="SplitPane_Expander",
 		  
-		  state__all__borders="new aesia.com.ponents.utils::Borders(1,0,1,0)"
+		  state__all__borders="new cutils::Borders(1,0,1,0)"
 )]
 [Skin(define="SplitPane_Expander_Horizontal",
 		  inherit="SplitPane_Expander",
 		  
-		  state__all__borders="new aesia.com.ponents.utils::Borders(0,1,0,1)"
+		  state__all__borders="new cutils::Borders(0,1,0,1)"
 )]
 [Skin(define="SplitPane_Expander",
 		  inherit="DefaultComponent",

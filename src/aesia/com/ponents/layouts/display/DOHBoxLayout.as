@@ -12,7 +12,16 @@ package aesia.com.ponents.layouts.display
 	 */
 	public class DOHBoxLayout extends AbstractDisplayObjectLayout
 	{
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _boxes : Array;
+		
+		TARGET::FLASH_10
 		protected var _boxes : Vector.<DOBoxSettings>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _boxes : Vector.<DOBoxSettings>;
+		
 		protected var _gap : Number;
 		protected var _adjustLastBoxToRest : Boolean;
 
@@ -21,7 +30,12 @@ package aesia.com.ponents.layouts.display
 			super( container );
 			_gap = gap;
 			_adjustLastBoxToRest = false;
-			_boxes = boxes ? Vector.<DOBoxSettings> ( boxes ) : new Vector.<DOBoxSettings> ();
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _boxes = boxes ? boxes : []; }
+			TARGET::FLASH_10 { _boxes = boxes ? Vector.<DOBoxSettings> ( boxes ) : new Vector.<DOBoxSettings> (); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_boxes = boxes ? Vector.<DOBoxSettings> ( boxes ) : new Vector.<DOBoxSettings> (); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 
 		public function setObjectForBox( object : DisplayObject, id : uint = 0 ) : void
@@ -35,11 +49,19 @@ package aesia.com.ponents.layouts.display
 			_gap = gap;
 		}
 
-		public function get boxes () : Vector.<DOBoxSettings>	{ return _boxes; }
-		public function set boxes (boxes : Vector.<DOBoxSettings>) : void
-		{
-			_boxes = boxes;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9 {
+		public function get boxes () : Array { return _boxes; }
+		public function set boxes ( o : Array ) : void { _boxes = o; }
 		}
+		TARGET::FLASH_10 {
+		public function get boxes () : Vector.<DOBoxSettings> { return _boxes; }
+		public function set boxes ( o : Vector.<DOBoxSettings> ) : void { _boxes = o; }
+		}
+		TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+		public function get boxes () : Vector.<DOBoxSettings> { return _boxes; }
+		public function set boxes ( o : Vector.<DOBoxSettings> ) : void { _boxes = o; }
+		/*FDT_IGNORE*/}/*FDT_IGNORE*/
 
 		public function get columnsSizes () : Array
 		{

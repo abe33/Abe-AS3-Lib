@@ -1,6 +1,5 @@
 package aesia.com.ponents.sliders 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.KeyStroke;
@@ -38,12 +37,11 @@ package aesia.com.ponents.sliders
 		  custom_inputWidth="30",
 		  custom_buttonSize="20",		  custom_trackSize="150",
 		  custom_tickSize="8",		  custom_tickMargin="5",
-		  custom_tickColor="aesia.com.mon.utils::Color.DimGray",
+		  custom_tickColor="skin.sliderTickColor",
 		  custom_icon="icon(aesia.com.ponents.sliders::HSlider.SLIDER_ICON)"
 	)]
 	[Skin(define="HSliderButton",
 		  inherit="Button",
-		  shortcuts="cutils=aesia.com.ponents.utils",
 		  preview="aesia.com.ponents.sliders::HSlider.defaultHSliderPreview",
 		  previewAcceptStyleSetup="false",
 		  
@@ -57,12 +55,12 @@ package aesia.com.ponents.sliders
 	)]
 	[Skin(define="HSliderTrack",
 		  inherit="EmptyComponent",
-		  shortcuts="utils=aesia.com.mon.utils,cutils=aesia.com.ponents.utils,deco=aesia.com.ponents.sliders",
+		  shortcuts="sliders=aesia.com.ponents.sliders",
 		  preview="aesia.com.ponents.sliders::HSlider.defaultHSliderPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__background="new deco::HSliderTrackFill( utils::Color.Gray, utils::Color.DimGray, 4, 10)",
-		  state__1_5_9_13__background="new deco::HSliderTrackFill( utils::Color.DarkGray, utils::Color.Gray, 4, 10)",
+		  state__all__background="new sliders::HSliderTrackFill( skin.sliderTrackBackgroundColor1, skin.sliderTrackBackgroundColor2, 4, 10)",
+		  state__1_5_9_13__background="new sliders::HSliderTrackFill( skin.sliderTrackDisabledBackgroundColor1, skin.sliderTrackDisabledBackgroundColor2, 4, 10)",
 		  state__all__corners="new cutils::Corners(2)",
 		  state__all__insets="new cutils::Insets(2,10,2,10)"
 	)]

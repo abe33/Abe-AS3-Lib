@@ -21,7 +21,7 @@ package aesia.com.ponents.text
 	[Skin(define="TextEditor",
 		  inherit="Text",
 		  
-		  state__all_foreground="new aesia.com.ponents.skinning.decorations::SimpleBorders( aesia.com.mon.utils::Color.LightSkyBlue )"
+		  state__all_foreground="new deco::SimpleBorders( skin.selectedBorderColor )"
 	)]
 	public class TextEditor extends TextInput implements Editor
 	{

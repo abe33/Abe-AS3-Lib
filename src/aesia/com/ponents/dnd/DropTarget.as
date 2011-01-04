@@ -5,8 +5,10 @@ package  aesia.com.ponents.dnd
 {
 	import aesia.com.ponents.core.Component;
 
-	public interface DropTarget extends Component
+	public interface DropTarget
 	{
+		function get component () : Component;
+		
 		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
 		function get supportedFlavors () : Array;
 		function dragEnter ( e : DropTargetDragEvent ) : void;

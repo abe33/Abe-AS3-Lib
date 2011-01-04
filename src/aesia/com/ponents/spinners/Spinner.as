@@ -57,25 +57,25 @@ package aesia.com.ponents.spinners
 		  preview="aesia.com.ponents.spinners::Spinner.defaultSpinnerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__insets="new aesia.com.ponents.utils::Insets( 4, 0, 4, 0 )",		  state__all__borders="new aesia.com.ponents.utils::Borders( 0,1,1,1 )",		  state__all__corners="new aesia.com.ponents.utils::Corners( 0, 6, 0, 0 )"
+		  state__all__insets="new cutils::Insets( 4, 0, 4, 0 )",		  state__all__borders="new cutils::Borders( 0,1,1,1 )",		  state__all__corners="new cutils::Corners( 0, 6, 0, 0 )"
 	)]
 	[Skin(define="SpinnerDownButton",
 		  inherit="Button",
 		  preview="aesia.com.ponents.spinners::Spinner.defaultSpinnerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__insets="new aesia.com.ponents.utils::Insets( 4, 0, 4, 0 )",
-		  state__all__borders="new aesia.com.ponents.utils::Borders( 0,0,1,1 )",
-		  state__all__corners="new aesia.com.ponents.utils::Corners( 0, 0, 0, 6 )"
+		  state__all__insets="new cutils::Insets( 4, 0, 4, 0 )",
+		  state__all__borders="new cutils::Borders( 0,0,1,1 )",
+		  state__all__corners="new cutils::Corners( 0, 0, 0, 6 )"
 	)]
 	[Skin(define="SpinnerInput",
 		  inherit="Text",
 		  preview="aesia.com.ponents.spinners::Spinner.defaultSpinnerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( color( White ) )",
-		  state__all__insets="new aesia.com.ponents.utils::Insets( 5, 0, 0, 0 )",
-		  state__all__corners="new aesia.com.ponents.utils::Corners(6,0,6,0 )"
+		  state__all__background="new deco::SimpleFill( skin.textBackgroundColor )",
+		  state__all__insets="new cutils::Insets(5,0,0,0 )",
+		  state__all__corners="new cutils::Corners(6,0,6,0 )"
 	)]
 	public class Spinner extends AbstractContainer implements Component, 
 															  IDisplayObject, 

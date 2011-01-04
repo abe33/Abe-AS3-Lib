@@ -1,5 +1,9 @@
 package aesia.com.ponents.containers
 {
+	import aesia.com.ponents.core.Dockable;
+	import aesia.com.ponents.transfer.DockableTransferable;
+	import aesia.com.ponents.transfer.Transferable;
+	import aesia.com.ponents.buttons.DraggableButton;
 	import aesia.com.ponents.buttons.AbstractButton;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.layouts.display.DOInlineLayout;
@@ -9,14 +13,14 @@ package aesia.com.ponents.containers
 	[Skinable(skin="AccordionTab")]
 	[Skin(define="AccordionTab",
 			  inherit="Button",
-			  state__all__corners="new aesia.com.ponents.utils::Corners(0)",
-			  state__all__borders="new aesia.com.ponents.utils::Borders(0,0,0,1)",
-			  state__all__background="new aesia.com.ponents.skinning.decorations::GradientFill(gradient([color(Gainsboro),color(LightGrey),color(Gainsboro)],[.5,.5,1]),90)"
+			  state__all__corners="new cutils::Corners(0)",
+			  state__all__borders="new cutils::Borders(0,0,0,1)",
+			  state__all__background="new deco::GradientFill(gradient([skin.overSelectedBackgroundColor,skin.selectedBackgroundColor,skin.overSelectedBackgroundColor],[.5,.5,1]),90)"
 	)]
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class AccordionTab extends AbstractButton
+	public class AccordionTab extends DraggableButton implements Dockable
 	{
 		static private var SKIN_DEPENDENCIES : Array = [GradientFill];
 
@@ -41,5 +45,6 @@ package aesia.com.ponents.containers
 		{
 			_accordion = accordion;
 		}
+		override public function get transferData () : Transferable { return new DockableTransferable( this ); }
 	}
 }

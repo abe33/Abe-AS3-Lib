@@ -1,13 +1,10 @@
 package aesia.com.ponents.core
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.ponents.layouts.display.DOInlineLayout;
 	import aesia.com.ponents.layouts.display.DisplayObjectLayout;
 
 	import flash.display.DisplayObject;
-	import flash.events.Event;
-
 	/**
 	 * Implémentation standard d'un composant n'ayant que des objets <code>DisplayObject</code>
 	 * comme sous-objets.
@@ -63,6 +60,7 @@ package aesia.com.ponents.core
 				invalidatePreferredSizeCache();
 			}
 		}
+		override public function get maximumContentSize () : Dimension { return _childrenLayout.maximumContentSize; }
 		/**
 		 * Un entier représentant le nombre d'enfants dans ce composant.
 		 */
@@ -100,25 +98,20 @@ package aesia.com.ponents.core
 		{
 			invalidatePreferredSizeCache();
 		}*/
-
 		/**
 		 * @inheritDoc
 		 */
 		public function layoutChildren () : void
 		{
-			var children : Vector.<DisplayObject> = new Vector.<DisplayObject>();
+			var children : Array = [];
 			var l : uint = _childrenContainer.numChildren;
 			for(var i : uint=0;i<l;i++)
 				children.push(_childrenContainer.getChildAt(i));
 
 			children.sort ( displayObjectSort );
 			while( l-- )
-			{
 				if ( _childrenContainer.getChildIndex( children[l] ) != l )
-				{
 					 _childrenContainer.setChildIndex( children[l], l );
-				}
-			}
 		}
 		/**
 		 * @inheritDoc

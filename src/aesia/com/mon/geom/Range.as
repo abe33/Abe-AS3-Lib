@@ -7,9 +7,9 @@ package  aesia.com.mon.geom
 	import aesia.com.mon.core.Equatable;
 	import aesia.com.mon.core.FormMetaProvider;
 	import aesia.com.mon.core.Serializable;
+	import aesia.com.mon.utils.StringUtils;
 
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe <code>Range</code> représente une plage de valeurs.
 	 *
@@ -154,7 +154,7 @@ package  aesia.com.mon.geom
 		 */
 		public function toString() : String
 		{
-			return getQualifiedClassName( this ) + " : [" + min + ", " + max + "]";
+			return StringUtils.stringify(this,{ min:min, max:max } );
 		}
 
 

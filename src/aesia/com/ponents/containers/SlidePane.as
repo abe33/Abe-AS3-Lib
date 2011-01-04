@@ -5,7 +5,6 @@ package aesia.com.ponents.containers
 	import aesia.com.ponents.events.PropertyEvent;
 	import aesia.com.ponents.layouts.components.SlidePaneLayout;
 	import aesia.com.ponents.skinning.icons.Icon;
-	import aesia.com.ponents.skinning.icons.magicIconBuild;
 
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -20,14 +19,12 @@ package aesia.com.ponents.containers
 	
 	[Skinable(skin="SlidePane")]
 	[Skin(define="SlidePane",
-		  inherit="DefaultComponent",
-		  
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.White )"
+		  inherit="NoDecorationComponent"
 	)]
 	[Skin(define="SlidePaneButton",
 		  inherit="DefaultComponent",
 		  
-		  state__all__corners="new aesia.com.ponents.utils::Corners()",		  state__all__insets="new aesia.com.ponents.utils::Insets(2)",
+		  state__all__corners="new cutils::Corners()",		  state__all__insets="new cutils::Insets(2)",
 		  
 		  custom_upIcon="icon(aesia.com.ponents.containers::SlidePane.SCROLL_UP_ICON)", 
 		  custom_downIcon="icon(aesia.com.ponents.containers::SlidePane.SCROLL_DOWN_ICON)", 

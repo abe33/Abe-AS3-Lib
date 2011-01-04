@@ -41,18 +41,18 @@ package aesia.com.ponents.scrollbars
 		  custom_icon="icon(aesia.com.ponents.scrollbars::ScrollBar.VERTICAL_GRIP)"
 	)]
 	[Skin(define="ScrollBar_Button",
-		  inherit="DefaultComponent",		  state__all__insets="new aesia.com.ponents.utils::Insets(0)",
-		  state__all__corners="new aesia.com.ponents.utils::Corners(2)"
+		  inherit="DefaultComponent",		  state__all__insets="new cutils::Insets(0)",
+		  state__all__corners="new cutils::Corners(2)"
 	)]
 	[Skin(define="ScrollBar_TrackHorizontal",
 		  inherit="DefaultComponent",
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( color(White) )",
-		  state__all__borders="new aesia.com.ponents.utils::Borders(0,1,0,1)"
+		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )",
+		  state__all__borders="new cutils::Borders(0,1,0,1)"
 	)]
 	[Skin(define="ScrollBar_TrackVertical",
 		  inherit="DefaultComponent",
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( color(White) )",
-		  state__all__borders="new aesia.com.ponents.utils::Borders(1,0,1,0)"
+		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )",
+		  state__all__borders="new cutils::Borders(1,0,1,0)"
 	)]
 	public class ScrollBar extends AbstractContainer
 	{

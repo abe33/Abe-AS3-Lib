@@ -1,7 +1,6 @@
 package aesia.com.ponents.monitors
 {
 	import aesia.com.mands.ProxyCommand;
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.logs.LogEvent;
 	import aesia.com.mon.logs.LogLevel;
 	import aesia.com.mon.utils.KeyStroke;
@@ -18,18 +17,18 @@ package aesia.com.ponents.monitors
 	import aesia.com.ponents.text.TextArea;
 	import aesia.com.ponents.text.TextLineRuler;
 	import aesia.com.ponents.utils.ContextMenuItemUtils;
+
 	import flash.display.DisplayObject;
 	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
 	import flash.text.TextFieldType;
-	import flash.ui.ContextMenuItem;
 
 	[Event(name="notifyWarning",type="aesia.com.ponents.events.DebugEvent")]	[Event(name="notifyError",type="aesia.com.ponents.events.DebugEvent")]
 	[Skinable(skin="LogView")]
 	[Skin(define="LogView",
 		  inherit="Text",
 
-		  state__all__format="new flash.text::TextFormat ('Monospace', 11,0,false,false,false)"
+		  state__all__format="new txt::TextFormat ('Monospace', 11,0,false,false,false)"
 	)]
 	/**
 	 * @author Cédric Néhémie
@@ -59,8 +58,6 @@ package aesia.com.ponents.monitors
 
 			_notifyWarnings = true;
 			_notifyErrors = true;
-
-			Log.getInstance().addEventListener( LogEvent.LOG_ADD, logAdded );
 
 			_lineRuler = new TextLineRuler(_label, this);
 			addComponentChildBefore(_lineRuler, _label as DisplayObject);
@@ -265,7 +262,7 @@ package aesia.com.ponents.monitors
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
-		protected function clear (... args) : void
+		public function clear (... args) : void
 		{
 			_logs = [];
 			printLogs();

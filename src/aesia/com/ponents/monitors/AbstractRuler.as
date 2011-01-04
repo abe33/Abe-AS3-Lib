@@ -18,10 +18,10 @@ package aesia.com.ponents.monitors
 	[Skin(define="Ruler",
 		  inherit="DefaultComponent",
 		  
-		  state__all__format="new flash.text::TextFormat('Verdana',8)",
-		  state__all__textColor="aesia.com.mon.utils::Color.DimGray",
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.Gainsboro )",
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()"
+		  state__all__format="new txt::TextFormat('Verdana',8)",
+		  state__all__textColor="skin.rulerTextColor",
+		  state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",
+		  state__all__foreground="skin.noDecoration"
 	)]
 	public class AbstractRuler extends AbstractContainer
 	{

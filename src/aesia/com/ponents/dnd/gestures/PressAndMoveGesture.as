@@ -107,7 +107,6 @@ package aesia.com.ponents.dnd.gestures
 				}
 			}
 		}
-		public function get isDragging () : Boolean { return _dragging; 
-		}
+		public function get isDragging () : Boolean { return _dragging; }
 	}
 }

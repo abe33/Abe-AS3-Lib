@@ -97,7 +97,15 @@ package aesia.com.mon.utils
 		 * PRIVATE MEMBERS
 		 *-------------------------------------------------------------*/
 		// Un vecteur contenant les 623 valeurs de la séquence courante
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		private var MT:Array = new Array( 623 );
+	
+		TARGET::FLASH_10
 		private var MT:Vector.<uint> = new Vector.<uint>( 623 );
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		private var MT:Vector.<uint> = new Vector.<uint>( 623 );
+		
 		// le curseur permettant de récupérer la prochaine valeur parmis les 623 courantes
 		private var Z:Number = 0;
 		// une variable utilisée dans le cadre de la génération

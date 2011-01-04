@@ -1,5 +1,6 @@
 package aesia.com.ponents.menus 
 {
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.ponents.actions.Action;
 	import aesia.com.ponents.events.PopupEvent;
@@ -61,11 +62,18 @@ package aesia.com.ponents.menus
 				if( m )
 					addMenuItem( m );
 		}
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function addMenuItemsVector ( args : Array ) : void { for each ( var m : MenuItem in args ) addMenuItem( m ); }
+		TARGET::FLASH_10
+		public function addMenuItemsVector ( args : Vector.<MenuItem> ) : void { for each ( var m : MenuItem in args ) addMenuItem( m ); }
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		public function addMenuItemsVector ( args : Vector.<MenuItem> ) : void
 		{
 			for each ( var m : MenuItem in args )
 				addMenuItem( m );
 		}
+		
 		public function addAction ( a : Action ) : void
 		{
 			addMenuItem( new MenuItem( a ) );
@@ -85,24 +93,26 @@ package aesia.com.ponents.menus
 
 		override public function set itemSelected (b : Boolean) : void
 		{
+			if( b == _selected )
+				return;
+			
 			super.itemSelected = b;
 			
-			if( b )
-				click();
-			else if( _popupMenu )
+			if( _selected )
+				togglePopup();
+			else if( !_selected && _popupMenu )
 				_popupMenu.hide();
 		}
-
-		override public function click (e : Event = null) : void
+		protected function togglePopup() : void
 		{
 			var pt : Point;
 			if( hasSubItems && !_popupMenu )
 			{
 				_popupMenu= new PopupMenu();
+				
 				_popupMenu.invoker = this;
 				_popupMenu.addMenuItemsVector( _subItems );
 				_popupMenu.addWeakEventListener( PopupEvent.CLOSE_ON_ACTION, popupHidden );
-				
 				pt = menuContainer.getPopupCoordinates( this );
 				_popupMenu.x = pt.x;
 				_popupMenu.y = pt.y;
@@ -111,7 +121,7 @@ package aesia.com.ponents.menus
 				if( !(menuContainer is PopupMenu) )
 				{
 					StageUtils.stage.focus = _popupMenu;
-					_popupMenu.down();
+					//_popupMenu.down();
 				}
 				_popupMenu.checkSize();
 			}
@@ -125,13 +135,17 @@ package aesia.com.ponents.menus
 				if( !(menuContainer is PopupMenu) )
 				{
 					StageUtils.stage.focus = _popupMenu;
-					_popupMenu.down();
+					//_popupMenu.down();
 				}
 				_popupMenu.checkSize();
 			}
+			/*
 			else if( _popupMenu && _popupMenu.stage )
-				_popupMenu.hide();
+				_popupMenu.hide();*/
 		}
+
+		override public function click (e : Event = null) : void
+		{}
 
 		public function popupHidden ( e : Event ) : void
 		{

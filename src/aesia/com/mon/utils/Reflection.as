@@ -3,15 +3,15 @@
  */
 package aesia.com.mon.utils
 {
-	import flash.utils.getQualifiedClassName;
-
 	import aesia.com.mon.logs.Log;
 
 	import flash.errors.IllegalOperationError;
 	import flash.net.URLRequest;
 	import flash.system.ApplicationDomain;
+	import flash.utils.Dictionary;
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	/**
 	 * La classe utilitaire <code>Reflection</code> fournit un ensemble de méthodes
 	 * permettant de récupérer nombre d'informations sur les objets et classes
@@ -27,7 +27,12 @@ package aesia.com.mon.utils
 		 *
 		 * @default	"Vector"
 		 */
+		/*FDT_IGNORE*/ TARGET::FLASH_10 
 		static protected const VECTOR_CLASSNAME : String = getQualifiedClassName( Vector );
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		static protected const VECTOR_CLASSNAME : String = getQualifiedClassName( Vector );
+		
 		/**
 		 * Une valeur booléenne indiquant si la méthode <code>get</code> lance une
 		 * alerte dans le cas où elle rencontrerait une chaîne ne pouvant être traitée et
@@ -71,7 +76,7 @@ package aesia.com.mon.utils
 		 *
 		 * @default {}
 		 */
-		static protected var _customShortcuts : Object = {};
+		static protected var _customShortcuts : Dictionary = new Dictionary();
 		/**
 		 * Ajoute un raccourci définit par l'utilisateur pour être pris
 		 * en compte dans la fonction <code>get</code>.
@@ -84,7 +89,7 @@ package aesia.com.mon.utils
 		 * @example Le raccourci <code>gradient</code> pourrait être définit de la manière suivante :
 		 * <listing>Reflection.addCustomShortcuts("gradient(", "new aesia.com.mon.utils.Gradient(");</listing>
 		 */
-		static public function addCustomShortcuts ( s : String, replacement : String ) : void
+		static public function addCustomShortcuts ( s : *, replacement : * ) : void
 		{
 			_customShortcuts [ s ] = replacement;
 		}
@@ -98,6 +103,21 @@ package aesia.com.mon.utils
 		 * @return	une référence vers une classe <code>Vector</code> dont le
 		 * 			type des éléments est <code>clazz</code>
 		 */
+		/*FDT_IGNORE*/ 
+		TARGET::FLASH_10
+		static public function getVectorDefinition( clazz:Class , applicationDomain:ApplicationDomain = null ):Class
+        {
+            if ( clazz == null )
+            {
+                return null ;
+            }
+            if( applicationDomain == null )
+            {
+                applicationDomain = ApplicationDomain.currentDomain ;
+            }
+            return applicationDomain.getDefinition( VECTOR_CLASSNAME + '.<' + getQualifiedClassName( clazz ) +'>' ) as Class;
+        }
+        TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		static public function getVectorDefinition( clazz:Class , applicationDomain:ApplicationDomain = null ):Class
         {
             if ( clazz == null )
@@ -136,10 +156,14 @@ package aesia.com.mon.utils
 		 * @return	le nom de la classe
 		 * @example	<listing>trace( Reflection.extractClassName( new Point() ) ); // output : Point</listing>
 		 */
-		static public function extractClassName ( v : * ) : String
+		static public function getClassName ( v : * ) : String
 		{
 			var a : Array = getQualifiedClassName ( v ).split ( "::" );
-			return a.length > 1 ? a[1] : a[0];
+			var s : String = a.length > 1 ? a.slice(1).join("::") : a[0];
+			if( s.indexOf( "<")!= -1 )
+				s = s.substr(0, s.indexOf("<")+1) + s.substr(s.indexOf("::") + 2);
+			
+			return s;
 		}
         /**
          * Renvoie un objet <code>XML</code> contenant la description de <code>o</code>
@@ -410,14 +434,14 @@ package aesia.com.mon.utils
 			var xml : XML = Reflection.describeClass(o);
 			return xml..variable + xml..accessor;
 		}
-		static public function asAnonymousObject( o : Object ) : Object
+		static public function asAnonymousObject( o : Object, allowReadOnly : Boolean = true ) : Object
 		{
 			var members : XMLList = getPublicMembers(o);
 			
 			var res : Object = {};
 			for each( var x : XML in members )
 			{
-				if( o.hasOwnProperty(x.@name) )
+				if( o.hasOwnProperty(x.@name) && x.@access != "writeonly" && ( allowReadOnly || x.@access != "readonly" ) )
 					res[x.@name] = o[x.@name];
 			}
 			return res;
@@ -625,15 +649,16 @@ package aesia.com.mon.utils
 				s = s.replace( "gradient(", "new aesia.com.mon.utils::Gradient(" );
 			// An uint with 0x... notation
 			else if( s.indexOf("0x") != -1 )				numval = parseInt( s );
-			// Else we force an evaluation as float
+			// If is an XML string
 			else if( s.indexOf("<") ==0 )
 				return new XML( s );
 			else
 			{
+				// handling custom shortcuts
 				var bb : Boolean = false;
-				for ( var i : String in _customShortcuts )
+				for ( var i : * in _customShortcuts )
 				{
-					if( s.indexOf(i) == 0 )
+					if( s.search(i) >= 0 )
 					{
 						s = s.replace( i, _customShortcuts[i] );
 						bb = true;

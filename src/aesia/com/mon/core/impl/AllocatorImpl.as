@@ -97,6 +97,11 @@ package aesia.com.mon.core.impl
 			// on initialise les vecteurs si aucun n'existe pour ce type
 			if( !usedObjects[ c ] )
 			{
+				/*FDT_IGNORE*/ TARGET::FLASH_9 { /*FDT_IGNORE*/
+				var v1 : Array = [];				var v2 : Array = [];
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
+				/*FDT_IGNORE*/ TARGET::FLASH_10 { /*FDT_IGNORE*/
 				var v1 : Vector.<*>;
 				var v2 : Vector.<*>;
 				try
@@ -107,14 +112,46 @@ package aesia.com.mon.core.impl
 				{
 					v1 = new Vector.<*>();
 					v2 = new Vector.<*>();
+				}	
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
+				/*FDT_IGNORE*/ TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				var v1 : Vector.<*>;
+				var v2 : Vector.<*>;
+				try
+				{
+					var def : Class = Reflection.getVectorDefinition( c );
+					v1 = new def();
+					v2 = new def();
 				}
-				usedObjects[ c ] = v1;				unusedObjects[ c ] = v2;
+				catch( e : Error )
+				{
+					v1 = new Vector.<*>();
+					v2 = new Vector.<*>();
+				}
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
+				usedObjects[ c ] = v1;
+				unusedObjects[ c ] = v2;
 				usedObjectsCount[ c ] = 0;
-				unusedObjectsCount[ c ] = 0;
+				unusedObjectsCount[ c ] = 0;	
 			}
 			
 			// récupération de références aux vecteurs typés
-			var used : Vector.<*> = ( usedObjects[ c ] as Vector.<*> );			var unused : Vector.<*>  = ( unusedObjects[ c ] as Vector.<*> );			var o : Object;
+			/*FDT_IGNORE*/ TARGET::FLASH_9 { /*FDT_IGNORE*/
+			var used : Array = usedObjects[ c ] as Array;
+			var unused : Array  = unusedObjects[ c ] as Array;
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			/*FDT_IGNORE*/ TARGET::FLASH_10 { /*FDT_IGNORE*/
+			var used : Vector.<*> = usedObjects[ c ] as Vector.<*>;			var unused : Vector.<*>  = unusedObjects[ c ] as Vector.<*>;				
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			/*FDT_IGNORE*/ TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var used : Vector.<*> = usedObjects[ c ] as Vector.<*>;
+			var unused : Vector.<*>  = unusedObjects[ c ] as Vector.<*>;				
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+						var o : Object;
 			
 			// on récupère prioritairement une instance 
 			// déjà existante si il en existe
@@ -171,8 +208,21 @@ package aesia.com.mon.core.impl
 		public function release ( o : *, c : Class = null ) : void
 		{
 			var cl : Class = Reflection.getClass( o );
-			var used : Vector.<*>  = ( usedObjects[ cl ] as Vector.<*> );
-			var unused : Vector.<*>  = ( unusedObjects[ cl ] as Vector.<*> );
+			
+			/*FDT_IGNORE*/ TARGET::FLASH_9 { /*FDT_IGNORE*/
+			var used : Array = usedObjects[ c ] as Array;
+			var unused : Array  = unusedObjects[ c ] as Array;
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			/*FDT_IGNORE*/ TARGET::FLASH_10 { /*FDT_IGNORE*/
+			var used : Vector.<*> = usedObjects[ c ] as Vector.<*>;
+			var unused : Vector.<*>  = unusedObjects[ c ] as Vector.<*>;				
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			/*FDT_IGNORE*/ TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var used : Vector.<*> = usedObjects[ c ] as Vector.<*>;
+			var unused : Vector.<*>  = unusedObjects[ c ] as Vector.<*>;				
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			if( !used || !unused )
 				return;

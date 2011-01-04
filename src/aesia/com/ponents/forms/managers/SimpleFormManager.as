@@ -6,6 +6,7 @@ package aesia.com.ponents.forms.managers
 	import aesia.com.ponents.events.PropertyEvent;
 	import aesia.com.ponents.forms.FormField;
 	import aesia.com.ponents.forms.FormObject;
+	import aesia.com.ponents.text.AbstractTextComponent;
 
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -32,7 +33,14 @@ package aesia.com.ponents.forms.managers
 			if( _formObject )
 				init();
 		}
-		
+		public function save () : void
+		{
+			for each ( var f: FormField in _formObject.fields )
+				if( f.component && f.component is AbstractTextComponent )
+				  ( f.component as AbstractTextComponent ).registerValue();
+			
+			updateTargetWithFields();
+		}
 		public function init () : void
 		{
 			for each ( var f: FormField in _formObject.fields )

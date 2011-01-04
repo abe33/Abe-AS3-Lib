@@ -1,16 +1,17 @@
 package aesia.com.ponents.factory 
 {
-	import aesia.com.ponents.core.Component;
 	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.Reflection;
 	import aesia.com.motion.Impulse;
 	import aesia.com.motion.ImpulseEvent;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.lang._$;
+	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.events.ComponentFactoryEvent;
+	import aesia.com.ponents.utils.Inspect;
 
 	import flash.events.EventDispatcher;
-	
+
 	/**
 	 * Évènement diffusé lors du démarrage de la construction des composants.
 	 *  
@@ -124,20 +125,29 @@ package aesia.com.ponents.factory
 		}
 		protected function processKeywordArgs ( o : *, k : String, kwargs : Object ):void
 		{
-			if( o.hasOwnProperty( k ) && kwargs.hasOwnProperty( k ) )
+			try
 			{
-				var kwarg : * = kwargs[k];
-				var val : * = kwarg is Function ? kwarg( o, k, _processingContext) : kwarg;
-				
-				if ( o[k] is Function )
-				   ( o[k] as Function ).apply( null, val );
+				if( o.hasOwnProperty( k ) && kwargs.hasOwnProperty( k ) )
+				{
+					var kwarg : * = kwargs[k];
+					var val : * = kwarg is Function ? kwarg( o, k, _processingContext) : kwarg;
+					
+					if ( o[k] is Function )
+					   ( o[k] as Function ).apply( null, val );
+					else
+						o[k] = val;
+				}
 				else
-					o[k] = val;
+				{
+					/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+						Log.warn(_$(_("Both the target object $0 and the kwargs object must have a property named '$1'"), o, k ) );
+					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				}
 			}
-			else
+			catch( e : Error )
 			{
 				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
-					Log.warn(_$(_("Both the target object $0 and the kwargs object must have a property named '$1'"), o, k ) );
+					Log.error(_$(_("An unexpected error occured while processing the keyword argument $0 for $1 with kwargs:\n$2\n$3"),k,o,Inspect.inspect(kwargs),e.getStackTrace()),true);
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			}
 			delete kwargs[k];
@@ -172,12 +182,14 @@ package aesia.com.ponents.factory
 					{
 						_processingContext[ id ] = o;
 						if( o is Component )
-						  ( o as Component ).id = id;
+						{
+						  ( o as Component ).id = id;						  ( o as Component ).name = id;
+						}
 					}
 					else
 					{
 						/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
-							Log.warn( _("The id '"+id+"' is already defined in the current context. The corresponding component will not receive any id") );
+							Log.warn( _$(_("The id '$0' is already defined in the current context. The corresponding component will not receive any id"), id ) );
 						/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 					}
 				}
@@ -186,7 +198,7 @@ package aesia.com.ponents.factory
 					if( kwargs["id"] )
 					{
 						/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
-							Log.warn(_("The 'id' keyword is reserved by the factory, it will be ignored."));
+							Log.warn( _("The 'id' keyword is reserved by the factory, it will be ignored."));
 						/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 						delete kwargs["id"];
 					}
@@ -209,13 +221,16 @@ package aesia.com.ponents.factory
 				fireBuildProgressEvent();
 				
 				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
-					Log.info( _$( "Build complete for $0", entry ), true );
+					Log.info( _$( _( "Build complete for $0" ), entry ), true );
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			}
 			catch( e : Error )
 			{
 				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
-					Log.error( _$("Unable to build the following entry : \n$0\n\n\n$1", entry, e.getStackTrace() ), true );
+					Log.error( _$( _("Unable to build the following entry : \n$0\n\n\n$1\n$2"), 
+									 entry, 
+									 e.getStackTrace(), 
+									 Inspect.inspect( _processingContext ) ), true );
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			}
 		}

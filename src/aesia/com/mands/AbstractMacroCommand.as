@@ -27,7 +27,11 @@ package  aesia.com.mands
 		/**
 		 * Vecteur contenant toutes les sous-commandes de cette instance.
 		 */
-		protected var _aCommands : Vector.<Command>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _aCommands : Array;		
+		TARGET::FLASH_10		protected var _aCommands : Vector.<Command>;		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _aCommands : Vector.<Command>;
 		
 		/**
 		 * Instancier une <code>AbstractCommand</code> est possible mais
@@ -38,7 +42,15 @@ package  aesia.com.mands
 		public function AbstractMacroCommand()
 		{
 			super();
-			_aCommands = new Vector.<Command>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+				_aCommands = [];
+			}
+			
+			TARGET::FLASH_10 {				_aCommands = new Vector.<Command>();
+			}
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/			_aCommands = new Vector.<Command>();
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		
 		/**
@@ -71,6 +83,25 @@ package  aesia.com.mands
 			
 			return b;
 		}
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function addCommandsVector ( commands : Array ) : Boolean
+		{
+			var b : Boolean = false;
+			for each( var c : Command in commands )
+				b = addCommand( c ) || b;
+			
+			return b;
+		}		TARGET::FLASH_10
+		public function addCommandsVector ( commands : Vector.<Command> ) : Boolean
+		{
+			var b : Boolean = false;
+			for each( var c : Command in commands )
+				b = addCommand( c ) || b;
+			
+			return b;
+		}
+				TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		public function addCommandsVector ( commands : Vector.<Command> ) : Boolean
 		{
 			var b : Boolean = false;
@@ -125,7 +156,12 @@ package  aesia.com.mands
 					unregisterToCommandEvents( c );
 				}
 			}
-			_aCommands = new Vector.<Command>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+			_aCommands = [];			}
+			TARGET::FLASH_10 {			_aCommands = new Vector.<Command>();			}
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/			_aCommands = new Vector.<Command>();
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		
 		/**

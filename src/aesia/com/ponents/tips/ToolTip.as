@@ -19,7 +19,8 @@ package aesia.com.ponents.tips
 	[Skinable(skin="ToolTip")]
 	[Skin(define="ToolTip",
 			  inherit="DefaultComponent",
-			  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill(aesia.com.mon.utils::Color.Khaki)"
+			  state__all__background="new deco::SimpleFill(skin.tooltipBackgroundColor)",			  state__all__foreground="new deco::SimpleBorders(skin.tooltipBorderColor)",
+			  state__all__textColor="skin.tooltipTextColor"
 	)]
 	public class ToolTip extends AbstractButton
 	{

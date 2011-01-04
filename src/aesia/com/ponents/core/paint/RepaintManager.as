@@ -34,7 +34,11 @@ package aesia.com.ponents.core.paint
 		 * Un vecteur contenant les composants considérés comme racine de validation
 		 * sur la séquence courante d'invalidation.
 		 */
-		protected var _invalidComponents : Vector.<Component>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _invalidComponents : Array;		
+		TARGET::FLASH_10		protected var _invalidComponents : Vector.<Component>;		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _invalidComponents : Vector.<Component>;
 		/**
 		 * Un dictionnaire stockant les objets déjà repeint durant une phase de redessin. 
 		 */		protected var _repaintComponents : Dictionary;
@@ -49,9 +53,7 @@ package aesia.com.ponents.core.paint
 		 */
 		public function RepaintManager ()
 		{
-			_invalidComponents = new Vector.<Component>();
-			_repaintComponents = new Dictionary( true );
-			_lock = false;
+			reset();
 		}
 		/**
 		 * Recoit l'évènement <code>Event.EXIT_FRAME</code> et réalise
@@ -68,12 +70,24 @@ package aesia.com.ponents.core.paint
 			for(var i : Number = 0; i<l;i++)
 				_invalidComponents[i].repaint();
 
-			_invalidComponents = new Vector.<Component>();
-			_repaintComponents = new Dictionary( true );
+			reset();			
 			StageUtils.root.removeEventListener( Event.EXIT_FRAME, exitFrame );
+		}
+		private function reset () : void 
+		{
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+				_invalidComponents = [];
+			}
+			TARGET::FLASH_10 {
+				_invalidComponents = new Vector.<Component>();
+			}
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_invalidComponents = new Vector.<Component>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			_repaintComponents = new Dictionary( true );
 			_lock = false;
 		}
-		
 		/**
 		 * Recoit la demande d'invalidation du composant <code>c</code>.
 		 * <p>

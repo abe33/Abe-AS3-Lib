@@ -26,18 +26,31 @@ package aesia.com.ponents.monitors
 	[Skin(define="GraphMonitor",
 		  inherit="EmptyComponent",
 
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::GraphMonitorBorder(color(DimGray))",		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill(color(White))"
+		  state__all__foreground="new deco::GraphMonitorBorder( skin.borderColor )",		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )"
 		  )]
 	public class GraphMonitor extends AbstractComponent implements ImpulseListener, Suspendable
 	{
 		static private const SKIN_DEPENDENCIES : Array = [ GraphMonitorBorder ];
 
-		protected var _recorders : Vector.<Recorder>;		protected var _playing : Boolean;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _recorders : Array;
+		TARGET::FLASH_10
+		protected var _recorders : Vector.<Recorder>;
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _recorders : Vector.<Recorder>;
+		
+		protected var _playing : Boolean;
 
 		public function GraphMonitor ()
 		{
 			super();
-			_recorders = new Vector.<Recorder>;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _recorders = []; }
+			TARGET::FLASH_10 { _recorders = new Vector.<Recorder>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_recorders = new Vector.<Recorder>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			_playing = true;
 			allowMask = false;
 			invalidatePreferredSizeCache();
@@ -46,7 +59,15 @@ package aesia.com.ponents.monitors
 			_contextMap = new Dictionary(true);
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function get recorders () : Array { return _recorders; }
+		TARGET::FLASH_10
 		public function get recorders () : Vector.<Recorder> { return _recorders; }
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function get recorders () : Vector.<Recorder> { return _recorders; }
+		
 		public function get length () : uint { return _recorders.length; }
 
 		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/

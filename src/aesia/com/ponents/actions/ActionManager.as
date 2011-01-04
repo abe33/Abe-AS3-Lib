@@ -31,7 +31,11 @@ package aesia.com.ponents.actions
 		/**
 		 * Un vecteur contenant toutes les actions enregistrées dans ce gestionnaire.
 		 */
-		protected var _actions : Vector.<Action>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _actions : Array;		
+		TARGET::FLASH_10		protected var _actions : Vector.<Action>;		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _actions : Vector.<Action>;
 		/**
 		 * Un dictionnaire contenant les associations <code>KeyStroke-&gt;Action</code>
 		 * pour ce gestionnaire.
@@ -51,7 +55,16 @@ package aesia.com.ponents.actions
 		 */
 		public function ActionManager ()
 		{
-			_actions = new Vector.<Action>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+				_actions = [];
+			}
+			TARGET::FLASH_10 {
+				_actions = new Vector.<Action>();
+			}
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_actions = new Vector.<Action>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			_keyStrokes = new Dictionary( true );			_keys = new Dictionary( true );			_values = new Dictionary( true );
 		}
 		
@@ -61,7 +74,12 @@ package aesia.com.ponents.actions
 		/**
 		 * Accès à une copie du vecteur contenant les actions enregistrées dans ce gestionnaire.
 		 */
-		public function get actions () : Vector.<Action> { return _actions.concat(); }
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function get actions () : Array { return _actions.concat(); }		
+		TARGET::FLASH_10		public function get actions () : Vector.<Action> { return _actions.concat(); }		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/ 		public function get actions () : Vector.<Action> { return _actions.concat(); }
+		
 		/**
 		 * Accès à un tableau contenant la liste des clés d'accès utilisés dans ce gestionnaire.
 		 */
@@ -78,9 +96,17 @@ package aesia.com.ponents.actions
 		 * Accès à un vecteur contenant tout les objets <code>KeyStroke</code> enregistrés
 		 * dans ce gestionnaire.
 		 */
-		public function get keyStrokes () : Vector.<KeyStroke>
+		public function get keyStrokes () : *
 		{
-			var a :  Vector.<KeyStroke> = new Vector.<KeyStroke>();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+				var a :  Array = [];
+			}
+			TARGET::FLASH_10 {
+				var a :  Vector.<KeyStroke> = new Vector.<KeyStroke>();
+			}
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var a :  Vector.<KeyStroke> = new Vector.<KeyStroke>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			for( var i : * in _keyStrokes )
 				a.push( i ); 

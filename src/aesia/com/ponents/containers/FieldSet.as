@@ -1,10 +1,8 @@
 package aesia.com.ponents.containers
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.dm;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.core.Component;
-	import aesia.com.ponents.events.ComponentEvent;
 	import aesia.com.ponents.layouts.components.BorderLayout;
 	import aesia.com.ponents.layouts.components.ComponentLayout;
 	import aesia.com.ponents.layouts.components.InlineLayout;
@@ -21,28 +19,28 @@ package aesia.com.ponents.containers
 		  inherit="NoDecorationComponent",
 		  preview="aesia.com.ponents.containers::FieldSet.defaultFieldSetPreview",
 
-		  state__all__borders="new aesia.com.ponents.utils::Borders()",
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::FieldSetBorders( aesia.com.mon.utils::Color.DimGray )"
+		  state__all__borders="new cutils::Borders()",
+		  state__all__foreground="new deco::FieldSetBorders( skin.borderColor )"
 	)]
 	[Skin(define="FieldSet_LabelPanel",
 		  inherit="NoDecorationComponent",
 		  preview="aesia.com.ponents.containers::FieldSet.defaultFieldSetPreview",
 		  previewAcceptStyleSetup="false",
 
-		  state__all__insets="new aesia.com.ponents.utils::Insets(15,0,15,0)"
+		  state__all__insets="new cutils::Insets(15,0,15,0)"
 	)]
 	[Skin(define="FieldSet_InnerPanel",
 		  inherit="NoDecorationComponent",
 		  preview="aesia.com.ponents.containers::FieldSet.defaultFieldSetPreview",
 		  previewAcceptStyleSetup="false",
 
-		  state__all__insets="new aesia.com.ponents.utils::Insets(4)"
+		  state__all__insets="new cutils::Insets(4)"
 	)]
 	[Skin(define="FieldSet_Label",
 		  inherit="EmptyComponent",
 		  preview="aesia.com.ponents.containers::FieldSet.defaultFieldSetPreview",
 		  previewAcceptStyleSetup="false",
-		  state__all__insets="new aesia.com.ponents.utils::Insets(4,0,0,0)"
+		  state__all__insets="new cutils::Insets(2,0,2,0)"
 	)]
 	public class FieldSet extends Panel
 	{
@@ -64,8 +62,9 @@ package aesia.com.ponents.containers
 
 		public function FieldSet ( label : String = null )
 		{
-			super();
 			_insidePanel = new Panel();			_labelPanel = new Panel();
+			
+			super();
 
 			if( label )
 			{
@@ -73,13 +72,14 @@ package aesia.com.ponents.containers
 				this.label = lab;
 			}
 
-			_insidePanel.styleKey = "FieldSet_InnerPanel";			_labelPanel.styleKey = "FieldSet_LabelPanel";
+			_insidePanel.styleKey = "FieldSet_InnerPanel";
+			_insidePanel.allowMask = false;			_labelPanel.styleKey = "FieldSet_LabelPanel";
 			_labelPanel.childrenLayout = new InlineLayout( _labelPanel, 0, Alignments.LEFT );
-
+			
 			var l : BorderLayout = new BorderLayout();			l.addComponent( _labelPanel, CardinalPoints.NORTH );
 			l.addComponent( _insidePanel );
 			_childrenLayout = l;
-
+			
 			super.addComponent( _labelPanel );
 			super.addComponent( _insidePanel );
 		}
@@ -93,6 +93,8 @@ package aesia.com.ponents.containers
 			_insidePanel.childrenLayout = cl;
 		}
 
+		override public function get childrenCount () : int { return _insidePanel.childrenCount; }
+		
 		override public function addComponent (c : Component) : void
 		{
 			_insidePanel.addComponent(c);
@@ -125,7 +127,7 @@ package aesia.com.ponents.containers
 		}
 		override public function removeAllComponents () : void
 		{
-			_insidePanel.removeAllComponents( );
+			_insidePanel.removeAllComponents();
 			invalidatePreferredSizeCache();
 		}
 		public function get label () : Label { return _label; }

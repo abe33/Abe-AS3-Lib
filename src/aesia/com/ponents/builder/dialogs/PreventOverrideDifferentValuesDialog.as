@@ -9,11 +9,9 @@ package aesia.com.ponents.builder.dialogs
 	 */
 	public class PreventOverrideDifferentValuesDialog extends WarningDialog 
 	{
-		public function PreventOverrideDifferentValuesDialog ( memoryKey : String = "warning", memoryChannel : String = "dialogs" )
+		public function PreventOverrideDifferentValuesDialog ()
 		{
-			super( 	new Label( _( "The selected objects have different values across them.\nAre you sure you want to override these values ?" ) ), 
-					memoryKey, 
-					memoryChannel );
+			super( 	new Label( _( "The selected objects have different values across them.\nAre you sure you want to override these values ?" ) ) );
 		}
 	}
 }

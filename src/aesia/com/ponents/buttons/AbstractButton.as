@@ -86,13 +86,13 @@ package aesia.com.ponents.buttons
 	[Skinable(skin="Button")]
 	[Skin(define="ToolBar_Button",
 		  inherit="Button",
-		  state__0_1_4_5__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()",
-		  state__0_1_4_5__background="new aesia.com.ponents.skinning.decorations::EmptyFill()"
+		  state__0_1_4_5__foreground="skin.noDecoration",
+		  state__0_1_4_5__background="skin.emptyDecoration",		  state__0_1_4_5__outerFilters="[]"
 	)]
 	[Skin(define="Button",
-		  inherit="DefaultComponent",
+		  inherit="DefaultGradientComponent",
 		  preview="aesia.com.ponents.buttons::AbstractButton.defaultButtonPreview",
-		  state__all__insets="new aesia.com.ponents.utils::Insets(3)",		  state__all__corners="new aesia.com.ponents.utils::Corners(4)",
+		  state__all__insets="new cutils::Insets(3)",		  state__all__corners="new cutils::Corners(4)",
 
 		  custom_embedFonts="false"
 	)]

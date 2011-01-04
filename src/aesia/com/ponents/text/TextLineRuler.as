@@ -1,5 +1,6 @@
 package aesia.com.ponents.text
 {
+	import flash.display.DisplayObject;
 	import aesia.com.mon.core.ITextField;
 	import aesia.com.mon.geom.dm;
 	import aesia.com.mon.utils.StringUtils;
@@ -13,7 +14,8 @@ package aesia.com.ponents.text
 	[Skinable(skin="TextLineRuler")]
 	[Skin(define="TextLineRuler",
 			  inherit="DefaultComponent",
-			  state__all__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()"
+			  state__all__foreground="skin.noDecoration",
+			  state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",			  state__all__textColor="skin.rulerTextColor"
 	)]
 	/**
 	 * @author Cédric Néhémie
@@ -21,14 +23,14 @@ package aesia.com.ponents.text
 	public class TextLineRuler extends SimpleDOContainer
 	{
 		protected var _target : ITextField;
-		protected var _innerText : TextField;
+		protected var _innerText : ITextField;
 		protected var _textComp : AbstractTextComponent;
 
 		public function TextLineRuler ( target : ITextField, textComp : AbstractTextComponent )
 		{
 			_target = target;
 			_textComp = textComp;
-			_innerText = new TextField();
+			_innerText = new TextFieldImpl();
 			_innerText.selectable = false;
 			_innerText.multiline = true;
 
@@ -41,7 +43,7 @@ package aesia.com.ponents.text
 			_textComp.addEventListener ( ComponentEvent.TEXT_CONTENT_CHANGE, textChange );
 			_target.addEventListener ( Event.SCROLL, textScroll );
 
-			addComponentChild( _innerText );
+			addComponentChild( _innerText as DisplayObject );
 			childrenLayout = new DOStretchLayout ( _childrenContainer );
 			invalidatePreferredSizeCache();
 		}
@@ -58,9 +60,20 @@ package aesia.com.ponents.text
 
 			for(i=0;i<l;i++)
 			{
-				s += StringUtils.fill( (i+1), String(l).length ) + "\n";
+				s += "<p>"+StringUtils.fill( (i+1), String(l).length ) + "</p>";
 			}
 			_innerText.defaultTextFormat = _target.defaultTextFormat;
+			_innerText.textColor = _style.textColor.hexa;
+			
+			if( _target is TextField && _innerText is TextField )
+			{
+				var tf : TextField = _target as TextField;	
+				var itf : TextField = _innerText as TextField;	
+				if( tf.styleSheet && !itf.styleSheet )
+					itf.styleSheet = tf.styleSheet;
+			}
+			
+			
 			_innerText.htmlText = s;
 			invalidatePreferredSizeCache();
 		}

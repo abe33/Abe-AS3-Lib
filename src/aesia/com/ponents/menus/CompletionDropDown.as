@@ -28,7 +28,7 @@ package aesia.com.ponents.menus
 	[Skin(define="CompletionDropDown",
 		  inherit="DefaultComponent",
 		  
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SimpleFill( aesia.com.mon.utils::Color.White )"
+		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )"
 	)]
 	public class CompletionDropDown extends Panel 
 	{
@@ -82,6 +82,10 @@ package aesia.com.ponents.menus
 		public function set maxVisibleItems (maxVisibleItems : Number) : void
 		{
 			_maxVisibleItems = maxVisibleItems;
+		}
+		public function get hasSelection () : Boolean
+		{
+			return _autoCompleteList.selectedIndex != -1;
 		}
 		protected function entriesFound ( e : AutoCompletionEvent ) : void
 		{
@@ -153,51 +157,34 @@ package aesia.com.ponents.menus
 			
 			_autoCompleteList.removeEventListener( ComponentEvent.SELECTION_CHANGE, selectionChange );
 			_autoCompleteList.removeEventListener( MouseEvent.CLICK, validateCompletion );
-			_autoCompleteList.selectedIndex = NaN;
+			_autoCompleteList.selectedIndex = -1;
 		}
-
-		override public function addedToStage (e : Event) : void
+		override protected function registerToOnStageEvents () : void 
 		{
-			super.addedToStage( e );
+			super.registerToOnStageEvents();
 			stage.addEventListener( MouseEvent.CLICK, stageClick );
 		}
-
+		override protected function unregisterFromOnStageEvents () : void 
+		{
+			super.unregisterFromOnStageEvents();
+			stage.removeEventListener( MouseEvent.CLICK, stageClick );
+		}
 		protected function stageClick (event : MouseEvent) : void
 		{
 			if( !this.hitTestPoint( event.stageX , event.stageY ) )
-			{
 				hide();
-				_targetText.setSelection( _targetText.text.length, _targetText.text.length );
-			}				
 		}
 		public function selectionChange ( e : Event ) : void
 		{	
-			/*		
-			var s : String = _autoCompleteList.selectedValue as String;
-			
-			if( s )
-			{
-				if( _autoComplete.checkWordAtCaret )
-				{
-					var r : Range = _targetText.getWordRangeAt( _targetText.caretIndex );
-					_targetText.replaceText(r.min, r.max, StringUtils.stripTags( s ) );
-					_targetText.registerValue();
-					invalidate();
-				}
-				else
-				{
-					_targetText.value = StringUtils.stripTags(s);
-				}
-			}*/
 		}
 		public function validateCompletion ( e : Event = null ) : void
 		{
 			if( _autoCompletePopup )
 			{
-				hide();
-				//_targetText.setSelection( _targetText.text.length, _targetText.text.length );
 				_targetText.value = StringUtils.stripTags( _autoCompleteList.selectedValue as String );
-				//_targetText.grabFocus();
+				_targetText.setSelection( _targetText.text.length, _targetText.text.length );
+				
+				hide();
 			}
 		}
 		
@@ -207,6 +194,7 @@ package aesia.com.ponents.menus
 			{
 				if( !displayed )
 					show();
+				
 				_autoCompleteList.selectPrevious();
 			}
 			else
@@ -219,6 +207,7 @@ package aesia.com.ponents.menus
 			{
 				if( !displayed )
 					show();
+				
 				_autoCompleteList.selectNext();
 			}
 			else

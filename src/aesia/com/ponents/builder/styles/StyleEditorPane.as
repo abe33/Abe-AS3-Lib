@@ -1,15 +1,14 @@
 package aesia.com.ponents.builder.styles
 {
-	import aesia.com.ponents.scrollbars.ScrollBar;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.geom.dm;
 	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.Color;
-	import aesia.com.mon.utils.Cookie;
 	import aesia.com.mon.utils.Delegate;
 	import aesia.com.mon.utils.Reflection;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.lang._$;
+	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.ponents.actions.ProxyAction;
 	import aesia.com.ponents.buttons.Button;
 	import aesia.com.ponents.buttons.ButtonDisplayModes;
@@ -47,6 +46,7 @@ package aesia.com.ponents.builder.styles
 	import aesia.com.ponents.models.TreeNode;
 	import aesia.com.ponents.monitors.LogView;
 	import aesia.com.ponents.progress.ProgressBar;
+	import aesia.com.ponents.scrollbars.ScrollBar;
 	import aesia.com.ponents.skinning.ComponentStateStyle;
 	import aesia.com.ponents.skinning.ComponentStyle;
 	import aesia.com.ponents.skinning.SkinManager;
@@ -59,7 +59,6 @@ package aesia.com.ponents.builder.styles
 	import aesia.com.ponents.text.TextInput;
 	import aesia.com.ponents.trees.TreeHeader;
 	import aesia.com.ponents.utils.Insets;
-	import aesia.com.ponents.utils.SettingsMemoryChannels;
 
 	/**
 	 * @author cedric
@@ -301,7 +300,7 @@ package aesia.com.ponents.builder.styles
 														//Gradient,
 														//Palette,
 														Icon );
-			_styleNewCustomPropertyType.itemFormatingFunction = Reflection.extractClassName;
+			_styleNewCustomPropertyType.itemFormatingFunction = Reflection.getClassName;
 			_styleCustomPropertiesToolbar.addComponent( _styleNewCustomPropertyName );
 			_styleCustomPropertiesToolbar.addComponent( _styleNewCustomPropertyType );
 			_styleCustomPropertiesToolbar.addComponent( _styleNewCustomProperty );
@@ -364,19 +363,17 @@ package aesia.com.ponents.builder.styles
 
 		protected function deleteCustomProperty ( f : FormField, fo : FormObject ) : void
 		{
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-				var cookie : Cookie = new Cookie( SettingsMemoryChannels.DIALOGS );
-				if( cookie.warningDeleteCustomStyleProperty )
-				{
-					resultDeleteCustomProperty( null, f, fo );
-					return;
-				}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			var dial : WarningDialog = new WarningDialog( new Label(_("You're attempting to delete a custom property on this style.\nDeleting a custom property on a style may result\nin runtime error if the deleted property was mandatory\nfor the component which receive the style.\nAre you sure you want to continue ?")) ,
-														  "warningDeleteCustomStyleProperty",
-														  SettingsMemoryChannels.DIALOGS,
 														  Dialog.YES_BUTTON + Dialog.NO_BUTTON,
 														  Dialog.YES_BUTTON );
+			dial.id = "deleteCustomProperty";
+			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			if( SettingsManagerInstance.get( dial, "ignoreWarning") )
+			{
+				resultDeleteCustomProperty( null, f, fo );
+				return;
+			}
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 			dial.addEventListener( DialogEvent.DIALOG_RESULT , Delegate.create( resultDeleteCustomProperty , f, fo ), false, 0, true );
 			dial.open( Dialog.CLOSE_ON_RESULT );
@@ -481,7 +478,12 @@ package aesia.com.ponents.builder.styles
 		protected function gridSelectionChange (event : ComponentEvent) : void
 		{
 			var a : Array = [];
-			var v : Vector.<uint> = _grid.selection;
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = _grid.selection; }			
+			TARGET::FLASH_10 { var v : Vector.<uint> = _grid.selection; }			
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var v : Vector.<uint> = _grid.selection; /*FDT_IGNORE*/}/*FDT_IGNORE*/
 
 			var s : ComponentStyle = _grid.targetStyle;
 
@@ -495,7 +497,12 @@ package aesia.com.ponents.builder.styles
 		protected function isValueSharedByOtherStates( value : *, member : String, num : Number ) : Boolean
 		{
 			var style : ComponentStyle = _grid.targetStyle;
-			var states : Vector.<ComponentStateStyle> = style.states;
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var states : Array = style.states; }
+			TARGET::FLASH_10 { var states : Vector.<ComponentStateStyle> = style.states; }
+			TARGET::FLASH_10_1 {/*FDT_IGNORE*/
+			var states : Vector.<ComponentStateStyle> = style.states; /*FDT_IGNORE*/}/*FDT_IGNORE*/
 
 			var l : uint = states.length;
 			var n : uint = 0;
@@ -529,7 +536,6 @@ package aesia.com.ponents.builder.styles
 			if( _tree.selectedValue && (_tree.selectedValue as TreeNode).userObject is ComponentStyle )
 			{
 				var style : ComponentStyle = ( _tree.selectedValue as TreeNode ).userObject as ComponentStyle;
-				Log.debug( style );
 
 				// update styles infos
 				_styleName.value = _$(_("Style Name : <b>$0</b>"), style.styleName );
@@ -542,8 +548,7 @@ package aesia.com.ponents.builder.styles
 				
 				
 				// generate the preview component for this style
-				var comp : Component = style.previewProvider() as Component;				Log.debug( comp );
-
+				var comp : Component = style.previewProvider() as Component;
 				// prevent style affectation to the preview
 				if( style.previewAcceptStyleSetup )
 					comp.styleKey = style.fullStyleName;

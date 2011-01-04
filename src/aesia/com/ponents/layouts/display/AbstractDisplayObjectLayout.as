@@ -20,23 +20,12 @@ package aesia.com.ponents.layouts.display
 			this.container = container;
 		}
 
-		public function layout ( preferredSize : Dimension = null, insets : Insets = null ) : void
-		{
-		}
+		public function layout ( preferredSize : Dimension = null, insets : Insets = null ) : void {}
 		
-		public function get preferredSize () : Dimension
-		{
-			return null;
-		}
+		public function get preferredSize () : Dimension { return null; }
+		public function get maximumContentSize () : Dimension { return null; }
 		
-		public function get container () : DisplayObjectContainer
-		{
-			return _container;
-		}
-		
-		public function set container (o : DisplayObjectContainer) : void
-		{
-			_container = o;
-		}
+		public function get container () : DisplayObjectContainer { return _container; }		
+		public function set container (o : DisplayObjectContainer) : void { _container = o; }
 	}
 }

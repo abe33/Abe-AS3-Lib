@@ -21,16 +21,16 @@ package aesia.com.ponents.containers
 		  inherit="EmptyComponent",
 		  preview="aesia.com.ponents.containers::Dialog.defaultDialogPreview",
 		  previewAcceptStyleSetup="false",
-			  		  state__all__insets="new aesia.com.ponents.utils::Insets(4)"
+			  		  state__all__insets="new cutils::Insets(4)"
 	)]
 	[Skin(define="DialogTitle",
 		  inherit="EmptyComponent",
 		  preview="aesia.com.ponents.containers::Dialog.defaultDialogPreview",
 		  previewAcceptStyleSetup="false",
 			  
-		  state__all__background="new aesia.com.ponents.skinning.decorations::GradientFill(gradient([color(Gainsboro),color(LightGrey),color(Gainsboro)],[.45,.5,1]),90)",
-		  state__all__insets="new aesia.com.ponents.utils::Insets(4)",		  state__all__corners="new aesia.com.ponents.utils::Corners(5,5,0,0)",		  state__all__borders="new aesia.com.ponents.utils::Borders(1)",
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::SimpleBorders(color(DimGray))"
+		  state__all__background="new deco::GradientFill(gradient([skin.overSelectedBackgroundColor,skin.selectedBackgroundColor,skin.overSelectedBackgroundColor],[.45,.5,1]),90)",
+		  state__all__insets="new cutils::Insets(4)",		  state__all__corners="new cutils::Corners(5,5,0,0)",		  state__all__borders="new cutils::Borders(1)",
+		  state__all__foreground="new deco::SimpleBorders(skin.borderColor)"
 	)]
 	[Skinable(skin="Dialog")]
 	[Skin(define="Dialog",

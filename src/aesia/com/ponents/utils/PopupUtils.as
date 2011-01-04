@@ -24,7 +24,12 @@ package aesia.com.ponents.utils
 		{
 			_lastMode = MODAL;
 			
-			var level : PopupLevel = new PopupLevel( Vector.<Component>([c]), invoker, MODAL ) ;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var level : PopupLevel = new PopupLevel( [c], invoker, MODAL );  }
+			TARGET::FLASH_10 { var level : PopupLevel = new PopupLevel( Vector.<Component>([c]), invoker, MODAL );  }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var level : PopupLevel = new PopupLevel( Vector.<Component>([c]), invoker, MODAL ) ; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			level.init();
 			_levels.push( level );
 			
@@ -48,7 +53,12 @@ package aesia.com.ponents.utils
 			{
 				_lastMode = HIDE_ON_BLUR;
 	
-				level = new PopupLevel( Vector.<Component>([c]), invoker, HIDE_ON_BLUR ) ;
+				/*FDT_IGNORE*/
+				TARGET::FLASH_9 { level = new PopupLevel( [c], invoker, HIDE_ON_BLUR ) ;  }
+				TARGET::FLASH_10 { level = new PopupLevel( Vector.<Component>([c]), invoker, HIDE_ON_BLUR ) ;  }
+				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				level = new PopupLevel( Vector.<Component>([c]), invoker, HIDE_ON_BLUR ) ; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
 				level.init();
 				_levels.push( level );
 				
@@ -114,17 +124,41 @@ import flash.events.MouseEvent;
 
 internal class PopupLevel implements Allocable
 {
+	/*FDT_IGNORE*/
+	TARGET::FLASH_9
+	public var components : Array;
+	TARGET::FLASH_10
 	public var components : Vector.<Component>;
+	TARGET::FLASH_10_1 /*FDT_IGNORE*/
+	public var components : Vector.<Component>;
+	
 	public var mode : int;
 	public var invoker : Component;
 	protected var _sprite : Sprite;
 
+	/*FDT_IGNORE*/
+	TARGET::FLASH_9
+	public function PopupLevel ( comps : Array, invoker : Component = null, mod : int = 0 )
+	{
+		this.components = comps;
+		this.invoker = invoker;
+		this.mode = mod;
+	}
+	TARGET::FLASH_10
 	public function PopupLevel ( comps : Vector.<Component>, invoker : Component = null, mod : int = 0 )
 	{
 		this.components = comps;
 		this.invoker = invoker;
 		this.mode = mod;
 	}
+	TARGET::FLASH_10_1 /*FDT_IGNORE*/
+	public function PopupLevel ( comps : Vector.<Component>, invoker : Component = null, mod : int = 0 )
+	{
+		this.components = comps;
+		this.invoker = invoker;
+		this.mode = mod;
+	}
+	
 	protected function createMouseCatcherShape () : void
 	{
 		_sprite = new Sprite();

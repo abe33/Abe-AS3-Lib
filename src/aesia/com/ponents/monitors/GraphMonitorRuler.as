@@ -18,12 +18,19 @@ package aesia.com.ponents.monitors
 	[Skin(define="GraphMonitorRuler",
 			  inherit="Ruler",
 			  
-			  state__all__background="new aesia.com.ponents.skinning.decorations::NoDecoration()",
-			  state__all__insets="new aesia.com.ponents.utils::Insets(4,0)"
+			  state__all__background="skin.noDecoration",
+			  state__all__insets="new cutils::Insets(4,0)"
 	)]
 	public class GraphMonitorRuler extends AbstractRuler 
 	{
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _textFields : Array;
+		TARGET::FLASH_10
 		protected var _textFields : Vector.<TextField>;
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _textFields : Vector.<TextField>;
+		
 		protected var _targetRecorder : Recorder;
 		protected var _preferredWidth : Number;
 		protected var _align : String;
@@ -34,7 +41,13 @@ package aesia.com.ponents.monitors
 			/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
 				cursor = null;
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			_textFields = new Vector.<TextField>();
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _textFields = []; }
+			TARGET::FLASH_10 { _textFields = new Vector.<TextField>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_textFields = new Vector.<TextField>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			_targetRecorder = targetRecorder;
 			_align = align;
 			

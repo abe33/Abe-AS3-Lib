@@ -15,9 +15,21 @@ package  aesia.com.mands.load
 
 	public class URLLoaderQueue extends AbstractCommand implements Command, Runnable
 	{
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9 {
+			protected var _loaders : Array;
+			protected var _requests : Array;
+			protected var _callbacks : Array;
+		}		TARGET::FLASH_10 {
+			protected var _loaders : Vector.<URLLoader>;
+			protected var _requests : Vector.<URLRequest>;
+			protected var _callbacks : Vector.<Function>;
+		}
+		TARGET::FLASH_10_1 {/*FDT_IGNORE*/
 		protected var _loaders : Vector.<URLLoader>;
 		protected var _requests : Vector.<URLRequest>;
 		protected var _callbacks : Vector.<Function>;
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 		private var _currentURLLoader : URLLoader;
 		private var _currentRequest : URLRequest;
@@ -25,9 +37,22 @@ package  aesia.com.mands.load
 		public function URLLoaderQueue ()
 		{
 			super();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+				_loaders = [];
+				_requests = [];
+				_callbacks = [];
+			}
+			TARGET::FLASH_10 {
+				_loaders = new Vector.<URLLoader>();
+				_requests = new Vector.<URLRequest>();
+				_callbacks = new Vector.<Function>();
+			}
+			TARGET::FLASH_10_1 {/*FDT_IGNORE*/
 			_loaders = new Vector.<URLLoader>();
 			_requests = new Vector.<URLRequest>();
 			_callbacks = new Vector.<Function>();
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		override public function execute( e : Event = null ) : void
 		{

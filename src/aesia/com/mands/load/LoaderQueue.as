@@ -16,17 +16,47 @@ package  aesia.com.mands.load
 
 	public class LoaderQueue extends AbstractCommand implements Command, Runnable
 	{
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9 {
+			protected var _loaders : Array;
+			protected var _requests : Array;
+			protected var _contexts : Array;
+			protected var _callbacks : Array;
+		}		TARGET::FLASH_10 {
+			protected var _loaders : Vector.<Loader>;
+			protected var _requests : Vector.<URLRequest>;
+			protected var _contexts : Vector.<LoaderContext>;
+			protected var _callbacks : Vector.<Function>;
+		}		TARGET::FLASH_10_1 {
+		/*FDT_IGNORE*/
 		protected var _loaders : Vector.<Loader>;
 		protected var _requests : Vector.<URLRequest>;		protected var _contexts : Vector.<LoaderContext>;		protected var _callbacks : Vector.<Function>;
-
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
 		private var _currentLoader : Loader;		private var _currentRequest : URLRequest;
 		
 		public function LoaderQueue()
 		{
 			super();
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {
+				_loaders = [];
+				_requests = [];
+				_contexts = [];
+				_callbacks = [];
+			}
+			TARGET::FLASH_10 {
+				_loaders = new Vector.<Loader>();
+				_requests = new Vector.<URLRequest>();
+				_contexts = new Vector.<LoaderContext>();
+				_callbacks = new Vector.<Function>();
+			}
+			TARGET::FLASH_10_1 {
+			/*FDT_IGNORE*/
 			_loaders = new Vector.<Loader>();
 			_requests = new Vector.<URLRequest>();			_contexts = new Vector.<LoaderContext>();
 			_callbacks = new Vector.<Function>();
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		override public function execute( e : Event = null ) : void
 		{

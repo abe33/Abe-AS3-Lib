@@ -9,11 +9,9 @@ package aesia.com.ponents.builder.dialogs
 	 */
 	public class PreventOverrideUndefinedValue extends WarningDialog 
 	{
-		public function PreventOverrideUndefinedValue ( memoryKey : String = "warning", memoryChannel : String = "dialogs")
+		public function PreventOverrideUndefinedValue ()
 		{
-			super( 	new Label( _( "The selected object(s) property isn't defined.\nAre you sure you want to set it up now ?" ) ), 
-					memoryKey, 
-					memoryChannel );
+			super( 	new Label( _( "The selected object(s) property isn't defined.\nAre you sure you want to set it up now ?" ) ) );
 		}
 	}
 }

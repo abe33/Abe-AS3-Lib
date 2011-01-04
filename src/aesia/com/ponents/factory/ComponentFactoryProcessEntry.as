@@ -1,6 +1,6 @@
 package aesia.com.ponents.factory 
 {
-	import aesia.com.patibility.lang._$;
+	import aesia.com.mon.utils.StringUtils;
 	/**
 	 * @author cedric
 	 */
@@ -29,13 +29,7 @@ package aesia.com.ponents.factory
 		}
 		public function toString() : String 
 		{
-			return _$("<b>ComponentFactoryProcessEntry.&lt;$0&gt;</b>\n<b>id :</b>$1\n<b>args :</b>$2\n<b>kwargs :</b>$3\n<b>callback :</b>$4\n<b>kwargsOrder :</b>$5",
-					   clazz,
-					   id,
-					   args,
-					   kwargs,
-					   callback,
-					   kwargsOrder );
+			return StringUtils.stringify( this, {"clazz":clazz,"args":args,"kwargs":kwargs,"callback":callback,"kwargsOrder":kwargsOrder } );
 		}
 	}
 }

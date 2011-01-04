@@ -1,6 +1,5 @@
 package aesia.com.ponents.spinners 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.lang._$;
 	import aesia.com.ponents.buttons.LockerButton;

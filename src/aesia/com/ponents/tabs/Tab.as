@@ -1,15 +1,16 @@
 package aesia.com.ponents.tabs 
 {
 	import aesia.com.ponents.core.Component;
-
+	import aesia.com.ponents.core.Dockable;
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public interface Tab extends Component 
+	public interface Tab extends Component, Dockable 
 	{
+		/*
 		function get content () : Component ;	
 		function set content (content : Component) : void;
-		
+		*/
 		function get parentTabbedPane () : TabbedPane;	
 		function set parentTabbedPane (parentTabbedPane : TabbedPane) : void;
 

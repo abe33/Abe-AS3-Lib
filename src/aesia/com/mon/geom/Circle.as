@@ -7,6 +7,7 @@ package  aesia.com.mon.geom
 	import aesia.com.mon.core.Equatable;
 	import aesia.com.mon.core.FormMetaProvider;
 	import aesia.com.mon.core.Serializable;
+	import aesia.com.mon.utils.StringUtils;
 
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
@@ -102,5 +103,15 @@ package  aesia.com.mon.geom
 		{
 			return "new " + getQualifiedClassName(this) + "("+ x +", "+ y +", " + radius1 + ")";
 		}
+		/**
+		 * Renvoie la représentation de l'objet sous forme de chaîne.
+		 *
+		 * @return la représentation de l'objet sous forme de chaîne
+		 */
+		override public function toString() : String
+		{
+			return StringUtils.stringify(this,{ radius:radius } );
+		}
+		
 	}
 }

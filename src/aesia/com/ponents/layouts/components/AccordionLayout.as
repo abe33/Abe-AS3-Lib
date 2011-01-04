@@ -50,8 +50,7 @@ package aesia.com.ponents.layouts.components
 				else if( tab.content == _accordion.tabContentContainer2.view )
 				{
 					_accordion.tabContentContainer2.y = y;
-					_accordion.tabContentContainer2.size = dm ( prefDim.width, h * ( 1-_accordion.transition ) );
-					y += h * ( 1-_accordion.transition );
+					_accordion.tabContentContainer2.size = dm ( prefDim.width, h * ( 1-_accordion.transition ) );					y += h * ( 1-_accordion.transition );
 				}
 			}
 		}

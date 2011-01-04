@@ -1,6 +1,5 @@
 package aesia.com.ponents.menus 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.utils.KeyStroke;
@@ -29,7 +28,7 @@ package aesia.com.ponents.menus
 	[Skin(define="MenuBar",
 		  inherit="DefaultComponent",
 		  
-		  state__all__foreground="new aesia.com.ponents.skinning.decorations::NoDecoration()"
+		  state__all__foreground="skin.noDecoration",		  state__all__background="new deco::SimpleFill(skin.RulerBlue)"
 	)]
 	public class MenuBar extends AbstractContainer implements MenuContainer, Scrollable
 	{
@@ -95,12 +94,14 @@ package aesia.com.ponents.menus
 			for each( var m : Menu in args )
 				addMenu( m );
 		}
-
-		public function addMenusVector ( v : Vector.<Menu> ) : void
-		{
-			for each( var m : Menu in v )
-				addMenu( m );
-		}
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function addMenusVector ( v : Array ) : void { for each( var m : Menu in v ) addMenu( m ); }
+		TARGET::FLASH_10
+		public function addMenusVector ( v : Vector.<Menu> ) : void { for each( var m : Menu in v ) addMenu( m ); }
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function addMenusVector ( v : Vector.<Menu> ) : void { for each( var m : Menu in v ) addMenu( m ); }
 		
 		public function removeMenuItem (m : MenuItem) : void 
 		{
@@ -120,11 +121,15 @@ package aesia.com.ponents.menus
 			for each( var m : Menu in args )
 				removeMenu( m );
 		}
-		public function removeMenusVector ( v : Vector.<Menu> ) : void
-		{
-			for each( var m : Menu in v )
-				removeMenu( m );
-		}
+		
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function removeMenusVector ( v : Array ) : void { for each( var m : Menu in v ) removeMenu( m ); }
+		TARGET::FLASH_10
+		public function removeMenusVector ( v : Vector.<Menu> ) : void { for each( var m : Menu in v ) removeMenu( m ); }
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function removeMenusVector ( v : Vector.<Menu> ) : void { for each( var m : Menu in v ) removeMenu( m ); }
+		
 		public function isMenuDescendant (c : Component) : Boolean
 		{
 			for each( var m : MenuItem in _children )
@@ -218,21 +223,22 @@ package aesia.com.ponents.menus
 		}
 		protected function clickMenu (event : MouseEvent) : void
 		{
+			var m : Menu = event.target as Menu;			
 			if( !_interactive )
 				return;
 			
-			Log.debug( event.target );
-			
 			if( _selectedIndex != -1 )
 			{
+				
 				if( selectedMenu.popupMenu )
 					selectedMenu.popupMenu.hide();
+				
 				selectedIndex = -1;
 			}
 			else
 			{
 				selectedMenu = event.target as Menu;
-				selectedMenu.click();
+				//selectedMenu.click();
 			}
 		}
 		override public function addedToStage (e : Event) : void

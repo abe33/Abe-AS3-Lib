@@ -270,7 +270,7 @@ package aesia.com.mon.utils
 		 */
 		public function toString() : String 
 		{
-			return _name != "" ? _name : getQualifiedClassName( this );
+			return StringUtils.stringify(this);
 		}
 		/**
 		 * Compare l'instance courante avec <code>o</code> et renvoie 

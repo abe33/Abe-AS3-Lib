@@ -1,19 +1,17 @@
 package aesia.com.ponents.actions.builtin 
 {
-	import aesia.com.mon.logs.Log;
-	import aesia.com.mon.utils.magicClone;
-	import aesia.com.ponents.layouts.components.InlineLayout;
-	import aesia.com.ponents.actions.ProxyAction;
-	import aesia.com.ponents.buttons.Button;
-	import aesia.com.ponents.containers.Panel;
 	import aesia.com.mon.core.FormMetaProvider;
 	import aesia.com.mon.geom.dm;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Reflection;
 	import aesia.com.mon.utils.StageUtils;
+	import aesia.com.mon.utils.magicClone;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.actions.AbstractAction;
+	import aesia.com.ponents.actions.ProxyAction;
+	import aesia.com.ponents.buttons.Button;
+	import aesia.com.ponents.containers.Panel;
 	import aesia.com.ponents.containers.ScrollPane;
 	import aesia.com.ponents.containers.Window;
 	import aesia.com.ponents.containers.WindowTitleBar;
@@ -23,6 +21,7 @@ package aesia.com.ponents.actions.builtin
 	import aesia.com.ponents.forms.FormUtils;
 	import aesia.com.ponents.forms.managers.SimpleFormManager;
 	import aesia.com.ponents.forms.renderers.FieldSetFormRenderer;
+	import aesia.com.ponents.layouts.components.InlineLayout;
 	import aesia.com.ponents.lists.CustomEditCell;
 	import aesia.com.ponents.lists.ListEditor;
 	import aesia.com.ponents.skinning.decorations.SimpleFill;
@@ -42,6 +41,7 @@ package aesia.com.ponents.actions.builtin
 		protected var _formManager : SimpleFormManager;		protected var _currentClass : Class;
 		protected var _saveFunction : Function;
 		protected var _workOnCopy : Boolean;
+		protected var _saveButton : Button;
 
 		public function EditObjectPropertiesAction ( object : Object, 
 													 saveFunction : Function = null,
@@ -76,7 +76,6 @@ package aesia.com.ponents.actions.builtin
 				var l : uint = a.length;
 				var hasSameTypeAccrossArray : Boolean = false;
 				var sp : ScrollPane;
-				var ppp : Panel;
 				
 				if( l > 0 )
 				{
@@ -103,15 +102,16 @@ package aesia.com.ponents.actions.builtin
 				if( _saveFunction == null )
 				{
 					if( _window.windowStatus != null )
+					{
 						_window.windowStatus = null;
+						/*
+						( _window.windowStatus  as Panel ).removeComponent( _saveButton );
+						_saveButton = null;*/
+					}
 				}
 				else
 				{
-					ppp = new Panel();
-					ppp.style.setForAllStates("insets", new Insets(5));
-					ppp.childrenLayout = new InlineLayout(ppp, 3, "right", "center", "leftToRight");
-					ppp.addComponent( new Button(new ProxyAction( _saveFunction, _("Save"), null, null, null, _object, _formObject, _formManager, _window ) ) );
-					_window.windowStatus = ppp;
+					_window.windowStatus = getWindowStatus();
 				}
 				
 				_window.windowContent = sp; 
@@ -135,7 +135,7 @@ package aesia.com.ponents.actions.builtin
 			
 			_formManager = new SimpleFormManager( _formObject );
 			var p : Component = FieldSetFormRenderer.instance.render( _formObject );
-			p.style.setForAllStates("insets", new Insets(10)).setForAllStates("background", new SimpleFill( Color.LightGrey ) );
+			p.style.setForAllStates("insets", new Insets(10));
 			
 			sp = new ScrollPane();
 			sp.view = p;
@@ -153,11 +153,7 @@ package aesia.com.ponents.actions.builtin
 			}
 			else
 			{
-				ppp = new Panel();
-				ppp.style.setForAllStates("insets", new Insets(5));
-				ppp.childrenLayout = new InlineLayout(ppp, 3, "right", "center", "leftToRight");
-				ppp.addComponent( new Button(new ProxyAction( _saveFunction, _("Save"), null, null, null, _object, _formObject, _formManager, _window ) ) );
-				_window.windowStatus = ppp;
+				_window.windowStatus = getWindowStatus();
 			}
 			
 			_window.windowContent = sp; 
@@ -174,7 +170,18 @@ package aesia.com.ponents.actions.builtin
 		}
 		
 		protected function compareClass ( i : *, ... args) : Boolean { return i is _currentClass; }
-
+		
+		protected function getWindowStatus () : Panel
+		{
+			_saveButton = new Button(new ProxyAction( _saveFunction, _("Save"), null, null, null, _object, _formObject, _formManager, _window ) );
+			var cancel : Button = new Button( new ProxyAction( _window.close, _("Abort") ) );
+			var p : Panel = new Panel();
+			p.style.setForAllStates("insets", new Insets(5));
+			p.childrenLayout = new InlineLayout(p, 3, "right", "center", "leftToRight");
+			p.addComponent( cancel );
+			p.addComponent( _saveButton );
+			return p;
+		}
 		protected function onClose (event : WindowEvent) : void
 		{
 			//_dialog.removeEventListener( WindowEvent.CLOSE, onClose );			if( _formManager )

@@ -1,6 +1,5 @@
 package aesia.com.ponents.builder.styles
 {
-	import aesia.com.ponents.skinning.SkinManager;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.actions.Action;
@@ -14,6 +13,7 @@ package aesia.com.ponents.builder.styles
 	import aesia.com.ponents.models.TreePath;
 	import aesia.com.ponents.skinning.ComponentStateStyle;
 	import aesia.com.ponents.skinning.ComponentStyle;
+	import aesia.com.ponents.skinning.SkinManager;
 	import aesia.com.ponents.skinning.SkinManagerInstance;
 	import aesia.com.ponents.skinning.decorations.NoDecoration;
 	import aesia.com.ponents.skinning.icons.magicIconBuild;
@@ -26,8 +26,6 @@ package aesia.com.ponents.builder.styles
 
 	import flash.events.ContextMenuEvent;
 	import flash.text.TextFormat;
-	import flash.ui.ContextMenuItem;
-
 	/**
 	 * @author cedric
 	 */
@@ -285,8 +283,13 @@ package aesia.com.ponents.builder.styles
 		private function _createNewStyleForNode( node : TreeNode, name : String ) : ComponentStyle
 		{
 			var pcs : ComponentStyle = node.userObject as ComponentStyle;
-
-			var v : Vector.<ComponentStateStyle> = new Vector.<ComponentStateStyle>(16, true);
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = new Array(16); }
+			TARGET::FLASH_10 { var v : Vector.<ComponentStateStyle> = new Vector.<ComponentStateStyle>(16, true); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var v : Vector.<ComponentStateStyle> = new Vector.<ComponentStateStyle>(16, true); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			for(var i:int=0;i<16;i++)
 			{
 				v[i] = new ComponentStateStyle();
@@ -313,7 +316,12 @@ package aesia.com.ponents.builder.styles
 			var innerFilters : Array = [];
 			var outerFilters : Array = [];
 
-			var v : Vector.<ComponentStateStyle> = new Vector.<ComponentStateStyle>(16, true);
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = new Array(16); }
+			TARGET::FLASH_10 { var v : Vector.<ComponentStateStyle> = new Vector.<ComponentStateStyle>(16, true); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var v : Vector.<ComponentStateStyle> = new Vector.<ComponentStateStyle>(16, true); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			for(var i:int=0;i<16;i++)
 			{
 				v[i] = new ComponentStateStyle( noDeco, noDeco, Color.Black, format, insets, borders, corners, outerFilters, innerFilters );

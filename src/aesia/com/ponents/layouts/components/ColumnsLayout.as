@@ -1,23 +1,30 @@
 package aesia.com.ponents.layouts.components 
 {
 	import aesia.com.mon.geom.Dimension;
-	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.Container;
 	import aesia.com.ponents.utils.Insets;
-
 	/**
 	 * @author cedric
 	 */
 	public class ColumnsLayout extends AbstractComponentLayout 
 	{
-		protected var _columns : Vector.<ColumnSettings>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		protected var _columns : Array;		
+		TARGET::FLASH_10		protected var _columns : Vector.<ColumnSettings>;		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _columns : Vector.<ColumnSettings>;
+		
 		protected var _gap : Number;
 
 		public function ColumnsLayout (container : Container = null, gap : Number = 3, ... columns )
 		{
 			super( container );
 			this._gap = gap;
-			this._columns = new Vector.<ColumnSettings>();
+			
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 {this._columns = []; }			TARGET::FLASH_10 {this._columns = new Vector.<ColumnSettings>();}			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			this._columns = new Vector.<ColumnSettings>(); /*FDT_IGNORE*/}/*FDT_IGNORE*/
+			
 			if( columns.length > 0 )
 			{
 				var l : int = columns.length;

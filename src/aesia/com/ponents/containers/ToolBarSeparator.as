@@ -18,13 +18,13 @@ package aesia.com.ponents.containers
 	[Skinable(skin="ToolBarSeparatorV")]
 	[Skin(define="ToolBarSeparatorV",
 		  inherit="EmptyComponent",
-		  state__all__insets="new aesia.com.ponents.utils::Insets(3)",
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SeparatorDecoration(color(White),color(Gray),1)"
+		  state__all__insets="new cutils::Insets(3)",
+		  state__all__background="new deco::SeparatorDecoration(skin.lightColor,skin.shadowColor,1)"
 	)]
 	[Skin(define="ToolBarSeparatorH",
 		  inherit="EmptyComponent",
-		  state__all__insets="new aesia.com.ponents.utils::Insets(3)",
-		  state__all__background="new aesia.com.ponents.skinning.decorations::SeparatorDecoration(color(White),color(Gray),0)"
+		  state__all__insets="new cutils::Insets(3)",
+		  state__all__background="new deco::SeparatorDecoration(skin.lightColor,skin.shadowColor,0)"
 	)]
 	public class ToolBarSeparator extends AbstractComponent 
 	{
@@ -84,8 +84,11 @@ package aesia.com.ponents.containers
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-		override public function get menuContext () : Vector.<ContextMenuItem> { return _toolbar.menuContext; }
+		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { 
+		TARGET::FLASH_9
+		override public function get menuContext () : Array { return _toolbar.menuContext; }		
+		TARGET::FLASH_10		override public function get menuContext () : Vector.<ContextMenuItem> { return _toolbar.menuContext; }		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		override public function get menuContext () : Vector.<ContextMenuItem> { return _toolbar.menuContext; }
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	}
 }

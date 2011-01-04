@@ -41,9 +41,19 @@ package aesia.com.ponents.containers
 			_value = value;
 			invalidatePreferredSizeCache ();
 		}
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+		
+		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { 
+		TARGET::FLASH_9
+		override public function get menuContext () : Array { return _toolBar.menuContext; }
+		
+		TARGET::FLASH_10
+		override public function get menuContext () : Vector.<ContextMenuItem> { return _toolBar.menuContext; }
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		override public function get menuContext () : Vector.<ContextMenuItem> { return _toolBar.menuContext; }
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
+		
 		override public function invalidatePreferredSizeCache () : void
 		{
 			switch(_mode)

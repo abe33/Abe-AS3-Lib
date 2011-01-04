@@ -11,12 +11,12 @@ package aesia.com.ponents.containers
 	import aesia.com.ponents.layouts.components.splits.Split;
 	import aesia.com.ponents.skinning.cursors.Cursor;
 	import aesia.com.ponents.transfer.ComponentsFlavors;
+	import aesia.com.ponents.transfer.Transferable;
 
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -190,34 +190,36 @@ package aesia.com.ponents.containers
 		
 		override public function dragOver (e : DropTargetDragEvent) : void
 		{
-			super.dragOver(e);
+			clearStatusShape();
 			var c : Component = getComponentUnderPoint( new Point( stage.mouseX, stage.mouseY ) );
 			var nc : Component = e.transferable.getData( ComponentsFlavors.COMPONENT );
 			if( c && c != nc )
+				handleDragOver(c);
+		}
+		protected function handleDragOver( c : Component ) : void
+		{
+			var l : Leaf = multiSplitLayout.getLeafParent(c);
+			var bb : Rectangle = l.bounds;
+			var left : Number = Math.min(bb.left + _dropBorderSize, bb.left + bb.width / 2);
+			var right : Number = Math.max(bb.right - _dropBorderSize, bb.left + bb.width / 2);
+			var top : Number = Math.min(bb.top + _dropBorderSize, bb.top + bb.height / 2);
+			var bottom : Number = Math.max(bb.bottom - _dropBorderSize, bb.top + bb.height / 2);
+			
+			if( mouseX < left )
 			{
-				var l : Leaf = multiSplitLayout.getLeafParent(c);
-				var bb : Rectangle = l.bounds;
-				var left : Number = Math.min(bb.left + _dropBorderSize, bb.left + bb.width / 2);
-				var right : Number = Math.max(bb.right - _dropBorderSize, bb.left + bb.width / 2);
-				var top : Number = Math.min(bb.top + _dropBorderSize, bb.top + bb.height / 2);
-				var bottom : Number = Math.max(bb.bottom - _dropBorderSize, bb.top + bb.height / 2);
-				
-				if( mouseX < left )
-				{
-					drawDropRect( bb.x, bb.y, bb.width / 2, bb.height );	
-				}
-				else if ( mouseX > right )
-				{
-					drawDropRect( bb.x + bb.width / 2, bb.y, bb.width / 2, bb.height );											
-				}
-				else if( mouseY < top )
-				{
-					drawDropRect( bb.x, bb.y, bb.width , bb.height/ 2 );	
-				}
-				else if ( mouseY > bottom )
-				{
-					drawDropRect( bb.x, bb.y+bb.height/ 2, bb.width , bb.height/ 2 );	
-				}
+				drawDropRect( bb.x, bb.y, bb.width / 2, bb.height );	
+			}
+			else if ( mouseX > right )
+			{
+				drawDropRect( bb.x + bb.width / 2, bb.y, bb.width / 2, bb.height );											
+			}
+			else if( mouseY < top )
+			{
+				drawDropRect( bb.x, bb.y, bb.width , bb.height/ 2 );	
+			}
+			else if ( mouseY > bottom )
+			{
+				drawDropRect( bb.x, bb.y+bb.height/ 2, bb.width , bb.height/ 2 );	
 			}
 		}
 		override public function drop (e : DropEvent) : void
@@ -226,87 +228,105 @@ package aesia.com.ponents.containers
 			var c : Component = getComponentUnderPoint( new Point( stage.mouseX, stage.mouseY ) );
 			var nc : Component = e.transferable.getData( ComponentsFlavors.COMPONENT );
 			if( c && c != nc )
+				handleDrop(c, nc, e.transferable );
+		}
+		protected function handleDrop( c : Component, 
+									   nc : Component,
+									   transferable : Transferable ) : Boolean
+		{
+			var l : Node = multiSplitLayout.getLeafParent(c);
+			var bb : Rectangle = l.bounds;				
+			var left : Number = Math.min( bb.left + _dropBorderSize, bb.left + bb.width / 2);
+			var right : Number = Math.max( bb.right - _dropBorderSize, bb.left + bb.width / 2);
+			var top : Number = Math.min( bb.top + _dropBorderSize, bb.top + bb.height / 2);
+			var bottom : Number = Math.max( bb.bottom - _dropBorderSize, bb.top + bb.height / 2);
+			var split : Split;
+			var nl : Leaf;
+			if( l.parent.rowLayout )
 			{
-				var l : Node = multiSplitLayout.getLeafParent(c);
-				var bb : Rectangle = l.bounds;				
-				var left : Number = Math.min( bb.left + _dropBorderSize, bb.left + bb.width / 2);
-				var right : Number = Math.max( bb.right - _dropBorderSize, bb.left + bb.width / 2);
-				var top : Number = Math.min( bb.top + _dropBorderSize, bb.top + bb.height / 2);
-				var bottom : Number = Math.max( bb.bottom - _dropBorderSize, bb.top + bb.height / 2);
-				var split : Split;
-				var nl : Leaf;
-				if( l.parent.rowLayout )
+				if( mouseX < left )
 				{
-					if( mouseX < left )
-					{
-						e.transferable.transferPerformed();
-						insertBefore( e.transferable.getData( ComponentsFlavors.COMPONENT ), l );	
-					}
-					else if ( mouseX > right )
-					{
-						e.transferable.transferPerformed();
-						insertAfter( e.transferable.getData( ComponentsFlavors.COMPONENT ), l );										
-					}
-					else if( mouseY < top )
-					{
-						e.transferable.transferPerformed();
-						split = new Split( false );
-						nl = new Leaf ( nc );
-						multiSplitLayout.replaceSplitChild( l.parent, l, split );
-						multiSplitLayout.addSplitChild( split, nl );
-						multiSplitLayout.addSplitChild( split, l );
-						addComponent(nc);
-						(l.previousSiblings() as Divider).location = bb.height / 2;
-					}
-					else if ( mouseY > bottom )
-					{
-						e.transferable.transferPerformed();
-						split = new Split( false );
-						nl = new Leaf ( nc );
-						multiSplitLayout.replaceSplitChild( l.parent, l, split );
-						multiSplitLayout.addSplitChild( split, l );
-						multiSplitLayout.addSplitChild( split, nl );
-						addComponent(nc);
-						(l.nextSiblings() as Divider).location = bb.height / 2;
-					}
+					transferable.transferPerformed();
+					insertBefore( nc, l );
+					return true;	
 				}
-				else
+				else if ( mouseX > right )
 				{
-					if( mouseX < left )
-					{
-						e.transferable.transferPerformed();
-						split = new Split();
-						nl = new Leaf ( nc );
-						multiSplitLayout.replaceSplitChild( l.parent, l, split );
-						multiSplitLayout.addSplitChild( split, nl );
-						multiSplitLayout.addSplitChild( split, l );
-						addComponent(nc);
-						(l.previousSiblings() as Divider).location = bb.width / 2;
-					}
-					else if ( mouseX > right )
-					{
-						e.transferable.transferPerformed();
-						split = new Split();
-						nl = new Leaf ( nc );
-						multiSplitLayout.replaceSplitChild( l.parent, l, split );
-						multiSplitLayout.addSplitChild( split, l );
-						multiSplitLayout.addSplitChild( split, nl );
-						addComponent(nc);
-						(l.nextSiblings() as Divider).location = bb.width / 2;
-					}
-					else if( mouseY < top )
-					{
-						e.transferable.transferPerformed();
-						insertBefore( e.transferable.getData( ComponentsFlavors.COMPONENT ), l );	
-					}
-					else if ( mouseY > bottom )
-					{
-						e.transferable.transferPerformed();
-						insertAfter( e.transferable.getData( ComponentsFlavors.COMPONENT ), l );										
-					}
+					transferable.transferPerformed();
+					insertAfter( nc, l );
+					return true;										
+				}
+				else if( mouseY < top )
+				{
+					transferable.transferPerformed();
+					split = new Split( false );
+					nl = new Leaf ( nc );
+					multiSplitLayout.replaceSplitChild( l.parent, l, split, false );
+					multiSplitLayout.addSplitChild( split, nl, false );
+					multiSplitLayout.addSplitChild( split, l );
+					addComponent(nc);
+					if( l.previousSiblings() )
+						(l.previousSiblings() as Divider).location = bb.height / 2;
+					return true;
+				}
+				else if ( mouseY > bottom )
+				{
+					transferable.transferPerformed();
+					split = new Split( false );
+					nl = new Leaf ( nc );
+					multiSplitLayout.replaceSplitChild( l.parent, l, split, false );
+					multiSplitLayout.addSplitChild( split, l, false );
+					multiSplitLayout.addSplitChild( split, nl );
+					addComponent(nc);
+					if( l.nextSiblings() )
+						(l.nextSiblings() as Divider).location = bb.height / 2;
+					return true;
 				}
 			}
+			else
+			{
+				if( mouseX < left )
+				{
+					transferable.transferPerformed();
+					split = new Split();
+					nl = new Leaf ( nc );
+					multiSplitLayout.replaceSplitChild( l.parent, l, split, false );
+					multiSplitLayout.addSplitChild( split, nl, false );
+					multiSplitLayout.addSplitChild( split, l );
+					addComponent(nc);
+					if( l.previousSiblings() )
+						(l.previousSiblings() as Divider).location = bb.width / 2;
+					return true;
+				}
+				else if ( mouseX > right )
+				{
+					transferable.transferPerformed();
+					split = new Split();
+					nl = new Leaf ( nc );
+					multiSplitLayout.replaceSplitChild( l.parent, l, split, false );
+					multiSplitLayout.addSplitChild( split, l, false );
+					multiSplitLayout.addSplitChild( split, nl );
+					addComponent(nc);
+					if( l.nextSiblings() )
+						(l.nextSiblings() as Divider).location = bb.width / 2;
+					return true;
+				}
+				else if( mouseY < top )
+				{
+					transferable.transferPerformed();
+					insertBefore( nc, l );
+					return true;	
+				}
+				else if ( mouseY > bottom )
+				{
+					transferable.transferPerformed();
+					insertAfter( nc, l );	
+					return true;									
+				}
+			}
+			return false;
 		}
+		
 		override public function get supportedFlavors () : Array { return [ ComponentsFlavors.COMPONENT ]; }
 		
 		protected function insertAfter ( c : Component, after : Node ) : void
@@ -318,10 +338,13 @@ package aesia.com.ponents.containers
 				multiSplitLayout.addSplitChildAfter( split, l, after );
 				addComponent( c );
 				var bb : Rectangle =  l.siblingAtOffset(-2).bounds;
-				if( split.rowLayout )
-					( l.previousSiblings() as Divider ).location = bb.x + bb.width / 2;
-				else
-					( l.previousSiblings() as Divider ).location = bb.y + bb.height / 2;
+				if( l.previousSiblings() )
+				{
+					if( split.rowLayout )
+						( l.previousSiblings() as Divider ).location = bb.x + bb.width / 2;
+					else
+						( l.previousSiblings() as Divider ).location = bb.y + bb.height / 2;
+				}
 			}
 		}
 

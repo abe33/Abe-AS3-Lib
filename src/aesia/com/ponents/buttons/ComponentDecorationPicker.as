@@ -123,7 +123,7 @@ package aesia.com.ponents.buttons
 		{
 			_value = v as ComponentDecoration;
 			( _editDecoration.action as EditObjectPropertiesAction).object = _value;
-			( _editDecoration.action as EditObjectPropertiesAction).name = Reflection.extractClassName( _value );
+			( _editDecoration.action as EditObjectPropertiesAction).name = Reflection.getClassName( _value );
 		}
 		/**
 		 * Un entier représentant le mode de désactivation courant de ce composant.
@@ -172,7 +172,7 @@ package aesia.com.ponents.buttons
 		 */
 		protected function getMenuItem ( cl : Class ) : MenuItem
 		{
-			return new MenuItem( new ProxyAction( createNewDecoration, Reflection.extractClassName( cl ), null, null, null, cl ) );
+			return new MenuItem( new ProxyAction( createNewDecoration, Reflection.getClassName( cl ), null, null, null, cl ) );
 		}
 		/**
 		 * Créer un nouvel objet <code>ComponentDecoration</code> comme valeur
@@ -205,7 +205,7 @@ package aesia.com.ponents.buttons
 				case FormComponentDisabledModes.NORMAL :
 				case FormComponentDisabledModes.INHERITED :
 				default :
-					( _editDecoration.action as EditObjectPropertiesAction).name = Reflection.extractClassName( _value );
+					( _editDecoration.action as EditObjectPropertiesAction).name = Reflection.getClassName( _value );
 					break;
 			}
 		}

@@ -3,7 +3,6 @@
  */
 package aesia.com.mon.utils
 {
-	import aesia.com.mon.logs.Log;
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Stage;
@@ -12,7 +11,6 @@ package aesia.com.mon.utils
 	import flash.events.Event;
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
-
 	/**
 	 * Classe utilitaire fournissant des contrôles sur l'objet <code>Stage</code> de manière globale.
 	 * Pour fonctionner correctement un certain nombre d'objets (notamment parmis les composants) nécessite
@@ -137,10 +135,25 @@ package aesia.com.mon.utils
 		 * pour constituer le menu final.
 		 * </p>
 		 */
-		static protected var _globalMenus : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem>();		/**
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		static protected var _globalMenus : Array = [];		
+		TARGET::FLASH_10		static protected var _globalMenus : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem>();		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		static protected var _globalMenus : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem>();		
+		/**
 		 * Un vecteur contenant les menus contextuels courants. 
 		 */
-		static protected var _currentMenuContext : Vector.<ContextMenuItem>;		/**
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		static protected var _currentMenuContext : Array;
+		
+		TARGET::FLASH_10
+		static protected var _currentMenuContext : Vector.<ContextMenuItem>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		static protected var _currentMenuContext : Vector.<ContextMenuItem>;		
+		
+		/**
 		 * Un tableau contenant le menu contextuel courant, c'est-à-dire formé par les menus définit
 		 * par un composant (si la souris est au dessus de l'un d'eux, et qu'il fournit des menus) et
 		 * par les menus globaux.
@@ -240,6 +253,20 @@ package aesia.com.mon.utils
 		 * @param	m	vecteur contenant les menus à afficher dans le menu
 		 * 				contextuel
 		 */
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		static public function setMenus ( m : Array ) : void
+		{
+			_currentMenuContext = m;
+			updateMenus();
+		}
+				TARGET::FLASH_10
+		static public function setMenus ( m : Vector.<ContextMenuItem> ) : void
+		{
+			_currentMenuContext = m;
+			updateMenus();
+		}
+				TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		static public function setMenus ( m : Vector.<ContextMenuItem> ) : void
 		{
 			_currentMenuContext = m;
@@ -462,8 +489,22 @@ package aesia.com.mon.utils
 
 			o.y = ( stage.stageHeight - height ) / 2;
 		}
+		
+		static public function isDescendant( a : DisplayObject, b : DisplayObjectContainer ): Boolean
+		{
+			var p : DisplayObjectContainer = a.parent;
+			while( p )
+			{
+				if( p == b )
+					return true;
+				
+				p = p.parent;
+			}
+			return false;
+		}
 	}
 }
+
 import aesia.com.mon.utils.StageUtils;
 
 import flash.display.DisplayObject;

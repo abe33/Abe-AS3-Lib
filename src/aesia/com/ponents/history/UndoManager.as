@@ -13,7 +13,12 @@ package aesia.com.ponents.history
 	{
 		protected var _undoLimit : Number;
 		
-		protected var _edits : Vector.<Undoable>;
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9		protected var _edits : Array;
+				TARGET::FLASH_10		protected var _edits : Vector.<Undoable>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _edits : Vector.<Undoable>;
+		
 		protected var _undoCursor : Number;
 
 		public function UndoManager ( limit : Number = 0 )
@@ -74,11 +79,14 @@ package aesia.com.ponents.history
 		}
 		public function removeAll () : void 
 		{
-			_edits = new Vector.<Undoable>( );
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { _edits = []; }			TARGET::FLASH_10 { _edits = new Vector.<Undoable>( ); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_edits = new Vector.<Undoable>();/*FDT_IGNORE*/ } /*FDT_IGNORE*/ 
+			
 			_undoCursor = 0;
 			fireUndoManagerEvent( UndoManagerEvent.UNDO_REMOVE );
 		}
-
+		
 		public function undo() : void
 		{
 			if( canUndo )
@@ -98,6 +106,7 @@ package aesia.com.ponents.history
 				fireUndoManagerEvent( UndoManagerEvent.UNDO_DONE );
 			}
 		}
+	
 		public function redo() : void
 		{
 			if( canRedo )

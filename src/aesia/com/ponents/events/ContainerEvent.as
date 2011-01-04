@@ -62,6 +62,7 @@ package aesia.com.ponents.events
 										 cancelable : Boolean = false )
 		{
 			super( type, bubbles, cancelable );
+			_child = child;
 		}
 		public function get child () : Component { return _child; }
 	}

@@ -1,19 +1,18 @@
 package aesia.com.ponents.skinning.decorations 
 {
-	import flash.geom.Matrix;
 	import aesia.com.mon.logs.Log;
-	import aesia.com.ponents.utils.Alignments;
 	import aesia.com.mon.core.FormMetaProvider;
 	import aesia.com.ponents.core.Component;
+	import aesia.com.ponents.utils.Alignments;
 	import aesia.com.ponents.utils.Borders;
 	import aesia.com.ponents.utils.Corners;
 	import aesia.com.ponents.utils.Insets;
 
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
+	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author cedric
 	 */
@@ -29,7 +28,7 @@ package aesia.com.ponents.skinning.decorations
 			_bitmap = bitmap;
 			_halign = halign;
 			_valign = valign;
-			_margins = margins;
+			_margins = margins ? margins : new Insets();
 		}
 		[Form]
 		public function get bitmap () : BitmapData { return _bitmap; }		
@@ -72,6 +71,7 @@ package aesia.com.ponents.skinning.decorations
 					break;
 				case Alignments.CENTER : 
 					x = ( r.width - _bitmap.width ) / 2;
+					break;
 				case Alignments.LEFT : 
 				default : 
 					x = _margins.left;
@@ -99,6 +99,7 @@ package aesia.com.ponents.skinning.decorations
 			
 			g.beginBitmapFill( _bitmap, m, false, smoothing );
 			g.drawRect(r3.x, r3.y, r3.width, r3.height );
+			
 			g.endFill();
 		}
 

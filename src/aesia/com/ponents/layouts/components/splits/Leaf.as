@@ -1,5 +1,6 @@
 package aesia.com.ponents.layouts.components.splits 
 {
+	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.ponents.core.Component;
 
 	import flash.geom.Rectangle;
@@ -21,6 +22,9 @@ package aesia.com.ponents.layouts.components.splits
 		override public function get bounds () : Rectangle
 		{
 			return this.component.getBounds( this.component.parent );
+		}
+		public function toString() : String {
+			return StringUtils.stringify( this, {'component':component});
 		}
 	}
 }

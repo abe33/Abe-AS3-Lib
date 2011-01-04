@@ -3,14 +3,14 @@
  */
 package aesia.com.ponents.core
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.core.IDisplayObject;
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;
 	import aesia.com.mon.core.LayeredSprite;
-	import aesia.com.mon.geom.ColorMatrix;
 	import aesia.com.mon.geom.Dimension;
+	import aesia.com.mon.geom.dm;
 	import aesia.com.mon.utils.StageUtils;
+	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.lang._$;
 	import aesia.com.ponents.builder.styles.DefaultComponentPreview;
@@ -39,7 +39,6 @@ package aesia.com.ponents.core
 	import flash.events.FocusEvent;
 	import flash.events.IEventDispatcher;
 	import flash.events.MouseEvent;
-	import flash.filters.ColorMatrixFilter;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.ui.ContextMenuItem;
@@ -47,7 +46,6 @@ package aesia.com.ponents.core
 	import flash.utils.IDataInput;
 	import flash.utils.IDataOutput;
 	import flash.utils.IExternalizable;
-	import flash.utils.getQualifiedClassName;
 
 	/*-----------------------------------------------------------------
  * 	EVENTS METADATA
@@ -311,23 +309,6 @@ package aesia.com.ponents.core
 /*-----------------------------------------------------------------
  * 	STATIC MEMBERS
  *----------------------------------------------------------------*/
-		/**
-		 * Renvoie un tableau contenant les filtres de transformation par défaut pour
-		 * les composants désactivés.
-		 * <p>
-		 * Le tableau contient un objet <code>ColorMatrixFilter</code> enlevant toute saturation
-		 * au composant et réduisant l'opacité de <code>100</code>.
-		 * </p>
-		 * @return	un tableau contenant les filtres de transformation par défaut pour
-		 * 			les composants désactivés
-		 */
-		static public function createDisabledInnerFilters () : Array
-		{
-			var m : ColorMatrix = new ColorMatrix( );
-			m.adjustSaturation( -100 );
-			m.adjustAlpha( -100 );
-			return [ new ColorMatrixFilter( m ) ];
-		}
 
 		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
 		/**
@@ -757,6 +738,7 @@ package aesia.com.ponents.core
 			_keyboardContext = new Dictionary();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			_menuContextEnabled = true;
 			_menuContextGroups = {};
 			_menuContextOrder = [];
 			_menuContextMap = {};
@@ -1010,6 +992,7 @@ package aesia.com.ponents.core
 
 				if( _size.height < 0 )
 					_size.height = 0;
+				
 			}
 			fireResizeEventIfSizeChanged( oldw, oldh );			fireChangeEvent();
 			invalidateIfSizeChanged( oldw, oldh );
@@ -1057,6 +1040,21 @@ package aesia.com.ponents.core
 			fireResizeEventIfSizeChanged( oldw, oldh );
 			fireChangeEvent();
 			invalidateIfSizeChanged( oldw, oldh );
+		}
+		public function get maximumSize() : Dimension 
+		{
+			var p : Container = parentContainer;
+			if( p )
+			{
+				var d : Dimension = p.maximumContentSize;
+				return d ? d : dm( width, height );
+			}
+			else
+				return dm( width, height ); 
+		}
+		public function get maximumContentSize() : Dimension 
+		{
+			return maximumSize.grow( -_style.insets.horizontal, -_style.insets.vertical );
 		}
 		/**
 		 * Longueur de préférence de ce composant.
@@ -1973,7 +1971,7 @@ package aesia.com.ponents.core
 		 */
 		override public function toString () : String
 		{
-			return getQualifiedClassName( this );
+			return StringUtils.stringify(this);
 		}
 		/**
 		 * Renvoie <code>true</code> si le composant <code>c</code> est
@@ -2131,7 +2129,7 @@ package aesia.com.ponents.core
 		 * la méthode <code>removeChild</code> est utilisée.
 		 * </p>
 		 */
-		public function remomeFromParent() : void
+		public function removeFromParent() : void
 		{
 			var p : Container =  parentContainer;
 			if( p )
@@ -2568,6 +2566,8 @@ package aesia.com.ponents.core
 		 */
 		protected var _menuContextMap : Object;
 		protected var _menuContextEnabledMap : Dictionary;
+		protected var _menuContextEnabled : Boolean;
+		
 		/**
 		 * [conditional-compile] Un objet contenant des paires clés-$gt;valeurs où une clé représente
 		 * le nom d'un groupe de menus contextuels et la valeur un tableau contenant les objets <code>ContextMenuItem</code>.
@@ -2624,29 +2624,44 @@ package aesia.com.ponents.core
 		 *
 		 * @see ../../../../Conditional-Compilation.html#MENU_CONTEXT Constante FEATURES::MENU_CONTEXT
 		 */
-		public function get menuContext () : Vector.<ContextMenuItem>
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		public function get menuContext () : Array { return prepareMenuContext() as Array; }
+		TARGET::FLASH_10
+		public function get menuContext () : Vector.<ContextMenuItem> { return prepareMenuContext() as Vector.<ContextMenuItem>; }
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		public function get menuContext () : Vector.<ContextMenuItem> {	return prepareMenuContext() as Vector.<ContextMenuItem>; }
+		
+		public function get menuContextEnabled () : Boolean { return _menuContextEnabled; }
+		public function set menuContextEnabled ( b : Boolean ):void{ _menuContextEnabled = b; }
+		
+		private function prepareMenuContext():*
 		{
-			var l : uint = _menuContextOrder.length;
-
-			var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> ();
-
-			for( var i:int=0;i<l;i++)
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = []; }			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			if( _menuContextEnabled )
 			{
-				var contextGroup : Array = _menuContextGroups[ _menuContextOrder[i] ] as Array;
-				if( contextGroup )
+				var l : uint = _menuContextOrder.length;
+				for( var i:int=0;i<l;i++)
 				{
-					var m : uint = contextGroup.length;
-					for(var j:int=0;j<m;j++)
+					var contextGroup : Array = _menuContextGroups[ _menuContextOrder[i] ] as Array;
+					if( contextGroup )
 					{
-						var cmi : ContextMenuItem = contextGroup[j];
-						cmi.separatorBefore = i!=0 && j==0;
-
-						v.push( cmi );
+						var m : uint = contextGroup.length;
+						for(var j:int=0;j<m;j++)
+						{
+							var cmi : ContextMenuItem = contextGroup[j];
+							cmi.separatorBefore = i!=0 && j==0;
+	
+							v.push( cmi );
+						}
 					}
 				}
 			}
 			return v;
-		}		/**
+		}
+				/**
 		 * [conditional-compile] Affecte les menus définis dans ce composant en tant que menus à afficher.
 		 *
 		 * <p>
@@ -2660,7 +2675,10 @@ package aesia.com.ponents.core
 		 */
 		protected function setContextMenu () : void
 		{
-			var v : Vector.<ContextMenuItem> = menuContext;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = menuContext; }			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = menuContext; }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var v : Vector.<ContextMenuItem> = menuContext; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			var l : Number = v.length;
 			for( var i : Number = 0; i < l; i++ )
 			{
@@ -3409,7 +3427,7 @@ package aesia.com.ponents.core
 			_childrenContainer.visible = false;
 			addEventListener(ComponentEvent.REPAINT, wasAddedToStage );
 			invalidatePreferredSizeCache();
-
+		
 			registerToOnStageEvents();
 		}
 		/**

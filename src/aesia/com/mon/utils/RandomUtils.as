@@ -298,10 +298,13 @@ package  aesia.com.mon.utils
 		 * @param	a	le vecteur dans lequel prélever une valeur aléatoirement
 		 * @return	une des valeurs de <code>a</code> définie aléatoirement
 		 */
-		static public function inVector ( a : Vector ) : *
-		{
-			return RANDOM.inVector(a);
-		}
+		/*FDT_IGNORE*/  
+		TARGET::FLASH_10
+		static public function inVector ( a : Vector.<*> ) : * { return RANDOM.inVector(a); }
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		static public function inVector ( a : Vector.<*> ) : * { return RANDOM.inVector(a); }
+		
 		/**
 		 * Renvoie une des valeurs de <code>a</code> prélevée aléatoirement à l'aide
 		 * des valeurs de probabilité définies dans <code>ratios</code>.
@@ -346,7 +349,18 @@ package  aesia.com.mon.utils
 		 * @throws	Error	Le paramètre <code>total</code> est obligatoire lorsque <code>cumulativeRatios</code>
 		 * 					est à <code>true</code>.
 		 */
-		static public function inVectorWithRatios ( a : Vector,
+		/*FDT_IGNORE*/  
+		TARGET::FLASH_10
+		static public function inVectorWithRatios ( a : Vector.<*>,
+												   ratios : Array,
+												   total : Number = NaN,
+												   cumulativeRatios : Boolean = true ) : *
+		{
+			return RANDOM.inVectorWithRatios(a, ratios, total, cumulativeRatios);
+		}
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		static public function inVectorWithRatios ( a : Vector.<*>,
 												   ratios : Array,
 												   total : Number = NaN,
 												   cumulativeRatios : Boolean = true ) : *

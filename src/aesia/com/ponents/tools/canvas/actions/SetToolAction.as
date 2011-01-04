@@ -1,5 +1,7 @@
 package aesia.com.ponents.tools.canvas.actions 
 {
+	import aesia.com.ponents.buttons.ToolButton;
+	import aesia.com.ponents.core.Component;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.ponents.actions.AbstractAction;
 	import aesia.com.ponents.events.ToolEvent;
@@ -66,6 +68,10 @@ package aesia.com.ponents.tools.canvas.actions
 				_selected = selected;
 				firePropertyEvent("selected", _selected );
 			}
+		}
+		override public function get component () : Component 
+		{
+			return new ToolButton( this );
 		}
 	}
 }

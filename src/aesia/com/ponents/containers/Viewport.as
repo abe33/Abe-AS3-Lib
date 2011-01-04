@@ -1,7 +1,9 @@
 package aesia.com.ponents.containers 
 {
+	import aesia.com.mon.geom.Dimension;
 	import aesia.com.ponents.core.AbstractContainer;
 	import aesia.com.ponents.core.Component;
+	import aesia.com.ponents.core.Container;
 	import aesia.com.ponents.core.focus.Focusable;
 	import aesia.com.ponents.scrollbars.Scrollable;
 
@@ -91,6 +93,14 @@ package aesia.com.ponents.containers
 		{
 			return _view.screenVisibleArea;
 			return  new Rectangle( -_view.x, -_view.y, width - _style.insets.horizontal, height - _style.insets.vertical );
+		}
+		override public function get maximumContentSize () : Dimension 
+		{
+			var p : Container = parentContainer;
+			if( p && p is AbstractScrollContainer )
+				return ( p as AbstractScrollContainer ).contentSize;
+			else
+				return super.maximumSize;
 		}
 	}
 }

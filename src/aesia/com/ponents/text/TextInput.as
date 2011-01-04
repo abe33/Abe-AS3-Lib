@@ -24,7 +24,7 @@ package aesia.com.ponents.text
 
 		public function TextInput ( maxChars : int = 0, 
 									password : Boolean = false, 
-									autoCompletionKey : String = null,
+									id : String = null,
 									showLastValueAtStartup : Boolean = false
 									)
 		{
@@ -39,8 +39,8 @@ package aesia.com.ponents.text
 			
 			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
 				/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-					if( autoCompletionKey )
-						this.autoComplete = new InputMemory( this, autoCompletionKey, showLastValueAtStartup );
+					if( id )
+						this.id = id;
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				
 				/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/					_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );					_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
@@ -58,7 +58,30 @@ package aesia.com.ponents.text
 		{ 
 			_displayAsPassword = _label.displayAsPassword = m; 
 		}
-
+		
+		/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY /*FDT_IGNORE*/
+		override public function set id (id : String) : void 
+		{
+			super.id = id;
+			if( id == null )
+			{
+				if( autoComplete )
+					autoComplete = null;
+			}
+			else
+			{
+				if( autoComplete  )
+				{
+					if( autoComplete is InputMemory )
+					{
+						var mem : InputMemory = autoComplete as InputMemory;
+						mem.id = id;
+					}
+				}
+				else
+					this.autoComplete = new InputMemory( this, id );
+			}
+		}
 		override protected function registerToOnStageEvents () : void 
 		{
 			super.registerToOnStageEvents( );
@@ -102,7 +125,6 @@ package aesia.com.ponents.text
 			if( _label && _enabled )
 				_value = _label.text;
 				
-			
 			/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
 				checkContent();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
@@ -112,8 +134,13 @@ package aesia.com.ponents.text
 			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
 			if( _autoCompleteDropDown && _autoCompleteDropDown.displayed )
 			{
-				_autoCompleteDropDown.validateCompletion();
-				return;
+				if(_autoCompleteDropDown.hasSelection)
+				{
+					_autoCompleteDropDown.validateCompletion();
+					return;
+				}
+				else
+					_autoCompleteDropDown.hide();
 			}
 			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
 				if( _autoComplete is InputMemory )

@@ -21,7 +21,7 @@ package aesia.com.ponents.tools
 	[Skinable(skin="RGBColorEditor")]
 	[Skin(define="RGBColorEditor",
 			  inherit="EmptyComponent",
-			  state__all__insets="new aesia.com.ponents.utils::Insets(5)"
+			  state__all__insets="new cutils::Insets(5)"
 	)]
 	public class RGBColorEditor extends Panel 
 	{

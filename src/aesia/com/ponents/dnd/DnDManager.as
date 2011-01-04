@@ -5,12 +5,12 @@ package  aesia.com.ponents.dnd
 {
 	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.StageUtils;
-	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.transfer.DataFlavor;
 	import aesia.com.ponents.transfer.Transferable;
 	import aesia.com.ponents.utils.ToolKit;
 
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.display.InteractiveObject;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
@@ -76,7 +76,7 @@ package  aesia.com.ponents.dnd
 		private var currentTransferable : Transferable;
 		private var currentDragSource : DragSource;		private var currentDropTarget : DropTarget;
 		private var currentTargetUnderTheMouse : DropTarget;
-
+		
 		public function enterFrame ( e : Event ) : void
 		{
 			var l : Number = _allowedDropTargets.length;
@@ -92,6 +92,7 @@ package  aesia.com.ponents.dnd
 			{
 				var target : DropTarget = _allowedDropTargets[ l ] as DropTarget;
 				var r : Rectangle = _allowedDropTargetsScreenVisibleArea[ l ];
+				
 				// On a un contact avec une cible
 				if( /*target.dropGeometry.parent &&
 					target.dropGeometry.hitTestPoint( StageUtils.stage.mouseX , 
@@ -158,20 +159,36 @@ package  aesia.com.ponents.dnd
 				{	
 					return flavor.isSupported( flavors ); 
 				};
-				return dt.displayed && f.some( some ); 
+				return dt.component.displayed && f.some( some ); 
 			};
 			
-			_allowedDropTargets = a.filter( filter );
+			_allowedDropTargets = a.filter( filter );			
+			_allowedDropTargets.sort( targetSort );
 			_allowedDropTargetsScreenVisibleArea = _allowedDropTargets.map( function (item : DropTarget, ...args ) : * {
-				if( item is Component )
-				  return (item as Component).screenVisibleArea;
-				else 
-				  return (item as DisplayObject).getBounds( ToolKit.dndLevel );
-			} );
-			
+				 return item.component.screenVisibleArea;
+			} );			
 			dispatchEvent( new DnDEvent(DnDEvent.DROP_TARGETS_CHANGE, 
 										currentTransferable, 
 										currentDragSource ) );
+		}
+		protected function targetSort( a : DropTarget, b : DropTarget ) :int
+		{
+			var doa : DisplayObject = a.component as DisplayObject;			var dob : DisplayObject = b.component as DisplayObject;
+			
+			var aIsPopup : Boolean = StageUtils.isDescendant( doa, ToolKit.popupLevel );			var bIsPopup : Boolean = StageUtils.isDescendant( dob, ToolKit.popupLevel );
+			
+			if( doa is DisplayObjectContainer && StageUtils.isDescendant( dob, doa as DisplayObjectContainer ) )
+				return -1;
+			else if( dob is DisplayObjectContainer && StageUtils.isDescendant( doa, dob as DisplayObjectContainer ) )
+				return 1;		
+			else if( aIsPopup && bIsPopup )
+				return 0;
+			else if( aIsPopup )
+				return 1;
+			else if( bIsPopup )
+				return -1;
+			else
+				return 0;
 		}
 		public function startDrag ( source : DragSource, transferable : Transferable ) : void
 		{

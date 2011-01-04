@@ -150,7 +150,7 @@ package aesia.com.ponents.buttons
 		 */
 		protected function getMenuItem ( cl : Class ) : MenuItem
 		{
-			return new MenuItem( new ProxyAction( createNewIcon, Reflection.extractClassName( cl ), null, null, null, cl ) );
+			return new MenuItem( new ProxyAction( createNewIcon, Reflection.getClassName( cl ), null, null, null, cl ) );
 		}
 		/**
 		 * Créer un nouvel objet <code>Icon</code> comme valeur

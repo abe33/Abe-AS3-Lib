@@ -79,8 +79,10 @@ package aesia.com.ponents.menus
 		}
 		override public function selectNext () : void
 		{
-			var nextIndex : int;
+			var nextIndex : int = -1;
 			var i : MenuItem;
+			var n : uint = 0;
+			var l : uint;
 			if( _allowMultiSelection )
 			{
 				if( selectedIndices.length == 0 )
@@ -93,7 +95,8 @@ package aesia.com.ponents.menus
 					{
 						nextIndex = selectedIndices[0] + 1;
 						i = _model.getElementAt(nextIndex) as MenuItem;
-						while( !i.enabled )
+						l = _model.size;
+						while( !i.enabled && n++ < l )
 						{
 							if( nextIndex+1 >= _model.size )
 								nextIndex = -1;
@@ -102,8 +105,11 @@ package aesia.com.ponents.menus
 						}
 					}
 				}
-				selectedIndices = [ nextIndex ];
-				ensureIndexIsVisible( selectedIndices[0] );
+				if( nextIndex != -1)
+				{
+					selectedIndices = [ nextIndex ];
+					ensureIndexIsVisible( selectedIndices[0] );
+				}
 			}
 			else
 			{
@@ -116,7 +122,7 @@ package aesia.com.ponents.menus
 				{
 					nextIndex = selectedIndex + 1;
 					i = _model.getElementAt(nextIndex) as MenuItem;
-					while( !i.enabled )
+					while( !i.enabled && n++ < l )
 					{
 						if( nextIndex+1 >= _model.size )
 							nextIndex = -1;

@@ -1,8 +1,9 @@
 package aesia.com.ponents.containers
 {
 	import aesia.com.mon.geom.Dimension;
-	import aesia.com.mon.utils.Cookie;
+	import aesia.com.mon.geom.dm;
 	import aesia.com.patibility.lang._;
+	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.ponents.actions.Action;
 	import aesia.com.ponents.buttons.AbstractButton;
 	import aesia.com.ponents.buttons.Button;
@@ -19,12 +20,15 @@ package aesia.com.ponents.containers
 	import aesia.com.ponents.skinning.SkinManagerInstance;
 	import aesia.com.ponents.transfer.ComponentsFlavors;
 	import aesia.com.ponents.transfer.DataFlavor;
+	import aesia.com.ponents.transfer.ToolBarTransferable;
+	import aesia.com.ponents.transfer.Transferable;
 	import aesia.com.ponents.utils.Alignments;
 	import aesia.com.ponents.utils.ContextMenuItemUtils;
 	import aesia.com.ponents.utils.Directions;
 	import aesia.com.ponents.utils.ScrollUtils;
-	import aesia.com.ponents.utils.SettingsMemoryChannels;
 
+	import flash.display.DisplayObject;
+	import flash.display.InteractiveObject;
 	import flash.events.ContextMenuEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -36,14 +40,14 @@ package aesia.com.ponents.containers
 	[Skinable(skin="ToolBar")]	[Skin(define="ToolBar",
 		  inherit="DropPanel",
 
-		  state__all__insets="new aesia.com.ponents.utils::Insets(2)",
+		  state__all__insets="new cutils::Insets(2)",
 
 		  custom_spacing="0"
 	)]
 	public class ToolBar extends DropPanel implements Scrollable
 	{
 		protected var _buttonDisplayMode : uint;
-
+		
 		/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
 		protected var _settingsLoaded : Boolean = false;
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
@@ -99,36 +103,31 @@ package aesia.com.ponents.containers
 		public function get buttonDisplayMode () : uint { return _buttonDisplayMode; }
 		public function set buttonDisplayMode (buttonDisplayMode : uint) : void
 		{
-			_buttonDisplayMode = buttonDisplayMode;
-			var l : Number = childrenCount;
-
-			for ( var i : Number = 0; i < l; i++ )
+			if( buttonDisplayMode != _buttonDisplayMode )
 			{
-				var bt : AbstractButton = _children[i] as AbstractButton;
-				if( bt )
+				_buttonDisplayMode = buttonDisplayMode;
+				var l : Number = childrenCount;
+	
+				for ( var i : Number = 0; i < l; i++ )
 				{
-					bt.size = null;
-					bt.buttonDisplayMode = _buttonDisplayMode;
+					var bt : AbstractButton = _children[i] as AbstractButton;
+					if( bt )
+					{
+						bt.size = null;
+						bt.buttonDisplayMode = _buttonDisplayMode;
+					}
 				}
+				invalidatePreferredSizeCache();
+	
+				/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+				updateContextMenuItemCaption ();
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+	
+				/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+				if( id )
+					SettingsManagerInstance.set( this, "buttonDisplayMode", _buttonDisplayMode );
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			}
-
-			invalidatePreferredSizeCache();
-
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			updateContextMenuItemCaption ();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-			if( id && _settingsLoaded )
-			{
-				var cookie : Cookie = new Cookie( SettingsMemoryChannels.TOOLBARS );
-				var o : Object = cookie[id];
-				if( !o )
-					o = {};
-
-				o.buttonDisplayMode = _buttonDisplayMode;
-			}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 
 		public function get direction () : String { return ( _childrenLayout as InlineLayout ).direction; }
@@ -136,6 +135,10 @@ package aesia.com.ponents.containers
 		{
 			var l : InlineLayout = ( _childrenLayout as InlineLayout );
 			l.direction = s;
+			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+				if( _grip )
+					_grip.direction = s;
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			switch( l.direction )
 			{
 				case Directions.TOP_TO_BOTTOM :
@@ -149,13 +152,17 @@ package aesia.com.ponents.containers
 				case Directions.RIGHT_TO_LEFT :					l.verticalAlign = Alignments.CENTER;					l.horizontalAlign = Alignments.RIGHT;
 					break;
 			}
+			invalidatePreferredSizeCache();
 		}
-
+		
 		public function addSeparator () : void
 		{
 			addComponent( new ToolBarSeparator( this ) );
 		}
-
+		public function addAction( act : Action ) : void
+		{
+			addComponent( new Button( act ) );
+		}
 		override public function addComponent ( c : Component ) : void
 		{
 			addComponentAt( c, _children.length );
@@ -177,7 +184,7 @@ package aesia.com.ponents.containers
 			  ( c as AbstractButton ).buttonDisplayMode = _buttonDisplayMode;
 
 			super.addComponentAt( c, id );
-
+			
 			if( !c.id )
 				c.id = "ToolBarComponent" + getComponentIndex(c);
 		}
@@ -261,20 +268,8 @@ package aesia.com.ponents.containers
 			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
 			if( id && !_settingsLoaded )
 			{
-				var cookie : Cookie = new Cookie( SettingsMemoryChannels.TOOLBARS );
-				var o : Object = cookie[id];
-				if( o )
-				{
-					var a : Array = o.order;
-					if( a )
-					{
-						var l : uint = a.length;
-						for ( var i:int=0;i<l;i++ )
-							setComponentIndex( getComponentByID( a[i] ), i );
-					}
-					if( !isNaN(o.buttonDisplayMode) )
-						this.buttonDisplayMode = o.buttonDisplayMode;
-				}
+				var mode : Number = SettingsManagerInstance.get(this, "buttonDisplayMode", _buttonDisplayMode ); 
+				buttonDisplayMode = mode;
 				_settingsLoaded = true;
 			}
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
@@ -282,6 +277,43 @@ package aesia.com.ponents.containers
 		}
 
 		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+		protected var _grip : ToolBarGrip;
+		
+		override public function get transferData () : Transferable 
+		{ 
+			return new ToolBarTransferable( parentContainer is Viewport ? parentContainer.parentContainer : this, this ); 
+		}
+		override public function get dragGestureGeometry () : InteractiveObject { return _grip; }
+		override public function get dragGeometry () : DisplayObject { return this; }
+		
+		override public function set allowDrag (b : Boolean) : void 
+		{
+			_allowDrag = b;
+			if( _allowDrag )
+			{
+				if( !_grip )
+				{
+					_grip = new ToolBarGrip();
+					
+					gesture = new PressAndMoveGesture();
+					_dragGesture.target = this;
+					
+					addComponentAt( _grip, 0 );
+				}
+			}
+			else
+			{
+				if( _grip )
+				{
+					if( containsComponent( _grip ) )
+						removeComponent(_grip);
+					
+					_grip = null;
+					_dragGesture.target = null;
+				}
+			}
+		}	
+		
 		override public function get supportedFlavors () : Array { return [ ComponentsFlavors.ACTION,
 																			ComponentsFlavors.MENU,
 																			ComponentsFlavors.COMPONENT ]; }
@@ -395,20 +427,7 @@ package aesia.com.ponents.containers
 				if( c is ToolBarSeparator )
 				  ( c as ToolBarSeparator ).toolbar = this;
 			}
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-			if( id && reorder )
-			{
-				var cookie : Cookie = new Cookie( SettingsMemoryChannels.TOOLBARS );
-				var a : Array = [];
-				_children.forEach( function( c : Component, ... args ) : void { a.push(c.id); });
-
-				var o : Object = cookie[id];
-				if(!o)
-					o = {};
-				o.order = a;
-				cookie[id] = o;
-			}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			// TODO new order memory handler 
 		}
 
 		protected function insertComponentAccordingToMousePosition ( comp : Component ) : void

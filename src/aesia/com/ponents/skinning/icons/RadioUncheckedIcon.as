@@ -1,9 +1,8 @@
 package aesia.com.ponents.skinning.icons 
 {
-	import aesia.com.mon.utils.Color;
+	import aesia.com.ponents.skinning.DefaultSkin;
 
 	import flash.display.Shape;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -11,9 +10,12 @@ package aesia.com.ponents.skinning.icons
 	{
 		public function RadioUncheckedIcon ()
 		{
-			this.graphics.lineStyle( 0, Color.DimGray.hexa );
-			this.graphics.beginFill( Color.White.hexa );
+			this.graphics.beginFill( DefaultSkin.checkBoxBorderColor.hexa );
 			this.graphics.drawCircle(6, 6, 6);
+			this.graphics.endFill();
+			
+			this.graphics.beginFill( DefaultSkin.checkBoxBackgroundColor.hexa );
+			this.graphics.drawCircle(6, 6, 5);
 			this.graphics.endFill();
 		}
 	}

@@ -188,7 +188,20 @@ package aesia.com.ponents.skinning
 		{
 			return flash_proxy::getProperty( name );
 		}
-
+		override flash_proxy function hasProperty (name : *) : Boolean 
+		{
+			return _customProperties.hasOwnProperty(name) || 
+				   ["background",
+					"foreground",
+					"textColor",
+					"corners",
+					"format",
+					"insets",
+					"borders",
+					"outerFilters",
+					"innerFilters"].indexOf(name) != -1;
+		}
+		
 		protected function firePropertyEvent ( pname : String, pvalue : * ) : void
 		{
 			dispatchEvent(new PropertyEvent( PropertyEvent.PROPERTY_CHANGE, pname, pvalue) );

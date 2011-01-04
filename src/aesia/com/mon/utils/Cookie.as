@@ -9,7 +9,6 @@ package  aesia.com.mon.utils
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * Un objet <code>Cookie</code> fonctionne comme un proxy vers un <code>SharedObject</code>,
 	 * la classe étant dynamique et étendant la classe <code>Proxy</code> tout les appels à une
@@ -169,8 +168,6 @@ package  aesia.com.mon.utils
 				_propertiesTable.push( path );
 				save.data[ PROPRETIES_TABLE_NAME ] = _propertiesTable.join();
 			}
-						
-			save.flush();
 			localPath = "";
 		}
 		/**

@@ -1,11 +1,10 @@
 package aesia.com.ponents.builder.styles
 {
 	import aesia.com.mands.ProxyCommand;
-	import aesia.com.mon.logs.Log;
-	import aesia.com.mon.utils.Cookie;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Keys;
 	import aesia.com.patibility.lang._;
+	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.ponents.builder.codecs.SkinSourceCodec;
 	import aesia.com.ponents.builder.codecs.StyleMetaCodec;
 	import aesia.com.ponents.builder.codecs.StyleSourceCodec;
@@ -23,11 +22,9 @@ package aesia.com.ponents.builder.styles
 	import aesia.com.ponents.skinning.SkinManagerInstance;
 	import aesia.com.ponents.text.TextInput;
 	import aesia.com.ponents.trees.DefaultTreeCell;
-	import aesia.com.ponents.utils.SettingsMemoryChannels;
+
 	import flash.display.DisplayObject;
-	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
-	import flash.ui.ContextMenuItem;
 
 	[Skinable(skin="StylesTreeCell")]
 	[Skin(define="StylesTreeCell",
@@ -119,43 +116,42 @@ package aesia.com.ponents.builder.styles
 			{
 				var n : TreeNode = _value as TreeNode;
 				var d : Dialog;
-				/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-				var c : Cookie = new Cookie( SettingsMemoryChannels.DIALOGS );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				
 				if( n.userObject == SkinManager.DEFAULT_SKIN_NAME ||
 					( n.userObject is ComponentStyle && (n.userObject as ComponentStyle).skinName == SkinManager.DEFAULT_SKIN_NAME ) )
 				{
+					d = new PreventRenameDefault();
 					/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-					if( c.warningRenameDefaultSkin )
+					if( SettingsManagerInstance.get( d, "ignoreWarning" ) )
 						return;
 					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
-					d = new PreventRenameDefault( "warningRenameDefaultSkin", SettingsMemoryChannels.DIALOGS );
 					d.open( Dialog.CLOSE_ON_RESULT );
 					return;
 				}
-				/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+
 				if( n.userObject is String )
 				{
-					if( c.warningRenameSkin )
+					d = new PreventRenameSkin();
+					/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+					if( SettingsManagerInstance.get( d, "ignoreWarning" ) )
 					{
 						warnRename();
 						return;
 					}
+					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				}
 				else
 				{
-					if( c.warningRenameStyle )
+					d = new PreventRenameStyle();
+					/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+					if( SettingsManagerInstance.get( d, "ignoreWarning" ) )
 					{
 						warnRename();
 						return;
 					}
+					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				}
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-				if( n.userObject is String )
-					d = new PreventRenameSkin( "warningRenameSkin", SettingsMemoryChannels.DIALOGS );
-				else
-					d = new PreventRenameStyle( "warningRenameStyle", SettingsMemoryChannels.DIALOGS );
 
 				d.addWeakEventListener(DialogEvent.DIALOG_RESULT, warnRename );
 				d.open( Dialog.CLOSE_ON_RESULT );

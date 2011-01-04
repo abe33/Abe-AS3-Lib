@@ -9,8 +9,8 @@ package aesia.com.ponents.tables
 	[Skinable(skin="TableCell")]	[Skin(define="TableCell",
 		  inherit="ListCell",
 		  
-		  state__0_1_2_3_8_9_10_11__background="new aesia.com.ponents.skinning.decorations::EmptyFill()",		  state__all__foreground="new aesia.com.ponents.skinning.decorations::SimpleBorders(color(LightGrey))",
-		  state__all__borders="new aesia.com.ponents.utils::Borders(0,0,1,0)",		  state__all__insets="new aesia.com.ponents.utils::Insets(0,0,1,0)"
+		  state__0_1_2_3_8_9_10_11__background="skin.emptyDecoration",		  state__all__foreground="new deco::SimpleBorders(skin.listSelectedBackgroundColor)",
+		  state__all__borders="new cutils::Borders(0,0,1,0)",		  state__all__insets="new cutils::Insets(0,0,1,0)"
 	)]
 	public class DefaultTableCell extends DefaultListCell implements TableCell 
 	{
