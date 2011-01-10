@@ -4,7 +4,6 @@ package aesia.com.ponents.core.edit
 	import aesia.com.ponents.actions.builtin.EditObjectPropertiesAction;
 
 	import flash.display.DisplayObject;
-
 	/**
 	 * La classe <code>ObjectPropertiesEditor</code> est un éditeur
 	 * générique permettant l'édition des propriétés d'objets complexes.

@@ -219,7 +219,7 @@ package aesia.com.ponents.utils
 			}
 			return o;
 		}
-		static public function inspect( o:* ):String
+		static public function inspect( o : * ):String
 		{
 			if( typeof o != "object" )
 			{
@@ -248,7 +248,7 @@ package aesia.com.ponents.utils
 				else
 				{
 					s ="";
-					if( Reflection.getClass(o)!=Object )
+					if( Reflection.getClass(o)!= Object )
 					{
 						s += StringUtils.stringify(o);
 						o = Reflection.asAnonymousObject(o);

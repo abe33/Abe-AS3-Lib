@@ -7,7 +7,6 @@ package aesia.com.ponents.core.edit
 
 	import flash.display.DisplayObject;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe <code>EditorFactory</code> fournie un moyen simple
 	 * d'enregistrer des objets ou des classes <code>Editor</code>

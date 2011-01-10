@@ -194,7 +194,6 @@ package aesia.com.ponents.forms
 		{
 			_newMap[ cl ] = f;
 		}
-
 		/**
 		 * Renvoie un objet <code>FormObject</code> pour toutes les propriétés publiques 
 		 * de <code>o</code> pour lesquelles un type de controlleur existe.
@@ -231,8 +230,8 @@ package aesia.com.ponents.forms
 			var members : XMLList = Reflection.getPublicMembers( o );
 			var fn : Function;
 			var c : Component;
-			var i : Number = 0;
 			var fd : Array = [];
+			var i : Number = 0;
 			
 			for each( var x : XML in members )
 			{
@@ -286,9 +285,14 @@ package aesia.com.ponents.forms
 			return fo;	
 		}
 		
-		public static function getComponentForType ( v : *) : Component
+		public static function getComponentForType ( v : * ) : Component
 		{
-			var fn : Function = _typesMap[ getQualifiedClassName( v ) ];
+			var fn : Function = _typesMap[ v ];			var fn2 : Function = _newMap[ v ];
+			return fn != null ? fn( fn2 != null ? fn2() : null, {} ) : null;
+		}
+		public static function getComponentForValue ( v : * ) : Component
+		{
+			var fn : Function = _typesMap[ getQualifiedClassName(v) ];
 			return fn != null ? fn(v,{}) : null;
 		}
 		/*-----------------------------------------------------------------------------------*
@@ -759,7 +763,7 @@ package aesia.com.ponents.forms
 			var n : uint = 0;
 			for( var i : String in o )
 			{
-				var f : FormField = new FormField( i, i, getComponentForType(o[i]), n++, Reflection.getClass(o[i]) );
+				var f : FormField = new FormField( i, i, getComponentForValue(o[i]), n++, Reflection.getClass(o[i]) );
 				fields.push(f);
 			}
 			return new FormObject( o, fields );

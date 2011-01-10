@@ -1,8 +1,8 @@
 package aesia.com.ponents.actions.builtin 
 {
+	import aesia.com.mon.utils.AllocatorInstance;
 	import aesia.com.mon.core.FormMetaProvider;
 	import aesia.com.mon.geom.dm;
-	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Reflection;
 	import aesia.com.mon.utils.StageUtils;
@@ -24,7 +24,6 @@ package aesia.com.ponents.actions.builtin
 	import aesia.com.ponents.layouts.components.InlineLayout;
 	import aesia.com.ponents.lists.CustomEditCell;
 	import aesia.com.ponents.lists.ListEditor;
-	import aesia.com.ponents.skinning.decorations.SimpleFill;
 	import aesia.com.ponents.skinning.icons.Icon;
 	import aesia.com.ponents.utils.Insets;
 
@@ -34,7 +33,7 @@ package aesia.com.ponents.actions.builtin
 	 */
 	public class EditObjectPropertiesAction extends AbstractAction 
 	{
-		static protected var _window : Window;
+		protected var _window : Window;
 		
 		protected var _object : Object;
 		protected var _formObject : FormObject;
@@ -92,27 +91,19 @@ package aesia.com.ponents.actions.builtin
 				
 				sp = new ScrollPane();
 				sp.view = li;
-				if( !_window )
-				{
-					_window = new Window();
-					_window.resizable = true;
-					_window.windowTitle = new WindowTitleBar(_("Properties"),null,WindowTitleBar.CLOSE_BUTTON + WindowTitleBar.MAXIMIZE_BUTTON );
-					_window.addEventListener( WindowEvent.CLOSE, onClose );
-				}
+				
+				_window = AllocatorInstance.get(Window); 
+				_window.resizable = true;
+				_window.windowTitle = new WindowTitleBar(_("Properties"),null,WindowTitleBar.CLOSE_BUTTON + WindowTitleBar.MAXIMIZE_BUTTON );
+				_window.addEventListener( WindowEvent.CLOSE, onClose );
+				
 				if( _saveFunction == null )
 				{
 					if( _window.windowStatus != null )
-					{
 						_window.windowStatus = null;
-						/*
-						( _window.windowStatus  as Panel ).removeComponent( _saveButton );
-						_saveButton = null;*/
-					}
 				}
 				else
-				{
 					_window.windowStatus = getWindowStatus();
-				}
 				
 				_window.windowContent = sp; 
 				if( _window.width > StageUtils.stage.stageWidth*.6 || _window.height > StageUtils.stage.stageHeight * .6 )
@@ -121,9 +112,6 @@ package aesia.com.ponents.actions.builtin
 				StageUtils.centerY(_window);				StageUtils.centerX(_window);
 				
 				_window.open();
-				//_dialog = new Dialog( _("Properties"), Dialog.CLOSE_BUTTON, li );
-				//_dialog.addEventListener( WindowEvent.CLOSE, onClose );
-				//_dialog.open();
 				
 				return;
 			}
@@ -139,22 +127,19 @@ package aesia.com.ponents.actions.builtin
 			
 			sp = new ScrollPane();
 			sp.view = p;
-			if( !_window )
-			{
-				_window = new Window();
-				_window.resizable = true;
-				_window.windowTitle = new WindowTitleBar(_("Properties"),null,WindowTitleBar.CLOSE_BUTTON + WindowTitleBar.MAXIMIZE_BUTTON );
-				_window.addEventListener( WindowEvent.CLOSE, onClose );
-			}
+		
+			_window = AllocatorInstance.get(Window); 
+			_window.resizable = true;
+			_window.windowTitle = new WindowTitleBar(_("Properties"),null,WindowTitleBar.CLOSE_BUTTON + WindowTitleBar.MAXIMIZE_BUTTON );
+			_window.addEventListener( WindowEvent.CLOSE, onClose );
+			
 			if( _saveFunction == null )
 			{
 				if( _window.windowStatus != null )
 					_window.windowStatus = null;
 			}
 			else
-			{
 				_window.windowStatus = getWindowStatus();
-			}
 			
 			_window.windowContent = sp; 
 			if( _window.width > StageUtils.stage.stageWidth*.6 || _window.height > StageUtils.stage.stageHeight * .6 )
@@ -163,10 +148,6 @@ package aesia.com.ponents.actions.builtin
 			StageUtils.centerX(_window);
 			StageUtils.centerY(_window);
 			_window.open();
-			/*
-			_dialog = new Dialog(_("Properties"), Dialog.CLOSE_BUTTON, p );
-			_dialog.addEventListener( WindowEvent.CLOSE, onClose );
-			_dialog.open();*/
 		}
 		
 		protected function compareClass ( i : *, ... args) : Boolean { return i is _currentClass; }
@@ -192,11 +173,14 @@ package aesia.com.ponents.actions.builtin
 				
 				_formObject = null;
 			}
+			
 			_window.windowContent = null;
-			/*
-			_dialog.windowContent = null;
-			_dialog = null;
-			*/
+			_window.windowStatus = null;
+			_window.windowTitle = null;
+			_window.removeEventListener(WindowEvent.CLOSE, onClose );
+
+			AllocatorInstance.release( _window );
+
 			fireCommandEnd();
 		}
 	}

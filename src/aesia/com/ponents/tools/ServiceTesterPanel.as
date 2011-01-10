@@ -1,5 +1,6 @@
 package aesia.com.ponents.tools 
 {
+	import aesia.com.ponents.tools.prettify.GPrettify;
 	import aesia.com.mon.geom.dm;
 	import aesia.com.mon.geom.pt;
 	import aesia.com.mon.logs.Log;
@@ -100,7 +101,7 @@ package aesia.com.ponents.tools
 							 _tservice.value, 
 							 _tmethod.value, 
 							 _argumentsList.value.join(", ")));
-				_call = Reflection.buildInstance(ServiceCall, [ _tmethod.value, 
+				_call = Reflection.buildInstance( ServiceCall, [ _tmethod.value, 
 															    _tservice.value, 
 															    NetConnectionFactory.get( _tgateway.value ),
 															    handleResult,
@@ -119,7 +120,7 @@ package aesia.com.ponents.tools
 		{
 			var res : * = e.results;
 			
-			Log.debug( "Result:\n" + recursivePrint( res ) );			
+			Log.debug( "Result:\n" + new GPrettify().prettyPrintOne( recursivePrint( res ), "default", true ), true );			
 		}
 
 		protected function handleError ( e : ServiceEvent ) : void

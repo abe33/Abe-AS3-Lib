@@ -68,7 +68,7 @@ package aesia.com.ponents.lists
 			_value =  initialData ? initialData : [];
 			_list = new List( _value );
 			_list.allowMultiSelection = true;
-			_list.model.contentType = _contentType;
+			_list.model.contentType = contentType;
 			_list.model.addEventListener( ComponentEvent.DATA_CHANGE, dataChange, false, 0, true );			
 			view = _list;
 			rowHead = new ListLineRuler(_list, true );

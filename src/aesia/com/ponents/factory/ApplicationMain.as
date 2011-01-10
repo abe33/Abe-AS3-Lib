@@ -1,5 +1,6 @@
 package aesia.com.ponents.factory 
 {
+	import aesia.com.ponents.events.ComponentFactoryEvent;
 	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.mon.utils.StringUtils;
@@ -73,6 +74,8 @@ package aesia.com.ponents.factory
 			StageUtils.addGlobalMenu( ( ActionManagerInstance.getAction( BuiltInActionsList.UNDO ) as UndoAction ).contextMenuItem );
 			StageUtils.addGlobalMenu( ( ActionManagerInstance.getAction( BuiltInActionsList.REDO ) as RedoAction ).contextMenuItem );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_COMPLETE, buildComplete );
 		}
 		public function get appName () : String { return _appName; }
 		public function set appName (appName : String) : void { _appName = appName; }
@@ -83,6 +86,10 @@ package aesia.com.ponents.factory
 			if( _buildUnits.length > 0 )
 				for each( var unit : ComponentBuildUnit in _buildUnits )
 					unit.build( ComponentFactoryInstance );
+		}
+		protected function buildComplete ( e : ComponentFactoryEvent ) : void 
+		{
+			ComponentFactoryInstance.removeEventListener( ComponentFactoryEvent.BUILD_COMPLETE, buildComplete );
 		}
 		public function init ( preload : ComponentFactoryPreload ) : void 
 		{

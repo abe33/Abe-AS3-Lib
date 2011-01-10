@@ -135,10 +135,13 @@ package aesia.com.ponents.containers
 		{
 			var l : InlineLayout = ( _childrenLayout as InlineLayout );
 			l.direction = s;
-			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
-				if( _grip )
-					_grip.direction = s;
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			var ll: uint = childrenCount;
+			for( var i :uint = 0; i<ll;i++)
+			{
+				if( ( _children[i] as Object ).hasOwnProperty("direction") )
+					( _children[i] as Object )["direction"] = s;
+			}
 			switch( l.direction )
 			{
 				case Directions.TOP_TO_BOTTOM :

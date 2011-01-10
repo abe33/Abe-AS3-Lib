@@ -116,7 +116,8 @@ package aesia.com.ponents.lists
 				_isEditing = true;
 				
 				if( _owner.model.contentType != null )
-					_editor = EditorFactoryInstance.getForType( _owner.model.contentType );				else
+					_editor = EditorFactoryInstance.getForType( _owner.model.contentType );
+				else
 					_editor = EditorFactoryInstance.get();
 				
 				_editor.initEditState( this , _value, _labelTextField as DisplayObject );

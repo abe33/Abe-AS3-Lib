@@ -41,7 +41,7 @@ package aesia.com.ponents.actions.builtin
 			event.stopImmediatePropagation();
 			
 			if( lastObject )
-				Log.debug( "clicked on "+ Inspect.pathTo( lastObject ) );
+				Log.debug( Inspect.pathTo( lastObject ) );
 
 			ToolKit.toolLevel.removeChild( shape );
 			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_MOVE, stageMouseMove );

@@ -32,28 +32,34 @@ package aesia.com.ponents.containers
 		
 		protected var _icon : DisplayObject;
 		protected var _toolbar : ToolBar;
+		protected var _direction : String;
 		
 		public function ToolBarSeparator ( c : ToolBar )
 		{
 			super();
 			toolbar = c;			
 		}
+		public function get direction () : String { return _direction; }
+		public function set direction (direction : String) : void
+		{
+			if( direction == _direction )
+				return;
+				
+			_direction = direction;
+			
+			if( _direction == Directions.TOP_TO_BOTTOM || _direction == Directions.BOTTOM_TO_TOP )
+				styleKey = "ToolBarSeparatorH";
+			else
+				styleKey = "ToolBarSeparatorV";
+		}
 		public function get toolbar () : ToolBar { return _toolbar; }
 		public function set toolbar (toolbar : ToolBar) : void
 		{
 			_toolbar = toolbar;
-			
-			if( _toolbar.direction == Directions.TOP_TO_BOTTOM || _toolbar.direction == Directions.BOTTOM_TO_TOP )
-			{
-				styleKey = "ToolBarSeparatorH";
-			}
-			else
-			{
-				styleKey = "ToolBarSeparatorV";
-			}
-			
+			direction = _toolbar.direction;			
 			invalidatePreferredSizeCache();
 		}
+		
 		override public function invalidatePreferredSizeCache () : void
 		{
 			if( _toolbar.direction == Directions.TOP_TO_BOTTOM || _toolbar.direction == Directions.BOTTOM_TO_TOP )

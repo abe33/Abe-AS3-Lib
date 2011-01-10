@@ -722,7 +722,7 @@ package aesia.com.ponents.core
 			_integerForSpatialInformations = true;
 			_allowOverEventBubbling = false;
 			_background = new Sprite();
-			_foreground = new Sprite();			_childrenContainer = new Sprite();
+			_foreground = new Sprite();			_childrenContainer = new Sprite();			
 			_style = SkinManagerInstance.getComponentStyle( this );
 			_contentScrollH = 0;
 			_tooltipOverlayOnMouseOver = false;
@@ -751,6 +751,8 @@ package aesia.com.ponents.core
 			buttonMode = true;
 			useHandCursor = false;
 			focusRect = false;
+			
+			_childrenContainer.name= "childrenContainer";			_background.name= "background";			_foreground.name= "foreground";
 
 			addChild( _background );
 			addChild( _childrenContainer );			addChild( _foreground );
