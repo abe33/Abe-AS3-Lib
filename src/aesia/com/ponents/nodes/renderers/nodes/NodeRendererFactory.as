@@ -1,5 +1,6 @@
 package aesia.com.ponents.nodes.renderers.nodes 
 {
+	import aesia.com.mon.utils.Reflection;
 	/**
 	 * @author cedric
 	 */
@@ -13,11 +14,15 @@ package aesia.com.ponents.nodes.renderers.nodes
 		{
 			_rendererMap = map ? map : {};
 		}
+		public function get rendererMap () : Object { return _rendererMap; }
+		public function set rendererMap (rendererMap : Object) : void {	_rendererMap = rendererMap; }
+		
 		public function getRenderer( userObject : * ) : NodeRenderer
-		{/*
-			if( _rendererMap.hasOwnProperty( userObject ) )
-				return _rendererMap[ userObjectType ];
-			else*/
+		{
+			var cn : String = Reflection.getClassName( userObject );
+			if( _rendererMap.hasOwnProperty( cn ) )
+				return _rendererMap[ cn ];
+			else
 				return DEFAULT_RENDERER;
 		}
 	}

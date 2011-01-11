@@ -26,7 +26,7 @@ package aesia.com.ponents.text
 									password : Boolean = false, 
 									id : String = null,
 									showLastValueAtStartup : Boolean = false
-									)
+								  )
 		{
 			super();
 			_label.maxChars = maxChars;
@@ -41,6 +41,8 @@ package aesia.com.ponents.text
 				/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
 					if( id )
 						this.id = id;
+					if( _autoComplete && _autoComplete is InputMemory )
+						( _autoComplete as InputMemory ).showLastValue = true;
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				
 				/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/					_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );					_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );

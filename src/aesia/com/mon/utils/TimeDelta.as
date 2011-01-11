@@ -75,7 +75,7 @@ package aesia.com.mon.utils
  *----------------------------------------------------------------------*/
 		private var _totalMilliseconds : Number;
 
-		public function TimeDelta (milliseconds : Number)
+		public function TimeDelta ( milliseconds : Number = 1 )
 		{
 			_totalMilliseconds = Math.floor( milliseconds );
 		}
@@ -123,6 +123,10 @@ package aesia.com.mon.utils
 		 * @return A number representing the number of whole seconds in the TimeDelta
 		 */
 		public function get seconds () : int { return int( _totalMilliseconds / DateUtils.MILLISECONDS_IN_SECOND ) % 60; }
+		public function set seconds( m : int ) : void
+		{
+			_totalMilliseconds += ( m - seconds ) * DateUtils.MILLISECONDS_IN_MINUTE;
+		}
 		/**
 		 * Gets the number of whole milliseconds (excluding entire seconds)
 		 * 
@@ -130,7 +134,7 @@ package aesia.com.mon.utils
 		 *                      totalMilliseconds will be 2001, but milliseconds will be 123 
 		 * @return A number representing the number of whole milliseconds in the TimeDelta
 		 */
-		public function get milliseconds () : int { return int( _totalMilliseconds ) % 1000; }
+		public function get milliseconds () : int { return int( _totalMilliseconds ) % 1000; }		public function set milliseconds ( n : int ) : void { _totalMilliseconds = n; }
 		/**
 		 * Gets the total number of days.
 		 * 

@@ -21,15 +21,18 @@ package aesia.com.ponents.nodes.tools
 		private var _linkShape : Shape;
 		
 		protected var _linkageFunction : Function;
+		
 		protected var _startObject : CanvasNode;
 		protected var _startCenterPoint : Point;
 		
 		public var relationship : String;
 		public var relationshipDirection : String;
+		public var defaultLabel : String;
 
 		public function LinkNodesTool ( relationship : String = "undefined", 
 										relationshipDirection:String = "ab", 
 										linkageFunction : Function = null, 
+										defaultLabel: String = null,
 										cursor : Cursor = null)
 		{
 			super( cursor );
@@ -37,6 +40,7 @@ package aesia.com.ponents.nodes.tools
 			_linkShape = new Shape();
 			this.relationship = relationship;
 			this.relationshipDirection = relationshipDirection;
+			this.defaultLabel = defaultLabel;
 		}
 		override public function actionStarted (e : ToolEvent) : void
 		{
@@ -65,6 +69,9 @@ package aesia.com.ponents.nodes.tools
 				{
 					var endObject : CanvasNode = o as CanvasNode;
 					var link : NodeLink = new NodeLink( _startObject, endObject, relationship, relationshipDirection );
+					if( defaultLabel )
+						link.displayLinkLabel = defaultLabel;
+						
 					if ( _linkageFunction != null &&  !_linkageFunction( link ) )
 						return;
 				

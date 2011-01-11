@@ -24,6 +24,8 @@ package aesia.com.ponents.completion
 		public function set showLastValue (showLastValue : Boolean) : void
 		{
 			_showLastValue = showLastValue;
+			if(_showLastValue && _textField )
+				_textField.value = _lastValue ? _lastValue : "";
 		}
 		
 		public function get lastValue () : String { return _lastValue; }		
