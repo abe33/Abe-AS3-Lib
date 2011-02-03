@@ -1,21 +1,20 @@
 package aesia.com.ponents.factory 
 {
-	import aesia.com.ponents.events.ComponentFactoryEvent;
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.mon.utils.StringUtils;
+	import aesia.com.patibility.lang._;
+	import aesia.com.patibility.lang._$;
 	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.ponents.actions.ActionManagerInstance;
-	import aesia.com.ponents.actions.builtin.BuiltInActionsList;
-	import aesia.com.ponents.actions.builtin.RedoAction;
-	import aesia.com.ponents.actions.builtin.UndoAction;
 	import aesia.com.ponents.buttons.ButtonDisplayModes;
 	import aesia.com.ponents.containers.DockableMultiSplitPane;
 	import aesia.com.ponents.containers.Panel;
 	import aesia.com.ponents.containers.SlidePane;
 	import aesia.com.ponents.containers.ToolBar;
 	import aesia.com.ponents.events.ComponentEvent;
+	import aesia.com.ponents.events.ComponentFactoryEvent;
 	import aesia.com.ponents.events.ContainerEvent;
+	import aesia.com.ponents.events.SplitPaneEvent;
 	import aesia.com.ponents.layouts.components.ApplicationWindowLayout;
 	import aesia.com.ponents.layouts.components.splits.Node;
 	import aesia.com.ponents.menus.MenuBar;
@@ -29,7 +28,7 @@ package aesia.com.ponents.factory
 	import aesia.com.ponents.utils.ToolKit;
 
 	import flash.display.Sprite;
-	import flash.events.Event;
+	import flash.ui.ContextMenuItem;
 	/**
 	 * @author cedric
 	 */
@@ -44,6 +43,7 @@ package aesia.com.ponents.factory
 		protected var _buildUnits : Vector.<ComponentBuildUnit>;
 		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		protected var _buildUnits : Vector.<ComponentBuildUnit>;		
+
 		protected var _dockables : Object = {};
 		
 		protected var _appName : String;		protected var _appVersion : String;
@@ -54,8 +54,8 @@ package aesia.com.ponents.factory
 		
 		protected var _defaultToolBarSettings : String = "undo,redo";		protected var _defaultMenuBarSettings : String = "*Edit(*undo,*redo),?(*about)";		protected var _defaultDMSPSettings : String = "V()";
 		protected var _defaultToolBarPosition : String = "north";
-		
-		public function ApplicationMain ( appName : String = "Unnamed Application", appVersion : String = "0.1a" )
+
+		public function ApplicationMain ( appName : String = "Unnamed Application", appVersion : String = "0.1.0" )
 		{
 			instance = this;
 			
@@ -71,8 +71,9 @@ package aesia.com.ponents.factory
 			ActionManagerInstance.createBuiltInActions();
 			
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			StageUtils.addGlobalMenu( ( ActionManagerInstance.getAction( BuiltInActionsList.UNDO ) as UndoAction ).contextMenuItem );
-			StageUtils.addGlobalMenu( ( ActionManagerInstance.getAction( BuiltInActionsList.REDO ) as RedoAction ).contextMenuItem );
+			StageUtils.noMenu();
+			//StageUtils.addGlobalMenu( ( ActionManagerInstance.getAction( BuiltInActionsList.UNDO ) as UndoAction ).contextMenuItem );
+			//StageUtils.addGlobalMenu( ( ActionManagerInstance.getAction( BuiltInActionsList.REDO ) as RedoAction ).contextMenuItem );			StageUtils.versionMenuContext = new ContextMenuItem( _$(_("$0 $1"), _appName, _appVersion ) );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_COMPLETE, buildComplete );
@@ -165,7 +166,7 @@ package aesia.com.ponents.factory
 				
 				dmsp.style.setForAllStates("insets", new Insets(5));
 				dmsp.addEventListener(ComponentEvent.CLOSE, contentClose );
-				dmsp.multiSplitLayout.addEventListener("optimize", multiSplitOptimize );
+				dmsp.multiSplitLayout.addEventListener(SplitPaneEvent.OPTIMIZE, multiSplitOptimize );				dmsp.addEventListener(SplitPaneEvent.WEIGHT_CHANGE, multiSplitWeightChange );
 				
 				p.childrenLayout.addEventListener( ApplicationWindowLayout.TOOLBAR_DROP, toolBarDrop );
 				
@@ -198,7 +199,12 @@ package aesia.com.ponents.factory
 			if( event.child == _mainToolBar )
 				SettingsManagerInstance.set(this, "mainToolBarPosition", ( event.target as ApplicationWindowLayout ).getPosition( event.child ) );
 		}
-		protected function multiSplitOptimize (event : Event ) : void 
+		protected function multiSplitWeightChange (event : SplitPaneEvent) : void 
+		{
+			//var dmsp : DockableMultiSplitPane = event.target as DockableMultiSplitPane;
+			//var s : String = ApplicationUtils.serializeDMSP( dmsp.multiSplitLayout.modelRoot );
+		}
+		protected function multiSplitOptimize ( event : SplitPaneEvent ) : void 
 		{
 			var dmsp : DockableMultiSplitPane = event.target.container as DockableMultiSplitPane;
 			var n : Node = dmsp.multiSplitLayout.modelRoot;

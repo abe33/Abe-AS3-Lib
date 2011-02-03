@@ -24,20 +24,15 @@ package aesia.com.patibility.codecs
 		override public function encode (o : *) : *
 		{
 			/*FDT_IGNORE*/
-			TARGET::FLASH_9 {
-				var res : Boolean = o is Array;			}
-			TARGET::FLASH_10 {				var res : Boolean = o is Vector.<BitmapData>;			}
-			TARGET::FLASH_10_1 /*FDT_IGNORE*/			var res : Boolean = o is Vector.<BitmapData>; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_9 { var res : Boolean = o is Array; }
+			TARGET::FLASH_10 { var res : Boolean = o is Vector.<BitmapData>; }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/			var res : Boolean = o is Vector.<BitmapData>; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			if( res )
 			{
 				/*FDT_IGNORE*/
-				TARGET::FLASH_9 {
-					var v : Array = o as Array;
-				}
-				TARGET::FLASH_10 {
-					var v : Vector.<BitmapData> = o as Vector.<BitmapData>;
-				}
+				TARGET::FLASH_9 { var v : Array = o as Array; }
+				TARGET::FLASH_10 { var v : Vector.<BitmapData> = o as Vector.<BitmapData>; }
 				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 				var v : Vector.<BitmapData> = o as Vector.<BitmapData>; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				
@@ -72,6 +67,7 @@ package aesia.com.patibility.codecs
 
 			return null;
 		}
+		
 		private function writeICOHeader ( ico : ByteArray, imgnum : int ) : void
 		{
 			ico.writeShort(0); // reserved;

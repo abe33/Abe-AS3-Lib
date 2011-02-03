@@ -5,14 +5,16 @@ package aesia.com.ponents.layouts.components
 	import aesia.com.patibility.lang._$;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.Container;
+	import aesia.com.ponents.events.SplitPaneEvent;
 	import aesia.com.ponents.layouts.components.splits.Divider;
 	import aesia.com.ponents.layouts.components.splits.Leaf;
 	import aesia.com.ponents.layouts.components.splits.Node;
 	import aesia.com.ponents.layouts.components.splits.Split;
 	import aesia.com.ponents.utils.Insets;
 
-	import flash.events.Event;
 	import flash.geom.Rectangle;
+
+	[Event(name="optimize", type="aesia.com.ponents.events.SplitPaneEvent")]
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -501,7 +503,7 @@ package aesia.com.ponents.layouts.components
 				var split : Split = root as Split;
 				_optimizeStructure(split, 0);
 			}
-			dispatchEvent( new Event( "optimize") );
+			dispatchEvent( new SplitPaneEvent( SplitPaneEvent.OPTIMIZE ) );
 		}
 		protected function _optimizeStructure ( split : Split, d : Number = 0 ) : void
 		{

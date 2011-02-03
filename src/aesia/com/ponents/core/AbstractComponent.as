@@ -74,7 +74,7 @@ package aesia.com.ponents.core
 	 * 
 	 * @eventType aesia.com.ponents.events.ComponentEvent.POSITION_CHANGE
 	 */
-	[Event(name="positionChange", type="flash.events.Event")]
+	[Event(name="positionChange", type="aesia.com.ponents.events.ComponentEvent")]
 	/**
 	 * Évènement diffusé lorsque le contenu du composant est déplacé à l'aide des
 	 * propriétés <code>contentScrollH</code> et <code>contentScrollV</code>.
@@ -94,8 +94,14 @@ package aesia.com.ponents.core
 	/**
 	 * Évènement diffusé lorsque l'état d'activation du composant à changer.
 	 *
-	 * @eventType aesia.com.ponents.events.ComponentEvent.ENABLED_CHANGE
-	 */	[Event(name="enabledChange", type="aesia.com.ponents.events.ComponentEvent")]
+	 * @eventType aesia.com.ponents.events.ComponentEvent.ENABLE_CHANGE
+	 */	[Event(name="enableChange", type="aesia.com.ponents.events.ComponentEvent")]
+	/**
+	 * Évènement diffusé lorsque la souris est relâché à l'éxtérieur du composant.
+	 *
+	 * @eventType aesia.com.ponents.events.ComponentEvent.RELEASE_OUTSIDE
+	 */
+	[Event(name="releaseOutside", type="aesia.com.ponents.events.ComponentEvent")]
 	/**
 	 * Évènement diffusé lorsqu'une propriété du composant est modifiée.
 	 *
@@ -853,7 +859,7 @@ package aesia.com.ponents.core
 				buttonMode = tabEnabled = b;
 				fireChangeEvent( );
 				firePropertyEvent( "enabled", b );
-				fireComponentEvent( ComponentEvent.ENABLED_CHANGE );
+				fireComponentEvent( ComponentEvent.ENABLE_CHANGE );
 				invalidate( true );
 			}
 		}
@@ -3139,6 +3145,7 @@ package aesia.com.ponents.core
 		 */
 		public function releaseOutside ( e : MouseEvent = null ) : void
 		{
+			dispatchEvent( new ComponentEvent( ComponentEvent.RELEASE_OUTSIDE ) );
 		}
 		/**
 		 * Recoit l'évènement de type <code>MouseEvent.MOUSE_DOWN</code>
@@ -3472,6 +3479,9 @@ package aesia.com.ponents.core
 				hideToolTip();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			_background.graphics.clear();			_foreground.graphics.clear();
+			
+			if( StageUtils.stage.focus == this )
+				StageUtils.stage.focus = null;
 		}
 
 		/**

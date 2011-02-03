@@ -17,7 +17,6 @@ package aesia.com.ponents.actions.builtin
 
 	import flash.display.DisplayObject;
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -3,11 +3,10 @@
  */
 package aesia.com.ponents.actions 
 {
-	import aesia.com.ponents.core.Component;
 	import aesia.com.mands.Command;
 	import aesia.com.mon.utils.KeyStroke;
+	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.skinning.icons.Icon;
-
 	/**
 	 * Un objet <code>Action</code> est une commande vouée à être utilisé
 	 * dans le cadre d'une interface graphique. Une même commande peut 

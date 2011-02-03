@@ -3,23 +3,20 @@ package aesia.com.ponents.actions.builtin
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.ponents.actions.AbstractAction;
 	import aesia.com.ponents.skinning.icons.Icon;
+
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
-	import flash.filesystem.File;
 	import flash.net.FileReference;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class SaveFileAction extends AbstractAction
 	{
-		/*FDT_IGNORE*/TARGET::WEB {/*FDT_IGNORE*/
-		protected var _fileReference : FileReference;
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		/*FDT_IGNORE*/
+		TARGET::AIR { protected var _fileReference : File; }
+		TARGET::WEB {/*FDT_IGNORE*/
+		protected var _fileReference : FileReference; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
-		/*FDT_IGNORE*/TARGET::AIR { /*FDT_IGNORE*/
-		protected var _fileReference : File;
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 		protected var _fileName : String;
 		protected var _validationFunction : Function;
@@ -57,13 +54,10 @@ package aesia.com.ponents.actions.builtin
 		{
 			if( _data && _fileName && ( _validationFunction == null || _validationFunction() ) )
 			{
-				/*FDT_IGNORE*/TARGET::WEB {/*FDT_IGNORE*/
-					_fileReference = new FileReference();
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-
-				/*FDT_IGNORE*/TARGET::AIR {/*FDT_IGNORE*/
-					_fileReference = new File();
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				/*FDT_IGNORE*/
+				TARGET::AIR { fileReference = new File(); }
+				TARGET::WEB { /*FDT_IGNORE*/
+				_fileReference = new FileReference(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 				registerToFileReferenceEvents( _fileReference );
 				_fileReference.save(_data, _fileName );

@@ -53,8 +53,8 @@ package aesia.com.ponents.core.edit
 	    	if( _editorsClasses.hasOwnProperty( s ) )
 	    		return AllocatorInstance.get( _editorsClasses[ s ] );
 	    	
-	    	return null;
-	    }
+			return _editors["null"];
+		}
 	    /**
 	     * Renvoie un objet <code>Editor</code> associé à la représentation
 	     * sous forme de chaîne de la classe <code>c</code> telle que renvoyée

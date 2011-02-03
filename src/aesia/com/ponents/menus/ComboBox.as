@@ -51,14 +51,15 @@ package aesia.com.ponents.menus
 		
 		protected var _model : ComboBoxModel;
 		protected var _popupMenu : PopupMenu;
-		protected var _popupAsDropDown : Boolean;		protected var _popupAlignOnSelection : Boolean;
-		protected var _menuItemClass : Class;
+		protected var _popupAsDropDown : Boolean;
+		protected var _popupAlignOnSelection : Boolean;		protected var _menuItemClass : Class;
 		
 		protected var _dropDownIcon : Icon;
 		protected var _dropDownIconIndex : int;
 		protected var _value : *;
 		protected var _caller : Editable;
 		protected var _itemFormatingFunction : Function;
+		protected var _itemDescriptionProvider : Function;
 		
 		protected var _disabledMode : uint;
 		protected var _disabledValue : *;
@@ -69,7 +70,7 @@ package aesia.com.ponents.menus
 			_popupMenu = new PopupMenu( );
 			_popupMenu.menuList.itemFormatingFunction = formatLabel;
 			_menuItemClass = _menuItemClass ? _menuItemClass : MenuItem;
-			
+				
 			var layout : DOHBoxLayout = new DOHBoxLayout( _childrenContainer, 0, 
 											new DOBoxSettings( _popupMenu.preferredWidth, "left", "center", null, true, true, true ), 
 											new DOBoxSettings( 0, "center"),											new DOBoxSettings( 16, "center")
@@ -183,10 +184,8 @@ package aesia.com.ponents.menus
 		}
 				
 		public function get caller () : Editable { return _caller; }		
-		public function set caller (e : Editable) : void
-		{
-			_caller = e;
-		}
+		public function set caller (e : Editable) : void { _caller = e; }
+		
 		public function get value () : * { return _value; }	
 		public function set value (val : *) : void
 		{
@@ -196,10 +195,35 @@ package aesia.com.ponents.menus
 				_value = _model.getElementAt(0);
 			label = formatLabel( _value );
 		}
+		public function get itemDescriptionProvider () : Function { return _itemDescriptionProvider; }
+		public function set itemDescriptionProvider (itemDescriptionProvider : Function) : void 
+		{ 
+			_itemDescriptionProvider = itemDescriptionProvider; 
+			if( _itemDescriptionProvider != null )
+			{
+				var l : uint = _popupMenu.menuList.model.size;
+				
+				var item : MenuItem; 
+				try
+				{
+					for( var i : Number = 0; i<l; i++ )
+					{
+						item = _popupMenu.menuList.model.getElementAt(i);
+						(item.action as SelectAction).longDescription = _itemDescriptionProvider( _model.getElementAt(i) );
+					}
+				}
+				catch( e : Error )
+				{
+					Log.error( e );
+				}
+			}
+		}
 		public function get itemFormatingFunction () : Function { return _itemFormatingFunction; }		
 		public function set itemFormatingFunction ( itemFormatingFunction : Function ) : void
 		{
+			_size = null;
 			_itemFormatingFunction = itemFormatingFunction;
+			
 			label = formatLabel( _value );
 			var l : uint = _popupMenu.menuList.model.size;
 			
@@ -211,6 +235,9 @@ package aesia.com.ponents.menus
 					item = _popupMenu.menuList.model.getElementAt(i);
 					(item.action as SelectAction).name = formatLabel( _model.getElementAt(i) );
 				}
+				_popupMenu.menuList.invalidatePreferredSizeCache();
+				clearHBoxSize();
+				invalidatePreferredSizeCache();
 			}
 			catch( e : Error )
 			{
@@ -270,7 +297,15 @@ package aesia.com.ponents.menus
 			super.enabled = b;
 			checkDisableMode();
 		}
-		
+		protected function clearHBoxSize () : void
+		{
+			var hbox : DOHBoxLayout = _childrenLayout as DOHBoxLayout;
+			if( hbox )
+			{
+				if( hbox.boxes[0] )
+					hbox.boxes[0].size = _popupMenu.menuList.width;
+			}
+		}
 		public function initEditState (caller : Editable, value : *, overlayTarget : DisplayObject = null) : void
 		{
 			this.caller = caller;
@@ -298,6 +333,8 @@ package aesia.com.ponents.menus
 			{
 				var item : MenuItem; 
 				item = new _menuItemClass( new SelectAction( formatLabel(_model.getElementAt( i )), i, this ) );
+				if( _itemDescriptionProvider != null )
+					( item.action as SelectAction ).longDescription = _itemDescriptionProvider( _model.getElementAt( i ) );
 				item.columnsSizes = [0,0,0,0];
 				/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
 				item.allowDrag = false;
@@ -422,6 +459,12 @@ package aesia.com.ponents.menus
 				StageUtils.stage.focus = _popupMenu;
 				fitPopupToCombo();
 			}	
+		}
+		override public function removeFromStage (e : Event) : void 
+		{
+			super.removeFromStage( e );
+			if( _popupMenu && _popupMenu.displayed )
+				_popupMenu.hide(false);
 		}
 		protected function selectionChanged (event : ComponentEvent) : void
 		{

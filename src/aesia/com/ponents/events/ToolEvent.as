@@ -10,7 +10,7 @@ package aesia.com.ponents.events
 	 */
 	public class ToolEvent extends ComponentEvent 
 	{
-		static public const TOOL_SELECT : String = "toolSelected";		static public const TOOL_USED : String = "toolUsed";
+		static public const TOOL_SELECT : String = "toolSelect";		static public const TOOL_USE : String = "toolUse";		static public const ACTION_START : String = "actionStart";		static public const ACTION_FINISH : String = "actionFinish";		static public const ACTION_ABORT : String = "actionAbort";
 
 		public var ctrlPressed : Boolean;
 		public var shiftPressed : Boolean;

@@ -1,17 +1,24 @@
 package aesia.com.patibility.types 
 {
-	import aesia.com.mon.core.Copyable;
 	import aesia.com.mon.core.Cloneable;
+	import aesia.com.mon.core.Copyable;
+	import aesia.com.mon.core.Equatable;
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.Reflection;
+	import aesia.com.mon.utils.magicClone;
+	import aesia.com.mon.utils.magicEquals;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.lang._$;
 
+	import flash.utils.IDataInput;
+	import flash.utils.IDataOutput;
+	import flash.utils.IExternalizable;
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	/**
 	 * @author cedric
 	 */
-	dynamic public class TypeInstance extends Proxy implements Cloneable, Copyable
+	dynamic public class TypeInstance extends Proxy implements Cloneable, Copyable, Equatable, IExternalizable
 	{
 		protected var _type : Type;
 		protected var _id : String;
@@ -19,76 +26,152 @@ package aesia.com.patibility.types
 
 		public function TypeInstance ( kwargs : Object = null ) 
 		{
-			if( !kwargs )
-				throw new ReferenceError( _( "The kwargs argument of the TypeInstance constructor is mandatory" ) );
-			else if( !kwargs.hasOwnProperty( "type" ))
-				throw new ReferenceError( _( "The kwargs argument of the TypeInstance constructor require that a 'type' property is defined" ) );
-			else
+			if( kwargs )
 			{
-				var typeName : String = kwargs["type"];
-				
-				_type = TypeManager.getType( typeName );
-				_data = {};
-				
-				if(!_type)
-					throw new TypeError( _$( _( "The type '$0' can't be found in the TypeManager" ), typeName ) );
-				
-				delete kwargs["type"];
-				
-				for( var i : String in kwargs )
+				if( !kwargs.hasOwnProperty( "type" ))
+					throw new ReferenceError( _( "The kwargs argument of the TypeInstance constructor require that a 'type' property is defined" ) );
+				else
 				{
-					if( hasOwnProperty( i ) )
+					var typeName : String = kwargs["type"];
+					
+					var type : Type = TypeManager.getType( typeName );
+					var id : String;
+					
+					if(!type)
+						throw new TypeError( _$( _( "The type '$0' can't be found in the TypeManager" ), typeName ) );
+					
+					delete kwargs["type"];
+					
+					if( kwargs.hasOwnProperty("id") )
 					{
-						if( _type.isValidValueForMember( i, kwargs[i] ) )
-							_data[i] = kwargs[i];
-						else
-							throw new TypeError( _$( _( "The type $0 define its member '$1' with the type $2, got $3" ), _type, i, _type.getMemberType( i ), Reflection.getClassName( kwargs[i]) ) );
+						id = kwargs["id"];
+						delete kwargs["id"];
 					}
-					else
-						throw new ReferenceError( _$( _( "The type $0 don't define a member named '$1'" ), _type, i ) );
+					
+					setupInstance( type, id, kwargs );
 				}
-				
-				for each( var n : String in _type.members )
-					if( !_data.hasOwnProperty( n ) )
-						_data[n] = null;
 			}
 		}
 		public function get id () : String { return _id; }
-		public function set id (id : String) : void { _id = id; }
+		public function set id (id : String) : void { _id = id != null ? id : ""; }
 		
 		public function get type () : Type { return _type; }
-		public function get data () : Object { return _data; }
 		
-		public function clone () : * { return new TypeInstance( toVo() ); }
-		public function toString () : String { return _$( "[instance $0$1]", _type.type, _id ? "(id="+_id+")" : "" ); }		public function toVo () : Object 
+		public function get typeName () : String { return _type.type; }		public function set typeName ( type : String ) : void { _type = TypeManager.getType( type );}
+		
+		public function get data () : Object { return _data; }
+		public function set data (data : Object) : void { _data = data; }
+		
+		protected function setupInstance( type : Type, id : String, data : Object ) : void
+		{
+			_type = type;
+			_id = id;
+			_data = {};
+			
+			for( var i : String in data )
+			{
+				if( hasOwnProperty( i ) )
+				{
+					if( _type.isValidValueForMember( i, data[i] ) )
+						_data[i] = data[i];
+					else
+						//throw new TypeError( _$( _( "The type $0 define its member '$1' with the type $2, got $3" ), 						Log.error( _$( _( "The type $0 define its member '$1' with the type $2, got $3" ), 
+											 _type, 
+											 i, 
+											 _type.getMemberType( i ), 
+											 Reflection.getClassName( data[i] ) ) );
+				}
+				else
+					//throw new ReferenceError( _$( _( "The type $0 don't define a member named '$1'" ), 					Log.error( _$( _( "The type $0 don't define a member named '$1'" ), 
+													_type, i ) );
+			}
+			
+			for each( var n : String in _type.members )
+				if( !_data.hasOwnProperty( n ) )
+					_data[n] = null;
+			
+		}
+		public function writeExternal (output : IDataOutput) : void	
+		{
+			output.writeUTF( _id ? _id : "" );
+			output.writeObject( _type );			output.writeObject( _data );
+		}
+		public function readExternal (input : IDataInput) : void 
+		{
+			_id = input.readUTF();
+			
+			var t : Type = input.readObject();
+			
+			_type = TypeManager.getType( t.type );
+			_data = input.readObject();
+		}
+		
+		public function clone () : * 
+		{ 
+			var o : Object = { 'type':typeName };
+			
+			for( var i : String in _data )
+			{
+				var r : * = _data[i];
+				
+				if( r )
+					o[i] = magicClone(r);
+				else
+					o[i] = null;
+			}
+			var t : TypeInstance = new TypeInstance( o );
+			t.id = id;
+			return t;
+		}
+		
+		public function toString () : String { return _$( "[instance $0$1]", typeName, _id ? "(id="+_id+")" : "" ); }		public function toVo () : Object 
 		{ 
 			var o : Object = { 'type':_type.type };
 			for( var i : String in _data )
 			{
 				var r : * = _data[i];
 				
-				if( r is Object )
+				if( r is Array )
+					o[i] = r.concat();
+				else if( r is Object )
 					o[i] = r.hasOwnProperty("toVo") ? r.toVo() : r;
 				else
 					o[i] = r;
 			}
-			
 			return o; 
 		}
 		public function copyTo (o : Object) : void
 		{
 			for( var i : String in this )
-				o[i] = this[i];
+				o[i] = this[i] is Array ? this[i].concat() : this[i];
 		}
 		public function copyFrom (o : Object) : void
 		{
 			for( var i : String in o )
-				this[i] = o[i];
+				this[i] = o[i] is Array ? o[i].concat() : o[i];
+		}
+		public function equals (o : *) : Boolean
+		{
+			if( o is TypeInstance && o.typeName == typeName )
+			{
+				for( var i : String in this )
+					if( !magicEquals( this[i], o[i] ) )
+						return false;
+				
+				return true;
+			}
+			else return false;
 		}
 		
 		override AS3 function hasOwnProperty ( name : * = undefined ) : Boolean { return _type.hasMember( name );  }
 		override flash_proxy function hasProperty (name : *) : Boolean { return _type.hasMember( name ); }
-		
+		override flash_proxy function callProperty (name : *, ...args) : * 
+		{ 
+			if( _type.hasMember( name ) ) 
+				return ( _data[name] as Function ).apply( this, args );
+			else 
+				return null; 
+		}
 		override flash_proxy function getProperty (name : *) : * { return hasOwnProperty( name ) ? _data[name] : undefined;	}
 		override flash_proxy function setProperty (name : *, value : *) : void 
 		{

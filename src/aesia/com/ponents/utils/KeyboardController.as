@@ -137,8 +137,9 @@ package aesia.com.ponents.utils
 		{}
 		protected function focusIn ( e : FocusEvent ) : void
 		{
-			var d : DisplayObject = e.target as DisplayObject;
 			restoreDefaultContext();
+			
+			var d : DisplayObject = e.target as DisplayObject;
 			
 			while( d.parent )
 			{

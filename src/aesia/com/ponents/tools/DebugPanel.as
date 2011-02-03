@@ -1,5 +1,6 @@
 package aesia.com.ponents.tools
 {
+	import aesia.com.ponents.actions.builtin.SaveLogs;
 	import aesia.com.ponents.actions.builtin.LocateWithMouse;
 	import aesia.com.ponents.actions.builtin.ClearSettingsBackendAction;
 	import aesia.com.patibility.settings.SettingsManagerInstance;
@@ -67,6 +68,9 @@ package aesia.com.ponents.tools
 		[Embed(source="../skinning/icons/tools/zoom.png")]
 		static private var inspectIcon : Class;
 		
+		[Embed(source="../skinning/icons/page_white_text.png")]
+		static private var saveLogsIcon : Class;
+		
 		static private var msgTpl : String = "<p><font color='#008800'>exec command $0</font>\n$1</p>";
 		
 		static protected var prettifier : GPrettify = new GPrettify();
@@ -75,7 +79,7 @@ package aesia.com.ponents.tools
 		protected var _monitor1 : GraphMonitor;
 		protected var _monitor2 : GraphMonitor;
 		protected var _logView : LogView;
-		protected var _commandInput : TextInput;		protected var _graphToolbar : ToolBar;		protected var _logsToolbar : ToolBar;
+		protected var _commandInput : TextInput;		protected var _monitorsToolbar : ToolBar;		protected var _logsToolbar : ToolBar;
 		protected var _monitorsPanel : Panel;
 		protected var _notifier : Notifier;
 		
@@ -292,7 +296,7 @@ package aesia.com.ponents.tools
 		public function get monitor2 () : GraphMonitor { return _monitor2; }
 		public function get logView () : LogView { return _logView; }
 		public function get resizer () : ComponentResizer { return _resizer; }
-		public function get graphToolbar () : ToolBar { return _graphToolbar; }
+		public function get monitorsToolbar () : ToolBar { return _monitorsToolbar; }
 		public function get logsToolbar () : ToolBar { return _logsToolbar; }
 		
 		public function get commandsList () : Object { return _commandsList; }
@@ -307,7 +311,6 @@ package aesia.com.ponents.tools
 
 		protected function buildDefaultTools () : void
 		{
-			
 			var css : StyleSheet = new StyleSheet();
 			css.parseCSS("p { color:#000000; font-family:Monospace; font-size:10px; } " +
 						 "h1 { font-weight:bold; font-style:italic; } " +						 "h2 { font-weight:bold; text-decoration:underline; } " +						 "code { color:#660066; display:inline; } " +						 ".str { color:#008800; } " +
@@ -325,25 +328,26 @@ package aesia.com.ponents.tools
 			var p0 : Panel = new Panel();
 			var l0 : BorderLayout = new BorderLayout();
 			p0.childrenLayout = l0;
-			_logView = new LogView();
+			_logView = new LogView( );
 			_logView.logsLimit = 500;
 			(_logView.textfield as TextFieldImpl).styleSheet = css;
-			_logView.addEventListener(DebugEvent.NOTIFY_WARNING, notifyWarning );			_logView.addEventListener(DebugEvent.NOTIFY_ERROR, notifyError );
-			_logsToolbar = new ToolBar( ButtonDisplayModes.ICON_ONLY, false, 1, false );
+			_logView.addEventListener(DebugEvent.NOTIFY_WARNING, notifyWarning );
+			_logView.addEventListener(DebugEvent.NOTIFY_ERROR, notifyError );			_logsToolbar = new ToolBar( ButtonDisplayModes.ICON_ONLY, false, 1, false );
 			_notifier = new Notifier ( new ProxyAction ( notifierClick, _( "Error" ), magicIconBuild ( Notifier.errorIcon ) ) );
-			
+						
 			_commandInput = new TextInput( 0, false, "commandInput", false );
 			_commandInput.preferredWidth = 250;
 			_commandInput.addEventListener(ComponentEvent.DATA_CHANGE, commandInputDataChange );
 			_logsToolbar.addComponents( new Label(_("Input :" ), _commandInput ), _commandInput );
 			_logsToolbar.addSeparator( );
+			_logsToolbar.addComponent(new Button( new SaveLogs( _logView, "logs.txt", null, _("Save logs"), magicIconBuild(saveLogsIcon),_("Save the logs in a file."))));
 			_logsToolbar.addComponent( new Button(new LocateWithMouse(_("Inspect"), magicIconBuild(inspectIcon), _("Move the mouse above the scene and click to print in the logs the path to the object under the mouse."))));
 			
 			l0.center = _logView;
 			l0.south = _logsToolbar;
 			
 			p0.addComponents( _logView, _logsToolbar );
-			
+						
 			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
 			if( SettingsManagerInstance.backend )
 				_logsToolbar.addComponent( new Button( new ClearSettingsBackendAction(_("Clear Settings"), null, _("Delete all the data recorded by the settings backend of this application.\nSettings includes datas such as the textinputs history or the layout settings of many components.") )));
@@ -362,7 +366,7 @@ package aesia.com.ponents.tools
 			c1.captionMode = GraphMonitorCaption.SHORT_LABEL_MODE;
 			c1.layoutMode = GraphMonitorCaption.COLUMN_3_LAYOUT_MODE;
 
-			_graphToolbar = new ToolBar( ButtonDisplayModes.TEXT_ONLY, false, 1, false );
+			_monitorsToolbar = new ToolBar( ButtonDisplayModes.TEXT_ONLY, false, 1, false );
 			var gc : Button = new Button(new ForceGC(_("GC"),null,_("Force the garbage collector\nto perform a memory check.\n<b>Debug Player only</b>.")));
 
 			var lfps : Label = new Label(_("FPS :") );
@@ -373,11 +377,11 @@ package aesia.com.ponents.tools
 
 			lfps.tooltip = _("Change the current framerate\nof this animation.");
 
-			_graphToolbar.addComponent( lfps );
-			_graphToolbar.addComponent( fps );
+			_monitorsToolbar.addComponent( lfps );
+			_monitorsToolbar.addComponent( fps );
 
-			_graphToolbar.addSeparator();
-			_graphToolbar.addComponent(gc );
+			_monitorsToolbar.addSeparator();
+			_monitorsToolbar.addComponent(gc );
 			
 			l1.west = r1;
 			l1.center = _monitor1;
@@ -386,11 +390,11 @@ package aesia.com.ponents.tools
 			p1.addComponent(r1);
 			p1.addComponent(_monitor1);
 			p1.addComponent(c1);
-
+			
 			_monitor2 = new GraphMonitor();
 			_monitor2.addRecorder( new FPSRecorder() );
 			_monitor2.addRecorder( new ImpulseListenerRecorder( Impulse ) );
-
+			
 			var p2 : Panel = new Panel();
 			var l2 : BorderLayout = new BorderLayout();
 			p2.childrenLayout = l2;
@@ -409,17 +413,28 @@ package aesia.com.ponents.tools
 			var pmon : Panel = new Panel();
 			var lmon : BorderLayout = new BorderLayout(pmon, true);
 			pmon.childrenLayout = lmon;
-
+			
 			_monitorsPanel = new Panel();
 			_monitorsPanel.childrenLayout = new GridLayout(_monitorsPanel, 1 );
 			_monitorsPanel.style.setForAllStates("insets", new Insets(0, 0, 4, 0));
 			_monitorsPanel.addComponent(p1);
 			_monitorsPanel.addComponent(p2);
+			
+			p0.name = "logsPanel";
+			p1.name = "memoryMonitorsPanel";
+			p2.name = "fpsMonitorsPanel";
+			pmon.name = "monitorsPanel";
+			_commandInput.name = "commandInput";
+			_logView.name = "logView";
+			_logsToolbar.name = "logsToolBar";
+			_monitorsToolbar.name = "monitorsToolBar";
+			_monitor1.name = "memoryMonitor";
+			_monitor2.name = "fpsMonitor";			_monitorsPanel.name = "monitorsGrid";
 
-			lmon.north = _graphToolbar;
+			lmon.north = _monitorsToolbar;
 			lmon.center = _monitorsPanel;
 
-			pmon.addComponent(_graphToolbar);
+			pmon.addComponent(_monitorsToolbar);
 			pmon.addComponent(_monitorsPanel);
 			pmon.styleKey = "DefaultComponent";
 

@@ -209,7 +209,19 @@ package aesia.com.ponents.menus
 					_labelTextField.htmlText = s != "" ? s : " ";
 			}
 		}
-
+		override public function invalidatePreferredSizeCache () : void 
+		{
+			var hbox : DOHBoxLayout = _childrenLayout as DOHBoxLayout;
+			if( hbox )
+			{
+				if( hbox.boxes[1] )
+					hbox.boxes[1].size = 0;
+								if( hbox.boxes[2] )
+					hbox.boxes[2].size = 0;
+			}
+			super.invalidatePreferredSizeCache();
+		}
+		public function get columnsSizes ( ) : Array { return ( _childrenLayout as DOHBoxLayout ).columnsSizes; }
 		public function set columnsSizes ( a : Array ) : void
 		{
 			/*FDT_IGNORE*/
@@ -224,9 +236,7 @@ package aesia.com.ponents.menus
 
 			invalidatePreferredSizeCache();
 		}
-
-		public function get columnsSizes ( ) : Array { return ( _childrenLayout as DOHBoxLayout ).columnsSizes; }
-
+		
 		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
 		override public function get transferData () : Transferable
 		{

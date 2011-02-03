@@ -48,12 +48,13 @@ package aesia.com.ponents.monitors
 
 		public function LogView ()
 		{
-			super();
+			super( );
 			_logsLimit = 100;
 			_logs = [];
 			_label.type = TextFieldType.DYNAMIC;
 			_logsLevel = LogLevel.DEBUG;
 
+			_allowHTML = true;
 			_annotateWarnings = true;			_annotateErrors = true;			_annotateFatals = true;
 
 			_notifyWarnings = true;

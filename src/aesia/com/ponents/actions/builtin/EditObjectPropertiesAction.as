@@ -1,8 +1,8 @@
 package aesia.com.ponents.actions.builtin 
 {
-	import aesia.com.mon.utils.AllocatorInstance;
 	import aesia.com.mon.core.FormMetaProvider;
 	import aesia.com.mon.geom.dm;
+	import aesia.com.mon.utils.AllocatorInstance;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Reflection;
 	import aesia.com.mon.utils.StageUtils;
@@ -64,10 +64,12 @@ package aesia.com.ponents.actions.builtin
 
 		override public function execute (e : Event = null) : void
 		{
+			var t : *;
+			
 			if( _object is FormMetaProvider )
 			{
-				_formObject = FormUtils.createFormFromMetas( _object );
-				_formObject.target =  _workOnCopy ? magicClone( _object ) : _object;
+				t =  _workOnCopy ? magicClone( _object ) : _object;
+				_formObject = FormUtils.createFormFromMetas( t );
 			}
 			else if( _object is Array )
 			{
@@ -117,8 +119,8 @@ package aesia.com.ponents.actions.builtin
 			}
 			else
 			{
-				_formObject = FormUtils.createFormForPublicMembers( _object );
-				_formObject.target = _workOnCopy ? magicClone( _object ) : _object;
+				t = _workOnCopy ? magicClone( _object ) : _object;
+				_formObject = FormUtils.createFormForPublicMembers( t );
 			}
 			
 			_formManager = new SimpleFormManager( _formObject );

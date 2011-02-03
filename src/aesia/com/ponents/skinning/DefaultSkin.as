@@ -244,9 +244,9 @@ package aesia.com.ponents.skinning
 		/*
 		 * Tooltip Colors
 		 */
-		static public var tooltipBackgroundColor : Color = Color.Orange.brighterClone(30);
-		static public var tooltipBorderColor : Color = Color.Orange;
-		static public var tooltipTextColor : Color = Color.Black;
+		static public var tooltipBackgroundColor : Color = Color.LightGoldenrodYellow;
+		static public var tooltipBorderColor : Color = Color.Gold;
+		static public var tooltipTextColor : Color = Color.Black;		static public var tooltipShadowColor : Color = shadowColor;
 
 		/**
 		 * Renvoie un tableau contenant les filtres de transformation par défaut pour

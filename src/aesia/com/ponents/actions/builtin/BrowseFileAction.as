@@ -12,23 +12,24 @@ package aesia.com.ponents.actions.builtin
 	import aesia.com.ponents.skinning.icons.Icon;
 
 	import flash.events.Event;
-	/*FDT_IGNORE*/TARGET::AIR { /*FDT_IGNORE*/
-	import flash.filesystem.File;
-	/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	import flash.net.FileReference;
 
+	/*FDT_IGNORE*/TARGET::AIR { 
+	import flash.filesystem.File;
+	} /*FDT_IGNORE*/
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class BrowseFileAction extends AbstractAction implements Command, Action, Cancelable
 	{
-		/*FDT_IGNORE*/TARGET::WEB {/*FDT_IGNORE*/
-		protected var _fileReference : FileReference;
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-
-		/*FDT_IGNORE*/TARGET::AIR { /*FDT_IGNORE*/
+		/*FDT_IGNORE*/
+		TARGET::AIR
 		protected var _fileReference : File;
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
+		TARGET::WEB /*FDT_IGNORE*/
+		protected var _fileReference : FileReference;
+		/*FDT_IGNORE*/ /*FDT_IGNORE*/
+
 
 		protected var _filters : Array;
 		protected var _isCanceled : Boolean;
@@ -47,13 +48,10 @@ package aesia.com.ponents.actions.builtin
 		{
 			_isCanceled = false;
 
-			/*FDT_IGNORE*/TARGET::WEB {/*FDT_IGNORE*/
-				_fileReference = new FileReference();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-
-			/*FDT_IGNORE*/TARGET::AIR {/*FDT_IGNORE*/
-				_fileReference = new File();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			/*FDT_IGNORE*/
+			TARGET::AIR { fileReference = new File(); }
+			TARGET::WEB { /*FDT_IGNORE*/
+			_fileReference = new FileReference(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 			registerToFileReferenceEvents( _fileReference );
 			_fileReference.browse(_filters);

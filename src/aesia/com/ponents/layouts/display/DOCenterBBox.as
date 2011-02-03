@@ -1,14 +1,11 @@
 package aesia.com.ponents.layouts.display 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.geom.dm;
 	import aesia.com.ponents.utils.Insets;
 
-	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

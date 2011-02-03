@@ -1,5 +1,6 @@
 package aesia.com.ponents.layouts.display
 {
+	import aesia.com.mon.utils.StringUtils;
 	import flash.display.DisplayObject;
 
 	/**
@@ -32,7 +33,7 @@ package aesia.com.ponents.layouts.display
 			this.stretch = stretch;
 		}
 		public function toString() : String {
-			return "[object DOBoxSettings("+size+")]";
+			return StringUtils.stringify(this, {'size':size});
 		}
 	}
 }

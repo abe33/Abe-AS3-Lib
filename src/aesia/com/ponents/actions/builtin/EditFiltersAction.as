@@ -13,7 +13,6 @@ package aesia.com.ponents.actions.builtin
 	import aesia.com.ponents.skinning.icons.Icon;
 
 	import flash.events.Event;
-
 	/**
 	 * @author cedric
 	 */
@@ -87,6 +86,7 @@ package aesia.com.ponents.actions.builtin
 		}
 	}
 }
+
 import aesia.com.ponents.tools.FilterEditorPane;
 
 internal const FilterEditorPaneInstance : FilterEditorPane = new FilterEditorPane();

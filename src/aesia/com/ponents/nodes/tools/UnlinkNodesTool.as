@@ -1,5 +1,6 @@
 package aesia.com.ponents.nodes.tools 
 {
+	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.ponents.nodes.actions.UnlinkNodesCommand;
 	import aesia.com.ponents.nodes.core.NodeLink;
 	import flash.display.DisplayObject;
@@ -22,6 +23,8 @@ package aesia.com.ponents.nodes.tools
 			
 			if( o is NodeLink )
 				new UnlinkNodesCommand(o as NodeLink).execute();
+			
+			StageUtils.stage.focus = e.canvas;
 			
 			super.actionFinished( e );
 		}

@@ -9,7 +9,6 @@ package  aesia.com.ponents.actions
 	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.skinning.icons.Icon;
-
 	/**
 	 * Classe de base pour les commandes spécifiques à un usage dans le <code>Terminal</code>.
 	 * <p>

@@ -78,7 +78,7 @@ package aesia.com.ponents.forms.renderers
 			if( field.component )
 			{
 				l.enabled = field.component.enabled;
-				field.component.addEventListener(ComponentEvent.ENABLED_CHANGE, function( e : ComponentEvent) : void
+				field.component.addEventListener(ComponentEvent.ENABLE_CHANGE, function( e : ComponentEvent) : void
 				{
 					if( e.target == l.forComponent )
 						l.enabled = e.target.enabled;

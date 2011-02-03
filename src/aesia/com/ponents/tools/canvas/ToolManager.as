@@ -15,101 +15,97 @@ package aesia.com.ponents.tools.canvas
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 
-	[Event (name="toolSelected", type="events.ToolEvent")]
+	[Event (name="toolSelect", type="aesia.com.ponents.events.ToolEvent")]	[Event (name="toolUse", type="aesia.com.ponents.events.ToolEvent")]	[Event (name="actionStart", type="aesia.com.ponents.events.ToolEvent")]	[Event (name="actionFinish", type="aesia.com.ponents.events.ToolEvent")]	[Event (name="actionAbort", type="aesia.com.ponents.events.ToolEvent")]
 	public class ToolManager extends EventDispatcher
 	{
 		static private const NULL_TOOL : NullTool = new NullTool();
 
-		protected var _oCanvas : CameraCanvas;
-		protected var _oCurrentTool : Tool;
-		protected var _oSafeTool : Tool;
-		protected var _oLastObjectUnderTheMouse : DisplayObject;
+		protected var _canvas : CameraCanvas;
+		protected var _currentTool : Tool;
+		protected var _safeTool : Tool;
+		protected var _lastObjectUnderTheMouse : DisplayObject;
 		
-		protected var _bInAlternateToolMode : Boolean;		
-		protected var _bMouseDown : Boolean;
-		protected var _bMouseOver : Boolean;
-		protected var _bCtrlPressed : Boolean;
-		protected var _bShiftPressed : Boolean;
-		protected var _bAltPressed : Boolean;
+		protected var _inAlternateToolMode : Boolean;		
+		protected var _mouseDown : Boolean;
+		protected var _mouseOver : Boolean;
+		protected var _ctrlPressed : Boolean;
+		protected var _shiftPressed : Boolean;
+		protected var _altPressed : Boolean;
 		
 		public function ToolManager ( canvas : CameraCanvas )
 		{
-			_oCurrentTool = NULL_TOOL;
-			_oCanvas = canvas;
+			_currentTool = NULL_TOOL;
+			_canvas = canvas;
 			
-			registerToCanvasEvents( _oCanvas );
+			registerToCanvasEvents( _canvas );
 		}
-				
-		public function get tool () : Tool
-		{
-			return _oCurrentTool;
-		}
+		public function get tool () : Tool { return _currentTool; }
 		public function set tool ( tool : Tool ) : void
 		{
-			if( _oCurrentTool )
-				_oCurrentTool.toolUnselected( getEvent () );
+			if( _currentTool )
+				_currentTool.toolUnselected( getEvent () );
 				
-			_oCurrentTool = tool;
-			_oCurrentTool.toolSelected( getEvent () );
+			_currentTool = tool;
+			_currentTool.toolSelected( getEvent () );
 			
-			if( _oCurrentTool.hasCustomCursor ()  )
-				_oCanvas.cursor = _oCurrentTool.cursor;
+			if( _currentTool.hasCustomCursor ()  )
+				_canvas.cursor = _currentTool.cursor;
 			else 
-				_oCanvas.cursor = null;
+				_canvas.cursor = null;
 			
 			fireToolSelected();
 		}
 		
 		public function get canvas () : CameraCanvas
 		{
-			return _oCanvas;
+			return _canvas;
 		}
 
 		public function clearTool () : void
 		{
-			if( _oCurrentTool.hasCustomCursor () )
-				_oCanvas.cursor = null;
+			if( _currentTool.hasCustomCursor () )
+				_canvas.cursor = null;
 			
-			_oCurrentTool = NULL_TOOL;
+			_currentTool = NULL_TOOL;
 			
 			fireToolSelected();
 		}
 		
 		public function get inAlternateToolMode () : Boolean
 		{
-			return _bInAlternateToolMode;
+			return _inAlternateToolMode;
 		}
 
 		public function get canvasChildUnderTheMouse () : DisplayObject
 		{
-			return _oLastObjectUnderTheMouse;
+			return _lastObjectUnderTheMouse;
 		}
 
 		protected function mouseDown ( e : MouseEvent ) : void
 		{
 			solveModalKeys ( e );
-			_bMouseDown = true;
-			_oCurrentTool.actionStarted ( getEvent () );
-			fireToolUsed ();
+			_mouseDown = true;
+			_currentTool.actionStarted ( getEvent () );
+			dispatchEvent( new ToolEvent( ToolEvent.ACTION_START, this ));			fireToolUsed ();
 		}
 		protected function mouseUp ( e : MouseEvent ) : void
 		{
 			solveModalKeys ( e );
-			_bMouseDown = false;
-			_oCurrentTool.actionFinished ( getEvent () );
-			fireToolUsed ();
+			_mouseDown = false;
+			_currentTool.actionFinished ( getEvent () );
+			dispatchEvent( new ToolEvent( ToolEvent.ACTION_FINISH, this ));			fireToolUsed ();
 		}
 		protected function mouseUpOutside ( e : MouseEvent ) : void
 		{
 			solveModalKeys ( e );
-			_bMouseDown = false;
+			_mouseDown = false;
 			
-			if( !_bMouseOver )
+			if( !_mouseOver )
 			{
-				_oCurrentTool.actionAborted ( getEvent () );
+				_currentTool.actionAborted ( getEvent () );
+				dispatchEvent( new ToolEvent( ToolEvent.ACTION_ABORT, this ));
 				fireToolUsed ();
 			}
-			
 		}
 		
 		protected function mouseMove  ( e : MouseEvent ) : void
@@ -118,33 +114,33 @@ package aesia.com.ponents.tools.canvas
 			
 			var obj : DisplayObject = getCanvasChildUnderTheMouse();
 			
-			if( obj != _oLastObjectUnderTheMouse )
+			if( obj != _lastObjectUnderTheMouse )
 			{
-				_oLastObjectUnderTheMouse = obj;
-				_oCurrentTool.objectUnderTheMouseChanged( getEvent() ); 
+				_lastObjectUnderTheMouse = obj;
+				_currentTool.objectUnderTheMouseChanged( getEvent() ); 
 			}
 	
-			if( _bMouseDown )
+			if( _mouseDown )
 			{
-				_oCurrentTool.mousePositionChanged ( getEvent () );
+				_currentTool.mousePositionChanged ( getEvent () );
 				fireToolUsed ();
 			}
-			_oCurrentTool.mouseMove( getEvent() );
+			_currentTool.mouseMove( getEvent() );
 		}
 		
 		protected function mouseOver ( e : MouseEvent ) : void
 		{
 			solveModalKeys ( e );
 			
-			_bMouseOver = true;
-			if( _bMouseDown )
+			_mouseOver = true;
+			if( _mouseDown )
 			{
-				_oCurrentTool.actionResumed ( getEvent() );
+				_currentTool.actionResumed ( getEvent() );
 			}
 			else
 			{
-				if( _oCurrentTool.hasCustomCursor () )
-					_oCanvas.cursor = _oCurrentTool.cursor;
+				if( _currentTool.hasCustomCursor () )
+					_canvas.cursor = _currentTool.cursor;
 			}
 		}
 		
@@ -152,15 +148,15 @@ package aesia.com.ponents.tools.canvas
 		{
 			solveModalKeys ( e );
 			
-			_bMouseOver = false;
-			if( _bMouseDown )
+			_mouseOver = false;
+			if( _mouseDown )
 			{
-				_oCurrentTool.actionPaused ( getEvent() );
+				_currentTool.actionPaused ( getEvent() );
 			}
 			else
 			{
-				if( _oCurrentTool.hasCustomCursor () )
-					_oCanvas.cursor = null;
+				if( _currentTool.hasCustomCursor () )
+					_canvas.cursor = null;
 			}
 		}
 		
@@ -171,72 +167,72 @@ package aesia.com.ponents.tools.canvas
 			var k : KeyStroke = KeyStroke.getKeyStroke( e.keyCode, KeyStroke.getModifiers( e.ctrlKey, e.shiftKey, e.altKey ) );
 			
 			// si on est pas dans un mode d'outil alternatif, on procède de façon classique à la recherche d'outil alternatif 
-			if( !_bInAlternateToolMode) 
+			if( !_inAlternateToolMode) 
 			{
 				// on ne procède que si un outil alternatif existe pour cet outil, 
 				// avec cette combinaison de touche, qu'il ne pointe pas vers l'outil 
 				// courant et qu'une touche combinaison n'a pas été précédemment
 				// déclenché
-				if( _oCurrentTool.hasAlternateTools() )
-				if( _oCurrentTool.alterternateTools[ k ] != null &&
-					_oCurrentTool.alterternateTools[ k ] != _oCurrentTool )
+				if( _currentTool.hasAlternateTools() )
+				if( _currentTool.alterternateTools[ k ] != null &&
+					_currentTool.alterternateTools[ k ] != _currentTool )
 				{
 					// on annule l'action en court
-					_oCurrentTool.actionAborted ( getEvent () );
+					_currentTool.actionAborted ( getEvent () );
 					
 					// on sauvegarde l'outil parent
-					_oSafeTool = _oCurrentTool;
+					_safeTool = _currentTool;
 					
 					// on définit le nouvel outil
-					_oCurrentTool =  _oCurrentTool.alterternateTools[ k ] as Tool;
+					_currentTool =  _currentTool.alterternateTools[ k ] as Tool;
 					
 					// ce nouvel outil est un outil alternatif
-					_oCurrentTool.setAsAlternateTool ( true );
+					_currentTool.setAsAlternateTool ( true );
 					
 					// définit le curseur, si un curseur est défini
-					if ( _oCurrentTool.hasCustomCursor () )
-						Cursor.setCursor ( _oCurrentTool.cursor );
+					if ( _currentTool.hasCustomCursor () )
+						Cursor.setCursor ( _currentTool.cursor );
 					else
 						Cursor.restoreCursor();
 					
 					// et si la souris à été enfoncée précedemment
-					if( _bMouseDown )
+					if( _mouseDown )
 					{
-						_oCurrentTool.actionStarted ( getEvent () );
+						_currentTool.actionStarted ( getEvent () );
 						fireToolUsed ();
 					}
 					
 					// on marque qu'on est bien dans un mode alternatif
-					_bInAlternateToolMode = true;
+					_inAlternateToolMode = true;
 				}
 			}
 			// si on est déjà dans un mode alternatif, on regarde
 			// si une combinaison plus complèxe éxiste
 			else
 			{
-				if( _oSafeTool.alterternateTools[ k ] != null &&
-					_oSafeTool.alterternateTools[ k ] != _oCurrentTool )
+				if( _safeTool.alterternateTools[ k ] != null &&
+					_safeTool.alterternateTools[ k ] != _currentTool )
 				{
 					// on annule l'action en court
-					_oCurrentTool.actionAborted ( getEvent () );
-					_oCurrentTool.setAsAlternateTool ( false );
+					_currentTool.actionAborted ( getEvent () );
+					_currentTool.setAsAlternateTool ( false );
 					
 					// on définit le nouvel outil
-					_oCurrentTool = _oSafeTool.alterternateTools[ k ] as Tool;
+					_currentTool = _safeTool.alterternateTools[ k ] as Tool;
 					
 					// ce nouvel outil est un outil alternatif
-					_oCurrentTool.setAsAlternateTool ( true );
+					_currentTool.setAsAlternateTool ( true );
 					
 					// définit le curseur, si un curseur est défini
-					if ( _oCurrentTool.hasCustomCursor () )
-						Cursor.setCursor ( _oCurrentTool.cursor );
+					if ( _currentTool.hasCustomCursor () )
+						Cursor.setCursor ( _currentTool.cursor );
 					else
 						Cursor.restoreCursor();
 					
 					// et si la souris à été enfoncée précedemment
-					if( _bMouseDown )
+					if( _mouseDown )
 					{
-						_oCurrentTool.actionStarted ( getEvent () );
+						_currentTool.actionStarted ( getEvent () );
 						fireToolUsed ();
 					}
 				}
@@ -245,39 +241,39 @@ package aesia.com.ponents.tools.canvas
 		
 		protected function keyUp ( e : KeyboardEvent ) : void
 		{
-			if( _oSafeTool != null && _bInAlternateToolMode )
+			if( _safeTool != null && _inAlternateToolMode )
 			{
-				_oCurrentTool.actionAborted ( getEvent () );
-				_oCurrentTool.setAsAlternateTool ( false );
-				_oCurrentTool = _oSafeTool;
-				_oSafeTool = null;
+				_currentTool.actionAborted ( getEvent () );
+				_currentTool.setAsAlternateTool ( false );
+				_currentTool = _safeTool;
+				_safeTool = null;
 				
-				if ( _oCurrentTool.hasCustomCursor () )
-					Cursor.setCursor ( _oCurrentTool.cursor );
+				if ( _currentTool.hasCustomCursor () )
+					Cursor.setCursor ( _currentTool.cursor );
 				else
 					Cursor.restoreCursor();
 				
-				if( _bMouseDown )
+				if( _mouseDown )
 				{
-					_oCurrentTool.actionStarted ( getEvent () );
+					_currentTool.actionStarted ( getEvent () );
 					fireToolUsed ();
 				}
-				_bInAlternateToolMode = false;
+				_inAlternateToolMode = false;
 			}
 		}
 		
 		protected function getCanvasChildUnderTheMouse () : DisplayObject
 		{
-			return _oCanvas.getObjectUnderTheMouse();
+			return _canvas.getObjectUnderTheMouse();
 		}
 		protected function getEvent ( type : String = "" ) : ToolEvent
 		{
 			var event : ToolEvent = new ToolEvent( type, this );
-			event.altPressed = _bAltPressed;
-			event.ctrlPressed = _bCtrlPressed;
-			event.shiftPressed = _bShiftPressed;
+			event.altPressed = _altPressed;
+			event.ctrlPressed = _ctrlPressed;
+			event.shiftPressed = _shiftPressed;
 	
-			event.mousePosition = new Point( _oCanvas.mouseX, _oCanvas.mouseY );
+			event.mousePosition = new Point( _canvas.mouseX, _canvas.mouseY );
 			
 			return event;
 		}
@@ -286,16 +282,16 @@ package aesia.com.ponents.tools.canvas
 			if( e is KeyboardEvent )
 			{
 				var ke : KeyboardEvent = e as KeyboardEvent;
-				_bShiftPressed = ke.shiftKey;
-				_bCtrlPressed = ke.ctrlKey;
-				_bAltPressed = ke.altKey;
+				_shiftPressed = ke.shiftKey;
+				_ctrlPressed = ke.ctrlKey;
+				_altPressed = ke.altKey;
 			}
 			else if( e is MouseEvent )
 			{
 				var me : MouseEvent = e as MouseEvent;
-				_bShiftPressed = me.shiftKey;
-				_bCtrlPressed = me.ctrlKey;
-				_bAltPressed = me.altKey;
+				_shiftPressed = me.shiftKey;
+				_ctrlPressed = me.ctrlKey;
+				_altPressed = me.altKey;
 			}
 		}
 		protected function registerToCanvasEvents ( canvas : DisplayObjectContainer ) : void
@@ -324,7 +320,7 @@ package aesia.com.ponents.tools.canvas
 		}
 		protected function fireToolUsed () : void
 		{
-			dispatchEvent( getEvent( ToolEvent.TOOL_USED  ) );
+			dispatchEvent( getEvent( ToolEvent.TOOL_USE  ) );
 		}
 		/**
 		 * Réécriture de la méthode <code>dispatchEvent</code> afin d'éviter la diffusion

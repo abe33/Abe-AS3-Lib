@@ -8,10 +8,7 @@ package aesia.com.patibility.codecs
 	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.patibility.lang._;
 
-	import mx.utils.StringUtil;
-
 	import flash.utils.ByteArray;
-
 	/**
 	 * La classe <code>GPLCodec</code> permet d'encoder et de décoder
 	 * des objets <code>Palette</code> au format <code>GPL</code> de GIMP.
@@ -64,7 +61,7 @@ package aesia.com.patibility.codecs
 			{
 				var a : Array = (o as String).split("\n");
 				a.shift();
-				var name : String = StringUtil.trim( a.shift().replace("Name:","") );
+				var name : String = StringUtils.trim( a.shift().replace("Name:","") );
 				a.shift();
 				a.shift();
 				var l : int = a.length;

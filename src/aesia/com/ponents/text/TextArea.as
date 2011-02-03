@@ -32,6 +32,7 @@ package aesia.com.ponents.text
 			_label.width = _label.height = 100;
 
 			//_childrenLayout = new DOInlineLayout( _childrenContainer );
+			_allowHTML = false;
 			_allowMask = false;
 
 			_scrollbar = new ScrollBar( 1, 1, 1, 1, 1 );

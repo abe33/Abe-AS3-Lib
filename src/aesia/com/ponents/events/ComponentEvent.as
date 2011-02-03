@@ -60,7 +60,7 @@ package aesia.com.ponents.events
 		 */
 		static public const POSITION_CHANGE : String = "positionChange";
 		/**
-		 * La constante <code>ComponentEvent.ENABLED_CHANGE</code> définie la
+		 * La constante <code>ComponentEvent.ENABLE_CHANGE</code> définie la
 		 * valeur du <code>type</code> de l'objet <code>ComponentEvent</code>
 		 * pour l'évènement <code>enableChange</code>.
 		 *
@@ -74,7 +74,7 @@ package aesia.com.ponents.events
 		 *
 		 * @eventType enableChange
 		 */
-		static public const ENABLED_CHANGE : String = "enableChange";		/**
+		static public const ENABLE_CHANGE : String = "enableChange";		/**
 		 * La constante <code>ComponentEvent.SELECTED_CHANGE</code> définie la
 		 * valeur du <code>type</code> de l'objet <code>ComponentEvent</code>
 		 * pour l'évènement <code>selectedChange</code>.

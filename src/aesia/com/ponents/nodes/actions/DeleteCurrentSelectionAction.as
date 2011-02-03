@@ -1,7 +1,7 @@
 package aesia.com.ponents.nodes.actions 
 {
-	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.mon.utils.KeyStroke;
+	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.ponents.actions.AbstractAction;
 	import aesia.com.ponents.containers.Dialog;
 	import aesia.com.ponents.events.DialogEvent;
@@ -12,7 +12,6 @@ package aesia.com.ponents.nodes.actions
 	import aesia.com.ponents.skinning.icons.Icon;
 	import aesia.com.ponents.tools.CameraCanvas;
 	import aesia.com.ponents.tools.ObjectSelection;
-	import aesia.com.ponents.utils.SettingsMemoryChannels;
 
 	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
@@ -26,13 +25,13 @@ package aesia.com.ponents.nodes.actions
 		public var canvas : CameraCanvas;
 		public var nodeLayer : uint;
 
-		public function DeleteCurrentSelectionAction ( selection : ObjectSelection, 
+		public function DeleteCurrentSelectionAction ( 	selection : ObjectSelection, 
 														canvas : CameraCanvas,
 														nodeLayer : uint,
-													 name : String = "", 
-													 icon : Icon = null, 
-													 longDescription : String = null, 
-													 accelerator : KeyStroke = null )
+													 	name : String = "", 
+													 	icon : Icon = null, 
+													 	longDescription : String = null, 
+													 	accelerator : KeyStroke = null )
 		{
 			super( name, icon, longDescription, accelerator );
 			this.selection = selection;
@@ -72,7 +71,6 @@ package aesia.com.ponents.nodes.actions
 						new DeleteNodeCommand( canvas, nodeLayer, o as CanvasNode ).execute();
 			
 				selection.removeAll();
-				
 			}
 			fireCommandEnd();
 		}

@@ -1,5 +1,6 @@
 package aesia.com.ponents.nodes.core 
 {
+	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.mon.utils.Reflection;
 	import aesia.com.mon.core.Cloneable;
 	import aesia.com.mon.core.Copyable;
@@ -62,6 +63,8 @@ package aesia.com.ponents.nodes.core
 		protected var _displayAnchorALabel : String;		protected var _displayAnchorBLabel : String;		protected var _displayLinkLabel : String;
 		
 		protected var _onStage : Boolean;
+		
+		protected var _allowEdit : Boolean;
 
 		public function NodeLink (a : CanvasNode,
 								  b : CanvasNode,
@@ -138,7 +141,9 @@ package aesia.com.ponents.nodes.core
 					unsetTextField( tf );
 			}
 		}
-		
+		public function get allowEdit () : Boolean { return _allowEdit; }
+		public function set allowEdit (allowEdit : Boolean) : void { _allowEdit = allowEdit; }
+
 		protected function addedToStage (event : Event) : void 
 		{
 			_onStage = true;
@@ -198,28 +203,31 @@ package aesia.com.ponents.nodes.core
 		}
 		protected function editProperties ( e : Event = null ) : void 
 		{
-			var self : NodeLink = this;
-			new EditObjectPropertiesAction( this, function( o : Object, 
-															form : FormObject, 
-															manager : SimpleFormManager,
-															window : Window ):void
-					{
-						//Log.debug( form + ", " + manager + ", " + window );
-						//Log.debug( o + " : " + StringUtils.prettyPrint( o ) );
-						//Log.debug( form.target + " : " + StringUtils.prettyPrint( form.target ) );
-						//Log.debug( o == form.target );
-						manager.save();
-						
-						UndoManagerInstance.add(new CopyUndoable( Reflection.asAnonymousObject( form.target, false ), 
-																  Reflection.asAnonymousObject( self, false ), 
-																  self ) );
-						
-						magicCopy( form.target, self );
-						repaint();						
-						
-						window.close();
-						StageUtils.stage.focus = null;
-					}, null, null, null, null, true ).execute();
+			if( !_allowEdit )
+				return;
+			
+			new EditObjectPropertiesAction( this, editPropertiesCallback, null, null, null, null, true ).execute();
+		}
+		protected function editPropertiesCallback ( o : Object, 
+													form : FormObject, 
+													manager : SimpleFormManager,
+													window : Window ):void
+		{
+			//Log.debug( form + ", " + manager + ", " + window );
+			//Log.debug( o + " : " + StringUtils.prettyPrint( o ) );
+			//Log.debug( form.target + " : " + StringUtils.prettyPrint( form.target ) );
+			//Log.debug( o == form.target );
+			manager.save();
+			
+			UndoManagerInstance.add(new CopyUndoable( Reflection.asAnonymousObject( form.target, false ), 
+													  Reflection.asAnonymousObject( this, false ), 
+													  this ) );
+			
+			magicCopy( form.target, this );
+			repaint();						
+			
+			window.close();
+			StageUtils.stage.focus = null;
 		}
 		public function repaint () : void 
 		{
@@ -264,7 +272,7 @@ package aesia.com.ponents.nodes.core
 		}
 		override public function toString () : String 
 		{
-			return "[NodeLink(a="+a+",b="+b+")]";
+			return StringUtils.stringify( this, { 'a':a, 'b':b } );
 		}
 		public function clone () : *
 		{

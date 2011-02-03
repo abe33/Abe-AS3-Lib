@@ -35,12 +35,9 @@ package  aesia.com.mands.load
 			stage.align = StageAlign.TOP_LEFT;
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			/*FDT_IGNORE*/
-			TARGET::FLASH_9
-			_entries = [];
-			
-			TARGET::FLASH_10			_entries = new Vector.<LoadEntry>();
-			
-			TARGET::FLASH_10_1 /*FDT_IGNORE*/			_entries = new Vector.<LoadEntry>();
+			TARGET::FLASH_9 { _entries = []; }
+			TARGET::FLASH_10 { _entries = new Vector.<LoadEntry>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/			_entries = new Vector.<LoadEntry>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			_entryIndex = -1;
 			_loading = false;

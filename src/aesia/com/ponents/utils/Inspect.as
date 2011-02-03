@@ -248,7 +248,7 @@ package aesia.com.ponents.utils
 				else
 				{
 					s ="";
-					if( Reflection.getClass(o)!= Object )
+					if( Reflection.getClass(o) != Object )
 					{
 						s += StringUtils.stringify(o);
 						o = Reflection.asAnonymousObject(o);
@@ -256,9 +256,8 @@ package aesia.com.ponents.utils
 					s += "{";
 					s2 = "";
 					for( i in o )
-					{
-						s2 += "  '" + escape(i) + "' : " + StringUtils.stringify(o[i]) + ",\n";
-					}
+						s2 += "  '" + escape(i) + "' : " + ( o[i] is String ? "'"+o[i]+"'" : o[i] ) + ",\n";
+						
 					if( s2 != "" )
 						s += "\n"+s2;
 					s += "}";

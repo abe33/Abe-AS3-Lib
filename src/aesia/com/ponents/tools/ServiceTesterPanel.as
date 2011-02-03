@@ -1,5 +1,6 @@
 package aesia.com.ponents.tools 
 {
+	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.ponents.tools.prettify.GPrettify;
 	import aesia.com.mon.geom.dm;
 	import aesia.com.mon.geom.pt;
@@ -119,7 +120,7 @@ package aesia.com.ponents.tools
 		protected function handleResult ( e : ServiceEvent ) : void
 		{
 			var res : * = e.results;
-			
+			Log.debug( res );
 			Log.debug( "Result:\n" + new GPrettify().prettyPrintOne( recursivePrint( res ), "default", true ), true );			
 		}
 
@@ -134,7 +135,7 @@ package aesia.com.ponents.tools
 				if( o is String )
 					return "'"+o+"'";
 				else
-					return String( o );
+					return StringUtils.stringify( o );
 			}
 			else
 			{
@@ -147,7 +148,7 @@ package aesia.com.ponents.tools
 					s2 = "";
 					for( i in o )
 					{
-						s2 += indent + "\t\t" + recursivePrint(o[i], indent + "\t\t") + ",\n";
+						s2 += indent + "\t" + recursivePrint(o[i], indent + "\t") + ",\n";
 					}
 					if( s2 != "" )
 						s += "\n" + s2 + indent;
@@ -156,11 +157,11 @@ package aesia.com.ponents.tools
 				}
 				else
 				{
-					s = "{";
+					s = StringUtils.stringify(o) + "{";
 					s2 = "";
 					for( i in o )
 					{
-						s2 += indent + "\t\t'" + i + "' : " +recursivePrint(o[i], indent + "\t\t") + ",\n";
+						s2 += indent + "\t'" + i + "' : " +recursivePrint(o[i], indent + "\t") + ",\n";
 					}
 					if( s2 != "" )
 						s += "\n"+s2+indent;

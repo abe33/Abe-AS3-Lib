@@ -181,7 +181,7 @@ package aesia.com.ponents.lists
 		{
 			_itemFormatingFunction = itemFormatingFunction;
 			listLayout.clearEstimatedSize();
-			updateCellsData( );
+			updateCellsData();
 			invalidatePreferredSizeCache();
 		}
 		public function get hasFormatingFunction () : Boolean

@@ -6,7 +6,6 @@ package aesia.com.ponents.models
 
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-	import flash.utils.getQualifiedClassName;
 
 	/**
 	 * @author Cédric Néhémie

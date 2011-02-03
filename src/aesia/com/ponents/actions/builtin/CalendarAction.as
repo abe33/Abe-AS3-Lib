@@ -14,7 +14,6 @@ package aesia.com.ponents.actions.builtin
 	import aesia.com.ponents.skinning.icons.Icon;
 
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

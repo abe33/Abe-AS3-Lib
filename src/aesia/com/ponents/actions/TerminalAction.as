@@ -5,7 +5,6 @@ package  aesia.com.ponents.actions
 {
 	import aesia.com.mands.Command;
 	import aesia.com.mon.core.Runnable;
-
 	/**
 	 * Interface définissant les propriétés spécifique que doit fournir une commande
 	 * pour être utilisée dans le <code>Terminal</code>.

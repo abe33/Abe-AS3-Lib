@@ -74,6 +74,7 @@ package aesia.com.ponents.factory
 		protected function createDebugTools () : void
 		{
 			var p : DebugPanel = new DebugPanel();
+			p.id = p.name = "debugPanel";
 			ToolKit.popupLevel.addChild(p);
 			p.visible = false;
 		}
@@ -168,11 +169,12 @@ package aesia.com.ponents.factory
 		protected function buildMain() : void
 		{
 			_progressLabel.value = "Start the program";
+			var mainClass:Class = getDefinitionByName(__mainClassName__) as Class;
+			
 			/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
 				createDebugTools();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	            
-			var mainClass:Class = getDefinitionByName(__mainClassName__) as Class;
             _app = new mainClass() as DisplayObject;
             if( _app.hasOwnProperty("init") )
             {

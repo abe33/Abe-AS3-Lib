@@ -1,5 +1,6 @@
 package aesia.com.ponents.lists 
 {
+	import aesia.com.ponents.menus.ComboBox;
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.utils.KeyStroke;
@@ -61,7 +62,10 @@ package aesia.com.ponents.lists
 		protected var _contentType : Class;
 		
 
-		public function ListEditor ( initialData : Array = null, newValueProvider : Component = null, contentType : Class = null )
+		public function ListEditor ( initialData : Array = null, 
+									 newValueProvider : Component = null, 
+									 contentType : Class = null,
+									 formatFunction : Function = null )
 		{
 			super();
 			
@@ -73,7 +77,7 @@ package aesia.com.ponents.lists
 			view = _list;
 			rowHead = new ListLineRuler(_list, true );
 			_contentType = contentType;
-						
+			
 			_addButton = new Button("", magicIconBuild( ADD_ICON ) );			_removeButton = new Button("", magicIconBuild( REMOVE_ICON ) );
 			
 			/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
@@ -94,6 +98,13 @@ package aesia.com.ponents.lists
 			colHead = _toolBar;
 			
 			this.newValueProvider = newValueProvider;
+			
+			if( formatFunction != null )
+			{
+				_list.itemFormatingFunction = formatFunction;
+				if( _newValueProvider is ComboBox )
+				  ( _newValueProvider as ComboBox ).itemFormatingFunction = formatFunction;
+			}
 			
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DELETE ) ] = new ProxyCommand( clickRemove );
@@ -212,6 +223,7 @@ package aesia.com.ponents.lists
 		
 		protected function dataChange (event : ComponentEvent) : void 
 		{
+			_value = _list.model.toArray();
 			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
 		}
 	}

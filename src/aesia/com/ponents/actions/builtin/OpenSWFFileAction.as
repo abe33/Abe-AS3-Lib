@@ -8,7 +8,6 @@ package aesia.com.ponents.actions.builtin
 	import flash.events.Event;
 	import flash.net.FileFilter;
 	import flash.utils.ByteArray;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

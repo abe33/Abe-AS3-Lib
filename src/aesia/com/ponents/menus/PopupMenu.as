@@ -406,7 +406,6 @@ package aesia.com.ponents.menus
 		
 		public function checkSize () : void
 		{
-			
 			var size : Dimension = _preferredSizeCache;
 			if( size.height > StageUtils.stage.stageHeight )
 			{
@@ -419,6 +418,8 @@ package aesia.com.ponents.menus
 				//this.size = size;
 				height = size.height;
 				_scrollContainer.invalidate();
+				if( y + size.height > StageUtils.stage.stageHeight )
+					y = StageUtils.stage.stageHeight - size.height;
 			}
 			
 			if( x < 0 )

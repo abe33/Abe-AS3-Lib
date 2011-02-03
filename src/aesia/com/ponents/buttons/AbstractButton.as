@@ -558,7 +558,10 @@ package aesia.com.ponents.buttons
 			if( _action )
 			{
 				if( _action.longDescription )
+				{
 					s = _action.longDescription;
+					overlay = false;
+				}
 				else if( buttonDisplayMode == ButtonDisplayModes.ICON_ONLY && _action.name )
 					s = _action.name;
 				else if( _action.accelerator && _action.name )

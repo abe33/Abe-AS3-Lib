@@ -127,38 +127,7 @@ package aesia.com.mon.utils
 		 * Une référence vers la véritable racine de l'application
 		 */
 		static protected var _root : DisplayObjectContainer;
-		/**
-		 * Un objet <code>Vector</code> contenant des objets <code>ContextMenuItem</code>
-		 * utilisé pour constituer le menu contextuel global.
-		 * <p>
-		 * Dans le cas d'un composant, les menus globaux sont ajoutés aux menus du composant
-		 * pour constituer le menu final.
-		 * </p>
-		 */
-		/*FDT_IGNORE*/
-		TARGET::FLASH_9
-		static protected var _globalMenus : Array = [];		
-		TARGET::FLASH_10		static protected var _globalMenus : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem>();		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/		static protected var _globalMenus : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem>();		
-		/**
-		 * Un vecteur contenant les menus contextuels courants. 
-		 */
-		/*FDT_IGNORE*/
-		TARGET::FLASH_9
-		static protected var _currentMenuContext : Array;
 		
-		TARGET::FLASH_10
-		static protected var _currentMenuContext : Vector.<ContextMenuItem>;
-		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
-		static protected var _currentMenuContext : Vector.<ContextMenuItem>;		
-		
-		/**
-		 * Un tableau contenant le menu contextuel courant, c'est-à-dire formé par les menus définit
-		 * par un composant (si la souris est au dessus de l'un d'eux, et qu'il fournit des menus) et
-		 * par les menus globaux.
-		 */
-		static protected var _currentMenu : Array;
 		/**
 		 * Un objet <code>Vector</code> contenant l'ensemble des objets <code>StageConstraint</code>
 		 * créer par l'intermédiaire de la méthode <code>lockToStage</code>.
@@ -229,6 +198,51 @@ package aesia.com.mon.utils
 /*-------------------------------------------------------------------------*
  * 	CONTEXTUAL MENUS
  *-------------------------------------------------------------------------*/
+ 		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			
+		/**
+		 * Un objet <code>Vector</code> contenant des objets <code>ContextMenuItem</code>
+		 * utilisé pour constituer le menu contextuel global.
+		 * <p>
+		 * Dans le cas d'un composant, les menus globaux sont ajoutés aux menus du composant
+		 * pour constituer le menu final.
+		 * </p>
+		 */
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		static protected var _globalMenus : Array = [];
+		
+		TARGET::FLASH_10
+		static protected var _globalMenus : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem>();
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		static protected var _globalMenus : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem>();
+		
+		/**
+		 * Un vecteur contenant les menus contextuels courants. 
+		 */
+		/*FDT_IGNORE*/
+		TARGET::FLASH_9
+		static protected var _currentMenuContext : Array;
+		
+		TARGET::FLASH_10
+		static protected var _currentMenuContext : Vector.<ContextMenuItem>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		static protected var _currentMenuContext : Vector.<ContextMenuItem>;
+		
+		/**
+		 * Un tableau contenant le menu contextuel courant, c'est-à-dire formé par les menus définit
+		 * par un composant (si la souris est au dessus de l'un d'eux, et qu'il fournit des menus) et
+		 * par les menus globaux.
+		 */
+		static protected var _currentMenu : Array;
+		
+		static protected var _versionMenuContext : ContextMenuItem;
+		
+		static public function get versionMenuContext() : ContextMenuItem { return _versionMenuContext; }
+		static public function set versionMenuContext ( contextMenuItem : ContextMenuItem) : void { _versionMenuContext = contextMenuItem; }
+		
 		/**
 		 * Supprime tout les éléments de base du menu contextuel du Flash Player.
 		 *
@@ -260,14 +274,14 @@ package aesia.com.mon.utils
 			_currentMenuContext = m;
 			updateMenus();
 		}
-				TARGET::FLASH_10
-		static public function setMenus ( m : Vector.<ContextMenuItem> ) : void
+		
+		TARGET::FLASH_10		static public function setMenus ( m : Vector.<ContextMenuItem> ) : void
 		{
 			_currentMenuContext = m;
 			updateMenus();
 		}
-				TARGET::FLASH_10_1 /*FDT_IGNORE*/
-		static public function setMenus ( m : Vector.<ContextMenuItem> ) : void
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/		static public function setMenus ( m : Vector.<ContextMenuItem> ) : void
 		{
 			_currentMenuContext = m;
 			updateMenus();
@@ -349,6 +363,11 @@ package aesia.com.mon.utils
 
 				_currentMenu.push( _globalMenus[ i ] );
 			}
+			if( _versionMenuContext )
+			{
+				_versionMenuContext.separatorBefore = true;
+				_currentMenu.push( _versionMenuContext );
+			}
 
 			var menu : ContextMenu = ( _root.contextMenu as ContextMenu );
 			if( !menu )
@@ -357,6 +376,8 @@ package aesia.com.mon.utils
 			menu.customItems = _currentMenu;
 			_root.contextMenu = menu;
 		}
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
 /*-------------------------------------------------------------------------*
  * 	LOCKED OBJECTS
  *-------------------------------------------------------------------------*/

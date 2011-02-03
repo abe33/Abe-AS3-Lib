@@ -57,7 +57,8 @@ package aesia.com.ponents.nodes.core
 		
 		protected var _userObject : *;
 		protected var _shape : String;
-		
+		protected var _editObjectCallback : Function;
+
 		public function CanvasNode ( userObject : * = null )
 		{
 			_childrenLayout = new InlineLayout(this, 3, "center", "top", "topToBottom", true );
@@ -153,6 +154,9 @@ package aesia.com.ponents.nodes.core
 				firePropertyEvent( "selected", _selected );
 			}
 		}
+		public function get editObjectCallback () : Function { return _editObjectCallback; }
+		public function set editObjectCallback (editObjectCallback : Function) : void {	_editObjectCallback = editObjectCallback; }
+	
 		public function createConnection( o : CanvasNode, relashionship : String = "undefined", relashionshipDirection : String = "none" ) : NodeLink
 		{
 			var link : NodeLink = new NodeLink( this, o, relashionship, relashionshipDirection );
@@ -219,34 +223,38 @@ package aesia.com.ponents.nodes.core
 		*/
 		protected function editObjectProperties ( e : Event = null ) : void 
 		{
-			var self : CanvasNode = this;
 			if( _userObject )
-				new EditObjectPropertiesAction( _userObject, function( o : Object, 
-																	   form : FormObject, 
-																	   manager : SimpleFormManager,
-																	   window : Window ):void
-					{
-						//Log.debug( form + ", " + manager + ", " + window );
-						//Log.debug( o + " : " + StringUtils.prettyPrint( o ) );						//Log.debug( form.target + " : " + StringUtils.prettyPrint( form.target ) );						//Log.debug( o == form.target );
-						manager.save();
-						
-						UndoManagerInstance.add(new CopyUndoable( self, form.target, magicClone(_userObject), _userObject ) );
-						
-						Log.debug( form.target + "\n" + Inspect.inspect(form.target.data) +
-								   "\n---------------\n" +
-								   _userObject+"\n" + Inspect.inspect(_userObject.data) );
-						
-						magicCopy( form.target, _userObject );
-						
-						Log.info( "after copy userObject = " + _userObject+"\n" + Inspect.inspect(_userObject.data) );
-						
-						NodeRendererFactoryInstance.getRenderer(_userObject).update( self, _userObject);
-						invalidatePreferredSizeCache();
-						
-						
-						window.close();
-						StageUtils.stage.focus = null;
-					}, null, null, null, null, true ).execute();
+				new EditObjectPropertiesAction( _userObject, 
+												_editObjectCallback != null ? _editObjectCallback : editObjectPropertiesCallback, 
+												null, null, null, null, true ).execute();
+		}
+		protected function editObjectPropertiesCallback ( o : Object, 
+														   form : FormObject, 
+														   manager : SimpleFormManager,
+														   window : Window ):void
+		{
+			//Log.debug( form + ", " + manager + ", " + window );
+			//Log.debug( o + " : " + StringUtils.prettyPrint( o ) );
+			//Log.debug( form.target + " : " + StringUtils.prettyPrint( form.target ) );
+			//Log.debug( o == form.target );
+			manager.save();
+			
+			UndoManagerInstance.add( new CopyUndoable( this, form.target, magicClone(_userObject), _userObject ) );
+			
+			Log.debug( form.target + "\n" + Inspect.inspect(form.target.data) +
+					   "\n---------------\n" +
+					   _userObject+"\n" + Inspect.inspect(_userObject.data) );
+			
+			magicCopy( form.target, _userObject );
+			
+			Log.info( "after copy userObject = " + _userObject+"\n" + Inspect.inspect(_userObject.data) );
+			
+			NodeRendererFactoryInstance.getRenderer(_userObject).update( this, _userObject);
+			invalidatePreferredSizeCache();
+			
+			
+			window.close();
+			StageUtils.stage.focus = null;
 		}
 		
 		override public function addComponent (c : Component) : void 
@@ -274,7 +282,7 @@ package aesia.com.ponents.nodes.core
 		}
 		override public function toString() : String 
 		{
-			return StringUtils.stringify(this, {userObject:userObject});
+			return StringUtils.stringify(this, {userObject:userObject} );
 		}
 	}
 }

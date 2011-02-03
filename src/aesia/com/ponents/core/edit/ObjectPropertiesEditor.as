@@ -1,7 +1,14 @@
 package aesia.com.ponents.core.edit 
 {
+	import aesia.com.ponents.utils.Inspect;
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mands.events.CommandEvent;
+	import aesia.com.mon.utils.StageUtils;
+	import aesia.com.mon.utils.magicCopy;
 	import aesia.com.ponents.actions.builtin.EditObjectPropertiesAction;
+	import aesia.com.ponents.containers.Window;
+	import aesia.com.ponents.forms.FormObject;
+	import aesia.com.ponents.forms.managers.SimpleFormManager;
 
 	import flash.display.DisplayObject;
 	/**
@@ -36,9 +43,20 @@ package aesia.com.ponents.core.edit
 			this.caller = caller;
 			this.value = value;
 			
-			_action = new EditObjectPropertiesAction( _value );
+			_action = new EditObjectPropertiesAction( _value, editObjectCallback, null, null, null, null, true );
 			_action.addEventListener(CommandEvent.COMMAND_END, editEnd);
 			_action.execute();
+		}
+		protected function editObjectCallback ( o : Object, 
+											    form : FormObject, 
+											    manager : SimpleFormManager,
+											    window : Window ):void
+		{
+			manager.save();
+			magicCopy( form.target, o );
+			
+			window.close();
+			StageUtils.stage.focus = null;
 		}
 		
 		/**

@@ -124,7 +124,7 @@ package aesia.com.ponents.demos
 			canvas.addComponentToLayer( bbt, 0 );
 			
 			var renderer : CanvasSelectionRenderer = new CanvasSelectionRenderer( ObjectSelectionInstance, canvas.createLayer() );
-			manager.addEventListener( ToolEvent.TOOL_USED, renderer.repaintSelection );
+			manager.addEventListener( ToolEvent.TOOL_USE, renderer.repaintSelection );
 			
 			canvas.camera.centerDisplayObject(bbt);
 		}

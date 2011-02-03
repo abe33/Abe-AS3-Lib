@@ -11,7 +11,6 @@ package aesia.com.ponents.actions.builtin
 	import flash.net.LocalConnection;
 	import flash.system.Capabilities;
 	import flash.system.System;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -1,5 +1,6 @@
 package aesia.com.ponents.utils 
 {
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Keys;
 	import aesia.com.mon.utils.StringUtils;
@@ -33,10 +34,11 @@ package aesia.com.ponents.utils
 		{
 			var s : String = "";
 			var a : Array = [];
-			
+			var w : Number;
 			if( root is Split )
 			{
 				var split : Split = root as Split;
+				w = split.weight;
 				s += split.rowLayout ? "H(" : "V(";
 				
 				for each( var n : Node in split.children )
@@ -48,10 +50,12 @@ package aesia.com.ponents.utils
 			else
 			{
 				var pane : TabbedPane = ( root as Leaf ).component as TabbedPane;
+				w = root.weight;
 				
 				if( pane )
 					for( var i : uint; i < pane.tabBar.childrenCount; i++ )
 						a.push( pane.tabBar.getComponentAt(i).id );
+				
 				s = a.join("|");
 			}
 			return s;
@@ -68,8 +72,9 @@ package aesia.com.ponents.utils
 			// split
 			if( dmspRE.test(s) )
 			{
-				var type : String = s.substr(0, 1);
-				var args : Array = StringUtils.splitBlock( s.substr(2, StringUtils.findClosingIndex(s, 2, "(", ")")-2) );
+				var res : * = dmspRE.exec(s);
+				var type : String = res[1];				var ind : int = s.indexOf("(");
+				var args : Array = StringUtils.splitBlock( s.substring( ind + 1, StringUtils.findClosingIndex(s, ind + 1, "(", ")")) );
 				
 				l = args.length;
 				

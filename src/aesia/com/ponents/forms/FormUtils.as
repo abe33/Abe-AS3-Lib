@@ -1,10 +1,12 @@
 package aesia.com.ponents.forms 
 {
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.mon.utils.Gradient;
 	import aesia.com.mon.utils.Reflection;
 	import aesia.com.mon.utils.StringUtils;
+	import aesia.com.mon.utils.TimeDelta;
 	import aesia.com.mon.utils.XMLUtils;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.buttons.CheckBox;
@@ -15,6 +17,7 @@ package aesia.com.ponents.forms
 	import aesia.com.ponents.buttons.GradientPicker;
 	import aesia.com.ponents.buttons.HexaColorPicker;
 	import aesia.com.ponents.buttons.IconPicker;
+	import aesia.com.ponents.buttons.TimeDeltaPicker;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.lists.ListEditor;
 	import aesia.com.ponents.menus.ComboBox;
@@ -85,6 +88,8 @@ package aesia.com.ponents.forms
 			d[ FIELD_TEXT_FORMAT ] = getTextFormat;			d[ getQualifiedClassName(TextFormat) ] = getTextFormat;
 						d[ FIELD_DATE_SPINNER ] = getDateSpinner;
 			d[ FIELD_DATE_CALENDAR ] = getDateCalendar;			d[ getQualifiedClassName(Date) ] = getDateCalendar;			
+			d[ FIELD_TIME_DELTA ] = getTimeDelta;			d[ getQualifiedClassName(TimeDelta) ] = getTimeDelta;
+			
 			d[ FIELD_ARRAY ] = getArray;			d[ getQualifiedClassName(Array) ] = getArray;
 			
 			d[ FIELD_BOOLEAN ] = getBoolean;			d[ getQualifiedClassName(Boolean) ] = getBoolean;
@@ -136,7 +141,7 @@ package aesia.com.ponents.forms
 		static public const FIELD_UINT_SLIDER : String = "uintSlider";				static public const FIELD_FLOAT_SPINNER : String = "floatSpinner";
 		static public const FIELD_FLOAT_SLIDER : String = "floatSlider";
 				static public const FIELD_TEXT : String = "text";		static public const FIELD_TEXT_FORMAT : String = "textFormat";		static public const FIELD_PASSWORD : String = "password";
-				static public const FIELD_DATE_SPINNER : String = "dateSpinner";		static public const FIELD_DATE_CALENDAR : String = "dateCalendar";
+				static public const FIELD_DATE_SPINNER : String = "dateSpinner";		static public const FIELD_DATE_CALENDAR : String = "dateCalendar";		static public const FIELD_TIME_DELTA : String = "timeDelta";
 				
 		static public const FIELD_COLOR : String = "color";		static public const FIELD_GRADIENT : String = "gradient";		static public const FIELD_FILTERS_ARRAY : String = "filtersArray";
 				static public const FIELD_DIMENSION_INT : String = "dimensionInt";		static public const FIELD_DIMENSION_UINT : String = "dimensionUint";		static public const FIELD_DIMENSION_FLOAT : String = "dimensionFloat";
@@ -282,12 +287,13 @@ package aesia.com.ponents.forms
 				}
 			}
 			var fo : FormObject = new FormObject( o , fd);
-			return fo;	
+			return fo;
 		}
 		
 		public static function getComponentForType ( v : * ) : Component
 		{
 			var fn : Function = _typesMap[ v ];			var fn2 : Function = _newMap[ v ];
+			
 			return fn != null ? fn( fn2 != null ? fn2() : null, {} ) : null;
 		}
 		public static function getComponentForValue ( v : * ) : Component
@@ -1030,6 +1036,10 @@ package aesia.com.ponents.forms
 		static private function getDateCalendar ( d : Date, args : Object ) : DatePicker
 		{
 			return new DatePicker(d);
+		}
+		static private function getTimeDelta ( d : TimeDelta, args : Object ) : TimeDeltaPicker
+		{
+			return new TimeDeltaPicker(d);
 		}
 		static private function getString ( v : String, args : Object ) : Component
 		{

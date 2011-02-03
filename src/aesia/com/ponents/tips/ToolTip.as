@@ -4,10 +4,12 @@
 package aesia.com.ponents.tips 
 {
 	import aesia.com.ponents.buttons.AbstractButton;
+	import aesia.com.ponents.skinning.DefaultSkin;
 	import aesia.com.ponents.skinning.icons.Icon;
 	import aesia.com.ponents.utils.ToolKit;
 
 	import flash.display.DisplayObject;
+	import flash.filters.DropShadowFilter;
 	import flash.geom.Rectangle;
 	import flash.text.TextFieldAutoSize;
 	import flash.utils.clearTimeout;
@@ -20,10 +22,16 @@ package aesia.com.ponents.tips
 	[Skin(define="ToolTip",
 			  inherit="DefaultComponent",
 			  state__all__background="new deco::SimpleFill(skin.tooltipBackgroundColor)",			  state__all__foreground="new deco::SimpleBorders(skin.tooltipBorderColor)",
-			  state__all__textColor="skin.tooltipTextColor"
+			  state__all__textColor="skin.tooltipTextColor",
+			  state__all__outerFilters="aesia.com.ponents.tips::ToolTip.createToolTipFilters()"
 	)]
 	public class ToolTip extends AbstractButton
 	{
+		static public function createToolTipFilters () : Array
+		{
+			return [ new DropShadowFilter( 1 , 45, DefaultSkin.tooltipShadowColor.hexa, 1, 3, 3, 1, 2) ];
+		}
+		
 		static public var timeout : Number = 500;
 		static public var margin : Number = 3;
 		static public var offset : Number = 10;

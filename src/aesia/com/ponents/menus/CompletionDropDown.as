@@ -1,5 +1,6 @@
 package aesia.com.ponents.menus 
 {
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.utils.KeyStroke;
@@ -176,6 +177,7 @@ package aesia.com.ponents.menus
 		}
 		public function selectionChange ( e : Event ) : void
 		{	
+			Log.debug( "selection changed" );
 		}
 		public function validateCompletion ( e : Event = null ) : void
 		{

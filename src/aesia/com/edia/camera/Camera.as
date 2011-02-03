@@ -12,9 +12,9 @@ package aesia.com.edia.camera
 	import aesia.com.mon.utils.PointUtils;
 	import aesia.com.mon.utils.Random;
 	import aesia.com.mon.utils.RandomUtils;
+	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.motion.Impulse;
 	import aesia.com.motion.ImpulseEvent;
-	import aesia.com.ponents.utils.ToolKit;
 
 	import flash.display.DisplayObject;
 	import flash.events.Event;
@@ -31,7 +31,6 @@ package aesia.com.edia.camera
 	 * @eventType aesia.com.edia.camera.CameraEvent.CAMERA_CHANGE
 	 */
 	[Event(name="cameraChange", type="aesia.com.edia.camera.CameraEvent")]
-
 	/**
 	 * Un objet <code>Camera</code> permet de créer des effets de scrolling,
 	 * de zoom et de parallax sur toute une scène flash de façon naturelle.
@@ -80,7 +79,6 @@ package aesia.com.edia.camera
 		 * @default	false
 		 */
 		public var multiplyZoom : Boolean = false;
-
 		/**
 		 * Valeur courante du zoom.
 		 *
@@ -121,7 +119,6 @@ package aesia.com.edia.camera
 		 * @default null
 		 */
 		protected var _safeCenter : Point;
-
 		/**
 		 * Valeur booléenne indiquant si la caméra est actuellement en train de trembler.
 		 *
@@ -155,7 +152,6 @@ package aesia.com.edia.camera
 		 * @default false
 		 */
 		public var silentMode : Boolean;
-
 		/**
 		 * Une valeur booléenne indiquant si la caméra est en cours d'animation.
 		 *
@@ -201,7 +197,7 @@ package aesia.com.edia.camera
 								 silent : Boolean = false )
 		{
 			_randomSource = RandomUtils.RANDOM;
-			_screen = screen ? screen : new Rectangle2( 0, 0, ToolKit.mainLevel.stage.stageWidth, ToolKit.mainLevel.stage.stageHeight );
+			_screen = screen ? screen : new Rectangle2( 0, 0, StageUtils.stage.stageWidth, StageUtils.stage.stageHeight );
 
 			_safeWidth = _screen.width;
 			_safeHeight = _screen.height;
@@ -214,7 +210,6 @@ package aesia.com.edia.camera
 			_shaking = false;
 			zoom = _zoom;
 		}
-
 /*--------------------------------------------------------------------
  *	GETTERS & SETTERS
  *-------------------------------------------------------------------*/
@@ -331,7 +326,6 @@ package aesia.com.edia.camera
 			zoom = z;
 			screenCenter = c;
 		}
-
 /*--------------------------------------------------------------------
  *	CENTER GETTER & SETTERS
  *-------------------------------------------------------------------*/
@@ -387,14 +381,12 @@ package aesia.com.edia.camera
 		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
 		 * de modification du champ de la caméra.
 		 * </p>
-		 *
 		 * @param	p	nouvelles coordonnées du centre
 		 */
 		public function center ( p : Point ) : void
 		{
 			centerXY ( p.x, p.y );
 		}
-
 		/**
 		 * Centre le champ de la caméra sur les coordonnées passés en paramètre. Si à l'issue
 		 * de cette transformation la caméra se retrouve en dehors du cadre de contrainte,
@@ -403,7 +395,6 @@ package aesia.com.edia.camera
 		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
 		 * de modification du champ de la caméra.
 		 * </p>
-		 *
 		 * @param	x	nouvelle coordonnée en x du centre de la caméra
 		 * @param	y	nouvelle coordonnée en y du centre de la caméra
 		 */
@@ -420,7 +411,6 @@ package aesia.com.edia.camera
 				}
 			}
 		}
-
 		/**
 		 * Centre le champ de la caméra en x sur la coordonnée passée en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
@@ -445,7 +435,6 @@ package aesia.com.edia.camera
 				}
 			}
 		}
-
 		/**
 		 * Centre le champ de la caméra en y sur la coordonnée passée en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
@@ -470,7 +459,6 @@ package aesia.com.edia.camera
 				}
 			}
 		}
-
 		/**
 		 * Centre le champ de la caméra sur le centre du <code>DisplayObject</code> passé
 		 * en paramètre. Le centre de l'objet est déterminé à l'aide de la méthode <code>getBounds</code>,
@@ -496,7 +484,6 @@ package aesia.com.edia.camera
 			else
 				centerXY( display.x, display.y );
 		}
-
 /*--------------------------------------------------------------------
  *	MOVE & TRANSLATE METHODS
  *-------------------------------------------------------------------*/
@@ -517,7 +504,6 @@ package aesia.com.edia.camera
 		{
 			moveToXY( p.x, p.y );
 		}
-
 		/**
 		 * Déplace le coin supérieur gauche du champ de la caméra aux coordonnées passées en
 		 * paramètres. Si à l'issue de cette transformation la caméra se retrouve en dehors
@@ -543,7 +529,6 @@ package aesia.com.edia.camera
 				fireSilentCameraChange ();
 			}
 		}
-
 		/**
 		 * Déplace le coin supérieur gauche du champ de la caméra sur l'axe x à la coordonnée
 		 * passée en paramètre. Si à l'issue de cette transformation la caméra se retrouve en
@@ -565,9 +550,7 @@ package aesia.com.edia.camera
 				_screen.x = x;
 				fireSilentCameraChange ();
 			}
-
 		}
-
 		/**
 		 * Déplace le coin supérieur gauche du champ de la caméra sur l'axe y à la coordonnée
 		 * passée en paramètre. Si à l'issue de cette transformation la caméra se retrouve en
@@ -590,7 +573,6 @@ package aesia.com.edia.camera
 				fireSilentCameraChange ();
 			}
 		}
-
 		/**
 		 * Déplace le coin supérieur gauche du champ de la caméra d'autant de pixels que spécifié
 		 * dans l'objet <code>Point</code> passé en paramètre.
@@ -798,7 +780,6 @@ package aesia.com.edia.camera
 			PointUtils.scale( dif, r );
 			centerXY( pt.x + dif.x, pt.y + dif.y );
 		}
-
 		/**
 		 * Décrémente ou divise la valeur de zoom selon que la propriété
 		 * <code>multiplyZoom</code> est à <code>true</code> ou à <code>false</code>.
@@ -832,7 +813,6 @@ package aesia.com.edia.camera
 			PointUtils.scale( dif, r );
 			centerXY( pt.x + dif.x, pt.y + dif.y );
 		}
-
 /*--------------------------------------------------------------------
  *	PROTECTED METHODS
  *-------------------------------------------------------------------*/
@@ -843,14 +823,10 @@ package aesia.com.edia.camera
 		protected function solveZoom () : void
 		{
 			if( _zoom < _zoomRange.min )
-			{
 				_zoom = _zoomRange.min;
-			}
 
 			if( _zoom > _zoomRange.max  )
-			{
 				_zoom = _zoomRange.max;
-			}
 
 			computeZoom();
 		}
@@ -972,7 +948,6 @@ package aesia.com.edia.camera
 		{
 			return _isRunning;
 		}
-
 /*--------------------------------------------------------------------
  *	EVENTS
  *-------------------------------------------------------------------*/
@@ -1020,7 +995,6 @@ package aesia.com.edia.camera
 		{
 			removeEventListener( CameraEvent.CAMERA_CHANGE, f );
 		}
-
 		/**
 		 * Réécriture de la méthode <code>dispatchEvent</code> afin d'éviter la diffusion
 		 * d'évènement en l'absence d'écouteurs pour cet évènement.

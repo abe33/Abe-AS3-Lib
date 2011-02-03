@@ -1,5 +1,6 @@
 package aesia.com.ponents.containers 
 {
+	import aesia.com.ponents.events.SplitPaneEvent;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.dnd.DropEvent;
 	import aesia.com.ponents.dnd.DropTarget;
@@ -17,6 +18,8 @@ package aesia.com.ponents.containers
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+
+	[Event(name="weightChange", type="aesia.com.ponents.events.SplitPane")]
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -37,12 +40,10 @@ package aesia.com.ponents.containers
 				_dropBorderSize = 20;
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
-
 		public function get multiSplitLayout () : MultiSplitLayout
 		{
 			return ( _childrenLayout as MultiSplitLayout );
 		}
-		
 		public function get allowResize () : Boolean { return _allowResize; }		
 		public function set allowResize (allowResize : Boolean) : void
 		{
@@ -64,7 +65,7 @@ package aesia.com.ponents.containers
 			if( _allowResize )
 			{
 				var d : Divider = multiSplitLayout.dividerAt( multiSplitLayout.modelRoot , mouseX, mouseY );
-					
+				
 				if( d )
 					cursor = d.isVertical() ? Cursor.get( Cursor.DRAG_V ) : Cursor.get( Cursor.DRAG_H );
 				else
@@ -128,6 +129,7 @@ package aesia.com.ponents.containers
 				_dragging = false;
 				stage.removeEventListener( MouseEvent.MOUSE_MOVE, drag );
 				
+				dispatchEvent( new SplitPaneEvent( SplitPaneEvent.WEIGHT_CHANGE ) );
 			}			
 		}
 		protected function drag ( e : MouseEvent ) : void
@@ -173,7 +175,6 @@ package aesia.com.ponents.containers
 					
 					_currentDivider.location = x;
 				}
-					
 				invalidate();					
 			}
 		}
@@ -329,6 +330,9 @@ package aesia.com.ponents.containers
 		
 		override public function get supportedFlavors () : Array { return [ ComponentsFlavors.COMPONENT ]; }
 		
+		public function get dropBorderSize () : Number { return _dropBorderSize; }
+		public function set dropBorderSize (dropBorderSize : Number) : void { _dropBorderSize = dropBorderSize; }
+		
 		protected function insertAfter ( c : Component, after : Node ) : void
 		{
 			var split : Split = after.parent;
@@ -347,7 +351,6 @@ package aesia.com.ponents.containers
 				}
 			}
 		}
-
 		protected function insertBefore (  c : Component, before : Node ) : void
 		{
 			var split : Split = before.parent;
@@ -363,7 +366,6 @@ package aesia.com.ponents.containers
 					( l.nextSiblings() as Divider ).location = bb.y + bb.height / 2;
 			}
 		}
-
 		protected function drawDropOnDivider (d : Divider) : void
 		{
 			var bb : Rectangle = d.bounds;
@@ -371,16 +373,6 @@ package aesia.com.ponents.containers
 												 _style.dropZoneColor.alpha );
 			_dropStatusShape.graphics.drawRect( bb.x, bb.y, bb.width, bb.height );
 			_dropStatusShape.graphics.endFill( );
-		}
-		
-		public function get dropBorderSize () : Number
-		{
-			return _dropBorderSize;
-		}
-		
-		public function set dropBorderSize (dropBorderSize : Number) : void
-		{
-			_dropBorderSize = dropBorderSize;
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	}

@@ -9,6 +9,7 @@ package aesia.com.mon.utils
 	import flash.utils.ByteArray;
 	import flash.utils.getQualifiedClassName;
 
+
 	/**
 	 * Renvoie une copie de l'objet <code>v</code>.
 	 * <p>

@@ -3,6 +3,7 @@ package aesia.com.ponents.lists
 	import aesia.com.mon.core.IDisplayObject;
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;
+	import aesia.com.mon.utils.Reflection;
 	import aesia.com.ponents.buttons.DraggableButton;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.edit.Editable;
@@ -118,7 +119,7 @@ package aesia.com.ponents.lists
 				if( _owner.model.contentType != null )
 					_editor = EditorFactoryInstance.getForType( _owner.model.contentType );
 				else
-					_editor = EditorFactoryInstance.get();
+					_editor = EditorFactoryInstance.getForType( Reflection.getClass( _value ) );
 				
 				_editor.initEditState( this , _value, _labelTextField as DisplayObject );
 				
@@ -236,7 +237,13 @@ internal class DefaultListCellSelectAction extends AbstractAction
 		if( e )
 		{
 			var cell : ListCell = e.target as ListCell;
+			if( !cell )
+				return;
+			
 			var list : List = cell.owner;
+			if( !list )
+				return;
+			
 			var evt : MouseEvent = e as MouseEvent;
 			
 			if( evt )

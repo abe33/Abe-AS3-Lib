@@ -1,7 +1,5 @@
 package aesia.com.ponents.actions.builtin
 {
-	import flash.utils.clearTimeout;
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.skinning.icons.Icon;
@@ -12,8 +10,8 @@ package aesia.com.ponents.actions.builtin
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.FileFilter;
+	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

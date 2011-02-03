@@ -13,7 +13,6 @@ package aesia.com.ponents.actions
 	import aesia.com.ponents.history.UndoManagerInstance;
 
 	import flash.utils.Dictionary;
-
 	/**
 	 * La classe <code>ActionManager</code> fournie un moyen d'enregistrer des actions
 	 * permettant ainsi de mutualiser simplement des commandes au sein d'une interface
