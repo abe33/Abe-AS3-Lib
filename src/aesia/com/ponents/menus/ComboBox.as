@@ -1,6 +1,5 @@
 package aesia.com.ponents.menus 
 {
-	import aesia.com.ponents.models.DefaultListModel;
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.mon.logs.Log;
@@ -21,11 +20,13 @@ package aesia.com.ponents.menus
 	import aesia.com.ponents.layouts.display.DOHBoxLayout;
 	import aesia.com.ponents.models.ComboBoxModel;
 	import aesia.com.ponents.models.DefaultComboBoxModel;
+	import aesia.com.ponents.models.DefaultListModel;
 	import aesia.com.ponents.skinning.icons.Icon;
 	import aesia.com.ponents.utils.ToolKit;
 
 	import flash.display.DisplayObject;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.geom.Rectangle;
 
 	[Style(name="dropDownIcon",type="aesia.com.ponents.skinning.icons.Icon")]	[Style(name="popupIcon",type="aesia.com.ponents.skinning.icons.Icon")]
@@ -67,7 +68,7 @@ package aesia.com.ponents.menus
 		public function ComboBox ( ... args )
 		{
 			super();
-			_popupMenu = new PopupMenu( );
+			_popupMenu = new PopupMenu();
 			_popupMenu.menuList.itemFormatingFunction = formatLabel;
 			_menuItemClass = _menuItemClass ? _menuItemClass : MenuItem;
 				
@@ -99,6 +100,7 @@ package aesia.com.ponents.menus
 			
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/	
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
+				addEventListener( KeyboardEvent.KEY_UP, listKeyUp );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/		}
 		
 		public function get model () : ComboBoxModel { return _model; }	
@@ -533,6 +535,15 @@ package aesia.com.ponents.menus
 		{
 			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
 		}
+		/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
+		protected function listKeyUp ( event : KeyboardEvent ) : void 
+		{
+			var s : String = String.fromCharCode( event.charCode ).toLowerCase();
+			if( s.match( /[a-zA-Z0-9]/i ) != null )
+				_popupMenu.menuList.listKeyUp( event );
+
+		}
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	}
 }
 

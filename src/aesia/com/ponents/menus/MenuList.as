@@ -1,6 +1,8 @@
 package aesia.com.ponents.menus 
 {
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.Dimension;
+	import aesia.com.ponents.core.Container;
 	import aesia.com.ponents.events.ComponentEvent;
 	import aesia.com.ponents.layouts.components.MenuListLayout;
 	import aesia.com.ponents.lists.List;
@@ -8,6 +10,7 @@ package aesia.com.ponents.menus
 	import aesia.com.ponents.models.ListModel;
 
 	import flash.display.DisplayObject;
+	import flash.events.Event;
 
 	/**
 	 * @author Cédric Néhémie
@@ -190,6 +193,22 @@ package aesia.com.ponents.menus
 			else
 				return super.getItemPreferredSize( i );
 		}
-
+		/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
+		override protected function getSearchValue (v : *) : String 
+		{
+			return (v as MenuItem).label;
+		}
+		override public function removeFromStage (e : Event) : void 
+		{
+			super.removeFromStage( e );
+			if( _searchField )
+				hideSearch();
+		}
+		override protected function hideSearch () : void 
+		{
+			super.hideSearch();
+			selectedValue.click();
+		}
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	}
 }

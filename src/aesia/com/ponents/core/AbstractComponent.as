@@ -1891,8 +1891,12 @@ package aesia.com.ponents.core
 				_focusParent.focusNextChild( this );
 			else
 			{
-				var id : Number = parent.getChildIndex( this );
-				StageUtils.stage.focus = findNextFocusable( id + 1 );
+				if( parent )
+				{
+					var id : Number = parent.getChildIndex( this );
+					StageUtils.stage.focus = findNextFocusable( id + 1 );
+				}
+				else StageUtils.stage.focus = null;
 			}
 		}
 		/**
@@ -1912,8 +1916,12 @@ package aesia.com.ponents.core
 				_focusParent.focusPreviousChild( this );
 			else
 			{
-				var id : Number = parent.getChildIndex( this );
-				StageUtils.stage.focus = findPreviousFocusable( id );
+				if( parent )
+				{
+					var id : Number = parent.getChildIndex( this );
+					StageUtils.stage.focus = findPreviousFocusable( id );
+				}
+				else StageUtils.stage.focus = null;
 			}
 		}
 		/**

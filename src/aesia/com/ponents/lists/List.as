@@ -11,6 +11,7 @@ package aesia.com.ponents.lists
 	import aesia.com.mon.utils.AllocatorInstance;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Keys;
+	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.containers.AbstractScrollContainer;
 	import aesia.com.ponents.containers.DropPanel;
@@ -33,13 +34,17 @@ package aesia.com.ponents.lists
 	import aesia.com.ponents.models.DefaultListModel;
 	import aesia.com.ponents.models.ListModel;
 	import aesia.com.ponents.scrollbars.Scrollable;
+	import aesia.com.ponents.text.TextInput;
 	import aesia.com.ponents.transfer.ComponentsFlavors;
 	import aesia.com.ponents.utils.ScrollUtils;
+	import aesia.com.ponents.utils.ToolKit;
 
 	import flash.display.DisplayObject;
 	import flash.display.InteractiveObject;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.clearInterval;
@@ -149,9 +154,11 @@ package aesia.com.ponents.lists
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( selectNext );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP, KeyStroke.getModifiers( false, true ) ) ] = new ProxyCommand( shiftUp );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN, KeyStroke.getModifiers( false, true ) ) ] = new ProxyCommand( shiftDown );
+				
+				addEventListener( KeyboardEvent.KEY_UP, listKeyUp );
+				_searchString = "";
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
-		
 		public function get listLayout () : OldListLayout { return _childrenLayout as OldListLayout; }
 		public function get modelHasChanged () : Boolean { return _modelHasChanged; }
 
@@ -1013,6 +1020,123 @@ package aesia.com.ponents.lists
 				clearSelection ();
 			}
 		}
+		
+/*-----------------------------------------------------------------
+ *  SEARCH SUPPORT
+ *----------------------------------------------------------------*/		
+		/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
+		protected var _searchString : String;
+		protected var _searchField : TextInput;
+		protected var _safeLoseSelectionOnFocusOut : Boolean;
+		public function listKeyUp (event : KeyboardEvent) : void 
+		{
+			if( !_searchString || _searchString.length == 1 )
+			{
+				var s : String = String.fromCharCode( event.charCode ).toLowerCase();
+				if( s.match( /[a-zA-Z0-9]/i ) != null )
+					showSearch( s );
+			}
+		}
+		protected function search( search : String ) : void
+		{
+			var l : uint = _model.size;
+			var ind : int; 
+			var re : RegExp = new RegExp( search, "i" );
+			for( var i : uint = 0; i<l;i++ )
+			{
+				var v : * = _model.getElementAt(i);
+				var s : String = getSearchValue( v );
+				if( ( ind = s.search( re ) ) != -1 )
+				{
+					if( _allowMultiSelection )
+						selectedIndices = [i];
+					else
+						selectedIndex = i;
+					
+					ensureIndexIsVisible(i);
+					focusSearchInput();
+					return;
+				}
+			}
+			selectedIndex = NaN;
+			focusSearchInput( );
+		}
+		protected function getSearchValue (v : *) : String 
+		{
+			return hasFormatingFunction ? itemFormatingFunction.call( this, v ) : String( v );
+		}
+		public function showSearch( s : String ) : void
+		{
+			_safeLoseSelectionOnFocusOut = _loseSelectionOnFocusOut;
+			loseSelectionOnFocusOut = false;
+			
+			var r : Rectangle = screenVisibleArea;
+			
+			_searchField = AllocatorInstance.get(TextInput);			
+			_searchField.x = r.x;
+			
+			if( r.bottom + _searchField.preferredHeight < StageUtils.stage.stageHeight )
+			{
+				_searchField.x = r.x;
+				_searchField.y = r.bottom;
+			}
+			else
+			{
+				if( r.right + _searchField.preferredWidth < StageUtils.stage.stageWidth )
+				{
+					_searchField.x = r.right;
+					_searchField.y = r.bottom - _searchField.preferredHeight;
+				}
+				else
+				{
+					_searchField.x = r.left - _searchField.preferredWidth;
+					_searchField.y = r.bottom - _searchField.preferredHeight;
+				}
+			}
+			
+			_searchField.textfield.addEventListener( Event.CHANGE, searchInput );			_searchField.addEventListener( ComponentEvent.DATA_CHANGE, searchComfirm );
+			StageUtils.stage.addEventListener( MouseEvent.MOUSE_UP, stageSearchMouseUp );			ToolKit.popupLevel.addChild( _searchField );
+			
+			_searchString = s;
+			_searchField.textfield.text = _searchString;
+			focusSearchInput();
+			search( _searchString );
+		}
+		protected function searchComfirm (event : ComponentEvent) : void 
+		{
+			hideSearch();
+		}
+		protected function stageSearchMouseUp (event : MouseEvent) : void 
+		{
+			if( !this.hitTestPoint( event.stageX, event.stageY ) &&
+				!_searchField.hitTestPoint( event.stageX, event.stageY ) )
+				hideSearch();
+		}
+		
+		protected function searchInput (event : Event) : void 
+		{
+			_searchString = _searchField.textfield.text;
+			search( _searchString );
+		}
+		protected function focusSearchInput() : void
+		{
+			StageUtils.stage.focus = _searchField;
+			_searchField.setSelection(_searchField.textfield.text.length,_searchField.textfield.text.length);
+		}
+		protected function hideSearch() : void
+		{
+			if( _searchField )
+			{
+				ToolKit.popupLevel.removeChild( _searchField );
+				AllocatorInstance.release( _searchField );
+				_searchField.textfield.removeEventListener( Event.CHANGE, searchInput );
+				_searchField.removeEventListener( ComponentEvent.DATA_CHANGE, searchComfirm );
+				StageUtils.stage.removeEventListener( MouseEvent.MOUSE_UP, stageSearchMouseUp );
+				_searchField = null;
+				_searchString = "";
+			}
+		}
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
 /*-----------------------------------------------------------------
  *  DND SUPPORT
