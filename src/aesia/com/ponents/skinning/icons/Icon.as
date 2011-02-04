@@ -67,8 +67,7 @@ package aesia.com.ponents.skinning.icons
 		{
 			invalidatePreferredSizeCache();
 		}
-		public function clone () : * { return new Icon( ); 
-		}
+		public function clone () : * { return new Icon(); }
 		
 		public function toSource () : String
 		{

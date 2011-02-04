@@ -1,6 +1,6 @@
 package aesia.com.ponents.utils 
 {
-	import aesia.com.mon.logs.Log;
+	import aesia.com.mon.geom.dm;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Keys;
 	import aesia.com.mon.utils.StringUtils;
@@ -56,7 +56,7 @@ package aesia.com.ponents.utils
 					for( var i : uint; i < pane.tabBar.childrenCount; i++ )
 						a.push( pane.tabBar.getComponentAt(i).id );
 				
-				s = a.join("|");
+				s = "[" + pane.width + ","+ pane.height + "]" + a.join("|");
 			}
 			return s;
 		}
@@ -90,10 +90,20 @@ package aesia.com.ponents.utils
 			}
 			else
 			{
+				var size : Array;
+				if( ( ind = s.indexOf('[') ) == 0 )
+				{
+					var eind : int = StringUtils.findClosingIndex(s, ind + 1, "[", "]");
+					size = StringUtils.splitBlock( s.substring( ind + 1, eind ) );
+					s = s.substring(eind+1);
+				}
 				var cs : Array = s.split("|");
 				
 				l = cs.length;
 				var container : TabbedPane = new TabbedPane();
+				if( size )
+					container.preferredSize = dm( parseInt(size[0]), parseInt(size[1]) );
+				
 				var leaf : Leaf = new Leaf( container );
 				var tab : Tab;
 				for( i=0;i<l;i++)

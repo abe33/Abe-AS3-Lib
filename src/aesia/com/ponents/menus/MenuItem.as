@@ -49,7 +49,7 @@ package aesia.com.ponents.menus
 												new DOBoxSettings(20,"center"),
 												new DOBoxSettings(0,"left"),
 												new DOBoxSettings(0,"left"),
-												new DOBoxSettings(12,"center") );
+												new DOBoxSettings(20,"left") );
 
 			if( actionOrLabel != null && actionOrLabel is Action  )
 				this.action = actionOrLabel;

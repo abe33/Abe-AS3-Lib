@@ -22,6 +22,10 @@ package aesia.com.ponents.demos
 	import aesia.com.ponents.factory.ApplicationMain;
 	import aesia.com.ponents.factory.ComponentFactoryPreload;
 	import aesia.com.ponents.skinning.icons.magicIconBuild;
+	import aesia.com.ponents.tabs.SimpleTab;
+	import aesia.com.ponents.tools.DebugPanel;
+	import aesia.com.ponents.tools.ServiceTesterPanel;
+	import aesia.com.ponents.utils.ToolKit;
 
 	[SWF(width="800",height="600", backgroundColor="#3a545c")]
 	[Frame(factoryClass="aesia.com.ponents.factory.ComponentFactoryPreload")]
@@ -38,7 +42,7 @@ package aesia.com.ponents.demos
 
 		public function FactoryPlayground ()
 		{
-			super( "Playground", "2.0" );
+			super( "Playground", "2.2" );
 			
 			ActionManagerInstance.registerAction( new ColorPickerAction(), "colorPick" );
 			ActionManagerInstance.registerAction( new GradientPickerAction(), "gradientPick" );
@@ -59,6 +63,10 @@ package aesia.com.ponents.demos
 		}
 		override public function init( preload : ComponentFactoryPreload ) : void
 		{
+			( ToolKit.popupLevel.getChildByName("debugPanel") as DebugPanel ).addTab( new SimpleTab( _("Service"), 
+																					  				 new ServiceTesterPanel(), 
+																					  				 magicIconBuild("icons/tools/server_go.png")));
+			
 			_buildUnits.push( new ButtonDemoDockable( 	"buttons", 	_("Buttons"), 	 magicIconBuild("icons/components/button.png") ) );
 			_buildUnits.push( new TextDemoDockable( 	"text", 	_("Text"), 		 magicIconBuild("icons/components/textfield.png") ) );
 			_buildUnits.push( new SpinnerDemoDockable( 	"spinners", _("Spinners"), 	 magicIconBuild("icons/components/spinner.png") ) );

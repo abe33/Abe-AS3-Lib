@@ -1,7 +1,9 @@
 package aesia.com.ponents.tools.widgets 
 {
+	import flash.events.ContextMenuEvent;
 	import aesia.com.edia.camera.CameraEvent;
 	import aesia.com.edia.camera.CameraLayer;
+	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.core.AbstractContainer;
 	import aesia.com.ponents.core.SimpleDOContainer;
 	import aesia.com.ponents.events.ComponentEvent;
@@ -102,7 +104,9 @@ package aesia.com.ponents.tools.widgets
 			_canvasMiniView.styleKey = "CanvasViewWidget_SnapShot";
 			var cl : DOCanvasViewLayout = new DOCanvasViewLayout(null);
 			_canvasMiniView.childrenLayout = cl;
+			
 			setupMiniView( _canvasMiniView );
+			
 			_canvasMiniView.addComponentChild( _canvasBitmap );			_canvasMiniView.addComponentChild( _canvasCameraScreen );
 			
 			cl.snapshot = _canvasBitmap;
@@ -117,6 +121,12 @@ package aesia.com.ponents.tools.widgets
 		{
 			o.cursor = Cursor.get( MouseCursor.HAND );
 			o.addEventListener( MouseEvent.MOUSE_DOWN, mvMouseDown );			o.addEventListener( MouseEvent.MOUSE_UP, mvMouseUp );			o.addEventListener( ComponentEvent.RELEASE_OUTSIDE, mvMouseUp );			o.addEventListener( MouseEvent.MOUSE_MOVE, mvMouseMove );
+			
+			o.addNewContextMenuItemForGroup( _("Zoom 1:1"), "realSize", realSizeCallback, "zoom", 0 );
+		}
+		protected function realSizeCallback ( e : ContextMenuEvent ) : void 
+		{
+			_canvas.camera.zoom = 1;
 		}
 		protected function mvMouseMove (event : MouseEvent) : void 
 		{

@@ -1,6 +1,5 @@
 package aesia.com.ponents.menus 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.ponents.actions.Action;
 	import aesia.com.ponents.events.PopupEvent;
@@ -50,12 +49,19 @@ package aesia.com.ponents.menus
 			_subItems.push( m );
 			if( _subItems.length == 1 && _showSubMenuIcon )
 			{
-				_childrenContainer.addChild( _subMenuIcon );
+				addComponentChild( _subMenuIcon );
 				( _childrenLayout as DOHBoxLayout ).setObjectForBox( _subMenuIcon, 3 );
 			}
+			//_size = null; 
 			invalidatePreferredSizeCache();
+			/*
+			if( _popupMenu )
+			{
+				_popupMenu.menuList.size = null;
+				_popupMenu.size = null;
+				_popupMenu.menuList.invalidatePreferredSizeCache();				_popupMenu.invalidatePreferredSizeCache();
+			}*/
 		}
-
 		public function addMenuItems ( ... args ) : void
 		{
 			for each ( var m : MenuItem in args )
@@ -90,7 +96,6 @@ package aesia.com.ponents.menus
 			}
 			invalidatePreferredSizeCache();
 		}
-
 		override public function set itemSelected (b : Boolean) : void
 		{
 			if( b == _selected )

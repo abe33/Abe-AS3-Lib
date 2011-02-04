@@ -1,5 +1,6 @@
 package aesia.com.ponents.factory 
 {
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.patibility.lang._;
@@ -201,12 +202,19 @@ package aesia.com.ponents.factory
 		}
 		protected function multiSplitWeightChange (event : SplitPaneEvent) : void 
 		{
-			//var dmsp : DockableMultiSplitPane = event.target as DockableMultiSplitPane;
-			//var s : String = ApplicationUtils.serializeDMSP( dmsp.multiSplitLayout.modelRoot );
+			var dmsp : DockableMultiSplitPane = event.target as DockableMultiSplitPane;
+			var s : String = ApplicationUtils.serializeDMSP( dmsp.multiSplitLayout.modelRoot );
+			SettingsManagerInstance.set( this, "mainLayout", s );
 		}
 		protected function multiSplitOptimize ( event : SplitPaneEvent ) : void 
 		{
 			var dmsp : DockableMultiSplitPane = event.target.container as DockableMultiSplitPane;
+			dmsp.addEventListener( ComponentEvent.REPAINT, multiSplitRepaint );
+		}
+		protected function multiSplitRepaint (event : ComponentEvent) : void 
+		{
+			var dmsp : DockableMultiSplitPane = event.target as DockableMultiSplitPane;
+			dmsp.removeEventListener( ComponentEvent.REPAINT, multiSplitRepaint );
 			var n : Node = dmsp.multiSplitLayout.modelRoot;
 			var s : String = ApplicationUtils.serializeDMSP(n);
 			SettingsManagerInstance.set( this, "mainLayout", s );
