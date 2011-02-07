@@ -7,15 +7,17 @@ package aesia.com.ponents.buttons
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;
 	import aesia.com.mon.core.LayeredSprite;
+	import aesia.com.ponents.actions.BooleanAction;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.focus.Focusable;
 	import aesia.com.ponents.events.ActionEvent;
 	import aesia.com.ponents.events.ComponentEvent;
+	import aesia.com.ponents.events.PropertyEvent;
 	import aesia.com.ponents.skinning.icons.Icon;
 
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
-	
+
 	/**
 	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
 	 * 
@@ -54,6 +56,11 @@ package aesia.com.ponents.buttons
 		public function ToggleButton ( actionOrLabel : * = null, icon : Icon = null  )
 		{
 			super( actionOrLabel, icon );
+			
+			if( actionOrLabel is BooleanAction )
+				selected = (actionOrLabel as BooleanAction).value;
+			else
+				selected = false;
 		}
 		/**
 		 * <p>
@@ -64,7 +71,10 @@ package aesia.com.ponents.buttons
 		 */
 		override public function click ( e : Event = null ) : void
 		{
-			swapSelect(!selected);
+			if( _action && _action is BooleanAction )
+				_action.execute(e);
+			else
+				swapSelect(!selected);
 		}
 		/**
 		 * Définie la nouvelle valeur pour l'état <code>selected</code>
@@ -89,6 +99,16 @@ package aesia.com.ponents.buttons
 		protected function fireDataChange () : void 
 		{
 			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+		}
+		/**
+		 * 
+		 */
+		override protected function actionPropertyChanged (event : PropertyEvent) : void 
+		{
+			if( event.propertyName == "value" )
+				selected = event.propertyValue;
+			else
+				super.actionPropertyChanged( event );
 		}
 	}
 }

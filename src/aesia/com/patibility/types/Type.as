@@ -77,7 +77,6 @@ package aesia.com.patibility.types
 		public function writeExternal (output : IDataOutput) : void
 		{
 			output.writeUTF( _type );			output.writeUTF( _parentType );			output.writeObject( _struct );			output.writeObject( _formStruct );
-			Log.debug( _help );
 			output.writeUTF( _help ? _help : "help" );
 		}
 		public function readExternal (input : IDataInput) : void

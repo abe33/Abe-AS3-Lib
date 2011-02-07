@@ -7,6 +7,7 @@ package aesia.com.ponents.buttons
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;
 	import aesia.com.mon.core.LayeredSprite;
+	import aesia.com.ponents.actions.BooleanAction;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.focus.Focusable;
 	import aesia.com.ponents.events.ComponentEvent;
@@ -17,6 +18,7 @@ package aesia.com.ponents.buttons
 	import aesia.com.ponents.skinning.icons.Icon;
 	import aesia.com.ponents.skinning.icons.magicIconBuild;
 	import aesia.com.ponents.utils.Directions;
+
 	import flash.display.DisplayObject;
 	import flash.events.IEventDispatcher;
 
@@ -159,7 +161,8 @@ package aesia.com.ponents.buttons
 			( _childrenLayout as DOInlineLayout ).direction = Directions.RIGHT_TO_LEFT;
 			( _childrenLayout as DOInlineLayout ).spacing = 3;
 			
-			selected = false;
+			updateTickIcon();
+			invalidatePreferredSizeCache( );
 		}
 		/**
 		 * Une valeur booléenne indiquant si cette <code>CheckBox</code> est
@@ -180,7 +183,7 @@ package aesia.com.ponents.buttons
 		override public function set selected (b : Boolean) : void
 		{
 			super.selected = b;
-			tickIcon = _selected ? _checkedIcon : _uncheckedIcon;
+			updateTickIcon();
 		}
 		/**
 		 * Une référence vers l'objet <code>Icon</code> utilisé pour
@@ -214,6 +217,11 @@ package aesia.com.ponents.buttons
 					addComponentChildAt( _tickIcon, _tickIconIndex );
 			}
 			invalidatePreferredSizeCache();
+		}
+		
+		protected function updateTickIcon () : void 
+		{
+			tickIcon = _selected ? _checkedIcon : _uncheckedIcon;
 		}
 		/**
 		 * @inheritDoc

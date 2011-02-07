@@ -458,14 +458,14 @@ package aesia.com.ponents.menus
 				}
 				
 				ToolKit.popupLevel.addChild( _popupMenu );				
-				StageUtils.stage.focus = _popupMenu;
+				StageUtils.stage.focus = _popupMenu.menuList;
 				fitPopupToCombo();
 			}	
 		}
 		override public function removeFromStage (e : Event) : void 
 		{
 			super.removeFromStage( e );
-			if( _popupMenu && _popupMenu.displayed )
+			if( displayed && _popupMenu && _popupMenu.displayed )
 				_popupMenu.hide(false);
 		}
 		protected function selectionChanged (event : ComponentEvent) : void

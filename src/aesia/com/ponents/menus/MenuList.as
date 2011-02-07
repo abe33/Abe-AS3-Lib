@@ -200,9 +200,12 @@ package aesia.com.ponents.menus
 		}
 		override public function removeFromStage (e : Event) : void 
 		{
-			super.removeFromStage( e );
-			if( _searchField )
-				hideSearch();
+			if( displayed )
+			{
+				super.removeFromStage( e );
+				if( _searchField )
+					hideSearch();
+			}
 		}
 		override protected function hideSearch () : void 
 		{
