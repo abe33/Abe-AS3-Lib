@@ -121,24 +121,26 @@ package aesia.com.patibility.types
 				_struct[i] = v;
 				_members.push(i);
 			}
-			
 			for( i in _formStruct )
 			{
 				v = _formStruct[i];
 				ind = v.indexOf("(");
-				if( ind != -1 )
+				if( !_formStructDatas.hasOwnProperty( i ) )
 				{
-					d = v.substring( ind+1, StringUtils.findClosingIndex( v, ind+1, "(", ")") );
-					v = v.substr(0, ind);
-					if( d.indexOf(",") != -1 )
-						_formStructDatas[i] = d.split(",");
+					if( ind != -1 )
+					{
+						d = v.substring( ind+1, StringUtils.findClosingIndex( v, ind+1, "(", ")") );
+						v = v.substr(0, ind);
+						if( d.indexOf(",") != -1 )
+							_formStructDatas[i] = d.split(",");
+						else
+							_formStructDatas[i] = [d];
+					}
 					else
-						_formStructDatas[i] = [d];
+						_formStructDatas[i] = null;
+
+					_formStruct[i] = v;
 				}
-				else
-					_formStructDatas[i] = null;
-						
-				_formStruct[i] = v;
 			}
 			_members.sort();				
 			if( !TypeManager.hasType( type ) )
