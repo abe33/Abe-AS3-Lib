@@ -3,10 +3,6 @@
  */
 package aesia.com.ponents.text
 {
-	import aesia.com.mon.logs.Log;
-
-	import flash.events.TextEvent;
-
 	import aesia.com.mon.core.IDisplayObject;
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;
@@ -37,6 +33,7 @@ package aesia.com.ponents.text
 	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.IEventDispatcher;
+	import flash.events.TextEvent;
 	import flash.geom.Rectangle;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
@@ -599,7 +596,7 @@ package aesia.com.ponents.text
 		 *----------------------------------------------------------------*/
 		/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
 		protected var _spellChecker : SpellChecker;
-		protected var _spellCheckerId : String;
+		protected var _spellCheckerRules : String;		protected var _spellCheckerDict : String;
 		protected var _spellCheckEnabled : Boolean;
 		
 		/*FDT_IGNORE*/
@@ -620,15 +617,13 @@ package aesia.com.ponents.text
 		{
 			_spellCheckEnabled = spellCheckEnabled;
 		}
-		public function get spellCheckerId () : String 
-		{ 
-			return _spellCheckerId; 
-		}
-		public function set spellCheckerId (spellCheckerId : String) : void
+		
+		public function setSpellCheckerDictionnary ( spellCheckerRules : String, spellCheckerDict : String ) : void
 		{
-			_spellCheckerId = spellCheckerId;
-			SpellCheckManagerInstance.loadDictionary( _spellCheckerId, spellCheckLoadingCallback );
+			_spellCheckerRules = spellCheckerRules;			_spellCheckerDict = spellCheckerDict;
+			SpellCheckManagerInstance.loadDictionary( _spellCheckerRules, _spellCheckerDict, spellCheckLoadingCallback );
 		}
+		
 		public function get spellChecker () : SpellChecker 
 		{ 
 			return _spellChecker; 

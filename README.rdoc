@@ -6,7 +6,15 @@ distinct parts :
 * The aesia.com.mon and aesia.com.patibility packages contains all the general utilities, interfaces and classes used by the rest of the library. In aesia.com.patibility you can find all the codecs and the gettext implementation used by the rest of the library.
 * The aesia.com.mands and the aesia.com.munication packages contains all the command pattern's implementations and some concret implementations of commands dealing with server call and web services.
 * The aesia.com.motion and the aesia.com.media packages contains the classes in charge of making things move.
-* The aesia.com.ponents package contains the complete sets of components I created, with their own interfaces, classes and utilities. 
+* The aesia.com.ponents package contains the complete sets of components I created, with their own interfaces, classes and utilities.
+
+== Library dependencies
+
+The Aesia library components set have one dependence regarding the spell checking, and since conditionnal compilation can't be used with import statements, event if you don't use the spelling features you should link to the Adobe Spelling SDK when compiling.
+
+The only *.swc required from the Adobe Spelling SDK is the AdobeSpellingEngine.swc file.
+
+The Adobe Spelling SDK can be found at http://labs.adobe.com/downloads/squiggly.html
 
 == About the conditionnal compilation
 
@@ -15,23 +23,178 @@ conditionnal compilation is used to differenciate builds and to include or exclu
 from the components.
 
 The list and description of all the conditionnal compilation constant are available in the documentation annexes. See also the patch-flex-config.xml for a standard configuration.
-	
+
 == About the custom metadata tags
 
 The Aesia library use four custom metadatas tags : 
 
-* Skin
-* SKinable
-* Form
-* FormList
+* +Skin+
+* +SKinable+
+* +Form+
+* +FormList+
+* +SettingsBackend+
 
-Those tags are mainly used by the components. The two first tags, Skin and Skinable, are
-used to declare and link styles to components. The two last tags, Form and FormList, are
+Those tags are mainly used by the components. The two first tags, +Skin+ and +Skinable+, are
+used to declare and link styles to components. The following two tags, +Form+ and +FormList+, are
 used to generate forms from objects by using the informations provided by these tags.
+The last one, +SettingsBackend+ is used in combination with the +ComponentFactoryPreload+ to specify
+the concret backend to use to handle the application settings management.
 
 The list and description of all the custom metadata tags are available in the documentation annexes.
 See also the patch-flex-config.xml for a standard configuration.
 
-== About the documentation
+== About the class documentation
 
-The documentation is currently written in French, I actually look for a way to translate the whole translation without having to change all the source code documentation.
+The class documentation is currently written in French, I actually look for a way to translate the whole translation without having to change all the source code documentation but it doesn't seems as easy as it's sounds.
+
+== Getting started with the components set
+
+The components set is widely inspired by the Swing components from java but with some noticeable differences due to the specifity of the graphical layer of the Flash Player and the differences in both API.
+
+=== What's similar ?
+
+* Components layout is performed on the same basis as in Swing. A layout object is responsible in computing the preferred size of the component and layout its content during the repaint process.
+* The components repaint is performed using the same kind of centralized validation. Each invalidated components is registered in a +RepaintManager+ that check the graphical structure to find the real validation root.
+* Many components reuse the same kind of model object as in their Swing equivalent.
+* Many interactive components such as +Button+, +MenuItem+, +ListItem+ support the Action pattern as in Swing. 
+* The handling of keyboards shortcuts and accelerators is pretty much the same as in Swing, with the presence of a +KeyStroke+ object which represent a combination of keys. To ensure that a +KeyStroke+ for a combination is unique the +KeyStroke+ class provide a static method to retreive the unique instance of +KeyStroke+ for this combination.
+* The Drag and Drop operations use the same kind of +Transferable+ and +DataFlavor+ patterns than Swing. Furthermore, the interfaces for +DragSource+ and +DropTarget+ are pretty identical to the Swing ones.
+
+=== What's different ?
+
+* The whole styling and skinning API is completely different than the Swing one. In the Aesia lib, component's skin can be declared as metatag directly in the component class or directly by in code, as instance of the +ComponentStyle+ class. Furthermore, each component's style is part of a styles tree that support style inheritance in a CSS like approach. For exemple, all the defaults component's styles inherit from the +DefaultComponent+ style declared in the skin manager. Additionnaly, component's styles can be modified on a per component basis (as with the style attributes in CSS) by using the style property of any component.
+* The process of painting a component is also completely different. In the Aesia components, each component had three internal Sprites that represent respectively: the background decoration, the children container, the foreground decoration. A +ComponentStyle+ instance compose two objects responsible of the component's decoration repaint, those objects must implements the +ComponentDecoration+ interface. Each component's decoration object is like a graphical processor responsible for drawing into the corresponding Sprite the graphics for a component. These graphics can be vector based or bitmap based, it doesn't matter.
+* The components and their layouts doesn't support neither minimal size nor maximal size, since it supposed an overload in the layout process for only two or three components that really need it.
+* There's nothing like the lighweight and heavyweight distinction between components. All the components are heavyweight components (that means all components are repainted only once per frame).
+ 
+=== A simple example
+
+Below is a little snippet I use as base in most of my projects.
+
+	package  
+	{
+		import aesia.com.mon.logs.Log;
+		import aesia.com.mon.utils.StageUtils;
+		
+		import aesia.com.ponents.tools.DebugPanel;
+		import aesia.com.ponents.utils.KeyboardControllerInstance;
+		import aesia.com.ponents.utils.ToolKit;
+		
+		import flash.display.Sprite;
+		import flash.system.Capabilities;
+		
+		public class MyClass extends Sprite 
+		{
+			public function MyClass ()
+			{
+				// Register the root of the application to get a global access from anywhere
+				StageUtils.setup(this);
+				// Make the stage resizable and aligned on the top left corner
+				StageUtils.flexibleStage();
+				// Initialize levels related to the components, such as popup level, tooltip level, etc...
+				ToolKit.initializeToolKit();
+				// Register the object that will provide keyboard events to the whole components set.
+				KeyboardControllerInstance.eventProvider = stage;
+			
+				// Create the basic debugging tools, which contains the log view and the memory and framerate monitors
+				var debugPanel : DebugPanel = new DebugPanel();
+				ToolKit.popupLevel.addChild( debugPanel );
+				
+				// By default the DebugPanel is visible, to hide it at start just uncomment the following line
+				// debugPanel.visible = false;
+						
+				try
+				{
+					// Your code here
+				}
+				catch( e : Error ) 
+				{
+					Log.error( Capabilities.isDebugger ? e.getStackTrace() : e.message );
+				}
+			}
+		}
+	}
+
+=== The example in detail
+
+	StageUtils.setup(this);
+
+The +StageUtils+ class is a core utility class which provide, when initialized properly, a global access to the stage. In addition to the global access to the stage, the +StageUtils+ class provides some static methods to setup the stage with some presets. The +setup+ method take the root as argument. The root can be retreived as well from the +StageUtils+ class.
+
+	ToolKit.initializeToolKit();
+
+The +ToolKit+ class is a component dedicated utility class. Its first role is to setup the stage in order to the component set to work properly. In detail, the <tt>ToolKit.initializeToolKit</tt> method will do the following : 
+* Creating six sprites and place them as children of the display list root. These sprites are : 
+  1. +mainLevel+ : This is where you should add your application content. Its the lowest layer of the toolkit.
+  2. +popupLevel+ : This is where the +PopupUtils+ class will add the +Dialog+ or +Window+ when added to the display list. It ensure that all the popups and windows are displayed above the application content.
+  3. +dndLevel+ : This is where the Drag and Drop renderers will display the drag process.
+  4. +toolLevel+ : You can use this level to display some stuff that should be displayed above the content and popups but below the cursors and the tooltips (such as the selection rectangle of a select tool).
+  5. +tooltipLevel+ : This is where the +ToolTip+ instance reside.
+  6. +cursorLevel+ : This is where the custom cursors display object are added.
+* Initialize the +Cursor+ class with the corresponding level if the compilation constant <tt>FEATURES::CURSOR</tt> is enabled.
+
+You'll encounter errors with some components if you try to instanciate them before the toolkit initialization.
+
+	KeyboardControllerInstance.eventProvider = stage;
+
+The +KeyboardControllerInstance+ is a package level instance of the +KeyboardController+ class. That instance serves two purpose : 
+1. Catch keyboard events from its +eventProvider+ and trigger the corresponding command when the keys combination is found in the current keyboard context.
+2. Catch the focus events within the whole application in order to build the keyboard context. This context is a +Dictionary+ with +KeyStroke+ objects as keys and +Command+ objects as values. The context is created by going through the display list from the current focused object until the root. For each level that is a component, the context is filled with the component keyboard context according to the component context rules (see the <tt>AbstractContainer.childrenContextEnabled</tt> documentation).
+
+As for the +ToolKit+ it's recommended to initialize the +KeyboardControllerInstance+ before creating any components.
+
+	var debugPanel : DebugPanel = new DebugPanel();
+
+This code will create the basic tools we need to work properly. The +DebugPanel+ class is itself a component. It's basically a +TabbedPane+ with two tabs, one for the logging tools and one for the monitoring tools.
+
+At that time, a whole part of the components core objects is initialized (in fact, most of the components core elements works on a lazy init basis) such as the +RepaintManager+ and the +SkinManager+.
+
+=== Compiling the example
+
+As pointed in the section about conditionnal compilation, there'll be a minimal setup to do in order to compile this example properly. 
+There's two approach : 
+1. Using the <tt>-define+=NAMESPACE::CONSTANT,value</tt> compiler option.
+2. Using a custom <tt>flex-config.xml</tt> file and the <tt>-load-config=FILE</tt> compiler option.
+
+The first one is more convenient when you have a really specific features configuration for your file, the second is more convenient in the daily work. My way of doing it is to create a bunch of predefined flex config file for some general configuration (debug, release, with server, etc...), and use the first approach if I need to change some settings towards the default ones.
+
+Let's take a look to the first one. Below, an example of a compilation command line with all the conditionnal compilation constants defined as command line arguments : 
+
+	mxmlc -source-path+=PATH_TO_THE_AESIA_LIB \
+	      -library-path+=PATH_TO_THE_SQUIGGLY_SWC \
+	      \
+	      -define+=CONFIG::DEBUG,true \
+	      -define+=CONFIG::RELEASE,false \
+	      -define+=CONFIG::WITH_DISTANT_SERVER,false \
+	      -define+=CONFIG::WITH_LOCAL_SERVER,false \
+	      -define+=CONFIG::WITHOUT_SERVER,true \
+	      \
+	      -define+=TARGET::WEB,true \
+	      -define+=TARGET::AIR,false \
+	      -define+=TARGET::FLASH_10_1,true \
+	      -define+=TARGET::FLASH_10,false \
+	      -define+=TARGET::FLASH_9,false \
+	      \
+	      -define+=FEATURES::SPELLING,true \
+	      -define+=FEATURES::AUTOCOMPLETION,true \
+	      -define+=FEATURES::CURSOR,true \
+	      -define+=FEATURES::DND,true \
+	      -define+=FEATURES::TOOLTIP,true \
+	      -define+=FEATURES::MENU_CONTEXT,true \
+	      -define+=FEATURES::KEYBOARD_CONTEXT,true \
+	      -define+=FEATURES::SETTINGS_MEMORY,true \
+	      -define+=FEATURES::BUILDER,false \
+	      \
+	      -output=MyClass.swf \
+	      -- MyClass.as
+
+Then, if you launch the compiled *.swf file in the Flash Player you can have a taste of the whole components set since many basic components are used to create the +DebugPanel+. 
+
+
+
+
+
+
+
+
+

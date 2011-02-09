@@ -2,12 +2,11 @@ package aesia.com.ponents.text
 {
 	import aesia.com.mon.geom.Range;
 
+	import com.adobe.linguistics.spelling.HunspellDictionary;
 	import com.adobe.linguistics.spelling.SpellChecker;
-	import com.adobe.linguistics.spelling.SpellingDictionary;
 
 	import flash.events.Event;
 	import flash.net.URLRequest;
-
 	public class SpellCheckManager 
 	{
 		protected var _spellCheckers : Object;
@@ -21,45 +20,44 @@ package aesia.com.ponents.text
 			_callbacks = {};
 		}
 
-		public function loadDictionary ( url : String, callback : Function = null ) : void
+		public function loadDictionary ( rules : String, dict : String, callback : Function = null ) : void
 		{
-			if( _loadingDictionaries[ url ] )
+			if( _loadingDictionaries[ rules ] )
 			{
-				if( _callbacks[ url ] )
+				if( _callbacks[ rules ] )
 				{
-					if( _callbacks[ url ] is Function )
-						_callbacks[ url ] = [ _callbacks[ url ], callback ];
-					else if( _callbacks[ url ] is Array )
-						( _callbacks[ url ] as Array ).push( callback );
+					if( _callbacks[ rules ] is Function )
+						_callbacks[ rules ] = [ _callbacks[ rules ], callback ];
+					else if( _callbacks[ rules ] is Array )
+						( _callbacks[ rules ] as Array ).push( callback );
 				}
 				else
-					_callbacks[ url ] = callback;
+					_callbacks[ rules ] = callback;
 			}
-			else if( _spellCheckers[ url ] )
+			else if( _spellCheckers[ rules ] )
 			{
-				callback( _spellCheckers[ url ] );
+				callback( _spellCheckers[ rules ] );
 			}
 			else
 			{
-				var dic : SpellingDictionary = new SpellingDictionary();
-				_loadingDictionaries[ url ] = dic;
-				_callbacks[ url ] = callback;
+				var dic : HunspellDictionary = new HunspellDictionary();
+				_loadingDictionaries[ rules ] = dic;
+				_callbacks[ rules ] = callback;
 				
 				dic.addEventListener( Event.COMPLETE, handleLoadComplete );			
-				dic.load( new URLRequest( url ) );			
+				dic.load( rules, dict );			
 			}
 		}
 		protected function handleLoadComplete(e:Event):void
         {
-        	var dic : SpellingDictionary = e.target as SpellingDictionary;
+        	var dic : HunspellDictionary = e.target as HunspellDictionary;
         	
         	var index : String = indexOf( dic );
         	
         	if( index )
         		delete _loadingDictionaries[ index ];
         
-        	var checker : SpellChecker = new SpellChecker();
-			checker.addDictionary( dic );
+        	var checker : SpellChecker = new SpellChecker( dic );
         	
 			_spellCheckers[ index ] = checker;
 			var callback : * = _callbacks[ index ];
@@ -120,7 +118,7 @@ package aesia.com.ponents.text
             return v;
         }
 
-        protected function indexOf( dic : SpellingDictionary ) : String
+        protected function indexOf( dic : HunspellDictionary ) : String
         {
         	for(var i : String in _loadingDictionaries )
         	{

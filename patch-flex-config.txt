@@ -1,0 +1,157 @@
+____________________________________________________________________________________________________________	
+  
+  Insert at the top of the <compiler> tag
+____________________________________________________________________________________________________________
+
+ <!-- Specify some defaults constants for general purpose usage -->
+   	  <define>
+   	  	<name>CONFIG::RELEASE</name>
+   	  	<value>false</value>
+   	  </define>
+
+   	  <define>
+   	  	<name>CONFIG::DEBUG</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+   	  <define>
+   	  	<name>CONFIG::WITH_LOCAL_SERVER</name>
+   	  	<value>false</value>
+   	  </define>
+   	  <define>
+   	  	<name>CONFIG::WITH_DISTANT_SERVER</name>
+   	  	<value>false</value>
+   	  </define>
+   	  <define>
+   	  	<name>CONFIG::WITHOUT_SERVER</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+ <!-- Specify some constants for version target compilation -->  
+   	  
+   	  <define>
+   	  	<name>TARGET::AIR</name>
+   	  	<value>false</value>
+   	  </define>
+
+   	  <define>
+   	  	<name>TARGET::WEB</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+   	  <define>
+   	  	<name>TARGET::FLASH_10_1</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+   	  <define>
+   	  	<name>TARGET::FLASH_10</name>
+   	  	<value>false</value>
+   	  </define>
+   	  
+   	  <define>
+   	  	<name>TARGET::FLASH_9</name>
+   	  	<value>false</value>
+   	  </define>
+   	  
+   	  <!--
+   	  	The following constant is used to setup the ComponentFactoryPreload.
+   	  	The name of the class set as value for this constant is the path
+   	  	to the class you want as the main class when using this custom preloader
+   	  
+   	  <define>
+   	  	<name>CONFIG::MAIN_CLASS</name>
+   	  	<value>'path.to.the.package::NameOfTheClass'</value>
+   	  </define>
+   	  -->
+   	  
+   	  <!--**********************************************************************
+   	  		COMPONENTS FEATURES OPTIONS
+   	  		
+   	  		You can remove some features in the component set using the options below
+   	  		The purpose of these options is to allow the component's user to remove all
+   	  		unnecessary feature in order to have a lighter swf file size.		
+   	  		
+   	      **********************************************************************-->
+   	  
+   	  <!-- If true the text components has native Squiggly integration -->
+   	  <define>
+   	  	<name>FEATURES::SPELLING</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+   	   <!-- If true the text components' autocompletion feature is implemented -->
+   	  <define>
+   	  	<name>FEATURES::AUTOCOMPLETION</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+   	  <!-- If true the component's cursor feature is implemented -->
+   	  <define>
+   	  	<name>FEATURES::CURSOR</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+   	  <!-- If true the component's drag and drop feature is implemented -->
+   	  <define>
+   	  	<name>FEATURES::DND</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+   	  <!-- If true the component's tooltip feature is implemented -->
+
+   	  <define>
+   	  	<name>FEATURES::TOOLTIP</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+   	  <!-- If true the component's menu context feature is implemented -->
+   	  <define>
+   	  	<name>FEATURES::MENU_CONTEXT</name>
+   	  	<value>true</value>
+   	  </define>
+   	  
+   	  <!-- If true the component's keyboard context feature is implemented -->
+   	  <define>
+   	  	<name>FEATURES::KEYBOARD_CONTEXT</name>
+   	  	<value>true</value>
+   	  </define>   	
+   	 
+   	  <!-- If true the component's settings memory feature is implemented -->
+   	  <define>
+   	  	<name>FEATURES::SETTINGS_MEMORY</name>
+   	  	<value>true</value>
+   	  </define> 
+   	  
+   	   <!-- If true the component's builder features are implemented.
+   	   Many components provide a class method that returns an instance of the
+   	   component to use as demonstration in the style editor when compiled using the
+   	   builder feature. -->
+   	  <define>
+   	  	<name>FEATURES::BUILDER</name>
+   	  	<value>false</value>
+   	  </define>  
+
+____________________________________________________________________________________________________________	
+  
+ Insert in the <keep-as3-metadata> tag
+____________________________________________________________________________________________________________  
+		
+		<!--
+			Used to build the components styles and link them to their styles
+		-->
+		  <name>Skin</name>
+          <name>Skinable</name>
+        
+        <!--
+        	Used by the form generation utility
+		--> 
+		  <name>Form</name>
+          <name>FormList</name>
+         
+       <!--
+        	Used by the ComponentFactoryPreload class
+		--> 
+		<name>SettingsBackend</name>
+          
+	  
