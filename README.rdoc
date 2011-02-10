@@ -147,8 +147,6 @@ As for the +ToolKit+ it's recommended to initialize the +KeyboardControllerInsta
 
 This code will create the basic tools we need to work properly. The +DebugPanel+ class is itself a component. It's basically a +TabbedPane+ with two tabs, one for the logging tools and one for the monitoring tools.
 
-At that time, a whole part of the components core objects is initialized (in fact, most of the components core elements works on a lazy init basis) such as the +RepaintManager+ and the +SkinManager+.
-
 === Compiling the example
 
 As pointed in the section about conditionnal compilation, there'll be a minimal setup to do in order to compile this example properly. 

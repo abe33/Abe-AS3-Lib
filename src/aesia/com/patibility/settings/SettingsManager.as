@@ -11,9 +11,7 @@ package aesia.com.patibility.settings
 	{
 		protected var _backend : SettingsBackend;
 
-		public function SettingsManager () 
-		{
-		}
+		public function SettingsManager () {}
 		
 		public function get ( o : *, p : String, defaults : * = null ) : *
 		{
@@ -21,7 +19,7 @@ package aesia.com.patibility.settings
 			if( _backend )
 				res = _backend.get(o, p);
 			
-			return  res ? res : defaults;
+			return  res != null ? res : defaults;
 		}
 		public function set ( o : *, p : String, value : * ) : Boolean
 		{
@@ -30,7 +28,7 @@ package aesia.com.patibility.settings
 			else
 				return false;
 		}
-		
+		public function get settingsList () : Array { return _backend.settingsList; }
 		public function get backend () : SettingsBackend { return _backend; }
 		public function set backend (backend : SettingsBackend) : void
 		{

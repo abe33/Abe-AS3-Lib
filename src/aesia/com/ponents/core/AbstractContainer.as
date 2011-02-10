@@ -815,28 +815,47 @@ package aesia.com.ponents.core
 			}
 
 			var index : Number = _children.indexOf( child );
-			if( index+1 < _children.length )
+			
+			if( b )
 			{
-				c = _children[ index + 1 ];
-				c.grabFocus();
-
-				ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
-
-				if( c is Editable && b )
-					(c as Editable).startEdit();
-			}
-			else if( b || _allowFocusLoop )
-			{
-				c = _children[ 0 ];
-				c.grabFocus();
-
-				ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
-
-				if( c is Editable )
-					(c as Editable).startEdit();
+				var foundNextEditable : Boolean = false;
+				
+				while( !foundNextEditable)
+				{
+					if( index >= _children.length )
+						index = 0;
+					
+					c = _children[ index + 1 ];
+					ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
+					
+					if( c is Editable && ( c as Editable ).allowEdit )
+					{
+						(c as Editable).startEdit();
+						foundNextEditable = true;
+					}
+					index++;
+				}
 			}
 			else
-				focusNext();
+			{
+				if( index+1 < _children.length )
+				{
+					c = _children[ index + 1 ];
+					c.grabFocus();
+	
+					ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
+				}
+				else if( _allowFocusLoop )
+				{
+					c = _children[ 0 ];
+					c.grabFocus();
+	
+					ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
+				}
+				else
+					focusNext();
+			}
+			
 		}
 		/**
 		 * Place le focus clavier sur le précédent objet <code>Focusable</code>
@@ -861,32 +880,48 @@ package aesia.com.ponents.core
 			}
 
 			var index : Number = _children.indexOf( child );
-
 			if( index == -1 )
-				index = _children.length;
-
-			if( index > 0 )
+				index = _children.length-1;
+						
+			if( b )
 			{
-				c = _children[ index - 1 ];
-				c.grabFocus();
-
-				ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
-
-				if( c is Editable && b )
-					(c as Editable).startEdit();
-			}
-			else if( b || _allowFocusLoop )
-			{
-				c = _children[ _children.length - 1 ];
-				c.grabFocus();
-
-				ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
-
-				if( c is Editable )
-					(c as Editable).startEdit();
+				var foundPreviousEditable : Boolean = false;
+				
+				while( !foundPreviousEditable)
+				{
+					if( index < 0 )
+						index = _children.length - 1;
+					
+					c = _children[ index ];
+					ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
+					
+					if( c is Editable && ( c as Editable ).allowEdit )
+					{
+						(c as Editable).startEdit();
+						foundPreviousEditable = true;
+					}
+					index--;
+				}
 			}
 			else
-				focusPrevious();
+			{
+				if( index > 0 )
+				{
+					c = _children[ index - 1 ];
+					c.grabFocus();
+	
+					ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
+				}
+				else if( b || _allowFocusLoop )
+				{
+					c = _children[ _children.length - 1 ];
+					c.grabFocus();
+	
+					ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
+				}
+				else
+					focusPrevious();
+			}
 		}
 /*-----------------------------------------------------------------
  * 	EVENT HANDLERS OVERRIDE

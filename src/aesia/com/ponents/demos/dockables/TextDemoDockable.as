@@ -62,13 +62,50 @@ package aesia.com.ponents.demos.dockables
 						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "leftToRight" ) },
 						null
 			);
+			buildBatch( factory, TextArea, 
+						1, 
+						"textAreaSpellingDemo", 
+						null, 
+						[
+							{ 
+								'allowHTML':true,
+								'value':"thiis is a wrongly spelled word in TextArea, use context menu to see suggestions.\n\n\n\n<font size='20'>A big text</font>\n<u>miiispelled</u> waurd.",
+								'setSpellCheckerDictionnary':["en_US.aff", "en_US.dic"],
+								'spellCheckEnabled':true
+							}
+						], 
+						FieldSet, 
+						"textAreaSpellingFieldSet", 
+						[_(" TextArea Spelling")], 
+						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "leftToRight" ) }, 
+						null 
+			);
+			buildBatch( factory, TextInput, 
+						1, 
+						"textInputSpellingDemo", 
+						null, 
+						[
+							{ 
+								'value':"I Can't wriite wel",
+								'setSpellCheckerDictionnary':["en_US.aff", "en_US.dic"],
+								'spellCheckEnabled':true
+							}
+						], 
+						FieldSet, 
+						"textInputSpellingFieldSet", 
+						[_(" TextInput Spelling")], 
+						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "leftToRight" ) }, 
+						null 
+			);
 			
 			fillBatch( factory, ScrollablePanel, 
 			   		   "textDemoPanel",
 			   		    null,
 			   			{ 'childrenLayout':new InlineLayout(null, 3, "left", "top", "topToBottom", true ) },
 			    		[
-			    			"textDemoInputFieldset",			    			"textDemoTextAreaFieldset"
+			    			"textDemoInputFieldset",			    			"textDemoTextAreaFieldset",
+			    			"textAreaSpellingFieldSet",
+			    			"textInputSpellingFieldSet"
 			    		],			    		
 			   			onBuildComplete );
 		}

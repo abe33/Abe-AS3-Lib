@@ -1,5 +1,6 @@
 package aesia.com.ponents.monitors
 {
+	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.mon.core.Suspendable;
 	import aesia.com.motion.Impulse;
 	import aesia.com.motion.ImpulseEvent;
@@ -40,7 +41,11 @@ package aesia.com.ponents.monitors
 
 		protected var _monitor : GraphMonitor;
 		protected var _playing : Boolean;
-
+		
+		/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+		protected var _settingsLoaded : Boolean = false;
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
 		public function GraphMonitorCaption ( monitor : GraphMonitor, captionMode : uint = 0, layoutMode : uint = 0 )
 		{
 			super();
@@ -78,6 +83,11 @@ package aesia.com.ponents.monitors
 
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 				setContextMenuItemCaption( "captionMode", getContextMenuItemCaption (_captionMode) );
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			if( id )
+				SettingsManagerInstance.set( this, "captionMode", _captionMode );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 			invalidatePreferredSizeCache();
@@ -117,9 +127,36 @@ package aesia.com.ponents.monitors
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 				updateLayoutCaptions();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			if( id )
+				SettingsManagerInstance.set( this, "layoutMode", _layoutMode );
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 			invalidatePreferredSizeCache();
 		}
+		/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+		override public function set id (id : String) : void 
+		{
+			super.id = id;
+			if( id && !_settingsLoaded )
+			{
+				captionMode = SettingsManagerInstance.get(this, "captionMode", _captionMode );
+				layoutMode = SettingsManagerInstance.get(this, "layoutMode", _layoutMode );
+				_settingsLoaded = true;
+			}
+		}
+		override public function repaint () : void
+		{
+			if( id && !_settingsLoaded )
+			{
+				captionMode = SettingsManagerInstance.get(this, "captionMode", _captionMode );				layoutMode = SettingsManagerInstance.get(this, "layoutMode", _layoutMode );
+				_settingsLoaded = true;
+				tick(null);
+			}
+			super.repaint();
+		}
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 		protected function getGridLayout ( col : int) : ComponentLayout
 		{

@@ -71,6 +71,12 @@ package aesia.com.ponents.tables
 			_owner.model.setElementAt(index, o );
 			UndoManagerInstance.add( new DefaultTableCellUndoadleEdit( _owner, this, o, _field, oldV, nevv, index ) );
 		}
+		override public function startEdit () : void 
+		{
+			if( _column.editable )
+				super.startEdit();
+		}
+		override public function get allowEdit () : Boolean { return super.allowEdit && _column.editable; }
 	}
 }
 

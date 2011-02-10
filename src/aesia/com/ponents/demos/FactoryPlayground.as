@@ -1,5 +1,6 @@
 package aesia.com.ponents.demos 
 {
+	import aesia.com.ponents.actions.builtin.ShowSettingsBackendAction;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.settings.backends.CookieBackend;
 	import aesia.com.ponents.actions.ActionManagerInstance;
@@ -35,6 +36,7 @@ package aesia.com.ponents.demos
 	 */
 	public class FactoryPlayground extends ApplicationMain 
 	{
+		
 		static private const DEPENDENCIES : Array = [ CookieBackend ];
 		
 		private var dragRenderer : DnDDragObjectRenderer;
@@ -42,8 +44,9 @@ package aesia.com.ponents.demos
 
 		public function FactoryPlayground ()
 		{
-			super( "Playground", "2.2" );
+			super( "Playground", "2.2.1" );
 			
+			ActionManagerInstance.registerAction( new ShowSettingsBackendAction(_("Show Settings") ), "showSettings" );
 			ActionManagerInstance.registerAction( new ColorPickerAction(), "colorPick" );
 			ActionManagerInstance.registerAction( new GradientPickerAction(), "gradientPick" );
 			ActionManagerInstance.registerAction( new AboutAction( _appName, 
@@ -63,9 +66,11 @@ package aesia.com.ponents.demos
 		}
 		override public function init( preload : ComponentFactoryPreload ) : void
 		{
-			( ToolKit.popupLevel.getChildByName("debugPanel") as DebugPanel ).addTab( new SimpleTab( _("Service"), 
-																					  				 new ServiceTesterPanel(), 
-																					  				 magicIconBuild("icons/tools/server_go.png")));
+			var debugPanel : DebugPanel = ToolKit.popupLevel.getChildByName("debugPanel") as DebugPanel;
+			debugPanel.logsToolbar.addAction( ActionManagerInstance.getAction("showSettings") );
+			debugPanel.addTab( new SimpleTab( _("Service"), 
+							  				 new ServiceTesterPanel(), 
+							  				 magicIconBuild("icons/tools/server_go.png")));
 			
 			_buildUnits.push( new ButtonDemoDockable( 	"buttons", 	_("Buttons"), 	 magicIconBuild("icons/components/button.png") ) );
 			_buildUnits.push( new TextDemoDockable( 	"text", 	_("Text"), 		 magicIconBuild("icons/components/textfield.png") ) );

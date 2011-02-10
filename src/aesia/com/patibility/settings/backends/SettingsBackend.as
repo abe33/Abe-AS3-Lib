@@ -15,8 +15,11 @@ package aesia.com.patibility.settings.backends
 		
 		function getQuery( o : *, p : String ) : String;		function setQuery( o : *, p : String, v : * ) : String;
 		
+		function get settingsList () : Array;
+		
 		function fireInitEvent () : void;		function fireClearEvent () : void;		function fireSyncEvent () : void;
 		function fireResetEvent () : void;
 		function fireProgressEvent ( loaded :Number, total : Number ) : void;
+		function getWithQuery (s : String) : *;		function setWithQuery (s : String, v : * ) : Boolean;
 	}
 }

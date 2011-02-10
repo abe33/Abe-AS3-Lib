@@ -3,9 +3,9 @@
  */
 package aesia.com.ponents.tables 
 {
+	import aesia.com.mon.core.IDisplayObject;
 	import aesia.com.mon.core.IDisplayObjectContainer;
 	import aesia.com.mon.core.IInteractiveObject;
-	import aesia.com.mon.core.IDisplayObject;
 	import aesia.com.ponents.actions.Action;
 	import aesia.com.ponents.containers.DraggablePanel;
 	import aesia.com.ponents.core.Component;
@@ -23,7 +23,12 @@ package aesia.com.ponents.tables
 	import flash.geom.Rectangle;
 
 	[Skinable(skin="ListCell")]
-	public class DefaultTableRow extends DraggablePanel implements ListCell, TableRow, Component, IDisplayObject, IInteractiveObject, IDisplayObjectContainer
+	public class DefaultTableRow extends DraggablePanel implements ListCell, 
+																   TableRow, 
+																   Component, 
+																   IDisplayObject, 
+																   IInteractiveObject,
+																   IDisplayObjectContainer
 	{
 		protected var _owner : List;
 		protected var _columns : Array;
@@ -43,7 +48,6 @@ package aesia.com.ponents.tables
 			_allowChildrenFocus = false;			_allowOver = true;			_allowPressed = true;
 			_allowSelected = true;
 		}
-
 		public function buildChildren () : void
 		{	
 			if( _data != null && _columns )
@@ -202,8 +206,32 @@ package aesia.com.ponents.tables
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
+		public function get firstEditableComponent() : Editable
+		{
+			var l : uint = _children.length;
+			for(var i : uint = 0;i<l;i++)
+			{
+				var c : Component = _children[i];
+				if( c is Editable && ( c as Editable ).allowEdit )
+					return c as Editable;
+			}
+			return null;
+		}
+		
+		public function get lastEditableComponent() : Editable
+		{
+			var l : uint = _children.length;
+			while(l--)
+			{
+				var c : Component = _children[l];
+				if( c is Editable && ( c as Editable ).allowEdit )
+					return c as Editable;
+			}
+			return null;
+		}
 		override public function focusNextChild (child : Focusable) : void
 		{
+			
 			var index : int = _children.indexOf( child );
 			if( index == _children.length-1 )
 			{
@@ -216,20 +244,25 @@ package aesia.com.ponents.tables
 				}
 				var rindex : int = this.index+1;
 				
-				if( rindex < _owner.model.size )
+				if( b )
 				{
-					_owner.ensureIndexIsVisible(rindex);
-					c = _owner.getListCellWithIndex(rindex) as DefaultTableRow;
-				}				else
-				{
-					_owner.ensureIndexIsVisible(0);
-					c = _owner.getListCellWithIndex(0) as DefaultTableRow;
+					if( rindex < _owner.model.size )
+					{
+						_owner.ensureIndexIsVisible(rindex);
+						c = _owner.getListCellWithIndex(rindex) as DefaultTableRow;
+					}
+					else
+					{
+						_owner.ensureIndexIsVisible(0);
+						c = _owner.getListCellWithIndex(0) as DefaultTableRow;
+					}
+				
+					_owner.ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
+					
+					if( c.firstEditableComponent )				
+						c.firstEditableComponent.startEdit();
 				}
-				
-				_owner.ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
-				
-				if( c.firstChild is Editable && b )				
-					(c.firstChild as Editable).startEdit();
+				else super.focusNextChild( child );
 			}
 			else
 				super.focusNextChild( child );
@@ -237,6 +270,7 @@ package aesia.com.ponents.tables
 
 		override public function focusPreviousChild (child : Focusable) : void
 		{
+			/*
 			var index : int = _children.indexOf( child );
 			if( index == 0 )
 			{
@@ -265,7 +299,7 @@ package aesia.com.ponents.tables
 				if( c.lastChild is Editable && b )				
 					(c.lastChild as Editable).startEdit();
 			}
-			else
+			else*/
 				super.focusPreviousChild( child );
 		}
 

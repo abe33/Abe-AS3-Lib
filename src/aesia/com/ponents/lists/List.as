@@ -793,30 +793,37 @@ package aesia.com.ponents.lists
 			
 			var index : Number = ( child as ListCell ).index + 1 ;
 			
-			if( index < _model.size )
+			if( b )
 			{
-				ensureIndexIsVisible( index );
-				c = getListCellWithIndex( index );
-				c.grabFocus();
+				var foundNextEditable : Boolean = false;
 				
-				//ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
-				
-				if( c is Editable && b )				
-					(c as Editable).startEdit();
-			}
-			else if( b )
-			{
-				ensureIndexIsVisible( 0 );
-				c = getListCellWithIndex( 0 );
-				c.grabFocus();
-				
-				ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
+				while( !foundNextEditable)
+				{
+					if( index >= _model.size )
+						index = 0;
 					
-				if( c is Editable )				
-					(c as Editable).startEdit();
+					ensureIndexIsVisible( index );
+					c = getListCellWithIndex( index );
+					
+					if( c is Editable && ( c as Editable ).allowEdit )
+					{
+						(c as Editable).startEdit();
+						foundNextEditable = true;
+					}
+					index++;
+				}	
 			}
 			else
+			{
+				if( index < _model.size )
+				{
+					ensureIndexIsVisible( index );
+					c = getListCellWithIndex( index );
+					c.grabFocus();
+				}
+				else
 				focusNext();
+			}
 		}
 
 		override public function focusPreviousChild (child : Focusable) : void
@@ -830,34 +837,38 @@ package aesia.com.ponents.lists
 			}
 			
 			var index : Number = ( child as ListCell ).index - 1;
-			/*
-			if( index == -1 )
-				index = _children.length;
-			*/
-			if( index >= 0 )
+			
+			if( b )
 			{
-				ensureIndexIsVisible( index );
-				c = getListCellWithIndex( index );
-				c.grabFocus();
+				var foundPreviousEditable : Boolean = false;
 				
-				ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
-				
-				if( c is Editable && b )				
-					(c as Editable).startEdit();
-			}
-			else if( b )
-			{
-				ensureIndexIsVisible( _model.size - 1 );
-				c = getListCellWithIndex(_model.size - 1 );
-				c.grabFocus();
-				
-				ensureRectIsVisible( new Rectangle( c.x, c.y, c.width, c.height ) );
-				
-				if( c is Editable )				
-					(c as Editable).startEdit();
+				while( !foundPreviousEditable)
+				{
+					if( index < 0 )
+						index = _model.size - 1;
+					
+					ensureIndexIsVisible( index );
+					c = getListCellWithIndex( index );
+					
+					if( c is Editable && ( c as Editable ).allowEdit )
+					{
+						(c as Editable).startEdit();
+						foundPreviousEditable = true;
+					}
+					index--;
+				}	
 			}
 			else
-				focusPrevious();
+			{
+				if( index >= 0 )
+				{
+					ensureIndexIsVisible( index );
+					c = getListCellWithIndex( index );
+					c.grabFocus();
+				}
+				else
+					focusPrevious();
+			}
 		}
 /*--------------------------------------------------------------
  *  MISC METHODS

@@ -71,6 +71,9 @@ package aesia.com.ponents.tools
 		[Embed(source="../skinning/icons/page_white_text.png")]
 		static private var saveLogsIcon : Class;
 		
+		[Embed(source="../skinning/icons/database_delete.png")]
+		static private var clearSettingsIcon : Class;
+		
 		static private var msgTpl : String = "<p><font color='#008800'>exec command $0</font>\n$1</p>";
 		
 		static protected var prettifier : GPrettify = new GPrettify();
@@ -350,7 +353,7 @@ package aesia.com.ponents.tools
 						
 			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
 			if( SettingsManagerInstance.backend )
-				_logsToolbar.addComponent( new Button( new ClearSettingsBackendAction(_("Clear Settings"), null, _("Delete all the data recorded by the settings backend of this application.\nSettings includes datas such as the textinputs history or the layout settings of many components.") )));
+				_logsToolbar.addComponent( new Button( new ClearSettingsBackendAction(_("Clear Settings"), magicIconBuild( clearSettingsIcon ), _( "Delete all the data recorded by the settings backend of this application.\nSettings includes datas such as the textinputs history or the layout settings of many components.") )));
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/			
 			var p1 : Panel = new Panel();
 			var l1 : BorderLayout = new BorderLayout();
@@ -405,7 +408,7 @@ package aesia.com.ponents.tools
 			l2.west = r2;
 			l2.center = _monitor2;
 			l2.south = c2;
-
+			
 			p2.addComponent(r2);
 			p2.addComponent(_monitor2);
 			p2.addComponent(c2);
@@ -430,6 +433,9 @@ package aesia.com.ponents.tools
 			_monitorsToolbar.name = "monitorsToolBar";
 			_monitor1.name = "memoryMonitor";
 			_monitor2.name = "fpsMonitor";			_monitorsPanel.name = "monitorsGrid";
+			
+			c1.name = c1.id = "monitor1Caption";
+			c2.name = c2.id = "monitor2Caption";
 
 			lmon.north = _monitorsToolbar;
 			lmon.center = _monitorsPanel;

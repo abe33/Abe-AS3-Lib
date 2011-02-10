@@ -13,7 +13,8 @@ package aesia.com.ponents.tables
 		public var sortingMethod : Function;
 		public var formatFunction : Function;
 		public var cellClass : Class;
-		public var headerClass : Class;
+		public var headerClass : Class;		public var editable : Boolean;
+		
 		public function TableColumn ( name : String, 
 									  field : String,
 									  size : Number = 100, 
@@ -21,7 +22,8 @@ package aesia.com.ponents.tables
 									  headerClass : Class = null,
 									  sortable : Boolean = true, 
 									  sortingMethod : Function = null,
-									  formatFunction : Function = null )
+									  formatFunction : Function = null,
+									  editable : Boolean = true )
 		{
 			this.name = name;
 			this._size = this._finalSize = size;
@@ -30,8 +32,8 @@ package aesia.com.ponents.tables
 			this.headerClass = headerClass ? headerClass : DefaultTableColumnHeader;
 			this.sortable = sortable;			this.sortingMethod = sortingMethod;
 			this.formatFunction = formatFunction;
+			this.editable = editable;
 		}
-
 		public function get size () : Number { return _size; }
 		public function set size ( n : Number ) : void
 		{
