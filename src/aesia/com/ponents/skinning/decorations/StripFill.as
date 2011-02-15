@@ -58,6 +58,10 @@ package aesia.com.ponents.skinning.decorations
 			updateGradient();
 		}
 		
+		public function clone () : *
+		{
+			return new StripFill( _colors.concat(), _stripSizes.concat(), _orientation );
+		}
 		public function draw (r : Rectangle, g : Graphics, c : Component, borders : Borders = null, corners : Corners = null, smoothing : Boolean = false) : void
 		{
 			if( _gradient )
@@ -117,7 +121,6 @@ package aesia.com.ponents.skinning.decorations
 						_stripSizes.join(","), 
 						_orientation );
 		}
-		
 		public function equals (o : *) : Boolean
 		{
 			if( o is StripFill )

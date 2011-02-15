@@ -118,7 +118,7 @@ package aesia.com.ponents.tables
 				item.field = column.field;
 				item.width = column.finalSize;
 				var v : * = ( _data as Object ).hasOwnProperty( column.field ) ? _data[ column.field ] : "No Data";
-				item.value = column.formatFunction != null ? column.formatFunction( v ) : v ;
+				item.value = v;
 				item.index = index;
 				item.allowEdit = _allowEdit;
 				cl.boxes.push( new BoxSettings( column.finalSize, "left", "center", item, true, true ) );

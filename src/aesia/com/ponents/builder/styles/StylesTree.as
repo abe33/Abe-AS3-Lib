@@ -1,5 +1,6 @@
 package aesia.com.ponents.builder.styles
 {
+	import aesia.com.ponents.actions.ActionManagerInstance;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.actions.Action;
@@ -56,9 +57,12 @@ package aesia.com.ponents.builder.styles
 		{
 			_listCellClass = _listCellClass ? _listCellClass : StylesTreeCell;
 			super( model );
-
+			loseSelectionOnFocusOut = false;	
+			
 			_createNewSkinAction = new ProxyAction(createNewSkin, _("Create New Skin"), magicIconBuild(SKIN_ADD) );			_removeSkinAction = new ProxyAction(removeSkin, _("Delete Skin"), magicIconBuild(SKIN_REMOVE) );			_createNewStyleAction = new ProxyAction(createNewStyle, _("Create New Style"), magicIconBuild(STYLE_ADD) );
 			_removeStyleAction = new ProxyAction(removeStyle, _("Delete Style"), magicIconBuild(STYLE_REMOVE) );
+			
+			ActionManagerInstance.registerAction( _createNewSkinAction, "newSkin" );			ActionManagerInstance.registerAction( _removeSkinAction, "removeSkin" );			ActionManagerInstance.registerAction( _createNewStyleAction, "newStyle" );			ActionManagerInstance.registerAction( _removeStyleAction, "removeStyle" );
 
 			_createNewStyleAction.actionEnabled = false;
 			_removeSkinAction.actionEnabled = false;			_removeStyleAction.actionEnabled = false;
@@ -69,7 +73,7 @@ package aesia.com.ponents.builder.styles
 			addNewContextMenuItemForGroup( _("Add New Skin"), "addSkin", addNewStyleSelected, "skin", 0 );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
-
+		
 		protected function selectionChange (event : ComponentEvent) : void
 		{
 			var node : TreeNode = _selectedValue as TreeNode;
@@ -105,7 +109,7 @@ package aesia.com.ponents.builder.styles
  * SEARCH METHODS
  *--------------------------------------------------------------*/
 
- 		public function search( s : String ):void
+ 		public function searchStyle( s : String ):void
  		{
  			var lc : StylesTreeCell;
  			var p : TreePath;
@@ -124,8 +128,7 @@ package aesia.com.ponents.builder.styles
 	 			}
  			}
 			invalidate();
- 		}
-
+		}
 /*--------------------------------------------------------------
  * CREATION METHODS
  *--------------------------------------------------------------*/

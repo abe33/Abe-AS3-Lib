@@ -1,6 +1,6 @@
 package aesia.com.ponents.demos 
 {
-	import aesia.com.ponents.actions.builtin.ShowSettingsBackendAction;
+	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.settings.backends.CookieBackend;
 	import aesia.com.ponents.actions.ActionManagerInstance;
@@ -28,6 +28,8 @@ package aesia.com.ponents.demos
 	import aesia.com.ponents.tools.ServiceTesterPanel;
 	import aesia.com.ponents.utils.ToolKit;
 
+	import flash.events.ContextMenuEvent;
+
 	[SWF(width="800",height="600", backgroundColor="#3a545c")]
 	[Frame(factoryClass="aesia.com.ponents.factory.ComponentFactoryPreload")]
 	[SettingsBackend(backend="aesia.com.patibility.settings.backends.CookieBackend", appName="FactoryPlayground")]
@@ -44,9 +46,8 @@ package aesia.com.ponents.demos
 
 		public function FactoryPlayground ()
 		{
-			super( "Playground", "2.2.1" );
+			super( "Playground", "2.2.4" );
 			
-			ActionManagerInstance.registerAction( new ShowSettingsBackendAction(_("Show Settings") ), "showSettings" );
 			ActionManagerInstance.registerAction( new ColorPickerAction(), "colorPick" );
 			ActionManagerInstance.registerAction( new GradientPickerAction(), "gradientPick" );
 			ActionManagerInstance.registerAction( new AboutAction( _appName, 
@@ -54,20 +55,23 @@ package aesia.com.ponents.demos
 																   _("The Playground is a way to demonstrate\nthe features of the Aesia Components Kit."), 																   _("Aesia © 2010 - All rights reserved."), 
 																   _("About Playground") ), 
 												  "about" );
+			
+			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+				StageUtils.versionMenuContext.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT, ActionManagerInstance.getAction("about").execute );	
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 												  
 			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
 			dragRenderer = new DnDDragObjectRenderer( DnDManagerInstance );
 			//dropRenderer = new DnDDropRenderer( DnDManagerInstance );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
-			_defaultMenuBarSettings = "*File(*New,*Open,|,*Recent Files(*A,*B,*C)),*Edit(*undo,*redo),*Custom(*colorPick,*gradientPick),?(*about)";
+			_defaultMenuBarSettings = "*File(*New,*Open,|,*Recent Files(*A,*B,*C)),*Edit(*undo,*redo),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),*Custom(*colorPick,*gradientPick),?(*about)";
 			_defaultDMSPSettings = "V(buttons|spinners|text|sliders|combobox|progress|lists|trees|tables)";
 			_defaultToolBarSettings = "undo,redo";
 		}
 		override public function init( preload : ComponentFactoryPreload ) : void
 		{
 			var debugPanel : DebugPanel = ToolKit.popupLevel.getChildByName("debugPanel") as DebugPanel;
-			debugPanel.logsToolbar.addAction( ActionManagerInstance.getAction("showSettings") );
 			debugPanel.addTab( new SimpleTab( _("Service"), 
 							  				 new ServiceTesterPanel(), 
 							  				 magicIconBuild("icons/tools/server_go.png")));

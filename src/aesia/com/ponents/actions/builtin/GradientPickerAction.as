@@ -28,7 +28,7 @@ package aesia.com.ponents.actions.builtin
 		public function GradientPickerAction ( gradient : Gradient = null, accelerator : KeyStroke = null)
 		{
 			_gradient = gradient ?  gradient : new Gradient([Color.Black, Color.White],[0,1],_("Unnamed Gradient") ) ;
-			super( null, new GradientIcon(_gradient), _("Edit current gradient"), accelerator );
+			super( _("GradientPicker"), new GradientIcon(_gradient), _("Edit current gradient"), accelerator );
 		}
 		public function get gradient () : Gradient { return _gradient; }		
 		public function set gradient (gradient : Gradient) : void

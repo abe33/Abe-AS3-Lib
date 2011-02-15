@@ -30,7 +30,10 @@ package aesia.com.ponents.skinning.decorations
 			this.gradient = gradient ? gradient : new Gradient([Color.Black, Color.White],[0,1]);
 			this.gradientRotation = gradientRotation;
 		}
-		
+		override public function clone () : *
+		{
+			return new ArrowSideGradientBorders( gradient.clone(), gradientRotation, arrowPlacement, arrowSize );
+		}
 		override public function equals (o : *) : Boolean
 		{
 			if( o is ArrowSideGradientBorders )

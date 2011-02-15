@@ -23,7 +23,10 @@ package aesia.com.ponents.skinning.decorations
 			g.drawRoundRectComplex(r.x, r.y, r.width, r.height, corners.topLeft, corners.topRight, corners.bottomLeft, corners.bottomRight );
 			g.endFill( );
 		}
-		
+		public function clone () : * 
+		{
+			return new EmptyFill();
+		}
 		public function equals (o : *) : Boolean
 		{
 			return o is EmptyFill;

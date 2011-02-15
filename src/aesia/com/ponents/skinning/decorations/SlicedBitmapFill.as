@@ -22,7 +22,10 @@ package aesia.com.ponents.skinning.decorations
 			this.bitmap = bitmap ? bitmap : new BitmapData(16, 16, false, 0 );
 			this.scale9Grid = scale9Grid ? scale9Grid : new Rectangle( 1, 1, this.bitmap.width-2, this.bitmap.height - 2);
 		}
-
+		public function clone () : *
+		{
+			return new SlicedBitmapFill(bitmap.clone(), scale9Grid.clone() );
+		}
 		public function draw( r : Rectangle, g : Graphics, c : Component, borders : Borders = null,corners:Corners = null, smoothing : Boolean = false ) : void
 		{
 			corners = corners ? corners : new Corners();

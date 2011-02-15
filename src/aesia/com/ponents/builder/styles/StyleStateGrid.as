@@ -1,14 +1,20 @@
 package aesia.com.ponents.builder.styles 
 {
+	import aesia.com.ponents.builder.events.StyleSelectionEvent;
 	import aesia.com.mon.utils.Delegate;
+	import aesia.com.patibility.lang._;
+	import aesia.com.ponents.builder.models.StyleSelectionModel;
 	import aesia.com.ponents.containers.Panel;
 	import aesia.com.ponents.core.AbstractContainer;
 	import aesia.com.ponents.core.ComponentStates;
+	import aesia.com.ponents.core.Dockable;
+	import aesia.com.ponents.core.SimpleDockable;
 	import aesia.com.ponents.events.ComponentEvent;
 	import aesia.com.ponents.layouts.components.Box9Layout;
 	import aesia.com.ponents.layouts.components.GridLayout;
 	import aesia.com.ponents.skinning.ComponentStyle;
 	import aesia.com.ponents.skinning.SkinManagerInstance;
+	import aesia.com.ponents.skinning.icons.magicIconBuild;
 
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -19,8 +25,13 @@ package aesia.com.ponents.builder.styles
 	 */
 	public class StyleStateGrid extends AbstractContainer 
 	{
+		[Embed(source="../../skinning/icons/components/states-grid.png")]
+		static private var stateGridIcon : Class;
+		
 		protected var _targetStyle : ComponentStyle;
 		protected var _statesGrid : Panel;
+		protected var _model : StyleSelectionModel;
+		
 		/*FDT_IGNORE*/
 		TARGET::FLASH_9 {
 			protected var _statesPreview : Array;
@@ -31,6 +42,7 @@ package aesia.com.ponents.builder.styles
 			protected var _selectedStates : Vector.<uint>;
 		}
 		TARGET::FLASH_10_1 { /*FDT_IGNORE*/		protected var _statesPreview : Vector.<StyleStatePreview>;		protected var _selectedStates : Vector.<uint>;
+		
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
 		public function StyleStateGrid ()
@@ -53,8 +65,10 @@ package aesia.com.ponents.builder.styles
 			
 			createStates();
 			addComponent( _statesGrid );
-			createHeaders( );
+			createHeaders();
 		}
+		public function get dockable () : Dockable { return new SimpleDockable( this, "statesGrid", _("States"), magicIconBuild(stateGridIcon)); }
+		
 		/*FDT_IGNORE*/
 		TARGET::FLASH_9
 		public function get selection () : Array { return _selectedStates; }
@@ -65,6 +79,16 @@ package aesia.com.ponents.builder.styles
 		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		public function get selection () : Vector.<uint> { return _selectedStates; }
 		
+		public function get model () : StyleSelectionModel { return _model; }
+		public function set model (model : StyleSelectionModel) : void
+		{
+			if( _model )
+				_model.removeEventListener( StyleSelectionEvent.STYLE_SELECT, styleSelectionChange );
+			_model = model;
+		
+			if( _model )
+				_model.addEventListener( StyleSelectionEvent.STYLE_SELECT, styleSelectionChange );
+		}
 		public function get targetStyle () : ComponentStyle { return _targetStyle; }		
 		public function set targetStyle (targetStyle : ComponentStyle) : void
 		{
@@ -72,17 +96,23 @@ package aesia.com.ponents.builder.styles
 			var i:int;
 			
 			if( _targetStyle )
+			{
 				for( i=0;i<16;i++ )
 				{
 					_statesPreview[i].targetStyle = _targetStyle;
 					_statesPreview[i].targetState = i;
 				}
+				enabled = true;
+			}
 			else
+			{
 				for( i=0;i<16;i++ )
 				{
 					_statesPreview[i].targetStyle = SkinManagerInstance.getStyle("NoDecorationComponent");
 					_statesPreview[i].targetState = 1;
 				}
+				enabled = false;
+			}
 		}			
 		
 		public function clearSelection():void
@@ -231,7 +261,11 @@ package aesia.com.ponents.builder.styles
 		{
 			return _selectedStates.indexOf( i ) != -1;
 		}
-
+		protected function styleSelectionChange (event : StyleSelectionEvent) : void 
+		{
+			clearSelection();
+			targetStyle = event.style;
+		}
 		protected function clickAll (event : MouseEvent) : void
 		{
 			if( !_enabled )
@@ -278,10 +312,10 @@ package aesia.com.ponents.builder.styles
 				_statesGrid.addComponent( p );
 			}
 		}
-		
 		protected function fireSelectionEvent () : void
 		{
-			dispatchEvent( new ComponentEvent(ComponentEvent.SELECTION_CHANGE));
+			_model.selectedStates = _selectedStates;
+			dispatchEvent( new ComponentEvent(ComponentEvent.SELECTION_CHANGE ) );
 		}
 	}
 }

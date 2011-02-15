@@ -150,6 +150,11 @@ package aesia.com.ponents.menus
 			return false;
 		}
 		
+		public function itemContentChange (item : MenuItem) : void
+		{
+			size = null;
+			invalidatePreferredSizeCache();
+		}
 		
 		public function done () : void
 		{

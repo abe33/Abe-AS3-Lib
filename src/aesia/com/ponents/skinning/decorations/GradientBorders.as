@@ -30,7 +30,10 @@ package aesia.com.ponents.skinning.decorations
 			this.gradient = gradient ? gradient : new Gradient([Color.Black, Color.White],[0,1]);
 			this.gradientRotation = gradientRotation;
 		}
-
+		public function clone () : * 
+		{
+			return new GradientBorders(gradient.clone(), gradientRotation);	
+		}
 		public function draw (r : Rectangle, g : Graphics, c : Component, borders : Borders = null, corners : Corners = null , smoothing : Boolean = false ) : void
 		{
 			var m : Matrix = new Matrix();

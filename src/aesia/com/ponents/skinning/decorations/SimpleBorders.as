@@ -23,7 +23,10 @@ package aesia.com.ponents.skinning.decorations
 		{
 			this.color = color ? color : Color.Black;
 		}
-
+		public function clone () : *
+		{
+			return new SimpleBorders(color);
+		}
 		public function draw (r : Rectangle, g : Graphics, c : Component, borders : Borders = null, corners : Corners = null , smoothing : Boolean = false ) : void
 		{
 			corners = corners ? corners : new Corners();

@@ -28,5 +28,9 @@ package aesia.com.ponents.skinning.decorations
 		{
 			return "new "+ getQualifiedClassName(this) + "()" ;
 		}
+		public function clone () : *
+		{
+			return new NoDecoration();
+		}
 	}
 }

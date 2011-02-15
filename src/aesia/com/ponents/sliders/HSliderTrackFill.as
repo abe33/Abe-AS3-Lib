@@ -24,7 +24,10 @@ package aesia.com.ponents.sliders
 			_trackOffset = trackOffset;
 			_trackHeight = trackHeight;
 		}
-
+		public function clone () : *
+		{
+			return new HSliderTrackFill(_backgroundColor, _borderColor, _trackHeight, _trackOffset);
+		}
 		public function draw (r : Rectangle, g : Graphics, c : Component, borders : Borders = null, cornerRadius : Corners = null, smoothing : Boolean = false) : void
 		{
 			//g.lineStyle();

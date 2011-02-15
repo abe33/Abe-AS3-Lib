@@ -22,6 +22,11 @@ package aesia.com.ponents.skinning.icons
 		}
 		override public function init () : void
 		{
+			var l : uint = _childrenContainer.numChildren;
+			if( l > 0 )
+				while(l--)
+					_childrenContainer.removeChildAt( l );
+			
 			if( _bitmap )
 				_childrenContainer.addChild( _bitmap );
 				

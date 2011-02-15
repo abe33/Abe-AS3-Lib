@@ -8,7 +8,6 @@ package aesia.com.ponents.skinning.decorations
 	import flash.display.Graphics;
 	import flash.geom.Rectangle;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -19,16 +18,27 @@ package aesia.com.ponents.skinning.decorations
 			  contentType="aesia.com.ponents.skinning.decorations::ComponentDecoration", 
 			  listCell="aesia.com.ponents.lists::CustomEditCell")]
 		public var decorations : Array;
-
 		public function MacroDecoration ( ... decorations ) 
 		{
 			this.decorations = [];
-			
-			for each( var deco : ComponentDecoration in decorations )
-				if( deco )
-					addComponentDecoration( deco );
+			var deco : ComponentDecoration;
+			if( decorations.length == 1 && decorations[0] is Array )
+			{
+				for each( deco in decorations[0] )
+					if( deco )
+						addComponentDecoration( deco );
+			}
+			else
+			{
+				for each( deco in decorations )
+					if( deco )
+						addComponentDecoration( deco );
+			}
 		}
-		
+		public function clone () : * 
+		{
+			return new MacroDecoration(decorations.map(function(c : ComponentDecoration) : ComponentDecoration { return c.clone(); } ));
+		}
 		public function equals (o : *) : Boolean
 		{
 			if( o is MacroDecoration )

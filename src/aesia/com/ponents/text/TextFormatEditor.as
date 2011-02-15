@@ -1,5 +1,6 @@
 package aesia.com.ponents.text 
 {
+	import aesia.com.ponents.skinning.DefaultSkin;
 	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.Color;
 	import aesia.com.patibility.lang._;
@@ -50,10 +51,10 @@ package aesia.com.ponents.text
 			_preview = new PreviewLabel();
 			_preview.style.setForAllStates("insets", new Insets( 4 ) );
 						
-			_fontList = new FontListComboBox();
 			_boldButton = new ToggleButton(_("<b>B</b>") );
-			_italicButton = new ToggleButton(_("<i>I</i>") );			_underlineButton = new ToggleButton(_("<u>U</u>") );			_sizeSpinner = new Spinner( new SpinnerNumberModel( 12, 1, 500, 1, true ) );
-			_colorPicker = new ColorPicker( Color.Black );
+			_italicButton = new ToggleButton(_("<i>I</i>") );
+			_underlineButton = new ToggleButton(_("<u>U</u>") );			_sizeSpinner = new Spinner( new SpinnerNumberModel( 12, 1, 500, 1, true ) );			_colorPicker = new ColorPicker( Color.Black );
+			_fontList = new FontListComboBox();
 			
 			_fontList.isComponentIndependent = false;
 			_boldButton.isComponentIndependent = false;
@@ -63,9 +64,11 @@ package aesia.com.ponents.text
 			_preview.isComponentIndependent = false;
 			_colorPicker.isComponentIndependent = false;
 			
+			_sizeSpinner.preferredWidth = 60;
+			
 			var p : ToolBar = new ToolBar(0,false,3);
 			p.allowMask = false;
-			p.style.setForAllStates("background", new SimpleFill( Color.LightGrey ) );
+			p.style.setForAllStates("background", new SimpleFill( DefaultSkin.backgroundColor ) );
 			var l : VBoxLayout = new VBoxLayout(this, 0, 
 												 new BoxSettings(28, "center", "center" , p, true, true ),
 												 new BoxSettings(50, "left", "center", _preview, true, true, false )

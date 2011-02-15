@@ -11,7 +11,6 @@ package aesia.com.ponents.demos.dockables
 	import aesia.com.ponents.containers.ScrollPane;
 	import aesia.com.ponents.containers.ScrollablePanel;
 	import aesia.com.ponents.factory.ComponentFactory;
-	import aesia.com.ponents.factory.ComponentFactoryInstance;
 	import aesia.com.ponents.layouts.components.InlineLayout;
 	import aesia.com.ponents.skinning.icons.Icon;
 	import aesia.com.ponents.skinning.icons.magicIconBuild;

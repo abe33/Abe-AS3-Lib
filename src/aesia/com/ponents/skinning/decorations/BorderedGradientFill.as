@@ -34,7 +34,10 @@ package aesia.com.ponents.skinning.decorations
 			_gradientColor2 = gradientColor2;
 			_gradientRotation = gradientRotation;
 		}
-
+		public function clone () : * 
+		{
+			return new BorderedGradientFill(_borderColor, _gradientColor1.clone(), _gradientColor2.clone(), _borders.clone(), _gradientRotation );
+		}
 		public function draw ( r : Rectangle, 
 							   g : Graphics, 
 							   c : Component, 

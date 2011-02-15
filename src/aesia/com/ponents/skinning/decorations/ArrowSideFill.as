@@ -25,7 +25,10 @@ package aesia.com.ponents.skinning.decorations
 			this.arrowPlacement = arrowPlacement;
 			this.arrowSize = arrowSize;
 		}
-		
+		public function clone () : *
+		{
+			return new ArrowSideFill( color, arrowPlacement, arrowSize );
+		}
 		public function toSource () : String
 		{
 			return "new "+ getQualifiedClassName(this).replace("::",".") + "(" + color.toSource() + ",'" + arrowPlacement + "', " + arrowSize + ")" ;

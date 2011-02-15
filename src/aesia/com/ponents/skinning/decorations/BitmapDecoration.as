@@ -28,8 +28,13 @@ package aesia.com.ponents.skinning.decorations
 			_bitmap = bitmap;
 			_halign = halign;
 			_valign = valign;
-			_margins = margins ? margins : new Insets();
+			_margins = margins ? margins : new Insets( );
 		}
+		public function clone () : * 
+		{
+			return new BitmapDecoration( bitmap.clone(), halign, valign, margins.clone() );	
+		}
+		
 		[Form]
 		public function get bitmap () : BitmapData { return _bitmap; }		
 		public function set bitmap (bitmap : BitmapData) : void

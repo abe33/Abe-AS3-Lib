@@ -1,6 +1,5 @@
 package aesia.com.ponents.dnd 
 {
-	import aesia.com.ponents.core.AbstractComponent;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.motion.SingleTween;
 	import aesia.com.motion.TweenEvent;
@@ -121,7 +120,7 @@ package aesia.com.ponents.dnd
 		}
 		protected function lookupAncestors( a : DropTarget, b : DropTarget ) : Boolean
 		{
-			return a != b && ( b.component is Container ) && (b.component as Container).isDescendant( a.component );
+			return a && b && a != b && ( b.component is Container ) && (b.component as Container).isDescendant( a.component );
 		}
 		 
 		protected function drawDropTargets () : void
@@ -143,7 +142,6 @@ package aesia.com.ponents.dnd
 				
 				var a: Array = checkDropShape( bb, _drawnShapes );
 				
-
 				_shape.graphics.drawRect(bb.x, bb.y, bb.width, bb.height );				_drawnShapes.push(bb);
 				if( a.length > 0 )
 				{

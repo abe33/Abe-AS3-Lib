@@ -43,6 +43,10 @@ package aesia.com.ponents.skinning.decorations
 			createSlices ();
 		}
 		
+		public function clone () : *
+		{
+			return new AdvancedSlicedBitmapFill( _bitmap.clone(), _scale9grid.clone(), magicClone(_scale9rules ) );
+		}
 		public function equals (o : *) : Boolean
 		{
 			if( o is AdvancedSlicedBitmapFill )

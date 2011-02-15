@@ -151,7 +151,7 @@ package aesia.com.ponents.lists
 
 		public function confirmEdit () : void
 		{
-			if( allowEdit )
+			if( allowEdit && isEditing && _editor )
 			{
 				_isEditing = false;
 				

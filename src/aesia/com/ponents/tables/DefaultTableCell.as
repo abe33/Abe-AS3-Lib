@@ -76,7 +76,14 @@ package aesia.com.ponents.tables
 			if( _column.editable )
 				super.startEdit();
 		}
-		override public function get allowEdit () : Boolean { return super.allowEdit && _column.editable; }
+		override public function get allowEdit () : Boolean { return super.allowEdit && _column.editable; 
+		}
+		override protected function formatLabel (value : *) : String 
+		{
+			return ( _column && _column.formatFunction != null ) ? 
+						_column.formatFunction( value ) : 
+						super.formatLabel( value );
+		}
 	}
 }
 

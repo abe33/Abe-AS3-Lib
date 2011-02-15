@@ -5,13 +5,18 @@ package aesia.com.ponents.buttons
 {
 	import aesia.com.mands.events.CommandEvent;
 	import aesia.com.mon.utils.Reflection;
+	import aesia.com.mon.utils.StageUtils;
+	import aesia.com.mon.utils.magicCopy;
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.actions.ProxyAction;
 	import aesia.com.ponents.actions.builtin.EditObjectPropertiesAction;
+	import aesia.com.ponents.containers.Window;
 	import aesia.com.ponents.core.AbstractContainer;
 	import aesia.com.ponents.events.ComponentEvent;
 	import aesia.com.ponents.forms.FormComponent;
 	import aesia.com.ponents.forms.FormComponentDisabledModes;
+	import aesia.com.ponents.forms.FormObject;
+	import aesia.com.ponents.forms.managers.SimpleFormManager;
 	import aesia.com.ponents.layouts.components.BoxSettings;
 	import aesia.com.ponents.layouts.components.HBoxLayout;
 	import aesia.com.ponents.menus.DropDownMenu;
@@ -22,13 +27,18 @@ package aesia.com.ponents.buttons
 	import aesia.com.ponents.skinning.decorations.ArrowSideGradientBorders;
 	import aesia.com.ponents.skinning.decorations.ArrowSideGradientFill;
 	import aesia.com.ponents.skinning.decorations.BitmapDecoration;
+	import aesia.com.ponents.skinning.decorations.BorderedGradientFill;
 	import aesia.com.ponents.skinning.decorations.ComponentDecoration;
 	import aesia.com.ponents.skinning.decorations.EmptyFill;
 	import aesia.com.ponents.skinning.decorations.GradientBorders;
 	import aesia.com.ponents.skinning.decorations.GradientFill;
+	import aesia.com.ponents.skinning.decorations.LineBorders;
 	import aesia.com.ponents.skinning.decorations.MacroDecoration;
 	import aesia.com.ponents.skinning.decorations.NoDecoration;
+	import aesia.com.ponents.skinning.decorations.SeparatorDecoration;
 	import aesia.com.ponents.skinning.decorations.SimpleBorders;
+	import aesia.com.ponents.skinning.decorations.SimpleEllipsisBorders;
+	import aesia.com.ponents.skinning.decorations.SimpleEllipsisFill;
 	import aesia.com.ponents.skinning.decorations.SimpleFill;
 	import aesia.com.ponents.skinning.decorations.SlicedBitmapFill;
 	import aesia.com.ponents.skinning.decorations.StripFill;
@@ -90,15 +100,15 @@ package aesia.com.ponents.buttons
 		 */
 		protected function buildChildren () : void
 		{
-			_editDecoration = new Button(new EditObjectPropertiesAction( null, null, _("No Object") ) );
+			_editDecoration = new Button( new EditObjectPropertiesAction( null, editObjectCallBack, _("No Object"), null, null, null, true ) );
 			_editDecoration.action.addEventListener(CommandEvent.COMMAND_END, editCommandEnd);
 			_editDecoration.isComponentIndependent = false;
 
 			_newDecoration = new DropDownMenu("New", null,
-												getMenuItem(NoDecoration),												getMenuItem(EmptyFill),												getMenuItem(MacroDecoration),												getMenuItem(SimpleFill),
-												getMenuItem(SimpleBorders),
+												getMenuItem(NoDecoration),												getMenuItem(EmptyFill),												getMenuItem(MacroDecoration),												getMenuItem(SeparatorDecoration),												getMenuItem(SimpleFill),												getMenuItem(SimpleEllipsisFill),
+												getMenuItem(SimpleBorders),												getMenuItem(SimpleEllipsisBorders),												getMenuItem(LineBorders),
 												getMenuItem(GradientFill),
-												getMenuItem(GradientBorders),												getMenuItem(StripFill),												getMenuItem(BitmapDecoration),
+												getMenuItem(GradientBorders),												getMenuItem(BorderedGradientFill),												getMenuItem(StripFill),												getMenuItem(BitmapDecoration),
 												getMenuItem(ArrowSideFill),
 												getMenuItem(ArrowSideBorders),
 												getMenuItem(ArrowSideGradientFill),
@@ -113,6 +123,16 @@ package aesia.com.ponents.buttons
 			 );
 			childrenLayout = l;
 			 addComponent( _editDecoration );			 addComponent( _newDecoration );
+		}
+		protected function editObjectCallBack (    o : Object, 
+												   form : FormObject, 
+												   manager : SimpleFormManager,
+												   window : Window ) : void 
+		{
+			manager.save();
+			magicCopy( form.target, o );
+			window.close();
+			StageUtils.stage.focus = null;
 		}
 		/**
 		 * Une référence vers l'objet <code>ComponentDecoration</code>

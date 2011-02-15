@@ -22,7 +22,10 @@ package aesia.com.ponents.skinning.decorations
 			g.lineStyle( borders.top, color.hexa, color.alpha/255 );
 			g.drawEllipse(r.x, r.y, r.width, r.height );
 		}
-		
+		override public function clone () : *
+		{
+			return new SimpleEllipsisBorders(color);
+		}
 		override public function equals (o : *) : Boolean
 		{
 			if( o is SimpleEllipsisBorders )

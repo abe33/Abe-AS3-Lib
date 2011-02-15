@@ -89,7 +89,7 @@ package aesia.com.ponents.text
 			_childrenContainer.addChild( _label as DisplayObject );
 			_childrenContainer.mouseEnabled = true;
 			_childrenContainer.mouseChildren = true;
-			_childrenLayout = _childrenLayout ? _childrenLayout : new DOStretchLayout( _childrenContainer, _label );
+			//_childrenLayout = _childrenLayout ? _childrenLayout : new TextLayout( _childrenContainer, _label );			_childrenLayout = _childrenLayout ? _childrenLayout : new DOStretchLayout( _childrenContainer, _label );
 			_allowPressed = false;
 			_allowOver = false;
 			_allowInput = true;
@@ -142,8 +142,8 @@ package aesia.com.ponents.text
 		}		public function set multiline ( b : Boolean ) : void
 		{
 			_label.multiline = b;
-			updateTextFormat( );
-			invalidatePreferredSizeCache( );
+			updateTextFormat();
+			invalidatePreferredSizeCache();
 		}
 		public function get wordWrap () : Boolean 
 		{ 
@@ -152,8 +152,8 @@ package aesia.com.ponents.text
 		public function set wordWrap ( b : Boolean ) : void
 		{
 			_label.wordWrap = b;
-			updateTextFormat( );
-			invalidatePreferredSizeCache( );
+			updateTextFormat();
+			invalidatePreferredSizeCache();
 		}
 		public function get autoSize () : String 
 		{ 
@@ -162,8 +162,8 @@ package aesia.com.ponents.text
 		public function set autoSize ( s : String ) : void
 		{
 			_label.autoSize = s;
-			updateTextFormat( );
-			invalidatePreferredSizeCache( );
+			updateTextFormat();
+			invalidatePreferredSizeCache();
 		}
 		public function get text () : String 
 		{ 
@@ -184,8 +184,8 @@ package aesia.com.ponents.text
 
 			_value = val;
 
-			updateTextFormat( );
-			invalidatePreferredSizeCache( );
+			updateTextFormat();
+			invalidatePreferredSizeCache();
 		}
 		public function get allowInput () : Boolean 
 		{ 
@@ -420,13 +420,9 @@ package aesia.com.ponents.text
 		override public function invalidatePreferredSizeCache () : void
 		{
 			if( _label.autoSize != TextFieldAutoSize.NONE )
-			{
 				_preferredSizeCache = new Dimension( _label.textWidth + 4, _label.textHeight + 4 ).grow( _style.insets.horizontal, _style.insets.vertical );
-			}
 			else
-			{
 				_preferredSizeCache = _childrenLayout.preferredSize.grow( _style.insets.horizontal, _style.insets.vertical );
-			}
 
 			super.invalidatePreferredSizeCache( );
 		}

@@ -1,9 +1,9 @@
 package aesia.com.ponents.layouts.components 
 {
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.Dimension;
 	import aesia.com.ponents.lists.List;
 	import aesia.com.ponents.menus.MenuItem;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -35,6 +35,7 @@ package aesia.com.ponents.layouts.components
 						a[ j ] = isNaN( a[ j ] ) ? c[j] : Math.max( a[ j ], c[ j ] );
 					
 				}
+				
 				_lastBoxesSize = a;
 				( _list.sampleCell as MenuItem ).columnsSizes = _lastBoxesSize;
 				for( i = 0; i < l; i++ )

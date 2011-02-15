@@ -27,7 +27,10 @@ package aesia.com.ponents.sliders
 			_trackOffset = trackOffset;
 			_trackWidth = trackWidth;
 		}
-
+		public function clone () : *
+		{
+			return new VSliderTrackFill(_backgroundColor, _borderColor, _trackWidth, _trackOffset); 
+		}
 		public function draw (r : Rectangle, g : Graphics, c : Component, borders : Borders = null, cornerRadius : Corners = null, smoothing : Boolean = false) : void
 		{
 			//g.lineStyle();

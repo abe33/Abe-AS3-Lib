@@ -33,7 +33,10 @@ package aesia.com.ponents.skinning.decorations
 			this.bevelSize = bevelSize;
 			this.padding = padding;
 		}
-
+		override public function clone () : *
+		{
+			return new SeparatorDecoration(colorLight, colorShadow, orientation, bevelSize, padding);
+		}
 		override public function toReflectionSource () : String 
 		{
 			return "new "+ getQualifiedClassName(this) + "(color(0x" + colorLight.rgba+ 

@@ -1,8 +1,6 @@
 package aesia.com.ponents.menus 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.geom.Dimension;
-	import aesia.com.ponents.core.Container;
 	import aesia.com.ponents.events.ComponentEvent;
 	import aesia.com.ponents.layouts.components.MenuListLayout;
 	import aesia.com.ponents.lists.List;
@@ -144,7 +142,7 @@ package aesia.com.ponents.menus
 		{
 			if( childIndex < _children.length )
 			{
-			 	var curCell : ListCell = _children[childIndex]  as ListCell;
+			 	var curCell : ListCell = _children[childIndex] as ListCell;
 			 	if( curCell.index < _firstVisibleIndex &&
 			 		curCell.index > _lastVisibleIndex &&
 			 	    _childrenContainer.contains( curCell as DisplayObject) )

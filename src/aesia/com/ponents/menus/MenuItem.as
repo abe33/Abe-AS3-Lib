@@ -1,9 +1,11 @@
 package aesia.com.ponents.menus
 {
+	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.KeyStroke;
 	import aesia.com.mon.utils.Keys;
 	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.ponents.actions.Action;
+	import aesia.com.ponents.events.PropertyEvent;
 	import aesia.com.ponents.layouts.display.DOBoxSettings;
 	import aesia.com.ponents.layouts.display.DOHBoxLayout;
 	import aesia.com.ponents.lists.DefaultListCell;
@@ -47,9 +49,9 @@ package aesia.com.ponents.menus
 			super();
 			_childrenLayout = new DOHBoxLayout( _childrenContainer, 3,
 												new DOBoxSettings(20,"center"),
-												new DOBoxSettings(0,"left"),
-												new DOBoxSettings(0,"left"),
-												new DOBoxSettings(20,"left") );
+												new DOBoxSettings(0,"left","center",null,true,true),
+												new DOBoxSettings(0,"left","center",null,true,true),
+												new DOBoxSettings(20,"center") );
 
 			if( actionOrLabel != null && actionOrLabel is Action  )
 				this.action = actionOrLabel;
@@ -188,7 +190,6 @@ package aesia.com.ponents.menus
 			}
 			super.repaint();
 		}
-
 		override protected function updateLabelText () : void
 		{
 			if( _labelTextField )
@@ -209,17 +210,26 @@ package aesia.com.ponents.menus
 					_labelTextField.htmlText = s != "" ? s : " ";
 			}
 		}
-		override public function invalidatePreferredSizeCache () : void 
+		override protected function actionPropertyChanged (event : PropertyEvent) : void 
 		{
 			var hbox : DOHBoxLayout = _childrenLayout as DOHBoxLayout;
-			if( hbox )
+			switch( event.propertyName )
 			{
-				if( hbox.boxes[1] )
-					hbox.boxes[1].size = 0;
-								if( hbox.boxes[2] )
-					hbox.boxes[2].size = 0;
+				case "accelerator" :
+					if( hbox.boxes[2] )
+						hbox.boxes[2].size = 0;
+					super.actionPropertyChanged( event );
+					break;	
+				case "name" :
+					if( hbox.boxes[1] )
+						hbox.boxes[1].size = 0;
+					super.actionPropertyChanged( event );
+					if( _menuContainer )
+						_menuContainer.itemContentChange( this );					break;
+				default :
+					super.actionPropertyChanged( event );
+					break;
 			}
-			super.invalidatePreferredSizeCache();
 		}
 		public function get columnsSizes ( ) : Array { return ( _childrenLayout as DOHBoxLayout ).columnsSizes; }
 		public function set columnsSizes ( a : Array ) : void
@@ -233,7 +243,7 @@ package aesia.com.ponents.menus
 			var l : Number = a.length;
 			for( var i:Number = 0; i<l; i++ )
 				v[ i ].size = a[ i ];
-
+			
 			invalidatePreferredSizeCache();
 		}
 		

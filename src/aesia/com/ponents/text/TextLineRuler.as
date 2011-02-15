@@ -15,7 +15,7 @@ package aesia.com.ponents.text
 	[Skin(define="TextLineRuler",
 			  inherit="DefaultComponent",
 			  state__all__foreground="skin.noDecoration",
-			  state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",			  state__all__textColor="skin.rulerTextColor"
+			  state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",			  state__all__textColor="skin.textColor"
 	)]
 	/**
 	 * @author Cédric Néhémie
@@ -56,7 +56,7 @@ package aesia.com.ponents.text
 		{
 			var s : String = "";
 			var i : uint;
-			var l : uint = _target.numLines-1;
+			var l : uint = _target.numLines;
 
 			for(i=0;i<l;i++)
 			{

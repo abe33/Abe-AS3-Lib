@@ -24,7 +24,10 @@ package aesia.com.ponents.skinning.decorations
 			g.drawEllipse(r.x, r.y, r.width, r.height );
 			g.endFill( );
 		}
-		
+		override public function clone () : *
+		{
+			return new SimpleEllipsisFill(color);
+		}
 		override public function equals (o : *) : Boolean
 		{
 			if( o is SimpleEllipsisFill )

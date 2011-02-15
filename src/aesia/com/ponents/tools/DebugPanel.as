@@ -1,9 +1,5 @@
 package aesia.com.ponents.tools
 {
-	import aesia.com.ponents.actions.builtin.SaveLogs;
-	import aesia.com.ponents.actions.builtin.LocateWithMouse;
-	import aesia.com.ponents.actions.builtin.ClearSettingsBackendAction;
-	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.mands.ProxyCommand;
 	import aesia.com.mon.geom.Range;
 	import aesia.com.mon.geom.dm;
@@ -17,9 +13,15 @@ package aesia.com.ponents.tools
 	import aesia.com.motion.Impulse;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.lang._$;
+	import aesia.com.patibility.settings.SettingsManagerInstance;
+	import aesia.com.ponents.actions.ActionManagerInstance;
 	import aesia.com.ponents.actions.ProxyAction;
+	import aesia.com.ponents.actions.builtin.BuiltInActionsList;
+	import aesia.com.ponents.actions.builtin.ClearSettingsBackendAction;
 	import aesia.com.ponents.actions.builtin.ForceGC;
-	import aesia.com.ponents.buttons.Button;
+	import aesia.com.ponents.actions.builtin.LocateWithMouse;
+	import aesia.com.ponents.actions.builtin.SaveLogs;
+	import aesia.com.ponents.actions.builtin.ShowSettingsBackendAction;
 	import aesia.com.ponents.buttons.ButtonDisplayModes;
 	import aesia.com.ponents.containers.Panel;
 	import aesia.com.ponents.containers.ToolBar;
@@ -331,7 +333,7 @@ package aesia.com.ponents.tools
 			var p0 : Panel = new Panel();
 			var l0 : BorderLayout = new BorderLayout();
 			p0.childrenLayout = l0;
-			_logView = new LogView( );
+			_logView = new LogView();
 			_logView.logsLimit = 500;
 			(_logView.textfield as TextFieldImpl).styleSheet = css;
 			_logView.addEventListener(DebugEvent.NOTIFY_WARNING, notifyWarning );
@@ -342,19 +344,35 @@ package aesia.com.ponents.tools
 			_commandInput.preferredWidth = 250;
 			_commandInput.addEventListener(ComponentEvent.DATA_CHANGE, commandInputDataChange );
 			_logsToolbar.addComponents( new Label(_("Input :" ), _commandInput ), _commandInput );
-			_logsToolbar.addSeparator( );
-			_logsToolbar.addComponent(new Button( new SaveLogs( _logView, "logs.txt", null, _("Save logs"), magicIconBuild(saveLogsIcon),_("Save the logs in a file."))));
-			_logsToolbar.addComponent( new Button(new LocateWithMouse(_("Inspect"), magicIconBuild(inspectIcon), _("Move the mouse above the scene and click to print in the logs the path to the object under the mouse."))));
+			_logsToolbar.addSeparator();
+			
+			ActionManagerInstance.registerAction(new ProxyAction( _logView.clear, _("Clear Logs"), null,null, KeyStroke.getKeyStroke( Keys.L, KeyStroke.getModifiers(true) ) ), 
+												 BuiltInActionsList.CLEAR_LOGS );
+			ActionManagerInstance.registerAction(new SaveLogs( _logView, "logs.txt", null, _("Save logs"), magicIconBuild(saveLogsIcon),_("Save the logs in a file.")), 
+												 BuiltInActionsList.SAVE_LOGS );
+			ActionManagerInstance.registerAction(new LocateWithMouse(_("Inspect"), magicIconBuild(inspectIcon), _("Move the mouse above the scene and click to print in the logs the path to the object under the mouse.")), 
+												 BuiltInActionsList.LOCATE_WITH_MOUSE);			ActionManagerInstance.registerAction(new ForceGC(_("GC"),null,_("Force the garbage collector\nto perform a memory check.\n<b>Debug Player only</b>.")), 
+												 BuiltInActionsList.FORCE_GC );
+			
+			_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.SAVE_LOGS ) );			_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.LOCATE_WITH_MOUSE ) );
+			
+			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			if( SettingsManagerInstance.backend )
+			{
+				ActionManagerInstance.registerAction( new ShowSettingsBackendAction(_("Show Settings") ), 
+													  BuiltInActionsList.SHOW_SETTINGS );				ActionManagerInstance.registerAction( new ClearSettingsBackendAction(_("Clear Settings"), magicIconBuild( clearSettingsIcon ), _( "Delete all the data recorded by the settings backend of this application.\nSettings includes datas such as the textinputs history or the layout settings of many components.") ), 
+													  BuiltInActionsList.CLEAR_SETTINGS );
+			
+				_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.CLEAR_SETTINGS ) );				_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.SHOW_SETTINGS ) );
+			}
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			
 			l0.center = _logView;
 			l0.south = _logsToolbar;
 			
 			p0.addComponents( _logView, _logsToolbar );
-						
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-			if( SettingsManagerInstance.backend )
-				_logsToolbar.addComponent( new Button( new ClearSettingsBackendAction(_("Clear Settings"), magicIconBuild( clearSettingsIcon ), _( "Delete all the data recorded by the settings backend of this application.\nSettings includes datas such as the textinputs history or the layout settings of many components.") )));
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/			
+			
 			var p1 : Panel = new Panel();
 			var l1 : BorderLayout = new BorderLayout();
 			p1.childrenLayout = l1;
@@ -370,9 +388,8 @@ package aesia.com.ponents.tools
 			c1.layoutMode = GraphMonitorCaption.COLUMN_3_LAYOUT_MODE;
 
 			_monitorsToolbar = new ToolBar( ButtonDisplayModes.TEXT_ONLY, false, 1, false );
-			var gc : Button = new Button(new ForceGC(_("GC"),null,_("Force the garbage collector\nto perform a memory check.\n<b>Debug Player only</b>.")));
 
-			var lfps : Label = new Label(_("FPS :") );
+			var lfps : Label = new Label( _("FPS :") );
 
 			var fps : Spinner = new Spinner(new SpinnerNumberModel(StageUtils.stage.frameRate, 12, 120, 1, true));
 			fps.addEventListener(ComponentEvent.DATA_CHANGE, changeFramerate );
@@ -384,7 +401,7 @@ package aesia.com.ponents.tools
 			_monitorsToolbar.addComponent( fps );
 
 			_monitorsToolbar.addSeparator();
-			_monitorsToolbar.addComponent(gc );
+			_monitorsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.FORCE_GC ) );
 			
 			l1.west = r1;
 			l1.center = _monitor1;

@@ -350,7 +350,13 @@ package aesia.com.ponents.menus
 				removeMenuItem( item );
 			} );
 		}
-
+		public function itemContentChange (item : MenuItem) : void
+		{
+			_scrollContainer.size = null;
+			_menuList.size = null;
+			size = null;
+			invalidatePreferredSizeCache();
+		}
 		public function overMenuItem ( event : MouseEvent ) : void
 		{
 			var mi : MenuItem = event.target as MenuItem;
@@ -415,7 +421,6 @@ package aesia.com.ponents.menus
 			}
 			else
 			{
-				//this.size = size;
 				height = size.height;
 				_scrollContainer.invalidate();
 				if( y + size.height > StageUtils.stage.stageHeight )

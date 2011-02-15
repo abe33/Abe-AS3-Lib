@@ -3,6 +3,7 @@
  */
 package aesia.com.ponents.skinning.decorations 
 {
+	import aesia.com.mon.core.Cloneable;
 	import aesia.com.mon.core.Serializable;
 	import aesia.com.mon.core.Equatable;
 	import aesia.com.ponents.core.Component;
@@ -15,7 +16,7 @@ package aesia.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public interface ComponentDecoration extends Equatable, Serializable
+	public interface ComponentDecoration extends Equatable, Serializable, Cloneable
 	{
 		function draw ( r : Rectangle, 
 						g : Graphics, 

@@ -20,7 +20,11 @@ package aesia.com.ponents.skinning.decorations
 		{
 			super( color );
 		}
-
+		
+		override public function clone () : * 
+		{
+			return new FieldSetBorders( color );	
+		}
 		override public function equals (o : *) : Boolean 
 		{
 			if( o is FieldSetBorders )

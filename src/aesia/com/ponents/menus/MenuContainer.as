@@ -15,5 +15,6 @@ package aesia.com.ponents.menus
 		function addMenuItem ( m : MenuItem ) : void;		function removeMenuItem ( m : MenuItem ) : void;
 		
 		function isMenuDescendant ( c : Component ) : Boolean;
+		function itemContentChange( item : MenuItem ) : void;
 	}
 }

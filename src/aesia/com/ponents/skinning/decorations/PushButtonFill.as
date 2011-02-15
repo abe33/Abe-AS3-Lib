@@ -27,7 +27,6 @@ package aesia.com.ponents.skinning.decorations
 			_borderColor = borderColor;
 			_sideColor = sideColor;
 		}
-	
 		public function draw (r : Rectangle, 
 								g : Graphics, 
 								c : Component,
@@ -51,7 +50,10 @@ package aesia.com.ponents.skinning.decorations
 							2, 
 							corners );
 		}
-	
+		public function clone () : *
+		{
+			return new PushButtonFill( _height, _maxheight, _faceColor, _sideColor, _borderColor );
+		}
 		protected function drawPushButton( x : Number,
 											   y : Number,
 											   faceWidth : Number,

@@ -6,7 +6,6 @@ package aesia.com.ponents.layouts.display
 
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -113,11 +112,11 @@ package aesia.com.ponents.layouts.display
 				box = _boxes[ j ];
 				o = box.object;
 				s = box.size;
-				if( o && ( ( s < o.width && !box.stretch ) || isNaN ( s ) ) )
+				if( o && ( ( s < o.width && !box.stretch ) || s == 0 || isNaN( s ) ) )
 					sizes[j] = o.width;
 				else
 					sizes[j] = box.size;
-
+				
 				sum += sizes[j] + _gap;
 
 				if( box.stretch )
@@ -137,7 +136,9 @@ package aesia.com.ponents.layouts.display
 				s = sizes[i];
 
 				if( s == 0 && (!box.fitW && !box.stretch) && o )
+				{
 					s = o.width;
+				}
 
 				if( box.stretch )
 					s += perComp;

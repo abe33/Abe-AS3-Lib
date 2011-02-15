@@ -12,7 +12,6 @@ package aesia.com.ponents.skinning.decorations
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -30,7 +29,10 @@ package aesia.com.ponents.skinning.decorations
 			this.gradient = gradient ? gradient : new Gradient([Color.Black, Color.White],[0,1]);
 			this.gradientRotation = gradientRotation;
 		}
-		
+		override public function clone () : *
+		{
+			return new ArrowSideGradientFill( gradient.clone( ), gradientRotation, arrowPlacement, arrowSize );
+		}
 		override public function equals (o : *) : Boolean
 		{
 			if( o is ArrowSideGradientFill )

@@ -17,7 +17,10 @@ package aesia.com.ponents.skinning.decorations
 		{
 			super( color );
 		}
-		
+		override public function clone () : * 
+		{
+			return new GraphMonitorBorder(color);
+		}
 		override public function equals (o : *) : Boolean 
 		{
 			if( o is GraphMonitorBorder )

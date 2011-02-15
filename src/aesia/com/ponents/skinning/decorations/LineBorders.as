@@ -22,6 +22,10 @@ package aesia.com.ponents.skinning.decorations
 			this.color = color ? color : Color.Black;
 			this.lineWidth = lineWidth;
 		}
+		public function clone () : * 
+		{
+			return new LineBorders(color, lineWidth);
+		}
 		public function draw ( r : Rectangle, g : Graphics, c : Component, borders : Borders = null, corners : Corners = null, smoothing : Boolean = false ) : void
 		{
 			corners = corners ? corners : new Corners ();

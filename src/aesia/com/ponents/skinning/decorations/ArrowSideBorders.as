@@ -17,7 +17,10 @@ package aesia.com.ponents.skinning.decorations
 		{
 			super( color ? color : Color.Black, arrowPlacement, arrowSize );
 		}
-		
+		override public function clone () : *
+		{
+			return new ArrowSideBorders( color, arrowPlacement, arrowSize );
+		}
 		override public function equals (o : *) : Boolean
 		{
 			if( o is ArrowSideBorders )
