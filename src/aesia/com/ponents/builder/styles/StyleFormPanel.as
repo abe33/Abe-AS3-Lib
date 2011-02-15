@@ -133,7 +133,7 @@ package aesia.com.ponents.builder.styles
 			sharedTip.visible = true;
 
 			/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
-			sharedTip.tooltip = _("The value in this field is shared by other states of this style.\nA copy of this value will be used if you try to modify it.");
+			sharedTip.tooltip = _("The value in this field is shared by other states of this style. A clone of this value will be used if you try to modify it.");
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 	}

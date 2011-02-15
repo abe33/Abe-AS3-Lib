@@ -78,6 +78,8 @@ package aesia.com.ponents.text
 			p.addComponent( _underlineButton );			p.addSeparator();
 			p.addComponent( _colorPicker );			p.addComponent( _sizeSpinner );			p.addComponent( _fontList );
 			
+			_boldButton.styleKey = _italicButton.styleKey = _underlineButton.styleKey = _colorPicker.styleKey = "ToolBar_Button";
+			
 			addComponent( _preview );
 			addComponent( p );
 			
@@ -157,6 +159,7 @@ package aesia.com.ponents.text
 			_italicButton.selected = Boolean(_format.italic);			_underlineButton.selected = Boolean(_format.underline );			_sizeSpinner.value = uint( _format.size );
 			_fontList.value = _format.font;
 			_colorPicker.value = new Color( 0xff000000 + uint(_format.color) );
+			updatePreviewFormat();
 			
 			registerToSubComponentsEvents();
 		}

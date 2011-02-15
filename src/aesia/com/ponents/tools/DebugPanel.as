@@ -346,7 +346,7 @@ package aesia.com.ponents.tools
 			_logsToolbar.addComponents( new Label(_("Input :" ), _commandInput ), _commandInput );
 			_logsToolbar.addSeparator();
 			
-			ActionManagerInstance.registerAction(new ProxyAction( _logView.clear, _("Clear Logs"), null,null, KeyStroke.getKeyStroke( Keys.L, KeyStroke.getModifiers(true) ) ), 
+			ActionManagerInstance.registerAction(new ProxyAction( _logView.clear, _("Clear Logs"), null,null, KeyStroke.getKeyStroke( Keys.L, KeyStroke.getModifiers(true,true) ) ), 
 												 BuiltInActionsList.CLEAR_LOGS );
 			ActionManagerInstance.registerAction(new SaveLogs( _logView, "logs.txt", null, _("Save logs"), magicIconBuild(saveLogsIcon),_("Save the logs in a file.")), 
 												 BuiltInActionsList.SAVE_LOGS );
@@ -384,8 +384,8 @@ package aesia.com.ponents.tools
 
 			var r1 : GraphMonitorRuler = new GraphMonitorRuler( _monitor1, _monitor1.recorders[0] );
 			var c1 : GraphMonitorCaption = new GraphMonitorCaption(_monitor1);
-			c1.captionMode = GraphMonitorCaption.SHORT_LABEL_MODE;
-			c1.layoutMode = GraphMonitorCaption.COLUMN_3_LAYOUT_MODE;
+			c1.captionMode = GraphMonitorCaption.LONG_LABEL_MODE;
+			c1.layoutMode = GraphMonitorCaption.COLUMN_2_LAYOUT_MODE;
 
 			_monitorsToolbar = new ToolBar( ButtonDisplayModes.TEXT_ONLY, false, 1, false );
 
@@ -420,8 +420,8 @@ package aesia.com.ponents.tools
 			p2.childrenLayout = l2;
 			var r2 : GraphMonitorRuler = new GraphMonitorRuler( _monitor2, _monitor2.recorders[0] );
 			var c2 : GraphMonitorCaption = new GraphMonitorCaption(_monitor2);
-			c2.captionMode = GraphMonitorCaption.SHORT_LABEL_MODE;
-			c2.layoutMode = GraphMonitorCaption.COLUMN_3_LAYOUT_MODE;
+			c2.captionMode = GraphMonitorCaption.LONG_LABEL_MODE;
+			c2.layoutMode = GraphMonitorCaption.COLUMN_1_LAYOUT_MODE;
 			l2.west = r2;
 			l2.center = _monitor2;
 			l2.south = c2;

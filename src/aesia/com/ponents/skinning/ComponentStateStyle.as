@@ -56,7 +56,7 @@ package aesia.com.ponents.skinning
 			  defaultValue="new aesia.com.ponents.skinning.decorations::NoDecoration()", 
 			  category="Decorations", 
 			  order="2", 
-			  label="Background Decoration",
+			  label="Background",
 			  description="The background decoration field defines the render type for the background of a component. A component decoration could be either a verctor graphics or a bitmap graphics. The background decoration is drawn below the component's content.")]
 		public function get background () : ComponentDecoration { return _background; }		
 		public function set background (background : ComponentDecoration) : void
@@ -69,7 +69,7 @@ package aesia.com.ponents.skinning
 			  defaultValue="new aesia.com.ponents.skinning.decorations::NoDecoration()", 
 			  category="Decorations", 
 			  order="3", 
-			  label="Foreground Decoration",
+			  label="Foreground",
 			  description="The foreground decoration field defines the render type for the foreground of a component. A component decoration could be either a verctor graphics or a bitmap graphics. The foreground decoration is drawn above the component's content.")]
 		public function get foreground () : ComponentDecoration { return _foreground; }		
 		public function set foreground (foreground : ComponentDecoration) : void
