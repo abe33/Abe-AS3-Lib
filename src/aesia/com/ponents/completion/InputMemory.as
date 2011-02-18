@@ -45,14 +45,22 @@ package aesia.com.ponents.completion
 		}		
 		override protected function retreiveCollection () : void
 		{
-			var save:String = SettingsManagerInstance.get( this, "entries" );
+			var save:* = SettingsManagerInstance.get( this, "entries" );
 			_lastValue = SettingsManagerInstance.get( this, "lastValue" );
 			
 			if( save != null )
 			{
-				var a:Array = save.split("\n");
-				a.sort();
-				collection = a;
+				if( save is String )
+				{
+					var a:Array = save.split("\n");
+					a.sort();
+					collection = a;
+				}
+				else if( save is Array )
+				{
+					save.sort();
+					collection = save;
+				}
 			}
 		}
 
@@ -75,7 +83,7 @@ package aesia.com.ponents.completion
 			collection.push( current );
 			collection.sort();
 		
-			SettingsManagerInstance.set( this, "entries", collection.join("\n"));
+			SettingsManagerInstance.set( this, "entries", collection );
 		}
 		
 		public function removeEntry ( entry : String ) : void
@@ -83,7 +91,7 @@ package aesia.com.ponents.completion
 			if( collection.indexOf( entry ) != -1 )
 			{
 				collection.splice( collection.indexOf( entry ), 1 );
-				SettingsManagerInstance.set( this, "entries", collection.join("\n"));
+				SettingsManagerInstance.set( this, "entries", collection );
 			}
 		}
 

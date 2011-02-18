@@ -70,6 +70,16 @@ package aesia.com.ponents.factory
 			
 			this.addEventListener(Event.ENTER_FRAME, this.enterFrame);
 		}
+		
+		public function setProgressLabel( s : String ) : void
+		{
+			_progressLabel.value = s;
+		}
+		public function setProgressValue( n : Number ) : void
+		{
+			_progressBar.value = n;
+		}
+		
 		/*FDT_IGNORE*/CONFIG::DEBUG/*FDT_IGNORE*/
 		protected function createDebugTools () : void
 		{
@@ -176,7 +186,13 @@ package aesia.com.ponents.factory
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	            
             _app = new mainClass() as DisplayObject;
-            if( _app.hasOwnProperty("init") )
+            if( _app is EntryPoint )
+            {
+            	var ep : EntryPoint = _app as EntryPoint;
+            	ep.addEventListener( ComponentFactoryEvent.PROCEED_BUILD, proceedBuild );
+				ep.init(this);
+			}
+            else if( _app.hasOwnProperty("init") )
             {
             	try
             	{
@@ -206,6 +222,20 @@ package aesia.com.ponents.factory
 	            releaseProgressPanel();
 				ToolKit.mainLevel.addChild( _app );
 			}
+		}
+		protected function proceedBuild (event : ComponentFactoryEvent) : void 
+		{
+			event.target.removeEventListener( ComponentFactoryEvent.PROCEED_BUILD, proceedBuild );
+			
+			if( ComponentFactoryInstance.componentsToBuild > 0 )
+    		{
+    			ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_COMPLETE, buildComplete );
+    			ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_PROGRESS, buildProgress );
+    			ComponentFactoryInstance.process();
+				_progressLabel.value = getMessage("build");
+			}
+    		else
+    			releaseProgressPanel();
 		}
 		protected function checkBackendInit () : void 
 		{

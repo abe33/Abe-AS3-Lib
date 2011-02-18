@@ -20,10 +20,10 @@ package aesia.com.ponents.sliders
 		protected var _trackOffset : Number;
 		protected var _trackWidth : Number;
 		
-		public function VSliderTrackFill ( backgroundColor : Color, borderColor : Color, trackWidth : Number = 4, trackOffset : Number = 0 )
+		public function VSliderTrackFill ( backgroundColor : Color = null, borderColor : Color = null, trackWidth : Number = 4, trackOffset : Number = 0 )
 		{
-			_backgroundColor = backgroundColor;
-			_borderColor = borderColor;
+			_backgroundColor = backgroundColor ? backgroundColor : Color.White;
+			_borderColor = borderColor ? borderColor : Color.Black;
 			_trackOffset = trackOffset;
 			_trackWidth = trackWidth;
 		}

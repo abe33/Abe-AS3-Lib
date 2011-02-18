@@ -10,10 +10,12 @@ package  aesia.com.mands.load
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
+	import flash.events.ProgressEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-
+	
+	[Event(type="flash.events.ProgressEvent", name="progress")]
 	public class LoaderQueue extends AbstractCommand implements Command, Runnable
 	{
 		/*FDT_IGNORE*/
@@ -33,7 +35,7 @@ package  aesia.com.mands.load
 		protected var _requests : Vector.<URLRequest>;		protected var _contexts : Vector.<LoaderContext>;		protected var _callbacks : Vector.<Function>;
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
-		private var _currentLoader : Loader;		private var _currentRequest : URLRequest;
+		protected var _currentLoader : Loader;		protected var _currentRequest : URLRequest;
 		
 		public function LoaderQueue()
 		{
@@ -111,6 +113,11 @@ package  aesia.com.mands.load
 			_isRunning = false;
 			fireCommandFailed( e.text );
 		}
+		protected function progress (event : ProgressEvent) : void 
+		{
+			dispatchEvent( new ProgressEvent(ProgressEvent.PROGRESS, false, false, event.bytesLoaded, event.bytesTotal))
+		}
+		
 		public function addLoader ( loader : Loader, request : URLRequest, context : LoaderContext = null, callback : Function = null ) : void
 		{
 			if( request.url == "" )
@@ -134,12 +141,13 @@ package  aesia.com.mands.load
 		}
 		protected function _registerToLoaderEvent ( loader : Loader ) : void
 		{
-			loader.contentLoaderInfo.addEventListener( Event.COMPLETE, complete );
+			loader.contentLoaderInfo.addEventListener( Event.COMPLETE, complete );			loader.contentLoaderInfo.addEventListener( ProgressEvent.PROGRESS, progress );
 			loader.contentLoaderInfo.addEventListener( IOErrorEvent.IO_ERROR, ioerror );			loader.contentLoaderInfo.addEventListener( SecurityErrorEvent.SECURITY_ERROR, securityError );
 		}
 		protected function _unregisterToLoaderEvent ( loader : Loader ) : void
 		{
 			loader.contentLoaderInfo.removeEventListener( Event.COMPLETE, complete );
+			loader.contentLoaderInfo.removeEventListener( ProgressEvent.PROGRESS, progress );
 			loader.contentLoaderInfo.removeEventListener( IOErrorEvent.IO_ERROR, ioerror );			loader.contentLoaderInfo.removeEventListener( SecurityErrorEvent.SECURITY_ERROR, securityError );
 		}
 	}

@@ -137,7 +137,7 @@ package aesia.com.ponents.builder.styles
 			_tmpNode = node ? node : _selectedValue as TreeNode;
 			var d : Dialog;
 
-			_tmpInput = new TextInput();
+			_tmpInput = new TextInput(/*0, false, "inputNewStyleName"*/);
 
 			d = new Dialog(_("Set new style name") , Dialog.CANCEL_BUTTON + Dialog.OK_BUTTON, _tmpInput, Dialog.OK_BUTTON );
 
@@ -188,7 +188,7 @@ package aesia.com.ponents.builder.styles
 		protected function createNewSkin () : void
 		{
 			_tmpNode = treeModel.root;
-			_tmpInput = new TextInput();
+			_tmpInput = new TextInput( /*0, false, "inputNewSkinName"*/ );
 			_tmpInput.value = "MySkin";
 
 			var d : Dialog = new Dialog(_("Set new skin name") , Dialog.CANCEL_BUTTON + Dialog.OK_BUTTON, _tmpInput, Dialog.OK_BUTTON );

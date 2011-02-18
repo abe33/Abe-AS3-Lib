@@ -18,9 +18,9 @@ package aesia.com.ponents.sliders
 		protected var _backgroundColor : Color;		protected var _borderColor : Color;
 		protected var _trackOffset : Number;		protected var _trackHeight : Number;
 		
-		public function HSliderTrackFill ( backgroundColor : Color, borderColor : Color, trackHeight : Number = 4, trackOffset : Number = 0 )
+		public function HSliderTrackFill ( backgroundColor : Color = null, borderColor : Color = null, trackHeight : Number = 4, trackOffset : Number = 0 )
 		{
-			_backgroundColor = backgroundColor;			_borderColor = borderColor;
+			_backgroundColor = backgroundColor ? backgroundColor : Color.White;			_borderColor = borderColor ? borderColor : Color.Black;
 			_trackOffset = trackOffset;
 			_trackHeight = trackHeight;
 		}

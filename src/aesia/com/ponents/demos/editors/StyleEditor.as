@@ -1,14 +1,18 @@
 package aesia.com.ponents.demos.editors
 {
+	import aesia.com.ponents.builder.actions.LoadExternalRessource;
+	import aesia.com.mands.events.CommandEvent;
 	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.Reflection;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.patibility.lang._;
 	import aesia.com.patibility.lang._$;
+	import aesia.com.patibility.settings.SettingsManagerInstance;
 	import aesia.com.patibility.settings.backends.CookieBackend;
 	import aesia.com.ponents.actions.ActionManagerInstance;
 	import aesia.com.ponents.actions.builtin.AboutAction;
 	import aesia.com.ponents.builder.events.StyleSelectionEvent;
+	import aesia.com.ponents.builder.models.BuilderCollections;
 	import aesia.com.ponents.builder.models.StyleSelectionModel;
 	import aesia.com.ponents.builder.styles.StyleFormPanel;
 	import aesia.com.ponents.builder.styles.StyleInfosPanel;
@@ -17,10 +21,6 @@ package aesia.com.ponents.demos.editors
 	import aesia.com.ponents.builder.styles.StylesTree;
 	import aesia.com.ponents.builder.styles.StylesTreeHeader;
 	import aesia.com.ponents.builder.styles.initializePrototypeSerializableSupport;
-	import aesia.com.ponents.buttons.Button;
-	import aesia.com.ponents.buttons.RadioButton;
-	import aesia.com.ponents.containers.Dialog;
-	import aesia.com.ponents.containers.Panel;
 	import aesia.com.ponents.containers.ScrollPane;
 	import aesia.com.ponents.core.Component;
 	import aesia.com.ponents.core.Dockable;
@@ -37,53 +37,54 @@ package aesia.com.ponents.demos.editors
 	import aesia.com.ponents.models.DefaultBoundedRangeModel;
 	import aesia.com.ponents.models.TreeModel;
 	import aesia.com.ponents.models.TreeNode;
-	import aesia.com.ponents.progress.ProgressBar;
-	import aesia.com.ponents.scrollbars.ScrollBar;
 	import aesia.com.ponents.skinning.ComponentStyle;
 	import aesia.com.ponents.skinning.SkinManager;
 	import aesia.com.ponents.skinning.SkinManagerInstance;
 	import aesia.com.ponents.skinning.decorations.ComponentDecoration;
 	import aesia.com.ponents.skinning.decorations.NoDecoration;
 	import aesia.com.ponents.skinning.icons.magicIconBuild;
-	import aesia.com.ponents.sliders.HSlider;
 	import aesia.com.ponents.sliders.VSlider;
-	import aesia.com.ponents.text.TextArea;
-	import aesia.com.ponents.text.TextInput;
-	import aesia.com.ponents.utils.Inspect;
 
 	import flash.events.ContextMenuEvent;
+	import flash.events.ProgressEvent;
 	import flash.system.Capabilities;
+	import flash.utils.setTimeout;
 
 	[SWF(width="1024",height="768", backgroundColor="#3a545c")]
 	[Frame(factoryClass="aesia.com.ponents.factory.ComponentFactoryPreload")]
 	[SettingsBackend(backend="aesia.com.patibility.settings.backends.CookieBackend", appName="MissionEditor")]
 	public class StyleEditor extends ApplicationMain 
 	{
+		static public const DEFAULT_DECORATIONS_COLLECTIONS : Array = ["CoreDecorations.swf"];
+		
 		static private const DEPENDENCIES : Array = [ CookieBackend ];
 		
 		[Embed(source="../../skinning/icons/components/tree.png")]
 		static private var treeIcon : Class;
-		
 		[Embed(source="../../skinning/icons/application_form_edit.png")]
 		static private var styleFormIcon : Class;
-		
 		[Embed(source="../../skinning/icons/brick.png")]
 		static private var stylePreviewIcon : Class;
-		
 		[Embed(source="../../skinning/icons/table.png")]
 		static private var styleInfosIcon : Class;
 		
 		protected var _selectionModel : StyleSelectionModel;
+		protected var _preload : ComponentFactoryPreload;
 		
 		private var dragRenderer : DnDDragObjectRenderer;
 		private var dropRenderer : DnDDropRenderer;
 		
+		static public var instance : StyleEditor;
+		
 		public function StyleEditor ()
 		{
-			super( _("Style Editor"), "0.2.6" );
-					
+			super( _("Style Editor"), "0.3.0" );
+			
+			instance = this;
+			
 			StageUtils.noMenu();
-			FormUtils.addNewValueFunction(ComponentDecoration, function( t : Class) : * { return new NoDecoration(); } );
+			FormUtils.addNewValueFunction( ComponentDecoration, function( t : Class) : * { return new NoDecoration(); } );
+			
 			Reflection.WARN_UNWRAPPED_STRING = false;
 			
 			initializePrototypeSerializableSupport();
@@ -93,6 +94,7 @@ package aesia.com.ponents.demos.editors
 																   _("Aesia © 2010 - All rights reserved."), 
 																   _("About Style Editor") ), 
 												  "about" );
+			ActionManagerInstance.registerAction( new LoadExternalRessource(_("Load External Ressources")), "loadExternals");
 			
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 				StageUtils.versionMenuContext.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT, ActionManagerInstance.getAction("about").execute );	
@@ -105,14 +107,42 @@ package aesia.com.ponents.demos.editors
 			
 			_defaultToolBarSettings = ["newSkin","removeSkin","newStyle","removeStyle"].join("," );
 			_defaultDMSPSettings = "H(V(H([200,200]styleTree,V([200,200]statesGrid,[200,200]stylePreview)),styleInfos),styleForm)";
-			_defaultMenuBarSettings = "*File(*newSkin,*removeSkin,new*Style,re*moveStyle),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),?(*about)";
+			_defaultMenuBarSettings = "*File(*newSkin,*removeSkin,new*Style,re*moveStyle,|,*loadExternals),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),?(*about)";
 			
 			_selectionModel = new StyleSelectionModel();
 		}
 		override public function init (preload : ComponentFactoryPreload) : void 
 		{
+			_preload = preload;
+			_preload.setProgressLabel(_("Loading collections"));
+			
+			BuilderCollections.addEventListener(CommandEvent.COMMAND_END, collectionsLoaded );			BuilderCollections.addEventListener(ProgressEvent.PROGRESS, collectionProgress );
+
+			var collections : Array = SettingsManagerInstance.get( this, "collections", DEFAULT_DECORATIONS_COLLECTIONS );
+			var l : uint = collections.length;
+			
+			for( var i : uint = 0; i<l; i++ )
+				BuilderCollections.loadCollection( collections[ i ] );
+			
+			BuilderCollections.execute();
+		}
+		protected function collectionProgress (event : ProgressEvent) : void 
+		{
+			_preload.setProgressValue( Math.floor( event.bytesLoaded / event.bytesTotal * 100 ) );
+		}
+		protected function collectionsLoaded (event : CommandEvent) : void 
+		{	
+			BuilderCollections.removeEventListener(CommandEvent.COMMAND_END, collectionsLoaded );
+			BuilderCollections.removeEventListener(ProgressEvent.PROGRESS, collectionProgress );
+			
+			/*FDT_IGNORE*/ CONFIG::RELEASE { _init(); } 
+			CONFIG::DEBUG { /*FDT_IGNORE*/
+			setTimeout( _init, 1000 ); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		}
+		protected function _init() : void
+		{
 			initComponents();
-			ComponentFactoryInstance.group("movable"
+			ComponentFactoryInstance.group("movables"
 								   ).build( StyleStateGrid, 
 								   			"styleStateGrid", 
 								   			null, 
@@ -159,7 +189,8 @@ package aesia.com.ponents.demos.editors
 																							 "styleTree", 
 																							 _("Styles"), 
 																							 magicIconBuild( treeIcon ) );
-																								_dockables["stylePreview"] = new SimpleDockable(ctx["stylePreview"], 
+												
+												_dockables["stylePreview"] = new SimpleDockable(ctx["stylePreview"], 
 																								"stylePreview", 
 																								_("Preview"), 
 																								magicIconBuild( stylePreviewIcon ) );
@@ -172,13 +203,17 @@ package aesia.com.ponents.demos.editors
 																								_("Details"), 
 																								magicIconBuild( styleInfosIcon ) );	
 												
-												_selectionModel.addEventListener( StyleSelectionEvent.SKIN_SELECT, ctx["styleInfos"].skinSelectionChange );												_selectionModel.addEventListener( StyleSelectionEvent.STYLE_SELECT, ctx["styleInfos"].styleSelectionChange );												_selectionModel.addEventListener( StyleSelectionEvent.STYLE_SELECT, ctx["stylePreview"].styleSelectionChange );												_selectionModel.addEventListener( StyleSelectionEvent.STATES_SELECT, ctx["styleForm"].statesSelectionChange );
+												_selectionModel.addEventListener( StyleSelectionEvent.SKIN_SELECT, ctx["styleInfos"].skinSelectionChange );
+												_selectionModel.addEventListener( StyleSelectionEvent.STYLE_SELECT, ctx["styleInfos"].styleSelectionChange );
+												_selectionModel.addEventListener( StyleSelectionEvent.STYLE_SELECT, ctx["stylePreview"].styleSelectionChange );
+												_selectionModel.addEventListener( StyleSelectionEvent.STATES_SELECT, ctx["styleForm"].statesSelectionChange );
 												
 												stylesTree.addEventListener(ComponentEvent.SELECTION_CHANGE, treeSelectionChange );
 											}, 
 											null);
 			
-			super.init( preload );
+			super.init( _preload );
+			fireProceedBuild();
 		}
 		
 		protected function treeSelectionChange (event : ComponentEvent) : void 
@@ -211,12 +246,12 @@ package aesia.com.ponents.demos.editors
 		protected function initComponents () : void
 		{
 			var c : Component;
-			
+			/*
 			c = new ScrollBar();
 			c = new ProgressBar(new DefaultBoundedRangeModel());
 			c = new TextInput();			c = new TextArea();			c = new Button();			c = new RadioButton();
-			c = new Dialog("foo",0,new Panel());
-			c = new VSlider(new DefaultBoundedRangeModel());			c = new HSlider(new DefaultBoundedRangeModel());
+			c = new Dialog("foo",0,new Panel());*/
+			c = new VSlider(new DefaultBoundedRangeModel());			//c = new HSlider(new DefaultBoundedRangeModel());
 		}
 		protected function buildStylesTreeModel () : TreeModel
 		{
@@ -232,8 +267,6 @@ package aesia.com.ponents.demos.editors
 			var a : Object = SkinManagerInstance.defaultSkin;
 			var o : Object = {};
 			
-			Log.debug( Inspect.inspect(a) );
-
 			for( var i : String in a )
 			{
 				if( i != "name" )

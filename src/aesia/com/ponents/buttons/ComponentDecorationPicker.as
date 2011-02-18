@@ -10,6 +10,7 @@ package aesia.com.ponents.buttons
 	import aesia.com.patibility.lang._;
 	import aesia.com.ponents.actions.ProxyAction;
 	import aesia.com.ponents.actions.builtin.EditObjectPropertiesAction;
+	import aesia.com.ponents.builder.models.BuilderCollections;
 	import aesia.com.ponents.containers.Window;
 	import aesia.com.ponents.core.AbstractContainer;
 	import aesia.com.ponents.events.ComponentEvent;
@@ -21,27 +22,8 @@ package aesia.com.ponents.buttons
 	import aesia.com.ponents.layouts.components.HBoxLayout;
 	import aesia.com.ponents.menus.DropDownMenu;
 	import aesia.com.ponents.menus.MenuItem;
-	import aesia.com.ponents.skinning.decorations.AdvancedSlicedBitmapFill;
-	import aesia.com.ponents.skinning.decorations.ArrowSideBorders;
-	import aesia.com.ponents.skinning.decorations.ArrowSideFill;
-	import aesia.com.ponents.skinning.decorations.ArrowSideGradientBorders;
-	import aesia.com.ponents.skinning.decorations.ArrowSideGradientFill;
-	import aesia.com.ponents.skinning.decorations.BitmapDecoration;
-	import aesia.com.ponents.skinning.decorations.BorderedGradientFill;
+	import aesia.com.ponents.models.DefaultListModel;
 	import aesia.com.ponents.skinning.decorations.ComponentDecoration;
-	import aesia.com.ponents.skinning.decorations.EmptyFill;
-	import aesia.com.ponents.skinning.decorations.GradientBorders;
-	import aesia.com.ponents.skinning.decorations.GradientFill;
-	import aesia.com.ponents.skinning.decorations.LineBorders;
-	import aesia.com.ponents.skinning.decorations.MacroDecoration;
-	import aesia.com.ponents.skinning.decorations.NoDecoration;
-	import aesia.com.ponents.skinning.decorations.SeparatorDecoration;
-	import aesia.com.ponents.skinning.decorations.SimpleBorders;
-	import aesia.com.ponents.skinning.decorations.SimpleEllipsisBorders;
-	import aesia.com.ponents.skinning.decorations.SimpleEllipsisFill;
-	import aesia.com.ponents.skinning.decorations.SimpleFill;
-	import aesia.com.ponents.skinning.decorations.SlicedBitmapFill;
-	import aesia.com.ponents.skinning.decorations.StripFill;
 
 	/**
 	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
@@ -103,18 +85,17 @@ package aesia.com.ponents.buttons
 			_editDecoration = new Button( new EditObjectPropertiesAction( null, editObjectCallBack, _("No Object"), null, null, null, true ) );
 			_editDecoration.action.addEventListener(CommandEvent.COMMAND_END, editCommandEnd);
 			_editDecoration.isComponentIndependent = false;
-
-			_newDecoration = new DropDownMenu("New", null,
-												getMenuItem(NoDecoration),												getMenuItem(EmptyFill),												getMenuItem(MacroDecoration),												getMenuItem(SeparatorDecoration),												getMenuItem(SimpleFill),												getMenuItem(SimpleEllipsisFill),
-												getMenuItem(SimpleBorders),												getMenuItem(SimpleEllipsisBorders),												getMenuItem(LineBorders),
-												getMenuItem(GradientFill),
-												getMenuItem(GradientBorders),												getMenuItem(BorderedGradientFill),												getMenuItem(StripFill),												getMenuItem(BitmapDecoration),
-												getMenuItem(ArrowSideFill),
-												getMenuItem(ArrowSideBorders),
-												getMenuItem(ArrowSideGradientFill),
-												getMenuItem(ArrowSideGradientBorders),
-												getMenuItem(SlicedBitmapFill),
-												getMenuItem(AdvancedSlicedBitmapFill) );
+			
+			BuilderCollections.addEventListener(CommandEvent.COMMAND_END, collectionsLoaded );
+			
+			_newDecoration = new DropDownMenu("New", 
+											  null, 
+											  BuilderCollections.getClassesByType("decorations").map( 
+											  	function( c : Class, ... args ) : MenuItem 
+											  	{ 
+											  		return getMenuItem( c ); 
+											  	} ) );
+			
 			_newDecoration.isComponentIndependent = false;
 
 			var l : HBoxLayout = new HBoxLayout(this, 3,
@@ -124,6 +105,13 @@ package aesia.com.ponents.buttons
 			childrenLayout = l;
 			 addComponent( _editDecoration );			 addComponent( _newDecoration );
 		}
+		protected function collectionsLoaded (event : CommandEvent) : void 
+		{
+			_newDecoration.popupMenu.menuList.model = new DefaultListModel( 
+															BuilderCollections.getClassesByType("decorations").map( 
+																function( c : Class, ... args ) : MenuItem { return getMenuItem( c ); } ) );
+		}
+		
 		protected function editObjectCallBack (    o : Object, 
 												   form : FormObject, 
 												   manager : SimpleFormManager,

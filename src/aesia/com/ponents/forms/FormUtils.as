@@ -119,8 +119,9 @@ package aesia.com.ponents.forms
 			d[ FIELD_CLASS ] = getClassPathInput;			d[ getQualifiedClassName(Class) ] = getClassPathInput;				
 			/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
 			d[ getQualifiedClassName(ExternalBitmapIcon) ] = getIcon;
-			d[ getQualifiedClassName(EmbeddedBitmapIcon) ] = getIcon;			d[ getQualifiedClassName(SWFIcon) ] = getIcon;			d[ getQualifiedClassName(ColorIcon) ] = getIcon;			d[ getQualifiedClassName(GradientIcon) ] = getIcon;			d[ getQualifiedClassName(PaletteIcon) ] = getIcon;			d[ getQualifiedClassName(CheckBoxUncheckedIcon) ] = getIcon;			d[ getQualifiedClassName(CheckBoxCheckedIcon) ] = getIcon;			d[ getQualifiedClassName(RadioCheckedIcon) ] = getIcon;			d[ getQualifiedClassName(RadioUncheckedIcon) ] = getIcon;			d[ getQualifiedClassName(DOIcon) ] = getIcon;			d[ getQualifiedClassName(DOInstanceIcon) ] = getIcon;			d[ getQualifiedClassName(FontIcon) ] = getIcon;			d[ getQualifiedClassName(BitmapIcon) ] = getIcon;			d[ getQualifiedClassName(Icon) ] = getIcon;			/*FDT_IGNORE*/ } /*FDT_IGNORE*/			
-			d[ FIELD_COMPONENT_DECORATION ] = getComponentDecoration;			d[ getQualifiedClassName(ComponentDecoration) ] = getComponentDecoration;
+			d[ getQualifiedClassName(EmbeddedBitmapIcon) ] = getIcon;			d[ getQualifiedClassName(SWFIcon) ] = getIcon;			d[ getQualifiedClassName(ColorIcon) ] = getIcon;			d[ getQualifiedClassName(GradientIcon) ] = getIcon;			d[ getQualifiedClassName(PaletteIcon) ] = getIcon;			d[ getQualifiedClassName(CheckBoxUncheckedIcon) ] = getIcon;			d[ getQualifiedClassName(CheckBoxCheckedIcon) ] = getIcon;			d[ getQualifiedClassName(RadioCheckedIcon) ] = getIcon;			d[ getQualifiedClassName(RadioUncheckedIcon) ] = getIcon;			d[ getQualifiedClassName(DOIcon) ] = getIcon;			d[ getQualifiedClassName(DOInstanceIcon) ] = getIcon;			d[ getQualifiedClassName(FontIcon) ] = getIcon;			d[ getQualifiedClassName(BitmapIcon) ] = getIcon;			d[ getQualifiedClassName(Icon) ] = getIcon;
+			d[ FIELD_COMPONENT_DECORATION ] = getComponentDecoration;			d[ getQualifiedClassName(ComponentDecoration) ] = getComponentDecoration;			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			
 			d[ FIELD_FILTERS_ARRAY ] = getFiltersArray;
 			return d;
@@ -1096,6 +1097,7 @@ package aesia.com.ponents.forms
 			return new FiltersPicker( v );
 		}
 		
+		/*FDT_IGNORE*/ FEATURES::BUILDER /*FDT_IGNORE*/
 		static private function getComponentDecoration ( v : ComponentDecoration, args : Object ) : *
 		{
 			return new ComponentDecorationPicker(); 

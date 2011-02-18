@@ -61,9 +61,22 @@ package aesia.com.ponents.menus
 			_dropDownIcon = _style.dropDownIcon.clone();
 			_childrenContainer.addChild( _dropDownIcon );
 			
-			for each ( var m : MenuItem in menus )
-				if ( m )
-					_popupMenu.addMenuItem( m );
+			if( menus && menus.length > 0 )
+			{
+				var m : MenuItem;
+				if( menus[0] is Array )
+				{
+					for each ( m in menus[0] )
+						if ( m )
+							_popupMenu.addMenuItem( m );
+				}
+				else
+				{
+					for each ( m in menus )
+						if ( m )
+							_popupMenu.addMenuItem( m );
+				}
+			}
 		}
 
 		private function closeOnCancel (event : PopupEvent) : void

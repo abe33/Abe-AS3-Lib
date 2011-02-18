@@ -1,6 +1,5 @@
 package aesia.com.ponents.factory 
 {
-	import aesia.com.mon.logs.Log;
 	import aesia.com.mon.utils.StageUtils;
 	import aesia.com.mon.utils.StringUtils;
 	import aesia.com.patibility.lang._;
@@ -33,7 +32,7 @@ package aesia.com.ponents.factory
 	/**
 	 * @author cedric
 	 */
-	public class ApplicationMain extends Sprite 
+	public class ApplicationMain extends Sprite implements EntryPoint
 	{
 		static public var instance : ApplicationMain;
 		
@@ -222,7 +221,11 @@ package aesia.com.ponents.factory
 		protected function contentClose (event : ComponentEvent) : void 
 		{
 			if( event.target is ClosableTab )
-				( event.target as ClosableTab ).removeFromParent();
+				( event.target as ClosableTab ).removeFromParent( );
+		}
+		public function fireProceedBuild () : void
+		{
+			dispatchEvent( new ComponentFactoryEvent(ComponentFactoryEvent.PROCEED_BUILD ) );
 		}
 	}
 }

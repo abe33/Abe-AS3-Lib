@@ -6,6 +6,7 @@ package aesia.com.ponents.containers
 	import aesia.com.ponents.core.AbstractComponent;
 	import aesia.com.ponents.dnd.gestures.DragGesture;
 	import aesia.com.ponents.skinning.cursors.Cursor;
+	import aesia.com.ponents.skinning.decorations.BitmapDecoration;
 	import aesia.com.ponents.utils.Directions;
 
 	import flash.display.BitmapData;
@@ -25,6 +26,8 @@ package aesia.com.ponents.containers
 	 */
 	public class ToolBarGrip extends AbstractComponent 
 	{
+		static private var DEPENDENCIES : Array = [BitmapDecoration]; 
+		
 		static public function getVGrip() : BitmapData
 		{
 			return EmbeddedBitmapAllocatorInstance.get( vgrip ).bitmapData;
