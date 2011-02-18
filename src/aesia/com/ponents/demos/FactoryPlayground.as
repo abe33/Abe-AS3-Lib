@@ -46,7 +46,7 @@ package aesia.com.ponents.demos
 
 		public function FactoryPlayground ()
 		{
-			super( "Playground", "2.2.4" );
+			super( "Playground", "2.2.5" );
 			
 			ActionManagerInstance.registerAction( new ColorPickerAction(), "colorPick" );
 			ActionManagerInstance.registerAction( new GradientPickerAction(), "gradientPick" );
@@ -62,7 +62,7 @@ package aesia.com.ponents.demos
 												  
 			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
 			dragRenderer = new DnDDragObjectRenderer( DnDManagerInstance );
-			//dropRenderer = new DnDDropRenderer( DnDManagerInstance );
+			dropRenderer = new DnDDropRenderer( DnDManagerInstance );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			_defaultMenuBarSettings = "*File(*New,*Open,|,*Recent Files(*A,*B,*C)),*Edit(*undo,*redo),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),*Custom(*colorPick,*gradientPick),?(*about)";
