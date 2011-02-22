@@ -24,8 +24,8 @@ package abe.com.ponents.demos.editors
 	import abe.com.ponents.skinning.decorations.SimpleFill;
 	import abe.com.ponents.skinning.decorations.SlicedBitmapFill;
 	import abe.com.ponents.skinning.decorations.StripFill;
-	import abe.com.ponents.sliders.HSliderTrackFill;
-	import abe.com.ponents.sliders.VSliderTrackFill;
+	import abe.com.ponents.skinning.decorations.HSliderTrackFill;
+	import abe.com.ponents.skinning.decorations.VSliderTrackFill;
 	
 	/**
 	 * The <code>CoreDecoration</code> purpopse is to embed all the core decorations the <code>StyleEditor</code> 

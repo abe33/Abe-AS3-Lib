@@ -96,7 +96,7 @@ package abe.com.ponents.layouts.components
 				if( box.stretch )
 					numStretch++;
 			}
-			var compensate : Number = numStretch != 0 ? ( prefDim.width - innerPref.width ) / numStretch : 0;			for(i=0;i<l;i++)
+			var compensate : Number = numStretch != 0 ? ( prefDim.width - innerPref.width - (l-1)*_gap ) / numStretch : 0;			for(i=0;i<l;i++)
 			{
 				box = _boxes[ i ];
 				var o : Component = box.object;

@@ -33,10 +33,10 @@ package abe.com.ponents.scrollbars
 		  inherit="ScrollBar_Button",
 		  custom_icon="icon(abe.com.ponents.scrollbars::ScrollBar.SCROLL_RIGHT_ICON)"
 	)]
-	[Skin(define="ScrollBar_HorizontalSlider",
+	[Skin(define="ScrollBar_HorizontalKnob",
 		  inherit="ScrollBar_Button",
 		  custom_icon="icon(abe.com.ponents.scrollbars::ScrollBar.HORIZONTAL_GRIP)"	)]
-	[Skin(define="ScrollBar_VerticalSlider",
+	[Skin(define="ScrollBar_VerticalKnob",
 		  inherit="ScrollBar_Button",
 		  custom_icon="icon(abe.com.ponents.scrollbars::ScrollBar.VERTICAL_GRIP)"
 	)]
@@ -73,13 +73,13 @@ package abe.com.ponents.scrollbars
 		public var scrollUpButton : Button;
 		public var scrollDownButton : Button;
 		public var scrollTrack : Button;
-		public var scrollSlider : Button;
+		public var scrollKnob : Button;
 		public var additionnalScrollUpButton : Button;
 
 		protected var scrollUpButtonController : ButtonController;
 		protected var scrollDownButtonController : ButtonController;
 		protected var scrollTrackController : TrackController;
-		protected var scrollSliderController : SliderController;
+		protected var scrollKnobController : KnobController;
 		protected var additionnalScrollUpButtonController : ButtonController;
 
 		protected var _unitIncrement : Number;		protected var _blockIncrement : Number;
@@ -145,7 +145,7 @@ package abe.com.ponents.scrollbars
 				case Orientations.HORIZONTAL :
 					scrollUpButton.styleKey = styleKey + "_LeftButton";
 					scrollDownButton.styleKey =  styleKey + "_RightButton";
-					scrollSlider.styleKey =  styleKey + "_HorizontalSlider";
+					scrollKnob.styleKey =  styleKey + "_HorizontalKnob";
 					scrollTrack.styleKey = styleKey + "_TrackHorizontal";
 
 					if( additionnalButton && additionnalScrollUpButton )
@@ -157,7 +157,7 @@ package abe.com.ponents.scrollbars
 				default :
 					scrollUpButton.styleKey = styleKey + "_UpButton";
 					scrollDownButton.styleKey =  styleKey + "_DownButton";
-					scrollSlider.styleKey =  styleKey + "_VerticalSlider";
+					scrollKnob.styleKey =  styleKey + "_VerticalKnob";
 					scrollTrack.styleKey = styleKey + "_TrackVertical";
 
 					if( additionnalButton && additionnalScrollUpButton )
@@ -208,9 +208,9 @@ package abe.com.ponents.scrollbars
 			scrollUpButton   = new ScrollBarButton( styleKey + "_UpButton" );
 			scrollDownButton = new ScrollBarButton( styleKey + "_DownButton" );
 			scrollTrack 	 = new ScrollBarButton( styleKey + "_TrackVertical" );
-			scrollSlider	 = new ScrollBarButton( styleKey + "_VerticalSlider" );
+			scrollKnob	 = new ScrollBarButton( styleKey + "_VerticalKnob" );
 
-			setupButton( scrollUpButton );			setupButton( scrollDownButton );			setupButton( scrollTrack );			setupButton( scrollSlider );
+			setupButton( scrollUpButton );			setupButton( scrollDownButton );			setupButton( scrollTrack );			setupButton( scrollKnob );
 
 			// setup listeners for all entities
 			scrollDownButtonController = new ButtonController( scrollDownButton,
@@ -224,12 +224,12 @@ package abe.com.ponents.scrollbars
 															 -1 );
 
 			scrollTrackController = new TrackController( scrollTrack,
-														 scrollSlider,
+														 scrollKnob,
 														 scrollIncrement,
 														 this );
 
-			scrollSliderController = new SliderController( scrollSlider,
-														   updateContentFromSlider,
+			scrollKnobController = new KnobController( scrollKnob,
+														   updateContentFromKnob,
 														   this );
 
 			// Si l'on autorise le bouton supplémentaire sur les scrollbarss
@@ -292,18 +292,18 @@ package abe.com.ponents.scrollbars
 					break;
 			}
 
-			updateSlider ();
+			updateKnob ();
 
 			scrollDownButton.repaint();
 			scrollUpButton.repaint();
 			scrollTrack.repaint();
-			scrollSlider.repaint();
+			scrollKnob.repaint();
 			if( additionnalButton )
 				additionnalScrollUpButton.repaint();
 
 			invalidatePreferredSizeCache();
 		}
-		public function updateSlider () : void
+		public function updateKnob () : void
 		{
 			/*
 			 * Si on ne peut pas scroller, tout les boutons sont désactivés
@@ -311,7 +311,7 @@ package abe.com.ponents.scrollbars
 			 */
 			if( !canScroll )
 			{
-				scrollSlider.visible = false;
+				scrollKnob.visible = false;
 
 				scrollDownButton.enabled = false;
 				scrollUpButton.enabled = false;
@@ -324,7 +324,7 @@ package abe.com.ponents.scrollbars
 			}
 			else
 			{
-				scrollSlider.visible = true && _enabled;
+				scrollKnob.visible = true && _enabled;
 				scrollTrack.enabled = true && _enabled;
 				scrollDownButton.enabled = true && _enabled;
 				scrollUpButton.enabled = true && _enabled;
@@ -356,54 +356,54 @@ package abe.com.ponents.scrollbars
 			switch ( _orientation )
 			{
 				case Orientations.HORIZONTAL :
-					var oldw : Number = scrollSlider.width;
-					var oldx : Number = scrollSlider.x;
+					var oldw : Number = scrollKnob.width;
+					var oldx : Number = scrollKnob.x;
 					var w : Number = MathUtils.map( _model.extent,
 													_model.minimum, _model.maximum + _model.extent,
 													8, scrollTrack.width );
 
-					scrollSlider.width = w;
-					scrollSlider.x = scrollTrack.x + MathUtils.map( _model.value,
+					scrollKnob.width = w;
+					scrollKnob.x = scrollTrack.x + MathUtils.map( _model.value,
 														_model.minimum, _model.maximum,
 														0, scrollTrack.width - w );
 
-					if( scrollSlider.width != oldw || scrollSlider.x != oldx )
+					if( scrollKnob.width != oldw || scrollKnob.x != oldx )
 						fireComponentEvent( ComponentEvent.SCROLL );
 					break;
 				case Orientations.VERTICAL :
 				default :
-					var oldh : Number = scrollSlider.height;
-					var oldy : Number = scrollSlider.y;
+					var oldh : Number = scrollKnob.height;
+					var oldy : Number = scrollKnob.y;
 					var h : Number = MathUtils.map( _model.extent,
 													_model.minimum, _model.maximum + _model.extent,
 													8, scrollTrack.height );
 
-					scrollSlider.height = h;
-					scrollSlider.y = scrollTrack.y + MathUtils.map( _model.value,
+					scrollKnob.height = h;
+					scrollKnob.y = scrollTrack.y + MathUtils.map( _model.value,
 														_model.minimum, _model.maximum,
 														0, scrollTrack.height - h );
 
-					if( scrollSlider.height != oldh || scrollSlider.y != oldy )
+					if( scrollKnob.height != oldh || scrollKnob.y != oldy )
 						fireComponentEvent( ComponentEvent.SCROLL );
 					break;
 			}
 		}
 
-		public function updateContentFromSlider () : void
+		public function updateContentFromKnob () : void
 		{
 			var scroll : Number;
 
 			if( isVertical )
-				scroll = MathUtils.map( scrollSlider.y - scrollTrack.y,
-										0, scrollTrack.height - scrollSlider.height,
+				scroll = MathUtils.map( scrollKnob.y - scrollTrack.y,
+										0, scrollTrack.height - scrollKnob.height,
 										minScroll, maxScroll );
 			else
-				scroll = MathUtils.map( scrollSlider.x - scrollTrack.x,
-										0, scrollTrack.width - scrollSlider.width,
+				scroll = MathUtils.map( scrollKnob.x - scrollTrack.x,
+										0, scrollTrack.width - scrollKnob.width,
 										minScroll, maxScroll );
 
 			this.scroll = scroll;
-			updateSlider();
+			updateKnob();
 		}
 
 		/*--------------------------------------------------------------
@@ -602,7 +602,7 @@ internal class TrackController
 /**
  *
  */
-internal class SliderController
+internal class KnobController
 {
 	public var button : Button;
 	public var callback : Function;
@@ -612,7 +612,7 @@ internal class SliderController
 	private var pressed : Boolean;
 	private var scrollbar : ScrollBar;
 
-	public function SliderController ( bt : Button, callback : Function, scrollbar : ScrollBar )
+	public function KnobController ( bt : Button, callback : Function, scrollbar : ScrollBar )
 	{
 		this.button = bt;
 		this.callback = callback;

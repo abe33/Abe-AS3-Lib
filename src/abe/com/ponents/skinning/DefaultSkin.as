@@ -236,10 +236,10 @@ package abe.com.ponents.skinning
 		 * Slider Colors
 		 */
 		static public var sliderTickColor : Color = BorderBlue;
-		static public var sliderTrackBackgroundColor1 : Color = RulerBlue;		static public var sliderTrackBackgroundColor2 : Color = BorderBlue;
+		static public var sliderTrackBackgroundColor1 : Color = RulerBlue;		static public var sliderTrackBackgroundColor2 : Color = BorderBlue;		static public var sliderRangeBackgroundColor : Color = SelectionGreen;
 		
 		static public var sliderTrackDisabledBackgroundColor1 : Color = RulerBlue.alphaClone(0x66);
-		static public var sliderTrackDisabledBackgroundColor2 : Color = BorderBlue.alphaClone(0x66);
+		static public var sliderTrackDisabledBackgroundColor2 : Color = BorderBlue.alphaClone(0x66);		static public var sliderDisabledRangeBackgroundColor : Color = SelectionGreen.alphaClone(0x66);
 		
 		/*
 		 * Tooltip Colors

@@ -158,7 +158,7 @@ The first one is more convenient when you have a really specific features config
 
 Let's take a look to the first one. Below, an example of a compilation command line with all the conditionnal compilation constants defined as command line arguments : 
 
-	mxmlc -source-path+=PATH_TO_THE_AESIA_LIB \
+	mxmlc -source-path+=PATH_TO_THE_ABE_LIB_SRC_FOLDER \
 	      -library-path+=PATH_TO_THE_SQUIGGLY_SWC \
 	      \
 	      -define+=CONFIG::DEBUG,true \
@@ -187,6 +187,45 @@ Let's take a look to the first one. Below, an example of a compilation command l
 	      -- MyClass.as
 
 Then, if you launch the compiled *.swf file in the Flash Player you can have a taste of the whole components set since many basic components are used to create the +DebugPanel+. 
+
+=== Compiling the FactoryPlayground example
+
+The +FactoryPlayground+ file demonstrates a more complex usage of the component set. The +FactoryPlayground+ inherit from the +ApplicationMain+ class, use the +ComponentFactoryPreload+ class as the factory frame, and use a +CookieSettingsBackend+ to store the ui settings in a local shared object.
+
+
+
+The compilation of the +FactoryPlayground+ file will require that you set the +MAIN_CLASS+ constant in the compilation command. That constant will tell the +ComponentFactoryPreload+ which class is the main class to instanciate at startup. Note that the path to the main class must be in the +getQualifiedClassName+ syntax.
+
+	mxmlc -source-path+=PATH_TO_THE_ABE_LIB_SRC_FOLDER \
+	      -library-path+=PATH_TO_THE_SQUIGGLY_SWC \
+	      \
+	      -define+=CONFIG::DEBUG,true \
+	      -define+=CONFIG::RELEASE,false \
+	      -define+=CONFIG::WITH_DISTANT_SERVER,false \
+	      -define+=CONFIG::WITH_LOCAL_SERVER,false \
+	      -define+=CONFIG::WITHOUT_SERVER,true \
+	      -define+=CONFIG::MAIN_CLASS,"abe.com.ponents.demos::FactoryPlayground" \
+	      \
+	      -define+=TARGET::WEB,true \
+	      -define+=TARGET::AIR,false \
+	      -define+=TARGET::FLASH_10_1,true \
+	      -define+=TARGET::FLASH_10,false \
+	      -define+=TARGET::FLASH_9,false \
+	      \
+	      -define+=FEATURES::SPELLING,true \
+	      -define+=FEATURES::AUTOCOMPLETION,true \
+	      -define+=FEATURES::CURSOR,true \
+	      -define+=FEATURES::DND,true \
+	      -define+=FEATURES::TOOLTIP,true \
+	      -define+=FEATURES::MENU_CONTEXT,true \
+	      -define+=FEATURES::KEYBOARD_CONTEXT,true \
+	      -define+=FEATURES::SETTINGS_MEMORY,true \
+	      -define+=FEATURES::BUILDER,false \
+	      \
+	      -output=FactoryPlayground.swf \
+	      -- PATH_TO_THE_ABE_LIB_SRC_FOLDER/abe/com/ponents/demos/FactoryPlayground.as
+
+
 
 
 

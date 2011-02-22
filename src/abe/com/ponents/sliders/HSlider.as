@@ -1,5 +1,6 @@
 package abe.com.ponents.sliders 
 {
+	import abe.com.ponents.skinning.decorations.HSliderTrackFill;
 	import abe.com.mands.ProxyCommand;
 	import abe.com.mon.utils.Color;
 	import abe.com.mon.utils.KeyStroke;
@@ -59,8 +60,8 @@ package abe.com.ponents.sliders
 		  preview="abe.com.ponents.sliders::HSlider.defaultHSliderPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__background="new sliders::HSliderTrackFill( skin.sliderTrackBackgroundColor1, skin.sliderTrackBackgroundColor2, 4, 10)",
-		  state__1_5_9_13__background="new sliders::HSliderTrackFill( skin.sliderTrackDisabledBackgroundColor1, skin.sliderTrackDisabledBackgroundColor2, 4, 10)",
+		  state__all__background="new deco::HSliderTrackFill( skin.sliderTrackBackgroundColor1, skin.sliderTrackBackgroundColor2, 4, 10)",
+		  state__1_5_9_13__background="new deco::HSliderTrackFill( skin.sliderTrackDisabledBackgroundColor1, skin.sliderTrackDisabledBackgroundColor2, 4, 10)",
 		  state__all__corners="new cutils::Corners(2)",
 		  state__all__insets="new cutils::Insets(2,10,2,10)"
 	)]
@@ -80,7 +81,7 @@ package abe.com.ponents.sliders
 		
 		protected var _input : TextInput;
 		protected var _track : Button;
-		protected var _slider : Button;
+		protected var _knob : Button;
 		protected var _model : BoundedRangeModel;
 		
 		protected var _dragging : Boolean;
@@ -118,14 +119,14 @@ package abe.com.ponents.sliders
 			_input.styleKey = "HSliderInput";
 			_input.preferredWidth = _style.inputWidth;
 			_input.isComponentIndependent = false;			
-			_slider = new Button();
-			_slider.styleKey = "HSliderButton";
-			_slider.icon = _style.icon.clone();
-			_slider.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
-			_slider.preferredWidth = _style.buttonSize;
-			_slider.isComponentIndependent = false;
+			_knob = new Button("");
+			_knob.styleKey = "HSliderButton";
+			_knob.icon = _style.icon.clone();
+			_knob.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+			_knob.preferredWidth = _style.buttonSize;
+			_knob.isComponentIndependent = false;
 			
-			_track = new Button();
+			_track = new Button("");
 			_track.styleKey = "HSliderTrack";
 			_track.label = "";
 			_track.allowFocus = false;
@@ -139,7 +140,7 @@ package abe.com.ponents.sliders
 			if( _displayInput )
 				addComponent( _input );
 			
-			addComponent( _slider );
+			addComponent( _knob );
 			
 			var layout : HBoxLayout = new HBoxLayout( this, 3, 
 											new BoxSettings( 0, "left", "center", _displayInput ? _input : null ),											new BoxSettings( 0, "right", "center", null ),											new BoxSettings( _style.trackSize, "left", "center", _track, true, true, true ),
@@ -158,7 +159,7 @@ package abe.com.ponents.sliders
 		}
 		public function get input () : TextInput { return _input; }		
 		public function get track () : Button { return _track; }	
-		public function get slider () : Button { return _slider; }
+		public function get knob () : Button { return _knob; }
 		
 		public function get value () : * { return _model.value; }
 		public function set value ( n : * ) : void
@@ -246,9 +247,9 @@ package abe.com.ponents.sliders
 		{
 			super.registerToOnStageEvents( );
 			
-			_slider.addWeakEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_slider.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_slider.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_knob.addWeakEventListener( MouseEvent.MOUSE_DOWN, dragStart );
+			_knob.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
+			_knob.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
 			_track.addWeakEventListener( MouseEvent.MOUSE_DOWN, trackDragStart );
 			_track.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
 			_track.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );	
@@ -260,9 +261,9 @@ package abe.com.ponents.sliders
 		{
 			super.unregisterFromOnStageEvents( );
 			
-			_slider.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_slider.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_slider.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_knob.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
+			_knob.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
+			_knob.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
 			_track.removeEventListener( MouseEvent.MOUSE_DOWN, trackDragStart );
 			_track.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
 			_track.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );	
@@ -310,7 +311,7 @@ package abe.com.ponents.sliders
 		{
 			if( _dragging )
 			{
-				var v : Number = MathUtils.map( _track.mouseX - _pressedX, _slider.width/2, _track.width - _slider.width/2, _model.minimum, _model.maximum );
+				var v : Number = MathUtils.map( _track.mouseX - _pressedX, _knob.width/2, _track.width - _knob.width/2, _model.minimum, _model.maximum );
 				_model.value = getTransformedValue( v );
 			}
 		}
@@ -351,8 +352,8 @@ package abe.com.ponents.sliders
 		}
 		protected function placeSlider () : void
 		{
-			_slider.x = _track.x + MathUtils.map( _model.value , _model.minimum, _model.maximum, 0, _track.width - _slider.width );
-			_slider.y = Alignments.alignVertical( _slider.height , height, _style.insets, "center" );
+			_knob.x = _track.x + MathUtils.map( _model.value , _model.minimum, _model.maximum, 0, _track.width - _knob.width );
+			_knob.y = Alignments.alignVertical( _knob.height , height, _style.insets, "center" );
 		}
 		protected function paintTicks () : void
 		{
@@ -363,14 +364,14 @@ package abe.com.ponents.sliders
 			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
 			for( i = _model.minimum; i <= _model.maximum; i += _majorTickSpacing )
 			{
-				x = _track.x + _slider.width/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.width - _slider.width );
+				x = _track.x + _knob.width/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.width - _knob.width );
 				_background.graphics.moveTo( x, y - h );
 				_background.graphics.lineTo( x, y );
 			}
 			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
 			for( i = _model.minimum; i <= _model.maximum; i += _minorTickSpacing )
 			{
-				x = _track.x + _slider.width/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.width - _slider.width );
+				x = _track.x + _knob.width/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.width - _knob.width );
 				_background.graphics.moveTo( x, y - h/4 );
 				_background.graphics.lineTo( x, y - h*0.75 );
 			}
@@ -438,11 +439,11 @@ package abe.com.ponents.sliders
 			switch( event.propertyName )
 			{
 				case "icon" :
-					_slider.icon = _style.icon.clone();
+					_knob.icon = _style.icon.clone();
 					invalidatePreferredSizeCache();
 					break;
 				case "buttonSize" :
-					_slider.preferredWidth = event.propertyValue;
+					_knob.preferredWidth = event.propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "inputWidth" :
