@@ -1,16 +1,16 @@
-= Aesia AS3 Lib
+= AbeLib AS3 Lib
 
-The Aesia library is a general purpose actionscript library. This library contains four
+The AbeLib library is a general purpose actionscript library. This library contains four
 distinct parts : 
 
-* The aesia.com.mon and aesia.com.patibility packages contains all the general utilities, interfaces and classes used by the rest of the library. In aesia.com.patibility you can find all the codecs and the gettext implementation used by the rest of the library.
-* The aesia.com.mands and the aesia.com.munication packages contains all the command pattern's implementations and some concret implementations of commands dealing with server call and web services.
-* The aesia.com.motion and the aesia.com.media packages contains the classes in charge of making things move.
-* The aesia.com.ponents package contains the complete sets of components I created, with their own interfaces, classes and utilities.
+* The abe.com.mon and abe.com.patibility packages contains all the general utilities, interfaces and classes used by the rest of the library. In abe.com.patibility you can find all the codecs and the gettext implementation used by the rest of the library.
+* The abe.com.mands and the abe.com.munication packages contains all the command pattern's implementations and some concret implementations of commands dealing with server call and web services.
+* The abe.com.motion and the abe.com.media packages contains the classes in charge of making things move.
+* The abe.com.ponents package contains the complete sets of components I created, with their own interfaces, classes and utilities.
 
 == Library dependencies
 
-The Aesia library components set have one dependence regarding the spell checking, and since conditionnal compilation can't be used with import statements, event if you don't use the spelling features you should link to the Adobe Spelling SDK when compiling.
+The AbeLib library components set have one dependence regarding the spell checking, and since conditionnal compilation can't be used with import statements, event if you don't use the spelling features you should link to the Adobe Spelling SDK when compiling.
 
 The only *.swc required from the Adobe Spelling SDK is the AdobeSpellingEngine.swc file.
 
@@ -18,7 +18,7 @@ The Adobe Spelling SDK can be found at http://labs.adobe.com/downloads/squiggly.
 
 == About the conditionnal compilation
 
-The Aesia library make an heavy use of the actionscript's conditionnal compilation feature,
+The AbeLib library make an heavy use of the actionscript's conditionnal compilation feature,
 conditionnal compilation is used to differenciate builds and to include or exclude functionnalities
 from the components.
 
@@ -26,7 +26,7 @@ The list and description of all the conditionnal compilation constant are availa
 
 == About the custom metadata tags
 
-The Aesia library use four custom metadatas tags : 
+The AbeLib library use four custom metadatas tags : 
 
 * +Skin+
 * +SKinable+
@@ -62,8 +62,8 @@ The components set is widely inspired by the Swing components from java but with
 
 === What's different ?
 
-* The whole styling and skinning API is completely different than the Swing one. In the Aesia lib, component's skin can be declared as metatag directly in the component class or directly by in code, as instance of the +ComponentStyle+ class. Furthermore, each component's style is part of a styles tree that support style inheritance in a CSS like approach. For exemple, all the defaults component's styles inherit from the +DefaultComponent+ style declared in the skin manager. Additionnaly, component's styles can be modified on a per component basis (as with the style attributes in CSS) by using the style property of any component.
-* The process of painting a component is also completely different. In the Aesia components, each component had three internal Sprites that represent respectively: the background decoration, the children container, the foreground decoration. A +ComponentStyle+ instance compose two objects responsible of the component's decoration repaint, those objects must implements the +ComponentDecoration+ interface. Each component's decoration object is like a graphical processor responsible for drawing into the corresponding Sprite the graphics for a component. These graphics can be vector based or bitmap based, it doesn't matter.
+* The whole styling and skinning API is completely different than the Swing one. In the AbeLib lib, component's skin can be declared as metatag directly in the component class or directly by in code, as instance of the +ComponentStyle+ class. Furthermore, each component's style is part of a styles tree that support style inheritance in a CSS like approach. For exemple, all the defaults component's styles inherit from the +DefaultComponent+ style declared in the skin manager. Additionnaly, component's styles can be modified on a per component basis (as with the style attributes in CSS) by using the style property of any component.
+* The process of painting a component is also completely different. In the AbeLib components, each component had three internal Sprites that represent respectively: the background decoration, the children container, the foreground decoration. A +ComponentStyle+ instance compose two objects responsible of the component's decoration repaint, those objects must implements the +ComponentDecoration+ interface. Each component's decoration object is like a graphical processor responsible for drawing into the corresponding Sprite the graphics for a component. These graphics can be vector based or bitmap based, it doesn't matter.
 * The components and their layouts doesn't support neither minimal size nor maximal size, since it supposed an overload in the layout process for only two or three components that really need it.
 * There's nothing like the lighweight and heavyweight distinction between components. All the components are heavyweight components (that means all components are repainted only once per frame).
  
@@ -73,12 +73,12 @@ Below is a little snippet I use as base in most of my projects.
 
 	package  
 	{
-		import aesia.com.mon.logs.Log;
-		import aesia.com.mon.utils.StageUtils;
+		import abe.com.mon.logs.Log;
+		import abe.com.mon.utils.StageUtils;
 		
-		import aesia.com.ponents.tools.DebugPanel;
-		import aesia.com.ponents.utils.KeyboardControllerInstance;
-		import aesia.com.ponents.utils.ToolKit;
+		import abe.com.ponents.tools.DebugPanel;
+		import abe.com.ponents.utils.KeyboardControllerInstance;
+		import abe.com.ponents.utils.ToolKit;
 		
 		import flash.display.Sprite;
 		import flash.system.Capabilities;

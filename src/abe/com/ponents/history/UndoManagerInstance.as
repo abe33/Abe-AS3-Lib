@@ -1,0 +1,1 @@
+/** * @license */package abe.com.ponents.history {			/**	 * Une instance globale de la classe <code>UndoManager</code>. 	 */	public const UndoManagerInstance : UndoManager = new UndoManager();}
