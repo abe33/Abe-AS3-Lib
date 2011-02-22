@@ -1,14 +1,20 @@
 package abe.com.ponents.demos.dockables 
 {
+	import abe.com.mon.geom.Range;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.containers.FieldSet;
+	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ScrollPane;
 	import abe.com.ponents.containers.ScrollablePanel;
 	import abe.com.ponents.factory.ComponentFactory;
+	import abe.com.ponents.layouts.components.GridLayout;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
+	import abe.com.ponents.models.RangeBoundedRangeModel;
 	import abe.com.ponents.skinning.icons.Icon;
+	import abe.com.ponents.sliders.HRangeSlider;
 	import abe.com.ponents.sliders.HSlider;
+	import abe.com.ponents.sliders.VRangeSlider;
 	import abe.com.ponents.sliders.VSlider;
 	import abe.com.ponents.text.Label;
 	import abe.com.ponents.utils.Insets;
@@ -33,12 +39,35 @@ package abe.com.ponents.demos.dockables
 						[ // kwargs
 							{},
 							{snapToTicks:true},
-							{displayTicks:true,preferredWidth:300,displayInput:true},							{displayTicks:true,preferredWidth:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
+							{displayTicks:true,preferredWidth:300,displayInput:false},							{displayTicks:true,preferredWidth:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
 							{displayTicks:true,preferredWidth:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" ), enabled:false}
 						], // container
 						FieldSet, 
 						"slidersDemoHSliderFieldset", 
 						[_("Horizontal Sliders")], 
+						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "topToBottom" ) },
+						null
+			);
+			buildBatch( factory, HRangeSlider, 
+						5, 
+						"slidersDemoHRangeSlider",
+						[ // args
+							[new RangeBoundedRangeModel(new Range(5,20), 0, 100)],
+							[new RangeBoundedRangeModel(new Range(15,45), 0, 100)],
+							[new RangeBoundedRangeModel(new Range(10,90), 0, 100), 10, 1],
+							[new RangeBoundedRangeModel(new Range(45,55), 0, 100)],
+							[new RangeBoundedRangeModel(new Range(60,85), 0, 100)]
+						],
+						[ // kwargs
+							{},
+							{snapToTicks:true},
+							{displayTicks:true,preferredWidth:300/*,displayInput:false*/},
+							{displayTicks:true,preferredWidth:300/*,displayInput:true*/,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
+							{displayTicks:true,preferredWidth:300/*,displayInput:true*/,preComponent:new Label( "min" ),postComponent:new Label( "max" ), enabled:false}
+						], // container
+						FieldSet, 
+						"slidersDemoHRangeSliderFieldset", 
+						[_("Horizontal Range Sliders")], 
 						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "topToBottom" ) },
 						null
 			);
@@ -56,7 +85,7 @@ package abe.com.ponents.demos.dockables
 						[ // kwargs
 							{},
 							{snapToTicks:true},
-							{displayTicks:true,preferredHeight:300,displayInput:true},
+							{displayTicks:true,preferredHeight:300,displayInput:false},
 							{displayTicks:true,preferredHeight:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
 							{displayTicks:true,preferredHeight:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" ), enabled:false}
 						], // container
@@ -67,12 +96,52 @@ package abe.com.ponents.demos.dockables
 						null
 			);
 			
+			buildBatch( factory, VRangeSlider, 
+						5, 
+						"slidersDemoVRangeSlider",
+						[ // args
+							[new RangeBoundedRangeModel(new Range(5,20), 0, 100)],
+							[new RangeBoundedRangeModel(new Range(15,45), 0, 100)],
+							[new RangeBoundedRangeModel(new Range(10,90), 0, 100), 10, 1],
+							[new RangeBoundedRangeModel(new Range(45,55), 0, 100)],
+							[new RangeBoundedRangeModel(new Range(60,85), 0, 100)]
+						],
+						[ // kwargs
+							{},
+							{snapToTicks:true},
+							{displayTicks:true,preferredHeight:300/*,displayInput:false*/},
+							{displayTicks:true,preferredHeight:300/*,displayInput:true*/,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
+							{displayTicks:true,preferredHeight:300/*,displayInput:true*/,preComponent:new Label( "min" ),postComponent:new Label( "max" ), enabled:false}
+						], // container
+						FieldSet, 
+						"slidersDemoVRangeSliderFieldset", 
+						[_("Vertical Range Sliders")], 
+						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "leftToRight" ) },
+						null
+			);
+			
+			fillBatch( factory,Panel, 
+			   		   "hslidersDemoPanel",
+			   		    null,
+			   			{ 'childrenLayout':new GridLayout(null, 1, 2, 10, 3) },
+			    		[
+			    			"slidersDemoHSliderFieldset",			    			"slidersDemoHRangeSliderFieldset"
+			    		] );
+			 
+			fillBatch( factory,Panel, 
+			   		   "vslidersDemoPanel",
+			   		    null,
+			   			{ 'childrenLayout':new GridLayout(null, 1, 2, 10, 3) },
+			    		[
+			    			"slidersDemoVSliderFieldset",			    			"slidersDemoVRangeSliderFieldset"
+			    		] );
+			   			
 			fillBatch( factory,ScrollablePanel, 
 			   		   "slidersDemoPanel",
 			   		    null,
 			   			{ 'childrenLayout':new InlineLayout(null, 3, "left", "top", "topToBottom", true ) },
 			    		[
-			    			"slidersDemoHSliderFieldset",			    			"slidersDemoVSliderFieldset"
+			    			"hslidersDemoPanel",			    			"vslidersDemoPanel"
 			    		],			    		
 			   			onBuildComplete );
 		}

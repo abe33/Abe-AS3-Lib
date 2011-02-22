@@ -11,7 +11,6 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.layouts.components.VBoxLayout;
 	import abe.com.ponents.models.BoundedRangeModel;
 	import abe.com.ponents.models.RangeBoundedRangeModel;
@@ -218,7 +217,7 @@ package abe.com.ponents.sliders
 			if( _preComponent )
 			{
 				removeComponent( _preComponent );
-				(childrenLayout as HBoxLayout).setObjectForBox( null, 1 );
+				(childrenLayout as VBoxLayout).setObjectForBox( null, 1 );
 			}
 			
 			_preComponent = preComponent;
@@ -226,7 +225,7 @@ package abe.com.ponents.sliders
 			{
 				_preComponent.isComponentIndependent = false;
 				addComponent( _preComponent );
-				(childrenLayout as HBoxLayout).setObjectForBox( _preComponent, 1 );
+				(childrenLayout as VBoxLayout).setObjectForBox( _preComponent, 1 );
 			}
 		}
 		public function get postComponent () : Component { return _postComponent; }	
@@ -235,7 +234,7 @@ package abe.com.ponents.sliders
 			if( _postComponent )
 			{
 				removeComponent( _postComponent );
-				(childrenLayout as HBoxLayout).setObjectForBox( null, 3 );
+				(childrenLayout as VBoxLayout).setObjectForBox( null, 3 );
 			}
 			
 			_postComponent = postComponent;
@@ -243,7 +242,7 @@ package abe.com.ponents.sliders
 			{
 				_postComponent.isComponentIndependent = false;
 				addComponent( _postComponent );
-				(childrenLayout as HBoxLayout).setObjectForBox( _postComponent, 3 );
+				(childrenLayout as VBoxLayout).setObjectForBox( _postComponent, 3 );
 			}
 		}
 

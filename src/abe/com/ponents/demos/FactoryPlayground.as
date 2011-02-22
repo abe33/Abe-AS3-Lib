@@ -90,6 +90,7 @@ package abe.com.ponents.demos
 				_dockables[d.id] = d;
 				
 			super.init(preload);
+			fireProceedBuild();
 		}
 		
 	}

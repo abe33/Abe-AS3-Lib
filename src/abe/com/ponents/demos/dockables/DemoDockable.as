@@ -22,7 +22,7 @@ package abe.com.ponents.demos.dockables
 									   args : Array, 
 									   kwargs : Object, 
 									   objs : Array,
-									   callback : Function ) : void
+									   callback : Function = null ) : void
 		{
 			 f.group("containers"
 				   ).build( cls, 
