@@ -43,11 +43,8 @@ package abe.com.ponents.core
 	import flash.geom.Rectangle;
 	import flash.ui.ContextMenuItem;
 	import flash.utils.Dictionary;
-	import flash.utils.IDataInput;
-	import flash.utils.IDataOutput;
-	import flash.utils.IExternalizable;
 
-	/*-----------------------------------------------------------------
+/*-----------------------------------------------------------------
  * 	EVENTS METADATA
  *----------------------------------------------------------------*/
 	/**
@@ -308,8 +305,7 @@ package abe.com.ponents.core
 															 Focusable,
 															 LayeredSprite,
 															 IEventDispatcher,
-															 DragSource,
-															 IExternalizable
+															 DragSource
 
 	{
 /*-----------------------------------------------------------------
@@ -2186,26 +2182,6 @@ package abe.com.ponents.core
 		}
 
 /*-----------------------------------------------------------------
- * 	EXTERNALIZABLE (experimental)
- *----------------------------------------------------------------*/
- 		/**
- 		 * Implémentation de l'interface <code>Externalizable</code>
- 		 * <p>
- 		 * Cette fonction n'est acutellement pas utilisée.
- 		 * </p>
- 		 */
- 		public function readExternal (input : IDataInput) : void
-		{}
-		/**
- 		 * Implémentation de l'interface <code>Externalizable</code>
- 		 * <p>
- 		 * Cette fonction n'est acutellement pas utilisée.
- 		 * </p>
- 		 */
-		public function writeExternal (output : IDataOutput) : void
-		{}
-
-/*-----------------------------------------------------------------
  * 	CONDITIONAL COMPILE RELATED
  *
  * 	L'ensemble des éléments soumis à la compilation conditionnelle,
@@ -2656,6 +2632,7 @@ package abe.com.ponents.core
 			/*FDT_IGNORE*/
 			TARGET::FLASH_9 { var v : Array = []; }			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 			var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 			if( _menuContextEnabled )
 			{
 				var l : uint = _menuContextOrder.length;

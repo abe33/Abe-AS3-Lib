@@ -271,7 +271,7 @@ package abe.com.ponents.monitors
 			value = _logs.join("\n") + " ";
 			_carretLimit = _label.length-1;
 			_label.scrollV = _label.maxScrollV;
-			_scrollbar.updateSlider();
+			_scrollbar.updateKnob();
 			//_label.setTextFormat( _label.defaultTextFormat, _carretLimit, _carretLimit+1 );
 		}
 

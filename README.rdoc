@@ -47,6 +47,8 @@ See also the patch-flex-config.xml for a standard configuration.
 
 The class documentation is currently written in French, I actually look for a way to translate the whole translation without having to change all the source code documentation but it doesn't seems as easy as it's sounds.
 
+When generating the documentation using the <tt>TARGET::FLASH_10_1</tt> or <tt>TARGET::FLASH_10</code> constant to +true+, the generation fail silently, without any informations regarding the reason of the failure. It seems it's related to the +menuContext+ declaration in the +AbstractComponent+ class. But when I isolate that declaration, I can reproduce the ASDoc failure. In consequences, I recommend you to generate the documentation with the <tt>TARGET::FLASH_9</code> constant to +true+.
+
 == Getting started with the components set
 
 The components set is widely inspired by the Swing components from java but with some noticeable differences due to the specifity of the graphical layer of the Flash Player and the differences in both API.

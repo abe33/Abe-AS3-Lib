@@ -63,7 +63,6 @@ package abe.com.ponents.text
 																			LayeredSprite,
 																			IEventDispatcher,
 																			DragSource,
-																			IExternalizable,
 																			FormComponent
 	{
 		protected var _value : *;

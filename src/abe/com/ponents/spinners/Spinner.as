@@ -85,7 +85,6 @@ package abe.com.ponents.spinners
 															  LayeredSprite, 
 															  IEventDispatcher, 
 															  DragSource,
-															  IExternalizable,
 															  FormComponent,
 															  Editor
 	{

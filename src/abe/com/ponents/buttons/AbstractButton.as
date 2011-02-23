@@ -575,8 +575,10 @@ package abe.com.ponents.buttons
 			else if( buttonDisplayMode == ButtonDisplayModes.ICON_ONLY && _safeLabel )
 				s = _safeLabel;
 
+			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
 			if( _keyStroke )
 				ks.push( _keyStroke );
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 			if( ks.length > 0 )
 			{

@@ -38,10 +38,10 @@ package abe.com.ponents.containers
 		}
 		
 		[Embed(source="../skinning/icons/toolbargripH.png")]
-		static public const hgrip : Class;
+		static public var hgrip : Class;
 		
 		[Embed(source="../skinning/icons/toolbargripV.png")]
-		static public const vgrip : Class;
+		static public var vgrip : Class;
 		
 		public function ToolBarGrip ()
 		{

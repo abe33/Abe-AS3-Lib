@@ -268,7 +268,9 @@ package abe.com.ponents.tools
 				data[18] = p1.x;
 				data[19] = p1.y;
 
-				g.drawPath(commands, data );
+				/*FDT_IGNORE*/
+				TARGET::FLASH_10 { g.drawPath(commands, data ); }				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+				g.drawPath(commands, data ); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				g.endFill();
 
 				_sourceRect.draw(g, Color.Black);

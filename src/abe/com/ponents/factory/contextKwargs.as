@@ -5,9 +5,9 @@ package abe.com.ponents.factory
 	 * <code>ComponentFactory.build</code> method. The function will use the <code>fromContext</code>
 	 * argument passed to the <code>contextKwargs</code> to build the <code>Object</code> to return.
 	 * <p>
-	 * <p>The extra <code>kwargs</code> let you define a base object to decorate
+	 * The extra <code>kwargs</code> let you define a base object to decorate
 	 * with the datas from the context.
-	 * 
+	 * </p>
 	 * @param	fromContext	an object that will define which data to get from the context
 	 * 						and in which property storing the data in the returned object.
 	 * 						The object must take the following form : 
