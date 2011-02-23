@@ -115,10 +115,19 @@ package abe.com.ponents.factory
 			
   			var be : SettingsBackend;
 			var mainClass:Class = getDefinitionByName(__mainClassName__) as Class;
-			var bck : XML = Reflection.getClassMeta( mainClass, "SettingsBackend" )[0];
-            var backend:String = bck.arg.(@key=="backend").@value;
-            var appName : String = bck.arg.(@key=="appName").@value;            _timeout = parseInt( bck.arg.(@key=="timeout").@value ) || 10000;
-            
+			
+			var settings : XMLList = Reflection.getClassMeta( mainClass, "SettingsBackend" );
+			var bck : XML;
+			var backend:String;
+			var appName : String;
+			
+			if( settings.length() > 0 )
+			{
+				bck = settings[0];
+	            backend = bck.arg.(@key=="backend").@value;
+	            appName = bck.arg.(@key=="appName").@value;	            _timeout = parseInt( bck.arg.(@key=="timeout").@value ) || 10000;
+			}
+			
             if( backend && backend != "" )
             {
             	_progressLabel.value = "Found a backend";

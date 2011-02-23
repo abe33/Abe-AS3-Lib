@@ -255,7 +255,12 @@ package abe.com.ponents.utils
 					}
 					s += "{";
 					s2 = "";
+					var a : Array = [];
 					for( i in o )
+						a.push( i );
+					
+					a.sort();
+										for each( i in a )
 						s2 += "  '" + escape(i) + "' : " + ( o[i] is String ? "'"+o[i]+"'" : o[i] ) + ",\n";
 						
 					if( s2 != "" )
