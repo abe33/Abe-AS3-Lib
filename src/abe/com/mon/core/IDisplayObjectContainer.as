@@ -6,10 +6,15 @@ package abe.com.mon.core
 	import flash.display.DisplayObject;
 
 	/**
+	 * An interface that mimic the structure of the <code>DisplayObjectContainer</code>
+	 * class in order to allow an access to its members from an interface which
+	 * concret classes will extends a display class from Flash.
+	 * 
+	 * <fr>
 	 * Interface mimant la structure de la classe <code>DisplayObjectContainer</code> afin 
 	 * de permettre l'accès aux méthodes de cette dernière depuis des interfaces
 	 * dont les classes concrètes étendront forcement une classe graphique de Flash.
-	 * 
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public interface IDisplayObjectContainer extends IInteractiveObject

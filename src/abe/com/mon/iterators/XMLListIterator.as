@@ -55,7 +55,7 @@ package  abe.com.mon.iterators
 			return index;
 		}
 
-		public function set ( o : Object ) : void
+		public function set ( o : * ) : void
 		{
 			throw new Error( "set is not currently supported by the XMLListIterator" );
 		}

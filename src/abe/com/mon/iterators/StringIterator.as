@@ -114,7 +114,7 @@ package  abe.com.mon.iterators
 			return _nIndex;
 		}
 
-		public function set (o : Object) : void
+		public function set (o : *) : void
 		{
 			if( !_bRemoved && !_bAdded )
 			{

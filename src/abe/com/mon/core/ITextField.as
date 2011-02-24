@@ -8,9 +8,14 @@ package abe.com.mon.core
 	import flash.text.TextLineMetrics;
 
 	/**
+	 * An interface that mimic the structure of the <code>TextField</code>
+	 * class in order to allow an access to its members from an interface which
+	 * concret classes will extends a display class from Flash.
+	 * 
+	 * <fr>
 	 * Interface mimant la structure de la classe <code>TextField</code> servant
 	 * ainsi de pont d'accès entre les différentes API de texte.
-	 * 
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public interface ITextField extends IInteractiveObject
