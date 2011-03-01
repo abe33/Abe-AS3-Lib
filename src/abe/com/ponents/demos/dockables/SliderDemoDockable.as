@@ -61,9 +61,9 @@ package abe.com.ponents.demos.dockables
 						[ // kwargs
 							{},
 							{snapToTicks:true},
-							{displayTicks:true,preferredWidth:300/*,displayInput:false*/},
-							{displayTicks:true,preferredWidth:300/*,displayInput:true*/,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
-							{displayTicks:true,preferredWidth:300/*,displayInput:true*/,preComponent:new Label( "min" ),postComponent:new Label( "max" ), enabled:false}
+							{displayTicks:true,preferredWidth:300,displayInput:false},
+							{displayTicks:true,preferredWidth:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
+							{displayTicks:true,preferredWidth:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" ), enabled:false}
 						], // container
 						FieldSet, 
 						"slidersDemoHRangeSliderFieldset", 
@@ -109,9 +109,9 @@ package abe.com.ponents.demos.dockables
 						[ // kwargs
 							{},
 							{snapToTicks:true},
-							{displayTicks:true,preferredHeight:300/*,displayInput:false*/},
-							{displayTicks:true,preferredHeight:300/*,displayInput:true*/,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
-							{displayTicks:true,preferredHeight:300/*,displayInput:true*/,preComponent:new Label( "min" ),postComponent:new Label( "max" ), enabled:false}
+							{displayTicks:true,preferredHeight:300,displayInput:false},
+							{displayTicks:true,preferredHeight:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
+							{displayTicks:true,preferredHeight:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" ), enabled:false}
 						], // container
 						FieldSet, 
 						"slidersDemoVRangeSliderFieldset", 

@@ -9,6 +9,7 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.events.ButtonEvent;
 	import abe.com.ponents.events.ComponentEvent;
+	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.VBoxLayout;
@@ -245,7 +246,27 @@ package abe.com.ponents.sliders
 				(childrenLayout as VBoxLayout).setObjectForBox( _postComponent, 3 );
 			}
 		}
-
+		public function get displayInput () : Boolean { return _displayInput; }		
+		public function set displayInput (displayInput : Boolean) : void
+		{
+			_displayInput = displayInput;
+			
+			var b1 : BoxSettings = (_childrenLayout as VBoxLayout).boxes[4];
+			var b2 : BoxSettings = (_childrenLayout as VBoxLayout).boxes[0];
+			
+			b1.object = _displayInput ? _inputLeft : null;
+			b2.object = _displayInput ? _inputRight : null;
+			
+			if( !_displayInput && containsComponent( _inputLeft ) )
+				removeComponent( _inputLeft );
+			else if( _displayInput && !containsComponent( _inputLeft ) )
+				addComponent( _inputLeft );
+			
+			if( !_displayInput && containsComponent( _inputRight ) )
+				removeComponent( _inputRight );
+			else if( _displayInput && !containsComponent( _inputRight ) )
+				addComponent( _inputRight );
+		}
 /*----------------------------------------------------------------------------------*
  *  BUILD AND INIT
  *----------------------------------------------------------------------------------*/
@@ -283,6 +304,7 @@ package abe.com.ponents.sliders
 			_track.allowOver = false;
 			_track.allowPressed = false;
 			_track.isComponentIndependent = false;
+			_track.preferredWidth = 20;
 			
 			addComponent( _track );
 			
@@ -418,7 +440,43 @@ package abe.com.ponents.sliders
 		}
 /*----------------------------------------------------------------------------------*
  * 	EVENTS
- *----------------------------------------------------------------------------------*/		
+ *----------------------------------------------------------------------------------*/	
+ 		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		{
+			switch( event.propertyName )
+			{
+				case "icon" :
+					_knobLeft.icon = _style.icon.clone();
+					_knobRight.icon = _style.icon.clone();
+					invalidatePreferredSizeCache();
+					break;
+				case "buttonSize" :
+					_knobLeft.preferredHeight = event.propertyValue;
+					_knobRight.preferredHeight = event.propertyValue;
+					invalidatePreferredSizeCache();
+					break;
+				case "inputWidth" :
+					_inputLeft.preferredWidth = event.propertyValue;
+					_inputRight.preferredWidth = event.propertyValue;
+					invalidatePreferredSizeCache();
+					break;
+				case "tickSize" : 
+				case "tickMargin" : 
+					invalidate();
+					break;
+				case "tickColor" : 
+					_tickColor = event.propertyValue;
+					invalidatePreferredSizeCache();
+					break;
+				case "trackSize" : 
+					(_childrenLayout as VBoxLayout).boxes[2].size = event.propertyValue;
+					invalidatePreferredSizeCache();
+					break;
+				default : 
+					super.stylePropertyChanged( event );
+					break;
+			}
+		}	
 		override protected function registerToOnStageEvents () : void 
 		{
 			super.registerToOnStageEvents( );

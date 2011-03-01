@@ -140,6 +140,7 @@ package abe.com.ponents.sliders
 			_track.allowOver = false;
 			_track.allowPressed = false;
 			_track.isComponentIndependent = false;
+			_track.preferredWidth = 20;
 			
 			_tickColor = _style.tickColor;
 			

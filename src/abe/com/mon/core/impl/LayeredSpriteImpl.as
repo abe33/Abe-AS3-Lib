@@ -9,46 +9,50 @@ package abe.com.mon.core.impl
 	import flash.events.Event;
 
 	/**
+	 * A standard implementation of the <code>LayeredSprite</code> interface.
+	 * <fr>
 	 * Une implémentation de base de l'interface <code>LayeredSprite</code>.
 	 * <p>
 	 * Un objet <code>LayeredSpriteImpl</code> est donc constitué en interne
 	 * de trois sous-objets <code>Sprite</code> représentant les différents
 	 * niveaux de ce <code>LayeredSprite</code>.
 	 * </p>
-	 *
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public class LayeredSpriteImpl extends Sprite implements LayeredSprite
 	{
+		private var _backgroundCleared : Boolean;
+		private var _foregroundCleared : Boolean;
+		
 		/**
-		 * Référence vers l'objet graphique représentant l'arrière-plan.
-		 *
+		 * @copy abe.com.mon.core.LayeredSprite#background
 		 * @default	new Sprite()
 		 */
 		protected var _background : Sprite;
 		/**
-		 * Référence vers l'objet graphique situé entre l'arrière-plan
-		 * et l'avant-plan.
-		 *
-		 * @default	new Sprite()
-		 */		protected var _middle : Sprite;
+		 * @copy abe.com.mon.core.LayeredSprite#middle
+		 * @default	new Sprite()		 */
+		protected var _middle : Sprite;
 		/**
-		 * Référence vers l'objet graphique représentant l'avant-plan.
-		 *
-		 * @default	new Sprite()
-		 */		protected var _foreground : Sprite;
+		 * @copy abe.com.mon.core.LayeredSprite#foreground
+		 * @default	new Sprite()		 */
+		protected var _foreground : Sprite;
 
 		/**
+		 * <code>LayeredSpriteImpl</code> constructor.
+		 * <fr>
 		 * Constructeur de la classe <code>LayeredSpriteImpl</code>.
+		 * </fr>
 		 */
 		public function LayeredSpriteImpl ()
-		{
-			_background = new Sprite();			_middle = new Sprite();			_foreground = new Sprite();
+		{			_background = new Sprite();			_middle = new Sprite();
+			_foreground = new Sprite();
 
 			_backgroundCleared = false;
 			_foregroundCleared = false;
-
-			addChild( _background );			addChild( _middle );			addChild( _foreground );
+			addChild( _background );			addChild( _middle );
+			addChild( _foreground );
 		}
 
 		/**
@@ -63,9 +67,8 @@ package abe.com.mon.core.impl
 		 * @inheritDoc
 		 */
 		public function get foreground () : Sprite { return _foreground; }
-
-		private var _backgroundCleared : Boolean;
-		private var _foregroundCleared : Boolean;
+		
+		
 		/**
 		 * @inheritDoc
 		 */
@@ -78,7 +81,6 @@ package abe.com.mon.core.impl
 				_backgroundCleared = true;
 			}
 		}
-
 		/**
 		 * @inheritDoc
 		 */
