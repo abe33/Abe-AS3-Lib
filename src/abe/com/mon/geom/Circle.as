@@ -14,9 +14,12 @@ package  abe.com.mon.geom
 
 	[FormList(fields="radius1,radius2,rotation")]
 	/**
+	 * The <code>Circle</code> class extends the <code>Ellipsis</code> class
+	 * to handle the specific case of circles.
+	 * <fr>
 	 * La classe <code>Circle</code> étend la classe <code>Ellipsis</code> afin de gérer
 	 * le cas spécifique des cercles.
-	 *
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public class Circle extends Ellipsis implements Cloneable,
@@ -29,11 +32,16 @@ package  abe.com.mon.geom
 													ClosedGeometry
 	{
 		/**
+		 * <code>Circle</code> class constructor.
+		 * <fr>
 		 * Constructeur de la classe <code>Circle</code>.
-		 *
-		 * @param	x		position du cercle en X
-		 * @param	y		position du cercle en Y
-		 * @param	radius	rayon du cercle
+		 * </fr>
+		 * @param	x		X position of the circle
+		 * 					<fr>position du cercle en X</fr>
+		 * @param	y		Y position of the circle
+		 * 					<fr>position du cercle en Y</fr>
+		 * @param	radius	circle radius
+		 * 					<fr>rayon du cercle</fr>
 		 */
 		public function Circle ( x : Number = 0, y : Number = 0, radius : Number = 1 )
 		{
@@ -61,7 +69,9 @@ package  abe.com.mon.geom
 			  step="1",
 			  order="0")]
 		/**
-		 * Le rayon de ce cercle.
+		 * Radius of this circle.
+		 * 
+		 * <fr>Le rayon de ce cercle.</fr>
 		 */
 		public function get radius () : Number { return radius1; }
 		public function set radius ( n : Number ) : void
@@ -104,9 +114,7 @@ package  abe.com.mon.geom
 			return "new " + getQualifiedClassName(this) + "("+ x +", "+ y +", " + radius1 + ")";
 		}
 		/**
-		 * Renvoie la représentation de l'objet sous forme de chaîne.
-		 *
-		 * @return la représentation de l'objet sous forme de chaîne
+		 * @inheritDoc
 		 */
 		override public function toString() : String
 		{

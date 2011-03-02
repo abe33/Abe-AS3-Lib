@@ -28,7 +28,6 @@ package abe.com.mon.geom
 		 * Renvoie un objet <code>Point</code> contenant des coordonnées
 		 * définies aléatoirement et comprises dans la surface de cet objet.
 		 * </fr>
-		 * 
 		 * @return	an object <code>Point</code> containing random coordinates
 		 * 			defined and contained in the surface of the object
 		 * 			<fr>un objet <code>Point</code> contenant des coordonnées
@@ -38,7 +37,6 @@ package abe.com.mon.geom
 		/**
 		 * Returns <code>true</code> if the point <code>p</code> is located 
 		 * within this surface
-		 * 
 		 * <fr>
 		 * Renvoie <code>true</code> si le point <code>p</code>
 		 * est situé à l'intérieur de cet objet <code>Surface</code>.
@@ -48,12 +46,13 @@ package abe.com.mon.geom
 		 * 				à l'intérieur de la surface</fr>
 		 * @return	<code>true</code> if the point <code>p</code> is located 
 		 * 			within this surface
+		 * 			<fr><code>true</code> si le point <code>p</code>
+		 * 			est situé à l'intérieur de cet objet <code>Surface</code></fr>
 		 */
 		function containsPoint( p : Point ) : Boolean;
 		/**
-		 * Returns <code>true</ code> if the coordinates <code>x</code> and <code>y</code>
+		 * Returns <code>true</code> if the coordinates <code>x</code> and <code>y</code>
 		 * are located within this surface.
-		 * 
 		 * <fr>
 		 * Renvoie <code>true</code> si les coordonnées <code>x</code>
 		 * et <code>y</code> sont situées à l'intérieur de cet objet
@@ -62,7 +61,7 @@ package abe.com.mon.geom
 		 * @param	x	x axis coordinate to verify
 		 * 				<fr>coordonnée sur l'axe x à vérifier</fr>		 * @param	y	y axis coordinate to verify
 		 * 				<fr>coordonnée sur l'axe y à vérifier</fr>
-		 * @return	<code>true</ code> if the coordinates <code>x</code> and <code>y</code>
+		 * @return	<code>true</code> if the coordinates <code>x</code> and <code>y</code>
 		 * 			are located within this surface.
 		 * 			<fr><code>true</code> si les coordonnées sont situées
 		 * 			à l'intérieur la surface</fr>
@@ -79,6 +78,8 @@ package abe.com.mon.geom
 		 * 					<fr>géométrie à tester</fr>
 		 * @return	<code>true</code> if the geometry <code>geom</code> 
 		 * 			is entirely contained within that surface
+		 * 			<fr><code>true</code> si la géometry <code>geom</code>
+		 * 			est toute entière contenue dans cette surface</fr>
 		 */
 		function containsGeometry( geom : Geometry ) : Boolean;
 	}

@@ -76,7 +76,8 @@ package abe.com.mon.utils
 		 *
 		 * @default {}
 		 */
-		static protected var _customShortcuts : Dictionary = new Dictionary();
+		static protected var _customShortcuts : Dictionary = new Dictionary( );
+
 		/**
 		 * Ajoute un raccourci définit par l'utilisateur pour être pris
 		 * en compte dans la fonction <code>get</code>.
@@ -87,12 +88,13 @@ package abe.com.mon.utils
 		 * @param	s			la chaîne de caractère à replacer
 		 * @param	replacement	la valeur de remplacement
 		 * @example Le raccourci <code>gradient</code> pourrait être définit de la manière suivante :
-		 * <listing>Reflection.addCustomShortcuts("gradient(", "new abe.com.mon.utils.Gradient(");</listing>
+		 * <listing>Reflection.addCustomShortcuts("gradient(", "new abe.com.mon.utils::Gradient(");</listing>
 		 */
 		static public function addCustomShortcuts ( s : *, replacement : * ) : void
 		{
 			_customShortcuts [ s ] = replacement;
 		}
+		
 		/**
 		 * Renvoie une référence vers une classe <code>Vector</code> dont le
 		 * type des éléments est <code>clazz</code>.
@@ -628,13 +630,13 @@ package abe.com.mon.utils
 			var res : Array;
 
 			// An url as @'the url'
-			if( s.search( new RegExp("^@(\"|')(.*)(\"|')$","gi") ) != -1 )
+			if( s.search( new RegExp("^@(\"|')(.*)(\"|')$","gi") ) == 0 )
 				return new URLRequest( s.substring( 2, s.length - 3 ) );
 			// A regexp such /regexp/flags
 			else if( ( res = new RegExp("^/(.*)/([gimsx]+)?$","gi").exec( s ) ) )
 				return new RegExp( res[1], res[2] );
 			// A string wrapped in ' or "
-			else if( s.search( new RegExp("^(\"|')(.*)(\"|')$", "gi") ) != -1 )
+			else if( s.search( new RegExp("^(\"|')(.*)(\"|')$", "gi") ) == 0 )
 				return s.substring( 1, s.length - 1 );
 			// a color with r, g, b, a or 0xaarrggbb
 			else if( s.indexOf("color(") == 0 )
@@ -647,8 +649,8 @@ package abe.com.mon.utils
 			// a gradient
 			else if( s.indexOf("gradient(") == 0 )
 				s = s.replace( "gradient(", "new abe.com.mon.utils::Gradient(" );
-			// An uint with 0x... notation
-			else if( s.indexOf("0x") != -1 )				numval = parseInt( s );
+			// 
+			else if( s.indexOf("0x") == 0 )				numval = parseInt( s );
 			// If is an XML string
 			else if( s.indexOf("<") ==0 )
 				return new XML( s );
@@ -658,7 +660,7 @@ package abe.com.mon.utils
 				var bb : Boolean = false;
 				for ( var i : * in _customShortcuts )
 				{
-					if( s.search(i) >= 0 )
+					if( s.search(i) != -1 )
 					{
 						s = s.replace( i, _customShortcuts[i] );
 						bb = true;
@@ -668,10 +670,9 @@ package abe.com.mon.utils
 				if( !bb )
 					numval = parseFloat( s );
 			}
-
 			// Numval is NaN and we haven't return yet -> keywords or magic eval
 			if( isNaN( numval ) )
-			{
+			{				
 				// Looking for null
 				if( s == "null" )
 					return null;
@@ -701,9 +702,11 @@ package abe.com.mon.utils
 
 			        	if( sep != -1 )
 			        		a = [ s.substr( 0, sep ), b = StringUtils.splitBlock( s.substr( sep + 2 ), "." ) ];
-						else
-							a = [s], b = StringUtils.splitBlock( s, "." );
-
+			        	else
+			        	{
+							a = [s];
+							b = StringUtils.splitBlock( s, "." );
+			        	}
 
 						if( b.length > 0 )
 							while(b.length)
@@ -715,8 +718,7 @@ package abe.com.mon.utils
 									var m : String = StringUtils.trim( sm.substr(0,p) );
 									var am : String = sm.substr( p + 1, sm.length - p - 2 );
 									var args : Array = parseArguments( am );
-
-									//
+									
 									if( !o )
 									{
 										if( a.length > 1 )
@@ -725,10 +727,8 @@ package abe.com.mon.utils
 											o = domain.getDefinition( m );
 									}
 									else
-									{
 										o = o[ m ];
-									}
-
+								
 									// on appelle la fonction avec ou sans argument selon les cas
 									if( o is Function )
 										if( args )

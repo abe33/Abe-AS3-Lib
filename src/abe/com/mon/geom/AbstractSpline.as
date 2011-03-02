@@ -12,6 +12,15 @@ package abe.com.mon.geom
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	/**
+	 * The <code>AbstractSpline</code> class provide a number of methods common
+	 * to all implementations of the interface <code>Spline</code>.
+	 * <p>
+	 * The <code>AbstractSpline</code> manages particular segments by establishing
+	 * a principle of sized segments. This principle allows the subclasses to determine
+	 * the number of vertices needed to create a segment, without having to directly
+	 * implement the validation functions, recovery or control segments.</p>
+	 * 
+	 * <fr>
 	 * La classe <code>AbstractSpline</code> fournie un certains nombre de méthodes
 	 * communes à toutes les implémentations de l'interface <code>Spline</code>.
 	 * <p>
@@ -21,51 +30,73 @@ package abe.com.mon.geom
 	 * avoir à implémenter directement les fonctions de validation, de récupération ou
 	 * de contrôle des segments.
 	 * </p>
-	 *
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public class AbstractSpline implements Spline, Path, Geometry, Cloneable, Serializable
 	{
 		/**
+		 * An array containing <code>Point</code> objects representing the vertices
+		 * of the <code>Spline</code>.
+		 * 
+		 * <fr>
 		 * Un tableau contenant les objets <code>Point</code> représentant
 		 * les sommets de cette <code>Spline</code>.
+		 * </fr>
 		 */
 		protected var _vertices : Array;
 		/**
+		 * An integer defining the length of a segment for this <code>Spline</code>.
+		 * <fr>
 		 * Un entier définissant la longueur d'un segment pour cette <code>Spline</code>.
-		 *
+		 * </fr>
 		 * @default 2
 		 */
 		protected var _segmentSize : uint;
 		/**
+		 * An integer defining the drawing bias of this <code>Spline</code>.
+		 * <fr>
 		 * Un entier définissant la finesse de dessin de cette <code>Spline</code>.
-		 *
+		 * </fr>
 		 * @default 20
 		 */
 		public var drawBias : uint;
 		/**
+		 * A boolean value indicating whether the <code>draw</code> method
+		 * draws also the vertices of the spline.
+		 * <fr>
 		 * Une valeur booléenne indiquant si la méthode <code>draw</code> dessine
 		 * aussi les sommets de la <code>Spline</code>.
-		 *
+		 * </fr>
 		 * @default false
 		 */
 		public var drawVertices : Boolean;
 		/**
+		 * A boolean value indicating whether the <code>draw</code> method 
+		 * draws only the vertices placed along the spline, joins vertices
+		 * are not drawn.
+		 * <fr>
 		 * Une valeur booléenne indiquant si la méthode <code>draw</code> ne dessine
-		 * que les sommets placés le long de la <code>Spline</code>, les joitures de
-		 * somments ne seront pas dessinés.
-		 *
+		 * que les sommets placés le long de la <code>Spline</code>, les jointures de
+		 * sommets ne seront pas dessinés.
+		 * </fr>
 		 * @default false
 		 */
 		public var drawOnlySegmentVertices : Boolean;
 
 		/**
+		 * <code>AbstractSpline</code> constructor.
+		 * <fr>
 		 * Constructeur de la classe <code>AbstractSpline</code>
-		 *
-		 * @param	v			un tableau d'objets <code>Point</code> représentant les sommets
-		 * 						de cette <code>Spline</code>
-		 * @param	segmentSize	le nombre de sommets nécessaires pour constituer un segment
-		 * @param	bias		la finesse de dessin de cette <code>Spline</code>
+		 * </fr>
+		 * @param	v			an array of objects <code>Point</code> representing the vertices
+		 * 						of the spline
+		 * 						<fr>un tableau d'objets <code>Point</code> représentant les sommets
+		 * 						de cette <code>Spline</code></fr>
+		 * @param	segmentSize	the number of vertices required to form a segment
+		 * 						<fr>le nombre de sommets nécessaires pour constituer un segment</fr>
+		 * @param	bias		the fineness of the drawing for this <code>Spline</code>
+		 * 						<fr>la finesse de dessin de cette <code>Spline</code></fr>
 		 */
 		public function AbstractSpline ( v : Array = null, segmentSize : uint = 2, bias : uint = 20 )
 		{
@@ -76,8 +107,7 @@ package abe.com.mon.geom
 			this.drawOnlySegmentVertices = false;
 		}
 		/**
-		 * Une référence vers le tableau contenant les objets <code>Point</code>
-		 * représentant les sommets de cette <code>Spline</code>.
+		 * @inheritDoc
 		 */
 		public function get vertices () : Array { return _vertices; }
 		public function set vertices ( v : Array ) : void
@@ -91,20 +121,31 @@ package abe.com.mon.geom
 				_vertices = v;
 		}
 		/**
+		 * An integer representing the number of segments in this <code>Spline</code>.
+		 * <fr>
 		 * Un entier représentant le nombre de segments dans cette <code>Spline</code>.
+		 * </fr>
 		 */
 		public function get numSegments () : uint
 		{
 			return _vertices.length == 0 ? 0 : ( _vertices.length - 1 ) / _segmentSize;
 		}
 		/**
+		 * A number representing the length of this <code>Spline</code> computed using
+		 * the value of <code>drawBias</code> in this instance.
+		 * <fr>
 		 * Un nombre représentant la longueur de cette <code>Spline</code> calculée
 		 * en utilisant la valeur de <code>drawBias</code> de cette instance.
+		 * </fr>
 		 */
 		public function get length () : Number { return getLength( drawBias );	}
 		/**
+		 * An integer indicating the number of vertices required to form
+		 * a segment for this <code>Spline</code>.
+		 * <fr>
 		 * Un entier indiquant le nombre de sommets nécessaires pour constituer
 		 * un segment pour cette <code>Spline</code>.
+		 * </fr>
 		 */
 		public function get segmentSize () : uint { return _segmentSize; }
 		/**
@@ -123,12 +164,7 @@ package abe.com.mon.geom
 		public function get isClosedSpline () : Boolean { return (_vertices[0] as Point).equals( _vertices[_vertices.length-1] ); }
 
 		/**
-		 * Renvoie les coordonnées du point à la position <code>path</code>
-		 * dans cette <code>Spline</code>.
-		 *
-		 * @param	path	position dans la courbe
-		 * @return	les coordonnées du point à la position <code>path</code>
-		 * 			dans cette <code>Spline</code>
+		 * @inheritDoc
 		 */
 		public function getPathPoint (path : Number) : Point
 		{
@@ -150,29 +186,45 @@ package abe.com.mon.geom
 			return Math.atan2( p.y, p.x );
 		}
 		/**
+		 * Returns <code>true</code> if the array <code>v</code> is a valid array for this <code>Spline</code>. 
+		 * <p> 
+		 * Number of coordinates that must contain the valid array depends of the size of the segments of the spline.
+		 * </p>
+		 * 
+		 * <fr>
 		 * Renvoie <code>true</code> si le tableau <code>v</code> est un
 		 * tableau valide pour cette <code>Spline</code>.
 		 * <p>
 		 * Le nombre de coordonnées que doit contenir un tableau valide
 		 * est fonction de la taille des segments de cette <code>Spline</code>.
 		 * </p>
-		 * @param	v	le tableau à vérifier
-		 * @return	<code>true</code> si le tableau <code>v</code> est un
-		 * 			tableau valide pour cette <code>Spline</code>
+		 * </fr>
+		 * @param	v	the array to check
+		 * 				<fr>le tableau à vérifier</fr>
+		 * @return	<code>true</code> if the array <code>v</code> is a valid array
+		 * 			for this <code>Spline</code>
+		 * 			<fr><code>true</code> si le tableau <code>v</code> est un
+		 * 			tableau valide pour cette <code>Spline</code></fr>
 		 */
 		protected function checkVertices (v : Array ) : Boolean
 		{
 			return v.length % _segmentSize == 1 && v.length >= _segmentSize+1;
 		}
 		/**
-		 * Renvoie la tangeante de la courbe aux coordonnées situées à la position
+		 * Returns the tangent of the curve at the coordinates <code>pos</code>
+		 * in this <code>Spline</code>.
+		 * <fr>
+		 * Renvoie la tangente de la courbe aux coordonnées situées à la position
 		 * <code>pos</code> du chemin de cette <code>Spline</code>.
-		 *
-		 * @param	pos	position à laquelle calculée la tangeante
-		 * @param 	posDetail	finesse de calcul de la position pour le calcul
-		 * 						de la tangeante
-		 * @return	la tangeante de la courbe aux coordonnées situées à la position
-		 * 			transmise en argument
+		 * </fr>
+		 * @param	pos			position at which calculated the tangent
+		 * 						<fr>position à laquelle calculer la tangente</fr>
+		 * @param 	posDetail	fineness of computation of the the tangent
+		 * 						<fr>finesse de calcul de la position pour le calcul
+		 * 						de la tangente</fr>
+		 * @return	curve tangent at the specified coordinates
+		 * 			<fr>la tangente de la courbe aux coordonnées situées à la position
+		 * 			transmise en argument</fr>
 		 */
 		public function getTangentAt ( pos : Number, posDetail : Number = 0.01 ) : Point
 		{
@@ -183,13 +235,19 @@ package abe.com.mon.geom
 			return tan;
 		}
 		/**
+		 * Returns an array containing objects <code>Point</code> corresponding to the vertices
+		 * of the segment index <code>n</code> if there is one, otherwise <code>null</code>.
+		 * <fr>
 		 * Renvoie un tableau contenants les objets <code>Point</code> correspondant
 		 * aux sommets du segment à l'index <code>n</code> si il en existe un, autrement
 		 * <code>null</code>.
-		 *
-		 * @param	n	index du segment à récupérer, les index commencent à 0
-		 * @return	un tableau contenants les objets <code>Point</code> correspondant
-		 * 			aux sommets du segment correspondant
+		 * </fr>
+		 * @param	n	index segment to retrieve, index start at 0
+		 * 				<fr>index du segment à récupérer, les index commencent à 0</fr>
+		 * @return	an array containing objects <code>Point</code> corresponding 
+		 * 			to the vertices of the corresponding segment
+		 * 			<fr>un tableau contenants les objets <code>Point</code> correspondant
+		 * 			aux sommets du segment correspondant</fr>
 		 */
 		public function getSegment ( n : Number ) : Array
 		{
@@ -199,11 +257,16 @@ package abe.com.mon.geom
 				return null;
 		}
 		/**
+		 * Returns the length of this <code>Spline</code> computed 
+		 * based on the <code>bias</code> parameter.
+		 * <fr>
 		 * Renvoie la longueur de cette <code>Spline</code> calculée sur la base
 		 * du paramètre de finesse <code>bias</code> passé en paramètre.
-		 *
-		 * @param	bias	finesse du calcul de longueur
-		 * @return	la longueur de cette <code>Spline</code>
+		 * </fr>
+		 * @param	bias	fineness of computation of the the length
+		 * 					<fr>finesse du calcul de longueur</fr>
+		 * @return	the length of this <code>Spline</code>
+		 * 			<fr>la longueur de cette <code>Spline</code></fr>
 		 */
 		public function getLength ( bias : uint ) : Number
 		{
@@ -217,12 +280,18 @@ package abe.com.mon.geom
 			return _length;
 		}
 		/**
+		 * Returns an object <code>Point</code> located at position <code>path</code>
+		 * relative to the segment  <code>seg</code>.
+		 * <fr>
 		 * Renvoie un objet <code>Point</code> située à la position <code>path</code>
 		 * relativement au segment <code>seg</code>.
-		 *
-		 * @param	path	position dans le chemin du segment
-		 * @param	seg		segment dans lequel calculée la coordonnée
-		 * @return	un objet <code>Point</code>
+		 * </fr>
+		 * @param	path	position in the path segment
+		 * 					<fr>position dans le chemin du segment</fr>
+		 * @param	seg		array containing the segments vertices
+		 * 					<fr>segment dans lequel calculer la coordonnée</fr>
+		 * @return	a <code>Point</code> object
+		 * 			<fr>un objet <code>Point</code></fr>
 		 */
 		protected function getInnerSegmentPoint ( path : Number, seg : Array ) : Point
 		{
@@ -231,12 +300,18 @@ package abe.com.mon.geom
 										seg[0].y * t1 + seg[1].y * path );
 		}
 		/**
+		 * Returns the length of the segment <code>seg</code> computed based
+		 * on the <code>bias</code> parameter passed to the function.
+		 * <fr>
 		 * Renvoie la longueur du segment <code>seg</code> calculée sur la base
 		 * du paramètre de finesse <code>bias</code> transmis à la fonction.
-		 *
-		 * @param	seg		segment	à mesurer
-		 * @param	bias	finesse du calcul
-		 * @return	la longueur du segment
+		 * </fr>
+		 * @param	seg		segment to be measured 
+		 * 					<fr>segment à mesurer</fr>
+		 * @param	bias	fineness of computation of the the length
+		 * 					<fr>finesse du calcul</fr>
+		 * @return	the length of the segment
+		 * 			<fr>la longueur du segment</fr>
 		 */
 		protected function getSegmentLength ( seg : Array, bias : Number ) : Number
 		{
@@ -251,9 +326,7 @@ package abe.com.mon.geom
 			return _length;
 		}
 		/**
-		 * Renvoie une copie parfaite de cet objet <code>AbstractSpline</code>.
-		 *
-		 * @return	une copie parfaite de cet objet <code>AbstractSpline</code>
+		 * @inheritDoc
 		 */
 		public function clone () : *
 		{
@@ -274,33 +347,26 @@ package abe.com.mon.geom
 			return GeometryUtils.geometriesIntersections( this, geom );
 		}
 		/**
-		 * Renvoie la représentation du code source permettant
-		 * de recréer l'instance courante.
-		 *
-		 * @return 	la représentation du code source ayant permis
-		 * 			de créer l'instance courante
+		 * @inheritDoc
 		 */
 		public function toSource () : String
 		{
 			return toReflectionSource().replace("::", ".");
 		}
 		/**
-		 * Renvoie la représentation du code source permettant
-		 * de recréer l'instance courante à l'aide de la méthode
-		 * <code>Reflection.get</code>.
-		 *
-		 * @return 	la représentation du code source ayant permis
-		 * 			de créer l'instance courante
-		 * @see	Reflection#get()
+		 * @inheritDoc
 		 */
 		public function toReflectionSource () : String
 		{
 			return "";
 		}
 		/**
+		 * Returns the representation of the object as a string.
+		 * <fr>
 		 * Renvoie la représentation de l'objet sous forme de chaîne.
-		 *
-		 * @return la représentation de l'objet sous forme de chaîne
+		 * </fr>
+		 * @return	the representation of the object as a string
+		 * 			<fr>la représentation de l'objet sous forme de chaîne</fr>
 		 */
 		public function toString() : String
 		{
@@ -329,15 +395,17 @@ package abe.com.mon.geom
 			}
 		}
 		/**
-		 * <p>
-		 * <strong>Note :</strong> Cette fonction n'est pas supportée pour les courbes non fermées.
-		 * </p>
+		 * <p><strong>Note:</strong> This feature is not supported for non-closed curves.</p>
+		 * <fr>
+		 * <p><strong>Note :</strong> Cette fonction n'est pas supportée pour les courbes non fermées.</p>
+		 * </fr>
 		 * @inheritDoc
+		 * @throws Error The fill method is supported only for closed curves.
 		 */
 		public function fill ( g : Graphics, c : Color ) : void
 		{
 			if( !isClosedSpline )
-				throw new Error ("La méthode fill n'est supportée que pour les courbes fermées.");
+				throw new Error ("The fill method is supported only for closed curves.");
 			else
 			{
 				var l : Number = numSegments;
@@ -359,10 +427,13 @@ package abe.com.mon.geom
 			}
 		}
 		/**
+		 * Draw the vertices of the spline in the <code>Graphics</code> object passed as parameter.
+		 * <fr>
 		 * Dessine les sommets de cette <code>Spline</code> dans l'objet <code>Graphics</code>
 		 * transmis en paramètre.
-		 *
-		 * @param	g	objet <code>Graphics</code> dans lequel dessiné
+		 * </fr>
+		 * @param	g	<code>Graphics</code> object in which drawn
+		 * 				<fr>objet <code>Graphics</code> dans lequel dessiné</fr>
 		 */
 		protected function drawVerticesDot ( g : Graphics ) : void
 		{
@@ -388,6 +459,14 @@ package abe.com.mon.geom
 			}
 		}
 		/**
+		 * Draw connections between the vertices of this <code>Spline</code> 
+		 * in the <code>Graphics</code> object passed as parameter. 
+		 * <p>
+		 * In the case of a linear spline, the result is the same as the curve itself,
+		 * however, in the case of bezier curves, this feature allows you to highlight
+		 * points curve control.
+		 * </p>
+		 * <fr>
 		 * Dessine les connexions entre les sommets de cette <code>Spline</code>
 		 * dans l'objet <code>Graphics</code> transmis en paramètre.
 		 * <p>
@@ -396,8 +475,9 @@ package abe.com.mon.geom
 		 * cette fonction permet de mettre en évidence les points de contrôle
 		 * de la courbe.
 		 * </p>
-		 *
-		 * @param	g	objet <code>Graphics</code> dans lequel dessiné
+		 * </fr>
+		 * @param	g	<code>Graphics</code> object in which drawn
+		 * 				<fr>objet <code>Graphics</code> dans lequel dessiné</fr>
 		 */
 		protected function drawVerticesConnections ( g : Graphics ) : void
 		{
@@ -415,12 +495,18 @@ package abe.com.mon.geom
 			g.lineStyle();
 		}
 		/**
+		 * Draw the segment  <code>seg</code> in the <code>Graphics</code> object
+		 * parameter passed in with the color <code>c</code>.
+		 * <fr>
 		 * Dessine le segment <code>seg</code> dans l'objet <code>Graphics</code>
 		 * transmis en paramètre avec la couleur <code>c</code>.
-		 *
-		 * @param	seg	segment à dessiner
-		 * @param	g	objet <code>Graphics</code> dans lequel dessiné
-		 * @param	c	couleur avec laquelle dessiné le segment
+		 * </fr>
+		 * @param	seg	segment to draw
+		 * 				<fr>segment à dessiner</fr>
+		 * @param	g	<code>Graphics</code> object in which drawn
+		 * 				<fr>objet <code>Graphics</code> dans lequel dessiné</fr>
+		 * @param	c	color with which the segment drawn
+		 * 				<fr>couleur avec laquelle dessiné le segment</fr>
 		 */
 		protected function drawSegment ( seg : Array, g : Graphics, c : Color ) : void
 		{
@@ -435,6 +521,5 @@ package abe.com.mon.geom
 				g.moveTo( pt1.x, pt1.y );				g.lineTo( pt2.x, pt2.y );
 			}
 		}
-		
 	}
 }

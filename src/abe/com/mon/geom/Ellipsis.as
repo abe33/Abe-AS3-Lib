@@ -20,9 +20,12 @@ package  abe.com.mon.geom
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
 	/**
-	 * La classe <code>Ellipsis</code> fournie une représentation mathématique
+	 * The <code>Ellipsis</code> class provides a mathematical representation
+	 * of an elliptical geometry.
+	 * <fr>
+	 * La classe <code>Ellipsis</code> fournit une représentation mathématique
 	 * d'une géométrie elliptique.
-	 *
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public class Ellipsis implements Cloneable,
@@ -36,8 +39,11 @@ package  abe.com.mon.geom
 									 Randomizable
 	{
 		/**
+		 * An integer defining the fine drawing of the geometry by default.
+		 * <fr>
 		 * Un entier définissant la finesse de dessin de la géométrie
 		 * par défaut.
+		 * </fr>
 		 */
 		static public const DRAWING_BIAS : uint = 30;
 
@@ -47,7 +53,8 @@ package  abe.com.mon.geom
 			  step="1",
 			  order="0")]
 		/**
-		 * Position en x du centre de l'ellipse.
+		 * X position of the ellipse center.
+		 * <fr>Position en x du centre de l'ellipse.</fr>
 		 */
 		public var x : Number;
 		[Form(type="floatSpinner",
@@ -56,7 +63,8 @@ package  abe.com.mon.geom
 			  step="1",
 			  order="1")]
 		/**
-		 * Position en y du centre de l'ellipse
+		 * Y position of the ellipse center.
+		 * <fr>Position en y du centre de l'ellipse.</fr>
 		 */		public var y : Number;
 
 		[Form(type="floatSpinner",
@@ -65,7 +73,8 @@ package  abe.com.mon.geom
 			  step="1",
 			  order="2")]
 		/**
-		 * Le premier diamètre de cette ellipse.
+		 * First radius for this ellipse.
+		 * <fr>Le premier rayon de cette ellipse.</fr>
 		 */
 		public var radius1 : Number;
 
@@ -75,7 +84,8 @@ package  abe.com.mon.geom
 			  step="1",
 			  order="3")]
 		/**
-		 * Le second diamètre de cette ellipse.
+		 * Second radius for this ellipse.
+		 * <fr>Le second rayon de cette ellipse.</fr>
 		 */		public var radius2 : Number;
 
 		[Form(type="floatSpinner",
@@ -84,15 +94,18 @@ package  abe.com.mon.geom
 			  step="1",
 			  order="4")]
 		/**
-		 * L'orientation de cette ellipse.
+		 * Rotation of this ellipse.
+		 * <fr>L'orientation de cette ellipse.</fr>
 		 */		public var rotation : Number;
 
 		[Form(type="boolean",
 			  label="Clockwise Path",
 			  order="5")]
 		/**
-		 * Le chemin sur cette ellipse se fait dans le sens des aiguilles
-		 * d'une montre.
+		 * The path on the ellipse is in the direction of clockwise.
+		 * 
+		 * <fr>Le chemin sur cette ellipse se fait dans le sens des aiguilles
+		 * d'une montre.</fr>
 		 */
 		public var clockWisePath : Boolean;
 
@@ -100,20 +113,33 @@ package  abe.com.mon.geom
 			  label="Clockwise Path",
 			  order="5")]
 		/**
-		 * Le décalage opéré sur le chemin de l'ellipse.
+		 * The offset made on the path of the ellipse.
+		 * <fr>Le décalage opéré sur le chemin de l'ellipse.</fr>
 		 */
 		public var pathOffset : Number;
+		
+		/**
+		 * The drawing bias of this ellipse
+		 */
 		public var drawBias : Number;
 
 		/**
-		 * Constructeur de la classe <code>Ellipsis</code>.
+		 * <code>Ellipsis</code> class constructor.
+		 * 
+		 * <fr>Constructeur de la classe <code>Ellipsis</code>.</fr>
 		 *
-		 * @param	x			position en x de l'ellipse
-		 * @param	y			position en y de l'ellipse
-		 * @param	radius1		premier rayon de l'ellipse
-		 * @param	radius2		second rayon de l'ellipse
-		 * @param	rotation	rotation de l'ellipse en radians
-		 * @param	bias		la précision dans le dessin de l'ellipse
+		 * @param	x			x position of the ellipse
+		 * 						<fr>position en x de l'ellipse</fr>
+		 * @param	y			y position of the ellipse
+		 * 						<fr>position en y de l'ellipse</fr>
+		 * @param	radius1		first radius of the ellipse
+		 * 						<fr>premier rayon de l'ellipse</fr>
+		 * @param	radius2		second radius of the ellipse
+		 * 						<fr>second rayon de l'ellipse</fr>
+		 * @param	rotation	rotation of the ellipse in radians
+		 * 						<fr>rotation de l'ellipse en radians</fr>
+		 * @param	bias		drawing bias of this ellipse
+		 * 						<fr>la précision dans le dessin de l'ellipse</fr>
 		 */
 		public function Ellipsis ( x : Number = 0,
 								   y : Number = 0,
@@ -133,8 +159,13 @@ package  abe.com.mon.geom
 			pathOffset = 0;
 			_randomSource = RandomUtils.RANDOM;
 		}
-
+		/**
+		 * Reference to the internal <code>Random</code> object used in random based methods.
+		 */
 		protected var _randomSource : Random;
+		/**
+		 * Reference to the internal <code>Random</code> object used in random based methods.
+		 */
 		public function get randomSource () : Random { return _randomSource; }
 		public function set randomSource (randomSource : Random) : void
 		{
@@ -155,10 +186,7 @@ package  abe.com.mon.geom
 			return a;
 		}
 		/**
-		 * Renvoie les coordonnées de l'ellipse à la position dans le chemin.
-		 *
-		 * @param	pathPercent	position dans le chemin dans la plage 0-1
-		 * @return	les coordonnées de l'ellipse au pourcentage du chemin
+		 * @inheritDoc
 		 */
 		public function getPathPoint ( path : Number) : Point
 		{
@@ -175,12 +203,8 @@ package  abe.com.mon.geom
 
 			return Math.atan2( d.y, d.x );
 		}
-
 		/**
-		 * Renvoie les coordonnées de l'ellipse à l'rotation spécifié.
-		 *
-		 * @param	a	rotation des coordonnées à récupérer
-		 * @return	les coordonnées de l'ellipse à l'rotation spécifié
+		 * @return
 		 */
 		public function getPointAtAngle ( a : Number ) : Point
 		{
@@ -203,11 +227,7 @@ package  abe.com.mon.geom
 			return p2.add( PointUtils.scaleNew( d, Math.sqrt( _randomSource.random() ) ) );
 		}
 		/**
-		 * Dessine les contours de l'ellipse dans l'objet <code>g</code>
-		 * avec la couleur <code>c</code>.
-		 *
-		 * @param	g	objet <code>Graphics</code> dans lequel dessiné
-		 * @param	c	couleur avec laquelle dessiner l'ellipse
+		 * @inheritDoc
 		 */
 		public function draw ( g : Graphics, c : Color ) : void
 		{
@@ -250,24 +270,23 @@ package  abe.com.mon.geom
 			g.endFill();
 		}
 		/**
-		 * Renvoie une copie parfaite de cet objet <code>Ellipsis</code>.
-		 *
-		 * @return	une copie parfaite de cet objet <code>Ellipsis</code>
+		 * @inheritDoc
 		 */
 		public function clone () : *
 		{
 			return new Ellipsis( x, y, radius1, radius2, rotation );
 		}
+		
 		/**
-		 * Renvoie <code>true</code> si <code>o</code> est égal à
-		 * cette instance.
+		 * <p>
+		 * Two ellipses are equal if their radii are equal.
+		 * </p>
+		 * <fr>
 		 * <p>
 		 * Deux ellipses sont égales si leur rayons sont égaux.
 		 * </p>
-		 *
-		 * @param 	o	instance à comparer avec l'instance courante
-		 * @return	<code>true</code> si <code>o</code> est égal à
-		 * 			cette instance
+		 * </fr>
+		 * @inheritDoc
 		 */
 		public function equals (o : *) : Boolean
 		{
@@ -278,14 +297,22 @@ package  abe.com.mon.geom
 			return false;
 		}
 		/**
+		 * Returns a new ellipse representing the point <code>normValue</code> from the interpolation
+		 * between the ellipse passed as parameter and the current instance.
+		 * <fr>
 		 * Renvoie une nouvelle ellipse représentant le point <code>normValue</code>
 		 * de l'interpolation entre l'ellipse courante et celle transmise en paramètre.
-		 *
-		 * @param	ellipsis	l'ellipse à interpoler avec l'ellipse courante
-		 * @param 	normValue	position dans l'interpolation entre les deux ellipse
-		 * @return	nouvelle ellipse représentant le point <code>normValue</code>
+		 * </fr>
+		 * @param	ellipsis	ellipse to interpolate with the current instance
+		 * 						<fr>l'ellipse à interpoler avec l'ellipse courante</fr>
+		 * @param 	normValue	position in the interpolation between the two ellipse
+		 * 						<fr>position dans l'interpolation entre les deux ellipse</fr>
+		 * @return	a new ellipse representing the point <code>normValue</code> 
+		 * 			from the interpolation between the ellipse passed as parameter 
+		 * 			and the current instance
+		 * 			<fr>une nouvelle ellipse représentant le point <code>normValue</code>
 		 * 			de l'interpolation entre l'ellipse courante et celle transmise
-		 * 			en paramètre
+		 * 			en paramètre</fr>
 		 */
 		public function interpolate ( ellipsis: Ellipsis, normValue : Number) : Ellipsis
 		{
@@ -338,33 +365,26 @@ package  abe.com.mon.geom
 			return GeometryUtils.surfaceContainsGeometry(this, geom);
 		}
 		/**
-		 * Renvoie la représentation du code source permettant
-		 * de recréer l'instance courante.
-		 *
-		 * @return 	la représentation du code source ayant permis
-		 * 			de créer l'instance courante
+		 * @inheritDoc
 		 */
 		public function toSource () : String
 		{
 			return toReflectionSource().replace("::", ".");
 		}
 		/**
-		 * Renvoie la représentation du code source permettant
-		 * de recréer l'instance courante à l'aide de la méthode
-		 * <code>Reflection.get</code>.
-		 *
-		 * @return 	la représentation du code source ayant permis
-		 * 			de créer l'instance courante
-		 * @see	Reflection#get()
+		 * @inheritDoc
 		 */
 		public function toReflectionSource () : String
 		{
 			return StringUtils.tokenReplace( "new $0($1,$2,$3,$4,$5,$6)", getQualifiedClassName(this), x, y, radius1, radius2, rotation, drawBias );
 		}
 		/**
+		 * Returns the representation of the object as a string.
+		 * <fr>
 		 * Renvoie la représentation de l'objet sous forme de chaîne.
-		 *
-		 * @return la représentation de l'objet sous forme de chaîne
+		 * </fr>
+		 * @return	the representation of the object as a string
+		 * 			<fr>la représentation de l'objet sous forme de chaîne</fr>
 		 */
 		public function toString() : String
 		{

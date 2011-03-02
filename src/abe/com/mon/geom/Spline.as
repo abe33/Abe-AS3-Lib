@@ -23,7 +23,7 @@ package abe.com.mon.geom
 	public interface Spline extends Geometry, Path
 	{
 		/**
-		 * A reference to the array containing the objects <code>Point</ code>
+		 * A reference to the array containing the objects <code>Point</code>
 		 * which represent the different vertices of the spline.
 		 * <fr>
 		 * Une référence vers le tableau contenant les objets <code>Point</code>

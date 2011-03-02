@@ -19,7 +19,7 @@ package abe.com.mon.geom
 	{
 		/**
 		 * Returns the coordinates in the path to position
-		 * defined by <code> path </ code>.
+		 * defined by <code>path</code>.
 		 * <fr>
 		 * Renvoie les coordonnées dans le chemin à la position 
 		 * définie par <code>path</code>.
@@ -32,7 +32,7 @@ package abe.com.mon.geom
 		function getPathPoint ( path : Number ) : Point;
 		/**
 		 * Returns the orientation of the path to position 
-		 * defined by <code> path </ code>.
+		 * defined by <code>path</code>.
 		 * <fr>
 		 * Renvoie l'orientation du chemin à la position
 		 * définie par <code>path</code>.

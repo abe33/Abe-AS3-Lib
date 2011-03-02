@@ -35,7 +35,7 @@ package  abe.com.mon.geom
 	{
 		/**
 		 * Draws the outline of the geometry into the passed-in <code>Graphics</code>
-		 * object using the color <code>c</code>
+		 * object using the color <code>c</code>.
 		 * 
 		 * <fr>
 		 * Dessine les contours de la géométrie dans l'objet <code>Graphics</code>
@@ -49,7 +49,7 @@ package  abe.com.mon.geom
 		function draw ( g : Graphics, c : Color ) : void;
 		/**
 		 * Draw the fill of the geometry into the passed-in <code>Graphics</code> object
-		 * using the color <code>c</code>
+		 * using the color <code>c</code>.
 		 * 
 		 * <fr>
 		 * Dessine en plein la géométrie dans l'objet <code>Graphics</code>
@@ -110,7 +110,7 @@ package  abe.com.mon.geom
 		 * </fr>
 		 * @param	geom	geometry for which test intersections
 		 * 					<fr>la géometrie pour laquelle tester l'intersection</fr>
-		 * @return	<code>true</code> if this geometry and <code>geom</ code> intersects
+		 * @return	<code>true</code> if this geometry and <code>geom</code> intersects
 		 * 			<fr><code>true</code> si cette géométrie et <code>geom</code> s'entrecroise</fr>
 		 * @see	abe.com.mon.utils.GeometryUtils#geometriesIntersects()
 		 */
@@ -118,7 +118,7 @@ package  abe.com.mon.geom
 		/**
 		 * Returns an array containing all the points where the geometry crosses 
 		 * the geometry <code>geom</code>. If no intersection is found,
-		 * the function returns <code>null</ code>.
+		 * the function returns <code>null</code>.
 		 * <p>
 		 * A standard implementation of this method can simply call 
 		 * to <code>GeometryUtils.geometriesIntersections</code> to
@@ -139,7 +139,7 @@ package  abe.com.mon.geom
 		 * @param	geom	geometry for which to retrieve the intersections
 		 * 					<fr>la géometrie pour laquelle récupérer les intersections</fr>
 		 * @return	an array containing all the points where the geometry crosses
-		 * 			geometry <code>geom</ code>
+		 * 			geometry <code>geom</code>
 		 * 			<fr>un tableau contenant tous les points où cette géométrie croise
 		 * 			la géométrie <code>geom</code></fr>
 		 * @see	abe.com.mon.utils.GeometryUtils#geometriesIntersections()

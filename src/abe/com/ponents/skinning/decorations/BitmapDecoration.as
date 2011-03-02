@@ -1,6 +1,5 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.utils.Alignments;
