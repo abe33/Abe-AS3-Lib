@@ -19,33 +19,57 @@ package abe.com.mon.geom
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
 	/**
+	 * The Class <code>Polygon</code> is used to represent planar, closed geometries,
+	 * consisting of an indefinite number of vertices. 
+	 * <p>
+	 * A valid <code>Polygon</code> object contains at least three vertices.
+	 * </p>
+	 * <fr>
 	 * La classe <code>Polygon</code> permet de représenter des géométries planes,
 	 * fermées, constituées d'un nombre indéfini de sommets.
 	 * <p>
 	 * Un objet <code>Polygon</code> valide est constitué par au minimum trois sommets.
 	 * </p>
-	 *
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public class Polygon implements Serializable, Cloneable, Equatable, Geometry, ClosedGeometry, Path, Surface, FormMetaProvider, Randomizable
 	{
 		/**
+		 * A global instance of the class <code>Triangulate</code>
+		 * used to perform the triangulation of <code>Polygon</code> objects.
+		 * <fr>
 		 * Une instance globale de la classe <code>Triangulate</code> utilisée
 		 * pour réaliser la triangulation des objets <code>Polygon</code>.
-		 *
+		 * </fr>
 		 * @default	new Triangulate()
 		 */
 		static protected var triangulator : Triangulate = new Triangulate();
 		/**
+		 * An array containing all the vertices of the polygon.
+		 * <fr>
 		 * Un tableau contenant l'ensemble des sommets de ce polygone.
+		 * </fr>
 		 */
 		protected var _vertices : Array;
 		/**
+		 * An array containing all objects <code>Triangle</code> 
+		 * resulting from the triangulation of this polygon.
+		 * <fr>
 		 * Un tableau contenant l'ensemble des objets <code>Triangle</code>
 		 * résultants de la triangulation de ce polygone.
+		 * </fr>
 		 */
 		protected var _triangles : Array;
 		/**
+		 * An array containing all the lengths of segments added
+		 * together to perform the operations of path computation
+		 * based on the length of the edges of polygons.
+		 * <p>
+		 * For a polygon <code>ABC</code>, the array contains 
+		 * the following data : 
+		 * </p>
+		 * <fr>
 		 * Un tableau contenant l'ensemble des longueurs de segments additionnés
 		 * afin de réaliser les opérations de calculs de chemins basé sur la
 		 * longueur des arrêtes de ce polygones.
@@ -53,20 +77,28 @@ package abe.com.mon.geom
 		 * Pour un polygone <code>ABC</code>, le tableau contient les
 		 * données suivantes :
 		 * </p>
+		 * </fr>
 		 * <listing>
 		 * [
 		 * 	AB.length,
-		 * 	AB.Length + BC.length,
+		 * 	AB.length + BC.length,
 		 * 	AB.length + BC.length + CA.length
 		 * ]</listing>
 		 */		protected var _pathSteps : Array;
 		/**
+		 * An array containing the accumulated acreages of different triangles
+		 * constituting the polygon. 
+		 * <p>
+		 * For a polygon <code>ABCD</code>, the array contains the following data:
+		 * </p>
+		 * <fr>
 		 * Un tableau contenant les aires accumulées des
 		 * différents triangles constituant ce polygone.
 		 * <p>
 		 * Pour un polygone <code>ABCD</code>, le tableau contient les
 		 * données suivantes :
 		 * </p>
+		 * </fr>
 		 * <listing>
 		 * [
 		 * 	ABC.acreage,
@@ -75,16 +107,38 @@ package abe.com.mon.geom
 		 */
 		protected var _acreageSteps : Array;
 		/**
+		 * A number containing the precomputed value
+		 * of the acreage of this polygon in <code>px²</code>.
+		 * <fr>
 		 * Un nombre contenant la valeur précalculée
 		 * de l'aire de ce polygone en <code>px²</code>.
+		 * </fr>
 		 */
 		protected var _acreage : Number;
 		/**
+		 * A number containing the precomputed value of the perimeter
+		 * of the polygon.
+		 * <fr>
 		 * Un nombre contenant la valeur précalculée du périmètre
 		 * de ce polygone.
+		 * </fr>
 		 */
 		protected var _length : Number;
 		/**
+		 * @copy abe.com.mon.core.Randomizable#randomSource
+		 */
+		protected var _randomSource : Random;
+		/**
+		 * A boolean value indicating whether the calculations 
+		 * of a position in the path of this <code>Polygon</code>
+		 * are based on the length of the perimeter or on the basis
+		 * of the number of edges. 
+		 * <p>
+		 * In the case a path based on the lengths of edges, 
+		 * the data contained in the array <code>_pathSteps</code> 
+		 * are used.
+		 * </p>
+		 * <fr>
 		 * Une valeur booléenne indiquant si les calculs d'une position
 		 * dans le chemin de ce <code>Polygon</code> se font sur la
 		 * base de la longueur du périmètre ou sur la base du nombre
@@ -94,27 +148,39 @@ package abe.com.mon.geom
 		 * les données contenues dans le tableau <code>_pathSteps</code>
 		 * sont utilisées.
 		 * </p>
+		 * </fr>
 		 * @default	true
 		 */
 		public var pathBasedOnLength : Boolean;
 		/**
+		 * A boolean value indicating whether the triangles
+		 * from the triangulation of this polygon must be
+		 * drawn during the <code>draw</code> process.
+		 * <fr>
 		 * Une valeur booléenne indiquant si les triangles issus
 		 * de la triangulation de ce polygone doivent être dessinés
 		 * dans le cadre de la méthode <code>draw</code>.
-		 *
+		 * </fr>
 		 * @default	false
 		 */
 		public var drawTriangles : Boolean;
 
 		/**
+		 * <code>Polygon</code> class constructor.
+		 * <fr>
 		 * Constructeur de la classe <code>Polygon</code>.
-		 *
-		 * @param	vertices			un tableau d'objets <code>Point</code>
-		 * 								représentant les sommets de ce polygone
-		 * @param	pathBasedOnLength	le calcul du chemin est-il basé
+		 * </fr>
+		 * @param	vertices			an array of objects <code>Point</code> representing
+		 * 								the vertices of the polygon
+		 * 								<fr>un tableau d'objets <code>Point</code>
+		 * 								représentant les sommets de ce polygone</fr>
+		 * @param	pathBasedOnLength	path computation is it based on the length of 
+		 * 								the perimeter of the triangle?
+		 * 								<fr>le calcul du chemin est-il basé
 		 * 								sur la longueur du périmètre du
-		 * 								triangle ?
-		 * @throws	Error	Un polygone doit posséder au minimum trois sommets pour être valide.
+		 * 								triangle ?</fr>
+		 * @throws Error A polygon must have at least three vertices to be valid.
+		 * 				 <fr>Un polygone doit posséder au minimum trois sommets pour être valide.</fr>
 		 */
 		public function Polygon ( vertices : Array,
 								  pathBasedOnLength : Boolean = true )
@@ -123,20 +189,24 @@ package abe.com.mon.geom
 			this.pathBasedOnLength = pathBasedOnLength;
 			_randomSource = RandomUtils.RANDOM;
 		}
-
-		protected var _randomSource : Random;
-		public function get randomSource () : Random { return _randomSource; }
-		public function set randomSource (randomSource : Random) : void
-		{
-			_randomSource = randomSource;
-		}
+		
 		/**
+		 * An array containing all the vertices of the polygon.
+		 * <p>
+		 * The table must have a mininum three vertices to be valid, 
+		 * otherwise an exception is thrown.
+		 * </p>
+		 * <fr>
 		 * Un tableau contenant l'ensemble des sommets de ce polygone.
 		 * <p>
 		 * Le tableau doit avoir au mininum trois sommets pour être valide,
 		 * sinon un exception est levée.
 		 * </p>
-		 * @throws	Error	Un polygone doit posséder au minimum trois sommets pour être valide.
+		 * </fr>
+		 * @throws Error A Polygon must have at least three vertices
+		 * 				 to be a valid polygon.
+		 * 				 <fr>Un polygone doit posséder au minimum
+		 * 				 trois sommets pour être valide.</fr>
 		 */
 		public function get vertices () : Array { return _vertices; }
 		public function set vertices (vertices : Array) : void
@@ -148,12 +218,19 @@ package abe.com.mon.geom
 			updatePolygonData();
 		}
 		/**
+		 * A copy of the array containing objects <code>Triangle</code> 
+		 * resulting from the triangulation of this polygon.
+		 * <fr>
 		 * Une copie du tableau contenant les objets <code>Triangle</code> résultant
 		 * de la triangulation de ce polygone.
+		 * </fr>
 		 */
 		public function get triangles () : Array { return _triangles.concat(); }
 		/**
+		 * Number representing the length of the perimeter of the polygon.
+		 * <fr>
 		 * Un nombre représentant la longueur du périmètre de ce polygone.
+		 * </fr>
 		 */
 		public function get length () : Number { return _length; }
 		/**
@@ -164,6 +241,11 @@ package abe.com.mon.geom
 		 * @inheritDoc
 		 */
 		public function get points () : Array { return _vertices.concat ( _vertices[0] ); }
+		/**
+		 * @inheritDoc
+		 */
+		public function get randomSource () : Random { return _randomSource; }
+		public function set randomSource (randomSource : Random) : void	{ _randomSource = randomSource; }
 		/**
 		 * @inheritDoc
 		 */
@@ -288,29 +370,26 @@ package abe.com.mon.geom
 			else
 				return null;
 		}
+		/**
+		 * @inheritDoc
+		 */
 		public function getPointAtAngle (a : Number) : Point
 		{
 			return null;
 		}
 		/**
-		 * Renvoie une copie parfaite de cet objet <code>Polygon</code>.
-		 *
-		 * @return	une copie parfaite de cet objet <code>Polygon</code>
+		 * @inheritDoc
 		 */
 		public function clone () : *
 		{
 			return new Polygon( vertices.concat(), pathBasedOnLength);
 		}
 		/**
-		 * Renvoie <code>true</code> si <code>o</code> est égal à
-		 * cette instance.
-		 * <p>
-		 * Deux polygones sont égaux si tout leur sommets sont égaux.
-		 * </p>
-		 *
-		 * @param 	o	instance à comparer avec l'instance courante
-		 * @return	<code>true</code> si <code>o</code> est égal à
-		 * 			cette instance
+		 * <p>Two polygons are equal if all their vertices are equal.</p>
+		 * <fr>
+		 * <p>Deux polygones sont égaux si tout leur sommets sont égaux.</p>
+		 * </fr>
+		 * @inheritDoc
 		 */
 		public function equals (o : *) : Boolean
 		{
@@ -384,13 +463,7 @@ package abe.com.mon.geom
 			return GeometryUtils.geometriesIntersections( this, geom );
 		}
 		/**
-		 * Renvoie <code>true</code> si le point <code>p</code>
-		 * est situé à l'intérieur de cet objet <code>Polygon</code>.
-		 *
-		 * @param	p	point dont on souhait savoir si il se situe
-		 * 				à l'intérieur du polygone
-		 * @return	<code>true</code> si le point est situé à l'intérieur
-		 * 			de ce polygone
+		 * @inheritDoc
 		 */
 		public function containsPoint ( p : Point ) : Boolean
 		{
@@ -446,6 +519,24 @@ package abe.com.mon.geom
 			return GeometryUtils.surfaceContainsGeometry(this, geom);
 		}
 		/**
+		 * Updates to this data precomputed polygon.
+		 * <p>
+		 * The update perform the following operations:
+		 * </p>
+		 * <ul>
+		 * <li>Triangulation of this polygon.</li>
+		 * <li>Calculating the area of this polygon.</li>
+		 * <li>Calculations of the length of each edge
+		 * that form the array <code>_pathSteps</code>.</li>
+		 * <li>Calculating the length of the perimeter of the polygon.</li>
+		 * </ul>
+		 * <p>
+		 * This method is automatically called when the <code>vertex</code>
+		 * property is modified. However, if a change is made on this array,
+		 * or on the coordinates it contains, the call to <code>updatePolygonData</code>
+		 * must be done manually. That's why this method is public.
+		 * </p>
+		 * <fr>
 		 * Met à jour les données précalculées pour ce polygone.
 		 * <p>
 		 * Lors de la mise à jour sont effectuées les opérations
@@ -463,6 +554,7 @@ package abe.com.mon.geom
 		 * devra être fait manuellement. C'est la raison pour laquelle cette
 		 * méthode est publique.
 		 * </p>
+		 * </fr>
 		 */
 		public function updatePolygonData () : void
 		{
@@ -472,7 +564,10 @@ package abe.com.mon.geom
 			updateLength ();
 		}
 		/**
+		 * Calculating the length of the perimeter of the polygon.
+		 * <fr>
 		 * Calcul la longueur du périmètre de ce polygone.
+		 * </fr>
 		 */
 		protected function updateLength () : void
 		{
@@ -488,8 +583,12 @@ package abe.com.mon.geom
 			_length = n;
 		}
 		/**
+		 * Calculations of the lengths of each edge to form
+		 * the array <code>_pathSteps</code>.
+		 * <fr>
 		 * Calculs des longueurs de chaque arrête afin de constituer le tableau
 		 * <code>_pathSteps</code>.
+		 * </fr>
 		 */
 		protected function updatePathSteps () : void
 		{
@@ -505,8 +604,12 @@ package abe.com.mon.geom
 			_pathSteps.push( n );
 		}
 		/**
+		 * Realizes the triangulation of this polygon and stores
+		 * the result in the <code>_triangles</code> property.
+		 * <fr>
 		 * Réalise la triangulation de ce polygone et stocke le résultat
 		 * dans la propriété <code>_triangles</code>.
+		 * </fr>
 		 */
 		protected function updateTriangles () : void
 		{
@@ -516,9 +619,14 @@ package abe.com.mon.geom
 				Log.info( "This Polygon cannot be triangulate." );
 		}
 		/**
+		 * Performs the calculation of the area of this polygon objects
+		 * using <code>Triangle</code> obtained from the triangulation
+		 * of the latter.
+		 * <fr>
 		 * Réalise le calcul de l'aire de ce polygone à l'aide des
 		 * objets <code>Triangle</code> obtenus lors de la triangulation
 		 * de ce dernier.
+		 * </fr>
 		 */
 		protected function updateAcreage () : void
 		{
@@ -532,7 +640,6 @@ package abe.com.mon.geom
 			} );
 			_acreage = n;
 		}
-
 		/**
 		 * @inheritDoc
 		 */
@@ -551,9 +658,12 @@ package abe.com.mon.geom
 						pathBasedOnLength );
 		}
 		/**
+		 * Returns the representation of the object as a string.
+		 * <fr>
 		 * Renvoie la représentation de l'objet sous forme de chaîne.
-		 *
-		 * @return la représentation de l'objet sous forme de chaîne
+		 * </fr>
+		 * @return	the representation of the object as a string
+		 * 			<fr>la représentation de l'objet sous forme de chaîne</fr>
 		 */
 		public function toString() : String
 		{

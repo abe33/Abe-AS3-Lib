@@ -12,30 +12,41 @@ package abe.com.mon.geom
 	import flash.utils.getQualifiedClassName;
 
 	/**
+	 * Quintic Bezier curve is a curve where each segment has three additional
+	 * vertices of controls. Each segment is composed of <code>5</code> vertices.
+	 * <p>
+	 * The length of the array must be equal to <code>numSeg * 4 + 1 </code>.
+	 * </p>
+	 * <fr>
 	 * Une courbe de bezier quintique est une une courbe où chaque
 	 * segment possède trois sommets de contrôles supplémentaires.
 	 * Chaque segment est donc constitué de <code>5</code> sommets.
 	 * <p>
 	 * La longueur du tableau doit être égale à <code>numSeg * 4 + 1</code>.
 	 * </p>
-	 *
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public class QuintBezier extends AbstractSpline implements Spline, Path, Geometry, Cloneable, Serializable
 	{
 		/**
-		 * Constructeur de la classe <code>QuadBezier</code>.
-		 *
-		 * @param	v		un tableau d'objets <code>Point</code> représentant les sommets
+		 * <code>QuintBezier</code> class constructor.
+		 * <fr>
+		 * Constructeur de la classe <code>QuintBezier</code>.
+		 * </fr>
+		 * @param	v		an array of objects <code>Point</code> representing the vertices
+		 * 					of the curve. The length of the array must be equal to 
+		 * 					<code>numSeg * 4 + 1 </code> to be considered valid.
+		 * 					<fr>un tableau d'objets <code>Point</code> représentant les sommets
 		 * 					de la courbe. La longueur du tableau doit être égale à
-		 * 					<code>numSeg * 4 + 1</code> pour être considéré comme valide.
-		 * @param	bias	paramètre de finesse pour les calculs et les dessins de la courbe
+		 * 					<code>numSeg * 4 + 1</code> pour être considéré comme valide.</fr>
+		 * @param	bias	parameter refinement in the calculations and drawings of the curve
+		 * 					<fr>paramètre de finesse pour les calculs et les dessins de la courbe</fr>
 		 */
 		public function QuintBezier (v : Array = null, bias : Number = 20)
 		{
 			super( v, 4, bias );
 		}
-
 		/**
 		 * @inheritDoc
 		 */
@@ -47,43 +58,32 @@ package abe.com.mon.geom
 			return pt;
 		}
 		/**
-		 * Fonction de Bezier pour le premier sommet d'un segment.
-		 *
-		 * @param	t	valeur de bias courante
-		 * @return	une valeur à utiliser pour multiplier les coordonnées
-		 * 			du sommet
+		 * @copy CubicBezier#b1()
 		 */
 		public function b1 ( t : Number ) : Number { return ( ( 1 - t ) * ( 1 - t ) * ( 1 - t ) * ( 1 - t ) ) ; }
 		/**
-		 * Fonction de Bezier pour le second sommet d'un segment.
-		 *
-		 * @param	t	valeur de bias courante
-		 * @return	une valeur à utiliser pour multiplier les coordonnées
-		 * 			du sommet
+		 * @copy CubicBezier#b2()
 		 */
 		public function b2 ( t : Number ) : Number { return ( 4 * t * ( 1 - t ) * ( 1 - t ) * ( 1 - t ) ) ; }
 		/**
-		 * Fonction de Bezier pour le troisième sommet d'un segment.
-		 *
-		 * @param	t	valeur de bias courante
-		 * @return	une valeur à utiliser pour multiplier les coordonnées
-		 * 			du sommet
+		 * @copy CubicBezier#b3()
 		 */
 		public function b3 ( t : Number ) : Number { return ( 6 * t * t * ( 1 - t ) * ( 1 - t ) ) ; }
 		/**
+		 * Bezier function for the fourth vertex of a segment.
+		 * <fr>
 		 * Fonction de Bezier pour le quatrième sommet d'un segment.
+		 * </fr>
 		 *
-		 * @param	t	valeur de bias courante
-		 * @return	une valeur à utiliser pour multiplier les coordonnées
-		 * 			du sommet
+		 * @param	t	current bias value
+		 * 				<fr>valeur de bias courante</fr>
+		 * @return	a value to use to multiply the coordinates of the vertex
+		 * 			<fr>une valeur à utiliser pour multiplier les coordonnées
+		 * 			du sommet</fr>
 		 */
 		public function b4 ( t : Number ) : Number { return ( 4 * t * t * t * ( 1 - t ) ) ; }
 		/**
-		 * Fonction de Bezier pour le dernier sommet d'un segment.
-		 *
-		 * @param	t	valeur de bias courante
-		 * @return	une valeur à utiliser pour multiplier les coordonnées
-		 * 			du sommet
+		 * @copy CubicBezier#b4()
 		 */
 		public function b5 ( t : Number ) : Number { return ( t * t * t * t ) ; }
 		/**

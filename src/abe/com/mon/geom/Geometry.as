@@ -72,8 +72,9 @@ package  abe.com.mon.geom
 		 * version of this geometry.
 		 * </p>
 		 * <p>
-		 * When the geometry is a closed shape, the first coordinates and the latest details
-		 * must be identical to allow to browse all of the edges of the geometry.
+		 * When the geometry is a closed shape, the first and the latest coordinates 
+		 * must be identical to allow to browse all of the edges of the geometry 
+		 * in a for loop.
 		 * </p>
 		 * 
 		 * <fr>Une référence vers un tableau contenant les points constituant la représentation

@@ -1,3 +1,6 @@
+/**
+ * @license
+ */
 package abe.com.mon.geom 
 {
 	import abe.com.mon.core.Cloneable;
@@ -12,8 +15,12 @@ package abe.com.mon.geom
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
+	
 	/**
-	 * @author cedric
+	 * The <code>Spiral</code> class provides a mathematical representation
+	 * of a spiral.
+	 * 
+	 * @author Cédric Néhémie
 	 */
 	public class Spiral extends Ellipsis implements  Cloneable,
 													 Serializable,
@@ -30,21 +37,30 @@ package abe.com.mon.geom
 			  step="1",
 			  order="6")]
 		/**
+		 * The number of twirl made by the spiral around its axis.
+		 * <fr>
 		 * Le nombre de tour que fait la spirale autour de son axe.
-		 * 
+		 * </fr>
 		 * @default 1
 		 */		
 		public var twirl : Number;
 		/**
+		 * <code>Spiral</code> class constructor.
 		 * 
-		 * 
-		 * @param	x			position en x de l'ellipse
-		 * @param	y			position en y de l'ellipse
-		 * @param	radius1		premier rayon de l'ellipse
-		 * @param	radius2		second rayon de l'ellipse
-		 * @param	twirl		le nombre de tour effectués par la spirale
-		 * @param	rotation	rotation de l'ellipse en radians
-		 * @param	bias		la précision dans le dessin de l'ellipse
+		 * @param	x			x position of the ellipse
+		 * 						<fr>position en x de l'ellipse</fr>
+		 * @param	y			y position of the ellipse
+		 * 						<fr>position en y de l'ellipse</fr>
+		 * @param	radius1		first radius of the ellipse
+		 * 						<fr>premier rayon de l'ellipse</fr>
+		 * @param	radius2		second radius of the ellipse
+		 * 						<fr>second rayon de l'ellipse</fr>
+		 * @param	twirl		number of twirl made by the spiral
+		 * 						around its axis
+		 * @param	rotation	rotation of the ellipse in radians
+		 * 						<fr>rotation de l'ellipse en radians</fr>
+		 * @param	bias		drawing bias of this ellipse
+		 * 						<fr>la précision dans le dessin de l'ellipse</fr>
 		 */
 		public function Spiral ( x : Number = 0, 
 								 y : Number = 0, 
@@ -72,10 +88,15 @@ package abe.com.mon.geom
 		}
 		/**
 		 * <p>
+		 * <strong>Note:</strong> The <code>fill</code> method is not supported
+		 * by the class <code>Spiral</code>.
+		 * <fr>
 		 * <strong>Note : </strong> La méthode <code>fill</code> n'est pas supportée
 		 * par la classe <code>Spiral</code>. 
+		 * </fr>
 		 * </p>
 		 * @inheritDoc
+		 * @throws Error The Spiral class, despite extending Ellipsis, doesn't support the fill method.
 		 */
 		override public function fill (g : Graphics, c : Color) : void 
 		{
@@ -83,10 +104,15 @@ package abe.com.mon.geom
 		}
 		/**
 		 * <p>
+		 * <strong>Note:</strong> The <code>contains</code> method is not supported
+		 * by the class <code>Spiral</code>.
+		 * <fr>
 		 * <strong>Note : </strong> La méthode <code>contains</code> n'est pas supportée
-		 * par la classe <code>Spiral</code>. 
+		 * par la classe <code>Spiral</code>.
+		 * </fr> 
 		 * </p>
 		 * @inheritDoc
+		 * @throws Error The Spiral class, despite extending Ellipsis, doesn't support the contains method.
 		 */
 		override public function contains (x : Number, y : Number) : Boolean 
 		{
@@ -94,10 +120,15 @@ package abe.com.mon.geom
 		}
 		/**
 		 * <p>
+		 * <strong>Note:</strong> The <code>containsPoint</code> method is not supported
+		 * by the class <code>Spiral</code>.
+		 * <fr>
 		 * <strong>Note : </strong> La méthode <code>containsPoint</code> n'est pas supportée
 		 * par la classe <code>Spiral</code>. 
+		 * </fr>
 		 * </p>
 		 * @inheritDoc
+		 * @throws Error The Spiral class, despite extending Ellipsis, doesn't support the containsPoint method.
 		 */
 		override public function containsPoint ( p : Point ) : Boolean 
 		{
@@ -105,26 +136,30 @@ package abe.com.mon.geom
 		}
 		/**
 		 * <p>
+		 * <strong>Note:</strong> The <code>containsGeometry</code> method is not supported
+		 * by the class <code>Spiral</code>.
+		 * <fr>
 		 * <strong>Note : </strong> La méthode <code>containsGeometry</code> n'est pas supportée
 		 * par la classe <code>Spiral</code>. 
+		 * </fr>
 		 * </p>
 		 * @inheritDoc
+		 * @throws Error The Spiral class, despite extending Ellipsis, doesn't support the containsGeometry method.
 		 */
 		override public function containsGeometry ( g : Geometry ) : Boolean 
 		{
 			throw new Error( "The Spiral class, despite extending Ellipsis, doesn't support the containsGeometry method." );
 		}
 		/**
-		 * Renvoie <code>true</code> si <code>o</code> est égal à
-		 * cette instance.
 		 * <p>
+		 * Two spirals are equal if their radii are equal
+		 * and that their twirl is equal.
+		 * <fr>
 		 * Deux spirales sont égales si leur rayons sont égaux et que
 		 * leur tourbillon est égale.
+		 * </fr>
 		 * </p>
-		 *
-		 * @param 	o	instance à comparer avec l'instance courante
-		 * @return	<code>true</code> si <code>o</code> est égal à
-		 * 			cette instance
+		 * @inheritDoc
 		 */
 		override public function equals (o : *) : Boolean
 		{

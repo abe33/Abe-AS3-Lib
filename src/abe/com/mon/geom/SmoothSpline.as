@@ -1,3 +1,6 @@
+/**
+ * @license
+ */
 package abe.com.mon.geom 
 {
 	import abe.com.mon.core.Cloneable;
@@ -9,6 +12,45 @@ package abe.com.mon.geom
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
 	/**
+	 * Class <code>SmoothSpline</code> allows the creation of smooth 
+	 * curves with automatic customizable.
+	 * <p>
+	 * The <code>SmoothSpline</code> class is a <code>CubicBezier</code>
+	 * curve whose control vertices are automatically calculated by the curve. 
+	 * The user therefore has only to define the points where the curve must
+	 * pass, and it does the rest of the work by calculating the control
+	 * points needed to smooth the curve.
+	 * </p>
+	 * <p>
+	 * An instance of <code>SmoothSpline</code> can use different methods
+	 * for smoothing, these modes are described in the class <code>SmoothSplineModes</code>
+	 * </p>
+	 * <p>
+	 * Whatever method is used, there is a certain number of principles
+	 * that will be consistently applied in calculating the smoothing vertex:
+	 * </p>
+	 * <ol>
+	 * <li>Control points are always placed along the tangent to the corresponding vertex.
+	 * <p>
+	 * Given a set of three vertices <code>A->B->C</code>.
+	 * Let <code>B'</code> and <code>B"</code> both controls points for the the vertex
+	 * <code>B</code>. Points <code>B'</code> and <code>B"</code> will be just two points 
+	 * placed on the line passing through <code>B</code> and parallel to the vector 
+	 * <code>A-> C</code>.
+	 * </p></li>
+	 * <li>In the case of an open curve, control points for the first and last vertex
+	 * of the curve will be mirrors of the controls points from the opposite vertex
+	 * relative to the segment. 
+	 * <p>
+	 * Given a set of three vertices <code>A->B->C</code>. 
+	 * Let <code>A'</code> a control point for the vertex <code>A</code> in segment 
+	 * <code>A->B</code> and <code>B'</code> a control point for the vertex <code>B</code>
+	 * in segment <code>A->B</code>. 
+	 * Point <code>A'</code> will be positioned such that the angle <code>A'AB</code>
+	 * is equal to the angle <code>ABB'</code>.
+	 * </p></li>
+	 * </ol>
+	 * <fr> 
 	 * La classe <code>SmoothSpline</code> permet la création de courbes
 	 * dont le lissage automatique est paramétrable.
 	 * <p>
@@ -49,7 +91,7 @@ package abe.com.mon.geom
 	 * de telle manière que l'angle <code>A'AB</code> soit égale à l'angle <code>ABB'</code>.
 	 * </p></li>
 	 * </ol> 
-	 * 
+	 * </fr>
 	 * @author Cédric Néhémie
 	 * @see SmoothSplineModes
 	 */
@@ -59,11 +101,18 @@ package abe.com.mon.geom
  * CLASS MEMBERS
  *--------------------------------------------------------------------------*/
 		/**
+		 * An array containing the functions of different modes of smoothing
+		 * provided by the class <code>SmoothSpline</code>.
+		 * <p>
+		 * The functions of the smoothing calculations are as follows:
+		 * </p>
+		 * <fr>
 		 * Un tableau contenant les fonctions des différents modes de lissage
 		 * fournis par la classe <code>SmoothSpline</code>.
 		 * <p>
 		 * Les fonctions de calculs du lissage prennent la forme suivante :
 		 * </p>
+		 * </fr>
 		 * <listing>function smoothingModeFunction ( spline : SmoothSpline, segmentStart : Point, segmentEnd : Point, segmentOpposite : Point, curvature : Number ) : Number</listing>
 		 * @see SmoothSplineModes
 		 */
@@ -76,14 +125,24 @@ package abe.com.mon.geom
 															byVertexSmoothingMode
 														];
 		/**
+		 * The control point associated to a pivot point is distant from the latter by
+		 * a distance calculated as shown below : 
+		 * <listing>Point.distance( segmentStart, segmentEnd ) &#42; curvature;</listing>
 		 * 
-		 * @param	spline				l'objet <code>SmoothSpline</code> courant
-		 * @param	segmentStart		le point considéré comme le point de départ du segment,
-		 * 								soit le point de pivot pour le sommet de contrôle
-		 * @param	segmentEnd			le point considéré comme la fin du segment
-		 * @param	segmentOpposite		le point à l'opposé de la fin du segment par rapport au pivôt
-		 * @param	curvature			la valeur de lissage courante
-		 * @return	la distance à laquelle le point de contrôle sera éloigné de son pivôt
+		 * @param	spline				the current <code>SmoothSpline</code> instance
+		 * 								<fr>l'objet <code>SmoothSpline</code> courant</fr>
+		 * @param	segmentStart		point considered as the starting point of the segment, 
+		 * 								the pivot point for the control vertex
+		 * 								<fr>le point considéré comme le point de départ du segment,
+		 * 								soit le point de pivot pour le sommet de contrôle</fr>
+		 * @param	segmentEnd			point considered as the end of the segment
+		 * 								<fr>le point considéré comme la fin du segment</fr>
+		 * @param	segmentOpposite		point to the opposite end of the segment relative to the pivot
+		 * 								<fr>le point à l'opposé de la fin du segment par rapport au pivôt</fr>
+		 * @param	curvature			vurrent value of smoothing
+		 * 								<fr>la valeur de lissage courante</fr>
+		 * @return	the distance at which the control point will be from its pivot
+		 * 			<fr>la distance à laquelle le point de contrôle sera éloigné de son pivôt</fr>
 		 * @see SmoothSplineModes#CORRESPONDING_SEGMENT_RATIO
 		 */
 		static public function correspondingSegmentRatioSmoothingMode ( spline : SmoothSpline,
@@ -95,14 +154,25 @@ package abe.com.mon.geom
 			return Point.distance( segmentStart, segmentEnd ) * curvature;
 		}
 		/**
+		 * The control point associated to a pivot point is distant from the latter by
+		 * a distance calculated as shown below : 
+		 * <listing>( Point.distance( segmentStart, segmentEnd ) &#42; curvature + 
+		 * Point.distance( segmentStart, segmentOpposite ) &#42; curvature ) / 2;</listing>
 		 * 
-		 * @param	spline				l'objet <code>SmoothSpline</code> courant
-		 * @param	segmentStart		le point considéré comme le point de départ du segment,
-		 * 								soit le point de pivot pour le sommet de contrôle
-		 * @param	segmentEnd			le point considéré comme la fin du segment
-		 * @param	segmentOpposite		le point à l'opposé de la fin du segment par rapport au pivôt
-		 * @param	curvature			la valeur de lissage courante
-		 * @return	la distance à laquelle le point de contrôle sera éloigné de son pivôt
+		 * @param	spline				the current <code>SmoothSpline</code> instance
+		 * 								<fr>l'objet <code>SmoothSpline</code> courant</fr>
+		 * @param	segmentStart		point considered as the starting point of the segment, 
+		 * 								the pivot point for the control vertex
+		 * 								<fr>le point considéré comme le point de départ du segment,
+		 * 								soit le point de pivot pour le sommet de contrôle</fr>
+		 * @param	segmentEnd			point considered as the end of the segment
+		 * 								<fr>le point considéré comme la fin du segment</fr>
+		 * @param	segmentOpposite		point to the opposite end of the segment relative to the pivot
+		 * 								<fr>le point à l'opposé de la fin du segment par rapport au pivôt</fr>
+		 * @param	curvature			vurrent value of smoothing
+		 * 								<fr>la valeur de lissage courante</fr>
+		 * @return	the distance at which the control point will be from its pivot
+		 * 			<fr>la distance à laquelle le point de contrôle sera éloigné de son pivôt</fr>
 		 * @see SmoothSplineModes#BALANCED_WITH_OPPOSITE_SEGMENT_RATIO
 		 */
 		static public function balancedWithOppositeSegmentRatioSmoothingMode ( 	spline : SmoothSpline,
@@ -115,14 +185,24 @@ package abe.com.mon.geom
 					 Point.distance( segmentStart, segmentOpposite ) * curvature ) / 2;
 		}
 		/**
+		 * The control point associated to a pivot point is distant from the latter by
+		 * a distance calculated as shown below : 
+		 * <listing>spline.length &#42; curvature;</listing>
 		 * 
-		 * @param	spline				l'objet <code>SmoothSpline</code> courant
-		 * @param	segmentStart		le point considéré comme le point de départ du segment,
-		 * 								soit le point de pivot pour le sommet de contrôle
-		 * @param	segmentEnd			le point considéré comme la fin du segment
-		 * @param	segmentOpposite		le point à l'opposé de la fin du segment par rapport au pivôt
-		 * @param	curvature			la valeur de lissage courante
-		 * @return	la distance à laquelle le point de contrôle sera éloigné de son pivôt
+		 * @param	spline				the current <code>SmoothSpline</code> instance
+		 * 								<fr>l'objet <code>SmoothSpline</code> courant</fr>
+		 * @param	segmentStart		point considered as the starting point of the segment, 
+		 * 								the pivot point for the control vertex
+		 * 								<fr>le point considéré comme le point de départ du segment,
+		 * 								soit le point de pivot pour le sommet de contrôle</fr>
+		 * @param	segmentEnd			point considered as the end of the segment
+		 * 								<fr>le point considéré comme la fin du segment</fr>
+		 * @param	segmentOpposite		point to the opposite end of the segment relative to the pivot
+		 * 								<fr>le point à l'opposé de la fin du segment par rapport au pivôt</fr>
+		 * @param	curvature			vurrent value of smoothing
+		 * 								<fr>la valeur de lissage courante</fr>
+		 * @return	the distance at which the control point will be from its pivot
+		 * 			<fr>la distance à laquelle le point de contrôle sera éloigné de son pivôt</fr>
 		 * @see SmoothSplineModes#ABSOLUTE_CURVE_RATIO
 		 */
 		static public function absoluteCurveRatioSmoothingMode ( spline : SmoothSpline,
@@ -141,14 +221,23 @@ package abe.com.mon.geom
 			return length * curvature;
 		}
 		/**
+		 * The control point associated to a pivot point is distant from the latter by
+		 * a distance defined by the <code>curvature</code> value passed to the function.
 		 * 
-		 * @param	spline				l'objet <code>SmoothSpline</code> courant
-		 * @param	segmentStart		le point considéré comme le point de départ du segment,
-		 * 								soit le point de pivot pour le sommet de contrôle
-		 * @param	segmentEnd			le point considéré comme la fin du segment
-		 * @param	segmentOpposite		le point à l'opposé de la fin du segment par rapport au pivôt
-		 * @param	curvature			la valeur de lissage courante
-		 * @return	la distance à laquelle le point de contrôle sera éloigné de son pivôt
+		 * @param	spline				the current <code>SmoothSpline</code> instance
+		 * 								<fr>l'objet <code>SmoothSpline</code> courant</fr>
+		 * @param	segmentStart		point considered as the starting point of the segment, 
+		 * 								the pivot point for the control vertex
+		 * 								<fr>le point considéré comme le point de départ du segment,
+		 * 								soit le point de pivot pour le sommet de contrôle</fr>
+		 * @param	segmentEnd			point considered as the end of the segment
+		 * 								<fr>le point considéré comme la fin du segment</fr>
+		 * @param	segmentOpposite		point to the opposite end of the segment relative to the pivot
+		 * 								<fr>le point à l'opposé de la fin du segment par rapport au pivôt</fr>
+		 * @param	curvature			vurrent value of smoothing
+		 * 								<fr>la valeur de lissage courante</fr>
+		 * @return	the distance at which the control point will be from its pivot
+		 * 			<fr>la distance à laquelle le point de contrôle sera éloigné de son pivôt</fr>
 		 * @see SmoothSplineModes#ABSOLUTE
 		 */
 		static public function absoluteSmoothingMode ( spline : SmoothSpline,
@@ -160,14 +249,23 @@ package abe.com.mon.geom
 			return curvature;
 		}
 		/**
+		 * In this case, the distance between the control point and its pivot will 
+		 * always be equal to <code>0</code>.
 		 * 
-		 * @param	spline				l'objet <code>SmoothSpline</code> courant
-		 * @param	segmentStart		le point considéré comme le point de départ du segment,
-		 * 								soit le point de pivot pour le sommet de contrôle
-		 * @param	segmentEnd			le point considéré comme la fin du segment
-		 * @param	segmentOpposite		le point à l'opposé de la fin du segment par rapport au pivôt
-		 * @param	curvature			la valeur de lissage courante
-		 * @return	la distance à laquelle le point de contrôle sera éloigné de son pivôt
+		 * @param	spline				the current <code>SmoothSpline</code> instance
+		 * 								<fr>l'objet <code>SmoothSpline</code> courant</fr>
+		 * @param	segmentStart		point considered as the starting point of the segment, 
+		 * 								the pivot point for the control vertex
+		 * 								<fr>le point considéré comme le point de départ du segment,
+		 * 								soit le point de pivot pour le sommet de contrôle</fr>
+		 * @param	segmentEnd			point considered as the end of the segment
+		 * 								<fr>le point considéré comme la fin du segment</fr>
+		 * @param	segmentOpposite		point to the opposite end of the segment relative to the pivot
+		 * 								<fr>le point à l'opposé de la fin du segment par rapport au pivôt</fr>
+		 * @param	curvature			vurrent value of smoothing
+		 * 								<fr>la valeur de lissage courante</fr>
+		 * @return	the distance at which the control point will be from its pivot
+		 * 			<fr>la distance à laquelle le point de contrôle sera éloigné de son pivôt</fr>
 		 * @see SmoothSplineModes#NO_SMOOTHING
 		 */
 		static public function noSmoothingMode ( spline : SmoothSpline,
@@ -179,14 +277,23 @@ package abe.com.mon.geom
 			return 0;
 		}
 		/**
+		 * The control point associated to a pivot point is distant from the latter by
+		 * a distance calculated using the per-vertex smoothing functions and curvatures.
 		 * 
-		 * @param	spline				l'objet <code>SmoothSpline</code> courant
-		 * @param	segmentStart		le point considéré comme le point de départ du segment,
-		 * 								soit le point de pivot pour le sommet de contrôle
-		 * @param	segmentEnd			le point considéré comme la fin du segment
-		 * @param	segmentOpposite		le point à l'opposé de la fin du segment par rapport au pivôt
-		 * @param	curvature			la valeur de lissage courante
-		 * @return	la distance à laquelle le point de contrôle sera éloigné de son pivôt
+		 * @param	spline				the current <code>SmoothSpline</code> instance
+		 * 								<fr>l'objet <code>SmoothSpline</code> courant</fr>
+		 * @param	segmentStart		point considered as the starting point of the segment, 
+		 * 								the pivot point for the control vertex
+		 * 								<fr>le point considéré comme le point de départ du segment,
+		 * 								soit le point de pivot pour le sommet de contrôle</fr>
+		 * @param	segmentEnd			point considered as the end of the segment
+		 * 								<fr>le point considéré comme la fin du segment</fr>
+		 * @param	segmentOpposite		point to the opposite end of the segment relative to the pivot
+		 * 								<fr>le point à l'opposé de la fin du segment par rapport au pivôt</fr>
+		 * @param	curvature			vurrent value of smoothing
+		 * 								<fr>la valeur de lissage courante</fr>
+		 * @return	the distance at which the control point will be from its pivot
+		 * 			<fr>la distance à laquelle le point de contrôle sera éloigné de son pivôt</fr>
 		 * @see SmoothSplineModes#BY_VERTEX_SMOOTHING_MODE
 		 */
 		static public function byVertexSmoothingMode ( spline : SmoothSpline,
@@ -208,12 +315,41 @@ package abe.com.mon.geom
 /*--------------------------------------------------------------------------*
  * INSTANCE MEMBERS
  *--------------------------------------------------------------------------*/
+ 		/**
+ 		 * A general curvature value for the whole curves vertices.
+ 		 */
 		protected var _curvature : Number;
+		/**
+		 * An array which contains the pivot points of the curve. 
+		 */
 		protected var _splineVertices : Array;
+		/**
+		 * An integer which represent the default smoothing mode
+		 * for this curve pivot points.
+		 */
 		protected var _smoothingMode : uint;
+		/**
+		 * An array of integer which hold the smoothing modes 
+		 * on a per-vertices basis.
+		 */
 		protected var _verticesSmoothingModes : Array;
+		/**
+		 * An array of numbers which hold the curvatures on
+		 * a per-vertices basis.
+		 */
 		protected var _verticesCurvature : Array;
 		
+		/**
+		 * <code>SmoothSpline</code> class constructor.
+		 * 
+		 * @param	v						an array which contains the control points
+		 * 									for this curve
+		 * @param	curvature				a curvature value for all the vertices
+		 * @param	smoothingMode			a smoothing mode for all the vertices
+		 * @param	bias					the refinement parameter for this curve
+		 * @param	verticesSmoothingModes	an array of smoothing modes for each vertex
+		 * @param	verticesCurvature		an array of curvatures for each vertex
+		 */
 		public function SmoothSpline ( v : Array = null, 
 									   curvature : Number = 0.4,
 									   smoothingMode : uint = 3,
@@ -244,6 +380,9 @@ package abe.com.mon.geom
 
 			super( v, bias );
 		}
+		/**
+		 * @inheritDoc
+		 */
 		override public function get vertices () : Array { return _splineVertices; }
 		override public function set vertices (v : Array) : void 
 		{
@@ -258,30 +397,45 @@ package abe.com.mon.geom
 				updateCurvaturePoints();
 			}
 		}
+		/**
+		 * Reference to the array containing the smoothing modes for each vertex.
+		 */
 		public function get verticesSmoothingModes () : Array { return _verticesSmoothingModes; }
 		public function set verticesSmoothingModes (verticesSmoothingModes : Array) : void
 		{
 			_verticesSmoothingModes = verticesSmoothingModes;
 			updateCurvaturePoints();
 		}
+		/**
+		 * Reference to the array containing the curvatures for each vertex.
+		 */
 		public function get verticesCurvature () : Array { return _verticesCurvature; }
 		public function set verticesCurvature (verticesCurvature : Array) : void
 		{
 			_verticesCurvature = verticesCurvature;
 			updateCurvaturePoints();
 		}
+		/**
+		 * The value of the curvature for the vertex of this spline.
+		 */
 		public function get curvature () : Number { return _curvature; }
 		public function set curvature (curvature : Number) : void
 		{
 			_curvature = curvature;
 			updateCurvaturePoints();
 		}
+		/**
+		 * The current smoothingMode for this spline.
+		 */
 		public function get smoothingMode () : uint { return _smoothingMode; }
 		public function set smoothingMode (smoothingMode : uint) : void
 		{
 			_smoothingMode = smoothingMode;
 			updateCurvaturePoints();
 		}
+		/**
+		 * Perform the update of the control points according to their pivot.
+		 */
 		public function updateCurvaturePoints () : void
 		{
 			var a : Array = [];
@@ -294,6 +448,13 @@ package abe.com.mon.geom
 			}
 			_vertices = a;
 		}
+		/**
+		 * Returns the position of the control point for the next segment after the pivot.
+		 * 
+		 * @param	ptIndex		index of the vertex
+		 * @param	curvature	curvature to use in the control point computation
+		 * @return	the position of the control point
+		 */
 		protected function getNextControl ( ptIndex : uint, curvature : Number ) : Point
 		{
 			var l : uint = _splineVertices.length;
@@ -332,6 +493,13 @@ package abe.com.mon.geom
 			}
 			return output;		
 		}
+		/**
+		 * Returns the position of the control point for the previous segment before the pivot.
+		 * 
+		 * @param	ptIndex		index of the vertex
+		 * @param	curvature	curvature to use in the control point computation
+		 * @return	the position of the control point
+		 */
 		protected function getPreviousControl ( ptIndex : uint, curvature : Number ) : Point
 		{
 			if( ptIndex == 0 )
@@ -381,14 +549,9 @@ package abe.com.mon.geom
 		 */
 		override public function get isClosedSpline () : Boolean { return (_splineVertices[0] as Point).equals( _splineVertices[_splineVertices.length-1] ); }
 		/**
-		 * Renvoie une copie parfaite de cet objet <code>SmoothSpline</code>.
-		 *
-		 * @return	une copie parfaite de cet objet <code>SmoothSpline</code>
+		 * @inheritDoc
 		 */
-		override public function clone () : *
-		{
-			return new SmoothSpline( _splineVertices.concat( ), _curvature, drawBias );
-		}
+		override public function clone () : * { return new SmoothSpline( _splineVertices.concat( ), _curvature, drawBias ); }
 		/**
 		 * @inheritDoc
 		 */

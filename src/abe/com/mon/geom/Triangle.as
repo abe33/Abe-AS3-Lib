@@ -21,6 +21,14 @@ package abe.com.mon.geom
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
 	/**
+	 * The <code>Triangle</code> class provides a representation 
+	 * of a triangle defined by three objects <code>Point</code>. 
+	 * <p>
+	 * An instance of the class <code>Triangle</code> provides methods
+	 * such as calculating the various angles of the triangle, its area,
+	 * lengths of its sides, etc. ... 
+	 * </p>
+	 * <fr>
 	 * La classe <code>Triangle</code> fournie une représentation
 	 * d'un triangle définie par trois objets <code>Point</code>.
 	 * <p>
@@ -29,7 +37,7 @@ package abe.com.mon.geom
 	 * angles du triangle, de son aire, des longueurs de ses côtés,
 	 * etc...
 	 * </p>
-	 *
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public class Triangle implements Serializable,
@@ -42,29 +50,60 @@ package abe.com.mon.geom
 									 Surface,
 									 Randomizable
 	{
+		/**
+		 * @copy abe.com.mon.core.Randomizable#randomSource
+		 */
+		protected var _randomSource : Random;
+		
 		[Form(type="point",
 			  label="A",
 			  order="0")]
 		/**
+		 * First vertex of this triangle.
+		 * <fr>
 		 * Le premier sommet du triangle.
+		 * </fr>
 		 */
 		public var a : Point;
 		[Form(type="point",
 			  label="B",
 			  order="1")]
 		/**
+		 * Second vertex of this triangle.
+		 * <fr>
 		 * Le second sommet du triangle.
+		 * </fr>
 		 */		public var b : Point;
 		[Form(type="point",
 			  label="C",
 			  order="2")]
 		/**
+		 * Third vertex of this triangle.
+		 * <fr>
 		 * Le dernier sommet du triangle.
+		 * </fr>
 		 */		public var c : Point;
 		[Form(type="boolean",
 			  label="Path based on length",
 			  order="3")]
 		/**
+		 * A boolean value indicating whether the calculations 
+		 * of a position in the path of this <code>Triangle</code>
+		 * are based on the length of the perimeter or on the basis
+		 * of the edges.
+		 * <p>
+		 * If the calculations are based on the edges, the path
+		 * is divided as follows:
+		 * </p>
+		 * <ul>
+		 * <li>From <code>0</code> to <code>1/3</code> the returned
+		 * position is on the edge <code>ab</code> of the triangle.</li>
+		 * <li>From <code>1/3</code> to <code>2/3</code> the returned
+		 * position is on the edge <code>bc</code> of the triangle.</li>
+		 * <li>From <code>2/3</code> to <code>1</code> the returned 
+		 * position is on the edge <code>ca</code> of the triangle.</li>
+		 * </ul>
+		 * <fr>
 		 * Une valeur booléenne indiquant si les calculs d'une position
 		 * dans le chemin de ce <code>Triangle</code> se font sur la
 		 * base de la longueur du périmètre ou sur la base des arrêtes.
@@ -80,20 +119,27 @@ package abe.com.mon.geom
 		 * <li>De <code>2/3</code> à <code>1</code> la position renvoyée
 		 * se situe sur l'arrête <code>ca</code> du triangle.</li>
 		 * </ul>
-		 *
+		 * </fr>
 		 * @default true
 		 */
 		public var pathBasedOnLength : Boolean;
 
 		/**
+		 * <code>Triangle</code> class constructor.
+		 * <fr>
 		 * Constructeur de la classe <code>Triangle</code>.
-		 *
-		 * @param	a					premier sommet du triangle
-		 * @param	b					second sommet du triangle
-		 * @param	c					dernier sommet du triangle
-		 * @param	pathBasedOnLength	le calcul du chemin est-il basé
+		 * </fr>
+		 * @param	a					first vertex of the triangle
+		 * 								<fr>premier sommet du triangle</fr>
+		 * @param	b					second vertex of the triangle
+		 * 								<fr>second sommet du triangle</fr>
+		 * @param	c					third vertex of the triangle
+		 * 								<fr>dernier sommet du triangle</fr>
+		 * @param	pathBasedOnLength	path computation is it based on the
+		 * 								length of the perimeter of the triangle?
+		 * 								<fr>le calcul du chemin est-il basé
 		 * 								sur la longueur du périmètre du
-		 * 								triangle ?
+		 * 								triangle ?</fr>
 		 */
 		public function Triangle ( a : Point,
 								   b : Point,
@@ -104,63 +150,94 @@ package abe.com.mon.geom
 			this.pathBasedOnLength = pathBasedOnLength;
 			_randomSource = RandomUtils.RANDOM;
 		}
-
-		protected var _randomSource : Random;
-		public function get randomSource () : Random { return _randomSource; }
-		public function set randomSource (randomSource : Random) : void
-		{
-			_randomSource = randomSource;
-		}
 		/**
+		 * A <code>Point</code> representing the vector connecting
+		 * the vertices <code>a</code> and <code>b</code>.
+		 * <fr>
 		 * Un objet <code>Point</code> représentant le vecteur
 		 * reliant les sommets <code>a</code> et <code>b</code>.
+		 * </fr>
 		 */
 		public function get ab () : Point { return b.subtract( a ); }
 		/**
+		 * A <code>Point</code> representing the vector connecting
+		 * the vertices <code>b</code> and <code>c</code>.
+		 * <fr>
 		 * Un objet <code>Point</code> représentant le vecteur
 		 * reliant les sommets <code>b</code> et <code>c</code>.
+		 * </fr>
 		 */		public function get bc () : Point { return c.subtract( b ); }
 		/**
+		 * A <code>Point</code> representing the vector connecting
+		 * the vertices <code>c</code> and <code>a</code>.
+		 * <fr>
 		 * Un objet <code>Point</code> représentant le vecteur
 		 * reliant les sommets <code>c</code> et <code>a</code>.
+		 * </fr>
 		 */		public function get ca () : Point { return a.subtract( c ); }
 		/**
+		 * The value of the angle formed by the two vectors
+		 * sharing the vertex <code>b</code> in radians.
+		 * <fr>
 		 * La valeur de l'angle formé par les deux vecteurs partageant
 		 * le sommet <code>b</code> en radians.
+		 * </fr>
 		 */
 		public function get abc () : Number { return PointUtils.getAngle( ab, bc ); }
 		/**
+		 * The value of the angle formed by the two vectors
+		 * sharing the vertex <code>a</code> in radians.
+		 * <fr>
 		 * La valeur de l'angle formé par les deux vecteurs partageant
 		 * le sommet <code>a</code> en radians.
+		 * </fr>
 		 */
 		public function get bac () : Number { return PointUtils.getAngle( ab, ca ); }
 		/**
+		 * The value of the angle formed by the two vectors
+		 * sharing the vertex <code>c</code> in radians.
+		 * <fr>
 		 * La valeur de l'angle formé par les deux vecteurs partageant
 		 * le sommet <code>c</code> en radians.
+		 * </fr>
 		 */
 		public function get acb () : Number { return PointUtils.getAngle( ca, bc ); }
 		/**
+		 * A <code>Point</code> representing the center of this triangle.
+		 * <fr>
 		 * Un objet <code>Point</code> représentant le centre
 		 * de ce <code>Triangle</code>.
+		 * </fr>
 		 */
 		public function get center () : Point { return pt( ( a.x + b.x + c.x ) / 3,
 														   ( a.y + b.y + c.y ) / 3 ); }
 		/**
-		 * Une valeur booléenne indiquant si ce triangle est un triangle équilatéral.
+		 * A boolean value indicating whether this triangle is an equilateral triangle.
+		 * <fr>Une valeur booléenne indiquant si ce triangle est un triangle équilatéral.</fr>
 		 */
 		public function get isEquilateral () : Boolean { return ab.length == ca.length &&
 																ab.length == bc.length; }
 		/**
-		 * Une valeur booléenne indiquant si ce triangle est un triangle isocèle.
+		 * A boolean value indicating whether this triangle is an isosceles triangle.
+		 * <fr>Une valeur booléenne indiquant si ce triangle est un triangle isocèle.</fr>
 		 */
 		public function get isIsosceles () : Boolean { return  ab.length == bc.length ||
 															   ab.length == ca.length ||
 															   ca.length == bc.length; }
 		/**
-		 * Une valeur booléenne indiquant si ce triangle est un triangle rectangle.
+		 * A boolean value indicating whether this triangle is a right triangle.
+		 * <fr>Une valeur booléenne indiquant si ce triangle est un triangle rectangle.</fr>
 		 */		public function get isRectangle () : Boolean { return Math.abs( MathUtils.rad2deg( abc ) ) == 90 ||
 															  Math.abs( MathUtils.rad2deg( bac ) ) == 90 ||
 															  Math.abs( MathUtils.rad2deg( acb ) ) == 90; }
+		/**
+		 * @inheritDoc
+		 */
+		public function get randomSource () : Random { return _randomSource; }
+		public function set randomSource (randomSource : Random) : void
+		{
+			_randomSource = randomSource;
+		}
 		/**
 		 * @inheritDoc
 		 */
@@ -172,7 +249,8 @@ package abe.com.mon.geom
 			return ( abl * bcl * Math.abs(Math.sin(abc)) ) / 2;
 		}
 		/**
-		 * La longueur du périmètre de cet objet <code>Triangle</code>.
+		 * The length of the perimeter of this triangle.
+		 * <fr>La longueur du périmètre de cet objet <code>Triangle</code>.</fr>
 		 */
 		public function get length () : Number
 		{
@@ -267,15 +345,22 @@ package abe.com.mon.geom
 				return p;
 			}
 		}
+		/**
+		 * @inheritDoc
+		 */
 		public function getPointAtAngle (a : Number) : Point
 		{
 			return null;
 		}
 		/**
+		 * Rotates this object <code>Triangle</code> around its center
+		 * by an angle of <code>r</code> radians.
+		 * <fr>
 		 * Effectue une rotation de cet objet <code>Triangle</code> autour
 		 * de son centre d'un angle de <code>r</code> radians.
-		 *
-		 * @param	r	angle de la rotation à effectuer
+		 * </fr>
+		 * @param	r	angle of rotation to perform
+		 * 				<fr>angle de la rotation à effectuer</fr>
 		 */
 		public function rotateAroundCenter ( r : Number) : void
 		{
@@ -300,13 +385,7 @@ package abe.com.mon.geom
 			return GeometryUtils.geometriesIntersections( this, geom );
 		}
 		/**
-		 * Renvoie <code>true</code> si le point <code>p</code>
-		 * est situé à l'intérieur de cet objet <code>Triangle</code>.
-		 *
-		 * @param	p	point dont on souhait savoir si il se situe
-		 * 				à l'intérieur du triangle
-		 * @return	<code>true</code> si le point est situé à l'intérieur
-		 * 			de ce triangle
+		 * @inheritDoc
 		 */
 		public function containsPoint( p : Point ) : Boolean
 		{
@@ -366,9 +445,7 @@ package abe.com.mon.geom
 			g.endFill();
 		}
 		/**
-		 * Renvoie une copie parfaite de cet objet <code>Triangle</code>.
-		 *
-		 * @return	une copie parfaite de cet objet <code>Triangle</code>
+		 * @inheritDoc
 		 */
 		public function clone () : *
 		{
@@ -378,15 +455,11 @@ package abe.com.mon.geom
 								 pathBasedOnLength );
 		}
 		/**
-		 * Renvoie <code>true</code> si <code>o</code> est égal à
-		 * cette instance.
 		 * <p>
-		 * Deux triangles sont égaux si tout leur sommets sont égaux.
+		 * Two triangles are equal if all their vertices are equal.
+		 * <fr>Deux triangles sont égaux si tout leur sommets sont égaux.</fr>
 		 * </p>
-		 *
-		 * @param 	o	instance à comparer avec l'instance courante
-		 * @return	<code>true</code> si <code>o</code> est égal à
-		 * 			cette instance
+		 * @inheritDoc
 		 */
 		public function equals (o : *) : Boolean
 		{
@@ -416,9 +489,7 @@ package abe.com.mon.geom
 						pathBasedOnLength );
 		}
 		/**
-		 * Renvoie la représentation de l'objet sous forme de chaîne.
-		 *
-		 * @return la représentation de l'objet sous forme de chaîne
+		 * @copy Dimension#toString()
 		 */
 		public function toString() : String
 		{
