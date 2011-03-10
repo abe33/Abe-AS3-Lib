@@ -436,6 +436,9 @@ package abe.com.mon.utils
 			var xml : XML = Reflection.describeClass(o);
 			return xml..variable + xml..accessor;
 		}
+		/**
+		 * 
+		 */
 		static public function asAnonymousObject( o : Object, allowReadOnly : Boolean = true ) : Object
 		{
 			var members : XMLList = getPublicMembers(o);
@@ -449,58 +452,118 @@ package abe.com.mon.utils
 			return res;
 		}
 		/**
-		 * Renvoie le résultat de l'évaluation de la chaîne <code>query</code>.
-		 *
-		 * @param	query	<code>String</code> à évaluer selon les règles ci-dessus.
-		 * @param	domain	[optionnel] un objet <code>ApplicationDomain</code> utilisé pour
-		 * 					récupérer les références aux classes demandées.
-		 * @return	le résultat de l'évaluation selon les règles décrites ci-dessous.
-		 * @see http://livedocs.adobe.com/flex/3/langref/flash/utils/package.html#getQualifiedClassName() getQualifiedClassName()
-		 * @example
+		 * Returns the result of the evaluation of the string <code>query</code>.
 		 * <p>
-		 * La chaîne <code>query</code> peut prendre les formes suivantes :
+		 * The evaluation process first separates the blocks by level. For instance, 
+		 * a string looking like <code>'a, b(c,d), e'</code> will be split in three expressions
+		 * <code>'a'</code>, <code>'b(c,d)'</code> and <code>'e'</code>. Then each expression will
+		 * be evaluated as well, and the block split will be performed recursively.
 		 * </p>
-		 * <table class="innertable" >
-		 * <tr><th>Littéral</th><th>&#xA0;</th></tr>
-		 * <tr>
-		 * 		<td><listing>10.5</listing></td>		 * 		<td>Renvoie un <code>Number</code> de valeur <code>10.5</code>.</td>
-		 * </tr>
-		 * <tr>
-		 * 		<td><listing>10</listing></td>
-		 * 		<td>Renvoie un <code>Number</code> de valeur <code>10</code>.</td>
-		 * </tr>
-		 * <tr><td><listing>0xff</listing></td><td>Renvoie un <code>uint</code> de valeur <code>255</code>.</td></tr>		 * <tr><td><listing>'foo'</listing>
-		 * <listing>"foo"</listing></td><td>Renvoie une <code>String</code> contenant <code>foo</code>.</td></tr>		 * <tr><td><listing>true</listing></td><td>Renvoie un <code>Boolean</code> à <code>true</code>.</td></tr>		 * <tr><td><listing>/foo/gi</listing></td><td>Renvoie une <code>RegExp</code> validant une chaîne contenant <code>foo</code>.</td></tr>
-		 * <tr><td><listing>&lt;foo&gt;bar&lt;b&gt;rab&lt;/b&gt;&lt;/foo&gt;</listing></td><td>Renvoie un objet <code>XML</code> correspondant à la structure fournie
-		 * en argument.</td></tr>
-		 * <tr><th>Classes, propriétés et méthodes</th><th>&#xA0;</th></tr>		 * <tr><td><listing>Array</listing></td><td>Renvoie une référence vers la classe <code>Array</code>.</td></tr>		 * <tr><td><listing>Array.prototype</listing></td><td>Renvoie la valeur de la propriété <code>prototype</code> de la classe <code>Array</code>.</td></tr>		 * <tr><td><listing>flash.net::URLRequest</listing></td><td>Renvoie une référence à la classe <code>URLRequest</code> du package <code>flash.net</code>.
-		 * La syntaxe utilisée ici est la même que celle utilisée dans la valeur retournée par la fonction
-		 * <code>flash.utils.getQualifiedClassName</code>. Ainsi, ce genre de chose est possible :
-		 * <listing>var objClass : Class = Reflection.get( getQualifiedClassName( unObjet ) );</listing></td></tr>		 * <tr><td><listing>flash.geom::Point.interpolate</listing></td><td>Renvoie une référence à la fonction <code>interpolate</code> de la classe <code>Point</code>.</td></tr>		 * <tr><td><listing>flash.utils::getTimer()</listing></td><td>Renvoie le résultat de l'appel à la fonction <code>getTimer</code>.</td></tr>		 * <tr><td><listing>abe.com.mon.utils::Color.Black.alphaClone( 0x66 )</listing></td><td>Renvoie un clone partiellement transparent de la constante <code>Black</code>
-		 * de la classe<code>Color</code>.</td></tr>		 * <tr><td><listing>abe.com.mon.utils::Color.Black.alphaClone( 0x66 )
-		 *                                 .interpolate( abe.com.mon.utils::Color.Red,
-		 *                                               0.5 )</listing></td><td>Renvoie un clone partiellement transparent de la constante <code>Black</code> mélangé à 50%
-		 * avec la constante <code>Red</code>.</td></tr>
-		 * <tr><th>Instanciation</th><th>&#xA0;</th></tr>		 * <tr><td><listing>new Array()</listing></td><td>Renvoie une nouvelle instance de la classe <code>Array</code>.</td></tr>		 * <tr><td><listing>new flash.geom::Point(5,5)</listing></td><td>Renvoie une nouvelle instance de la classe <code>Point</code>
-		 * intialisée avec les valeurs <code>x = 5</code> et <code>y = 5</code>.</td></tr>		 * <tr><td><listing>new my.package::MyClass( new flash.geom::Point(2,2), new abe.com.mon.utils::Color.Red )</listing></td><td>Renvoie une nouvelle instance de la classe <code>MyClass</code>
-		 * intialisée avec une nouvelle instance de la classe <code>Point</code>
-		 * ainsi qu'une couleur constante de la classe <code>Color</code>.</td></tr>		 * <tr><th>Tableaux</th></tr>		 * <tr><td><listing>[5,'foo',true]</listing>		 * <listing>(5,'foo',true)</listing>
-		 * <listing>5,'foo',true</listing></td><td>Renvoie un <code>Array</code> contenant le nombre 5, la chaîne 'foo'		 * et le booleén <code>true</code>.</td></tr>
-		 * <tr><td><listing>[[0,0,0],[0,0,0],[0,0,0]]</listing></td><td>Renvoie un tableau à deux dimensions, de dimensions 3x3 avec		 * <code>0</code> dans chaque case.</td></tr>
+		 * <p>
+		 * The block split is realized using the <code>StringUtils.splitBlock()</code>
+		 * method, which ensure that nested blocks are preserved when the split occurs.
+		 * </p>
+		 * @param	query	<code>String</code> to be evaluated according to the rules below
+		 * @param	domain	an <code>ApplicationDomain</code> used to retrieve
+		 * 					references to the requested classes
+		 * @return	the result of the evaluation according to the rules described below
+		 * @see http://livedocs.adobe.com/flex/3/langref/flash/utils/package.html#getQualifiedClassName() getQualifiedClassName()
+		 * 
+		 * @example <p>The <code>query</code> string can take the following forms:</p> 
+		 * <table class="innertable">
+		 * <tr><th>Literal</th><th>&#xA0;</th></tr>
+		 * <tr><td><listing>10.5</listing></td>
+		 * 	   <td>Returns a <code>Number</code> with a value of <code>10.5</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>10</listing></td>
+		 * 	   <td>Returns a <code>Number</code> with a value of <code>10</code>.</td></tr>
+		 * 	
+		 * <tr><td><listing>0xff</listing></td>
+		 * 	   <td>Returns a <code>uint</code> with a value of <code>255</code>.</td></tr>
 		 *
-		 * <tr><th>Raccourcis</th></tr>
-		 *		 * <tr><td><listing>color(255,255,255,100)</listing>
-		 * <listing>color(0xffff0000)</listing></td><td>Renvoie un nouvel objet <code>Color</code> construit à partir des arguments fournis.</td></tr>		 * <tr><td><listing>color(Red)</listing>
-		 * <listing>color(Maroon)</listing></td><td>Renvoie une référence vers une couleur enregistrée dans la classe <code>Color</code>.
-		 * Si aucune couleur n'existe à ce nom, la fonction renvoie <code>null</code>.</td></tr>		 * <tr><td><listing>gradient( [ color( Red ), color( Black ) ],[ 0, 1 ] )</listing></td><td>Renvoie un objet <code>Gradient</code> avec les couleurs <code>Red</code> et <code>Black</code>
-		 * à chaque extrémité.</td></tr>
-		 *		 * <tr><td><listing>&#64;'http://foo.com'</listing>
-		 * <listing>&#64;'http://foo.com/folder'</listing>
-		 * <listing>&#64;'http://subdomain.foo.com/folder'</listing>
-		 * <listing>&#64;'http://subdomain.foo.com/folder/file.foo'</listing>
-		 * <listing>&#64;'file:///media/disk/folder/file.foo'</listing>
-		 * <listing>&#64;'localfile.foo'</listing>
-		 * <listing>&#64;'../src/localfile.foo'</listing></td><td>Renvoie un objet <code>URLRequest</code> pointant vers l'adresse correspondante. </td></tr>		 * </table>
+		 * <tr><td><listing>'foo'</listing>
+		 * 		   <listing>"foo"</listing></td>
+		 * 	   <td>Returns a <code>String</code> containing <code>foo</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>true</listing></td>
+		 * 	   <td>Returns a  <code>Boolean</code> value set to <code>true</code>.</td></tr>
+		 * 	
+		 * <tr><td><listing>/foo/gi</listing></td>
+		 * 	   <td>Returns a <code>RegExp</code> to validate a string containing <code>foo</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>&lt;foo&gt;bar&lt;b&gt;rab&lt;/b&gt;&lt;/foo&gt;</listing></td>
+		 * 	   <td>Returns an <code>XML</code> object corresponding to the provided structure.</td></tr>
+		 * 
+		 * <tr><th>Classes, properties and methods</th><th>&#xA0;</th></tr>
+		 * <tr><td><listing>Array</listing></td>
+		 * 	   <td>Returns a reference to the class <code>Array</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>Array.prototype</listing></td>
+		 *     <td>Returns the value of the property <code>prototype</code> of the class <code>Array</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>flash.net::URLRequest</listing></td>
+		 * 	   <td>Returns a reference to the class <code>URLRequest</code> in the package <code>flash.net</code>.
+		 * 	       The syntax used here is the same as the one used in the return of the function 
+		 * 	       <code>flash.utils.getQualifiedClassName</code>. Thus, this kind of thing is possible: 
+		 * 		   <listing>var objClass: Class = Reflection.get (getQualifiedClassName (anObject));</listing></td></tr>
+		 * 
+		 * <tr><td><listing>flash.geom::Point.interpolate</listing></td>
+		 * 	   <td>Returns a reference to the <code>interpolate</code> method of the class <code>Point</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>flash.utils::getTimer()</listing></td>
+		 * 	   <td>Returns the result of the call to <code>getTimer</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>abe.com.mon.utils::Color.Black.alphaClone (0x66)</listing></td>
+		 * 	   <td>Returns a clone partially transparent of the constant <code>Black</code> from the class <code>Color</code>.</td></tr>
+		 * 	 
+		 * <tr><td><listing>abe.com.mon.utils::Color.Black.alphaClone (0x66)
+		 * 	.interpolate (abe.com.mon.utils::Color.Red, 0.5)</listing></td>
+		 * 	   <td>Returns a clone partially transparent of the constant <code>Black</code> blended with 50% of the constant <code>Red</code>.</td></tr>
+		 * 
+		 * <tr><th>Instantiation</th><th>&#xA0;</th></tr>
+		 * <tr><td><listing>new Array ()</listing></td>
+		 * 	   <td>Returns a new instance of the class <code>Array</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>new flash.geom::Point (5.5)</listing>
+		 * 	   </td><td>Returns a new instance of the class <code>Point</code> initialized with the values <code>x = 5</code> and <code>y = 5</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>new my.package::MyClass ( 
+		 * 	new flash.geom::Point(2,2), 
+		 * 	abe.com.mon.utils::Color.Red )</listing></td>
+		 *	   <td>Returns a new instance of class <code>MyClass</code> initialized with a new instance of the class <code>Point</code> and a constant from 
+		 * 	  	   the class <code>Color</code>.</td></tr>
+		 * 
+		 * <tr><th>Arrays</th><th>&#xA0;</th></tr>
+		 * <tr><td><listing>[5, 'foo', true]</listing>
+		 * 		   <listing>(5, 'foo', true)</listing>
+		 * 		   <listing>5, 'foo', true</listing></td>
+		 * 	   <td>Returns an <code>Array</code> containing the number <code>5</code>, the string <code>'foo'</code> and the boolean <code>true</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>[[0,0,0], [0,0,0], [0,0,0]]</listing></td>
+		 * 	   <td>Returns an array with two dimensions, with size 3x3 and the value <code>0</code> in each slot.</td></tr>
+		 * 
+		 * <tr><th>Shortcuts</th><th>&#xA0;</th></tr>
+		 * <tr><td><listing>color (255,255,255,100)</listing>
+		 * 		   <listing>color (0xFFFF0000)</listing></td>
+		 * 	   <td>Returns a new object <code>Color</code> constructed from the supplied arguments.</td></tr>
+		 * 
+		 * <tr><td><listing>color (Red)</listing>
+		 * 		   <listing>color (Maroon)</listing></td>
+		 * 	   <td>Returns a reference to a color stored in the class <code>Color</code>. If there is no color with this name, 
+		 * 	   	   the function returns <code>null</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>gradient ([color (Red), color (Black)], [0, 1])</listing></td>
+		 *	   <td>Returns a <code>Gradient</code> with the colors <code>Red</code> and <code>Black</code> at each extremity.</td></tr>
+		 * 
+		 * <tr><td><listing>&#64;'http://foo.com'</listing>
+		 * 		   <listing>&#64;'http://foo.com/folder'</listing>
+		 * 		   <listing>&#64;'http://subdomain.foo.com/folder'</listing>
+		 * 		   <listing>&#64;'http://subdomain.foo.com/folder/file.foo'</listing>
+		 * 		   <listing>&#64;'file:///media/disk/folder/file.foo'</listing>
+		 * 		   <listing>&#64;'localfile.foo'</listing>
+		 * 		   <listing>&#64;'../src/localfile.foo '</listing></td>
+		 * 	  <td>Returns a <code>URLRequest</code> pointing to the corresponding address.</td></tr>
+		 * </table>
 		 */
 		static public function get ( query : String, domain : ApplicationDomain = null ) : *
 		{

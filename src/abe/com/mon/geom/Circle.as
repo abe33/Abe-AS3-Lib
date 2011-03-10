@@ -74,10 +74,7 @@ package  abe.com.mon.geom
 		 * <fr>Le rayon de ce cercle.</fr>
 		 */
 		public function get radius () : Number { return radius1; }
-		public function set radius ( n : Number ) : void
-		{
-			radius1 = radius2 = n;
-		}
+		public function set radius ( n : Number ) : void { radius1 = radius2 = n; }
 		/**
 		 * @inheritDoc
 		 */
@@ -111,7 +108,11 @@ package  abe.com.mon.geom
 		 */
 		override public function toReflectionSource () : String
 		{
-			return "new " + getQualifiedClassName(this) + "("+ x +", "+ y +", " + radius1 + ")";
+			return StringUtils.tokenReplace( "new $0($1,$2,$3)", 
+											 getQualifiedClassName(this),
+											 x, 
+											 y, 
+											 radius1 );
 		}
 		/**
 		 * @inheritDoc

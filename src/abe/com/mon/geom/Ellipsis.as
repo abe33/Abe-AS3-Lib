@@ -194,6 +194,10 @@ package  abe.com.mon.geom
 													( MathUtils.PI2 - ( pathOffset + path ) * MathUtils.PI2 ) );
 		}
 		/**
+		 * A <code>Point</code> object containing the center coordinates of this ellipsis.
+		 */
+		public function get center () : Point{ return pt(x,y); }
+		/**
 		 * @inheritDoc
 		 */
 		public function getPathOrientation (path : Number) : Number
@@ -376,7 +380,14 @@ package  abe.com.mon.geom
 		 */
 		public function toReflectionSource () : String
 		{
-			return StringUtils.tokenReplace( "new $0($1,$2,$3,$4,$5,$6)", getQualifiedClassName(this), x, y, radius1, radius2, rotation, drawBias );
+			return StringUtils.tokenReplace( "new $0($1,$2,$3,$4,$5,$6)", 
+											  getQualifiedClassName(this), 
+											  x, 
+											  y, 
+											  radius1, 
+											  radius2, 
+											  rotation, 
+											  drawBias );
 		}
 		/**
 		 * Returns the representation of the object as a string.

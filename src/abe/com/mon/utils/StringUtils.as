@@ -605,6 +605,10 @@ package abe.com.mon.utils
 			return string.replace ( regx, _quote );
 			// "
 		}
+		static public function escapeTags( string : String ) : String
+		{
+			return string.replace( /</g, "&lt;" ).replace( /\>/g, "&gt;" );
+		}
 		/**
 		 * Supprime toutes les occurences de <code>remove</code> dans la chaîne <code>string</code>.
 		 *
