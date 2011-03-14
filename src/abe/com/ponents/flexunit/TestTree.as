@@ -27,14 +27,28 @@ package abe.com.ponents.flexunit
 		
 		public function getFailuresFor( d : IDescription ) : Array
 		{
-			var l : uint = _failures.size;
 			var a : Array = [];
 			var f : Failure;
-			for( var i : uint = 0;i<l;i++ )
+			var l : uint; 
+			var i : uint;
+			
+			if( d.isSuite )
 			{
-				f = _failures.getElementAt(i);
-				if( f.description.equals( d ) )
-					a.push( f );
+				l = d.children.length;
+				for( i = 0;i<l;i++ )
+				{
+					a = a.concat( getFailuresFor( d.children[i] ) );
+				}
+			}
+			else
+			{
+				l = _failures.size;
+				for( i = 0;i<l;i++ )
+				{
+					f = _failures.getElementAt(i);
+					if( f.description.equals( d ) )
+						a.push( f );
+				}
 			}
 			return a;
 		}

@@ -48,6 +48,8 @@ package abe.com.mon.utils
 			if( args.length > 0 )
 				astr = "(" + args.join(", ") + ")";
 			
+			args.sort();
+			
 			return tokenReplace("[$0 $1$2]", 
 								( o is Class ? "class" : typeof o ), 
 								Reflection.getClassName(o), 

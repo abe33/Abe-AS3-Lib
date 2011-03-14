@@ -81,12 +81,22 @@ package  abe.com.mon.geom
 		override public function equals (o : *) : Boolean
 		{
 			if( o is Circle )
-				return ( o as Circle ).radius == radius;
-
-			if( o is Ellipsis )
-				return ( o as Ellipsis ).radius1 == radius &&
-					   ( o as Ellipsis ).radius2 == radius;
-
+			{
+				var c : Circle = o as Circle;
+				return c.radius == radius && 
+					   c.rotation == rotation &&
+					   c.x == x && 
+					   c.y == y;
+			}
+			else if( o is Ellipsis )
+			{
+				var e : Ellipsis = o as Ellipsis;
+				return e.radius1 == radius &&
+					   e.radius2 == radius && 
+					   e.rotation == rotation &&
+					   e.x == x && 
+					   e.y == y;
+			}
 			return false;
 		}
 		/**
@@ -95,6 +105,26 @@ package  abe.com.mon.geom
 		override public function clone () : *
 		{
 			return new Circle( x, y, radius1 );
+		}
+		/**
+		 * @inheritDoc
+		 */
+		override public function copyTo (o : Object) : void 
+		{
+			o["x"] = x;
+			o["y"] = y;
+			o["radius"] = radius;
+			o["rotation"] = rotation;super.copyTo( o );
+		}
+		/**
+		 * @inheritDoc
+		 */
+		override public function copyFrom (o : Object) : void 
+		{
+			x = o["x"];
+			y = o["y"];
+			radius = o["radius"];
+			rotation = o["rotation"];
 		}
 		/**
 		 * @inheritDoc

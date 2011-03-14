@@ -3,8 +3,10 @@
  */
 package abe.com.mon.logs 
 {
+	import abe.com.mon.utils.StringUtils;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	import flash.system.Capabilities;
 
 	/**
 	 * Broadcast when a new message is sent to the class <code>Log</code>.
@@ -138,7 +140,17 @@ package abe.com.mon.logs
 		 */
 		static public function error ( msg : *, keepHTML : Boolean = false ) : void
 		{
-			getInstance().log( String( msg ), LogLevel.ERROR, keepHTML );
+			if( msg is Error )
+				getInstance().log( StringUtils.stringify( msg ) + "\n" +
+								   ( Capabilities.isDebugger ? 
+										StringUtils.escapeTags( ( msg as Error ).getStackTrace() ) : 
+										StringUtils.escapeTags( ( msg as Error ).message ) ), 
+								   LogLevel.ERROR, 
+								   keepHTML );
+			else
+				getInstance().log( String( msg ), 
+								   LogLevel.ERROR, 
+								   keepHTML );
 		}
 		/**
 		 * Broadcasts a message of type <code>FATAL</code> 

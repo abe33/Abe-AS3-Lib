@@ -1,8 +1,11 @@
 package abe.com.mon.utils 
 {
+	import org.hamcrest.object.nullValue;
 	import abe.com.mon.geom.dm;
 
 	import org.flexunit.Assert;
+	import org.hamcrest.assertThat;
+	import org.hamcrest.object.equalTo;
 
 	import flash.geom.Point;
 	/**
@@ -14,11 +17,12 @@ package abe.com.mon.utils
 		public function get() : void
 		{ 
 			// test primitives
-			Assert.assertEquals( Reflection.get("10"), 10 );   			Assert.assertEquals( Reflection.get("-10"), -10 );   			Assert.assertEquals( Reflection.get("0.57"), 0.57 );   			Assert.assertEquals( Reflection.get("'foo'"), "foo" );   			Assert.assertEquals( Reflection.get("true"), true );   			Assert.assertEquals( Reflection.get("false"), false );   			Assert.assertEquals( Reflection.get("null"), null );   		}
+			assertThat( Reflection.get("10"), 		equalTo(10) );   			assertThat( Reflection.get("-10"), 		equalTo(-10) );   			assertThat( Reflection.get("0.57"), 	equalTo(0.57) );   			assertThat( Reflection.get("'foo'"),	equalTo("foo") );   			assertThat( Reflection.get("true"), 	equalTo(true) );   			assertThat( Reflection.get("false"),	equalTo(false) );   			assertThat( Reflection.get("null"), 	nullValue() );   
+					}
 		[Test]  
 		public function getClassName() : void
 		{ 
-			Assert.assertEquals( Reflection.getClassName( Point 	), "Point" );   			Assert.assertEquals( Reflection.getClassName( Array 	), "Array" );   			Assert.assertEquals( Reflection.getClassName( 10 		), "int" );   			Assert.assertEquals( Reflection.getClassName( 10.5 		), "Number" );   			Assert.assertEquals( Reflection.getClassName( "foo" 	), "String" );   			Assert.assertEquals( Reflection.getClassName( dm(5, 5) 	), "Dimension" );   			Assert.assertEquals( Reflection.getClassName( null	 	), "null" );   
+			assertThat( Reflection.getClassName( Point ), 		equalTo("Point") );   			assertThat( Reflection.getClassName( Array ), 		equalTo("Array") );   			assertThat( Reflection.getClassName( 10 ), 			equalTo("int") );   			assertThat( Reflection.getClassName( 10.5 ), 		equalTo("Number") );   			assertThat( Reflection.getClassName( "foo" ), 		equalTo("String") );   			assertThat( Reflection.getClassName( dm(5, 5) ),	equalTo("Dimension") );   			assertThat( Reflection.getClassName( null ), 		equalTo("null") );   
 		}
 		
 	}

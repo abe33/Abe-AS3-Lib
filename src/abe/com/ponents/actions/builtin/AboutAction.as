@@ -16,9 +16,9 @@ package abe.com.ponents.actions.builtin
 	 */
 	public class AboutAction extends AbstractAction 
 	{
-		private var _appName : String;
-		private var _appVersion : String;
-		private var _appAbout : String;
+		protected var _appName : String;
+		protected var _appVersion : String;
+		protected var _appAbout : String;
 		protected var _appCopyright : String;
 
 		public function AboutAction ( 
@@ -26,14 +26,14 @@ package abe.com.ponents.actions.builtin
 										appVersion : String,
 										appAbout : String,										appCopyright : String,
 										
-										name : String = "", 
-										icon : Icon = null, 
+										actionName : String = "", 
+										actionIcon : Icon = null, 
 										
-										longDescription : String = null, 
-										accelerator : KeyStroke = null
+										actionDescription : String = null, 
+										actionAccelerator : KeyStroke = null
 									)
 		{
-			super( name, icon, longDescription, accelerator );
+			super( actionName, actionIcon, actionDescription, actionAccelerator );
 			_appName = appName;
 			_appVersion = appVersion;			_appAbout = appAbout;
 			_appCopyright = appCopyright;

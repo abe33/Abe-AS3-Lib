@@ -1,7 +1,8 @@
 package abe.com.ponents.flexunit
 {
-	import abe.com.mon.utils.StringUtils;
 	import abe.com.mon.logs.Log;
+	import abe.com.mon.utils.StringUtils;
+	import abe.com.patibility.humanize.capitalize;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.containers.Panel;
@@ -21,19 +22,27 @@ package abe.com.ponents.flexunit
 	import abe.com.ponents.text.TextArea;
 	import abe.com.ponents.utils.Insets;
 
+	import flex.lang.reflect.metadata.MetaDataAnnotation;
+	import flex.lang.reflect.metadata.MetaDataArgument;
+
 	import org.flexunit.runner.IDescription;
 	import org.flexunit.runner.Result;
 	import org.flexunit.runner.notification.Failure;
 	import org.flexunit.runner.notification.IRunListener;
+
+	import flash.text.TextFormat;
 	/**
 	 * @author cedric
 	 */
 	public class AbeFlexUnitUI extends Panel implements IRunListener, Dockable
 	{
+		static private const ERROR_LABEL : String = _("$0\n<b>Failure : </b>$1\n<b>Exception Name : </b>$2\n$4");
+		static private const PROGRESS_LABEL : String = _("Total Tests : <b>$0/$1</b>\tIgnored : <b>$3</b>\tFailures : <b>$2</b>");
+		
 		protected var _label : String;
 		protected var _icon : Icon;
 		
-		protected var _testCount : Number;		protected var _testPerformed : Number;		protected var _failureCount : Number;
+		protected var _testCount : Number;		protected var _testPerformed : Number;		protected var _failureCount : Number;		protected var _ignoredCount : Number;
 		
 		protected var _testTree : TestTree;		protected var _progressBar : ProgressBar;
 		protected var _progressLabel : Label;
@@ -46,6 +55,7 @@ package abe.com.ponents.flexunit
 			
 			_testCount = 0;
 			_testPerformed = 0;			_failureCount = 0;
+			_ignoredCount = 0;
 			
 			super();
 			
@@ -89,6 +99,8 @@ package abe.com.ponents.flexunit
 		public function testRunFinished (result : Result) : void
 		{
 			Log.debug( "test run finished : " + result.successful );
+			if( _failureCount > 0 )
+				_testTree.expandAll();
 		}
 		public function testStarted (description : IDescription) : void
 		{
@@ -114,6 +126,7 @@ package abe.com.ponents.flexunit
 		public function testIgnored (description : IDescription) : void
 		{
 			Log.debug( "test ignored : " + description.displayName );
+			_ignoredCount++;
 		}
 /*----------------------------------------------------------------------*
  * 	PROTECTED METHODS
@@ -140,7 +153,6 @@ package abe.com.ponents.flexunit
 				for each( var d : IDescription in description.children )
 				{
 					var  n : TreeNode = new TreeNode( d, d.isSuite );
-					n.expanded = true;
 					fillNode( d, n );
 					r.add( n );
 				}
@@ -170,18 +182,74 @@ package abe.com.ponents.flexunit
 				if( f.length > 0 )
 				{
 					var failure : Failure = f[0];
-					_testDetails.value = _$(_("<b>Error : </b>$0\n<b>Stack Trace :</b>$1"),
-											failure.exception.message, 
-											StringUtils.escapeTags(failure.stackTrace)
-											);	
+					_testDetails.value = _$( ERROR_LABEL,
+											formatTestHeader(d),
+											failure.message,
+											failure.exception.name,											failure.exception.message, 
+											StringUtils.escapeTags(failure.stackTrace) );	
 				}
 				else
 				{
-					_testDetails.value = _$(_("$0"), d.displayName );
+					_testDetails.value = formatTestHeader(d);
 				}
 			}
 			else
 				_testDetails.value = "";
+		}
+		protected function formatTestHeader( d : IDescription ) : String
+		{
+			var a : Array = d.getAllMetadata();
+			if( a.length > 0 )
+				return _$(	"<b>$0</b>\n$1", 
+							d.displayName, 
+							formatMetaDataAnnotation( a ) );
+			else
+				return _$( "<b>$0</b>", d.displayName );
+		}
+		protected function formatMetaDataAnnotation ( a : Array ) : String
+		{
+			var l : uint = a.length;
+			var b : Array = [];
+			for(var i : uint = 0;i<l;i++)
+			{
+				var m : MetaDataAnnotation = a[i];
+				switch( m.name )
+				{
+					case "Suite" : 
+					case "Test" : 					case "TestCase" : 
+						var l2 : uint = m.arguments.length;
+						for( var j:uint = 0;j<l2;j++)
+						{
+							var ma : MetaDataArgument = m.arguments[j];
+							switch( ma.key )
+							{
+								case "description" : 
+								case "expects" : 								case "order" : 
+									b.push( _$("<i>$0 : </i>$1", capitalize( ma.key ), ma.value) );									break;
+								case "timeout" :
+									b.push( _$("<i>$0 : </i>$1ms", capitalize( ma.key ), ma.value) );
+									break;
+								case "async" : 
+									b.push( _("<i>Asynchronous : </i>Yes") );
+									break;
+							}
+						}
+						break;
+					case "RunWith" : 
+						b.push( _$("<i>$0 : </i>$1", capitalize( m.name ), m.arguments[0].key ) );
+						break;
+					
+				}
+				
+			}
+			
+			return b.join("\n");
+		}
+		protected function formatMetaDataArgument ( a : MetaDataArgument, ... args ) : String
+		{
+			return _$( "$0:$1", 
+						a.key, 
+						a.value );
 		}
 		protected function formatTreeNode ( d : * ) : String 
 		{
@@ -198,17 +266,21 @@ package abe.com.ponents.flexunit
 			_progressBar = new ProgressBar();
 			_progressBar.determinate = false;
 			_progressLabel = new Label( getProgressLabel () );
-
+			var tf : TextFormat = new TextFormat("Verdana", 11, 0, null, null, null, null );
+			tf.tabStops = [ 300, 600];
+			
+			_progressLabel.style.format = tf;
 			p.addComponents( _progressBar, _progressLabel );
 			
 			return p;
 		}
 		protected function getProgressLabel () : String
 		{
-			return _$(_( "Test\t\t\t$0/$1\nFailures\t\t\t$2" ), 
+			return _$(  PROGRESS_LABEL, 
 						_testPerformed, 
 						_testCount, 
-						_failureCount );
+						_failureCount, 
+						_ignoredCount );
 		}
 	}
 }

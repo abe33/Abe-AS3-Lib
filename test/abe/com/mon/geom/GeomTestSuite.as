@@ -4,6 +4,6 @@ package abe.com.mon.geom
 	[RunWith("org.flexunit.runners.Suite")]	
 	public class GeomTestSuite 
 	{
-		public var circleTest : CircleTest;		//public var circleTheories : CircleTheories;
+		public var circleTest : CircleTest;		public var ellipsisTest : EllipsisTest;		//public var circleTheories : CircleTheories;
 	}
 }

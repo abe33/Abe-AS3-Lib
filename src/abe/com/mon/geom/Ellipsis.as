@@ -4,6 +4,7 @@
 package  abe.com.mon.geom
 {
 	import abe.com.mon.core.Cloneable;
+	import abe.com.mon.core.Copyable;
 	import abe.com.mon.core.Equatable;
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Randomizable;
@@ -29,6 +30,7 @@ package  abe.com.mon.geom
 	 * @author Cédric Néhémie
 	 */
 	public class Ellipsis implements Cloneable,
+									 Copyable,
 									 Serializable,
 									 Equatable,
 									 Geometry,
@@ -280,7 +282,24 @@ package  abe.com.mon.geom
 		{
 			return new Ellipsis( x, y, radius1, radius2, rotation );
 		}
-		
+		/**
+		 * @inheritDoc
+		 */
+		public function copyTo (o : Object) : void
+		{
+			o["x"] = x;			o["y"] = y;			o["radius1"] = radius1;			o["radius2"] = radius2;			o["rotation"] = rotation;
+		}
+		/**
+		 * @inheritDoc
+		 */
+		public function copyFrom (o : Object) : void
+		{
+			x = o["x"];
+			y = o["y"];
+			radius1 = o["radius1"];
+			radius2 = o["radius2"];
+			rotation = o["rotation"];
+		}
 		/**
 		 * <p>
 		 * Two ellipses are equal if their radii are equal.
@@ -295,9 +314,14 @@ package  abe.com.mon.geom
 		public function equals (o : *) : Boolean
 		{
 			if( o is Ellipsis )
-				return ( o as Ellipsis ).radius1 == radius1 &&
-					   ( o as Ellipsis ).radius2 == radius2;
-
+			{
+				var e : Ellipsis = o as Ellipsis;
+				return e.radius1 == radius1 &&
+					   e.radius2 == radius2 && 
+					   e.rotation == rotation &&
+					   e.x == x && 
+					   e.y == y;
+			}
 			return false;
 		}
 		/**
