@@ -5,7 +5,6 @@ package abe.com.ponents.skinning.icons
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.net.URLRequest;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -43,7 +42,8 @@ package abe.com.ponents.skinning.icons
 				_bitmap = ExternalBitmapAllocatorInstance.get( _url, onBitmapAvailable, onBitmapLoadingFailure );
 				if( !_bitmap )
 					_childrenContainer.addChild( _loadingIcon );
-				else init();
+				else 
+					super.init();
 			}
 			invalidatePreferredSizeCache();
 		}
@@ -53,7 +53,7 @@ package abe.com.ponents.skinning.icons
 			if( _childrenContainer.contains( _loadingIcon ) )
 				_childrenContainer.removeChild( _loadingIcon );
 			_bitmap = bmp;
-			init();
+			super.init();
 			fireResizeEvent();
 		}
 		
@@ -62,10 +62,10 @@ package abe.com.ponents.skinning.icons
 			if( _childrenContainer.contains( _loadingIcon ) )
 				_childrenContainer.removeChild( _loadingIcon );
 			_childrenContainer.addChild( _failureIcon );
-			init();
+			super.init();
 			fireResizeEvent();
 		}
-		
+		override public function init () : void {}
 		override public function clone () : *
 		{
 			return new ExternalBitmapIcon( _url );

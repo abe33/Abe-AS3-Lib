@@ -169,6 +169,7 @@ package abe.com.ponents.flexunit
 			sp.view = _testTree;
 			
 			var p : SplitPane = new SplitPane( SplitPane.HORIZONTAL_SPLIT, sp, _testDetails );
+			p.oneTouchExpandFirstComponent = false;
 			p.style.insets = new Insets(5);
 			return p;
 		}
@@ -184,8 +185,8 @@ package abe.com.ponents.flexunit
 					var failure : Failure = f[0];
 					_testDetails.value = _$( ERROR_LABEL,
 											formatTestHeader(d),
-											failure.message,
-											failure.exception.name,											failure.exception.message, 
+											StringUtils.escapeTags(failure.message),
+											StringUtils.escapeTags(failure.exception.name),											StringUtils.escapeTags(failure.exception.message), 
 											StringUtils.escapeTags(failure.stackTrace) );	
 				}
 				else

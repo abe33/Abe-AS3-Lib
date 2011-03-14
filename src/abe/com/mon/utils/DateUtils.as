@@ -612,7 +612,7 @@ package  abe.com.mon.utils
 		 * @param 	format	le format à utiliser
 		 * @return	la date formatée selon le format défini
 		 */
-		static public function format( date : Date, format:String ):String
+		static public function format( date : Date, format:String = "Y-m-d\TH:i:sP" ):String
 		{
 			return parseFormatString( date, format );
 		}
@@ -623,7 +623,7 @@ package  abe.com.mon.utils
 		/*
 		 * Parse la date selon le format
 		 */
-		static private function parseFormatString( date : Date, format:String ):String
+		static private function parseFormatString( date : Date, format:String = "Y-m-d\TH:i:sP" ):String
 		{
 			var result:String = "";
 			var d : Date = date;

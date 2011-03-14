@@ -45,10 +45,11 @@ package abe.com.mon.utils
 			if( o.hasOwnProperty("name") && o["name"] != null )
 				args.push("name='"+o["name"]+"'");
 			
+			args.sort();
+			
 			if( args.length > 0 )
 				astr = "(" + args.join(", ") + ")";
 			
-			args.sort();
 			
 			return tokenReplace("[$0 $1$2]", 
 								( o is Class ? "class" : typeof o ), 

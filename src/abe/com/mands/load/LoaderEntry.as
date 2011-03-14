@@ -7,7 +7,6 @@ package abe.com.mands.load
 	import flash.events.ProgressEvent;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -55,7 +54,7 @@ package abe.com.mands.load
 		protected function open ( e : Event ) : void { fireOpenEvent(); }
 		protected function complete ( e : Event ) : void { fireCompleteEvent(); }
 		protected function progress ( e : ProgressEvent ) : void { fireProgressEvent( e.bytesLoaded, e.bytesTotal ); }
-		protected function ioerror ( e : IOErrorEvent ) : void { fireIOErrorEvent( e.text ); }
+		protected function ioerror ( e : IOErrorEvent ) : void { fireIOErrorEvent( e.text ); fireCommandFailed( e.text ); }
 		
 		protected function registerToLoaderEvent ( loader : Loader ) : void
 		{

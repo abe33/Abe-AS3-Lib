@@ -1,5 +1,7 @@
 package abe.com.ponents.lists 
 {
+	import flash.events.Event;
+
 	import abe.com.mon.core.IDisplayObject;
 	import abe.com.mon.core.IDisplayObjectContainer;
 	import abe.com.mon.core.IInteractiveObject;
@@ -142,13 +144,17 @@ package abe.com.ponents.lists
 				fireComponentEvent( EditEvent.EDIT_CANCEL );
 			}
 		}
-
 		override public function set enabled (b : Boolean) : void
 		{
 			super.enabled = b;
 			doubleClickEnabled = b;
 		}
-
+		override protected function iconResized (event : Event) : void 
+		{
+			super.iconResized( event );
+			_owner.listLayout.clearEstimatedSize();
+			_owner.invalidatePreferredSizeCache();
+		}
 		public function confirmEdit () : void
 		{
 			if( allowEdit && isEditing && _editor )

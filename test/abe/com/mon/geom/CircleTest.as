@@ -1,5 +1,6 @@
 package abe.com.mon.geom 
 {
+	import abe.com.patibility.hamcrest.equalToObject;
 	import abe.com.mon.utils.MathUtils;
 
 	import org.hamcrest.assertThat;
@@ -27,21 +28,21 @@ package abe.com.mon.geom
 											'radius':10 }) );
 			assertThat( c.center, allOf( notNullValue(), hasProperties({'x':10,'y':10}) ) );
 		}
-		[Test] 
+		[Test(description="This test verify that two equal Circle can compare themselves.")] 
 		public function equality () : void
 		{
 			var c1 : Circle = new Circle( 10, 10, 10 );			var c2 : Circle = new Circle( 10, 10, 10 );			var c3 : Circle = new Circle( 10, 10, 12 );
 			
-			assertThat( c1.equals( c2 ) );			assertThat( not( c2.equals( c3 ) ) );			assertThat( not( c1.equals( c3 ) ) );
+			assertThat( c1, equalToObject( c2 ) );			assertThat( c2, not( equalToObject( c3 ) ) );			assertThat( c1, not( equalToObject( c3 ) ) );
 			
 			c2.rotation = 2;
 			
-			assertThat( not( c2.equals( c1 ) ) );
-			assertThat( not( c2.equals( c3 ) ) );
+			assertThat( c2, not( equalToObject( c1 ) ) );
+			assertThat( c2, not( equalToObject( c3 ) ) );
 			
 			c3.radius = 10;
 			
-			assertThat( c1.equals( c3 ) );
+			assertThat( c1, equalToObject( c3 ) );
 		}
 		
 		[Test(description="This test verify that the serialization methods return the expected results.")] 
@@ -59,22 +60,22 @@ package abe.com.mon.geom
 		{
 			var c1 : Circle = new Circle( 10, 10, 10 );			var c2 : Circle = c1.clone();
 			
-			assertThat( c1.equals( c2 ) );
-			assertThat( not( c1 == c2 ) );		}
+			assertThat( c1, equalToObject( c2 ) );
+			assertThat( c1, not( equalTo( c2 ) ) );		}
 		[Test(description="This test verify the ability of a Circle to copy data from or to another object.")] 
 		public function copy () : void
 		{
 			var c1 : Circle = new Circle( 10, 10, 10 );			var c2 : Circle = new Circle();			var c3 : Circle = new Circle();
 			
-			assertThat( not( c1.equals( c2 ) ) );
+			assertThat(  c1, not( equalToObject( c2 ) ) );
 			
 			c2.copyFrom( c1 );
 			
-			assertThat( c1.equals( c2 ) );			assertThat( not( c3.equals( c2 ) ) );
+			assertThat( c1, equalToObject( c2 ) );			assertThat( c3, not( equalToObject( c2 ) ) );
 			
 			c3.copyTo( c2 );
 			
-			assertThat( not( c1.equals( c2 ) ) );			assertThat( c3.equals( c2 ) );
+			assertThat( c1, not( equalToObject( c2 ) ) );			assertThat( c3, equalToObject( c2 ) );
 			
 			var o : Object = {};
 			c1.copyTo( o );
@@ -86,7 +87,7 @@ package abe.com.mon.geom
 											'radius':equalTo(o.radius),
 											'rotation':equalTo(o.rotation)
 										}) );
-			assertThat( c1.equals( c2 ) );
+			assertThat( c1, equalToObject( c2 ) );
 						
 		}
 		[Test(description="This test verify the accurrany of the acreage derived property.")]
@@ -124,7 +125,7 @@ package abe.com.mon.geom
 											   centerXY.y + radius * Math.sin( a ) );
 			
 			assertThat( testPoint, allOf( notNullValue(), hasProperty("x"), hasProperty("y") ) );
-			assertThat( newPoint.equals( testPoint ) );
+			assertThat( newPoint, equalToObject( testPoint ) );
 		}
 	}
 }

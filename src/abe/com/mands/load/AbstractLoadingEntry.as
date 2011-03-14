@@ -63,6 +63,7 @@ package abe.com.mands.load
 		{
 			dispatchEvent( new Event( Event.COMPLETE ) );
 			_callback( this );
+			fireCommandEnd();
 		}
 
 		public function fireProgressEvent ( loaded : Number, total : Number ) : void

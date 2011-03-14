@@ -5,6 +5,9 @@ package abe.com.patibility.humanize
 	 */
 	public function plural ( value : Number, singular : String, plural : String ) : String 
 	{
-		return value > 1 ? plural : singular;
+		if( isNaN( value ) )
+			return singular;
+		
+		return ( value > 1 || value < -1 ) ? plural : singular;
 	}
 }
