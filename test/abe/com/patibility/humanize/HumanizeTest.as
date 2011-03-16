@@ -69,5 +69,14 @@ package abe.com.patibility.humanize
 		{
 			assertThat( intword(4), "4" );			assertThat( intword(1232), "1232" );			assertThat( intword(100000), "100000" );			assertThat( intword(1000000), "1.0 million" );			assertThat( intword(1200000), "1.2 millions" );			assertThat( intword(1000000000), "1.0 billion" );			assertThat( intword(7567000000), "7.5 billions" );			assertThat( intword(1000000000000), "1.0 trillion" );			assertThat( intword(8500000000000), "8.5 trillions" );
 		}
+		[Test(description="This test verify the different cases of the naturalday function")]
+		public function testNaturalday ():void
+		{
+			var today : Date = new Date();
+			var yesterday : Date = new Date( today.getFullYear(), today.getMonth(), today.getDate() - 1 ); 				var tomorrow : Date = new Date( today.getFullYear(), today.getMonth(), today.getDate() + 1 );
+			var anotherDay : Date = new Date( 2002, 12, 12 );
+			
+			assertThat( naturalday(today), 				"today" ); 			assertThat( naturalday(yesterday), 			"yesterday" ); 			assertThat( naturalday(tomorrow), 			"tomorrow" ); 			assertThat( naturalday(tomorrow, "Y-m-d"), 	"2002-12-12" ); 
+		}
 	}
 }
