@@ -824,6 +824,7 @@ package abe.com.mon.utils
 					{
 						// We consider all request that failed as a String, but we warn the user that it's not a recommended
 						// practice
+						s = isNewInstance ? "new " + s : s;
 						if( WARN_UNWRAPPED_STRING )
 							Log.warn("The request : '" + s + "' cannot be parsed, the request will be returned as a string. " +
 									 "If that was your purpose, use '' to wrap your request as a string.\n" + e.message + "\n" + e.getStackTrace() );
