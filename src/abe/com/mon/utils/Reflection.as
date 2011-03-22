@@ -591,10 +591,16 @@ package abe.com.mon.utils
 		{
 			if( !s || StringUtils.trim(s) == "" )
 				return [];
+			
+			var res : *;
+			var instructions : Array = StringUtils.splitBlock( s );
+			var l : uint = instructions.length;
+			var hasManyTopLevelInstructions : Boolean = l > 1;
+			if( hasManyTopLevelInstructions )
+				res = parseGroup( s, domain ? domain : ApplicationDomain.currentDomain );			else
+				res = [parseGroup( s, domain ? domain : ApplicationDomain.currentDomain )];
 
-			var res : * = parseGroup( s, domain ? domain : ApplicationDomain.currentDomain );
-
-			return res is Array ? res : [ res ];
+			return /*res is Array ? res :*/ res;
 		}
 		/**
 		 * Renvoie une nouvelle instance de la classe <code>clazz</code> construite avec les
@@ -675,13 +681,14 @@ package abe.com.mon.utils
 					if( instructContent.length == 0)
 						return [];
 					else
-						return [parseGroup( instructContent, domain )];
+						return parseGroup( instructContent, domain );
 				}
 				else
 					return parseAtomic( instruction, domain );
 			}
 			return rtn;
 		}
+		static public var debug : Boolean = false;
 		/*
 		 * Traite une instruction solitaire et renvoie le résultat du traitement.
 		 */
@@ -780,7 +787,11 @@ package abe.com.mon.utils
 								{
 									var m : String = StringUtils.trim( sm.substr(0,p) );
 									var am : String = sm.substr( p + 1, sm.length - p - 2 );
+									
 									var args : Array = parseArguments( am );
+
+									if( debug )
+										Log.debug( "'"+sm + "' gives args '" +  am + "' : " + args );
 									
 									if( !o )
 									{
