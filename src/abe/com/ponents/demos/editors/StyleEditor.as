@@ -1,6 +1,5 @@
 package abe.com.ponents.demos.editors
 {
-	import abe.com.ponents.builder.actions.LoadExternalRessource;
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.Reflection;
@@ -11,6 +10,7 @@ package abe.com.ponents.demos.editors
 	import abe.com.patibility.settings.backends.CookieBackend;
 	import abe.com.ponents.actions.ActionManagerInstance;
 	import abe.com.ponents.actions.builtin.AboutAction;
+	import abe.com.ponents.builder.actions.LoadExternalRessource;
 	import abe.com.ponents.builder.events.StyleSelectionEvent;
 	import abe.com.ponents.builder.models.BuilderCollections;
 	import abe.com.ponents.builder.models.StyleSelectionModel;

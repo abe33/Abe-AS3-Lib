@@ -972,6 +972,14 @@ package abe.com.mon.utils
 			
 			return strength;
 		}
+		static public function charSum (s : String) : uint 
+		{
+			var l : uint = s.length;
+			var n : uint = 0;
+			while(l--)
+				n+= s.charCodeAt(l); 
+			return n;
+		}
 		
 		static public function prettyPrint( o:*):String
 		{

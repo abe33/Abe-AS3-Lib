@@ -1,5 +1,6 @@
 package abe.com.ponents.demos.dockables 
 {
+	import abe.com.ponents.progress.GradientProgressBar;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.containers.FieldSet;
 	import abe.com.ponents.containers.ScrollPane;
@@ -45,6 +46,27 @@ package abe.com.ponents.demos.dockables
 						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "topToBottom" ) },
 						null
 			);
+			buildBatch( factory, GradientProgressBar, 
+						4, 
+						"progressDemoGradientProgressBar",
+						[ // args
+							[new DefaultBoundedRangeModel(12, 0, 100, 1 ), null, true ],
+							[new DefaultBoundedRangeModel(33, 0, 100, 1 ), null, false],
+							[new DefaultBoundedRangeModel(68, 0, 100, 1 ), null, false],
+							[new DefaultBoundedRangeModel(87, 0, 100, 1 ), null, true ],
+						],
+						[ // kwargs
+							{},
+							{},
+							{},
+							{enabled:false},
+						], // container
+						FieldSet, 
+						"progressDemoGradientProgressBarFieldset", 
+						[_("GradientProgressBar")], 
+						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "topToBottom" ) },
+						null
+			);
 			
 			buildBatch( factory, MinimalProgressBar, 
 						4, 
@@ -84,7 +106,7 @@ package abe.com.ponents.demos.dockables
 			   		    null,
 			   			{ 'childrenLayout':new InlineLayout(null, 3, "left", "top", "topToBottom", true ) },
 			    		[
-			    			"progressDemoProgressBarFieldset",			    			"progressDemoMinimalProgressBarFieldset",			    			"progressDemoMinimalGradientProgressBarFieldset"
+			    			"progressDemoProgressBarFieldset",			    			"progressDemoGradientProgressBarFieldset",			    			"progressDemoMinimalProgressBarFieldset",			    			"progressDemoMinimalGradientProgressBarFieldset"
 			    		],			    		
 			   			onBuildComplete );
 		}

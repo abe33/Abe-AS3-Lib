@@ -152,8 +152,11 @@ package abe.com.ponents.lists
 		override protected function iconResized (event : Event) : void 
 		{
 			super.iconResized( event );
-			_owner.listLayout.clearEstimatedSize();
-			_owner.invalidatePreferredSizeCache();
+			if( _owner )
+			{
+				_owner.listLayout.clearEstimatedSize();
+				_owner.invalidatePreferredSizeCache();
+			}
 		}
 		public function confirmEdit () : void
 		{

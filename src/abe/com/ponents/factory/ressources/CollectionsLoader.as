@@ -5,7 +5,6 @@ package abe.com.ponents.factory.ressources
 
 	import flash.display.Loader;
 	import flash.events.Event;
-	
 	public class CollectionsLoader extends LoaderQueue 
 	{
 		/*FDT_IGNORE*/

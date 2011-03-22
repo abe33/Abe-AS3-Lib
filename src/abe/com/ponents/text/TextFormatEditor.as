@@ -1,7 +1,5 @@
 package abe.com.ponents.text 
 {
-	import abe.com.ponents.skinning.DefaultSkin;
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.Color;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.ColorPicker;
@@ -16,8 +14,8 @@ package abe.com.ponents.text
 	import abe.com.ponents.layouts.components.VBoxLayout;
 	import abe.com.ponents.menus.FontListComboBox;
 	import abe.com.ponents.models.SpinnerNumberModel;
+	import abe.com.ponents.skinning.DefaultSkin;
 	import abe.com.ponents.skinning.decorations.SimpleFill;
-	import abe.com.ponents.skinning.icons.ColorIcon;
 	import abe.com.ponents.spinners.Spinner;
 	import abe.com.ponents.utils.Insets;
 
@@ -92,7 +90,6 @@ package abe.com.ponents.text
 		protected function colorDataChange (event : ComponentEvent) : void
 		{
 			_format.color = _colorPicker.value.hexa;
-			Log.debug( uint(_format.color).toString(16) + ", " + _colorPicker.value + ", " + (_colorPicker.action.icon as ColorIcon).color );
 			updatePreviewFormat();
 			fireDataChange();
 			event.stopImmediatePropagation();

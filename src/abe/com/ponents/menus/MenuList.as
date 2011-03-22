@@ -143,16 +143,21 @@ package abe.com.ponents.menus
 			if( childIndex < _children.length )
 			{
 			 	var curCell : ListCell = _children[childIndex] as ListCell;
-			 	if( curCell.index < _firstVisibleIndex &&
-			 		curCell.index > _lastVisibleIndex &&
-			 	    _childrenContainer.contains( curCell as DisplayObject) )
-					_childrenContainer.removeChild( curCell as DisplayObject );
+				if( curCell )
+				{
+				 	if( curCell.index < _firstVisibleIndex &&
+				 		curCell.index > _lastVisibleIndex &&
+				 	    _childrenContainer.contains( curCell as DisplayObject) )
+						_childrenContainer.removeChild( curCell as DisplayObject );
+				}
 			}
 			if( itemIndex < _model.size && itemIndex <= _lastVisibleIndex )
 			{
-				var nextCell : ListCell = _model.getElementAt( itemIndex ) as ListCell;				if( !_childrenContainer.contains( nextCell as DisplayObject) )
-					_childrenContainer.addChild( nextCell as DisplayObject );
-				
+				var nextCell : ListCell = _model.getElementAt( itemIndex ) as ListCell;
+				if( nextCell )
+				{					if( !_childrenContainer.contains( nextCell as DisplayObject) )
+						_childrenContainer.addChild( nextCell as DisplayObject );
+				}
 				return nextCell;			
 			}
 			else return null;		

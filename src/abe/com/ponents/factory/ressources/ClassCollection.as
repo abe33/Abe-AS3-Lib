@@ -6,8 +6,8 @@ package abe.com.ponents.factory.ressources
 	 */
 	public class ClassCollection extends Sprite 
 	{
-		public var classes : Array;
-		public var collectionName : String;		public var collectionType : String;		public var collectionURL : String;
+		public var classes : Array = [];
+		public var collectionName : String = "Untitled Collection";		public var collectionType : String = "Empty Collection";		public var collectionURL : String = "unknown";
 		
 		public function ClassCollection ()
 		{}
