@@ -663,6 +663,8 @@ package abe.com.mon.utils
 				{
 					instruction = instructions[ i ];
 					instructionFirstChar = instruction.substr( 0, 1 );
+					if( instructionFirstChar == "{" )
+						rtn.push( parseObject( instruction ) );
 					if( instructionFirstChar == "(" ||
 						instructionFirstChar == "[" )
 						rtn.push( parseGroup( instruction.substr( 1, instruction.length - 2 ), domain ) );
@@ -674,7 +676,9 @@ package abe.com.mon.utils
 			{
 				instruction = instructions[ 0 ];
 				instructionFirstChar = instruction.substr( 0, 1 );
-				if( instructionFirstChar == "(" ||
+				if( instructionFirstChar == "{" )
+					return parseObject( instruction );
+				else if( instructionFirstChar == "(" ||
 					instructionFirstChar == "[" )
 				{
 					var instructContent : String = instruction.substr( 1, instruction.length - 2 );
@@ -688,7 +692,49 @@ package abe.com.mon.utils
 			}
 			return rtn;
 		}
-		static public var debug : Boolean = false;
+		/*
+		 * 
+		 */
+		static private function parseObject (instruction : String) : * 
+		{
+			var instructContent : String = instruction.substr( 1, instruction.length - 2 );
+			var propertiesDeclarations : Array = StringUtils.splitBlock( instructContent );
+			var property : String;
+			var a : Array;
+			var key : *;
+			var value : *;
+			var keys : Array = [];
+			var values : Array = [];  
+			var rtn : *;
+			var l : uint;
+			var i : uint;
+			
+			for each( property in propertiesDeclarations )
+			{
+				property = property.replace("::", "<<PACKAGE_TOKEN>>");
+				a = property.split(":");
+				key = Reflection.get( a[0].replace("<<PACKAGE_TOKEN>>", "::" ) );
+				
+				if( a.length == 1 )
+					value = true;
+				else 
+					value = Reflection.get(a[1].replace("<<PACKAGE_TOKEN>>", "::" ) );
+				
+				Log.debug(key);
+				
+				keys.push( key );				values.push( value );
+			}
+			if( keys.every( function( o:*, ... args) : Boolean { return o is String; } ) )
+				rtn = new Object();
+			else
+				rtn = new Dictionary();
+			
+			l = keys.length;
+			for( i = 0; i<l; i++ )
+				rtn[ keys[i] ] = values[i];
+			
+			return rtn;
+		}
 		/*
 		 * Traite une instruction solitaire et renvoie le résultat du traitement.
 		 */
@@ -790,9 +836,6 @@ package abe.com.mon.utils
 									
 									var args : Array = parseArguments( am );
 
-									if( debug )
-										Log.debug( "'"+sm + "' gives args '" +  am + "' : " + args );
-									
 									if( !o )
 									{
 										if( a.length > 1 )
