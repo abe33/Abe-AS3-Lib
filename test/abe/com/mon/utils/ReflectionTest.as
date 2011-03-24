@@ -1,9 +1,8 @@
 package abe.com.mon.utils 
 {
-	import flash.utils.describeType;
 	import abe.com.mon.logs.Log;
-	import abe.com.mon.geom.Polygon;
 	import abe.com.mon.geom.Dimension;
+	import abe.com.mon.geom.Polygon;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.geom.pt;
 	import abe.com.patibility.hamcrest.equalToObject;
@@ -31,9 +30,13 @@ package abe.com.mon.utils
 		/**
 		 * Used to verify the count of arguments transmitted to a function when called in a reflection string.
 		 */
-		static public function testFunction( ...args ) : uint 
+		static public function testArgumentsCountFunction( ...args ) : uint 
 		{
 			return args.length;
+		}
+		static public function testShortcutFunction() : String 
+		{
+			return "testShortcutFunction";
 		}
 		
 		[Test(description="This test verify that all the code parsing of the Reflection.get() method works as expected")]  
@@ -60,12 +63,30 @@ package abe.com.mon.utils
 
 			assertThat( Reflection.get("[]"),	 	 describedAs( "Reflection.get(%0) should return []", array(), "[]" ) ); 
 			assertThat( Reflection.get("()"),	 	 describedAs( "Reflection.get(%0) should return []", array(), "()" ) ); 
+			
+			// nested arrays and tuples
+			assertThat( Reflection.get("[[0,1,2],[3,4,5]]"), 
+									   describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
+									   				array( array(0,1,2), array(3,4,5)), 
+									   				"[[0,1,2],[3,4,5]]" ) ); 
+			assertThat( Reflection.get("((0,1,2),(3,4,5))"), 
+									   describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
+									   				array( array(0,1,2), array(3,4,5)), 
+									   				"((0,1,2),(3,4,5))" ) );
+			assertThat( Reflection.get("([0,1,2],[3,4,5])"), 
+									   describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
+									   				array( array(0,1,2), array(3,4,5)), 
+									   				"([0,1,2],[3,4,5])" ) ); 
+			assertThat( Reflection.get("[(0,1,2),(3,4,5)]"), 
+									   describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
+									   				array( array(0,1,2), array(3,4,5)), 
+									   				"[(0,1,2),(3,4,5)]" ) ); 
 						// dot syntax			assertThat( Reflection.get("abe.com.mon.utils::Color.Red"), Color.Red );
 			assertThat( Reflection.get("abe.com.mon.utils::Color.Red.alphaClone(0x55)"), equalToObject( Color.Red.alphaClone(0x55)) );
 			assertThat( Reflection.get("Array.inexistantProperty"), nullValue() );
 			
 			// function calls and arguments detection
-			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testFunction()"), equalTo( 0 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testFunction(1)"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testFunction([0,1,2])"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testFunction(0,1,2)"), equalTo( 3 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testFunction([0,1,2],true)"), equalTo( 2 ) ); 		
+			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction()"), equalTo( 0 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(1)"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2])"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(0,1,2)"), equalTo( 3 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2],true)"), equalTo( 2 ) ); 		
 			
 			// native shortcuts
 			assertThat( Reflection.get("color(Red)"), Color.Red );
@@ -238,6 +259,27 @@ package abe.com.mon.utils
 			assertThat( metas.length(), equalTo( 1 ) );
 			assertThat( metas[0].@name, equalTo( "property" ) );
 		}
+		
+		[Test(description="This test verify that custom shortcuts can be added and removed.")]
+		public function customShortcuts () : void
+		{
+			Reflection.addCustomShortcuts( "myCustomShortcuts", "abe.com.mon.utils::ReflectionTest.testShortcutFunction");
+			
+			assertThat( Reflection.get("myCustomShortcuts()"), describedAs("Reflection.get('myCustomShortcuts()') should return <'testShortcutFunction'>", equalTo( "testShortcutFunction" ) ) );
+						assertThat( Reflection.removeCustomShortcuts("myCustomShortcuts"), describedAs( "Reflection.removeCustomShortcuts('myCustomShortcuts') should return <true>", equalTo(true) ) );			
+			assertThat( Reflection.get("myCustomShortcuts()"), describedAs("Reflection.get('myCustomShortcuts()') should return <'myCustomShortcuts()'>", equalTo( "myCustomShortcuts()" ) ) );
+		}
+		
+		[Test(description="This test verify that the public members of an object can be retreived using Reflection.getPublicMembers")]
+		public function getPublicMembers (): void
+		{
+			var o : MetaTester = new MetaTester();
+			var list : XMLList = Reflection.getPublicMembers( o );
+			
+			Log.debug( list );
+			
+			assertThat( list, notNullValue() ); 			assertThat( list.length(), equalTo( 3 ) ); 
+		}
 	}
 }
 
@@ -251,4 +293,11 @@ internal class MetaTester
 	
 	[Form]
 	public var foo : uint;
+	
+	private var bar : Boolean;
+	protected var oof:String;
+	
+	public function get fooo() : uint { return foo; }
+	
+	public function getFoo() : void {}
 }
