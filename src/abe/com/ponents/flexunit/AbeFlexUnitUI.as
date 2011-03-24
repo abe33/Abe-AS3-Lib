@@ -142,6 +142,18 @@ package abe.com.ponents.flexunit
 			r.expanded = true;
 			fillNode( description, r );
 			
+			r.sort( function ( a:TreeNode, b:TreeNode ):int 
+			{
+				var aa : IDescription = a.userObject;				var bb : IDescription = b.userObject;
+				if( !aa || !bb )
+					return 0;
+				else if( aa.displayName > bb.displayName )
+					return 1;
+				else if( aa.displayName < bb.displayName )
+					return -1;
+				else return 0;
+			} );
+			
 			var m : TreeModel = new TreeModel( r );
 			m.showRoot = false;
 			_testTree.model = m;

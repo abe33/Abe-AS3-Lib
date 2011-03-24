@@ -4,6 +4,7 @@
 package abe.com.mon.utils
 {
 	import abe.com.mon.logs.Log;
+	import abe.com.mon.utils.arrays.isA;
 
 	import flash.errors.IllegalOperationError;
 	import flash.net.URLRequest;
@@ -110,26 +111,21 @@ package abe.com.mon.utils
 		static public function getVectorDefinition( clazz:Class , applicationDomain:ApplicationDomain = null ):Class
         {
             if ( clazz == null )
-            {
                 return null ;
-            }
+                
             if( applicationDomain == null )
-            {
                 applicationDomain = ApplicationDomain.currentDomain ;
-            }
+            
             return applicationDomain.getDefinition( VECTOR_CLASSNAME + '.<' + getQualifiedClassName( clazz ) +'>' ) as Class;
         }
         TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		static public function getVectorDefinition( clazz:Class , applicationDomain:ApplicationDomain = null ):Class
         {
             if ( clazz == null )
-            {
                 return null ;
-            }
+              
             if( applicationDomain == null )
-            {
                 applicationDomain = ApplicationDomain.currentDomain ;
-            }
             return applicationDomain.getDefinition( VECTOR_CLASSNAME + '.<' + getQualifiedClassName( clazz ) +'>' ) as Class;
         }
 		/**
@@ -420,7 +416,22 @@ package abe.com.mon.utils
 		 */
 		static public function getClassMembersWithMeta ( o : *, meta : String, useCache : Boolean = false) : XMLList
 		{
-			return getClassMembersWithMetas( o, useCache ).(metadata.@name==meta);
+			var list : XMLList = getClassMembersWithMetas( o, useCache );
+			var rtn : XMLList = new XMLList();
+			for each( var x : XML in list )
+			{
+				var emptyClone : XML = x.copy();
+				
+				delete emptyClone.*;
+				
+				for each ( var m : XML in x.children() )
+					if( m.@name == meta ) 
+						emptyClone.appendChild( m );
+				
+				if( emptyClone.children().length() > 0 )
+					rtn += new XMLList ( emptyClone );
+			}
+			return rtn;
 		}
 		/**
 		 * Renvoie un objet <code>XMLList</code> contenant les descriptions
@@ -576,12 +587,7 @@ package abe.com.mon.utils
          * Fonction utilisée pour traiter les arguments dans le cas d'un appel de fonction ou
          * d'une instanciation. La différence avec la fonction <code>get</code> est que la fonction
          * <code>parseArguments</code> force un retour sous forme de tableau.
-         * <p>
-         * Un cas particulier se pose lorsque l'on souhaite transmettre un tableau comme unique argument
-         * à une fonction. En effet, les règles d'évaluation retourne le même résultat pour une chaîne tel que
-         * <code>foo( a,b,c )</code> que pour <code>foo( [a,b,c] )</code>. Pour forcer la transmission d'un seul
-         * tableau en argument il s'agit de doubler la déclaration de groupe, soit <code>foo( [[a,b,c]] )</code>
-         * </p>
+         * 
          * @param	s		<code>String</code> à évaluer
 		 * @param	domain	[optionnel] un objet <code>ApplicationDomain</code> utilisé pour
 		 * 					récupérer les références aux classes demandées.
@@ -720,11 +726,9 @@ package abe.com.mon.utils
 				else 
 					value = Reflection.get(a[1].replace("<<PACKAGE_TOKEN>>", "::" ) );
 				
-				Log.debug(key);
-				
 				keys.push( key );				values.push( value );
 			}
-			if( keys.every( function( o:*, ... args) : Boolean { return o is String; } ) )
+			if( keys.every( isA( String ) ) )
 				rtn = new Object();
 			else
 				rtn = new Dictionary();
@@ -747,7 +751,7 @@ package abe.com.mon.utils
 
 			// An url as @'the url'
 			if( s.search( new RegExp("^@(\"|')(.*)(\"|')$","gi") ) == 0 )
-				return new URLRequest( s.substring( 2, s.length - 3 ) );
+				return new URLRequest( s.substring( 2, s.length - 1 ) );
 			// A regexp such /regexp/flags
 			else if( ( res = new RegExp("^/(.*)/([gimsx]+)?$","gi").exec( s ) ) )
 				return new RegExp( res[1], res[2] );
