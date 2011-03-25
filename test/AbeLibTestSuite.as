@@ -1,5 +1,6 @@
 package  
 {
+	import abe.com.mon.utils.arrays.ArrayTest;
 	import abe.com.patibility.hamcrest.HamcrestTest;
 	import abe.com.patibility.humanize.HumanizeTest;
 	import abe.com.mon.geom.GeomTestSuite;
@@ -10,6 +11,7 @@ package
 	public class AbeLibTestSuite 
 	{
 		public var commonGeom : GeomTestSuite;		public var commonUtils : UtilsTestSuite;
+		public var commonArray : ArrayTest;
 				public var humanize : HumanizeTest;		public var hamcrest : HamcrestTest;
 	}
 }
