@@ -4,7 +4,6 @@ package abe.com.mon.utils
 	import abe.com.mon.geom.Polygon;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.geom.pt;
-	import abe.com.mon.logs.Log;
 	import abe.com.patibility.hamcrest.equalToObject;
 
 	import org.hamcrest.assertThat;
@@ -309,8 +308,6 @@ package abe.com.mon.utils
 		{
 			var o : MetaTester = new MetaTester();
 			var list : XMLList = Reflection.getPublicMembers( o );
-			
-			Log.debug( list );
 			
 			assertThat( list, notNullValue() ); 			assertThat( list.length(), equalTo( 3 ) ); 
 		}

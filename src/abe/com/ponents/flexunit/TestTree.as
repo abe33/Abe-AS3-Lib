@@ -25,6 +25,12 @@ package abe.com.ponents.flexunit
 		}
 		public function get failures () : ListModel { return _failures; }		public function get ignored () : ListModel { return _ignored; }
 		
+		public function testsEnded () : void
+		{
+			for each( var l : TestTreeCell in _children )
+				l.updateTestData();
+		}
+		
 		public function getFailuresFor( d : IDescription ) : Array
 		{
 			var a : Array = [];

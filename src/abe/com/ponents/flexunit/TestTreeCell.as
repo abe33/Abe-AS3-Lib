@@ -1,5 +1,8 @@
 package abe.com.ponents.flexunit 
 {
+	import abe.com.ponents.utils.Inspect;
+	import abe.com.mon.logs.Log;
+	import abe.com.ponents.models.TreeNode;
 	import abe.com.patibility.humanize.plural;
 	import abe.com.mon.utils.Color;
 	import abe.com.patibility.lang._;
@@ -43,41 +46,71 @@ package abe.com.ponents.flexunit
 		
 		override protected function formatLabel (value : *) : String 
 		{
-			var a : Array = [];
-			if( _failureCount > 0 )
-				a.push(  _$( "$0 $1", 
-							 _failureCount, 
-							 plural( _failureCount, 
-									 _("failure"),
-									 _("failures") ) ) );
-			if( _ignoredCount > 0 )
-				a.push(  _$( "$0 $1", 
-							 _ignoredCount, 
-							 _("ignored") ) );
-			
-			return super.formatLabel( value ) + ( ( _failureCount > 0 || _ignoredCount > 0 ) ? _$(_(" <b>($0)</b>"), a.join(", ") ) : "" );
+			if( value && value is IDescription )
+			{
+				var d : IDescription = value as IDescription;
+				if( d.isSuite )
+				{
+					var a : Array = [];
+					if( _failureCount > 0 )
+						a.push(  _$( "$0 $1", 
+									 _failureCount, 
+									 plural( _failureCount, 
+											 _("failure"),
+											 _("failures") ) ) );
+					if( _ignoredCount > 0 )
+						a.push(  _$( "$0 $1", 
+									 _ignoredCount, 
+									 _("ignored") ) );
+					
+					return formatDisplayName( d ) + ( ( _failureCount > 0 || _ignoredCount > 0 ) ? _$(_(" <b>($0)</b>"), a.join(", ") ) : "" );
+				}
+				else
+				{
+					var s : String = "";
+					if( _failureCount > 0 )
+						s = _$(" <font color='$0'>$1</font>", Color.Tomato.html, _("failed") );
+					else if( _ignoredCount > 0 )
+						s =  _$(" <font color='$0'>$1</font>", Color.CornflowerBlue.html, _("ignored") );
+					
+					return formatDisplayName( d ) + s;
+				}
+			}
+			else return super.formatLabel( value );
+		}
+		protected function formatDisplayName( v : IDescription ) : String
+		{
+			if( v.isSuite )
+				return v.displayName;
+			else
+				return v.displayName.split("::")[1];
 		}
 		
 		override public function set value (val : *) : void 
 		{
-			if( val == value )
-				return;
+			updateTestData ( val );
+			super.value = val;
+		}
+		public function updateTestData ( val : * = null ) : void
+		{
+			if( !val )
+				val = value;
 			
 			if( val && val.userObject is IDescription )
 			{
 				var d : IDescription = val.userObject as IDescription;
 
 				var failures : Array;
-				var ignored : Array;				if ( d )
+				var ignored : Array;
+				if ( d )
 				{
 					failures = testTree.getFailuresFor( d );
 					ignored = testTree.getIgnoredFor(d);
 					_failureCount = failures.length;
-					_ignoredCount = ignored.length;				}
+					_ignoredCount = ignored.length;
+				}
 			}
-			super.value = val;
 		}
-		
 		override public function repaint () : void 
 		{
 			super.repaint();

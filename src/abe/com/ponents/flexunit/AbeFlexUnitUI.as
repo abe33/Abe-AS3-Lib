@@ -1,8 +1,9 @@
 package abe.com.ponents.flexunit
 {
-	import abe.com.ponents.utils.Inspect;
+	import abe.com.ponents.buttons.ButtonDisplayModes;
+	import abe.com.ponents.demos.dockables.ButtonDemoDockable;
+	import abe.com.ponents.trees.TreeHeader;
 	import abe.com.mon.utils.arrays.hasProperty;
-	import abe.com.mon.utils.arrays.isA;
 	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.patibility.humanize.capitalize;
@@ -24,6 +25,7 @@ package abe.com.ponents.flexunit
 	import abe.com.ponents.text.Label;
 	import abe.com.ponents.text.TextArea;
 	import abe.com.ponents.utils.Insets;
+	import abe.com.ponents.utils.Inspect;
 
 	import flex.lang.reflect.metadata.MetaDataAnnotation;
 	import flex.lang.reflect.metadata.MetaDataArgument;
@@ -104,6 +106,8 @@ package abe.com.ponents.flexunit
 			Log.debug( "test run finished : " + result.successful );
 			if( _failureCount > 0 )
 				recursiveFailureExpand( _testTree.treeModel.root );
+			
+			_testTree.testsEnded();
 		}
 		protected function recursiveFailureExpand ( n : TreeNode ) : void
 		{
@@ -194,9 +198,11 @@ package abe.com.ponents.flexunit
 			_testTree = new TestTree();
 			_testTree.addEventListener(ComponentEvent.SELECTION_CHANGE, treeSelectionChange );
 			_testTree.itemFormatingFunction = formatTreeNode;
+			var header : TreeHeader = new TreeHeader( _testTree, ButtonDisplayModes.ICON_ONLY, false );
 			var sp : ScrollPane = new ScrollPane();			_testDetails = new TextArea();
 			_testDetails.allowHTML = true;
 			
+			sp.colHead = header;
 			sp.view = _testTree;
 			
 			var p : SplitPane = new SplitPane( SplitPane.HORIZONTAL_SPLIT, sp, _testDetails );
