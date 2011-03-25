@@ -1,5 +1,8 @@
 package abe.com.ponents.flexunit
 {
+	import abe.com.ponents.utils.Inspect;
+	import abe.com.mon.utils.arrays.hasProperty;
+	import abe.com.mon.utils.arrays.isA;
 	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.patibility.humanize.capitalize;
@@ -100,7 +103,21 @@ package abe.com.ponents.flexunit
 		{
 			Log.debug( "test run finished : " + result.successful );
 			if( _failureCount > 0 )
-				_testTree.expandAll();
+				recursiveFailureExpand( _testTree.treeModel.root );
+		}
+		protected function recursiveFailureExpand ( n : TreeNode ) : void
+		{
+			var desc : IDescription = n.userObject as IDescription;
+			if( desc.isSuite )
+			{
+				var failures : Array =  _testTree.getFailuresFor( desc );
+				if( failures.length > 0 && !desc.children.every( hasProperty( "isTest", true ) ) )
+				{
+					n.expanded = true;
+					for each( var child : TreeNode in n.children )
+						recursiveFailureExpand(child);
+				}
+			}
 		}
 		public function testStarted (description : IDescription) : void
 		{
@@ -126,6 +143,8 @@ package abe.com.ponents.flexunit
 		public function testIgnored (description : IDescription) : void
 		{
 			Log.debug( "test ignored : " + description.displayName );
+			Log.debug( Inspect.inspect( description ) );
+			_testTree.ignored.addElement( description );
 			_ignoredCount++;
 		}
 /*----------------------------------------------------------------------*

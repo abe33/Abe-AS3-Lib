@@ -1,10 +1,10 @@
 package abe.com.mon.utils 
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Polygon;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.geom.pt;
+	import abe.com.mon.logs.Log;
 	import abe.com.patibility.hamcrest.equalToObject;
 
 	import org.hamcrest.assertThat;
@@ -47,7 +47,7 @@ package abe.com.mon.utils
 			assertThat( Reflection.get("0xff"), 	equalTo(255) );   			assertThat( Reflection.get("-10"), 		equalTo(-10) );   			assertThat( Reflection.get("0.57"), 	equalTo(0.57) );   			assertThat( Reflection.get("'foo'"),	equalTo("foo") );   			assertThat( Reflection.get("\"foo\""),	equalTo("foo") );   			assertThat( Reflection.get("true"), 	equalTo(true) );   			assertThat( Reflection.get("false"),	equalTo(false) );   			assertThat( Reflection.get("null"), 	nullValue() );			
 			// cases that we must assert that they return strings due to missing definition or invalid syntax
 			assertThat( Reflection.get("new some.unknown::Class()"), allOf( instanceOf( String ), equalTo("new some.unknown::Class()") ) );
-			assertThat( Reflection.get("Array..prototype"), allOf( instanceOf( String ), equalTo("Array..prototype") ) );						// arrays and tuple
+			assertThat( Reflection.get("Array..prototype"), allOf( instanceOf( String ), equalTo("Array..prototype") ) );						// arrays and tuples
 			assertThat( Reflection.get("[1,2,3,4]"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
 													 array(1,2,3,4), 
 													 "[1,2,3,4]" ) ); 
@@ -56,11 +56,22 @@ package abe.com.mon.utils
 													 "(1,2,3,4)" ) ); 
 			assertThat( Reflection.get("1,2,3,4"), 	 describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
 													 array(1,2,3,4), 
-													 "1,2,3,4" ) ); 			
-			assertThat( Reflection.get("[1,2,3,4],true"), 	 describedAs( "Reflection.get(%0) should return [[<1>,<2>,<3>,<4>],<true>]", 
+													 "1,2,3,4" ) ); 			assertThat( Reflection.get("[1,2,3,4],true"), 	 describedAs( "Reflection.get(%0) should return [[<1>,<2>,<3>,<4>],<true>]", 
 													 array(array(1,2,3,4),true), 
 													 "[1,2,3,4],true" ) ); 
-
+			
+			// empty slots in an array should be considered as null
+			assertThat( Reflection.get("[1,2,,3, ,4]"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<null>,<3>,<null>,<4>]", 
+													 array(1,2,null,3,null,4), 
+													 "[1,2,,3, ,4]" ) ); 
+			assertThat( Reflection.get("(1,2,,3, ,4)"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<null>,<3>,<null>,<4>]", 
+													 array(1,2,null,3,null,4), 
+													 "(1,2,,3, ,4)" ) ); 
+			assertThat( Reflection.get("1,2,,3, ,4"), 	 describedAs( "Reflection.get(%0) should return [<1>,<2>,<null>,<3>,<null>,<4>]", 
+													 array(1,2,null,3,null,4), 
+													 "1,2,,3, ,4" ) ); 
+			
+			// empty arrays and tuples
 			assertThat( Reflection.get("[]"),	 	 describedAs( "Reflection.get(%0) should return []", array(), "[]" ) ); 
 			assertThat( Reflection.get("()"),	 	 describedAs( "Reflection.get(%0) should return []", array(), "()" ) ); 
 			
@@ -81,30 +92,7 @@ package abe.com.mon.utils
 									   describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
 									   				array( array(0,1,2), array(3,4,5)), 
 									   				"[(0,1,2),(3,4,5)]" ) ); 
-						// dot syntax			assertThat( Reflection.get("abe.com.mon.utils::Color.Red"), Color.Red );
-			assertThat( Reflection.get("abe.com.mon.utils::Color.Red.alphaClone(0x55)"), equalToObject( Color.Red.alphaClone(0x55)) );
-			assertThat( Reflection.get("Array.inexistantProperty"), nullValue() );
-			
-			// function calls and arguments detection
-			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction()"), equalTo( 0 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(1)"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2])"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(0,1,2)"), equalTo( 3 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2],true)"), equalTo( 2 ) ); 		
-			
-			// native shortcuts
-			assertThat( Reflection.get("color(Red)"), Color.Red );
-			
-			var url : URLRequest = Reflection.get("@'../some/file.png'");			assertThat( url, describedAs( "Reflection.get(%0) should return an URLRequest pointing to '../some/file.png'", 
-													 allOf( notNullValue(),
-															instanceOf( URLRequest ) ), 
-													 "@'../some/file.png'" ) );
-			
-			assertThat( url, hasProperty( "url", "../some/file.png" ) );
-			
-			var re : RegExp = Reflection.get("/foo/gi");
-			assertThat( re, describedAs( "Reflection.get(%0) should return a RegExp equivalent to /foo/gi", 
-													allOf( notNullValue(),
-														   instanceOf( RegExp ) ), 
-													"/foo/gi" ) );
-			assertThat( re, hasProperties({'ignoreCase':true,'global':true}) );			
-			// objects			assertThat( Reflection.get("{'foo':15,bar:'foobar'}"), describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
+						// objects			assertThat( Reflection.get("{'foo':15,bar:'foobar'}"), describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
 																	 allOf( notNullValue(), 
 																	 		not( instanceOf( String ) ), 
 																	 		hasProperties({'foo':15,'bar':'foobar'}) ), 
@@ -116,12 +104,58 @@ package abe.com.mon.utils
 															  	     hasProperties({'foo':true}) ),
 															  "{foo}" ) );
 			assertThat( Reflection.get("{}"),	 	 not( instanceOf(String ) ) ); 
-			
-			// non string keys gives a dictionary
+						// non string keys gives a dictionary
 			assertThat( Reflection.get("{new flash.geom::Point(4,4):'hello'}"), describedAs( "Reflection.get(%0) should return a dictionnary", 
 															  allOf( notNullValue(),
 															  	     instanceOf( Dictionary ) ),
 															  "{new flash.geom::Point(4,4):'hello'}" ) );
+			
+			// empty slots and invalid declarations in an object declaration are ignored
+			assertThat( Reflection.get("{,'foo':15, ,bar:'foobar',foo:,:foo}"), describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
+																	 allOf( notNullValue(), 
+																	 		not( instanceOf( String ) ), 
+																	 		hasProperties({'foo':15,'bar':'foobar'}) ), 
+																	 "{,'foo':15, ,bar:'foobar',foo:,:foo}" ) ); 
+			
+			// arrays, tuples and objects allow an extra comma at the end (as python)
+			assertThat( Reflection.get("1,2,3,4,"), 	 describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
+													 array(1,2,3,4), 
+													 "1,2,3,4," ) ); 
+			assertThat( Reflection.get("[1,2,3,4,]"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
+													 array(1,2,3,4), 
+													 "[1,2,3,4]" ) ); 
+			assertThat( Reflection.get("(1,2,3,4,)"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
+													 array(1,2,3,4), 
+													 "(1,2,3,4,)" ) ); 
+			assertThat( Reflection.get("{'foo':15,bar:'foobar',}"), describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
+																	 allOf( notNullValue(), 
+																	 		not( instanceOf( String ) ), 
+																	 		hasProperties({'foo':15,'bar':'foobar'}) ), 
+																	 "{'foo':15,bar:'foobar',}" ) ); 										 
+						// dot syntax
+			assertThat( Reflection.get("abe.com.mon.utils::Color.Red"), Color.Red );
+			assertThat( Reflection.get("abe.com.mon.utils::Color.Red.alphaClone(0x55)"), equalToObject( Color.Red.alphaClone(0x55)) );
+			assertThat( Reflection.get("Array.inexistantProperty"), nullValue() );
+			
+			// function calls and arguments detection			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction()"), equalTo( 0 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(1)"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2])"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(0,1,2)"), equalTo( 3 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2],true)"), equalTo( 2 ) ); 
+		
+			
+			// native shortcuts
+			assertThat( Reflection.get("color(Red)"), Color.Red );
+						var url : URLRequest = Reflection.get("@'../some/file.png'");
+			assertThat( url, describedAs( "Reflection.get(%0) should return an URLRequest pointing to '../some/file.png'", 
+													 allOf( notNullValue(),
+															instanceOf( URLRequest ) ), 
+													 "@'../some/file.png'" ) );
+			
+			assertThat( url, hasProperty( "url", "../some/file.png" ) );
+			
+			var re : RegExp = Reflection.get("/foo/gi");
+			assertThat( re, describedAs( "Reflection.get(%0) should return a RegExp equivalent to /foo/gi", 
+													allOf( notNullValue(),
+														   instanceOf( RegExp ) ), 
+													"/foo/gi" ) );			assertThat( re, hasProperties({'ignoreCase':true,'global':true}) );
+			
 					  	     
 		}
 
@@ -194,13 +228,13 @@ package abe.com.mon.utils
 																			instanceOf( String ),
 																			equalTo( "Foo" ) ) ); 
 		}
-		[Test(description="This test verify that buildInstance throw an exception when the arguments count isn't valid.", 
+		[Test(description="This test verify that buildInstance throw an exception when there's more arguments than expected.", 
 			  expects="flash.errors.IllegalOperationError")]
 		public function buildInstanceFailure1():void
 		{
 			Reflection.buildInstance( Point, [15, 22, false ] ) ;
 		}
-		[Test(description="This test verify that buildInstance throw an exception when the arguments count isn't valid.", 
+		[Test(description="This test verify that buildInstance throw an exception when there's less arguments than expected.", 
 			  expects="flash.errors.IllegalOperationError")]
 		public function buildInstanceFailure2():void
 		{

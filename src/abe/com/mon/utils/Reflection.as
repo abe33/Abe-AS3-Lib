@@ -741,7 +741,17 @@ package abe.com.mon.utils
 				rtn = [];
 				for( i = 0 ; i < l ; i++ )
 				{
-					instruction = instructions[ i ];
+					instruction = StringUtils.trim( instructions[ i ] );
+					if( instruction.length == 0 )
+					{
+						if( i == l - 1 )
+							break;
+						else
+						{
+							rtn.push( null );
+							continue;
+						}
+					}
 					instructionFirstChar = instruction.substr( 0, 1 );
 					if( instructionFirstChar == "{" )
 						rtn.push( parseObject( instruction ) );
@@ -791,15 +801,27 @@ package abe.com.mon.utils
 			
 			for each( property in propertiesDeclarations )
 			{
-				property = property.replace("::", "<<PACKAGE_TOKEN>>");
+				property = StringUtils.trim( property.replace("::", "<<PACKAGE_TOKEN>>") );
+				
+				if( property.length == 0 )
+					continue;
+				
 				a = property.split(":");
+				
+				if( a[0].length == 0 )
+					continue;
+				
 				key = Reflection.get( a[0].replace("<<PACKAGE_TOKEN>>", "::" ) );
 				
 				if( a.length == 1 )
 					value = true;
 				else 
+				{
+					if( a[1].length == 0 )
+						continue;
+					
 					value = Reflection.get(a[1].replace("<<PACKAGE_TOKEN>>", "::" ) );
-				
+				}
 				keys.push( key );				values.push( value );
 			}
 			if( keys.every( isA( String ) ) )

@@ -2236,6 +2236,20 @@ package  abe.com.mon.utils
 							  Math.floor( blue 	* iratio + col.blue  * ratio ),
 							  Math.floor( alpha * iratio + col.alpha * ratio ) );
 		}
+		public function subtract ( col : Color, ratio : Number, preserveAlpha : Boolean = true ) : Color 
+		{
+			return new Color( Math.floor( MathUtils.restrict( red 	- col.red * ratio, 0, 255 ) ),
+							  Math.floor( MathUtils.restrict( green	- col.green * ratio, 0, 255 ) ),
+							  Math.floor( MathUtils.restrict( blue 	- col.blue * ratio, 0, 255 ) ),
+							  Math.floor( preserveAlpha ? alpha : MathUtils.restrict( alpha	- col.alpha * ratio, 0, 255 ) ) );
+		}
+		public function add ( col : Color, ratio : Number, preserveAlpha : Boolean = true ) : Color 
+		{
+			return new Color( Math.floor( MathUtils.restrict( red 	+ col.red * ratio, 0, 255 ) ),
+							  Math.floor( MathUtils.restrict( green	+ col.green * ratio, 0, 255 ) ),
+							  Math.floor( MathUtils.restrict( blue 	+ col.blue * ratio, 0, 255 ) ),
+							  Math.floor( preserveAlpha ? alpha : MathUtils.restrict( alpha	+ col.alpha * ratio, 0, 255 ) ) );
+		}
 
 		/**
 		 * Renvoie la représentation de l'objet sous forme de chaîne.

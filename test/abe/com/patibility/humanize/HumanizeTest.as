@@ -5,7 +5,7 @@ package abe.com.patibility.humanize
 	/**
 	 * @author cedric
 	 */
-	[TestCase(description="Tests the whole set of functions available in the humanize package.")]
+	[TestCase(description="Tests the whole set of functions available in the humanize package.",order=2)]
 	public class HumanizeTest 
 	{
 		[Test(description="This test verify that the capitalize function works properly.")]

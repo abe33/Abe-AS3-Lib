@@ -1,5 +1,6 @@
 package  
 {
+	import abe.com.patibility.hamcrest.HamcrestTest;
 	import abe.com.patibility.humanize.HumanizeTest;
 	import abe.com.mon.geom.GeomTestSuite;
 	import abe.com.mon.utils.UtilsTestSuite;
@@ -9,6 +10,6 @@ package
 	public class AbeLibTestSuite 
 	{
 		public var commonGeom : GeomTestSuite;		public var commonUtils : UtilsTestSuite;
-				public var humanize : HumanizeTest;
+				public var humanize : HumanizeTest;		public var hamcrest : HamcrestTest;
 	}
 }
