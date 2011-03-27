@@ -5,8 +5,8 @@ package abe.com.ponents.actions.builtin
 {
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Cancelable;
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Gradient;
+	import abe.com.mon.colors.Color;
+	import abe.com.mon.colors.Gradient;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.actions.AbstractAction;

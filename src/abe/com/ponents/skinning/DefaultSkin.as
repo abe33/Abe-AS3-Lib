@@ -4,9 +4,9 @@ package abe.com.ponents.skinning
 	import flash.filters.BevelFilter;
 	import abe.com.ponents.skinning.decorations.GradientBorders;
 	import abe.com.ponents.skinning.decorations.GradientFill;
-	import abe.com.mon.utils.Gradient;
+	import abe.com.mon.colors.Gradient;
 	import abe.com.mon.geom.ColorMatrix;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.skinning.decorations.EmptyFill;
 	import abe.com.ponents.skinning.decorations.NoDecoration;
 

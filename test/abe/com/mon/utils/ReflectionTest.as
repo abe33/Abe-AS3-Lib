@@ -1,5 +1,6 @@
 package abe.com.mon.utils 
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Polygon;
 	import abe.com.mon.geom.dm;
@@ -132,8 +133,8 @@ package abe.com.mon.utils
 																	 		hasProperties({'foo':15,'bar':'foobar'}) ), 
 																	 "{'foo':15,bar:'foobar',}" ) ); 										 
 						// dot syntax
-			assertThat( Reflection.get("abe.com.mon.utils::Color.Red"), Color.Red );
-			assertThat( Reflection.get("abe.com.mon.utils::Color.Red.alphaClone(0x55)"), equalToObject( Color.Red.alphaClone(0x55)) );
+			assertThat( Reflection.get("abe.com.mon.colors::Color.Red"), Color.Red );
+			assertThat( Reflection.get("abe.com.mon.colors::Color.Red.alphaClone(0x55)"), equalToObject( Color.Red.alphaClone(0x55)) );
 			assertThat( Reflection.get("Array.inexistantProperty"), nullValue() );
 			
 			// function calls and arguments detection			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction()"), equalTo( 0 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(1)"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2])"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(0,1,2)"), equalTo( 3 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2],true)"), equalTo( 2 ) ); 

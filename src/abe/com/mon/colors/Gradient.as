@@ -1,8 +1,10 @@
 /**
  * @license
  */
-package  abe.com.mon.utils 
+package  abe.com.mon.colors 
 {
+	import abe.com.mon.utils.StringUtils;
+	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Equatable;
 	import abe.com.mon.core.Serializable;

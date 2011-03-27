@@ -1,6 +1,6 @@
 package abe.com.ponents.trees
 {
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.history.UndoManagerInstance;

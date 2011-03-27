@@ -1,6 +1,6 @@
 package abe.com.ponents.flexunit 
 {
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.arrays.lastIn;
 	import abe.com.patibility.humanize.plural;
 	import abe.com.patibility.lang._;

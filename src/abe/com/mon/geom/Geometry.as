@@ -3,7 +3,7 @@
  */
 package  abe.com.mon.geom
 {
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 
 	import flash.display.Graphics;
 

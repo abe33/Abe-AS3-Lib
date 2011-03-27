@@ -7,7 +7,7 @@ package abe.com.mon.utils
 	public class UtilsTestSuite 
 	{
 		public var arrays : ArrayTest;
-		public var colors : ColorTest;		public var reflection : ReflectionTest;
+		public var reflection : ReflectionTest;
 		public var strings : StringUtilsTest;
 	}
 }

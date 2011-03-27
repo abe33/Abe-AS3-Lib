@@ -1,6 +1,6 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.utils.Borders;
 	import abe.com.ponents.utils.CardinalPoints;
 	import abe.com.ponents.utils.Corners;

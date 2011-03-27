@@ -1,7 +1,7 @@
 package abe.com.ponents.skinning.decorations 
 {
 	import abe.com.mon.geom.Range;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.models.BoundedRangeModel;
 	import abe.com.ponents.sliders.VRangeSlider;

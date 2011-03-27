@@ -1,5 +1,6 @@
-package abe.com.mon.utils 
+package abe.com.mon.colors 
 {
+	import abe.com.mon.utils.MathUtils;
 	import abe.com.patibility.hamcrest.equalToObject;
 	import abe.com.patibility.hamcrest.propertiesCount;
 
@@ -265,10 +266,10 @@ package abe.com.mon.utils
 			var c : Color;
 			
 			c = new Color();
-			assertThat( c.toSource(), equalTo( "new abe.com.mon.utils.Color(0,0,0,255,'')" ) );
+			assertThat( c.toSource(), equalTo( "new abe.com.mon.colors.Color(0,0,0,255,'')" ) );
 			
 			c = new Color(220,156,84,164,"MyColor");
-			assertThat( c.toSource(), equalTo( "new abe.com.mon.utils.Color(220,156,84,164,'MyColor')" ) );
+			assertThat( c.toSource(), equalTo( "new abe.com.mon.colors.Color(220,156,84,164,'MyColor')" ) );
 		}
 		[Test]		public function toReflectionSource(): void
 		{

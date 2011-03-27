@@ -1,7 +1,7 @@
 package abe.com.ponents.progress 
 {
 	import abe.com.mon.geom.dm;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.core.SimpleDOContainer;
 	import abe.com.ponents.layouts.display.DONoLayout;
 

@@ -1,15 +1,16 @@
 /**
  * @license
  */
-package  abe.com.mon.utils 
+package  abe.com.mon.colors 
 {
-	import abe.com.mon.utils.objects.safePropertyCopy;
-	import abe.com.mon.utils.objects.hasOwnProperties;
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Copyable;
 	import abe.com.mon.core.Equatable;
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Serializable;
+	import abe.com.mon.utils.MathUtils;
+	import abe.com.mon.utils.StringUtils;
+	import abe.com.mon.utils.objects.safePropertyCopy;
 
 	import flash.geom.ColorTransform;
 	import flash.utils.getQualifiedClassName;

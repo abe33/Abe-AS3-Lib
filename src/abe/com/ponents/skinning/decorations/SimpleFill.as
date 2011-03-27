@@ -5,7 +5,7 @@ package abe.com.ponents.skinning.decorations
 {
 	import flash.utils.getQualifiedClassName;
 	import abe.com.mon.core.Equatable;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.utils.Borders;
 	import abe.com.ponents.utils.Corners;

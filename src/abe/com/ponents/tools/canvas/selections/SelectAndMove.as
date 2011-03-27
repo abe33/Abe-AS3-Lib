@@ -2,7 +2,7 @@ package abe.com.ponents.tools.canvas.selections
 {
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.geom.pt;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.nodes.core.CanvasElement;
 	import abe.com.ponents.skinning.cursors.Cursor;

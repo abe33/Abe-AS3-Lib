@@ -3,8 +3,8 @@
  */
 package abe.com.patibility.codecs
 {
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Palette;
+	import abe.com.mon.colors.Color;
+	import abe.com.mon.colors.Palette;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.patibility.lang._;
 

@@ -7,7 +7,7 @@ package abe.com.mon.geom
 	import abe.com.mon.core.Equatable;
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.PointUtils;
 	import abe.com.mon.utils.StringUtils;

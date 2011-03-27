@@ -1,6 +1,6 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.core.Container;
 	import abe.com.ponents.events.ComponentEvent;

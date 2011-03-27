@@ -2,7 +2,7 @@ package abe.com.ponents.monitors
 {
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.utils.AllocatorInstance;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.utils.Orientations;
 

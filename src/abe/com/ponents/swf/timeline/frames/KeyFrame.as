@@ -1,6 +1,6 @@
 package abe.com.ponents.swf.timeline.frames
 {
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.core.SimpleDOContainer;
 
 	import flash.display.BitmapData;

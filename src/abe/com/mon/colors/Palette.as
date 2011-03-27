@@ -1,14 +1,10 @@
 /**
  * @license
  */
-package abe.com.mon.utils 
+package abe.com.mon.colors 
 {
 	import abe.com.mon.core.Equatable;
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Gradient;
-
-	import flash.utils.getQualifiedClassName;
-
+	import abe.com.mon.utils.StringUtils;
 	/**
 	 * Un objet <code>Palette</code> définit un ensemble de couleurs
 	 * ordonnées et regroupées sous un ensemble commun. 

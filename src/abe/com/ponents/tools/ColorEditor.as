@@ -1,7 +1,7 @@
 package abe.com.ponents.tools 
 {
 	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.events.ComponentEvent;

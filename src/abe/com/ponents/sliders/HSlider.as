@@ -2,7 +2,7 @@ package abe.com.ponents.sliders
 {
 	import abe.com.ponents.skinning.decorations.HSliderTrackFill;
 	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Keys;
 	import abe.com.mon.utils.MathUtils;

@@ -583,11 +583,11 @@ package abe.com.mon.utils
 		 * <tr><td><listing>flash.utils::getTimer()</listing></td>
 		 * 	   <td>Returns the result of the call to <code>getTimer</code>.</td></tr>
 		 * 
-		 * <tr><td><listing>abe.com.mon.utils::Color.Black.alphaClone (0x66)</listing></td>
+		 * <tr><td><listing>abe.com.mon.colors::Color.Black.alphaClone (0x66)</listing></td>
 		 * 	   <td>Returns a clone partially transparent of the constant <code>Black</code> from the class <code>Color</code>.</td></tr>
 		 * 	 
-		 * <tr><td><listing>abe.com.mon.utils::Color.Black.alphaClone (0x66)
-		 * 	.interpolate (abe.com.mon.utils::Color.Red, 0.5)</listing></td>
+		 * <tr><td><listing>abe.com.mon.colors::Color.Black.alphaClone (0x66)
+		 * 	.interpolate (abe.com.mon.colors::Color.Red, 0.5)</listing></td>
 		 * 	   <td>Returns a clone partially transparent of the constant <code>Black</code> blended with 50% of the constant <code>Red</code>.</td></tr>
 		 * 
 		 * <tr><th>Instantiation</th><th>&#xA0;</th></tr>
@@ -599,7 +599,7 @@ package abe.com.mon.utils
 		 * 
 		 * <tr><td><listing>new my.package::MyClass ( 
 		 * 	new flash.geom::Point(2,2), 
-		 * 	abe.com.mon.utils::Color.Red )</listing></td>
+		 * 	abe.com.mon.colors::Color.Red )</listing></td>
 		 *	   <td>Returns a new instance of class <code>MyClass</code> initialized with a new instance of the class <code>Point</code> and a constant from 
 		 * 	  	   the class <code>Color</code>.</td></tr>
 		 * 
@@ -859,12 +859,12 @@ package abe.com.mon.utils
 			{
 				var ar : Array = [];
 				if( ( ar = (/color\(([^\d]+)\)/gi).exec( s ) ) != null )
-					s = s.replace( ar[0], "abe.com.mon.utils::Color.get( '"+ StringUtils.trim( ar[ 1 ] ) + "' )" );
-				else					s = s.replace( "color(", "new abe.com.mon.utils::Color(" );
+					s = s.replace( ar[0], "abe.com.mon.colors::Color.get( '"+ StringUtils.trim( ar[ 1 ] ) + "' )" );
+				else					s = s.replace( "color(", "new abe.com.mon.colors::Color(" );
 			}
 			// a gradient
 			else if( s.indexOf("gradient(") == 0 )
-				s = s.replace( "gradient(", "new abe.com.mon.utils::Gradient(" );
+				s = s.replace( "gradient(", "new abe.com.mon.colors::Gradient(" );
 			// 
 			else if( s.indexOf("0x") == 0 )				numval = parseInt( s );
 			// If is an XML string

@@ -10,7 +10,7 @@ package abe.com.ponents.text
 	import abe.com.mon.core.LayeredSprite;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.core.AbstractComponent;

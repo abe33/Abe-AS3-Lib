@@ -1,7 +1,7 @@
 package abe.com.ponents.builder.styles 
 {
 	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.Delegate;
 	import abe.com.mon.utils.Reflection;
 	import abe.com.patibility.lang._;

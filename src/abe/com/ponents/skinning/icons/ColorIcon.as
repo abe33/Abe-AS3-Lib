@@ -1,7 +1,7 @@
 package abe.com.ponents.skinning.icons 
 {
 	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.utils.Insets;
 
