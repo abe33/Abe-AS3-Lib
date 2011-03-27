@@ -1,12 +1,17 @@
 package abe.com.mon.geom 
 {
 	import abe.com.mon.utils.MathUtils;
+	import abe.com.mon.utils.RandomUtils;
+	import abe.com.patibility.hamcrest.equalToObject;
 
-	import org.flexunit.asserts.assertTrue;
 	import org.flexunit.experimental.theories.Theories;
+	import org.hamcrest.assertThat;
+	import org.hamcrest.core.allOf;
+	import org.hamcrest.object.notNullValue;
 
 	import flash.geom.Point;
 
+	[TestCase(description="Circle theories", order=3)]
 	[RunWith("org.flexunit.experimental.theories.Theories")]
 	public class CircleTheories 
 	{
@@ -26,9 +31,10 @@ package abe.com.mon.geom
 
 		[DataPoints]
 		[ArrayElementType("Number")]
-		public static var angles : Array = [ 0,10,20,5,33,44.5,60,90,180 ];
+		public static var angles : Array = RandomUtils.RANDOM.floatArray(20,0,180);
 
-		[Theory]
+		[Theory(description="This theory verify that the getPointAtAngle of the Circle class returns the valid coordinates for a wide range of values.",
+				details="There's 4 circles with different settings and they are tested over 20 different random angles.")]
 		public function testGetPointAtAngle ( angle : Number) : void 
 		{
 			var centerXY : Point = circle.center;
@@ -39,7 +45,7 @@ package abe.com.mon.geom
 			var testPoint : Point = new Point( centerXY.x + radius * Math.cos( a ), 
 											   centerXY.y + radius * Math.sin( a ) );
 			
-			assertTrue( newPoint.equals( testPoint ) );
+			assertThat(newPoint, allOf( notNullValue(), equalToObject( testPoint ) ) );
 		}
 	}
 }

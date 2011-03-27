@@ -12,7 +12,7 @@ package abe.com.mon.utils.arrays
 				var v : * = props[ i ];
 				if( v is Function )
 				{
-					if( !( o as Object ).hasOwnProperty(i) || !v( o[i] ) )
+					if( !( o as Object ).hasOwnProperty(i) || !(v as Function).apply( null, [o[i]].concat(args) ) )
 						return false;
 				}
 				else

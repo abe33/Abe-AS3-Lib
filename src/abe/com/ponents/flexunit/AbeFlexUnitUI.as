@@ -1,14 +1,12 @@
 package abe.com.ponents.flexunit
 {
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.demos.dockables.ButtonDemoDockable;
-	import abe.com.ponents.trees.TreeHeader;
-	import abe.com.mon.utils.arrays.hasProperty;
-	import abe.com.mon.logs.Log;
+	import abe.com.mon.utils.Color;
 	import abe.com.mon.utils.StringUtils;
+	import abe.com.mon.utils.arrays.hasProperty;
 	import abe.com.patibility.humanize.capitalize;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
+	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ScrollPane;
 	import abe.com.ponents.containers.SplitPane;
@@ -24,8 +22,8 @@ package abe.com.ponents.flexunit
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.text.Label;
 	import abe.com.ponents.text.TextArea;
+	import abe.com.ponents.trees.TreeHeader;
 	import abe.com.ponents.utils.Insets;
-	import abe.com.ponents.utils.Inspect;
 
 	import flex.lang.reflect.metadata.MetaDataAnnotation;
 	import flex.lang.reflect.metadata.MetaDataArgument;
@@ -42,14 +40,16 @@ package abe.com.ponents.flexunit
 	public class AbeFlexUnitUI extends Panel implements IRunListener, Dockable
 	{
 		static private const ERROR_LABEL : String = _("$0\n<b>Failure : </b>$1\n<b>Exception Name : </b>$2\n$4");
-		static private const PROGRESS_LABEL : String = _("Total Tests : <b>$0/$1</b>\tIgnored : <b>$3</b>\tFailures : <b>$2</b>");
+		static private const PROGRESS_LABEL : String = _("Current Test : <i>$5</i>\nTotal Tests : <b>$0/$1</b>\tIgnored : <b>$3</b>\tFailures : <b>$2</b>\t$4");
 		
 		protected var _label : String;
 		protected var _icon : Icon;
 		
 		protected var _testCount : Number;		protected var _testPerformed : Number;		protected var _failureCount : Number;		protected var _ignoredCount : Number;
-		
-		protected var _testTree : TestTree;		protected var _progressBar : ProgressBar;
+		protected var _result : String;
+		protected var _currentTest : IDescription;		
+		protected var _testTree : TestTree;
+		protected var _progressBar : ProgressBar;
 		protected var _progressLabel : Label;
 		protected var _testDetails : TextArea;
 
@@ -61,6 +61,7 @@ package abe.com.ponents.flexunit
 			_testCount = 0;
 			_testPerformed = 0;			_failureCount = 0;
 			_ignoredCount = 0;
+			_result = "";
 			
 			super();
 			
@@ -93,21 +94,29 @@ package abe.com.ponents.flexunit
  *----------------------------------------------------------------------*/
 		public function testRunStarted (description : IDescription) : void
 		{
+			_currentTest = description;
 			_testCount = description.testCount;
 			_progressBar.model = new DefaultBoundedRangeModel( 0, 0, _testCount, 1 );
 			_progressBar.determinate = true;
 			_progressBar.labelUnit = "/" + _testCount;			
 			buildTestTree( description );
 			
-			updateProgressDisplay( );
+			
+			updateProgressDisplay();
 		}
 		public function testRunFinished (result : Result) : void
 		{
-			Log.debug( "test run finished : " + result.successful );
 			if( _failureCount > 0 )
 				recursiveFailureExpand( _testTree.treeModel.root );
 			
 			_testTree.testsEnded();
+			
+			if( _failureCount > 0 )
+				_result = _$(_("<font color='$0'><b><i>Failed</i></b></font>"), Color.Tomato.html );			else
+				_result = _$(_("<font color='$0'><b><i>Success</i></b></font>"), Color.ForestGreen.html );
+			
+			updateProgressDisplay();
+				
 		}
 		protected function recursiveFailureExpand ( n : TreeNode ) : void
 		{
@@ -125,29 +134,24 @@ package abe.com.ponents.flexunit
 		}
 		public function testStarted (description : IDescription) : void
 		{
-			Log.debug( "test started : " + description.displayName );
+			_currentTest = description;
 		}
 		public function testFinished (description : IDescription) : void
 		{
-			Log.debug( "test finished : " + description.displayName );
 			_testPerformed++;
 			updateProgressDisplay ();
 		}
 		public function testFailure (failure : Failure) : void
 		{
-			Log.debug( "test failure : " + failure.message );
 			_failureCount++;
 			_testTree.failures.addElement( failure );
 			updateProgressDisplay ();
 		}
 		public function testAssumptionFailure (failure : Failure) : void
 		{
-			Log.debug( "test assumption failure : " + failure.message );
 		}
 		public function testIgnored (description : IDescription) : void
 		{
-			Log.debug( "test ignored : " + description.displayName );
-			Log.debug( Inspect.inspect( description ) );
 			_testTree.ignored.addElement( description );
 			_ignoredCount++;
 		}
@@ -305,7 +309,7 @@ package abe.com.ponents.flexunit
 			_progressBar.determinate = false;
 			_progressLabel = new Label( getProgressLabel () );
 			var tf : TextFormat = new TextFormat("Verdana", 11, 0, null, null, null, null );
-			tf.tabStops = [ 300, 600];
+			tf.tabStops = [ 150, 300, 450];
 			
 			_progressLabel.style.format = tf;
 			p.addComponents( _progressBar, _progressLabel );
@@ -318,7 +322,9 @@ package abe.com.ponents.flexunit
 						_testPerformed, 
 						_testCount, 
 						_failureCount, 
-						_ignoredCount );
+						_ignoredCount,
+						_result, 
+						_currentTest ? _currentTest.displayName : _("None") );
 		}
 	}
 }

@@ -1,10 +1,8 @@
 package abe.com.ponents.flexunit 
 {
-	import abe.com.ponents.utils.Inspect;
-	import abe.com.mon.logs.Log;
-	import abe.com.ponents.models.TreeNode;
-	import abe.com.patibility.humanize.plural;
 	import abe.com.mon.utils.Color;
+	import abe.com.mon.utils.arrays.lastIn;
+	import abe.com.patibility.humanize.plural;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.trees.DefaultTreeCell;
@@ -71,8 +69,11 @@ package abe.com.ponents.flexunit
 					if( _failureCount > 0 )
 						s = _$(" <font color='$0'>$1</font>", Color.Tomato.html, _("failed") );
 					else if( _ignoredCount > 0 )
-						s =  _$(" <font color='$0'>$1</font>", Color.CornflowerBlue.html, _("ignored") );
-					
+						s = _$(" <font color='$0'>$1</font>", Color.CornflowerBlue.html, _("ignored") );
+					/*
+					else
+						s = _$(" <font color='$0'>$1</font>", Color.ForestGreen.html, _("success") );
+					*/
 					return formatDisplayName( d ) + s;
 				}
 			}
@@ -83,7 +84,7 @@ package abe.com.ponents.flexunit
 			if( v.isSuite )
 				return v.displayName;
 			else
-				return v.displayName.split("::")[1];
+				return lastIn( v.displayName.split(".") );
 		}
 		
 		override public function set value (val : *) : void 

@@ -3,6 +3,7 @@
  */
 package abe.com.mon.utils
 {
+	import flash.utils.getQualifiedClassName;
 	import abe.com.mon.core.Equatable;
 	/**
 	 * La fonction compare deux objets <code>a</code> et <code>b</code>
@@ -33,30 +34,52 @@ package abe.com.mon.utils
 	 */
 	public function magicEquals ( a : Object, b : Object ) : Boolean
 	{
-		// les 2 sont null, donc null == null = true
 		if( ( a == null || a == "null" ) && ( b == null || b == "null" ) )
 			return true;
-		// l'un des deux est null donc o == null = false
 		else if( a == null || a == "null" )
 			return false;
 		else if( b == null || b == "null" )
 			return false;
-		// les deux sont Equatable, on passe par la méthode equals
 		else if( a is Equatable && b is Equatable )
 			return ( a as Equatable ).equals( b );
-		// pour les tableaux on parcours les tableaux si de meme longueurs
 		else if( a is Array && b is Array )
+		{
 			if( a.length != b.length )
 				return false;
 			else
 				return a.every( function(o:Object,i:int,... args) : Boolean { return magicEquals(o, b[i] ); } );
-		// si l'un des deux a une fonction equals on test le resultat
-		else if( a.hasOwnProperty("equals") )
-			return a.equals( b );
-		else if( b.hasOwnProperty("equals") )
-			return b.equals( a );
-		// enfin on fait un test d'égalité simple
-		else
-			return a == b;
+		}
+		else if( getQualifiedClassName( a ) == getQualifiedClassName( b ) && a.hasOwnProperty("equals")  )
+		{
+			try { return a.equals( b ); } catch( e : Error ) { return false; }
+		}
+		else if( Reflection.isObject( a ) && 
+				 Reflection.isObject( b ) )
+		{
+			var i : String;
+			var o : Object = {};
+			for( i in a )
+			{
+				if( !(b as Object).hasOwnProperty( i ) )
+					return false;
+				else if( b[i] != a[i] )
+					return false;
+				
+				o[i] = true;
+			}
+			for( i in b )
+			{
+				if( o.hasOwnProperty(i) )
+					continue;
+				
+				if( !(a as Object).hasOwnProperty( i ) )
+					return false;
+				else if( a[i] != b[i] )
+					return false;
+			}
+			return true;
+		}
+		
+		return a == b;
 	}
 }

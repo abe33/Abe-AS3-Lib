@@ -525,5 +525,20 @@ package abe.com.mon.utils
 
 			return new Point( Math.sin(a)*l, Math.cos(a)*l );
 		}
+		
+		public function intArray ( length : int, start : int = 0, end : int = 100 ) : Array 
+		{
+			var a : Array = [];
+			for( var i : uint = 0; i < length; i++ )
+				a.push(irangeAB(start, end));
+			return a;
+		}
+		public function floatArray ( length : int, start : Number = 0, end : Number = 1 ) : Array 
+		{
+			var a : Array = [];
+			for( var i : uint = 0; i < length; i++ )
+				a.push(rangeAB(start, end));
+			return a;
+		}
 	}
 }

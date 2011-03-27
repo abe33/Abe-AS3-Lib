@@ -1,6 +1,6 @@
 package abe.com.mon.geom 
 {
-	[Suite(description="abe.com.mon.geom TestSuite",order=2)]
+	[Suite(description="abe.com.mon.geom TestSuite",order=3)]
 	[RunWith("org.flexunit.runners.Suite")]	
 	public class GeomTestSuite 
 	{

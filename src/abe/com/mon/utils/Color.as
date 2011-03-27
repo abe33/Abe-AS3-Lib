@@ -3,7 +3,10 @@
  */
 package  abe.com.mon.utils 
 {
+	import abe.com.mon.utils.objects.safePropertyCopy;
+	import abe.com.mon.utils.objects.hasOwnProperties;
 	import abe.com.mon.core.Cloneable;
+	import abe.com.mon.core.Copyable;
 	import abe.com.mon.core.Equatable;
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Serializable;
@@ -181,7 +184,7 @@ package  abe.com.mon.utils
 	 * 
 	 * @author 	Cédric Néhémie
 	 */
-	public class Color implements Serializable, Equatable, Cloneable, FormMetaProvider
+	public class Color implements Serializable, Equatable, Cloneable, Copyable, FormMetaProvider
 	{
 		
 		/*
@@ -191,16 +194,6 @@ package  abe.com.mon.utils
 		// tableau stockant toutes les instances nommées de la classe
 		static private const INSTANCES : Object = new Object( );
 		
-		/**
-		 * 
-		 * @param	n
-		 * @return
-		 */
-		public function toColorTransform (n : Number) : ColorTransform
-		{
-			return new ColorTransform(1-n, 1-n, 1-n, 1, int(red*n), int(green*n), int(blue*n), 0);
-		}
-
 		/**
 		 * Renvoie la couleur enregistrée avec la chaîne passée en paramètre.
 		 * Si aucune n'est enregistrée à ce nom, la fonction renvoie <code>null</code>.
@@ -1913,9 +1906,6 @@ package  abe.com.mon.utils
 		 * <ul>
 		 * <li><listing>new Color ();</listing>
 		 * La valeur par défaut est utilisé (<code>0xff000000</code>).</li>
-		 * <li><listing>new Color ( 255 );</listing>
-		 * Tout les canaux prennent la valeur passé en argument, dans ce
-		 * cas la couleur sera <code>0xffffffff</code>.</li>
 		 * <li><listing>new Color ( 255, 255, 255 );</listing></li>
 		 * <li><listing>new Color ( 255, 255, 255, 255 );</listing></li>
 		 * <li><listing>new Color ( 255, 255, 255, 255, "Nom de la couleur" );</listing></li>
@@ -1981,24 +1971,19 @@ package  abe.com.mon.utils
 		 * @param	name	le nom de la couleur
 		 */
 		public function Color ( r : * 	 = 0x00, 
-								g : uint = 0x00, 
+								g : * = 0x00, 
 								b : uint = 0x00, 
 								a : uint = 0xff,
 								name : String = "" )
 		{
-			_name = name;
-			
-			// on enregistre la couleur sous son nom, si il n'y a pas de couleur
-			// déjà enregistrée à ce nom
-			if( _name != "" && !INSTANCES.hasOwnProperty( _name ) )
-				INSTANCES[ _name ] = this;
-				
-			
 			if( r is String )
 			{
 				var regex : RegExp = /^(#|0x)*[a-fA-F0-9]{3,8}$/;
 				var scol : String = r as String;
-	
+				
+				if( g && g is String )
+					_name = g;
+				
 				if( regex.test( scol ) )
 				{
 					var _r : Number = 0x00;
@@ -2052,21 +2037,16 @@ package  abe.com.mon.utils
 			}
 			else if( r is uint )
 			{
-				// new Color( 0xffffffff )
-				if( arguments.length == 1 && r > 255 )
+				// new Color( 0xffffffff ) or new Color( 0xffffffff, "name" )
+				if( arguments.length == 1 || ( arguments.length == 2 && g && g is String )  )
 				{
 					alpha = r >> 24 & 0xff; 
 					red   = r >> 16 & 0xff; 
 					green = r >> 8 & 0xff; 
 					blue  = r & 0xff; 
-				}
-				// new Color( 255 )
-				else if( arguments.length == 1 )
-				{
-					red   = r & 0xff;
-					green = r & 0xff;
-					blue  = r & 0xff;
-					alpha = r & 0xff;
+					
+					if( g && g is String )
+						_name = g;
 				}
 				// new Color( 255, 255, 255, 255 )
 				else
@@ -2075,8 +2055,14 @@ package  abe.com.mon.utils
 					green = g & 0xff;
 					blue  = b & 0xff;
 					alpha = a & 0xff;
+					_name = name;
 				}
 			}
+			
+			// on enregistre la couleur sous son nom, si il n'y a pas de couleur
+			// déjà enregistrée à ce nom
+			if( _name != "" && !INSTANCES.hasOwnProperty( _name ) )
+				INSTANCES[ _name ] = this;
 			
 		}
 		/**
@@ -2161,7 +2147,7 @@ package  abe.com.mon.utils
 		 * 
 		 * @return un entier sous la forme <code>0xRRGGBB</code>
 		 */
-		public function get hexa () : int
+		public function get hexa () : uint
 		{
 			return ( ( uint( red   << 16 ) ) + 
 				  	 ( uint( green << 8  ) ) + 
@@ -2172,7 +2158,7 @@ package  abe.com.mon.utils
 		 * 
 		 * @return un entier sous la forme <code>0xAARRGGBB</code>
 		 */
-		public function get hexaRGBA () : int
+		public function get hexaRGBA () : uint
 		{
 			return ( ( uint( alpha << 24 ) ) + 
 					 ( uint( red   << 16 ) ) + 
@@ -2227,17 +2213,22 @@ package  abe.com.mon.utils
 		 * @return	une nouvelle instance de <code>Color</code> représentant
 		 * 			le nouveau mélange
 		 */
-		public function interpolate ( col : Color, ratio : Number) : Color
+		public function interpolate ( col : Color, ratio : Number, preserveAlpha : Boolean = true ) : Color
 		{
 			var iratio : Number = 1 - ratio;
+			if(!col)
+				return clone();
 			
 			return new Color( Math.floor( red 	* iratio + col.red 	 * ratio ),
 							  Math.floor( green * iratio + col.green * ratio ),
 							  Math.floor( blue 	* iratio + col.blue  * ratio ),
-							  Math.floor( alpha * iratio + col.alpha * ratio ) );
+							  Math.floor( preserveAlpha ? alpha : ( alpha * iratio + col.alpha * ratio ) ) );
 		}
 		public function subtract ( col : Color, ratio : Number, preserveAlpha : Boolean = true ) : Color 
 		{
+			if(!col)
+				return clone();
+			
 			return new Color( Math.floor( MathUtils.restrict( red 	- col.red * ratio, 0, 255 ) ),
 							  Math.floor( MathUtils.restrict( green	- col.green * ratio, 0, 255 ) ),
 							  Math.floor( MathUtils.restrict( blue 	- col.blue * ratio, 0, 255 ) ),
@@ -2245,12 +2236,23 @@ package  abe.com.mon.utils
 		}
 		public function add ( col : Color, ratio : Number, preserveAlpha : Boolean = true ) : Color 
 		{
+			if(!col)
+				return clone();
+			
 			return new Color( Math.floor( MathUtils.restrict( red 	+ col.red * ratio, 0, 255 ) ),
 							  Math.floor( MathUtils.restrict( green	+ col.green * ratio, 0, 255 ) ),
 							  Math.floor( MathUtils.restrict( blue 	+ col.blue * ratio, 0, 255 ) ),
 							  Math.floor( preserveAlpha ? alpha : MathUtils.restrict( alpha	+ col.alpha * ratio, 0, 255 ) ) );
 		}
-
+		/**
+		 * 
+		 * @param	n
+		 * @return
+		 */
+		public function toColorTransform (n : Number) : ColorTransform
+		{
+			return new ColorTransform(1-n, 1-n, 1-n, 1, int(red*n), int(green*n), int(blue*n), 0);
+		}
 		/**
 		 * Renvoie la représentation de l'objet sous forme de chaîne.
 		 * 
@@ -2258,9 +2260,7 @@ package  abe.com.mon.utils
 		 */
 		public function toString () : String
 		{
-			if( name )
-				return StringUtils.stringify(this, {rgba:"0x"+rgba,name:name} );			else
-				return StringUtils.stringify(this, {rgba:"0x"+rgba} );
+			return StringUtils.stringify(this, {rgba:"0x"+rgba} );
 		}
 		/**
 		 * Renvoie la représentation du code source permettant 
@@ -2271,7 +2271,13 @@ package  abe.com.mon.utils
 		 */
 		public function toSource () : String
 		{
-			return "new "+getQualifiedClassName(this).replace("::",".")+"(" + red + "," + green + "," + blue + "," + alpha + ",\"" + _name + "\" )";
+			return StringUtils.tokenReplace("new $0($1,$2,$3,$4,'$5')",
+											getQualifiedClassName(this).replace("::","."),
+											red,
+											green,
+											blue,
+											alpha,
+											_name );
 		}
 		/**
 		 * Renvoie la représentation du code source permettant 
@@ -2284,7 +2290,7 @@ package  abe.com.mon.utils
 		 */
 		public function toReflectionSource () : String
 		{
-			return "color(0x" + rgba + ")";
+			return StringUtils.tokenReplace( "color(0x$0)", rgba );
 		}
 		
 		/**
@@ -2347,6 +2353,16 @@ package  abe.com.mon.utils
 			}
 			
 			return false;
+		}
+		public function copyTo (o : Object) : void
+		{
+			o["red"] = red;			o["green"] = green;			o["blue"] = blue;			o["alpha"] = alpha;
+			
+			if( _name && _name != "" )				o["name"] = _name;
+		}
+		public function copyFrom (o : Object) : void
+		{
+			safePropertyCopy( o , "red", this, "red" );			safePropertyCopy( o , "green", this, "green" );			safePropertyCopy( o , "blue", this, "blue" );			safePropertyCopy( o , "alpha", this, "alpha" );
 		}
 	}
 }

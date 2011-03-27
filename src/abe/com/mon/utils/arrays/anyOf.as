@@ -13,7 +13,7 @@ package abe.com.mon.utils.arrays
 			{
 				var c : * = fn[i];
 				if( c is Function )
-					b ||= c( o );
+					b ||= (c as Function).apply( null, [o].concat(args) );
 				else
 					b ||= c == o;
 			}

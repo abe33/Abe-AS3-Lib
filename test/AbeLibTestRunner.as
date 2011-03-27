@@ -20,7 +20,7 @@ package
 
 	import flash.events.ContextMenuEvent;
 
-	[SWF(width="800",height="600", backgroundColor="#3a545c")]
+	[SWF(width="1024",height="768", backgroundColor="#3a545c")]
 	[Frame(factoryClass="abe.com.ponents.factory.ComponentFactoryPreload")]
 	[SettingsBackend(backend="abe.com.patibility.settings.backends.CookieBackend", appName="AbeLibTestRunner")]
 	public class AbeLibTestRunner extends ApplicationMain 
