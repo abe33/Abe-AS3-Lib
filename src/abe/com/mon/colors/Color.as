@@ -2204,6 +2204,14 @@ package  abe.com.mon.colors
 			blue = 255 - blue;
 		}
 		
+		public function blend ( color : Color, method : Function ) : Color
+		{
+			var r : uint = method( red, color.red );
+			var g : uint = method( green, color.green ); 			var b : uint = method( blue, color.blue ); 			var a : uint = method( alpha, color.alpha ); 
+			
+			return new Color(r,g,b,a);
+		}
+		
 		/**
 		 * Renvoie la couleur intermédiaire entre la couleur actuelle et <code>col</code>,
 		 * <code>ratio</code> étant un nombre entre 0 et 1 indiquant la proportion de 
