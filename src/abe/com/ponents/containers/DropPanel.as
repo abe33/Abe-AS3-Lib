@@ -12,7 +12,7 @@ package abe.com.ponents.containers
 	/**
 	 * 
 	 */
-	[Style(name="dropZoneColor",type="abe.com.mon.utils.Color")]
+	[Style(name="dropZoneColor",type="abe.com.mon.colors.Color")]
 	[Skinable(skin="DropPanel")]
 	[Skin(define="DropPanel",
 		  inherit="EmptyComponent",

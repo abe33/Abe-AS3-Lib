@@ -254,7 +254,7 @@ package abe.com.ponents.core
 	 * <code>setForAllStates</code> de la classe <code>ComponentStyle</code>.</li>
 	 * </ul>
 	 */
-	[Style(name="textColor",type="abe.com.mon.utils.Color")]
+	[Style(name="textColor",type="abe.com.mon.colors.Color")]
 	/**
 	 * Le format du texte du composant.
 	 * <p>

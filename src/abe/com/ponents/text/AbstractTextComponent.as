@@ -50,7 +50,7 @@ package abe.com.ponents.text
 	/**
 	 *
 	 */
-	[Style(name="mispellWordsColor",type="abe.com.mon.utils.Color")]
+	[Style(name="mispellWordsColor",type="abe.com.mon.colors.Color")]
 
 	[Skinable(skin="Text")]
 
