@@ -8,16 +8,21 @@ package abe.com.mon.utils.arrays
 		return function( o : *, ... args ) : Boolean 
 		{
 			var l : uint = fn.length;
-			var b : Boolean = false;
 			for( var i : uint = 0; i < l; i++ )
 			{
 				var c : * = fn[i];
 				if( c is Function )
-					b ||= (c as Function).apply( null, [o].concat(args) );
+				{
+					if( (c as Function).apply( null, [o].concat(args) ) )
+						return true;
+				}		
 				else
-					b ||= c == o;
+				{
+					if( c == o )
+						return true;
+				}
 			}
-			return b;
+			return false;
 		};
 	}
 }

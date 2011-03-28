@@ -1,9 +1,11 @@
 package abe.com.mon.utils.arrays 
 {
+	import org.hamcrest.core.describedAs;
 	import abe.com.mon.geom.Rectangle2;
 
-	import org.hamcrest.assertThat;	import org.hamcrest.object.*;
+	import org.hamcrest.assertThat;
 	import org.hamcrest.collection.array;
+	import org.hamcrest.object.*;
 
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -14,6 +16,176 @@ package abe.com.mon.utils.arrays
 	[TestCase(description="Verify that all the array filters function works as expected.", order=2)]
 	public class ArrayTest 
 	{
+		[Test]
+		public function contains () : void
+		{}
+		
+		[Test(description="This test verify that the matchCycle function perform as expected with various array structure.")]
+		public function matchCycle() : void
+		{
+			var a : Array;
+			
+			// value cycle
+			a = ["foo",10,true,"foo",10,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchCycle( "foo", 10, true ) ), 
+					    describedAs("matchCycle with %0 as arguments on %1 should return true", 
+					    			org.hamcrest.object.equalTo( true ), 
+					    			["foo", 10, true], 
+					    			a ) );
+			
+			// invalid value cycle
+			a = ["foo",10,true,"bar",10,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchCycle( "foo", 10, true ) ), 
+					    describedAs("matchCycle with %0 as arguments on %1 should return false", 
+					    			org.hamcrest.object.equalTo( false ), 
+					    			["foo", 10, true], 
+					    			a ) );
+				    
+			// single cycle
+			a = ["foo",10,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchCycle( 
+											 abe.com.mon.utils.arrays.isA(String),
+											 abe.com.mon.utils.arrays.isA(Number),
+											 abe.com.mon.utils.arrays.isA(Boolean) ) ), 
+					    describedAs("matchCycle(isA(String),isA(Number),isA(Boolean)) on %0 should return true", 
+					    			org.hamcrest.object.equalTo( true ), 
+					    			a ) );
+			
+			// several cycle
+			a = ["foo",10,true, "bar",5,false, "oof",12,true ];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchCycle( 
+											 abe.com.mon.utils.arrays.isA(String),
+											 abe.com.mon.utils.arrays.isA(Number),
+											 abe.com.mon.utils.arrays.isA(Boolean) ) ), 
+					   describedAs("matchCycle(isA(String),isA(Number),isA(Boolean)) on %0 should return true", 
+					    			org.hamcrest.object.equalTo( true ), 
+					    			a ) );
+			
+			// incomplete cycle
+			a = ["foo",10,true,"bar"];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchCycle( 
+											 abe.com.mon.utils.arrays.isA(String),
+											 abe.com.mon.utils.arrays.isA(Number),
+											 abe.com.mon.utils.arrays.isA(Boolean) ) ), 
+					    describedAs("matchCycle(isA(String),isA(Number),isA(Boolean)) on %0 should return false", 
+					    			org.hamcrest.object.equalTo( false ), 
+					    			a ) );
+			
+			// invalid cycle
+			a = ["foo",10,true,"bar","foo",10];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchCycle( 
+											 abe.com.mon.utils.arrays.isA(String),
+											 abe.com.mon.utils.arrays.isA(Number),
+											 abe.com.mon.utils.arrays.isA(Boolean) ) ), 
+					    describedAs("matchCycle(isA(String),isA(Number),isA(Boolean)) on %0 should return false", 
+					    			org.hamcrest.object.equalTo( false ), 
+					    			a ) );
+		}
+		[Test(description="This test verify that the matchFixed function perform as expected with various array structure.")]
+		public function matchFixed() : void
+		{
+			var a : Array;
+			
+			// fingle fixed
+			a = ["foo",10,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchFixed( "foo", 10, true ) ), 
+					    describedAs("matchFixed with %0 as arguments on %1 should return true", 
+					    			org.hamcrest.object.equalTo( true ), 
+					    			["foo", 10, true], 
+					    			a ) );
+			
+			// invalid fixed
+			a = ["foo",10,true,"bar"];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchFixed( "foo", 10, true ) ), 
+					    describedAs("matchFixed with %0 as arguments on %1 should return false", 
+					    			org.hamcrest.object.equalTo( false ), 
+					    			["foo", 10, true], 
+					    			a ) );
+			
+			// invalid fixed
+			a = ["bar",10,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchFixed( "foo", 10, true ) ), 
+					    describedAs("matchFixed with %0 as arguments on %1 should return false", 
+					    			org.hamcrest.object.equalTo( false ), 
+					    			["foo", 10, true], 
+					    			a ) );
+			// with submatcher
+			a = ["foo",10,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchFixed( 
+											 abe.com.mon.utils.arrays.isA(String),
+											 abe.com.mon.utils.arrays.isA(Number),
+											 abe.com.mon.utils.arrays.isA(Boolean) ) ), 
+					    describedAs("matchCycle(isA(String),isA(Number),isA(Boolean)) on %0 should return true", 
+					    			org.hamcrest.object.equalTo( true ), 
+					    			a ) );
+			// with invalid data
+			a = [10,10,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchFixed( 
+											 abe.com.mon.utils.arrays.isA(String),
+											 abe.com.mon.utils.arrays.isA(Number),
+											 abe.com.mon.utils.arrays.isA(Boolean) ) ), 
+					    describedAs("matchCycle(isA(String),isA(Number),isA(Boolean)) on %0 should return false", 
+					    			org.hamcrest.object.equalTo( false ), 
+					    			a ) );
+		}
+		[Test(description="This test verify that the matchRest function perform as expected with various array structure.")]
+		public function matchRest() : void
+		{
+			var a : Array;
+			
+			a = ["foo",10,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchRest( "foo", 10, true ) ), 
+					    describedAs("matchFixed with %0 as arguments on %1 should return true", 
+					    			org.hamcrest.object.equalTo( true ), 
+					    			["foo", 10, true], 
+					    			a ) );
+					    			
+			a = ["bar",10,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchRest( "foo", 10, true ) ), 
+					    describedAs("matchFixed with %0 as arguments on %1 should return false", 
+					    			org.hamcrest.object.equalTo( false ), 
+					    			["foo", 10, true], 
+					    			a ) );
+					    			
+			a = ["foo",10,true,true,true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchRest( "foo", 10, true ) ), 
+					    describedAs("matchFixed with %0 as arguments on %1 should return true", 
+					    			org.hamcrest.object.equalTo( true ), 
+					    			["foo", 10, true], 
+					    			a ) );
+			
+			a = ["foo",10,true,true,false];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchRest( "foo", 10, true ) ), 
+					    describedAs("matchFixed with %0 as arguments on %1 should return false", 
+					    			org.hamcrest.object.equalTo( false ), 
+					    			["foo", 10, true], 
+					    			a ) );
+			
+			a = ["foo",10,true, {}, null, "foo", true];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchRest( "foo", 10, true, anything() ) ), 
+					    describedAs("matchFixed('foo', 10, true, anything()) on %0 should return true", 
+					    			org.hamcrest.object.equalTo( true ), 
+					    			a ) );
+			
+			a = ["foo",10,true, {}, {}, {} ];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchRest( 
+											 abe.com.mon.utils.arrays.isA(String),
+											 abe.com.mon.utils.arrays.isA(Number),
+											 abe.com.mon.utils.arrays.isA(Boolean),											 abe.com.mon.utils.arrays.instanceOf(Object)  ) ), 
+					    describedAs("matchFixed('foo', 10, true, anything()) on %0 should return true", 
+					    			org.hamcrest.object.equalTo( true ), 
+					    			a ) );
+			
+			a = ["foo",10,true, {}, false, {} ];
+			assertThat( a.every( abe.com.mon.utils.arrays.matchRest( 
+											 abe.com.mon.utils.arrays.isA(String),
+											 abe.com.mon.utils.arrays.isA(Number),
+											 abe.com.mon.utils.arrays.isA(Boolean),
+											 abe.com.mon.utils.arrays.instanceOf(Object)  ) ), 
+					    describedAs("matchFixed('foo', 10, true, anything()) on %0 should return false", 
+					    			org.hamcrest.object.equalTo( false ), 
+					    			a ) );
+		}
 		[Test(description="This test verify that the equalTo filter works as expected.")]
 		public function equalTo() : void
 		{
