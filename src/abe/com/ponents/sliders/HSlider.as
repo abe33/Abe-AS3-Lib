@@ -28,7 +28,7 @@ package abe.com.ponents.sliders
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]	[Style(name="inputWidth", type="Number")]	[Style(name="buttonSize", type="Number")]	[Style(name="trackSize", type="Number")]	[Style(name="tickSize", type="Number")]	[Style(name="tickMargin", type="Number")]	[Style(name="tickColor", type="abe.com.mon.utils.Color")]
+	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]	[Style(name="inputWidth", type="Number")]	[Style(name="buttonSize", type="Number")]	[Style(name="trackSize", type="Number")]	[Style(name="tickSize", type="Number")]	[Style(name="tickMargin", type="Number")]	[Style(name="tickColor", type="abe.com.mon.colors.Color")]
 	[Style(name="icon", type="abe.com.ponents.skinning.icons.Icon")]
 	[Skinable(skin="HSlider")]
 	[Skin(define="HSlider",

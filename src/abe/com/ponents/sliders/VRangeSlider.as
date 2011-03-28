@@ -28,7 +28,7 @@ package abe.com.ponents.sliders
 	[Style(name="trackSize", type="Number")]
 	[Style(name="tickSize", type="Number")]
 	[Style(name="tickMargin", type="Number")]
-	[Style(name="tickColor", type="abe.com.mon.utils.Color")]
+	[Style(name="tickColor", type="abe.com.mon.colors.Color")]
 	[Style(name="icon", type="abe.com.ponents.skinning.icons.Icon")]
 	[Skinable(skin="VRangeSlider")]
 	[Skin(define="VRangeSlider",
