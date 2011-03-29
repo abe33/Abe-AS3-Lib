@@ -3,8 +3,8 @@ package abe.com.mon.utils.arrays
 	/**
 	 * @author cedric
 	 */
-	public function nullValue ( o : *, ... args ) : Boolean 
+	public function nullValue () : Function 
 	{
-		return o == null;
+		return function (o : *, ... args) : Boolean { return o == null; };
 	}
 }

@@ -5,6 +5,6 @@ package abe.com.mon.utils.arrays
 	 */
 	public function endWith ( s : String ) : Function 
 	{
-		return function ( o : *, ... args ) : Boolean { return String(o).indexOf(s) == String(o).length - s.length; };
+		return function ( o : *, ... args ) : Boolean { return String(o).substr(-s.length) == s; };
 	}
 }

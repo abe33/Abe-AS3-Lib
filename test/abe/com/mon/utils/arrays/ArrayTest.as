@@ -1,11 +1,12 @@
 package abe.com.mon.utils.arrays 
 {
-	import org.hamcrest.core.describedAs;
 	import abe.com.mon.geom.Rectangle2;
 
 	import org.hamcrest.assertThat;
 	import org.hamcrest.collection.array;
-	import org.hamcrest.object.*;
+	import org.hamcrest.core.describedAs;
+	import org.hamcrest.object.equalTo;
+	import org.hamcrest.object.nullValue;
 
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -17,8 +18,126 @@ package abe.com.mon.utils.arrays
 	public class ArrayTest 
 	{
 		[Test]
+		public function re() : void
+		{
+			var a : Array;
+			
+			a = ["foo", "bar", "ofo", "oof", "fock" ];
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.re( /^fo/g ) ), 
+						org.hamcrest.object.equalTo( false ) );	
+			
+			assertThat( a.some( abe.com.mon.utils.arrays.re( /^fo/g ) ), 
+						org.hamcrest.object.equalTo( true ) );	
+			
+			assertThat( a.filter( abe.com.mon.utils.arrays.re( /^fo/g ) ), 
+						array( "foo", "fock" ) );
+			
+			assertThat( a.filter( abe.com.mon.utils.arrays.re( /fo/g ) ), 
+						array( "foo", "ofo", "fock" ) );
+			
+			assertThat( a.filter( abe.com.mon.utils.arrays.re( /fo$/g ) ), 
+						array( "ofo" ) );	
+		}
+		[Test]
+		public function anything () : void
+		{
+			var a : Array;
+			
+			a = ["foo","bar",12,null, false, {}];
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.anything() ),
+						org.hamcrest.object.equalTo( true ) );
+						
+			assertThat( a.every( abe.com.mon.utils.arrays.anything() ),
+						org.hamcrest.object.equalTo( true ) );
+			
+			assertThat( a.filter( abe.com.mon.utils.arrays.anything() ).length,
+						6 );
+		}
+		[Test]
 		public function contains () : void
-		{}
+		{
+			var a : Array;
+			
+			a = ["foo","bar","oof","ofo"];
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.contains( "o" ) ),
+						org.hamcrest.object.equalTo( false ) );
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.contains( "fo" ) ),
+						org.hamcrest.object.equalTo( false ) );
+			
+			assertThat( a.some( abe.com.mon.utils.arrays.contains( "o" ) ),
+						org.hamcrest.object.equalTo( true ) );
+						
+			assertThat( a.some( abe.com.mon.utils.arrays.contains( "fo" ) ),
+						org.hamcrest.object.equalTo( true ) );
+		
+			assertThat( a.filter( abe.com.mon.utils.arrays.contains( "o" ) ),
+						array( "foo","oof","ofo" ) );
+			
+			assertThat( a.filter( abe.com.mon.utils.arrays.contains( "fo" ) ),
+						array( "foo","ofo" ) );
+		}
+		[Test]
+		public function startWith () : void
+		{
+			var a : Array;
+			
+			a = ["foo","bar","oof","ofo"];
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.startWith( "o" ) ),
+						org.hamcrest.object.equalTo( false ) );
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.startWith( "fo" ) ),
+						org.hamcrest.object.equalTo( false ) );
+			
+			assertThat( a.some( abe.com.mon.utils.arrays.startWith( "o" ) ),
+						org.hamcrest.object.equalTo( true ) );
+						
+			assertThat( a.some( abe.com.mon.utils.arrays.startWith( "fo" ) ),
+						org.hamcrest.object.equalTo( true ) );
+		
+			assertThat( a.filter( abe.com.mon.utils.arrays.startWith( "o" ) ),
+						array( "oof","ofo" ) );
+			
+			assertThat( a.filter( abe.com.mon.utils.arrays.startWith( "fo" ) ),
+						array( "foo" ) );
+		}
+		[Test]
+		public function endWith () : void
+		{
+			var a : Array;
+			
+			a = ["foo","bar","oof","ofo"];
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.endWith( "o" ) ),
+						describedAs( "%0.every(endWith('o')) should return false", 
+									 org.hamcrest.object.equalTo( false ), 
+									 a ) );
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.endWith( "fo" ) ),
+						describedAs( "%0.every(endWith('fo')) should return false", 
+									 org.hamcrest.object.equalTo( false ), 
+									 a ) );
+			
+			assertThat( a.some( abe.com.mon.utils.arrays.endWith( "o" ) ),
+						describedAs( "%0.some(endWith('o')) should return true", 
+									 org.hamcrest.object.equalTo( true ), 
+									 a ) );
+						
+			assertThat( a.some( abe.com.mon.utils.arrays.endWith( "fo" ) ),
+						describedAs( "%0.some(endWith('fo')) should return true", 
+									 org.hamcrest.object.equalTo( true ), 
+									 a ) );
+		
+			assertThat( a.filter( abe.com.mon.utils.arrays.endWith( "o" ) ),
+						array( "foo","ofo" ) );
+			
+			assertThat( a.filter( abe.com.mon.utils.arrays.endWith( "fo" ) ),
+						array( "ofo" ) );
+		}
 		
 		[Test(description="This test verify that the matchCycle function perform as expected with various array structure.")]
 		public function matchCycle() : void
@@ -162,7 +281,7 @@ package abe.com.mon.utils.arrays
 					    			a ) );
 			
 			a = ["foo",10,true, {}, null, "foo", true];
-			assertThat( a.every( abe.com.mon.utils.arrays.matchRest( "foo", 10, true, anything() ) ), 
+			assertThat( a.every( abe.com.mon.utils.arrays.matchRest( "foo", 10, true, abe.com.mon.utils.arrays.anything() ) ), 
 					    describedAs("matchFixed('foo', 10, true, anything()) on %0 should return true", 
 					    			org.hamcrest.object.equalTo( true ), 
 					    			a ) );
@@ -410,13 +529,28 @@ package abe.com.mon.utils.arrays
 			var a : Array;
 			
 			a = [null, undefined, false, "null"];
-			assertThat( a.every( abe.com.mon.utils.arrays.nullValue), 
+			assertThat( a.every( abe.com.mon.utils.arrays.nullValue()), 
 						org.hamcrest.object.equalTo( false ) );
 			
-			assertThat( a.some( abe.com.mon.utils.arrays.nullValue), 
+			assertThat( a.some( abe.com.mon.utils.arrays.nullValue()), 
 						org.hamcrest.object.equalTo( true ) );
 		
-			assertThat( a.filter( abe.com.mon.utils.arrays.nullValue).length, 
+			assertThat( a.filter( abe.com.mon.utils.arrays.nullValue()).length, 
+						org.hamcrest.object.equalTo( 2 ) );
+		}
+		[Test(description="This test verify the notNullValue function.")]
+		public function notNullValue () : void
+		{
+			var a : Array;
+			
+			a = [null, undefined, false, "null"];
+			assertThat( a.every( abe.com.mon.utils.arrays.notNullValue() ), 
+						org.hamcrest.object.equalTo( false ) );
+			
+			assertThat( a.some( abe.com.mon.utils.arrays.notNullValue()), 
+						org.hamcrest.object.equalTo( true ) );
+		
+			assertThat( a.filter( abe.com.mon.utils.arrays.notNullValue()).length, 
 						org.hamcrest.object.equalTo( 2 ) );
 		}
 		[Test(description="This test verify the closeTo filter.")]
@@ -453,17 +587,28 @@ package abe.com.mon.utils.arrays
 			assertThat( a.every(abe.com.mon.utils.arrays.between(4,6) ),
 						org.hamcrest.object.equalTo( false ) );
 			
-			assertThat( a.every(abe.com.mon.utils.arrays.between(0,8) ),
+			assertThat( a.every(abe.com.mon.utils.arrays.between(0,8,false) ),
 						org.hamcrest.object.equalTo( true ) );
 			
 			assertThat( a.filter( abe.com.mon.utils.arrays.between(4,6)), 
+						array( 4.5, 5 ) );
+						
+			assertThat( a.filter( abe.com.mon.utils.arrays.between(4,6,false)), 
 						array( 4.5, 5, 6 ) );
-			
+						
 			assertThat( a.filter( abe.com.mon.utils.arrays.between(4,7)), 
 						array( 4.5, 5, 6.7, 6.2, 6 ) );
 			
 			assertThat( a.filter( abe.com.mon.utils.arrays.between(0,8)), 
+						array( 4.5, 5, 6.7, 6.2, 6 ) );
+						
+			assertThat( a.filter( abe.com.mon.utils.arrays.between(0,8,false)), 
 						array( 0, 4.5, 5, 6.7, 6.2, 6, 8 ) );
+		}
+		[Test(description="This test verify the between filter.", expects="Error")]
+		public function betweenFailure () : void
+		{
+			abe.com.mon.utils.arrays.between( 12, 4 );	
 		}
 		[Test(description="This test verify the greaterThan filter.")]
 		public function greaterThan () : void
@@ -543,7 +688,35 @@ package abe.com.mon.utils.arrays
 			assertThat( a.some(abe.com.mon.utils.arrays.lowerThanOrEqualTo(0)),
 						org.hamcrest.object.equalTo( true ) );
 		}
-		
+		[Test(description="This test verify the nan function.")]
+		public function nan() : void
+		{
+			var a : Array;
+			a = [NaN, 10, NaN, {}, "foo", "5"];
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.nan() ), 
+						org.hamcrest.object.equalTo( false ) );
+			
+			assertThat( a.some( abe.com.mon.utils.arrays.nan() ), 
+						org.hamcrest.object.equalTo( true ) );
+			
+			assertThat( a.filter( abe.com.mon.utils.arrays.nan() ).length, 
+						4 );
+		}
+		public function notNaN() : void
+		{
+			var a : Array;
+			a = [NaN, 10, NaN, {}, "foo", "5"];
+			
+			assertThat( a.every( abe.com.mon.utils.arrays.notNaN() ), 
+						org.hamcrest.object.equalTo( false ) );
+			
+			assertThat( a.some( abe.com.mon.utils.arrays.notNaN() ), 
+						org.hamcrest.object.equalTo( true ) );
+			
+			assertThat( a.filter( abe.com.mon.utils.arrays.notNaN() ).length, 
+						2 );
+		}
 		[Test(description="This test verify the lastIn function.")]
 		public function lastIn () : void
 		{
