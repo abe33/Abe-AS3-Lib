@@ -17,7 +17,7 @@ package abe.com.mon.utils.arrays
 	[TestCase(description="Verify that all the array filters function works as expected.", order=2)]
 	public class ArrayTest 
 	{
-		[Test]
+		[Test(description="This test verify that the re function will performed as expected with various expressions.")]
 		public function re() : void
 		{
 			var a : Array;
@@ -39,7 +39,7 @@ package abe.com.mon.utils.arrays
 			assertThat( a.filter( abe.com.mon.utils.arrays.re( /fo$/g ) ), 
 						array( "ofo" ) );	
 		}
-		[Test]
+		[Test(description="This test verify that the anything function consistently return true matcher.")]
 		public function anything () : void
 		{
 			var a : Array;
@@ -55,7 +55,7 @@ package abe.com.mon.utils.arrays
 			assertThat( a.filter( abe.com.mon.utils.arrays.anything() ).length,
 						6 );
 		}
-		[Test]
+		[Test(description="This test verify that the contains function succeed in finding various string in various contexts.")]
 		public function contains () : void
 		{
 			var a : Array;
@@ -80,7 +80,7 @@ package abe.com.mon.utils.arrays
 			assertThat( a.filter( abe.com.mon.utils.arrays.contains( "fo" ) ),
 						array( "foo","ofo" ) );
 		}
-		[Test]
+		[Test(description="This test verify that the startWith function succeed in finding various string in various contexts.")]
 		public function startWith () : void
 		{
 			var a : Array;
@@ -105,7 +105,7 @@ package abe.com.mon.utils.arrays
 			assertThat( a.filter( abe.com.mon.utils.arrays.startWith( "fo" ) ),
 						array( "foo" ) );
 		}
-		[Test]
+		[Test(description="This test verify that the endWith function succeed in finding various string in various contexts.")]
 		public function endWith () : void
 		{
 			var a : Array;
@@ -138,7 +138,6 @@ package abe.com.mon.utils.arrays
 			assertThat( a.filter( abe.com.mon.utils.arrays.endWith( "fo" ) ),
 						array( "ofo" ) );
 		}
-		
 		[Test(description="This test verify that the matchCycle function perform as expected with various array structure.")]
 		public function matchCycle() : void
 		{
@@ -453,7 +452,7 @@ package abe.com.mon.utils.arrays
 			assertThat( a.filter( abe.com.mon.utils.arrays.isA( Rectangle2 ) ).length, 
 						org.hamcrest.object.equalTo( 1 ) );
 		}
-		
+		[Test(description="This test verify that the not function succeed in handling both value and sub matcher.")]
 		public function not () : void
 		{
 			var a : Array;
@@ -470,7 +469,6 @@ package abe.com.mon.utils.arrays
 						org.hamcrest.object.equalTo( 6 ) );
 			
 		}
-		
 		[Test(description="This test verify the anyOf filter in various situation.")]
 		public function anyOf() : void
 		{
@@ -553,7 +551,7 @@ package abe.com.mon.utils.arrays
 			assertThat( a.filter( abe.com.mon.utils.arrays.notNullValue()).length, 
 						org.hamcrest.object.equalTo( 2 ) );
 		}
-		[Test(description="This test verify the closeTo filter.")]
+		[Test(description="This test verify the closeTo filter with various numbers and threshold.")]
 		public function closeTo() : void
 		{
 			var a : Array;
@@ -577,7 +575,7 @@ package abe.com.mon.utils.arrays
 			assertThat( a.filter( abe.com.mon.utils.arrays.closeTo(5,6)), 
 						array( 0, 4.5, 5, 6.7, 6.2, 6, 8 ) );
 		}
-		[Test(description="This test verify the between filter.")]
+		[Test(description="This test verify that the between filter match correctly various numbers both in exclusive and nonexclusive mode.")]
 		public function between () : void
 		{
 			var a : Array;
@@ -605,7 +603,7 @@ package abe.com.mon.utils.arrays
 			assertThat( a.filter( abe.com.mon.utils.arrays.between(0,8,false)), 
 						array( 0, 4.5, 5, 6.7, 6.2, 6, 8 ) );
 		}
-		[Test(description="This test verify the between filter.", expects="Error")]
+		[Test(description="This test verify the between filter failure with minimum greater than the maximum.", expects="Error")]
 		public function betweenFailure () : void
 		{
 			abe.com.mon.utils.arrays.between( 12, 4 );	

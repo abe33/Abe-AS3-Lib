@@ -43,6 +43,9 @@ package abe.com.ponents.layouts.display
 				}
 			}
 		}
+		public function get keepRatio () : Boolean { return _keepRatio;	}
+		public function set keepRatio (keepRatio : Boolean) : void { _keepRatio = keepRatio; }
+		
 		public function get refChildIndex () : Number {	return _refChildIndex; }
 		public function set refChildIndex (refChildIndex : Number) : void
 		{
@@ -117,7 +120,7 @@ package abe.com.ponents.layouts.display
 							c.width = sh * ratio;
 						}
 					}
-					c.x = Alignments.alignHorizontal ( c.width, preferredSize.width, insets, "center" );					c.y = Alignments.alignVertical ( c.height, preferredSize.height, insets, "center" );
+					c.x = Alignments.alignHorizontal ( c.width, preferredSize.width, insets, "center" ) - bb.left;					c.y = Alignments.alignVertical ( c.height, preferredSize.height, insets, "center" ) - bb.top;
 				}
 				else
 				{

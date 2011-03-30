@@ -1,13 +1,14 @@
-package abe.com.ponents.swf
+package abe.com.ponents.factory.ressources
 {
-	import flash.text.TextFormat;
-	import flash.text.TextField;
+	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.Reflection;
 
 	import flash.display.DisplayObject;
 	import flash.system.ApplicationDomain;
 	import flash.text.Font;
-
+	import flash.text.TextField;
+	import flash.text.TextFormat;
+	import flash.utils.getQualifiedClassName;
 	/**
 	 * @author cedric
 	 */
@@ -19,23 +20,32 @@ package abe.com.ponents.swf
 		protected var _accessPath : String;
 		protected var _packagePath : String;
 
-		public function LibraryAsset ( path : String, file : String, domain : ApplicationDomain = null )
+		public function LibraryAsset ( classOrPath : *, file : String, domain : ApplicationDomain = null )
 		{
-			_packagePath = path;
-			var index : int = _packagePath.lastIndexOf(".");
-
-			if( index != -1 )
+			if( classOrPath is Class )
 			{
-				_accessPath = path.substr(0, index) + "::" + path.substr(index+1);
-				_name = path.substr(index+1);
+				_accessPath = getQualifiedClassName( classOrPath );
+				_packagePath = _accessPath.indexOf('::') != -1 ? _accessPath.split("::")[0] : "Top Level";				_name = _accessPath.indexOf('::') != -1 ? _accessPath.split("::")[1] : _accessPath;
+				_type = classOrPath;
 			}
-			else
+			else if( classOrPath is String )
 			{
-				_accessPath = _packagePath;
-				_name = _packagePath;
+				_packagePath = classOrPath;
+				var index : int = _packagePath.lastIndexOf(".");
+	
+				if( index != -1 )
+				{
+					_accessPath = classOrPath.substr(0, index) + "::" + classOrPath.substr(index+1);
+					_name = classOrPath.substr(index+1);
+				}
+				else
+				{
+					_accessPath = _packagePath;
+					_name = _packagePath;
+				}
+				_type = Reflection.get( _accessPath, domain );
 			}
 			_file = file;
-			_type = Reflection.get( _accessPath, domain );
 		}
 		public function get name () : String { return _name; }
 		public function get type () : Class { return _type; }

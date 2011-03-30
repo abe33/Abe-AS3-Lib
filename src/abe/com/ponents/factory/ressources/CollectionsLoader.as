@@ -1,10 +1,22 @@
 package abe.com.ponents.factory.ressources 
 {
+	import flash.utils.getQualifiedClassName;
+	import abe.com.mon.logs.Log;
+	import flash.net.URLLoaderDataFormat;
 	import abe.com.mands.load.LoaderQueue;
+	import abe.com.mands.load.URLLoaderEntry;
+	import abe.com.mon.utils.Reflection;
 	import abe.com.mon.utils.url;
+
+	import com.kode80.swf.SWF;
+	import com.kode80.swf.tags.SymbolClassTag;
+	import com.kode80.swf.tags.TagCodes;
 
 	import flash.display.Loader;
 	import flash.events.Event;
+	import flash.utils.ByteArray;
+
+	[Event(type="flash.events.ProgressEvent", name="progress")]
 	public class CollectionsLoader extends LoaderQueue 
 	{
 		/*FDT_IGNORE*/
@@ -77,6 +89,7 @@ package abe.com.ponents.factory.ressources
 				a = a.concat( _collections[i].classes );
 			return a;
 		}
+		private var entry : URLLoaderEntry;
 		override public function complete (e : Event) : void 
 		{
 			if( _currentLoader.content is ClassCollection )
@@ -84,9 +97,53 @@ package abe.com.ponents.factory.ressources
 				var col : ClassCollection = _currentLoader.content as ClassCollection;
 				col.collectionURL = _currentRequest.url;
 				_collections.push( col );
+				super.complete( e );
 			}
-			
-			super.complete( e );
+			else
+			{
+				var f : Function = super.complete; 
+				entry = new URLLoaderEntry( _currentRequest, function( entry : URLLoaderEntry ):void {
+					
+					var bytes : ByteArray  = entry.loader.data;
+					bytes.position = 0;
+					var swf : SWF = new SWF();
+					swf.readFrom(bytes);
+					
+					var a : Array = swf.getTagsByCode ( TagCodes.SYMBOL_CLASS );
+					var l : uint = a.length;
+					var c : Array = [];
+					var tag : SymbolClassTag;
+					for(var i:int=0;i<l;i++)
+					{
+						tag = a[i];
+						for(var j:int=0;j<tag.numberOfSymbols;j++)
+						{
+							var className : String = tag.getClassName( tag.getID( j ) );
+							
+							var path : String;
+							var index : int = className.lastIndexOf(".");
+							
+							if( index != -1 )
+								path = className.substr(0, index) + "::" + className.substr(index+1);
+							else
+								path = className;
+
+							var cls : Class = Reflection.get( path, _currentLoader.contentLoaderInfo.applicationDomain );
+							c.push( cls );
+						}
+					}
+					
+					var col : ClassCollection = new ClassCollection();
+					col.collectionURL = _currentRequest.url;
+					col.collectionType = RessourcesType.MIXED;
+					col.name = _currentRequest.url;
+					col.classes = c;
+					_collections.push( col );
+					f( e );
+				});
+				entry.loader.dataFormat = URLLoaderDataFormat.BINARY;
+				entry.execute();
+			}
 		}
 	}
 }
