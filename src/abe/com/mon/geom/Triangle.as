@@ -330,6 +330,17 @@ package abe.com.mon.geom
 		/**
 		 * @inheritDoc
 		 */
+		public function getTangentAt ( pos : Number, posDetail : Number = 0.01 ) : Point
+		{
+			var tan : Point = getPathPoint( ( pos + posDetail ) % 1 ).subtract(
+							  getPathPoint( ( 1 + pos - posDetail ) % 1 ) );
+			tan.normalize(1);
+
+			return tan;
+		}
+		/**
+		 * @inheritDoc
+		 */
 		public function getRandomPointInSurface () : Point
 		{
 			var a1 : Number = _randomSource.random();

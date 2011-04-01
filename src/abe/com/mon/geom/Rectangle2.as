@@ -328,10 +328,7 @@ package abe.com.mon.geom
 																			 bottomRight.x ); }
 		override public function set right (value : Number) : void {}
 		/**
-		 * The length of the perimeter of the <code>Rectangle2</code>.
-		 * <fr>
-		 * La longueur du périmètre de ce <code>Rectangle2</code>.
-		 * </fr>
+		 * @inheritDoc
 		 */
 		public function get length () : Number { return width * 2 + height * 2; }
 		/**
@@ -451,6 +448,17 @@ package abe.com.mon.geom
 				p = PointUtils.scaleNew( leftEdge, -1 );
 
 			return Math.atan2( p.y, p.x );
+		}
+		/**
+		 * @inheritDoc
+		 */
+		public function getTangentAt ( pos : Number, posDetail : Number = 0.01 ) : Point
+		{
+			var tan : Point = getPathPoint( ( pos + posDetail ) % 1 ).subtract(
+							  getPathPoint( ( 1 + pos - posDetail ) % 1 ) );
+			tan.normalize(1);
+
+			return tan;
 		}
 		/**
 		 * @inheritDoc

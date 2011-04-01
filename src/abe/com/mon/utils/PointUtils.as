@@ -158,5 +158,9 @@ package  abe.com.mon.utils
 
 			return Math.acos( Math.abs( d ) ) * (neg ? -1 : 1 );
 		}
+		public static function getProjection (a : Number, l : Number = 1 ) : Point 
+		{
+			return pt( Math.cos(a) * l, Math.sin(a) * l );
+		}
 	}
 }
