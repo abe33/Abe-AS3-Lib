@@ -261,7 +261,7 @@ package abe.com.mon.geom
 				var step : Number;
 				for( var i : int = 0; i < l; i++ )
 				{
-					step = _pathSteps[i] / le;					if( path < step )
+					step = _pathSteps[i] / le;					if( path <= step )
 					{
 						if( i == 0 )
 							pathStep1 = 0;
@@ -357,6 +357,17 @@ package abe.com.mon.geom
 			var d : Point = pt2.subtract(pt1);
 
 			return Math.atan2(d.y, d.x);
+		}
+		/**
+		 * @inheritDoc
+		 */
+		public function getTangentAt ( pos : Number, posDetail : Number = 0.01 ) : Point
+		{
+			var tan : Point = getPathPoint( ( pos + posDetail ) % 1 ).subtract(
+							  getPathPoint( ( 1 + pos - posDetail ) % 1 ) );
+			tan.normalize(1);
+
+			return tan;
 		}
 		/**
 		 * @inheritDoc

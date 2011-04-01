@@ -10,6 +10,6 @@ package abe.com.edia.painter.path
 	public interface PathRenderer 
 	{
 		function beforePaint( path : Path, on : Graphics ) : void;		function afterPaint( path : Path, on : Graphics ) : void;
-		function paint( on : Graphics, from : Point, to : Point, fromPathPos : Number, toPathPos : Number ) : void;
+		function paint( path : Path, on : Graphics, from : Point, to : Point, fromPathPos : Number, toPathPos : Number ) : void;
 	}
 }

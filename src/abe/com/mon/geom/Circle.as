@@ -78,6 +78,10 @@ package  abe.com.mon.geom
 		/**
 		 * @inheritDoc
 		 */
+		override public function get length () : Number { return 2 * Math.PI * radius; }
+		/**
+		 * @inheritDoc
+		 */
 		override public function equals (o : *) : Boolean
 		{
 			if( o is Circle )
