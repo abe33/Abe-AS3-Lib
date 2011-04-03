@@ -348,7 +348,7 @@ package abe.com.ponents.sliders
 				if( _snapToTicks )
 					_model.value = getTransformedValue( _model.value + _minorTickSpacing );
 				else
-					_model.value = getTransformedValue( _model.value + 1 );
+					_model.value = getTransformedValue( _model.value + _model.extent );
 			}
 		}
 		protected function down () : void
@@ -358,7 +358,7 @@ package abe.com.ponents.sliders
 				if( _snapToTicks )
 					_model.value = getTransformedValue( _model.value - _minorTickSpacing );
 				else
-					_model.value = getTransformedValue( _model.value - 1 );
+					_model.value = getTransformedValue( _model.value - _model.extent );
 			}
 		}
 		protected function validateInput() : void
@@ -442,6 +442,10 @@ package abe.com.ponents.sliders
 			_input.value = _model.displayValue;
 			invalidate( true );
 			_input.selectAll();
+			
+			/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				_track.tooltip = _knob.tooltip = _input.value;
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			fireDataChange();
 		}

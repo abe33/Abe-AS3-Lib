@@ -24,18 +24,22 @@ package abe.com.ponents.factory.ressources
 
 		override public function set value ( val : * ) : void
 		{
-			if( val == value )
+			if( val == _value )
 				return;
 			
 			var a : LibraryAsset = val as LibraryAsset;
-			
-			super.value = a;
-			
 			try
 			{
 				if( a )
 				{
-					var i  : Icon = magicIconBuild( a.type );
+					var f : Function = a.iconHandler;
+					var i  : Icon;
+					
+					if( f != null )
+						i = f( a );
+					else
+						i = magicIconBuild( a.type );
+					
 					( i.childrenLayout as DOStretchLayout ).keepRatio = true;
 					i.preferredSize = dm(40,40);
 					this.icon = i;
@@ -45,6 +49,7 @@ package abe.com.ponents.factory.ressources
 			{
 				this.icon = null;
 			}
+			super.value = a;
 		}
 
 		override protected function formatLabel (value : *) : String 

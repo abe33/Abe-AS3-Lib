@@ -11,14 +11,15 @@ package abe.com.ponents.factory.ressources
 	public class CollectionListCell extends DefaultListCell 
 	{
 		[Embed(source="../../skinning/icons/package.png")]
-		private var iconClass : Class;
+		static public var packageIcon : Class;
+		
 		public function CollectionListCell ()
 		{
 			super();
 			( _childrenLayout as DOInlineLayout).direction = Directions.RIGHT_TO_LEFT;
 			( _childrenLayout as DOInlineLayout).spacing = 5;
 			( _childrenLayout as DOInlineLayout).spacingAtExtremity = true;
-			this.icon = magicIconBuild( iconClass );
+			this.icon = magicIconBuild( packageIcon );
 		}
 		
 		override protected function formatLabel (value : *) : String 

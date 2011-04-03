@@ -1,8 +1,6 @@
 package abe.com.ponents.factory.ressources 
 {
-	import flash.utils.getQualifiedClassName;
-	import abe.com.mon.logs.Log;
-	import flash.net.URLLoaderDataFormat;
+	import flash.system.ApplicationDomain;
 	import abe.com.mands.load.LoaderQueue;
 	import abe.com.mands.load.URLLoaderEntry;
 	import abe.com.mon.utils.Reflection;
@@ -14,6 +12,7 @@ package abe.com.ponents.factory.ressources
 
 	import flash.display.Loader;
 	import flash.events.Event;
+	import flash.net.URLLoaderDataFormat;
 	import flash.utils.ByteArray;
 
 	[Event(type="flash.events.ProgressEvent", name="progress")]
@@ -89,6 +88,39 @@ package abe.com.ponents.factory.ressources
 				a = a.concat( _collections[i].classes );
 			return a;
 		}
+		static public function getCollectionFromSWF( swf : SWF, url : String, loader : Loader ) : ClassCollection
+		{
+			var a : Array = swf.getTagsByCode ( TagCodes.SYMBOL_CLASS );
+			var l : uint = a.length;
+			var c : Array = [];
+			var tag : SymbolClassTag;
+			for(var i:int=0;i<l;i++)
+			{
+				tag = a[i];
+				for(var j:int=0;j<tag.numberOfSymbols;j++)
+				{
+					var className : String = tag.getClassName( tag.getID( j ) );
+					
+					var path : String;
+					var index : int = className.lastIndexOf(".");
+					
+					if( index != -1 )
+						path = className.substr(0, index) + "::" + className.substr(index+1);
+					else
+						path = className;
+
+					var cls : Class = Reflection.get( path, loader ? loader.contentLoaderInfo.applicationDomain : ApplicationDomain.currentDomain );
+					c.push( cls );
+				}
+			}
+			
+			var col : ClassCollection = new ClassCollection();
+			col.collectionURL = url;
+			col.collectionType = RessourcesType.MIXED;
+			col.name = url;
+			col.classes = c;
+			return col;
+		}
 		private var entry : URLLoaderEntry;
 		override public function complete (e : Event) : void 
 		{
@@ -109,35 +141,7 @@ package abe.com.ponents.factory.ressources
 					var swf : SWF = new SWF();
 					swf.readFrom(bytes);
 					
-					var a : Array = swf.getTagsByCode ( TagCodes.SYMBOL_CLASS );
-					var l : uint = a.length;
-					var c : Array = [];
-					var tag : SymbolClassTag;
-					for(var i:int=0;i<l;i++)
-					{
-						tag = a[i];
-						for(var j:int=0;j<tag.numberOfSymbols;j++)
-						{
-							var className : String = tag.getClassName( tag.getID( j ) );
-							
-							var path : String;
-							var index : int = className.lastIndexOf(".");
-							
-							if( index != -1 )
-								path = className.substr(0, index) + "::" + className.substr(index+1);
-							else
-								path = className;
-
-							var cls : Class = Reflection.get( path, _currentLoader.contentLoaderInfo.applicationDomain );
-							c.push( cls );
-						}
-					}
-					
-					var col : ClassCollection = new ClassCollection();
-					col.collectionURL = _currentRequest.url;
-					col.collectionType = RessourcesType.MIXED;
-					col.name = _currentRequest.url;
-					col.classes = c;
+					var col : ClassCollection = getCollectionFromSWF( swf, _currentRequest.url, _currentLoader );
 					_collections.push( col );
 					f( e );
 				});

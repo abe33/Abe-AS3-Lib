@@ -16,6 +16,7 @@ package abe.com.ponents.skinning.icons
 			_class = c;
 			_contentType = "DisplayObject";
 			super();
+			styleKey = "EmptyComponent";
 		}
 		override public function dispose () : void 
 		{

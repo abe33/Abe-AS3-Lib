@@ -25,11 +25,8 @@ package abe.com.ponents.actions.builtin
 		/*FDT_IGNORE*/
 		TARGET::AIR
 		protected var _fileReference : File;
-		
 		TARGET::WEB /*FDT_IGNORE*/
 		protected var _fileReference : FileReference;
-		/*FDT_IGNORE*/ /*FDT_IGNORE*/
-
 
 		protected var _filters : Array;
 		protected var _isCanceled : Boolean;
@@ -43,7 +40,17 @@ package abe.com.ponents.actions.builtin
 			super( name, icon, longDescription, accelerator );
 			_filters = filters;
 		}
-
+		/*FDT_IGNORE*/
+		TARGET::AIR
+		public function get fileReference () : File { 	return _fileReference;	}
+		TARGET::WEB /*FDT_IGNORE*/
+		public function get fileReference () : FileReference { 	return _fileReference;	}
+		
+		public function get size (): Number { return _fileReference.size; }
+		
+		public function get filters () : Array { return _filters; }
+		public function set filters (filters : Array) : void { _filters = filters; }
+		
 		override public function execute (e : Event = null) : void
 		{
 			_isCanceled = false;
@@ -56,26 +63,17 @@ package abe.com.ponents.actions.builtin
 			registerToFileReferenceEvents( _fileReference );
 			_fileReference.browse(_filters);
 		}
-		public function get filters () : Array { return _filters; }
-		public function set filters (filters : Array) : void
-		{
-			_filters = filters;
-		}
-		public function get size (): Number { return _fileReference.size; }
-
 		protected function browseCancel (event : Event) : void
 		{
 			_isCanceled = true;
 			fireCommandCancelled();
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
-
 		protected function fileSelect (event : Event) : void
 		{
 			fireCommandEnd();
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
-
 		protected function registerToFileReferenceEvents ( fileReference : FileReference ) : void
 		{
 			fileReference.addEventListener( Event.SELECT, fileSelect );			fileReference.addEventListener( Event.CANCEL, browseCancel );
@@ -85,7 +83,6 @@ package abe.com.ponents.actions.builtin
 			fileReference.removeEventListener( Event.SELECT, fileSelect );
 			fileReference.removeEventListener( Event.CANCEL, browseCancel );
 		}
-
 		public function cancel () : void
 		{
 			_isCanceled = true;
