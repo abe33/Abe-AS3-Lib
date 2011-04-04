@@ -37,7 +37,7 @@ package abe.com.ponents.actions.builtin
 			{
 				if( size <= _preventLargeFile )
 					_fileReference.load();
-				else fireCommandFailed( _$(_("Le fichier choisi excède la taille limite, $0 Mo au lieu de $1 Mo maximum."),
+				else fireCommandFailed( _$(_("The selected file exceeds the limit, $0MB instead of $1MB."),
 										Math.floor( size / ( 1024*1024 ) ), Math.floor( _preventLargeFile / ( 1024*1024 ) ) ) );
 
 			}
@@ -60,7 +60,7 @@ package abe.com.ponents.actions.builtin
 		protected function httpStatus ( event : HTTPStatusEvent ) : void
 		{
 			/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
-				Log.error( "Operation failed with status " + event.status );
+				Log.error( _$(_("Operation failed with status $0"), event.status) );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		override protected function registerToFileReferenceEvents (fileReference : FileReference) : void

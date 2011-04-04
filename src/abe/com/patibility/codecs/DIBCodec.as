@@ -47,7 +47,7 @@ package abe.com.patibility.codecs
 				return bmp;
 			}
 			else
-				throw new Error("La méthode DIBCodec.encode n'accepte que des objets de type BitmapData en argument");
+				throw new Error("DIBCodec.encode method accepts only objects of type BitmapData as argument");
 
 			return null;
 		}
@@ -66,7 +66,7 @@ package abe.com.patibility.codecs
 				readData( bmp, img );
 			}
 			else
-				throw new Error("La méthode DIBCodec.decode n'accepte que des objets de type ByteArray en argument");
+				throw new Error("DIBCodec.decode method accepts only objects of type ByteArray as argument");
 
 			return null;
 		}

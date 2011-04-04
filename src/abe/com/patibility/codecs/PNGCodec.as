@@ -84,7 +84,7 @@ package abe.com.patibility.codecs
 				return png;
 			}
 			else
-				throw new Error ( _ ( "La méthode PNGCodec.encode n'accepte que les éléments de type BitmapData en argument" ) );
+				throw new Error ( _ ( "PNGCodec.encode method accepts only items of type BitmapData as argument" ) );
 		}
 
 		private static var crcTable : Array;
@@ -202,7 +202,7 @@ package abe.com.patibility.codecs
 				return bd1;
 			}
 			else
-				throw new Error ( _ ( "La méthode PNGCodec.decode n'accepte que les objets de type ByteArray en argument" ) );
+				throw new Error ( _ ( "PNGCodec.decode method only accepts objects of type ByteArray as argument" ) );
 		}
 
 		private function processIHDR ( index : uint, input : ByteArray, chunks : Array ) : Dimension

@@ -324,9 +324,7 @@ package abe.com.ponents.actions
 		public function createBuiltInActions () : void
 		{
 			var undo : Action = new UndoAction( KeyStroke.getKeyStroke( Keys.Z, KeyStroke.getModifiers( true ) ), UndoManagerInstance );
-			var redo : Action = new RedoAction( KeyStroke.getKeyStroke( Keys.Y, KeyStroke.getModifiers( true ) ), UndoManagerInstance  );			var forcegc : Action = new ForceGC( _("Force GC"), null, _("Force the GC to pass using the System.gc()\n" +
-																	   "if in a debug player, else use the double LocalConnection\n" +
-																	   "tricks in a normal player") );
+			var redo : Action = new RedoAction( KeyStroke.getKeyStroke( Keys.Y, KeyStroke.getModifiers( true ) ), UndoManagerInstance  );			var forcegc : Action = new ForceGC( _("Force GC"), null, _("Force the GC to pass using the System.gc()\nif in a debug player, else use the double LocalConnection\ntricks in a normal player") );
 			
 			registerAction( undo, BuiltInActionsList.UNDO );			registerAction( redo, BuiltInActionsList.REDO );			registerAction( forcegc, BuiltInActionsList.FORCE_GC );
 		}		

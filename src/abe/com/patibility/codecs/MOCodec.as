@@ -62,7 +62,7 @@ package abe.com.patibility.codecs
 	            }
 	            else
 	            {
-	            	throw new IOError("Le fichier est invalide.");
+	            	throw new IOError("Invalid file.");
 	            }
 
 	            version   = byte.readUnsignedInt();
@@ -103,7 +103,7 @@ package abe.com.patibility.codecs
 	                }
 	                else
 	                {
-	                    throw IOError("Le fichier est corrompu");
+	                    throw IOError("Corrupted file.");
 	                }
 	                if(mlen == 0)
 	                {
@@ -144,7 +144,7 @@ package abe.com.patibility.codecs
 	            		 charset:__charset__ };
 			}
 			else
-				throw new Error( "La méthode MOCodec.decode n'accepte que des objets de type ByteArray en argument." );
+				throw new Error( "MOCodec.decode method accepts only objects of type ByteArray as argument." );
 
 			return null;
 		}
