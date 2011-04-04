@@ -64,7 +64,6 @@ package abe.com.ponents.factory.ressources.preview
 			cp.addEventListener(ComponentEvent.DATA_CHANGE, backgroundColorChange );
 			cp.preferredSize = dm(22,22);
 			
-			
 			_zoomSlider.addEventListener(ComponentEvent.DATA_CHANGE, zoomChange );
 			_toolBar.addComponents( cp, zbt );
 			
