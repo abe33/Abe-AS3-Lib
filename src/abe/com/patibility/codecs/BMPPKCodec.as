@@ -36,7 +36,7 @@ package abe.com.patibility.codecs
 				}
 				return bmp;
 			}
-			else throw new Error (_("La méthode BMPPKCodec.encode n'accepte que les arguments de type String"));
+			else throw new Error (_("BMPPKCodec.encode method only accepts arguments of type String"));
 		}
 		/**
 		 * @inheritDoc
@@ -57,7 +57,7 @@ package abe.com.patibility.codecs
 					if( i<l ) s += String.fromCharCode( r );					if( i+1<l ) s += String.fromCharCode( g );					if( i+2<l ) s += String.fromCharCode( b );				}
 				return s;
 			}
-			else throw new Error (_("La méthode BMPPKCodec.decode n'accepte que les arguments de type BitmapData"));
+			else throw new Error (_("BMPPKCodec.decode method only accepts arguments of type BitmapData"));
 		}
 		/**
 		 * @inheritDoc

@@ -1,9 +1,8 @@
 package abe.com.ponents.forms 
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.colors.Gradient;
+	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.utils.Reflection;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.mon.utils.TimeDelta;
@@ -673,14 +672,14 @@ package abe.com.ponents.forms
 						{
 							hasCategories = true;
 							categories.nocategory = new FormCategory(_("Other(s)"), formObject.fields.concat() );
-							categories[ category ] = new FormCategory(_(category), [ formField ], categoryOrder );
+							categories[ category ] = new FormCategory(category, [ formField ], categoryOrder );
 							categoriesNames.push( category );
 						}
 						else if( hasCategories )
 						{
 							if( category && !categories[ category ] )
 							{
-								categories[ category ] = new FormCategory( _(category), [ formField ], categoryOrder );
+								categories[ category ] = new FormCategory( category, [ formField ], categoryOrder );
 								categoriesNames.push( category );
 							}
 							else if ( category && categories[ category ] )
