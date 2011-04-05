@@ -1,5 +1,6 @@
 package abe.com.ponents.demos.editors
 {
+	import abe.com.ponents.ressources.actions.OpenRessourceManager;
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.Reflection;
@@ -10,7 +11,6 @@ package abe.com.ponents.demos.editors
 	import abe.com.patibility.settings.backends.CookieBackend;
 	import abe.com.ponents.actions.ActionManagerInstance;
 	import abe.com.ponents.actions.builtin.AboutAction;
-	import abe.com.ponents.builder.actions.LoadExternalRessource;
 	import abe.com.ponents.builder.events.StyleSelectionEvent;
 	import abe.com.ponents.builder.models.BuilderCollections;
 	import abe.com.ponents.builder.models.StyleSelectionModel;
@@ -37,6 +37,7 @@ package abe.com.ponents.demos.editors
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
 	import abe.com.ponents.models.TreeModel;
 	import abe.com.ponents.models.TreeNode;
+	import abe.com.ponents.ressources.actions.LoadExternalRessource;
 	import abe.com.ponents.skinning.ComponentStyle;
 	import abe.com.ponents.skinning.SkinManager;
 	import abe.com.ponents.skinning.SkinManagerInstance;
@@ -94,7 +95,7 @@ package abe.com.ponents.demos.editors
 																   _("AbeLib © 2010 - All rights reserved."), 
 																   _("About Style Editor") ), 
 												  "about" );
-			ActionManagerInstance.registerAction( new LoadExternalRessource(_("Load External Ressources")), "loadExternals");
+			ActionManagerInstance.registerAction( new LoadExternalRessource( BuilderCollections, _( "Load External Ressources")), "loadExternals");			ActionManagerInstance.registerAction( new OpenRessourceManager( BuilderCollections, _( "Open Ressources Manager")), "manageRessources");
 			
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 				StageUtils.versionMenuContext.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT, ActionManagerInstance.getAction("about").execute );	
@@ -107,7 +108,7 @@ package abe.com.ponents.demos.editors
 			
 			_defaultToolBarSettings = ["newSkin","removeSkin","newStyle","removeStyle"].join("," );
 			_defaultDMSPSettings = "H(V(H([200,200]styleTree,V([200,200]statesGrid,[200,200]stylePreview)),styleInfos),styleForm)";
-			_defaultMenuBarSettings = "*File(*newSkin,*removeSkin,new*Style,re*moveStyle,|,*loadExternals),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),?(*about)";
+			_defaultMenuBarSettings = "*File(*newSkin,*removeSkin,new*Style,re*moveStyle,|,*loadExternals,m*anageRessources),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),?(*about)";
 			
 			_selectionModel = new StyleSelectionModel();
 		}

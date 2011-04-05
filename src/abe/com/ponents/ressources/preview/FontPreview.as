@@ -1,16 +1,13 @@
-package abe.com.ponents.factory.ressources.preview 
+package abe.com.ponents.ressources.preview 
 {
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.HBoxLayout;
-	import abe.com.ponents.models.SpinnerListModel;
-	import abe.com.ponents.spinners.Spinner;
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.geom.Range;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ToolBar;
+	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.BorderLayout;
+	import abe.com.ponents.layouts.components.BoxSettings;
+	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.menus.ComboBox;
 	import abe.com.ponents.menus.PopupMenu;
 	import abe.com.ponents.text.Label;

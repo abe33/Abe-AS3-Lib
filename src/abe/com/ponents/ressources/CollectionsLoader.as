@@ -1,6 +1,5 @@
-package abe.com.ponents.factory.ressources 
+package abe.com.ponents.ressources 
 {
-	import flash.system.ApplicationDomain;
 	import abe.com.mands.load.LoaderQueue;
 	import abe.com.mands.load.URLLoaderEntry;
 	import abe.com.mon.utils.Reflection;
@@ -13,6 +12,7 @@ package abe.com.ponents.factory.ressources
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.net.URLLoaderDataFormat;
+	import flash.system.ApplicationDomain;
 	import flash.utils.ByteArray;
 
 	[Event(type="flash.events.ProgressEvent", name="progress")]
@@ -53,7 +53,6 @@ package abe.com.ponents.factory.ressources
 		{
 			addLoader( new Loader(), url( s ) );
 		}
-		
 		public function getCollectionByName( name : String ) : ClassCollection
 		{
 			var l : uint = _collections.length;
@@ -62,7 +61,7 @@ package abe.com.ponents.factory.ressources
 					return _collections[i];
 			return null;
 		}
-		public function getCollectionsByType( type : String ) : Array
+		public function getCollectionsByCollectionType( type : String ) : Array
 		{
 			var a : Array = [];
 			var l : uint = _collections.length;
@@ -71,13 +70,53 @@ package abe.com.ponents.factory.ressources
 					a.push( _collections[i] );
 			return a;
 		}
+		public function getCollectionsThatContains( type : String ) : Array
+		{
+			var a : Array = [];
+			outer_loop:for each( var collection : ClassCollection in _collections )
+			{
+				inner_loop:for each( var asset : LibraryAsset in collection.classes )
+				{
+					if( asset.extendsClasses.indexOf( type ) != -1 ||
+						asset.implementsInterfaces.indexOf( type ) != -1 )
+					{
+						a.push( collection );
+						break inner_loop;
+					}
+				}
+			}
+			return a;
+		}
 		public function getClassesByType( type : String ) : Array
 		{
 			var a : Array = [];
-			var l : uint = _collections.length;
-			for( var i : uint = 0; i<l; i++ )
-				if( _collections[i].collectionType == type )
-					a = a.concat( _collections[i].classes );
+			outer_loop:for each( var collection : ClassCollection in _collections )
+			{
+				inner_loop:for each( var asset : LibraryAsset in collection.classes )
+				{
+					if( asset.extendsClasses.indexOf( type ) != -1 ||
+						asset.implementsInterfaces.indexOf( type ) != -1 )
+					{
+						a.push( asset.type );
+					}
+				}
+			}
+			return a;
+		}
+		public function getAssetsByType( type : String ) : Array
+		{
+			var a : Array = [];
+			outer_loop:for each( var collection : ClassCollection in _collections )
+			{
+				inner_loop:for each( var asset : LibraryAsset in collection.classes )
+				{
+					if( asset.extendsClasses.indexOf( type ) != -1 ||
+						asset.implementsInterfaces.indexOf( type ) != -1 )
+					{
+						a.push( asset );
+					}
+				}
+			}
 			return a;
 		}
 		public function getAllClasses () : Array
@@ -108,9 +147,9 @@ package abe.com.ponents.factory.ressources
 						path = className.substr(0, index) + "::" + className.substr(index+1);
 					else
 						path = className;
-
+				
 					var cls : Class = Reflection.get( path, loader ? loader.contentLoaderInfo.applicationDomain : ApplicationDomain.currentDomain );
-					c.push( cls );
+					c.push( new LibraryAsset( cls, url, loader ? loader.contentLoaderInfo.applicationDomain : ApplicationDomain.currentDomain ) );
 				}
 			}
 			
@@ -128,6 +167,7 @@ package abe.com.ponents.factory.ressources
 			{
 				var col : ClassCollection = _currentLoader.content as ClassCollection;
 				col.collectionURL = _currentRequest.url;
+				convertCollectionContent( col );
 				_collections.push( col );
 				super.complete( e );
 			}
@@ -148,6 +188,12 @@ package abe.com.ponents.factory.ressources
 				entry.loader.dataFormat = URLLoaderDataFormat.BINARY;
 				entry.execute();
 			}
+		}
+		protected function convertCollectionContent( col : ClassCollection ) : void
+		{
+			col.classes = col.classes.map( function( o : Class, ... args ) : LibraryAsset{
+				return new LibraryAsset( o, col.collectionURL );
+			});
 		}
 	}
 }

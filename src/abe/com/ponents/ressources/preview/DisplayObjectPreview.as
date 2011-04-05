@@ -1,4 +1,4 @@
-package abe.com.ponents.factory.ressources.preview 
+package abe.com.ponents.ressources.preview 
 {
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.dm;
@@ -25,7 +25,7 @@ package abe.com.ponents.factory.ressources.preview
 	 */
 	public class DisplayObjectPreview extends Panel 
 	{
-		[Embed(source="../../../skinning/icons/tools/zoom.png")]
+		[Embed(source="../../skinning/icons/tools/zoom.png")]
 		static private var zoomIcon : Class;
 		
 		protected var _displayObject : DisplayObject;

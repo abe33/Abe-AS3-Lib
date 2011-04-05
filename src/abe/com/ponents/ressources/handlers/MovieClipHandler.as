@@ -1,14 +1,14 @@
-package abe.com.ponents.factory.ressources.handlers 
+package abe.com.ponents.ressources.handlers 
 {
-	import abe.com.patibility.humanize.plural;
-	import flash.display.MovieClip;
 	import abe.com.mon.utils.Reflection;
+	import abe.com.patibility.humanize.plural;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.factory.ressources.LibraryAsset;
-	import abe.com.ponents.factory.ressources.preview.MovieClipPreview;
+	import abe.com.ponents.ressources.ClassCollectionViewer;
+	import abe.com.ponents.ressources.preview.MovieClipPreview;
 
 	import flash.display.DisplayObject;
+	import flash.display.MovieClip;
 	/**
 	 * @author cedric
 	 */
@@ -30,7 +30,7 @@ package abe.com.ponents.factory.ressources.handlers
 			catch( e : Error )
 			{				
 			}
-			return LibraryAsset.DEFAULT_HANDLER.getPreview( o );
+			return ClassCollectionViewer.DEFAULT_HANDLER.getPreview( o );
 		}
 		override public function getDescription (o : *) : String 
 		{

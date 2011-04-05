@@ -1,10 +1,10 @@
-package abe.com.ponents.factory.ressources 
+package abe.com.ponents.ressources 
 {
-	import abe.com.ponents.utils.ComponentResizer;
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.logs.Log;
 	import abe.com.patibility.lang._;
+	import abe.com.patibility.lang._$;
 	import abe.com.ponents.containers.MultiSplitPane;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ScrollPane;
@@ -16,13 +16,27 @@ package abe.com.ponents.factory.ressources
 	import abe.com.ponents.layouts.components.splits.Split;
 	import abe.com.ponents.lists.List;
 	import abe.com.ponents.models.DefaultListModel;
+	import abe.com.ponents.ressources.handlers.DefaultHandler;
+	import abe.com.ponents.ressources.handlers.DisplayObjectHandler;
+	import abe.com.ponents.ressources.handlers.FontHandler;
+	import abe.com.ponents.ressources.handlers.MovieClipHandler;
+	import abe.com.ponents.ressources.handlers.TypeHandler;
 	import abe.com.ponents.text.Label;
+	import abe.com.ponents.utils.ComponentResizer;
 	import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric
 	 */
 	public class ClassCollectionViewer extends MultiSplitPane 
 	{
+		static private var ASSET_DETAILS : String = _( "${name}\n<font size='9'><font color='#666666'><i>${path}</i></font>\n\n<font color='#666666'>Extends :</font> ${extends}\n<font color='#666666'>Implements :</font> ${implements}\n${handlerDescription}</font>" );
+		static public const DEFAULT_HANDLER : DefaultHandler = new DefaultHandler();
+		static public const TYPE_HANDLERS : Object = {
+			'flash.display::DisplayObject':new DisplayObjectHandler(),
+			'flash.display::MovieClip':new MovieClipHandler(),
+			'flash.text::Font':new FontHandler()
+		};
+		
 		protected var _collectionsLoader : CollectionsLoader;
 		
 		protected var _collectionsList : List;		protected var _classesList : List;
@@ -46,6 +60,7 @@ package abe.com.ponents.factory.ressources
 			if( _collectionsLoader )
 			{
 				registerToLoaderEvent( _collectionsLoader );
+				buildModels();
 			}
 		}
 		
@@ -125,20 +140,64 @@ package abe.com.ponents.factory.ressources
 		{
 			collectionsLoader.removeEventListener( CommandEvent.COMMAND_END, loadEnd );			collectionsLoader.removeEventListener( CommandEvent.COMMAND_FAIL, loadFail );
 		}
-		
 		protected function classesSelectionChange (event : ComponentEvent) : void 
 		{
+			var map : Function = function( o : *, ... args ) : String
+			{
+				var s : String = String(o);
+				if( s.indexOf("::") != -1 )
+					s = s.split("::")[1];
+				return _$("<font color='#333333'>$0</font>", s );
+			};
 			var asset : LibraryAsset = _classesList.selectedValue as LibraryAsset;
 			_assetPreview.removeAllComponents();
 			if( asset )
 			{
-				_assetPreview.addComponent( asset.preview );
-				_assetDetails.value = asset.description;
+				var handler : TypeHandler = getTypeHandler( asset );
+				
+				var description : String = _$( ASSET_DETAILS,
+									  {
+										  'name':asset.name, 
+										  'path':asset.packagePath,
+										  'extends': _$( "$0 &gt; $1", 
+										  				 asset.name, asset.extendsClasses.map(map).join(" &gt; ") ),
+										  'implements': asset.implementsInterfaces.map(map).join(", "),
+										  'handlerDescription':handler.getDescription( asset.type )
+									  } );
+				_assetPreview.addComponent( handler.getPreview( asset.type ) );
+				_assetDetails.value = description;
 			}
 			else
 			{
 				_assetDetails.value = _("No Selection");
 			}
+		}
+		static public function getTypeHandler (asset : LibraryAsset) : TypeHandler 
+		{
+			var cls : String;
+			var handlerFound : Boolean = false;
+			var handler : TypeHandler;
+			
+			for each ( cls in asset.extendsClasses )
+				if( TYPE_HANDLERS.hasOwnProperty( cls ) )
+				{
+					handler = ( TYPE_HANDLERS[ cls ] as TypeHandler );
+					handlerFound = true;
+					break;
+				}
+			if( !handlerFound )
+				for each ( cls in asset.implementsInterfaces )
+					if( TYPE_HANDLERS.hasOwnProperty( cls ) )
+					{
+						handler = ( TYPE_HANDLERS[ cls ] as TypeHandler );
+						handlerFound = true;
+						break;
+					}
+			
+			if( !handlerFound )			
+				handler =  DEFAULT_HANDLER;
+			
+			return handler;
 		}
 		protected function collectionsSelectionChange (event : ComponentEvent) : void 
 		{
@@ -147,10 +206,7 @@ package abe.com.ponents.factory.ressources
 			_classesModel.removeAllElements();
 			_classesList.clearSelection();
 			if( collection )
-				_classesModel.addMany( 0, collection.classes.map(function(o:Class,... args):LibraryAsset
-				{ 
-					return new LibraryAsset( o, collection.collectionURL );
-				}));
+				_classesModel.addMany( 0, collection.classes );
 		}
 		protected function loadEnd (event : CommandEvent) : void 
 		{

@@ -1,4 +1,4 @@
-package abe.com.ponents.factory.ressources 
+package abe.com.ponents.ressources 
 {
 	import flash.display.Sprite;
 	/**
