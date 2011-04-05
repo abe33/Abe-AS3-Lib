@@ -1,5 +1,7 @@
 package abe.com.patibility.humanize 
 {
+	import abe.com.mon.utils.arrays.equalTo;
+
 	import org.hamcrest.assertThat;
 
 	/**
@@ -8,6 +10,11 @@ package abe.com.patibility.humanize
 	[TestCase(description="Tests the whole set of functions available in the humanize package.",order=2)]
 	public class HumanizeTest 
 	{
+		[Test]
+		public function spaceOut() : void
+		{
+			assertThat( abe.com.patibility.humanize.spaceOut( "hello-world" ), equalTo( "hello world" ) );			assertThat( abe.com.patibility.humanize.spaceOut( "hello_world" ), equalTo( "hello world" ) );			assertThat( abe.com.patibility.humanize.spaceOut( "HelloWorld" ), equalTo( "hello world" ) );			assertThat( abe.com.patibility.humanize.spaceOut( "ImAnObjectA" ), equalTo( "im an object a" ) );			assertThat( abe.com.patibility.humanize.spaceOut( "ImAn_object-a" ), equalTo( "im an object a" ) );
+		}
 		[Test(description="This test verify that the capitalize function works properly.")]
 		public function plural () : void
 		{

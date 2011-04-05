@@ -3,7 +3,11 @@ package abe.com.ponents.ressources
 	import abe.com.mands.load.LoaderQueue;
 	import abe.com.mands.load.URLLoaderEntry;
 	import abe.com.mon.utils.Reflection;
+	import abe.com.mon.utils.arrays.firstIn;
+	import abe.com.mon.utils.arrays.lastIn;
 	import abe.com.mon.utils.url;
+	import abe.com.patibility.humanize.capitalize;
+	import abe.com.patibility.humanize.spaceOut;
 
 	import com.kode80.swf.SWF;
 	import com.kode80.swf.tags.SymbolClassTag;
@@ -156,7 +160,7 @@ package abe.com.ponents.ressources
 			var col : ClassCollection = new ClassCollection();
 			col.collectionURL = url;
 			col.collectionType = RessourcesType.MIXED;
-			col.name = url;
+			col.collectionName = capitalize( spaceOut( firstIn( lastIn( url.split("/") ).split(".") ) ), true );
 			col.classes = c;
 			return col;
 		}

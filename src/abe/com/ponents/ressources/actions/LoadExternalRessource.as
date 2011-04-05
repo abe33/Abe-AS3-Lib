@@ -96,7 +96,6 @@ package abe.com.ponents.ressources.actions
 		}
 		protected function openTmpFail ( e : CommandEvent ) : void 
 		{
-			var act : OpenSWFFileAction	= e.target as OpenSWFFileAction;
 			_lastAction.removeEventListener( CommandEvent.COMMAND_END, openTmpComplete );
 			_lastAction.removeEventListener( CommandEvent.COMMAND_FAIL, openTmpFail );
 		}
