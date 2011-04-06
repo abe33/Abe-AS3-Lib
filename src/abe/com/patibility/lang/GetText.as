@@ -1,5 +1,6 @@
 package abe.com.patibility.lang
 {
+	import abe.com.mon.utils.StringUtils;
 
 	/**
 	 * La classe <code>GetText</code> implémente le mécanisme de localisation
@@ -34,7 +35,12 @@ package abe.com.patibility.lang
 		public function translate ( id : String ) : String
 		{
 			if( _translations && _translations.hasOwnProperty( id ) )
-				return _translations[ id ];
+			{
+				var s : String = _translations[ id ];
+				if( s != "" )
+					return _translations[ id ];
+				else return id;
+			}
 			else
 				return id;
 		}
