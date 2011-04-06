@@ -129,6 +129,14 @@ package abe.com.ponents.ressources
 			var l : uint = _collections.length;
 			for( var i : uint = 0; i<l; i++ )
 				a = a.concat( _collections[i].classes );
+			return a.map( function( a : LibraryAsset, ... args ) : Class { return a.type; } );
+		}
+		public function getAllAssets () : Array
+		{
+			var a : Array = [];
+			var l : uint = _collections.length;
+			for( var i : uint = 0; i<l; i++ )
+				a = a.concat( _collections[i].classes );
 			return a;
 		}
 		static public function getCollectionFromSWF( swf : SWF, url : String, loader : Loader ) : ClassCollection

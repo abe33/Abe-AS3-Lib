@@ -100,6 +100,9 @@ package abe.com.ponents.forms
 			d[ FIELD_POINT_UINT ] = getPointUint;
 			d[ FIELD_POINT_FLOAT ] = getPointFloat;			d[ getQualifiedClassName(Point) ] = getPointFloat;
 			
+			d[ FIELD_URL ] = getURLInput;
+			d[ getQualifiedClassName(URLRequest) ] = getURLInput;			
+			/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/			
 			d[ FIELD_INSETS_INT ] = getInsetsInt;
 			d[ FIELD_INSETS_UINT ] = getInsetsUint;
 			d[ FIELD_INSETS_FLOAT ] = getInsetsFloat;			d[ getQualifiedClassName(Insets) ] = getInsetsFloat;
@@ -113,13 +116,10 @@ package abe.com.ponents.forms
 			d[ FIELD_CORNERS_UINT ] = getCornersUint;
 			d[ FIELD_CORNERS_FLOAT ] = getCornersFloat;
 			d[ getQualifiedClassName(Corners) ] = getCornersFloat;			
-			d[ FIELD_URL ] = getURLInput;			d[ getQualifiedClassName(URLRequest) ] = getURLInput;
-			
 			d[ FIELD_CLASS ] = getClassPathInput;			d[ getQualifiedClassName(Class) ] = getClassPathInput;				
-			/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
 			d[ getQualifiedClassName(ExternalBitmapIcon) ] = getIcon;
 			d[ getQualifiedClassName(EmbeddedBitmapIcon) ] = getIcon;			d[ getQualifiedClassName(SWFIcon) ] = getIcon;			d[ getQualifiedClassName(ColorIcon) ] = getIcon;			d[ getQualifiedClassName(GradientIcon) ] = getIcon;			d[ getQualifiedClassName(PaletteIcon) ] = getIcon;			d[ getQualifiedClassName(CheckBoxUncheckedIcon) ] = getIcon;			d[ getQualifiedClassName(CheckBoxCheckedIcon) ] = getIcon;			d[ getQualifiedClassName(RadioCheckedIcon) ] = getIcon;			d[ getQualifiedClassName(RadioUncheckedIcon) ] = getIcon;			d[ getQualifiedClassName(DOIcon) ] = getIcon;			d[ getQualifiedClassName(DOInstanceIcon) ] = getIcon;			d[ getQualifiedClassName(FontIcon) ] = getIcon;			d[ getQualifiedClassName(BitmapIcon) ] = getIcon;			d[ getQualifiedClassName(Icon) ] = getIcon;
-			d[ FIELD_COMPONENT_DECORATION ] = getComponentDecoration;			d[ getQualifiedClassName(ComponentDecoration) ] = getComponentDecoration;			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			d[ getQualifiedClassName(ComponentDecoration) ] = getComponentDecoration;			d[ FIELD_COMPONENT_DECORATION ] = getComponentDecoration;			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			
 			d[ FIELD_FILTERS_ARRAY ] = getFiltersArray;
@@ -160,8 +160,10 @@ package abe.com.ponents.forms
 		static public const FIELD_CORNERS_INT : String = "cornersInt";
 		static public const FIELD_CORNERS_UINT : String = "cornersUint";
 		static public const FIELD_CORNERS_FLOAT : String = "cornersFloat";		
-		static public const FIELD_COMPONENT_DECORATION : String = "componentDecoration";		
 		static public const FIELD_URL : String = "url";		static public const FIELD_CLASS : String = "class";
+		
+		/*FDT_IGNORE*/ FEATURES::BUILDER  /*FDT_IGNORE*/		static public const FIELD_COMPONENT_DECORATION : String = "componentDecoration";
+		
 		
 		static private var _typesMap : Object = createTypesMap();
 		static private var _formMap : Object = createFormMap();		static private var _newMap : Object = createNewMap( );
@@ -1262,7 +1264,26 @@ package abe.com.ponents.forms
 		{
 			return new TextFormatEditor( v );
 		}
+		static private function getURLInput ( v : *, args : Object ) : *
+		{
+			if( args.hasOwnProperty( "enumeration" ) )
+			{
+				var combobox : ComboBox = new ComboBox( args.enumeration );
+				
+				combobox.model.selectedElement = v;
+				combobox.popupAlignOnSelection = true;
+					
+				return combobox;
+			}
+			else
+			{
+				var ti : URLInput = new URLInput( args.hasOwnProperty( "length" ) ? args.length : 0 );
+				ti.value = v ? v : "";
+				return ti;
+			}
+		}
 		
+		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/		
 		static private function getInsetsInt ( v : Insets, args : Object ) : *
 		{
 			var min : int;
@@ -1503,25 +1524,6 @@ package abe.com.ponents.forms
 			}	
 			return new QuadSpinner( v, "topLeft", "topRight", "bottomLeft", "bottomRight", min, max, step );
 		}
-
-		static private function getURLInput ( v : *, args : Object ) : *
-		{
-			if( args.hasOwnProperty( "enumeration" ) )
-			{
-				var combobox : ComboBox = new ComboBox( args.enumeration );
-				
-				combobox.model.selectedElement = v;
-				combobox.popupAlignOnSelection = true;
-					
-				return combobox;
-			}
-			else
-			{
-				var ti : URLInput = new URLInput( args.hasOwnProperty( "length" ) ? args.length : 0 );
-				ti.value = v ? v : "";
-				return ti;
-			}
-		}
 		static private function getClassPathInput ( v : *, args : Object ) : *
 		{
 			if( args.hasOwnProperty( "enumeration" ) )
@@ -1540,5 +1542,6 @@ package abe.com.ponents.forms
 				return ti;
 			}
 		}
+		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	}
 }

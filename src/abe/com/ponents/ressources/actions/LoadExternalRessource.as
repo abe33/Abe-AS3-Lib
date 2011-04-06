@@ -1,6 +1,5 @@
 package abe.com.ponents.ressources.actions 
 {
-	import flash.display.LoaderInfo;
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.patibility.lang._;
@@ -22,6 +21,7 @@ package abe.com.ponents.ressources.actions
 	import abe.com.ponents.utils.Insets;
 
 	import flash.display.Loader;
+	import flash.display.LoaderInfo;
 	import flash.events.Event;
 	import flash.system.ApplicationDomain;
 	import flash.system.LoaderContext;
@@ -33,9 +33,9 @@ package abe.com.ponents.ressources.actions
 		protected var _tmpInput : TextInput;
 		protected var _collectionsLoader : CollectionsLoader;
 
-		private var _dialog : Dialog;
-		private var _loader : Loader;
-		private var _lastAction : OpenSWFFileAction;
+		static private var _dialog : Dialog;
+		static private var _loader : Loader;
+		static private var _lastAction : OpenSWFFileAction;
 
 		public function LoadExternalRessource ( collectionsLoader : CollectionsLoader,
 												name : String = "", 
@@ -62,16 +62,17 @@ package abe.com.ponents.ressources.actions
 							 _tmpInput,
 							 new Button( new ProxyAction( loadTmpFile, _("Browse") )) );
 			p.style.insets = new Insets( 3  );
-
-			_dialog = new Dialog(_("Set new skin name") , Dialog.CANCEL_BUTTON + Dialog.OK_BUTTON, p, Dialog.OK_BUTTON );
-			_dialog.addEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );
-			_dialog.open( Dialog.CLOSE_ON_RESULT );
+			
+			if( !_dialog)
+			{
+				_dialog = new Dialog(_("Set new skin name") , Dialog.CANCEL_BUTTON + Dialog.OK_BUTTON, p, Dialog.OK_BUTTON );
+			}
+			_dialog.addEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );			_dialog.open( Dialog.CLOSE_ON_RESULT );
 		}
 		protected function loadTmpFile () : void 
 		{
 			_dialog.close();
 			_dialog.removeEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );
-			_dialog = null;
 			
 			_lastAction = new OpenSWFFileAction("");
 			_lastAction.addEventListener( CommandEvent.COMMAND_END, openTmpComplete );			_lastAction.addEventListener( CommandEvent.COMMAND_FAIL, openTmpFail );
@@ -102,7 +103,6 @@ package abe.com.ponents.ressources.actions
 		protected function inputRessourceResult (event : DialogEvent) : void 
 		{
 			_dialog.removeEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );
-			_dialog = null;
 			switch(event.result)
 			{
 				case Dialog.RESULTS_OK :

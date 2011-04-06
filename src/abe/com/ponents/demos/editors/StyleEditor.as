@@ -1,6 +1,5 @@
 package abe.com.ponents.demos.editors
 {
-	import abe.com.ponents.ressources.actions.OpenRessourceManager;
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.Reflection;
@@ -21,6 +20,7 @@ package abe.com.ponents.demos.editors
 	import abe.com.ponents.builder.styles.StylesTree;
 	import abe.com.ponents.builder.styles.StylesTreeHeader;
 	import abe.com.ponents.builder.styles.initializePrototypeSerializableSupport;
+	import abe.com.ponents.buttons.RessourcePicker;
 	import abe.com.ponents.containers.ScrollPane;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Dockable;
@@ -38,11 +38,14 @@ package abe.com.ponents.demos.editors
 	import abe.com.ponents.models.TreeModel;
 	import abe.com.ponents.models.TreeNode;
 	import abe.com.ponents.ressources.actions.LoadExternalRessource;
+	import abe.com.ponents.ressources.actions.OpenRessourceManager;
 	import abe.com.ponents.skinning.ComponentStyle;
 	import abe.com.ponents.skinning.SkinManager;
 	import abe.com.ponents.skinning.SkinManagerInstance;
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
 	import abe.com.ponents.skinning.decorations.NoDecoration;
+	import abe.com.ponents.skinning.icons.EmbeddedBitmapIcon;
+	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
 	import abe.com.ponents.sliders.VSlider;
 
@@ -56,7 +59,7 @@ package abe.com.ponents.demos.editors
 	[SettingsBackend(backend="abe.com.patibility.settings.backends.CookieBackend", appName="MissionEditor")]
 	public class StyleEditor extends ApplicationMain 
 	{
-		static public const DEFAULT_DECORATIONS_COLLECTIONS : Array = ["CoreDecorations.swf"];
+		static public const DEFAULT_DECORATIONS_COLLECTIONS : Array = ["CoreDecorations.swf", "CoreIcons.swf"];
 		
 		static private const DEPENDENCIES : Array = [ CookieBackend ];
 		
@@ -84,7 +87,12 @@ package abe.com.ponents.demos.editors
 			instance = this;
 			
 			StageUtils.noMenu();
-			FormUtils.addNewValueFunction( ComponentDecoration, function( t : Class) : * { return new NoDecoration(); } );
+			FormUtils.addNewValueFunction( ComponentDecoration, function( t : Class) : * { return new NoDecoration(); } );			FormUtils.addNewValueFunction( Icon, function( t : Class) : * { return new EmbeddedBitmapIcon(); } );
+			
+			FormUtils.addTypeMapFunction( "embeddedBitmap" , function( v : *, args : Object ) : Component
+			{
+				return new RessourcePicker( BuilderCollections, "flash.display::Bitmap", v );
+			} );
 			
 			Reflection.WARN_UNWRAPPED_STRING = false;
 			

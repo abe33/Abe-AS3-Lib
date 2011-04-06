@@ -89,7 +89,7 @@ package abe.com.ponents.ressources.actions
 			p2.childrenLayout = bl;
 			
 			var tb : ToolBar = new ToolBar();
-			tb.addComponent( new Button( new LoadExternalRessource( _collectionsLoader, _("Add collection"), magicIconBuild(packageIcon) ) ) );			tb.addComponent( new Button( new ProxyAction( loadMe, "Add Main as collection" ) ) );
+			tb.addComponent( new Button( new LoadExternalRessource( _collectionsLoader, _("Add collection"), magicIconBuild(packageIcon) ) ) );			tb.addComponent( new Button( new ProxyAction( loadMe, "Dump root" ) ) );
 						
 			_viewer = new ClassCollectionViewer();
 			_window = new Window();
