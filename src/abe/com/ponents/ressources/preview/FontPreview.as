@@ -46,9 +46,36 @@ package abe.com.ponents.ressources.preview
 			var s : String = "";
 			if( _font )
 			{
+				
 				var tf : TextFormat = new TextFormat(_font.fontName, 20, 0 );
 				tf.leading = 20;
 				tf.letterSpacing = 20;
+				//var header : String = "";				//var footer : String = "";
+				switch( _font.fontStyle )
+				{
+					case "italic":
+						//header="<i>";
+						//footer="</i>";
+						tf.italic = true;
+						tf.bold = false;
+						break;
+					case "bold":
+						//header="<b>";
+						//footer="</b>";
+						tf.bold = true;
+						tf.italic = false;
+						break;
+					case "boldItalic":
+						//header="<b><i>";
+						//footer="</i></b>";
+						tf.bold = true;
+						tf.italic = true;
+						break;
+					default : 
+						tf.bold = false;
+						tf.italic = false;
+						break;
+				}
 				for( var i : uint = range.min; i <= range.max; i++ )
 				{
 					s += String.fromCharCode(i);
@@ -56,7 +83,7 @@ package abe.com.ponents.ressources.preview
 				
 				_textPreview.style.format = tf;
 			}
-			_textPreview.value = s;
+			_textPreview.value = /*header +*/ s /*+ footer*/;
 		}
 		
 		protected function buildChildren () : void 
