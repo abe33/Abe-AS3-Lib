@@ -20,6 +20,8 @@ package abe.com.ponents.text
 	import abe.com.ponents.utils.Insets;
 
 	import flash.display.DisplayObject;
+	import flash.text.Font;
+	import flash.text.FontType;
 	import flash.text.TextFormat;
 
 	/**
@@ -60,8 +62,7 @@ package abe.com.ponents.text
 			_underlineButton.isComponentIndependent = false;
 			_sizeSpinner.isComponentIndependent = false;
 			_preview.isComponentIndependent = false;
-			_colorPicker.isComponentIndependent = false;
-			
+			_colorPicker.isComponentIndependent = false;			
 			_sizeSpinner.preferredWidth = 60;
 			
 			var p : ToolBar = new ToolBar(0,false,3);
@@ -125,21 +126,20 @@ package abe.com.ponents.text
 			fireDataChange();
 			event.stopImmediatePropagation();
 		}
-
 		protected function fontDataChange (event : ComponentEvent) : void 
 		{
-			_format.font = _fontList.value;
+			var f : Font = _fontList.value;
+			_format.font = f.fontName;
+			_preview.textField.embedFonts = f.fontType == FontType.EMBEDDED;
 			updatePreviewFormat();
 			fireDataChange();
 			event.stopImmediatePropagation();
 		}
-
 		public function initEditState (caller : Editable, value : *, overlayTarget : DisplayObject = null) : void
 		{
 			this.caller = caller;
 			this.value = value;
 		}
-		
 		public function get caller () : Editable { return _caller; }
 		public function set caller (e : Editable) : void
 		{

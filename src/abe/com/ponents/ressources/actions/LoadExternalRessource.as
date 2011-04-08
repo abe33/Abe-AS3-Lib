@@ -52,21 +52,19 @@ package abe.com.ponents.ressources.actions
 		}
 		protected function inputRessource () : void
 		{
-			var p : Panel = new Panel();
-			p.childrenLayout = new InlineLayout(p, 3, "left", "top", "topToBottom", true );
-			
-			_tmpInput = new TextInput( 0, false, "externalRessourceInput" );
-			_tmpInput.value = "";
-			
-			p.addComponents( new Label( _("Input the path to the *.swf ressources file.\nThe path will be saved for the next launch.\nOr use the <i>Browse</i> button to load\na file from your computer that will not\nbe saved for the next launch.") ), 
-							 _tmpInput,
-							 new Button( new ProxyAction( loadTmpFile, _("Browse") )) );
-			p.style.insets = new Insets( 3  );
-			
 			if( !_dialog)
 			{
+				_tmpInput = new TextInput( 0, false, "externalRessourceInput" );
+				var p : Panel = new Panel();
+				p.childrenLayout = new InlineLayout(p, 3, "left", "top", "topToBottom", true );
+				p.addComponents( new Label( _("Input the path to the *.swf ressources file.\nThe path will be saved for the next launch.\nOr use the <i>Browse</i> button to load\na file from your computer that will not\nbe saved for the next launch.") ), 
+								 _tmpInput,
+								 new Button( new ProxyAction( loadTmpFile, _("Browse") )) );
+				p.style.insets = new Insets( 3  );
 				_dialog = new Dialog(_("Set new skin name") , Dialog.CANCEL_BUTTON + Dialog.OK_BUTTON, p, Dialog.OK_BUTTON );
 			}
+			_tmpInput.value = "";
+			
 			_dialog.addEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );			_dialog.open( Dialog.CLOSE_ON_RESULT );
 		}
 		protected function loadTmpFile () : void 
@@ -122,7 +120,6 @@ package abe.com.ponents.ressources.actions
 				default :
 					break;
 			}
-			_tmpInput = null;
 		}
 	}
 }
