@@ -49,7 +49,7 @@ def main(argv):
 	
 	# we only needs paths to *.as files, and not *.swc 
 	# nor path to embed assets which don't have an absolute path
-	r = re.compile( 'name="((/|[\w]://)[^"]+.as)"' )
+	r = re.compile( 'name="((/|[\w]{1}://)[^"]+.as)"' )
 	res = r.findall( content )
 	
 	output_string = "\n".join([ o[0] for o in res ])

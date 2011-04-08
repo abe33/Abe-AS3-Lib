@@ -74,7 +74,7 @@ package  abe.com.mands.load
 				var requestUI : URLRequest = new URLRequest( ui );
 				addLoadEntry( new LoaderEntry( requestUI, null, registerLoaderUI, this ) );
 			}
-			
+	
 			// on prépare la requête pour charger le swf principal
 			var requestMain : URLRequest = new URLRequest( url );
 			//requestMain.method = URLRequestMethod.POST;
