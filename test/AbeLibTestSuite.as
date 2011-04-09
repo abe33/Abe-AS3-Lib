@@ -1,5 +1,6 @@
 package  
 {
+	import abe.com.mon.closures.ClosuresTest;
 	import abe.com.mon.colors.ColorsTestSuite;
 	import abe.com.mon.geom.GeomTestSuite;
 	import abe.com.mon.utils.UtilsTestSuite;
@@ -11,7 +12,7 @@ package
 	public class AbeLibTestSuite 
 	{
 		public var commonColor : ColorsTestSuite;		public var commonGeom : GeomTestSuite;		public var commonUtils : UtilsTestSuite;
-				public var humanize : HumanizeTest;		public var hamcrest : HamcrestTest;
+		public var commonClosures : ClosuresTest;				public var humanize : HumanizeTest;		public var hamcrest : HamcrestTest;
 		
 		//public var fake : FakeSuite;
 	}

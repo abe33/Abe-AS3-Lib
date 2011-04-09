@@ -1,9 +1,9 @@
-package abe.com.mon.utils.arrays
+package abe.com.mon.closures.core
 {
 	/**
 	 * @author cedric
 	 */
-	public function anyOf ( ... fn ) : Function 
+	public function allOf ( ... fn ) : Function 
 	{
 		return function( o : *, ... args ) : Boolean 
 		{
@@ -13,16 +13,16 @@ package abe.com.mon.utils.arrays
 				var c : * = fn[i];
 				if( c is Function )
 				{
-					if( (c as Function).apply( null, [o].concat(args) ) )
-						return true;
-				}		
+					if( !(c as Function).apply( null, [o].concat(args) ) )
+						return false;
+				}
 				else
 				{
-					if( c == o )
-						return true;
+					if( c != o )
+						return false;
 				}
 			}
-			return false;
+			return true;
 		};
 	}
 }
