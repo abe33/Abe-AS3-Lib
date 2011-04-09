@@ -1,10 +1,9 @@
 package abe.com.mon.utils.objects 
 {
-	import abe.com.mon.utils.arrays.hasProperty;
-	import abe.com.mon.utils.arrays.not;
-
 	import org.hamcrest.assertThat;
+	import org.hamcrest.core.not;
 	import org.hamcrest.object.equalTo;
+	import org.hamcrest.object.hasProperty;
 
 	import flash.geom.Point;
 
@@ -47,7 +46,7 @@ package abe.com.mon.utils.objects
 						abe.com.mon.utils.objects.safePropertyCopy( b, "y", b, "x" );
 			assertThat( b, hasProperty( "x", equalTo( 65 ) ) );			
 			abe.com.mon.utils.objects.safePropertyCopy( p, "length", a, "length" );			assertThat( a, not( hasProperty( "length" ) ) );			
-			var l : uint = p.length;
+			var l : Number = p.length;
 			abe.com.mon.utils.objects.safePropertyCopy( a, "x", p, "length" );
 			assertThat( p, hasProperty( "length", equalTo( l ) ) );
 		}

@@ -1,4 +1,4 @@
-package abe.com.mon.utils.arrays
+package abe.com.mon.closures.objects
 {
 	/**
 	 * @author cedric

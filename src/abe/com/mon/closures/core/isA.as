@@ -1,7 +1,7 @@
 /**
  * @license
  */
-package abe.com.mon.utils.arrays
+package abe.com.mon.closures.core
 {
 	/**
 	 * Returns a function that can be used in combination with the 
