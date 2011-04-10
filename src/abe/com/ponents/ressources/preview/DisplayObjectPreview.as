@@ -1,5 +1,6 @@
-package abe.com.ponents.factory.ressources.preview 
+package abe.com.ponents.ressources.preview 
 {
+	import abe.com.ponents.sliders.VLogarithmicSlider;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.dm;
 	import abe.com.patibility.lang._;
@@ -25,7 +26,7 @@ package abe.com.ponents.factory.ressources.preview
 	 */
 	public class DisplayObjectPreview extends Panel 
 	{
-		[Embed(source="../../../skinning/icons/tools/zoom.png")]
+		[Embed(source="../../skinning/icons/tools/zoom.png")]
 		static private var zoomIcon : Class;
 		
 		protected var _displayObject : DisplayObject;
@@ -59,7 +60,7 @@ package abe.com.ponents.factory.ressources.preview
 			_displayObjectPreview.styleKey = "EmptyComponent";
 			
 			var cp : ColorPicker = new ColorPicker( DefaultSkin.backgroundColor.clone() );
-			_zoomSlider = new VSlider( new DefaultBoundedRangeModel(1, 0.2, 100, 0.1), .1, .05, false, false, false );
+			_zoomSlider = new VLogarithmicSlider( new DefaultBoundedRangeModel(1, 0.2, 100, 0.1), 10, 5, true, false );
 			var zbt : Button = new Button(new ProxyAction(zoomReset, _("Zoom 1:1"), magicIconBuild(zoomIcon)));
 			cp.addEventListener(ComponentEvent.DATA_CHANGE, backgroundColorChange );
 			cp.preferredSize = dm(22,22);

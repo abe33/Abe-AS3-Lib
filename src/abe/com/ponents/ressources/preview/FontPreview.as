@@ -1,16 +1,13 @@
-package abe.com.ponents.factory.ressources.preview 
+package abe.com.ponents.ressources.preview 
 {
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.HBoxLayout;
-	import abe.com.ponents.models.SpinnerListModel;
-	import abe.com.ponents.spinners.Spinner;
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.geom.Range;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ToolBar;
+	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.BorderLayout;
+	import abe.com.ponents.layouts.components.BoxSettings;
+	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.menus.ComboBox;
 	import abe.com.ponents.menus.PopupMenu;
 	import abe.com.ponents.text.Label;
@@ -49,9 +46,36 @@ package abe.com.ponents.factory.ressources.preview
 			var s : String = "";
 			if( _font )
 			{
+				
 				var tf : TextFormat = new TextFormat(_font.fontName, 20, 0 );
 				tf.leading = 20;
 				tf.letterSpacing = 20;
+				//var header : String = "";				//var footer : String = "";
+				switch( _font.fontStyle )
+				{
+					case "italic":
+						//header="<i>";
+						//footer="</i>";
+						tf.italic = true;
+						tf.bold = false;
+						break;
+					case "bold":
+						//header="<b>";
+						//footer="</b>";
+						tf.bold = true;
+						tf.italic = false;
+						break;
+					case "boldItalic":
+						//header="<b><i>";
+						//footer="</i></b>";
+						tf.bold = true;
+						tf.italic = true;
+						break;
+					default : 
+						tf.bold = false;
+						tf.italic = false;
+						break;
+				}
 				for( var i : uint = range.min; i <= range.max; i++ )
 				{
 					s += String.fromCharCode(i);
@@ -59,7 +83,7 @@ package abe.com.ponents.factory.ressources.preview
 				
 				_textPreview.style.format = tf;
 			}
-			_textPreview.value = s;
+			_textPreview.value = /*header +*/ s /*+ footer*/;
 		}
 		
 		protected function buildChildren () : void 

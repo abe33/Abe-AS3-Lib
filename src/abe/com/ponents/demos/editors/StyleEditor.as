@@ -10,7 +10,6 @@ package abe.com.ponents.demos.editors
 	import abe.com.patibility.settings.backends.CookieBackend;
 	import abe.com.ponents.actions.ActionManagerInstance;
 	import abe.com.ponents.actions.builtin.AboutAction;
-	import abe.com.ponents.builder.actions.LoadExternalRessource;
 	import abe.com.ponents.builder.events.StyleSelectionEvent;
 	import abe.com.ponents.builder.models.BuilderCollections;
 	import abe.com.ponents.builder.models.StyleSelectionModel;
@@ -21,6 +20,7 @@ package abe.com.ponents.demos.editors
 	import abe.com.ponents.builder.styles.StylesTree;
 	import abe.com.ponents.builder.styles.StylesTreeHeader;
 	import abe.com.ponents.builder.styles.initializePrototypeSerializableSupport;
+	import abe.com.ponents.buttons.RessourcePicker;
 	import abe.com.ponents.containers.ScrollPane;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Dockable;
@@ -37,11 +37,15 @@ package abe.com.ponents.demos.editors
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
 	import abe.com.ponents.models.TreeModel;
 	import abe.com.ponents.models.TreeNode;
+	import abe.com.ponents.ressources.actions.LoadExternalRessource;
+	import abe.com.ponents.ressources.actions.OpenRessourceManager;
 	import abe.com.ponents.skinning.ComponentStyle;
 	import abe.com.ponents.skinning.SkinManager;
 	import abe.com.ponents.skinning.SkinManagerInstance;
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
 	import abe.com.ponents.skinning.decorations.NoDecoration;
+	import abe.com.ponents.skinning.icons.EmbeddedBitmapIcon;
+	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
 	import abe.com.ponents.sliders.VSlider;
 
@@ -55,7 +59,7 @@ package abe.com.ponents.demos.editors
 	[SettingsBackend(backend="abe.com.patibility.settings.backends.CookieBackend", appName="MissionEditor")]
 	public class StyleEditor extends ApplicationMain 
 	{
-		static public const DEFAULT_DECORATIONS_COLLECTIONS : Array = ["CoreDecorations.swf"];
+		static public const DEFAULT_DECORATIONS_COLLECTIONS : Array = ["CoreDecorations.swf", "CoreIcons.swf"];
 		
 		static private const DEPENDENCIES : Array = [ CookieBackend ];
 		
@@ -83,7 +87,12 @@ package abe.com.ponents.demos.editors
 			instance = this;
 			
 			StageUtils.noMenu();
-			FormUtils.addNewValueFunction( ComponentDecoration, function( t : Class) : * { return new NoDecoration(); } );
+			FormUtils.addNewValueFunction( ComponentDecoration, function( t : Class) : * { return new NoDecoration(); } );			FormUtils.addNewValueFunction( Icon, function( t : Class) : * { return new EmbeddedBitmapIcon(); } );
+			
+			FormUtils.addTypeMapFunction( "embeddedBitmap" , function( v : *, args : Object ) : Component
+			{
+				return new RessourcePicker( BuilderCollections, "flash.display::Bitmap", v );
+			} );
 			
 			Reflection.WARN_UNWRAPPED_STRING = false;
 			
@@ -94,7 +103,7 @@ package abe.com.ponents.demos.editors
 																   _("AbeLib © 2010 - All rights reserved."), 
 																   _("About Style Editor") ), 
 												  "about" );
-			ActionManagerInstance.registerAction( new LoadExternalRessource(_("Load External Ressources")), "loadExternals");
+			ActionManagerInstance.registerAction( new LoadExternalRessource( BuilderCollections, _( "Load External Ressources")), "loadExternals");			ActionManagerInstance.registerAction( new OpenRessourceManager( BuilderCollections, _( "Open Ressources Manager")), "manageRessources");
 			
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 				StageUtils.versionMenuContext.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT, ActionManagerInstance.getAction("about").execute );	
@@ -107,7 +116,7 @@ package abe.com.ponents.demos.editors
 			
 			_defaultToolBarSettings = ["newSkin","removeSkin","newStyle","removeStyle"].join("," );
 			_defaultDMSPSettings = "H(V(H([200,200]styleTree,V([200,200]statesGrid,[200,200]stylePreview)),styleInfos),styleForm)";
-			_defaultMenuBarSettings = "*File(*newSkin,*removeSkin,new*Style,re*moveStyle,|,*loadExternals),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),?(*about)";
+			_defaultMenuBarSettings = "*File(*newSkin,*removeSkin,new*Style,re*moveStyle,|,*loadExternals,m*anageRessources),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),?(*about)";
 			
 			_selectionModel = new StyleSelectionModel();
 		}

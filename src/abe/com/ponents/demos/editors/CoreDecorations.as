@@ -1,6 +1,6 @@
 package abe.com.ponents.demos.editors 
 {
-	import abe.com.ponents.factory.ressources.ClassCollection;
+	import abe.com.ponents.ressources.ClassCollection;
 	import abe.com.ponents.skinning.decorations.AdvancedSlicedBitmapFill;
 	import abe.com.ponents.skinning.decorations.ArrowSideBorders;
 	import abe.com.ponents.skinning.decorations.ArrowSideFill;
@@ -13,6 +13,7 @@ package abe.com.ponents.demos.editors
 	import abe.com.ponents.skinning.decorations.GradientBorders;
 	import abe.com.ponents.skinning.decorations.GradientFill;
 	import abe.com.ponents.skinning.decorations.GraphMonitorBorder;
+	import abe.com.ponents.skinning.decorations.HSliderTrackFill;
 	import abe.com.ponents.skinning.decorations.LineBorders;
 	import abe.com.ponents.skinning.decorations.MacroDecoration;
 	import abe.com.ponents.skinning.decorations.NoDecoration;
@@ -24,9 +25,7 @@ package abe.com.ponents.demos.editors
 	import abe.com.ponents.skinning.decorations.SimpleFill;
 	import abe.com.ponents.skinning.decorations.SlicedBitmapFill;
 	import abe.com.ponents.skinning.decorations.StripFill;
-	import abe.com.ponents.skinning.decorations.HSliderTrackFill;
 	import abe.com.ponents.skinning.decorations.VSliderTrackFill;
-	
 	/**
 	 * The <code>CoreDecoration</code> purpopse is to embed all the core decorations the <code>StyleEditor</code> 
 	 * can use by default.

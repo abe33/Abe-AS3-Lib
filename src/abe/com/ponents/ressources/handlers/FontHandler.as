@@ -1,8 +1,8 @@
-package abe.com.ponents.factory.ressources.handlers 
+package abe.com.ponents.ressources.handlers 
 {
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.factory.ressources.preview.FontPreview;
+	import abe.com.ponents.ressources.preview.FontPreview;
 
 	import flash.text.Font;
 	/**

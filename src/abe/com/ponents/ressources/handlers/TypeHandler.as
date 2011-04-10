@@ -1,4 +1,4 @@
-package abe.com.ponents.factory.ressources.handlers 
+package abe.com.ponents.ressources.handlers 
 {
 	import abe.com.ponents.core.Component;
 	/**

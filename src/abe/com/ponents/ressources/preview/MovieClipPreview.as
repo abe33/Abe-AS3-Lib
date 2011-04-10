@@ -1,4 +1,4 @@
-package abe.com.ponents.factory.ressources.preview 
+package abe.com.ponents.ressources.preview 
 {
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.geom.dm;
