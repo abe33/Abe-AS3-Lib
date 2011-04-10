@@ -8,7 +8,7 @@ package abe.com.mon.geom
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Randomizable;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.GeometryUtils;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.PointUtils;
@@ -326,6 +326,17 @@ package abe.com.mon.geom
 				v = ca;
 
 			return Math.atan2( v.y, v.x );
+		}
+		/**
+		 * @inheritDoc
+		 */
+		public function getTangentAt ( pos : Number, posDetail : Number = 0.01 ) : Point
+		{
+			var tan : Point = getPathPoint( ( pos + posDetail ) % 1 ).subtract(
+							  getPathPoint( ( 1 + pos - posDetail ) % 1 ) );
+			tan.normalize(1);
+
+			return tan;
 		}
 		/**
 		 * @inheritDoc

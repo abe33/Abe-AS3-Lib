@@ -74,7 +74,7 @@ package abe.com.ponents.forms.managers
 				var t : String = getQualifiedClassName( _targets[0] );
 				for each( var o : * in _targets )
 					if( getQualifiedClassName(o) != t )
-						throw new Error( _("All targets in this MultiTargetFormManager must have the same type " + t) );
+						throw new Error( _$(_("All targets in this MultiTargetFormManager must have the same type " ), t) );
 					
 				updateFieldsWithTargets();
 			}

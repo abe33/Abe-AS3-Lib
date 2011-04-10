@@ -1,6 +1,7 @@
 package abe.com.patibility.hamcrest 
 {
 	import abe.com.mon.utils.magicEquals;
+	import abe.com.ponents.utils.Inspect;
 
 	import org.hamcrest.BaseMatcher;
 	import org.hamcrest.Description;
@@ -27,7 +28,11 @@ package abe.com.patibility.hamcrest
 		 */
 		override public function describeTo (description : Description) : void
 		{
-			description.appendText( "equal to " ).appendValue( _value );
+			description.appendText( "object should be equal to " ).appendValue( Inspect.inspect( _value ).replace(/\n/g,"") );
+		}
+		override public function describeMismatch (item : Object, mismatchDescription : Description) : void 
+		{
+			mismatchDescription.appendText( "was " ).appendValue( Inspect.inspect( item ).replace(/\n/g,"") );
 		}
 		/**
 		 * Checks if the given items are equal

@@ -5,7 +5,7 @@ package abe.com.mon.geom
 {
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.GeometryUtils;
 	import abe.com.mon.utils.StringUtils;
 
@@ -211,20 +211,7 @@ package abe.com.mon.geom
 			return v.length % _segmentSize == 1 && v.length >= _segmentSize+1;
 		}
 		/**
-		 * Returns the tangent of the curve at the coordinates <code>pos</code>
-		 * in this <code>Spline</code>.
-		 * <fr>
-		 * Renvoie la tangente de la courbe aux coordonnées situées à la position
-		 * <code>pos</code> du chemin de cette <code>Spline</code>.
-		 * </fr>
-		 * @param	pos			position at which calculated the tangent
-		 * 						<fr>position à laquelle calculer la tangente</fr>
-		 * @param 	posDetail	fineness of computation of the the tangent
-		 * 						<fr>finesse de calcul de la position pour le calcul
-		 * 						de la tangente</fr>
-		 * @return	curve tangent at the specified coordinates
-		 * 			<fr>la tangente de la courbe aux coordonnées situées à la position
-		 * 			transmise en argument</fr>
+		 * @inheritDoc
 		 */
 		public function getTangentAt ( pos : Number, posDetail : Number = 0.01 ) : Point
 		{

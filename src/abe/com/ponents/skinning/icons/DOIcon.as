@@ -1,7 +1,8 @@
 package abe.com.ponents.skinning.icons 
 {
-	import flash.display.DisplayObject;
+	import abe.com.mon.geom.dm;
 
+	import flash.display.DisplayObject;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -14,7 +15,8 @@ package abe.com.ponents.skinning.icons
 		{
 			_class = c;
 			_contentType = "DisplayObject";
-			super( );
+			super();
+			styleKey = "EmptyComponent";
 		}
 		override public function dispose () : void 
 		{
@@ -28,12 +30,17 @@ package abe.com.ponents.skinning.icons
 			_icon = new _class() as DisplayObject;
 			if( _icon )
 				_childrenContainer.addChild( _icon );
-				
+			
 			super.init();
 		}
 		override public function clone () : * 
 		{ 
 			return new DOIcon( _class ); 
+		}
+		override public function invalidatePreferredSizeCache () : void
+		{
+			_preferredSizeCache = _icon ? dm(_icon.width,_icon.height) : dm(0,0);
+			invalidate( false );
 		}
 		
 	}

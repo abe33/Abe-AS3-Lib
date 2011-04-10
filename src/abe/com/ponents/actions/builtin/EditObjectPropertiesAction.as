@@ -99,13 +99,7 @@ package abe.com.ponents.actions.builtin
 				_window.windowTitle = new WindowTitleBar(_("Properties"),null,WindowTitleBar.CLOSE_BUTTON + WindowTitleBar.MAXIMIZE_BUTTON );
 				_window.addEventListener( WindowEvent.CLOSE, onClose );
 				
-				if( _saveFunction == null )
-				{
-					if( _window.windowStatus != null )
-						_window.windowStatus = null;
-				}
-				else
-					_window.windowStatus = getWindowStatus();
+				_window.windowStatus = getWindowStatus();
 				
 				_window.windowContent = sp; 
 				if( _window.width > StageUtils.stage.stageWidth*.6 || _window.height > StageUtils.stage.stageHeight * .6 )
@@ -135,13 +129,7 @@ package abe.com.ponents.actions.builtin
 			_window.windowTitle = new WindowTitleBar(_("Properties"),null,WindowTitleBar.CLOSE_BUTTON + WindowTitleBar.MAXIMIZE_BUTTON );
 			_window.addEventListener( WindowEvent.CLOSE, onClose );
 			
-			if( _saveFunction == null )
-			{
-				if( _window.windowStatus != null )
-					_window.windowStatus = null;
-			}
-			else
-				_window.windowStatus = getWindowStatus();
+			_window.windowStatus = getWindowStatus();
 			
 			_window.windowContent = sp; 
 			if( _window.width > StageUtils.stage.stageWidth*.6 || _window.height > StageUtils.stage.stageHeight * .6 )
@@ -156,13 +144,22 @@ package abe.com.ponents.actions.builtin
 		
 		protected function getWindowStatus () : Panel
 		{
-			_saveButton = new Button(new ProxyAction( _saveFunction, _("Save"), null, null, null, _object, _formObject, _formManager, _window ) );
-			var cancel : Button = new Button( new ProxyAction( _window.close, _("Abort") ) );
 			var p : Panel = new Panel();
 			p.style.setForAllStates("insets", new Insets(5));
 			p.childrenLayout = new InlineLayout(p, 3, "right", "center", "leftToRight");
-			p.addComponent( cancel );
-			p.addComponent( _saveButton );
+			if( _saveFunction != null )
+			{
+				_saveButton = new Button(new ProxyAction( _saveFunction, _("Save"), null, null, null, _object, _formObject, _formManager, _window ) );
+				var cancel : Button = new Button( new ProxyAction( _window.close, _("Abort") ) );
+				p.addComponent( cancel );
+				p.addComponent( _saveButton );
+			}
+			else
+			{
+				var close : Button = new Button( new ProxyAction( _window.close, _("Close") ) );
+				p.addComponent( close );
+			}
+				
 			return p;
 		}
 		protected function onClose (event : WindowEvent) : void

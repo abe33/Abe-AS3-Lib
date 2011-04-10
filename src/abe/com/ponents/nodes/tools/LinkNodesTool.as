@@ -2,7 +2,7 @@ package abe.com.ponents.nodes.tools
 {
 	import abe.com.ponents.nodes.actions.LinkNodesCommand;
 	import abe.com.ponents.nodes.core.NodeLink;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.nodes.core.CanvasNode;
 	import abe.com.ponents.skinning.cursors.Cursor;

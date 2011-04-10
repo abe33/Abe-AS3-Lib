@@ -1,7 +1,7 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Gradient;
+	import abe.com.mon.colors.Color;
+	import abe.com.mon.colors.Gradient;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.utils.Borders;

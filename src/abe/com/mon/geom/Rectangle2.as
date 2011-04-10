@@ -6,7 +6,7 @@ package abe.com.mon.geom
 	import abe.com.mon.core.Copyable;
 	import abe.com.mon.core.Randomizable;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.GeometryUtils;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.PointUtils;
@@ -328,10 +328,7 @@ package abe.com.mon.geom
 																			 bottomRight.x ); }
 		override public function set right (value : Number) : void {}
 		/**
-		 * The length of the perimeter of the <code>Rectangle2</code>.
-		 * <fr>
-		 * La longueur du périmètre de ce <code>Rectangle2</code>.
-		 * </fr>
+		 * @inheritDoc
 		 */
 		public function get length () : Number { return width * 2 + height * 2; }
 		/**
@@ -451,6 +448,17 @@ package abe.com.mon.geom
 				p = PointUtils.scaleNew( leftEdge, -1 );
 
 			return Math.atan2( p.y, p.x );
+		}
+		/**
+		 * @inheritDoc
+		 */
+		public function getTangentAt ( pos : Number, posDetail : Number = 0.01 ) : Point
+		{
+			var tan : Point = getPathPoint( ( pos + posDetail ) % 1 ).subtract(
+							  getPathPoint( ( 1 + pos - posDetail ) % 1 ) );
+			tan.normalize(1);
+
+			return tan;
 		}
 		/**
 		 * @inheritDoc

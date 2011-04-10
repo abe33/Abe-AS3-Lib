@@ -7,7 +7,7 @@ package abe.com.ponents.monitors
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.Keys;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.patibility.lang._;
@@ -58,8 +58,8 @@ package abe.com.ponents.monitors
 	[Skin(define="Terminal",
 		  inherit="Text",
 
-		  state__all__background="new abe.com.ponents.skinning.decorations::SimpleFill ( new abe.com.mon.utils::Color( 0x2E, 0x34, 0x36 ) )",
-		  state__all__textColor="new abe.com.mon.utils::Color ( 0xD3, 0xD7, 0xCF )",
+		  state__all__background="new abe.com.ponents.skinning.decorations::SimpleFill ( color( 0x2E, 0x34, 0x36 ) )",
+		  state__all__textColor="color( 0xD3, 0xD7, 0xCF )",
 		  state__all__format="new flash.text::TextFormat ('Monospace', 11)"
 	)]
 	final public class Terminal extends TextArea

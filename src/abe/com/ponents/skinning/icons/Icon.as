@@ -5,6 +5,7 @@ package abe.com.ponents.skinning.icons
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Serializable;
 	import abe.com.mon.geom.Dimension;
+	import abe.com.mon.geom.rect;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.core.AbstractComponent;
 	import abe.com.ponents.layouts.display.DOStretchLayout;
@@ -44,6 +45,11 @@ package abe.com.ponents.skinning.icons
 		}
 		public function get contentType () : String { return _contentType; }
 		
+		override public function set preferredSize (d : Dimension) : void 
+		{
+			super.preferredSize = d;
+		}
+		
 		override public function repaint () : void
 		{
 			var size : Dimension = calculateComponentSize();
@@ -58,8 +64,8 @@ package abe.com.ponents.skinning.icons
 		override public function invalidate (asValidateRoot : Boolean = false) : void
 		{
 			super.invalidate( asValidateRoot );
-			if( displayed )
-				repaint();
+			//if( displayed )
+			repaint();
 		}
 		
 		public function dispose () : void {}		

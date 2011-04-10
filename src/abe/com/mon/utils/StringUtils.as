@@ -119,12 +119,24 @@ package abe.com.mon.utils
 		 */
 		static public function tokenReplace ( s : String, ... args ) : String
 		{
-			var a : Array = args;
-			var f : Function = function ( ... rest ) : String
+			var f : Function;
+			if( args.length > 0 && Reflection.isObject( args[0] ) )
 			{
-				return a[ parseInt ( rest[ 1 ] ) ];
+				var kwargs : Object = args.shift() as Object;
+				f = function ( ... rest ) : String
+				{
+					var key : String = rest[ 1 ];
+					return kwargs.hasOwnProperty(key) ? kwargs[ key ] : rest[0];
+				};
+				s = s.replace ( /\${([^}]+)}/g, f );
+			}
+			var a : Array = args;
+			f = function ( ... rest ) : String
+			{
+				var index : uint = parseInt ( rest[ 1 ] );
+				return index < a.length ? a[ index ] : rest[0];
 			};
-			return (s as String).replace ( /\$([0-9]+)/g, f );
+			return s.replace ( /\$([0-9]+)/g, f );
 		}
 		/**
 		 * Renvoie la chaîne <code>s</code> complétée avec le caractère <code>f</code>

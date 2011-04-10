@@ -5,8 +5,8 @@ package abe.com.patibility.codecs
 {
 	import abe.com.mon.logs.Log;
 	import abe.com.patibility.codecs.Codec;
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Palette;
+	import abe.com.mon.colors.Color;
+	import abe.com.mon.colors.Palette;
 
 	import flash.utils.ByteArray;
 
@@ -61,7 +61,7 @@ package abe.com.patibility.codecs
 				return ba;
 			}
 			else
-				throw new Error("La méthode ACOCodec.encode n'accepte que des objets de type Palette en argument");
+				throw new Error("ACOCodec.encode method accepts only objects of type Palette as argument");
 
 			return null;
 		}
@@ -148,7 +148,7 @@ package abe.com.patibility.codecs
 				}
 			}
 			else
-				throw new Error("La méthode ACOCodec.decode n'accepte que des objets de type ByteArray en argument");
+				throw new Error("ACOCodec.decode method accepts only objects of type ByteArray as an argument");
 		}
 		/**
 		 * @inheritDoc

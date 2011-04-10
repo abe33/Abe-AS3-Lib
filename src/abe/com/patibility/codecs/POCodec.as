@@ -46,7 +46,7 @@ package abe.com.patibility.codecs
 				return s;
 			}
 			else
-				throw new Error( "La méthode POCodec.encode n'accepte que des objets de type Object en argument." );
+				throw new Error( "POCodec.encode method accepts only objects of type Object as argument." );
 
 			return null;
 		}
@@ -81,7 +81,7 @@ package abe.com.patibility.codecs
 
 			}
 			else
-				throw new Error( "La méthode POCodec.decode n'accepte que des objets de type String en argument." );
+				throw new Error( "POCodec.decode method accepts only String objects as arguments." );
 
 			return null;
 		}

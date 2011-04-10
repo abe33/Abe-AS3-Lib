@@ -573,7 +573,5 @@ package  abe.com.mon.utils
 			Y ^= ( Y >> 18 );
 			return Y;
 		}
-
-		
 	}
 }

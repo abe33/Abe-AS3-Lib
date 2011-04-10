@@ -235,10 +235,12 @@ package abe.com.ponents.utils
 					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 					_component.mouseChildren = false;
 				}				else
-				{					/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
-						Cursor.setCursor( _component.cursor );
-					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				{
 					_component.mouseChildren = true;
+					/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
+						//Cursor.setCursor( _component.cursor );
+						return;
+					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				}
 			}
 		}

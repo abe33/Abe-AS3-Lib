@@ -1,9 +1,9 @@
 package abe.com.ponents.skinning.decorations 
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Gradient;
+	import abe.com.mon.colors.Gradient;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.core.Component;
@@ -16,7 +16,6 @@ package abe.com.ponents.skinning.decorations
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author cedric
 	 */
@@ -36,7 +35,7 @@ package abe.com.ponents.skinning.decorations
 			
 			updateGradient();
 		}
-		[Form(type="array", contentType="abe.com.mon.utils::Color", listCell="abe.com.ponents.lists::ColorListCell")]
+		[Form(type="array", contentType="abe.com.mon.colors::Color", listCell="abe.com.ponents.lists::ColorListCell")]
 		public function get colors () : Array { return _colors; }		
 		public function set colors (colors : Array) : void
 		{

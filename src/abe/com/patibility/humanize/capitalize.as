@@ -4,5 +4,5 @@ package abe.com.patibility.humanize
 	/**
 	 * @author cedric
 	 */
-	 public function capitalize ( s : String ) : String { return StringUtils.capitalize( s ); }
+	 public function capitalize ( s : String, all : Boolean = false ) : String { return StringUtils.capitalize( s, all ); }
 }

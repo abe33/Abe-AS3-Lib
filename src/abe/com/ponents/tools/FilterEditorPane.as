@@ -1,7 +1,7 @@
 package abe.com.ponents.tools
 {
 	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.Reflection;
 	import abe.com.mon.utils.magicClone;
 	import abe.com.patibility.lang._;
@@ -234,7 +234,7 @@ package abe.com.ponents.tools
 }
 
 import abe.com.mon.geom.Dimension;
-import abe.com.mon.utils.Color;
+import abe.com.mon.colors.Color;
 import abe.com.ponents.core.AbstractComponent;
 import abe.com.ponents.layouts.display.DOInlineLayout;
 import abe.com.ponents.layouts.display.DisplayObjectLayout;

@@ -2,7 +2,7 @@ package abe.com.ponents.sliders
 {
 	import abe.com.ponents.skinning.decorations.HSliderTrackFill;
 	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Keys;
 	import abe.com.mon.utils.MathUtils;
@@ -28,7 +28,7 @@ package abe.com.ponents.sliders
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]	[Style(name="inputWidth", type="Number")]	[Style(name="buttonSize", type="Number")]	[Style(name="trackSize", type="Number")]	[Style(name="tickSize", type="Number")]	[Style(name="tickMargin", type="Number")]	[Style(name="tickColor", type="abe.com.mon.utils.Color")]
+	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]	[Style(name="inputWidth", type="Number")]	[Style(name="buttonSize", type="Number")]	[Style(name="trackSize", type="Number")]	[Style(name="tickSize", type="Number")]	[Style(name="tickMargin", type="Number")]	[Style(name="tickColor", type="abe.com.mon.colors.Color")]
 	[Style(name="icon", type="abe.com.ponents.skinning.icons.Icon")]
 	[Skinable(skin="HSlider")]
 	[Skin(define="HSlider",
@@ -368,7 +368,7 @@ package abe.com.ponents.sliders
 				_background.graphics.moveTo( x, y - h );
 				_background.graphics.lineTo( x, y );
 			}
-			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
+			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 500 );
 			for( i = _model.minimum; i <= _model.maximum; i += _minorTickSpacing )
 			{
 				x = _track.x + _knob.width/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.width - _knob.width );
@@ -415,6 +415,7 @@ package abe.com.ponents.sliders
 			_input.value = _model.displayValue;
 			invalidate( true );
 			_input.selectAll();
+			_input.textfield.scrollH = 0;
 			
 			fireDataChange();
 		}

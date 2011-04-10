@@ -9,7 +9,7 @@ package  abe.com.mon.geom
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Randomizable;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.GeometryUtils;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.PointUtils;
@@ -188,6 +188,17 @@ package  abe.com.mon.geom
 			return a;
 		}
 		/**
+		 * A <code>Point</code> object containing the center coordinates of this ellipsis.
+		 */
+		public function get center () : Point{ return pt(x,y); }
+		/**
+		 * @inheritDoc
+		 */
+		public function get length () : Number 
+		{ 
+			return Math.PI * ( 3 * (radius1 + radius2) - Math.sqrt( (3 * radius1 + radius2 ) * ( radius1 + radius2 * 3) ) ); 
+		}
+		/**
 		 * @inheritDoc
 		 */
 		public function getPathPoint ( path : Number) : Point
@@ -196,9 +207,16 @@ package  abe.com.mon.geom
 													( MathUtils.PI2 - ( pathOffset + path ) * MathUtils.PI2 ) );
 		}
 		/**
-		 * A <code>Point</code> object containing the center coordinates of this ellipsis.
+		 * @inheritDoc
 		 */
-		public function get center () : Point{ return pt(x,y); }
+		public function getTangentAt ( pos : Number, posDetail : Number = 0.01 ) : Point
+		{
+			var tan : Point = getPathPoint( ( pos + posDetail ) % 1 ).subtract(
+							  getPathPoint( ( 1 + pos - posDetail ) % 1 ) );
+			tan.normalize(1);
+
+			return tan;
+		}
 		/**
 		 * @inheritDoc
 		 */

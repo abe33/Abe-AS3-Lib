@@ -1,7 +1,7 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Palette;
+	import abe.com.mon.colors.Color;
+	import abe.com.mon.colors.Palette;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.buttons.ButtonDisplayModes;
@@ -109,9 +109,9 @@ package abe.com.ponents.tools
 	}
 }
 
-import abe.com.mon.utils.Color;
+import abe.com.mon.colors.Color;
 import abe.com.mon.utils.KeyStroke;
-import abe.com.mon.utils.Palette;
+import abe.com.mon.colors.Palette;
 import abe.com.patibility.codecs.ACOCodec;
 import abe.com.patibility.codecs.GPLCodec;
 import abe.com.patibility.lang._;

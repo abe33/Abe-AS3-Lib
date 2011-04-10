@@ -1,8 +1,8 @@
 package abe.com.ponents.progress 
 {
 	import flash.geom.ColorTransform;
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Gradient;
+	import abe.com.mon.colors.Color;
+	import abe.com.mon.colors.Gradient;
 	import abe.com.ponents.models.BoundedRangeModel;
 	/**
 	 * @author cedric

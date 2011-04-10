@@ -1,7 +1,8 @@
 package abe.com.ponents.flexunit 
 {
+	import abe.com.mon.colors.Color;
+	import abe.com.mon.utils.arrays.lastIn;
 	import abe.com.patibility.humanize.plural;
-	import abe.com.mon.utils.Color;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.trees.DefaultTreeCell;
@@ -30,12 +31,12 @@ package abe.com.ponents.flexunit
 		[Embed(source="../skinning/icons/package.png")]
 		static public var SUITE_ICON : Class;
 		
-		protected var _lastRepaintedValue : *;		protected var _failureCount : uint;
-		
+		protected var _lastRepaintedValue : *;		protected var _failureCount : uint;		protected var _ignoredCount : uint;
+
 		public function TestTreeCell ()	
 		{ 
 			_allowOver = false;
-			_failureCount = 0;
+			_failureCount = 0;			_ignoredCount = 0;
 			super(); 
 		}
 		
@@ -43,42 +44,95 @@ package abe.com.ponents.flexunit
 		
 		override protected function formatLabel (value : *) : String 
 		{
-			return super.formatLabel( value ) + ( _failureCount > 0 ? _$(_(" <b>($0 $1)</b>"),
-																		_failureCount, 
-																		plural( _failureCount, 
-																				_("failure"),
-																				_("failures") ) ) 
-																	: "" );
+			if( value && value is IDescription )
+			{
+				var d : IDescription = value as IDescription;
+				if( d.isSuite )
+				{
+					var a : Array = [];
+					if( _failureCount > 0 )
+						a.push(  _$( "$0 $1", 
+									 _failureCount, 
+									 plural( _failureCount, 
+											 _("failure"),
+											 _("failures") ) ) );
+					if( _ignoredCount > 0 )
+						a.push(  _$( "$0 $1", 
+									 _ignoredCount, 
+									 _("ignored") ) );
+					
+					return formatDisplayName( d ) + ( ( _failureCount > 0 || _ignoredCount > 0 ) ? _$(_(" <b>($0)</b>"), a.join(", ") ) : "" );
+				}
+				else
+				{
+					var s : String = "";
+					if( _failureCount > 0 )
+						s = _$(" <font color='$0'>$1</font>", Color.Tomato.html, _("failed") );
+					else if( _ignoredCount > 0 )
+						s = _$(" <font color='$0'>$1</font>", Color.CornflowerBlue.html, _("ignored") );
+					/*
+					else
+						s = _$(" <font color='$0'>$1</font>", Color.ForestGreen.html, _("success") );
+					*/
+					return formatDisplayName( d ) + s;
+				}
+			}
+			else return super.formatLabel( value );
+		}
+		protected function formatDisplayName( v : IDescription ) : String
+		{
+			if( v.isSuite )
+				return v.displayName;
+			else
+				return lastIn( v.displayName.split(".") );
+		}
+		
+		override public function set value (val : *) : void 
+		{
+			updateTestData ( val );
+			super.value = val;
+		}
+		public function updateTestData ( val : * = null ) : void
+		{
+			if( !val )
+				val = value;
+			
+			if( val && val.userObject is IDescription )
+			{
+				var d : IDescription = val.userObject as IDescription;
+
+				var failures : Array;
+				var ignored : Array;
+				if ( d )
+				{
+					failures = testTree.getFailuresFor( d );
+					ignored = testTree.getIgnoredFor(d);
+					_failureCount = failures.length;
+					_ignoredCount = ignored.length;
+				}
+			}
 		}
 		override public function repaint () : void 
 		{
 			super.repaint();
 			
-			if( value && value.userObject is IDescription )
+			var c : Color = Color.White;			var c2 : Color;
+			if( _failureCount > 0 && _ignoredCount > 0 )
 			{
-				var d : IDescription = value.userObject as IDescription;
-				if( _lastRepaintedValue != d )
-				{
-					_lastRepaintedValue = d;
-					
-					var c : Color;
-					var failures : Array;
-					if ( d )
-					{
-						failures = testTree.getFailuresFor( d );
-						_failureCount = failures.length;
-					}
-				}
-				if( _failureCount > 0 )
-				{
-					c = Color.Tomato.interpolate( Color.White, 1 - ( Math.min( _failureCount, 10 ) / 10 ) );
+				if( _failureCount > _ignoredCount )
+					c2 = Color.Tomato.interpolate( Color.CornflowerBlue, _ignoredCount / _failureCount );				else
+					c2 = Color.CornflowerBlue.interpolate( Color.Tomato, _failureCount / _ignoredCount );
 				
-					_background.graphics.clear();
-					_background.graphics.beginFill( c.hexa, 1 );
-					_background.graphics.drawRect(0, 0, width, height );
-					_background.graphics.endFill();
-				}
+				c = c.interpolate( c2, ( Math.min( _failureCount + _ignoredCount, 20 ) / 20 ) );
 			}
+			else if( _failureCount > 0 )				c = c.interpolate( Color.Tomato, ( Math.min( _failureCount, 10 ) / 10 ) );
+			else if( _ignoredCount > 0 )
+				c = c.interpolate( Color.CornflowerBlue, ( Math.min( _ignoredCount, 10 ) / 10 ) );
+			
+			_background.graphics.clear();
+			_background.graphics.beginFill( c.hexa, 1 );
+			_background.graphics.drawRect(0, 0, width, height );
+			_background.graphics.endFill();
 		}
 	}
 }

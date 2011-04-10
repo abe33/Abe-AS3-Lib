@@ -90,7 +90,7 @@ package abe.com.ponents.buttons
 			
 			_newDecoration = new DropDownMenu("New", 
 											  null, 
-											  BuilderCollections.getClassesByType("decorations").map( 
+											  BuilderCollections.getClassesByType("abe.com.ponents.skinning.decorations::ComponentDecoration").map( 
 											  	function( c : Class, ... args ) : MenuItem 
 											  	{ 
 											  		return getMenuItem( c ); 
@@ -108,7 +108,7 @@ package abe.com.ponents.buttons
 		protected function collectionsLoaded (event : CommandEvent) : void 
 		{
 			_newDecoration.popupMenu.menuList.model = new DefaultListModel( 
-															BuilderCollections.getClassesByType("decorations").map( 
+															BuilderCollections.getClassesByType("abe.com.ponents.skinning.decorations::ComponentDecoration").map( 
 																function( c : Class, ... args ) : MenuItem { return getMenuItem( c ); } ) );
 		}
 		

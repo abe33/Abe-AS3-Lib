@@ -3,7 +3,8 @@
  */
 package abe.com.ponents.skinning 
 {
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.utils.StringUtils;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
@@ -332,11 +333,9 @@ package abe.com.ponents.skinning
 		
 		public function toString() : String
 		{
-			/*
-			if( _defaultStyleCache )
-				return "[style " + fullStyleName + "->" + _defaultStyleCache.fullStyleName + "]";
-			else*/
-				return "[style " + fullStyleName + "]";
+			if( _styleName == "" )
+				return StringUtils.stringify( this, {'proxyOf':_defaultStyleKey} );			else
+				return StringUtils.stringify( this, {'skin':_skinName, 'name':_styleName} );
 		}
 		protected function createStateIfNull ( state : uint ) : void
 		{

@@ -1,6 +1,6 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.mon.utils.Gradient;
+	import abe.com.mon.colors.Gradient;
 	import abe.com.ponents.utils.Insets;
 
 	import flash.display.GradientType;

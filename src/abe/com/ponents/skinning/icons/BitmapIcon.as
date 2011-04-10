@@ -14,6 +14,7 @@ package abe.com.ponents.skinning.icons
 			super();
 			_bitmap = bitmap;
 			_contentType = "BitmapData";
+			styleKey = "EmptyComponent";
 			init();
 		}
 		public function get bitmap () : Bitmap

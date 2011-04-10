@@ -254,7 +254,7 @@ package abe.com.ponents.core
 	 * <code>setForAllStates</code> de la classe <code>ComponentStyle</code>.</li>
 	 * </ul>
 	 */
-	[Style(name="textColor",type="abe.com.mon.utils.Color")]
+	[Style(name="textColor",type="abe.com.mon.colors.Color")]
 	/**
 	 * Le format du texte du composant.
 	 * <p>
@@ -2825,7 +2825,7 @@ package abe.com.ponents.core
 		{
 			var cmi : ContextMenuItem = getContextMenuItem( id );
 			if( !cmi )
-				throw new Error (_$(_("Impossible de supprimer un menu contextuel qui n'existe pas : $0" ), id));
+				throw new Error (_$(_("Unable to delete a contextual menu that does not exist: $0." ), id));
 
 			if( groupContainsContextMenuItem( id, group ) )
 				_menuContextGroups[group].splice( _menuContextGroups[group].indexOf( cmi ), 1 );
@@ -2850,13 +2850,13 @@ package abe.com.ponents.core
 		public function putContextMenuItemInGroup( id : String, group : String, forceMove : Boolean = true ) : void
 		{
 			if( !hasContextMenuItem(id) )
-				throw new Error(_$( _("Impossible de manipuler un menu inexistant : $0."), id ));
+				throw new Error(_$( _("Can not handle an undefined menu: $0."), id ));
 			if( !menuContextGroups.hasOwnProperty( group ) )
-				throw new Error(_$(_("Le groupe cible '$0' n'existe pas."), group ));
+				throw new Error(_$(_("The target group '$0' does not exist."), group ));
 			if( isContextMenuItemContainedInGroup(id) )
 			{
 				if( !forceMove )
-					throw new Error(_$(_("Impossible de déplacer le menu '$0' car il est déjà contenu dans le groupe '$1'."),
+					throw new Error(_$(_("Unable to move the menu '$0' because it is already contained in the group '$1'."),
 									id, getContextMenuItemGroup(id) ));
 
 				removeContextMenuItemFromGroup( id, getContextMenuItemGroup(id) );
@@ -2880,7 +2880,7 @@ package abe.com.ponents.core
 		public function removeContextMenuItem ( id : String ) : void
 		{
 			if( !hasContextMenuItem( id ) )
-				throw new Error (_$(_("Impossible de supprimer un menu contextuel qui n'existe pas : $0" ), id));
+				throw new Error (_$(_("Unable to delete a contextual menu that does not exist: $0." ), id));
 
 			if( isContextMenuItemContainedInGroup(id) )
 				removeContextMenuItemFromGroup( id, getContextMenuItemGroup( id ) );
@@ -2970,7 +2970,7 @@ package abe.com.ponents.core
 		public function groupContainsContextMenuItem ( id : String, group : String ) : Boolean
 		{
 			if( !hasContextMenuItemGroup( group ) )
-				throw new Error ( _$(_("Le groupe '$0' n'existe pas dans la liste des groupes pour cette instance $1." ), group, this ) );
+				throw new Error ( _$(_("The group '$0' does not exist in the list of groups for this instance $1." ), group, this ) );
 
 			return _menuContextGroups[group].indexOf( getContextMenuItem( id ) ) != -1;
 		}

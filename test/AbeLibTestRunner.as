@@ -1,5 +1,6 @@
 package  
 {
+	import abe.com.mon.utils.Reflection;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.settings.backends.CookieBackend;
@@ -19,7 +20,7 @@ package
 
 	import flash.events.ContextMenuEvent;
 
-	[SWF(width="800",height="600", backgroundColor="#3a545c")]
+	[SWF(width="1024",height="768", backgroundColor="#3a545c")]
 	[Frame(factoryClass="abe.com.ponents.factory.ComponentFactoryPreload")]
 	[SettingsBackend(backend="abe.com.patibility.settings.backends.CookieBackend", appName="AbeLibTestRunner")]
 	public class AbeLibTestRunner extends ApplicationMain 
@@ -36,9 +37,11 @@ package
 
 		public function AbeLibTestRunner ()
 		{
-			 super( "AbeLib TestRunner", "0.1.1" );
-			 
-			 ActionManagerInstance.registerAction( new AboutAction( _appName, 
+			super( "AbeLib TestRunner", "0.1.1" );
+			
+			Reflection.WARN_UNWRAPPED_STRING = false;
+			
+			ActionManagerInstance.registerAction( new AboutAction( _appName, 
 																   _appVersion, 
 																   _("Run the unit test for the AbeLib toolkit."), 
 																   _("AbeLib © 2010 - All rights reserved."), 

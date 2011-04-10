@@ -23,7 +23,7 @@ package  abe.com.mands
 	 * 
 	 * @eventType abe.com.mands.events.CommandEvent.COMMAND_FAIL
 	 */
-	[Event(name="commandFailed", type="abe.com.mands.events.CommandEvent")]
+	[Event(name="commandFail", type="abe.com.mands.events.CommandEvent")]
 	
 	/**
 	 * Implémentation de base de l'interface <code>Command</code>. En règle

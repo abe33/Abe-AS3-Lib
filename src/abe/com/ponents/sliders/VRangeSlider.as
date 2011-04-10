@@ -1,7 +1,7 @@
 package abe.com.ponents.sliders 
 {
 	import abe.com.mon.geom.Range;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.buttons.ButtonDisplayModes;
@@ -28,7 +28,7 @@ package abe.com.ponents.sliders
 	[Style(name="trackSize", type="Number")]
 	[Style(name="tickSize", type="Number")]
 	[Style(name="tickMargin", type="Number")]
-	[Style(name="tickColor", type="abe.com.mon.utils.Color")]
+	[Style(name="tickColor", type="abe.com.mon.colors.Color")]
 	[Style(name="icon", type="abe.com.ponents.skinning.icons.Icon")]
 	[Skinable(skin="VRangeSlider")]
 	[Skin(define="VRangeSlider",

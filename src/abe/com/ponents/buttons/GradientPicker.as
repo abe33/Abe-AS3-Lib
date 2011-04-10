@@ -8,7 +8,7 @@ package abe.com.ponents.buttons
 	import abe.com.mon.core.IDisplayObjectContainer;
 	import abe.com.mon.core.IInteractiveObject;
 	import abe.com.mon.core.LayeredSprite;
-	import abe.com.mon.utils.Gradient;
+	import abe.com.mon.colors.Gradient;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.actions.builtin.GradientPickerAction;
 	import abe.com.ponents.core.Component;

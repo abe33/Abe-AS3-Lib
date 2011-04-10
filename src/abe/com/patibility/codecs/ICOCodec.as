@@ -45,7 +45,7 @@ package abe.com.patibility.codecs
 				return ico;
 			}
 			else
-				throw new Error("La méthode ICOCodec.encode n'accepte que des objets de type Vector.<BitmapData> en argument");
+				throw new Error("ICOCodec.encode method accepts only objects of type Vector.<BitmapData> as argument");
 
 			return null;
 		}
@@ -63,7 +63,7 @@ package abe.com.patibility.codecs
 				return readICODirectories( ico, imgnum );
 			}
 			else
-				throw new Error("La méthode ICOCodec.decode n'accepte que des objets de type ByteArray en argument");
+				throw new Error("ICOCodec.decode method accepts only objects of type ByteArray as argument");
 
 			return null;
 		}

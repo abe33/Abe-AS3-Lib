@@ -3,8 +3,8 @@
  */
 package abe.com.patibility.codecs
 {
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Palette;
+	import abe.com.mon.colors.Color;
+	import abe.com.mon.colors.Palette;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.patibility.lang._;
 
@@ -44,7 +44,7 @@ package abe.com.patibility.codecs
 				}
 				return s;
 			}
-			else throw new Error(_("La méthode GPLCodec.encode n'accepte que les arguments de type Palette : " + o));
+			else throw new Error(_("GPLCodec.encode method only accepts type Palette as argument :" + o));
 		}
 		/**
 		 * @inheritDoc
@@ -80,7 +80,7 @@ package abe.com.patibility.codecs
 				}
 				return new Palette( name, cols );
 			}
-			else throw new Error(_("La méthode GPLCodec.decode n'accepte que les arguments de type String : " + o));
+			else throw new Error(_("GPLCodec.decode method only accepts arguments of type String : " + o));
 		}
 		/**
 		 * @inheritDoc

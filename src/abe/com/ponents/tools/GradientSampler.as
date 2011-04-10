@@ -1,8 +1,8 @@
 package abe.com.ponents.tools
 {
 	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.Color;
-	import abe.com.mon.utils.Gradient;
+	import abe.com.mon.colors.Color;
+	import abe.com.mon.colors.Gradient;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.Button;

@@ -5,7 +5,7 @@ package abe.com.ponents.tools
 	import abe.com.mon.geom.Rectangle2;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.geom.pt;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Keys;
 	import abe.com.mon.utils.PointUtils;

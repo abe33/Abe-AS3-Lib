@@ -3,6 +3,7 @@
  */
 package abe.com.mon.utils
 {
+	import abe.com.mon.closures.core.isA;
 	import abe.com.mon.logs.Log;
 
 	import flash.errors.IllegalOperationError;
@@ -13,131 +14,185 @@ package abe.com.mon.utils
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	/**
+	 * The <code>Reflection</code> class provides a set of methods to inspect objects
+	 * and to evaluate strings.
+	 * <fr>
 	 * La classe utilitaire <code>Reflection</code> fournit un ensemble de méthodes
 	 * permettant de récupérer nombre d'informations sur les objets et classes
 	 * au sein d'un fichier SWF.
-	 *
+	 * </fr>
 	 * @author Cédric Néhémie
 	 */
 	public class Reflection
 	{
 		/**
+		 * Stores the qualified class name of the <code>Vector</code> class. 
+		 * <fr>
 		 * Le nom qualifié de la classe <code>Vector</code> afin de générer dynamiquement
 		 * les vecteurs typés.
-		 *
+		 * </fr>
 		 * @default	"Vector"
 		 */
 		/*FDT_IGNORE*/ TARGET::FLASH_10 
 		static protected const VECTOR_CLASSNAME : String = getQualifiedClassName( Vector );
-		
 		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		static protected const VECTOR_CLASSNAME : String = getQualifiedClassName( Vector );
 		
 		/**
+		 * A <code>boolean</code> value that specify if the <code>get</code> method
+		 * should send a warning if a passed-in string can't be evaluated and will be
+		 * returned as a <code>String</code>. 
+		 * <fr>
 		 * Une valeur booléenne indiquant si la méthode <code>get</code> lance une
 		 * alerte dans le cas où elle rencontrerait une chaîne ne pouvant être traitée et
 		 * qui ne serait pas entourée de caractère <code>"</code> ou <code>'</code>.
-		 *
+		 * </fr>
 		 * @default	true
 		 */
 		static public var WARN_UNWRAPPED_STRING : Boolean = true;
 		/**
+		 * The cache object which stores the results of the <code>describeClass</code>
+		 * method.
+		 * <fr>
 		 * Un objet servant de cache pour les résultats des appels à
 		 * la fonction <code>describeClass</code>.
-		 *
+		 * </fr>
 		 * @default	{}
 		 * @see #describeClass()
 		 */
 		static protected var _describeTypeCache : Object = {};
 		/**
+		 * Stores the keys of the <code>describleClass</code> cache. It allow
+		 * to know the size of the current cache.
+		 * <fr>
 		 * Un tableau stockant les clés d'accès au cache afin d'en déterminer
 		 * la taille.
-		 *
+		 * </fr>
 		 * @default []
 		 */		static protected var _describeTypeCacheKeys : Array = [];
 		/**
+		 * An integer which represent the maximum length for the <code>describeClass</code>
+		 * cache.
+		 * <fr>
 		 * Un entier indiquant la limite maximum pour le nombre
 		 * de description de classe stockées par la classe <code>Reflection</code>
-		 *
+		 * </fr>
 		 * @default	50
 		 */		static protected var _describeTypeCacheMaxLength : uint = 50;
 
 		/**
+		 * The cache object for the metas request performed using the different
+		 * meta methods.
+		 * <fr>
 		 * Un objet servant de cache pour les résultats de requêtes
 		 * sur les balises metas d'un objet ou d'une classe.
-		 *
+		 * </fr>
 		 * @default	{}
 		 * @see #getClassMeta()		 * @see #getClassMetas()
 		 * @see #getClassAndAncestorMeta()		 * @see #getClassAndAncestorMetas()		 * @see #getClassMembersWithMeta()		 * @see #getClassMembersWithMetas()
 		 */		static protected var _metasCache : Object = {};
 		/**
+		 * A <code>Dictionary</code> used to stores the custom shortcuts
+		 * that apply to the <code>get</code> method.
+		 * <fr>
 		 * Un objet contenant les raccourcis spécifiques définit
 		 * par l'utilisateur.
-		 *
-		 * @default {}
+		 * </fr>
+		 * @default new Dictionary()
 		 */
-		static protected var _customShortcuts : Dictionary = new Dictionary( );
-
+		static protected var _customShortcuts : Dictionary = new Dictionary();
 		/**
+		 * Adds a custom shortcuts which will apply to all the next calls to the
+		 * <code>get</code> method.
+		 * <p>
+		 * A shortcut is made up of two elements, the matcher, and the replacement.
+		 * The matcher could be either a <code>String</code> or a <code>RegExp</code>
+		 * object. The replacement can be any expression that can be used as the second
+		 * argument for the <code>String.replace</code> method. 
+		 * </p>
+		 * <fr>
 		 * Ajoute un raccourci définit par l'utilisateur pour être pris
 		 * en compte dans la fonction <code>get</code>.
 		 * <p>
 		 * Un raccourci est en pratique un remplacement effectué par la fonction
 		 * afin de déterminer la requête final à éxécuter.
 		 * </p>
-		 * @param	s			la chaîne de caractère à replacer
-		 * @param	replacement	la valeur de remplacement
-		 * @example Le raccourci <code>gradient</code> pourrait être définit de la manière suivante :
+		 * </fr>
+		 * @param	s			either a <code>String</code> or a <code>RegExp</code> object		
+		 * 						<fr>la chaîne de caractère à replacer</fr>
+		 * @param	replacement	any expression that can be used as the second
+		 * 						argument for the <code>String.replace</code> method
+		 * 						<fr>la valeur de remplacement</fr>
+		 * @example For example, the native <code>gradient</code> shortcuts can be defined as below : 
+		 * <fr>Le raccourci natif <code>gradient</code> pourrait être définit de la manière suivante :</fr>
 		 * <listing>Reflection.addCustomShortcuts("gradient(", "new abe.com.mon.utils::Gradient(");</listing>
 		 */
 		static public function addCustomShortcuts ( s : *, replacement : * ) : void
 		{
 			_customShortcuts [ s ] = replacement;
 		}
+		/**
+		 * Removes a previously added custom shortcuts.
+		 * 
+		 * @param	s	the matcher object used to define the shortcuts
+		 * @return	the results of the <code>delete</code> operation 
+		 */
+		static public function removeCustomShortcuts( s : * ) : Boolean
+		{
+			return delete _customShortcuts [ s ];
+		}
 		
 		/**
+		 * Returns a reference to a typed vector class definition corresponding
+		 * to the passed-in <code>Class</code>.
+		 * <fr>
 		 * Renvoie une référence vers une classe <code>Vector</code> dont le
 		 * type des éléments est <code>clazz</code>.
-		 *
-		 * @param	clazz				le type des éléments du vecteur
-		 * @param	applicationDomain	[optionnel] le domaine d'application permettant
-		 * 								d'accéder à la classe <code>Vector</code> typée
-		 * @return	une référence vers une classe <code>Vector</code> dont le
-		 * 			type des éléments est <code>clazz</code>
+		 * </fr>
+		 * @param	clazz				the type of the vector's elements
+		 * 								<fr>le type des éléments du vecteur</fr>
+		 * @param	applicationDomain	an optional domain to retreive the class definition
+		 * 								<fr>[optionnel] le domaine d'application permettant
+		 * 								d'accéder à la classe <code>Vector</code> typée</fr>
+		 * @return	a reference to a typed vector class definition corresponding
+		 * 			to the passed-in <code>Class</code>
+		 * 			<fr>une référence vers une classe <code>Vector</code> dont le
+		 * 			type des éléments est <code>clazz</code></fr>
 		 */
 		/*FDT_IGNORE*/ 
 		TARGET::FLASH_10
 		static public function getVectorDefinition( clazz:Class , applicationDomain:ApplicationDomain = null ):Class
         {
             if ( clazz == null )
-            {
                 return null ;
-            }
+                
             if( applicationDomain == null )
-            {
                 applicationDomain = ApplicationDomain.currentDomain ;
-            }
+            
             return applicationDomain.getDefinition( VECTOR_CLASSNAME + '.<' + getQualifiedClassName( clazz ) +'>' ) as Class;
         }
         TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		static public function getVectorDefinition( clazz:Class , applicationDomain:ApplicationDomain = null ):Class
         {
             if ( clazz == null )
-            {
                 return null ;
-            }
+              
             if( applicationDomain == null )
-            {
                 applicationDomain = ApplicationDomain.currentDomain ;
-            }
             return applicationDomain.getDefinition( VECTOR_CLASSNAME + '.<' + getQualifiedClassName( clazz ) +'>' ) as Class;
         }
 		/**
+		 * Returns a reference to the class of the object <code>o</code>.
+		 * <fr>
 		 * Renvoie une référence vers la classe de l'objet <code>o</code> passé en argument.
-		 *
-		 * @param	o		l'objet dont on souhaite récupérer la classe
-		 * @param	domain	[optionnel] le domaine d'application permettant de récupérer la classe
-		 * @return	une référence vers la classe de <code>o</code>
+		 * </fr>
+		 * @param	o		the object for which retreiving its class
+		 * 					<fr>l'objet dont on souhaite récupérer la classe</fr>
+		 * @param	domain	an optional domain to retreive the class definition
+		 * 					<fr>[optionnel] le domaine d'application permettant
+		 * 					d'accéder à la classe <code>Vector</code> typée</fr>
+		 * @return	a reference to the class of <code>o</code> 
+		 * 			<fr>une référence vers la classe de <code>o</code></fr>
 		 */
 		static public function getClass( o : Object, domain : ApplicationDomain = null ) : Class
         {
@@ -420,7 +475,22 @@ package abe.com.mon.utils
 		 */
 		static public function getClassMembersWithMeta ( o : *, meta : String, useCache : Boolean = false) : XMLList
 		{
-			return getClassMembersWithMetas( o, useCache ).(metadata.@name==meta);
+			var list : XMLList = getClassMembersWithMetas( o, useCache );
+			var rtn : XMLList = new XMLList();
+			for each( var x : XML in list )
+			{
+				var emptyClone : XML = x.copy();
+				
+				delete emptyClone.*;
+				
+				for each ( var m : XML in x.children() )
+					if( m.@name == meta ) 
+						emptyClone.appendChild( m );
+				
+				if( emptyClone.children().length() > 0 )
+					rtn += new XMLList ( emptyClone );
+			}
+			return rtn;
 		}
 		/**
 		 * Renvoie un objet <code>XMLList</code> contenant les descriptions
@@ -513,11 +583,11 @@ package abe.com.mon.utils
 		 * <tr><td><listing>flash.utils::getTimer()</listing></td>
 		 * 	   <td>Returns the result of the call to <code>getTimer</code>.</td></tr>
 		 * 
-		 * <tr><td><listing>abe.com.mon.utils::Color.Black.alphaClone (0x66)</listing></td>
+		 * <tr><td><listing>abe.com.mon.colors::Color.Black.alphaClone (0x66)</listing></td>
 		 * 	   <td>Returns a clone partially transparent of the constant <code>Black</code> from the class <code>Color</code>.</td></tr>
 		 * 	 
-		 * <tr><td><listing>abe.com.mon.utils::Color.Black.alphaClone (0x66)
-		 * 	.interpolate (abe.com.mon.utils::Color.Red, 0.5)</listing></td>
+		 * <tr><td><listing>abe.com.mon.colors::Color.Black.alphaClone (0x66)
+		 * 	.interpolate (abe.com.mon.colors::Color.Red, 0.5)</listing></td>
 		 * 	   <td>Returns a clone partially transparent of the constant <code>Black</code> blended with 50% of the constant <code>Red</code>.</td></tr>
 		 * 
 		 * <tr><th>Instantiation</th><th>&#xA0;</th></tr>
@@ -529,7 +599,7 @@ package abe.com.mon.utils
 		 * 
 		 * <tr><td><listing>new my.package::MyClass ( 
 		 * 	new flash.geom::Point(2,2), 
-		 * 	abe.com.mon.utils::Color.Red )</listing></td>
+		 * 	abe.com.mon.colors::Color.Red )</listing></td>
 		 *	   <td>Returns a new instance of class <code>MyClass</code> initialized with a new instance of the class <code>Point</code> and a constant from 
 		 * 	  	   the class <code>Color</code>.</td></tr>
 		 * 
@@ -541,6 +611,21 @@ package abe.com.mon.utils
 		 * 
 		 * <tr><td><listing>[[0,0,0], [0,0,0], [0,0,0]]</listing></td>
 		 * 	   <td>Returns an array with two dimensions, with size 3x3 and the value <code>0</code> in each slot.</td></tr>
+		 * 
+		 * <tr><th>Objects</th><th>&#xA0;</th></tr>
+		 * <tr><td><listing>{'foo':15, 'bar':"foobar"}</listing></td>
+		 * 	   <td>Returns an <code>Object</code> with two properties <code>foo</code> and <code>bar</code>.</td></tr>
+		 * 	  
+		 * <tr><td><listing>{'foo'}</listing></td>
+		 * 	   <td>Returns an <code>Object</code> with the property <code>foo</code> set to <code>true</code>.</td></tr>
+		 * 
+		 * <tr><td><listing>{new flash.geom::Point:"A Point", 'foo':"bar"}</listing></td>
+		 * 	   <td>Keys can be any expressions supported by the <code>get</code> method, but if the result of the evaluation
+		 * 	   	  of one of the keys is not a <code>String</code>, a <code>Dictionary</code> is returned instead
+		 * 	   	  of an <code>Object</code>. The choice between <code>Object</code> and <code>Dictionary</code> is
+		 * 	   	  performed after all the evaluations, then, if an expression can't be evaluated and is returned as a
+		 * 	   	  </code>String</code>, the function will return an <code>Object</code>, such as in the example below : 
+		 * 	   	  <listing>{foo:25} // returns an Object with a property named 'foo'</listing></td></tr>
 		 * 
 		 * <tr><th>Shortcuts</th><th>&#xA0;</th></tr>
 		 * <tr><td><listing>color (255,255,255,100)</listing>
@@ -576,12 +661,7 @@ package abe.com.mon.utils
          * Fonction utilisée pour traiter les arguments dans le cas d'un appel de fonction ou
          * d'une instanciation. La différence avec la fonction <code>get</code> est que la fonction
          * <code>parseArguments</code> force un retour sous forme de tableau.
-         * <p>
-         * Un cas particulier se pose lorsque l'on souhaite transmettre un tableau comme unique argument
-         * à une fonction. En effet, les règles d'évaluation retourne le même résultat pour une chaîne tel que
-         * <code>foo( a,b,c )</code> que pour <code>foo( [a,b,c] )</code>. Pour forcer la transmission d'un seul
-         * tableau en argument il s'agit de doubler la déclaration de groupe, soit <code>foo( [[a,b,c]] )</code>
-         * </p>
+         * 
          * @param	s		<code>String</code> à évaluer
 		 * @param	domain	[optionnel] un objet <code>ApplicationDomain</code> utilisé pour
 		 * 					récupérer les références aux classes demandées.
@@ -591,10 +671,16 @@ package abe.com.mon.utils
 		{
 			if( !s || StringUtils.trim(s) == "" )
 				return [];
+			
+			var res : *;
+			var instructions : Array = StringUtils.splitBlock( s );
+			var l : uint = instructions.length;
+			var hasManyTopLevelInstructions : Boolean = l > 1;
+			if( hasManyTopLevelInstructions )
+				res = parseGroup( s, domain ? domain : ApplicationDomain.currentDomain );			else
+				res = [parseGroup( s, domain ? domain : ApplicationDomain.currentDomain )];
 
-			var res : * = parseGroup( s, domain ? domain : ApplicationDomain.currentDomain );
-
-			return res is Array ? res : [ res ];
+			return /*res is Array ? res :*/ res;
 		}
 		/**
 		 * Renvoie une nouvelle instance de la classe <code>clazz</code> construite avec les
@@ -655,8 +741,20 @@ package abe.com.mon.utils
 				rtn = [];
 				for( i = 0 ; i < l ; i++ )
 				{
-					instruction = instructions[ i ];
+					instruction = StringUtils.trim( instructions[ i ] );
+					if( instruction.length == 0 )
+					{
+						if( i == l - 1 )
+							break;
+						else
+						{
+							rtn.push( null );
+							continue;
+						}
+					}
 					instructionFirstChar = instruction.substr( 0, 1 );
+					if( instructionFirstChar == "{" )
+						rtn.push( parseObject( instruction ) );
 					if( instructionFirstChar == "(" ||
 						instructionFirstChar == "[" )
 						rtn.push( parseGroup( instruction.substr( 1, instruction.length - 2 ), domain ) );
@@ -668,18 +766,73 @@ package abe.com.mon.utils
 			{
 				instruction = instructions[ 0 ];
 				instructionFirstChar = instruction.substr( 0, 1 );
-				if( instructionFirstChar == "(" ||
+				if( instructionFirstChar == "{" )
+					return parseObject( instruction );
+				else if( instructionFirstChar == "(" ||
 					instructionFirstChar == "[" )
 				{
 					var instructContent : String = instruction.substr( 1, instruction.length - 2 );
 					if( instructContent.length == 0)
 						return [];
 					else
-						return [parseGroup( instructContent, domain )];
+						return parseGroup( instructContent, domain );
 				}
 				else
 					return parseAtomic( instruction, domain );
 			}
+			return rtn;
+		}
+		/*
+		 * 
+		 */
+		static private function parseObject (instruction : String) : * 
+		{
+			var instructContent : String = instruction.substr( 1, instruction.length - 2 );
+			var propertiesDeclarations : Array = StringUtils.splitBlock( instructContent );
+			var property : String;
+			var a : Array;
+			var key : *;
+			var value : *;
+			var keys : Array = [];
+			var values : Array = [];  
+			var rtn : *;
+			var l : uint;
+			var i : uint;
+			
+			for each( property in propertiesDeclarations )
+			{
+				property = StringUtils.trim( property.replace("::", "<<PACKAGE_TOKEN>>") );
+				
+				if( property.length == 0 )
+					continue;
+				
+				a = property.split(":");
+				
+				if( a[0].length == 0 )
+					continue;
+				
+				key = Reflection.get( a[0].replace("<<PACKAGE_TOKEN>>", "::" ) );
+				
+				if( a.length == 1 )
+					value = true;
+				else 
+				{
+					if( a[1].length == 0 )
+						continue;
+					
+					value = Reflection.get(a[1].replace("<<PACKAGE_TOKEN>>", "::" ) );
+				}
+				keys.push( key );				values.push( value );
+			}
+			if( keys.every( isA( String ) ) )
+				rtn = new Object();
+			else
+				rtn = new Dictionary();
+			
+			l = keys.length;
+			for( i = 0; i<l; i++ )
+				rtn[ keys[i] ] = values[i];
+			
 			return rtn;
 		}
 		/*
@@ -694,7 +847,7 @@ package abe.com.mon.utils
 
 			// An url as @'the url'
 			if( s.search( new RegExp("^@(\"|')(.*)(\"|')$","gi") ) == 0 )
-				return new URLRequest( s.substring( 2, s.length - 3 ) );
+				return new URLRequest( s.substring( 2, s.length - 1 ) );
 			// A regexp such /regexp/flags
 			else if( ( res = new RegExp("^/(.*)/([gimsx]+)?$","gi").exec( s ) ) )
 				return new RegExp( res[1], res[2] );
@@ -706,12 +859,12 @@ package abe.com.mon.utils
 			{
 				var ar : Array = [];
 				if( ( ar = (/color\(([^\d]+)\)/gi).exec( s ) ) != null )
-					s = s.replace( ar[0], "abe.com.mon.utils::Color.get( '"+ StringUtils.trim( ar[ 1 ] ) + "' )" );
-				else					s = s.replace( "color(", "new abe.com.mon.utils::Color(" );
+					s = s.replace( ar[0], "abe.com.mon.colors::Color.get( '"+ StringUtils.trim( ar[ 1 ] ) + "' )" );
+				else					s = s.replace( "color(", "new abe.com.mon.colors::Color(" );
 			}
 			// a gradient
 			else if( s.indexOf("gradient(") == 0 )
-				s = s.replace( "gradient(", "new abe.com.mon.utils::Gradient(" );
+				s = s.replace( "gradient(", "new abe.com.mon.colors::Gradient(" );
 			// 
 			else if( s.indexOf("0x") == 0 )				numval = parseInt( s );
 			// If is an XML string
@@ -780,8 +933,9 @@ package abe.com.mon.utils
 								{
 									var m : String = StringUtils.trim( sm.substr(0,p) );
 									var am : String = sm.substr( p + 1, sm.length - p - 2 );
-									var args : Array = parseArguments( am );
 									
+									var args : Array = parseArguments( am );
+
 									if( !o )
 									{
 										if( a.length > 1 )

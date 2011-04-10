@@ -10,7 +10,7 @@ package abe.com.ponents.actions.builtin
 	import flash.text.TextFormat;
 	import abe.com.ponents.utils.Insets;
 	import abe.com.ponents.utils.Corners;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.ponents.skinning.decorations.SimpleFill;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.utils.KeyStroke;

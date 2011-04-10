@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.buttons 
 {
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 
 	/**
 	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.

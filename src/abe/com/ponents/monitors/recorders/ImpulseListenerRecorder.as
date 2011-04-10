@@ -1,7 +1,7 @@
 package abe.com.ponents.monitors.recorders 
 {
 	import abe.com.mon.geom.Range;
-	import abe.com.mon.utils.Color;
+	import abe.com.mon.colors.Color;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
