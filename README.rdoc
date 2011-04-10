@@ -1,4 +1,4 @@
-= AbeLib AS3 Lib
+= AbeLib AS3 1.0
 
 The AbeLib library is a general purpose actionscript library. This library contains four
 distinct parts : 
