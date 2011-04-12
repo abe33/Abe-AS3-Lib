@@ -167,7 +167,11 @@ package abe.com.ponents.core
 			while( l-- )
 				_childrenContainer.removeChild ( _childrenContainer.getChildAt(l) );
 
-			invalidatePreferredSizeCache();
+			invalidatePreferredSizeCache( );
+		}
+		public function getComponentChildAt (index:int) : DisplayObject 
+		{
+			return _childrenContainer.getChildAt(index);
 		}
 	}
 }

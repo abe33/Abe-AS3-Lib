@@ -1,6 +1,5 @@
 package abe.com.ponents.ressources.handlers 
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.objects.keys;
 	import abe.com.patibility.lang._$;
 	/**
@@ -25,10 +24,8 @@ package abe.com.ponents.ressources.handlers
 		public static function getFields ( o : Object ) : String 
 		{
 			var k : Array = keys( o );
-			k.sort();
-			Log.debug( k );
-			
 			var a : Array = [];
+			k.sort();
 			
 			for each( var key : String in k )
 				a.push( getField( key, o[key] ) );
