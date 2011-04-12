@@ -240,7 +240,7 @@ package abe.com.mon.utils
 
             var cx:Number = ( b2 - b1 )/( m1 - m2 );
             var cy:Number = m1 * cx + b1;
-
+            
             return new Point( cx , cy );
         }
         /**
