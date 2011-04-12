@@ -147,7 +147,10 @@ package abe.com.ponents.tabs
 			_tabBar.dragEnabled = b;
 		}	
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-		
+		public function getTabAt (i : int) : Tab 
+		{
+			return _tabBar.getComponentAt( i ) as Tab; 
+		}
 		public function addTab ( tab : Tab ) : void
 		{
 			_tabBar.addComponent( tab );
