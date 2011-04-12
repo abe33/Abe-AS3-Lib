@@ -34,14 +34,13 @@ package abe.com.ponents.ressources.handlers
 			try
 			{
 				var d : DisplayObject = Reflection.buildInstance( o as Class ) as DisplayObject;
-				var s : String = _("<font color='#666666'>Size :</font>${width} x ${height}");				return _$( s, {
-								'width':d.width,								'height':d.height
-							  } );
+				return HandlerUtils.getField( "Size", _$( "${width}px x ${height}px", { 'width':d.width, 'height':d.height } ) );
 			}
 			catch( e : Error ) {}
-			return "";
+			return _("Object cannot be instanciated");
 		}
 		
 		public function getIconHandler () : Function { return null; }
+		public function get title () : String { return "DisplayObject"; }
 	}
 }

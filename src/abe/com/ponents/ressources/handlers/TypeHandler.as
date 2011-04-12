@@ -6,6 +6,7 @@ package abe.com.ponents.ressources.handlers
 	 */
 	public interface TypeHandler 
 	{
+		function get title():String;
 		function getPreview ( o : * ) : Component;
 		function getDescription ( o : * ) : String;
 		function getIconHandler () : Function;
