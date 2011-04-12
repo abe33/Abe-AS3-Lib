@@ -82,6 +82,9 @@ package abe.com.ponents.utils
 		}
 		static public function pop () : void
 		{
+			if( _levels.length == 0 )
+				return;
+			
 			var level : PopupLevel = _levels.pop();
 		
 			if( level.mode == PopupUtils.MODAL)
