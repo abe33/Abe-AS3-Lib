@@ -36,7 +36,7 @@ package abe.com.patibility.codecs
 				ba.compress();
 				return ba;
 			}
-			else throw new Error(_("La méthode SPRCodec.encode n'accepte que des objets de type BitmapSprite en argument"));
+			else throw new Error(_("SPRCodec.encode method accepts only objects of type BitmapSprite as argument"));
 		}
 		/**
 		 * @inheritDoc
@@ -60,7 +60,7 @@ package abe.com.patibility.codecs
 
 				return sprite;
 			}
-			else throw new Error(_("La méthode SPRCodec.decode n'accepte que des objets de type ByteArray en argument"));
+			else throw new Error(_("SPRCodec.decode method accepts only objects of type ByteArray as argument"));
 		}
 		/**
 		 * @inheritDoc

@@ -3,8 +3,8 @@
  */
 package abe.com.mon.utils
 {
+	import abe.com.mon.closures.core.isA;
 	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.arrays.isA;
 
 	import flash.errors.IllegalOperationError;
 	import flash.net.URLRequest;

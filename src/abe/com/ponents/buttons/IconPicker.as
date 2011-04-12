@@ -8,6 +8,7 @@ package abe.com.ponents.buttons
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.actions.ProxyAction;
 	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
+	import abe.com.ponents.builder.models.BuilderCollections;
 	import abe.com.ponents.core.AbstractContainer;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormComponent;
@@ -16,10 +17,8 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.menus.DropDownMenu;
 	import abe.com.ponents.menus.MenuItem;
-	import abe.com.ponents.skinning.icons.EmbeddedBitmapIcon;
-	import abe.com.ponents.skinning.icons.ExternalBitmapIcon;
+	import abe.com.ponents.models.DefaultListModel;
 	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.skinning.icons.SWFIcon;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
 
 	/**
@@ -76,6 +75,8 @@ package abe.com.ponents.buttons
 			super();
 			buildChildren();
 			value = ico;
+			
+			BuilderCollections.addEventListener(CommandEvent.COMMAND_END, collectionsLoaded );
 		}
 		/**
 		 * Une référence vers l'objet <code>Icon</code>
@@ -122,15 +123,13 @@ package abe.com.ponents.buttons
 			_editIcon.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			_editIcon.isComponentIndependent = false;
 
-			_newIcon = new DropDownMenu("New", null,
-												getMenuItem(ExternalBitmapIcon),
-												getMenuItem(EmbeddedBitmapIcon),
-												getMenuItem(SWFIcon)/*,
-												getMenuItem(CheckBoxUncheckedIcon),
-												getMenuItem(CheckBoxCheckedIcon),
-												getMenuItem(RadioCheckedIcon),
-												getMenuItem(RadioUncheckedIcon),
-												getMenuItem(DOIcon),												getMenuItem(DOInstanceIcon),												getMenuItem(FontIcon),												getMenuItem(BitmapIcon)*/ );
+			_newIcon = new DropDownMenu("New", null, 
+										BuilderCollections.getClassesByType("abe.com.ponents.skinning.icons::Icon"
+														 ).map(function( o : Class, ... args ):MenuItem
+														 { 
+														 	return getMenuItem( o );
+														 })
+												);
 			_newIcon.isComponentIndependent = false;
 
 			var l : HBoxLayout = new HBoxLayout(this, 3,
@@ -195,6 +194,12 @@ package abe.com.ponents.buttons
 					( _editIcon.action as EditObjectPropertiesAction).icon = _value;
 					break;
 			}
+		}
+		protected function collectionsLoaded (event : CommandEvent) : void 
+		{
+			_newIcon.popupMenu.menuList.model = new DefaultListModel( 
+															BuilderCollections.getClassesByType("abe.com.ponents.skinning.icons::Icon").map( 
+																function( c : Class, ... args ) : MenuItem { return getMenuItem( c ); } ) );
 		}
 		/**
 		 * Recoit l'évènement <code>CommandEvent.COMMAND_END</code> de fin

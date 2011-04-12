@@ -19,7 +19,7 @@ package abe.com.ponents.skinning.icons
 			this.clazz = c;
 			invalidatePreferredSizeCache();
 		}
-		[Form(label="Class Path", type="class")]
+		[Form(label="Symbol", type="embeddedBitmap")]
 		public function get clazz() : Class{ return _class;}
 		public function set clazz( cl : Class ) : void
 		{

@@ -87,6 +87,17 @@ package abe.com.mon.geom
 			return new Point( x + p.x, y + p.y );
 		}
 		/**
+		 * @inheritDoc
+		 */
+		override public function getTangentAt ( pos : Number, posDetail : Number = 0.01 ) : Point
+		{
+			var tan : Point = getPathPoint( Math.min( 1, pos + posDetail ) ).subtract(
+							  getPathPoint( Math.max( 0, pos - posDetail ) ) );
+			tan.normalize(1);
+
+			return tan;
+		}
+		/**
 		 * <p>
 		 * <strong>Note:</strong> The <code>fill</code> method is not supported
 		 * by the class <code>Spiral</code>.

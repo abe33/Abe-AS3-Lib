@@ -6,7 +6,6 @@ package  abe.com.mon.geom
 	import abe.com.mon.colors.Color;
 
 	import flash.display.Graphics;
-
 	/**
 	 * The <code>Geometry</code> interface defines the methods that a geometric object
 	 * have to implement in order to interact with other geometric objects.
@@ -31,7 +30,7 @@ package  abe.com.mon.geom
 	 * @author	Cédric Néhémie
 	 * @see	abe.com.mon.utils.GeometryUtils
 	 */
-	public interface Geometry
+	public interface Geometry extends Path
 	{
 		/**
 		 * Draws the outline of the geometry into the passed-in <code>Graphics</code>

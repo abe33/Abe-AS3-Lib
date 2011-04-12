@@ -126,14 +126,14 @@ package abe.com.ponents.sliders
 			_input.preferredWidth = _style.inputWidth;
 			_input.isComponentIndependent = false;
 			
-			_knob = new Button();
+			_knob = new Button("");
 			_knob.styleKey = "VSliderButton";
 			_knob.icon = _style.icon.clone();
 			_knob.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			_knob.preferredHeight = _style.buttonSize;
 			_knob.isComponentIndependent = false;
 			
-			_track = new Button();
+			_track = new Button("");
 			_track.styleKey = "VSliderTrack";
 			_track.label = "";
 			_track.allowFocus = false;
@@ -348,7 +348,7 @@ package abe.com.ponents.sliders
 				if( _snapToTicks )
 					_model.value = getTransformedValue( _model.value + _minorTickSpacing );
 				else
-					_model.value = getTransformedValue( _model.value + 1 );
+					_model.value = getTransformedValue( _model.value + _model.extent );
 			}
 		}
 		protected function down () : void
@@ -358,7 +358,7 @@ package abe.com.ponents.sliders
 				if( _snapToTicks )
 					_model.value = getTransformedValue( _model.value - _minorTickSpacing );
 				else
-					_model.value = getTransformedValue( _model.value - 1 );
+					_model.value = getTransformedValue( _model.value - _model.extent );
 			}
 		}
 		protected function validateInput() : void
@@ -391,14 +391,14 @@ package abe.com.ponents.sliders
 			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
 			for( i = _model.minimum; i <= _model.maximum; i += _majorTickSpacing )
 			{
-				y = _track.y + _knob.height/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.height - _knob.height );
+				y = _track.y + _knob.height/2 + MathUtils.map( i , _model.minimum, _model.maximum, _track.height - _knob.height, 0 );
 				_background.graphics.moveTo( x - w, y );
 				_background.graphics.lineTo( x, y );
 			}
-			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
+			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 500 );
 			for( i = _model.minimum; i <= _model.maximum; i += _minorTickSpacing )
 			{
-				y = _track.y + _knob.height/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.height - _knob.height );
+				y = _track.y + _knob.height/2 + MathUtils.map( i , _model.minimum, _model.maximum, _track.height - _knob.height, 0 );
 				_background.graphics.moveTo( x - w/4, y );
 				_background.graphics.lineTo( x - w*0.75, y );
 			}
@@ -441,7 +441,8 @@ package abe.com.ponents.sliders
 		{			
 			_input.value = _model.displayValue;
 			invalidate( true );
-			_input.selectAll();
+			_input.selectAll( );
+			_input.textfield.scrollH = 0;
 			
 			fireDataChange();
 		}

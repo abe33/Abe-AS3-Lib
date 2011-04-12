@@ -1,6 +1,8 @@
 package abe.com.ponents.builder.styles 
 {
 	import abe.com.mon.logs.Log;
+	import abe.com.ponents.skinning.SkinManagerInstance;
+	import abe.com.ponents.skinning.ComponentStyle;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.Delegate;
 	import abe.com.mon.utils.Reflection;
@@ -43,7 +45,7 @@ package abe.com.ponents.builder.styles
 		[Embed(source="../../skinning/icons/delete.png")]
 		static private var remove : Class;
 		
-		protected var _styleName : Label;
+		protected var _styleTarget : ComponentStyle;		protected var _styleName : Label;
 		protected var _styleExtends : Label;
 		protected var _styleOwner : Label;
 		protected var _styleCustomProperties : ScrollPane;
@@ -153,8 +155,12 @@ package abe.com.ponents.builder.styles
 
 			if( n && n != "" )
 			{
+				_styleTarget.setCustomProperty(n, FormUtils.getNewValue(t) );
+								
 				( _styleNewCustomPropertyName.autoComplete as InputMemory ).registerCurrent();
 				_styleNewCustomPropertyName.value = "";
+				
+				styleSelectionChange( new StyleSelectionEvent( "", SkinManagerInstance.getSkin( _styleTarget.skinName ), _styleTarget ));
 			}
 		}
 		public function styleSelectionChange ( e : StyleSelectionEvent ) : void
@@ -162,7 +168,7 @@ package abe.com.ponents.builder.styles
 			clearStyleCustomPropertiesTools ();
 			if( e.style )
 			{
-				
+				_styleTarget = e.style;
 				_styleName.value = _$(_("Style Name : <b>$0</b>"), e.style.styleName );
 				_styleExtends.value = _$(_("Style Extends : <b>$0</b>"), e.style.defaultStyleKey != "" ? e.style.defaultStyleKey : _("Is Root") );
 				_styleOwner.value = _$(_("Style owned by : <b>$0</b>"), e.style.skinName ? e.style.skinName : _( "No Owner") );
@@ -196,6 +202,8 @@ package abe.com.ponents.builder.styles
 					_styleCustomProperties.view = p;
 				}
 			}
+			else
+				_styleTarget = null;
 		}
 		public function skinSelectionChange ( e : StyleSelectionEvent ) : void
 		{

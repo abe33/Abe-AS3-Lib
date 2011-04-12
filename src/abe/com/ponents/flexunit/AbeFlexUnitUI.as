@@ -1,8 +1,8 @@
 package abe.com.ponents.flexunit
 {
+	import abe.com.mon.closures.objects.hasProperty;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.StringUtils;
-	import abe.com.mon.utils.arrays.hasProperty;
 	import abe.com.patibility.humanize.capitalize;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;

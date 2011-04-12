@@ -1,6 +1,8 @@
 package abe.com.ponents.menus 
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.Reflection;
+	import abe.com.patibility.lang._$;
 	import abe.com.ponents.models.DefaultComboBoxModel;
 
 	import flash.text.Font;
@@ -22,7 +24,7 @@ package abe.com.ponents.menus
 			for( var i:Number = 0; i<l; i++ )
 			{
 				var f : Font = a[i];
-				b[i] = f.fontName;
+				b[i] = f;
 			}
 			var m : DefaultComboBoxModel = new DefaultComboBoxModel( b );
 
@@ -35,7 +37,13 @@ package abe.com.ponents.menus
 			
 			itemFormatingFunction = function(v:*):String
 			{
-				return "<font face='"+v+"' size='16' color='" + Reflection.get("skin.DarkBlue.html") + "'>Sample</font>\t"+v;
+				var f : Font = v as Font;
+				var embed : String = "";
+				v = f.fontName;
+				if( f.fontType == "embedded" )
+					embed = _$( " <font color='$0'>(embed)</font>", Color.OrangeRed.html );
+				
+				return _$("<font face='$0' size='16' color='$1'>Sample</font>\t$0$2", v, Reflection.get("skin.DarkBlue.html"), embed );
 			};
 		}
 		/*
