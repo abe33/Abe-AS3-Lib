@@ -12,8 +12,10 @@ package abe.com.ponents.demos.dockables
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
 	import abe.com.ponents.models.RangeBoundedRangeModel;
 	import abe.com.ponents.skinning.icons.Icon;
+	import abe.com.ponents.sliders.HLogarithmicSlider;
 	import abe.com.ponents.sliders.HRangeSlider;
 	import abe.com.ponents.sliders.HSlider;
+	import abe.com.ponents.sliders.VLogarithmicSlider;
 	import abe.com.ponents.sliders.VRangeSlider;
 	import abe.com.ponents.sliders.VSlider;
 	import abe.com.ponents.text.Label;
@@ -71,7 +73,23 @@ package abe.com.ponents.demos.dockables
 						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "topToBottom" ) },
 						null
 			);
-			
+			buildBatch( factory, HLogarithmicSlider, 
+						3, 
+						"slidersDemoHLogarithmicSlider",
+						[ // args
+							[new DefaultBoundedRangeModel( 10, 0.1 )],							[new DefaultBoundedRangeModel( 30, 0.1 )],							[new DefaultBoundedRangeModel( 70, 0.1 )]
+						],
+						[ // kwargs
+							{},
+							{displayTicks:true,preferredWidth:300,displayInput:false},
+							{displayTicks:true,preferredWidth:300,displayInput:true,enabled:false},
+						], // container
+						FieldSet, 
+						"slidersDemoHLogarithmicSliderFieldset", 
+						[_("Hrizontal Logarithmic Sliders")], 
+						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "topToBottom" ) },
+						null
+			);
 			buildBatch( factory,VSlider, 
 						5, 
 						"slidersDemoVSlider",
@@ -120,20 +138,39 @@ package abe.com.ponents.demos.dockables
 						null
 			);
 			
+			buildBatch( factory, VLogarithmicSlider, 
+						3, 
+						"slidersDemoVLogarithmicSlider",
+						[ // args
+							[new DefaultBoundedRangeModel( 10, 0.1 )],
+							[new DefaultBoundedRangeModel( 30, 0.1, 50 )],
+							[new DefaultBoundedRangeModel( 30, 0.1 )],
+						],
+						[ // kwargs
+							{},
+							{displayTicks:true,preferredHeight:300,displayInput:false},
+							{displayTicks:true,preferredHeight:300,displayInput:true,enabled:false}
+						], // container
+						FieldSet, 
+						"slidersDemoVLogarithmicSliderFieldset", 
+						[_("Vertical Logarithmic Sliders")], 
+						{ 'childrenLayout':new InlineLayout(null, 3, "left", "center", "leftToRight" ) },
+						null
+			);
 			fillBatch( factory,Panel, 
 			   		   "hslidersDemoPanel",
 			   		    null,
-			   			{ 'childrenLayout':new GridLayout(null, 1, 2, 10, 3) },
+			   			{ 'childrenLayout':new GridLayout(null, 1, 3, 10, 3) },
 			    		[
-			    			"slidersDemoHSliderFieldset",			    			"slidersDemoHRangeSliderFieldset"
+			    			"slidersDemoHSliderFieldset",			    			"slidersDemoHRangeSliderFieldset",			    			"slidersDemoHLogarithmicSliderFieldset"
 			    		] );
 			 
 			fillBatch( factory,Panel, 
 			   		   "vslidersDemoPanel",
 			   		    null,
-			   			{ 'childrenLayout':new GridLayout(null, 1, 2, 10, 3) },
+			   			{ 'childrenLayout':new GridLayout(null, 1, 3, 10, 3) },
 			    		[
-			    			"slidersDemoVSliderFieldset",			    			"slidersDemoVRangeSliderFieldset"
+			    			"slidersDemoVSliderFieldset",			    			"slidersDemoVRangeSliderFieldset",			    			"slidersDemoVLogarithmicSliderFieldset"
 			    		] );
 			   			
 			fillBatch( factory,ScrollablePanel, 
