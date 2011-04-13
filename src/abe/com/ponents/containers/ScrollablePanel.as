@@ -18,7 +18,7 @@ package abe.com.ponents.containers
 		
 		public function ScrollablePanel () 
 		{
-			_tracksViewportHPolicy = ScrollPolicies.NEVER;			_tracksViewportVPolicy = ScrollPolicies.AUTO;
+			_tracksViewportHPolicy = ScrollPolicies.ALWAYS;			_tracksViewportVPolicy = ScrollPolicies.AUTO;
 		}
 		public function get tracksViewportHPolicy () : String { return _tracksViewportHPolicy; }
 		public function set tracksViewportHPolicy (tracksViewportHPolicy : String) : void {	_tracksViewportHPolicy = tracksViewportHPolicy; }
