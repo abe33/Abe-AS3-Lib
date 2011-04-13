@@ -37,7 +37,7 @@ package abe.com.ponents.ressources.handlers
 				return HandlerUtils.getField( "Size", _$( "${width}px x ${height}px", { 'width':d.width, 'height':d.height } ) );
 			}
 			catch( e : Error ) {}
-			return _("Object cannot be instanciated");
+			return _("<font size='9' color='#ff0000'>Object cannot be instanciated</font>");
 		}
 		
 		public function getIconHandler () : Function { return null; }

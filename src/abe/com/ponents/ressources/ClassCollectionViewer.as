@@ -87,7 +87,7 @@ package abe.com.ponents.ressources
 			_assetPreviewResizer = new ComponentResizer( _assetPreview, ComponentResizer.BOTTOM_RESIZE_POLICY );
 			_assetDetails = new Label(_("No Selection"));
 			//_assetDetails.preferredSize = dm(150,300);
-			_assetPreview.preferredSize = dm(150,150);
+			_assetPreview.preferredSize = dm(150,200);
 			_assetDetails.wordWrap = true;
 			
 			var detailsPanel : ScrollablePanel = new ScrollablePanel();
