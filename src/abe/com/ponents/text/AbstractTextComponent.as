@@ -77,7 +77,7 @@ package abe.com.ponents.text
 		public function AbstractTextComponent ()
 		{
 			super( );
-			_label = _label ? _label : new TextFieldImpl( );			//_label = _label ? _label : new TLFTextFieldImpl();
+			_label = _label ? _label : new TextFieldImpl();			//_label = _label ? _label : new TLFTextFieldImpl();
 			_label.width = 100;
 			_label.height = 20;
 			_label.type = TextFieldType.INPUT;
