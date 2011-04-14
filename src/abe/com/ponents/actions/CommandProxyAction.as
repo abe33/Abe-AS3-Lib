@@ -26,7 +26,7 @@ package abe.com.ponents.actions
 		public function get command () : Command { return _command; }
 		public function set command (command : Command) : void { _command = command; }
 		
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			registerToCommandEvents(_command );
 			_command.execute();

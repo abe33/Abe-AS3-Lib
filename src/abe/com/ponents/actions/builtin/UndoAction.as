@@ -85,7 +85,7 @@ package abe.com.ponents.actions.builtin
 			checkUndoState ();
 		}
 	
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			_manager.undo();
 		}

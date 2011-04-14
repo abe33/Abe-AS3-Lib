@@ -31,7 +31,7 @@ package abe.com.mands.load
 			_callback = f;
 		}
 
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			load();
 		}

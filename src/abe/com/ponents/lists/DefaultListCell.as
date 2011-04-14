@@ -241,7 +241,7 @@ import flash.events.MouseEvent;
 
 internal class DefaultListCellSelectAction extends AbstractAction 
 {
-	override public function execute (e : Event = null) : void
+	override public function execute( ... args ) : void
 	{
 		if( e )
 		{

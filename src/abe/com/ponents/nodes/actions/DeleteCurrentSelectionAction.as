@@ -38,7 +38,7 @@ package abe.com.ponents.nodes.actions
 			this.canvas = canvas;
 			this.nodeLayer = nodeLayer;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			var dial : PreventDeleteSelectionDialog = new PreventDeleteSelectionDialog();
 			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/

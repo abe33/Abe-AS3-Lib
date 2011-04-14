@@ -35,7 +35,7 @@ package abe.com.ponents.actions.builtin
 		{
 			_gradient = gradient;
 		}
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			_cancelled = false;
 			GradientEditorInstance.target = _gradient;

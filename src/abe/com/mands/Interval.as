@@ -53,7 +53,7 @@ package  abe.com.mands
 		/**
 		 * Éxécute la commande.
 		 */
-		override public function execute( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			_cancelled = false;
 			reset();

@@ -60,7 +60,7 @@ package  abe.com.ponents.monitors
 		 * @param	e	objet <code>TerminalEvent</code> fournit par le <code>Terminal</code> dans
 		 * 				lequel la commande a été appelé
 		 */
-		override public function execute( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			var te : TerminalEvent = e as TerminalEvent;
 			

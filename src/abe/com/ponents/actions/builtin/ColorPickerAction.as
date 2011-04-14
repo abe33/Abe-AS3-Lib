@@ -65,7 +65,7 @@ package abe.com.ponents.actions.builtin
 			_caller = e;
 		}
 		
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			_cancelled = false;
 			

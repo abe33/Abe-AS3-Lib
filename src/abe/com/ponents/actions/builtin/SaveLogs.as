@@ -23,7 +23,7 @@ package abe.com.ponents.actions.builtin
 			super( fileName, data, name, icon, longDescription, accelerator );
 			_logView = logView;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			this.data = _logView.textfield.text;
 			super.execute( e );

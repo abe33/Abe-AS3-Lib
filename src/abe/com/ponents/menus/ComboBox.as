@@ -563,7 +563,7 @@ internal class SelectAction extends AbstractAction
 		_caller = owner;
 	}
 
-	override public function execute (e : Event = null) : void
+	override public function execute( ... args ) : void
 	{
 		_caller.model.selectedElement = _caller.model.getElementAt( _id );
 		fireCommandEnd();

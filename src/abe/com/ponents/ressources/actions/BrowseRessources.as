@@ -41,7 +41,7 @@ package abe.com.ponents.ressources.actions
 			_collectionsLoader = collectionsLoader;
 			_ressourceType = ressourceType;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			if( !_dialog )
 				buildDialog();

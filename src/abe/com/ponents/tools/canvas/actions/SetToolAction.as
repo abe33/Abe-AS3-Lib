@@ -54,7 +54,7 @@ package abe.com.ponents.tools.canvas.actions
 			selected = manager.tool == tool;
 		}
 
-		override public function execute ( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			manager.tool = tool;	
 			fireCommandEnd();

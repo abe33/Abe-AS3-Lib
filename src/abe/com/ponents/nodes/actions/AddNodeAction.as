@@ -33,7 +33,7 @@ package abe.com.ponents.nodes.actions
 			this.layer = layer;
 			this.userObjectProvider = userObjectProvider;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			var n : CanvasNode = new CanvasNode();
 			

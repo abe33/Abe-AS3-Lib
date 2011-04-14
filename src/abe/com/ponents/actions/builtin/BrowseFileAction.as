@@ -51,7 +51,7 @@ package abe.com.ponents.actions.builtin
 		public function get filters () : Array { return _filters; }
 		public function set filters (filters : Array) : void { _filters = filters; }
 		
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			_isCanceled = false;
 

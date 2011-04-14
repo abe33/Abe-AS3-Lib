@@ -50,7 +50,7 @@ package abe.com.ponents.actions.builtin
 		{
 			_fileName = fileName;
 		}
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			if( _data && _fileName && ( _validationFunction == null || _validationFunction() ) )
 			{

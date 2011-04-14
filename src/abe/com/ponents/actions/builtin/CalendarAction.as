@@ -31,7 +31,7 @@ package abe.com.ponents.actions.builtin
 			super( DateUtils.format(_date, _dateFormat ), icon, _("Change date"), accelerator );
 		}
 
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			_cancelled = false;
 			CalendarInstance.date = DateUtils.cloneDate(_date);

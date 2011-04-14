@@ -21,7 +21,7 @@ package abe.com.ponents.actions.builtin
 			super( name, icon, longDescription, accelerator );
 		}
 
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			if( Capabilities.isDebugger )
 			{

@@ -46,7 +46,7 @@ package abe.com.ponents.ressources.actions
 			super( name, icon, longDescription, accelerator );
 			_collectionsLoader = collectionsLoader;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			inputRessource();
 		}

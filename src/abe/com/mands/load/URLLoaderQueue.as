@@ -54,7 +54,7 @@ package  abe.com.mands.load
 			_callbacks = new Vector.<Function>();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
-		override public function execute( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			_isRunning = true;
 			

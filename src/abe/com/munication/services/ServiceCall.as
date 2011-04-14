@@ -75,7 +75,7 @@ package abe.com.munication.services
 		{
 			_method = method;
 		}
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			/*FDT_IGNORE*/ CONFIG::WITH_DISTANT_SERVER { /*FDT_IGNORE*/
 				_service = ServiceFactory.get( _serviceName, _connection);

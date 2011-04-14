@@ -62,7 +62,7 @@ package abe.com.ponents.actions.builtin
 			_object = object;
 		}
 
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			var t : *;
 			

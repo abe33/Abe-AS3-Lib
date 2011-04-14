@@ -325,7 +325,7 @@ package abe.com.motion
 		 *
 		 * @param	e	un objet <code>Event</code> transmis à la méthode
 		 */
-		override public function execute( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			reset();
 			start();

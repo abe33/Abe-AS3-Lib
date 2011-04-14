@@ -26,7 +26,7 @@ package abe.com.ponents.actions.builtin
 			_query = query;
 			_target = target;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			navigateToURL( _query, _target );
 			super.execute( e );

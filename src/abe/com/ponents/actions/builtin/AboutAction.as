@@ -38,7 +38,7 @@ package abe.com.ponents.actions.builtin
 			_appVersion = appVersion;			_appAbout = appAbout;
 			_appCopyright = appCopyright;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			var p : Panel = new Panel();
 			p.childrenLayout = new InlineLayout(p, 3, "left", "top", "topToBottom", true );

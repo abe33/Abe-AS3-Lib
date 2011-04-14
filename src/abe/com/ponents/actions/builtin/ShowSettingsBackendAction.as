@@ -49,7 +49,7 @@ package abe.com.ponents.actions.builtin
 		{
 			super( name, icon ? icon : magicIconBuild( showSettingsIcon ), longDescription, accelerator );
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			var a : Array =  SettingsManagerInstance.settingsList;
 			var b : Array = [];

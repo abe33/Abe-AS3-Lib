@@ -30,7 +30,7 @@ package abe.com.ponents.actions
 			_value = value; 
 			dispatchEvent( new PropertyEvent( PropertyEvent.PROPERTY_CHANGE, "value", _value ) ); 
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			_value = !_value;
 			dispatchEvent( new PropertyEvent( PropertyEvent.PROPERTY_CHANGE, "value", _value ) );

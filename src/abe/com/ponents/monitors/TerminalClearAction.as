@@ -40,7 +40,7 @@ package  abe.com.ponents.monitors
 				  	accelerator
 				 );
 		}
-		override public function execute( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			var te : TerminalEvent = e as TerminalEvent;
 			var o : Object = parseOptions( te.options );

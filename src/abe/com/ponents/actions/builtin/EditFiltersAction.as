@@ -40,7 +40,7 @@ package abe.com.ponents.actions.builtin
 			name = _$( _("Filters : $0"), filters.map( function( o:*, ... args ) : String { return Reflection.getClassName( o ); } ).join(", ") );
 		}
 
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			_cancelled = false;
 

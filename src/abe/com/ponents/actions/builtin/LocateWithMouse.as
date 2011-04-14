@@ -31,7 +31,7 @@ package abe.com.ponents.actions.builtin
 		private var lastObject : DisplayObject;
 		private var shape : Shape = new Shape();
 		
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			ToolKit.toolLevel.addChild( shape );
 			StageUtils.stage.addEventListener( MouseEvent.MOUSE_MOVE, stageMouseMove );			StageUtils.root.addEventListener( MouseEvent.MOUSE_UP, mouseUp, true );			StageUtils.root.addEventListener( MouseEvent.MOUSE_DOWN, mouseDown, true );

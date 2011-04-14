@@ -55,7 +55,7 @@ package  abe.com.ponents.monitors
 		 * 
 		 * @param	e	<code>TerminalEvent</code> diffusé par le terminal
 		 */
-		override public function execute(e : Event = null ) : void 
+		override public function execute( ... args ) : void 
 		{
 			var te : TerminalEvent = e as TerminalEvent;
 			te.terminal.echo( "<font color='" + Color.DeepSkyBlue.html + "'>Éxécute la commande</font> " +

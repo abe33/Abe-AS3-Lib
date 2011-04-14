@@ -21,7 +21,7 @@ package abe.com.mands
 			this.args = args;
 		}
 
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			if( passEvent )
 				fn.call( null, e );

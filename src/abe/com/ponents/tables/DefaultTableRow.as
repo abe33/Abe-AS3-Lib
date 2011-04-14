@@ -370,7 +370,7 @@ internal class TableRowSelectAction extends AbstractAction
 		_row = row;
 	}
 	
-	override public function execute (e : Event = null) : void
+	override public function execute( ... args ) : void
 	{
 		var list : List = _row.owner;
 		var evt : MouseEvent = e as MouseEvent;

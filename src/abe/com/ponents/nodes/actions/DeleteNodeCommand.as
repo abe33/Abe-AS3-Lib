@@ -22,7 +22,7 @@ package abe.com.ponents.nodes.actions
 			this.node = node;
 			this.layer = layer;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			if( node.selected )
 				node.selected = false;

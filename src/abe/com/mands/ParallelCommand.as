@@ -68,7 +68,7 @@ package  abe.com.mands
 		 * 
 		 * @param	e	évènement reçue par la commande
 		 */		
-		override public function execute(e:Event=null):void
+		override public function execute( ... args ):void
 		{
 			var l : Number = _aCommands.length;
 			for( var i : Number = 0; i < l; i++ )

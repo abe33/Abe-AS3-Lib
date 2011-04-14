@@ -16,7 +16,7 @@ package abe.com.ponents.nodes.actions
 		{
 			this.link = link;		
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			UndoManagerInstance.add( new UnlinkNodesUndoable(link) );
 			link.a.removeConnection(link);

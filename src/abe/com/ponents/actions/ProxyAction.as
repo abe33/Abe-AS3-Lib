@@ -48,7 +48,7 @@ package abe.com.ponents.actions
 		/**
 		 * @inheritDoc
 		 */
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
 			_function.apply( null, _arguments );
 			fireCommandEnd();
