@@ -1,7 +1,6 @@
 package abe.com.ponents.monitors
 {
 	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.logs.LogEvent;
 	import abe.com.mon.logs.LogLevel;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Keys;
@@ -268,28 +267,28 @@ package abe.com.ponents.monitors
 			_logs = [];
 			printLogs();
 		}
-		public function logAdded ( e : LogEvent ) : void
+		public function logAdded ( msg : String, level : LogLevel, keepHTML : Boolean ) : void
 		{
-			if( e.keepHTML )
+			if( keepHTML )
 			{
 				writeLine(_$("<p><b><font color='$0'>$1 : </font></b>$2</p>",
-							e.level.color,
-							e.level.name,
-							e.msg ) );
+							level.color,
+							level.name,
+							msg ) );
 			}
 			else
 			{
-				var line : XML = <p><b><font color={e.level.color}>{e.level.name} : </font></b> {e.msg}</p>;
+				var line : XML = <p><b><font color={level.color}>{level.name} : </font></b> {msg}</p>;
 				XML.prettyPrinting = false;
 				writeLine( line.toXMLString() );
 			}
-			if( e.level.level >= LogLevel.WARN.level )
+			if( level.level >= LogLevel.WARN.level )
 			{
 				if( _notifyWarnings &&
-					e.level.level == LogLevel.WARN.level &&
+					level.level == LogLevel.WARN.level &&
 					!isVisible )
 					dispatchEvent( new DebugEvent( DebugEvent.NOTIFY_WARNING ) );				else if( _notifyErrors &&
-						e.level.level >= LogLevel.ERROR.level &&
+						level.level >= LogLevel.ERROR.level &&
 						!isVisible )
 					dispatchEvent( new DebugEvent( DebugEvent.NOTIFY_ERROR ) );
 			}

@@ -4,7 +4,6 @@ package abe.com.ponents.tools
 	import abe.com.mon.geom.Range;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.logs.Log;
-	import abe.com.mon.logs.LogEvent;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Keys;
 	import abe.com.mon.utils.Reflection;
@@ -278,7 +277,8 @@ package abe.com.ponents.tools
 						Capabilities.localFileReadDisable ? _("Local with file access") : _("Network only"),
 						Capabilities.localFileReadDisable ? "" : _("If you experience errors such as <code>SecurityError</code> while loading a file, it's probably due to the sandbox restrictions, please allow the directory where this file is stored in the <font color='#0000ff'><u><a href='http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html'>Global Security Settings panel</a></u></font>.")
 					  ) );
-			Log.getInstance().addEventListener( LogEvent.LOG_ADD, _logView.logAdded );
+			
+			Log.getInstance().logAdded.add( _logView.logAdded );
 
 			switch( dock )
 			{
