@@ -27,7 +27,7 @@ package abe.com.mands
 				fn.call( null, e );
 			else
 				fn.apply( null, args );
-			fireCommandEnd();
+			commandEnded.dispatch( this );
 		}
 	}
 }

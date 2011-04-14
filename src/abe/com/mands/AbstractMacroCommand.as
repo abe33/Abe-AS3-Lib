@@ -3,15 +3,8 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mands.AbstractCommand;
-	import abe.com.mands.Command;
-	import abe.com.mands.MacroCommand;
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Runnable;
-
-	import flash.events.Event;
-
 	/**
 	 * Implémentation de base de l'interface <code>MacroCommand</code>. En règle
 	 * générale, il suffit d'étendre <code>AbstractMacroCommand</code> et de réécrire
@@ -168,20 +161,20 @@ package  abe.com.mands
 		 * Réécrivez cette méthode pour définir le comportement de votre 
 		 * classe lors de la fin d'éxécution d'une sous-commande. 
 		 */
-		protected function commandEnd ( e : Event ) : void	{}
+		protected function onCommandEnded ( command : Command ) : void	{}
 		
 		/**
 		 * Réécrivez cette méthode pour définir le comportement de votre 
 		 * classe lors d'un échec d'éxécution d'une sous-commande. 
 		 */
-		protected function commandFailed ( e : Event ) : void {}
+		protected function onCommandFailed ( command : Command, s : String ) : void {}
 		
 		/**
 		 * Réécrivez cette méthode pour définir le comportement de votre 
 		 * classe lors d'une annulation d'éxécution d'une commande implémentant
 		 * <code>Cancelable</code>. 
 		 */
-		protected function commandCancelled ( e : Event ) : void {}
+		protected function onCommandCancelled ( command : Command ) : void {}
 		
 		/**
 		 * Enregistre l'instance courante comme écouteur pour les évènements
@@ -204,11 +197,11 @@ package  abe.com.mands
 		 */
 		protected function registerToCommandEvents ( c : Command ) : void
 		{
-			c.addEventListener( CommandEvent.COMMAND_END, commandEnd );
-			c.addEventListener( CommandEvent.COMMAND_FAIL, commandFailed );
+			c.commandEnded.add( onCommandEnded );
+			c.commandFailed.add( onCommandFailed );
 			
 			if( c is Cancelable )
-				c.addEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+				( c as Cancelable).commandCancelled.add( onCommandCancelled );
 		}
 		
 		/**
@@ -222,11 +215,11 @@ package  abe.com.mands
 		 */
 		protected function unregisterToCommandEvents ( c : Command ) : void
 		{
-			c.removeEventListener( CommandEvent.COMMAND_END, commandEnd );
-			c.removeEventListener( CommandEvent.COMMAND_FAIL, commandFailed );
+			c.commandEnded.remove( onCommandEnded );
+			c.commandFailed.remove( onCommandFailed );
 			
 			if( c is Cancelable )
-				c.removeEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+				( c as Cancelable).commandCancelled.remove( onCommandCancelled );
 		}
 		/**
 		 * Nombre de commandes actuellement enregistrées dans cette macro commande. 

@@ -3,13 +3,7 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mands.Batch;
-	import abe.com.mands.Command;
-	import abe.com.mands.MacroCommand;
 	import abe.com.mon.core.Runnable;
-
-	import flash.events.Event;
-
 	/**
 	 * Une commande <code>Queue</code> éxécute un lot de commandes les unes à la suites des autres
 	 * en transmettant à chaque commande l'évènement de fin reçue de la commande précédente.
@@ -43,22 +37,16 @@ package  abe.com.mands
 		 * 
 		 * @param	e	évènement de fin diffusé par la sous-commande
 		 */
-		override protected function commandEnd ( e : Event ) : void
+		override protected function onCommandEnded ( command : Command ) : void
 		{
 			unregisterToCommandEvents( _oLastCommand );
 			
 			if( _bCancelled )
-			{
-				fireCommandCancelled();
-			}
+				commandCancelled.dispatch( this );
 			else if( _hasNext() )
-			{
-				_next().execute( e );
-			}
+				_next().execute( command );
 			else
-			{
-				fireCommandEnd();
-			}
+				commandEnded.dispatch( this );
 		}
 	}
 }

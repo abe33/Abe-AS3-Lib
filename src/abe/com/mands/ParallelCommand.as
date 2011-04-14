@@ -3,16 +3,11 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mands.AbstractMacroCommand;
-	import abe.com.mands.Command;
-	import abe.com.mands.MacroCommand;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Runnable;
+	import abe.com.mon.core.Suspendable;
 
-	import flash.events.ErrorEvent;
 	import flash.events.Event;
-
 	/**
 	 * Macro-Commande permettant d'éxécuter plusieurs autres commandes 
 	 * simultanément et de ne renvoyer un évènement <code>CommandEvent.COMMAND_END</code> 
@@ -95,12 +90,12 @@ package  abe.com.mands
 		 * 
 		 * @param	e	évènement diffusé par la sous commande
 		 */
-		override protected function commandEnd ( e : Event ) : void
+		protected function onCommandEnded ( command : Command ) : void
 		{
 			_nCallbackCount++;
 			if( _nCallbackCount == _aCommands.length )
 			{
-				fireCommandEnd();
+				commandEnded.dispatch();
 				reset();
 			}
 		}	
@@ -111,20 +106,19 @@ package  abe.com.mands
 		 * 
 		 * @param	e	évènement diffusé par la sous commande
 		 */	
-		override protected function commandFailed ( e : Event ) : void
+		override protected function onCommandFailed ( command : Command, msg : String ) : void
 		{
-			var evt : ErrorEvent = e as ErrorEvent;
 			
-			fireCommandFailed( evt.text );
+			commandFailed.dispatch( msg );
 			
 			for each ( var c : Command in _aCommands )
 			{
-				if( e.target != c && !c.isRunning() && c is Cancelable )
+				if( command != c && !c.isRunning() && c is Cancelable )
 				{
 					( c as Cancelable ).cancel();
 				}
 			}
-			reset( );
+			reset();
 		}
 		
 		public function start () : void

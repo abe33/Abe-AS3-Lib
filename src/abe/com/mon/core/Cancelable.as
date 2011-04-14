@@ -3,8 +3,7 @@
  */
 package  abe.com.mon.core 
 {
-	import abe.com.mon.core.Runnable;
-
+	import org.osflash.signals.Signal;
 	/**
 	 * A <code>Cancelable</code> object is a <code>Runnable</code> whose run
 	 * can be interrupted.
@@ -56,5 +55,7 @@ package  abe.com.mon.core
 		 * 			objet a été annulé</fr>
 		 */
 		function isCancelled () : Boolean;
+		
+		function get commandCancelled () : Signal;
 	}
 }

@@ -3,8 +3,6 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mands.events.CommandEvent;
-	import abe.com.mands.events.LoopEvent;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Iterator;
 	import abe.com.mon.core.Runnable;
@@ -12,6 +10,8 @@ package  abe.com.mands
 	import abe.com.mon.logs.Log;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
+
+	import org.osflash.signals.Signal;
 
 	import flash.events.Event;
 	import flash.utils.getTimer;
@@ -39,12 +39,6 @@ package  abe.com.mands
 	 */
 	[Event(name="loopProgress", type="abe.com.mands.events.LoopEvent")]
 	
-	/**
-	 * Diffusé lorsqu'un appel à <code>cancel</code> conduit à l'arrêt de la commande.
-	 * 
-	 * @eventType abe.com.mands.events.CommandEvent.COMMAND_CANCEL
-	 */
-	[Event(name="commandCancel", type="abe.com.mands.events.CommandEvent")]
 	
 	/**
 	 * Une commande <code>LoopCommand</code> encapsule une boucle au sein d'un objet 
@@ -73,6 +67,9 @@ package  abe.com.mands
 		protected var _index : Number;
 		protected var _isCancelled : Boolean;
 		protected var _isDone : Boolean;
+		
+		protected var _commandCancelled : Signal;		
+		public var loopStarted : Signal;		public var loopStopped : Signal;		public var loopProgressed : Signal;
 
 		/**
 		 * Créer une nouvelle instance de la classe <code>LoopCommand</code>.
@@ -83,11 +80,12 @@ package  abe.com.mands
 		public function LoopCommand( iterationLimit : Number = DEFAULT_ITERATION_TIME_LIMIT )
 		{
 			super();
+			loopStarted = new Signal( int );			loopStopped = new Signal( int );			loopProgressed = new Signal( int );			_commandCancelled = new Signal( Command );
 			_iterationTimeLimit = iterationLimit;
 			_isCancelled = false;
 			_isDone = false;
 		}
-				
+		public function get commandCancelled () : Signal { return _commandCancelled; }		
 		/**
 		 * Temps maximum d'éxécution par image de l'animation de cette instance.
 		 */ 
@@ -104,7 +102,7 @@ package  abe.com.mands
 		 * @param	e	l'objet évènement n'est pas utilisé 
 		 * 				par la classe <code>LoopCommand</code>
 		 */
-		override public function execute ( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			reset();                        
 			start();
@@ -124,9 +122,8 @@ package  abe.com.mands
 			{
 				Impulse.register( tick );
 				_isRunning = true;
-				fireLoopStart( _index );
+				loopStarted.dispatch( _index );
 			}
-
 		}
 		
 		/**
@@ -138,7 +135,7 @@ package  abe.com.mands
 			{
 				Impulse.unregister( tick );
 				_isRunning = false;
-				fireLoopStop( _index );
+				loopStopped.dispatch( _index );
 			}
 		}
 		
@@ -175,7 +172,7 @@ package  abe.com.mands
 	
 				_isCancelled = true;
 				
-				fireCommandCancelled( _index );
+				commandCancelled.dispatch( this );
 			}
 		}
 		
@@ -222,14 +219,14 @@ package  abe.com.mands
 				{
 					stop();
 					_isDone = true;
-					fireLoopProgress( _index );
-					fireCommandEnd();
+					loopProgressed.dispatch( _index );
+					commandEnded.dispatch( this );
 					
 					return;
 				}
 				time += getTimer() - tmpTime;
 			}
-			fireLoopProgress( _index );
+			loopProgressed.dispatch( _index );
 		}
 		
 		/**
@@ -239,68 +236,10 @@ package  abe.com.mands
 		 * 
 		 * @param	e	évènement de fin diffusé par la commande
 		 */
-		public function commandEnd ( e : Event ): void
+		public function onCommandEnded ( command : Command ): void
 		{
-			(e.target as Command ).removeEventListener( CommandEvent.COMMAND_END, commandEnd );
-			execute( e );
-		}
-
-		/**
-		 * Notifie les éventuels écouteurs de la commande que son opération 
-		 * a été annulé par un appel à la méthode <code>cancel</code>. 
-		 * Un évènement de type <code>CommandEvent.COMMAND_CANCEL</code>
-		 * est alors diffusé par la classe. 
-		 * <p>
-		 * A la fin de l'appel, la commande n'est plus considérée comme 
-		 * en cours d'exécution.
-		 * </p>
-		 * 
-		 * @param	n	nombre d'itérations réalisées jusqu'à la diffusion 
-		 * 				de l'évènement 
-		 */
-		protected function fireCommandCancelled ( n : Number ) : void
-		{
-			dispatchEvent( new LoopEvent( CommandEvent.COMMAND_CANCEL, n ) );
-		}
-		/**
-		 * Notifie les éventuels écouteurs de la commande que la boucle
-		 * vient de démarrer. 
-		 * Un évènement de type <code>LoopEvent.LOOP_START</code>
-		 * est alors diffusé par la classe. 
-		 * 
-		 * @param	n	nombre d'itérations réalisées jusqu'à la diffusion 
-		 * 				de l'évènement 
-		 */
-		protected function fireLoopStart ( n : Number ) : void
-		{
-			dispatchEvent( new LoopEvent( LoopEvent.LOOP_START, n ) );
-		}
-		/**
-		 * Notifie les éventuels écouteurs de la commande que de nouvelles
-		 * itérations viennent d'être réalisées par la commande. 
-		 * Une commande ne diffuse qu'un évènement de type 
-		 * <code>LoopEvent.LOOP_PROGRESS</code> par image de l'animation. 
-		 * 
-		 * @param	n	nombre d'itérations réalisées jusqu'à la diffusion 
-		 * 				de l'évènement 
-		 */
-		protected function fireLoopProgress ( n : Number ) : void
-		{
-			dispatchEvent( new LoopEvent( LoopEvent.LOOP_PROGRESS, n ) );
-		}
-		
-		/**
-		 * Notifie les éventuels écouteurs de la commande que la boucle
-		 * vient de se terminer. 
-		 * Un évènement de type <code>LoopEvent.LOOP_STOP</code>
-		 * est alors diffusé par la classe. 
-		 * 
-		 * @param	n	nombre d'itérations réalisées jusqu'à la diffusion 
-		 * 				de l'évènement 
-		 */
-		protected function fireLoopStop ( n : Number ) : void
-		{
-			dispatchEvent( new LoopEvent( LoopEvent.LOOP_STOP, n ) );
+			command.commandEnded.remove( onCommandEnded );
+			execute();
 		}
 		/**
 		 * Notifie l'objet <code>IterationCommand</code> de cette instance
