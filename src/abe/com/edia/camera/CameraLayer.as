@@ -66,13 +66,13 @@ package  abe.com.edia.camera
 		 *
 		 * @param	e	l'objet <code>CameraEvent</code> diffusé par la caméra
 		 */
-		public function cameraChanged( e : CameraEvent ) : void
+		public function cameraChanged( camera : Camera ) : void
 		{
 			//// first we store some usefull data for computation
 			var m : Matrix = transform.matrix;
-			var sc : Point = e.camera.screenCenter;
-			var csx : Number = sc.x - e.camera.safeWidth/2;
-			var csy : Number = sc.y - e.camera.safeHeight/2;
+			var sc : Point = camera.screenCenter;
+			var csx : Number = sc.x - camera.safeWidth/2;
+			var csy : Number = sc.y - camera.safeHeight/2;
 			//// reset the matrix
 			m.identity();
 			//// translate the matrix corresponding to the scroll and parallax part
@@ -81,13 +81,13 @@ package  abe.com.edia.camera
 			MatrixUtils.scaleAndRotateAroundExternalPoint( 	m,
 															sc.x - csx,
 															sc.y - csy,
-															-e.camera.rotation,
-															e.zoom,
-															e.zoom );
+															-camera.rotation,
+															camera.zoom,
+															camera.zoom );
 			//// then we translate the camera to return back the transformation center to the stage center
 			//// it's because of that translation that we need to access the camera's original width and height
-			m.translate( csx - sc.x + ( e.camera.safeWidth / 2 ),
-			csy - sc.y + ( e.camera.safeHeight / 2 ) );
+			m.translate( csx - sc.x + ( camera.safeWidth / 2 ),
+			csy - sc.y + ( camera.safeHeight / 2 ) );
 			//// affect the matrix to this layer
 			transform.matrix = m;
 		}

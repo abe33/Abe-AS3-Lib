@@ -10,12 +10,10 @@ package abe.com.edia.bitmaps
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseListener;
 
-	import flash.display.BitmapData;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
+	import org.osflash.signals.Signal;
 
-	[Event(name="complete",type="flash.events.Event")]
+	import flash.display.BitmapData;
+	import flash.events.EventDispatcher;
 	/**
 	 * Version animée de la classe <code>BitmapSprite</code>. La classe <code>BitmapSpriteSheet</code>
 	 * reprend les mêmes principe que sa classe mère et fournie en plus des contrôles d'animations rudimentaires.
@@ -38,7 +36,7 @@ package abe.com.edia.bitmaps
 	 * @see http://fr.wikipedia.org/wiki/Sprite_(jeu_vidéo) Définition de Sprite sur Wikipédia (fr)
 	 * @see http://en.wikipedia.org/wiki/Bit_blit Définition du Bit Blit sur Wikipédia (en)
 	 */
-	public class BitmapSpriteSheet extends BitmapSprite implements Cloneable, ImpulseListener, Suspendable, IEventDispatcher
+	public class BitmapSpriteSheet extends BitmapSprite implements Cloneable, ImpulseListener, Suspendable
 	{
 		/**
 		 * Un objet <code>EventDispatcher</code> composé par l'instance afin de diffuser ses évènements.
@@ -107,7 +105,8 @@ package abe.com.edia.bitmaps
 		 * Indique si l'animation boucle en fin de timeline.
 		 */
 		protected var _looping : Boolean;
-
+		
+		public var animationEnded : Signal;
 
 		/**
 		 * Créer une nouvelle instance de la classe <code>BitmapSpriteSheet</code>.
@@ -122,15 +121,14 @@ package abe.com.edia.bitmaps
 											rate : Number = 24  )
 		{
 			super( data );
+			animationEnded = new Signal();
 			area.width = frameSize ? frameSize.width : 32;
             area.height = frameSize ? frameSize.height : 32;
-
             _totalFrames = Math.ceil( data ? data.width / area.width : 1 );
             _startFrame = 0;
             currentFrame = 0;
             _elapsedTime = 0;
             _looping = true;
-			_dispatcher = new EventDispatcher(this);
 
             framerate = rate;
 		}
@@ -311,30 +309,9 @@ package abe.com.edia.bitmaps
             	{
             		_elapsedTime = _animDuration;
             		stop();
-            		dispatchEvent(new Event(Event.COMPLETE));
+            		animationEnded.dispatch();
             	}
 			}
-		}
-
-		public function dispatchEvent (event : Event) : Boolean
-		{
-			return _dispatcher.dispatchEvent(event);
-		}
-		public function hasEventListener (type : String) : Boolean
-		{
-			return _dispatcher.hasEventListener(type);
-		}
-		public function willTrigger (type : String) : Boolean
-		{
-			return _dispatcher.willTrigger(type);
-		}
-		public function removeEventListener (type : String, listener : Function, useCapture : Boolean = false) : void
-		{
-			_dispatcher.removeEventListener(type, listener,useCapture);
-		}
-		public function addEventListener (type : String, listener : Function, useCapture : Boolean = false, priority : int = 0, useWeakReference : Boolean = false) : void
-		{
-			_dispatcher.addEventListener(type, listener, useCapture, priority, useWeakReference );
 		}
 	}
 }

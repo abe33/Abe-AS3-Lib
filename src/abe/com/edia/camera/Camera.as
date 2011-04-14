@@ -13,23 +13,14 @@ package abe.com.edia.camera
 	import abe.com.mon.utils.Random;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.mon.utils.StageUtils;
+	import abe.com.mon.utils.StringUtils;
 	import abe.com.motion.Impulse;
 
+	import org.osflash.signals.Signal;
+
 	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
-
-	/**
-	 * Diffusé dès que le champ de la caméra est modifié.
-	 * Il suffit qu'une des propriétés du champ ait été
-	 * modifié pour que l'évènement soit diffusé.
-	 *
-	 * @eventType abe.com.edia.camera.CameraEvent.CAMERA_CHANGE
-	 */
-	[Event(name="cameraChange", type="abe.com.edia.camera.CameraEvent")]
 	/**
 	 * Un objet <code>Camera</code> permet de créer des effets de scrolling,
 	 * de zoom et de parallax sur toute une scène flash de façon naturelle.
@@ -62,7 +53,7 @@ package abe.com.edia.camera
 	 * <code>CameraEvent.CAMERA_CHANGE</code> d'une caméra.
 	 * </p>
 	 */
-	public class Camera extends EventDispatcher implements Runnable, Randomizable
+	public class Camera implements Runnable, Randomizable
 	{
 /*--------------------------------------------------------------------
  *	PROTECTED PROPERTIES
@@ -167,6 +158,9 @@ package abe.com.edia.camera
 		 * 
 		 */
 		protected var _randomSource : Random;
+		
+		public var cameraChanged : Signal;
+		
 		/**
 		 * Créer une nouvelle instance de la classe <code>Camera</code>. Si aucun paramètre n'est
 		 * renseigné, la caméra est initialisé aux dimensions du fichier SWF tel que renvoyer par
@@ -195,6 +189,7 @@ package abe.com.edia.camera
 								 zoomIncrement : Number = 0.1,
 								 silent : Boolean = false )
 		{
+			cameraChanged = new Signal(Camera);
 			_randomSource = RandomUtils.RANDOM;
 			_screen = screen ? screen : new Rectangle2( 0, 0, StageUtils.stage.stageWidth, StageUtils.stage.stageHeight );
 
@@ -934,9 +929,9 @@ package abe.com.edia.camera
 		 *
 		 * @return	la représentation sous forme de chaîne de l'instance courante
 		 */
-		override public function toString() : String
+		public function toString() : String
 		{
-			return getQualifiedClassName( this ) + "(screen : " + _screen + ", zoom : " + _zoom + ")";
+			return StringUtils.stringify(this, {'screen':screen, 'zoom':zoom})
 		}
 		/**
 		 * Renvoie <code>true</code> si la caméra est actuellement en cours d'animation.
@@ -956,8 +951,7 @@ package abe.com.edia.camera
 		 */
 		public function fireCameraChange () : void
 		{
-			var event : CameraEvent = new CameraEvent ( CameraEvent.CAMERA_CHANGE );
-			dispatchEvent( event );
+			cameraChanged.dispatch( this );
 		}
 		/**
 		 * Diffuse un évènement <code>CAMERA_CHANGE</code> si la caméra n'est pas
@@ -971,43 +965,6 @@ package abe.com.edia.camera
 		{
 			if( !silentMode )
 				fireCameraChange();
-		}
-		/**
-		 * Enregistre une fonction comme écouteur de l'évènement <code>CAMERA_CHANGE</code>
-		 * diffusé par cette caméra.
-		 *
-		 * @param	f	la fonction à enregistrer en tant qu'écouteur pour l'évènement de cette
-		 * 				caméra
-		 */
-		public function register ( f : Function ) : void
-		{
-			addEventListener( CameraEvent.CAMERA_CHANGE, f );
-		}
-		/**
-		 * Désabonne une fonction comme écouteur de l'évènement <code>CAMERA_CHANGE</code>
-		 * diffusé par cette caméra.
-		 *
-		 * @param	f	la fonction à désabonner en tant qu'écouteur pour l'évènement de cette
-		 * 				caméra
-		 */
-		public function unregister ( f : Function ) : void
-		{
-			removeEventListener( CameraEvent.CAMERA_CHANGE, f );
-		}
-		/**
-		 * Réécriture de la méthode <code>dispatchEvent</code> afin d'éviter la diffusion
-		 * d'évènement en l'absence d'écouteurs pour cet évènement.
-		 *
-		 * @param	evt	objet évènement à diffuser
-		 * @return	<code>true</code> si l'évènement a bien été diffusé, <code>false</code>
-		 * 			en cas d'échec ou d'appel de la méthode <code>preventDefault</code>
-		 * 			sur cet objet évènement
-		 */
-		override public function dispatchEvent( evt : Event ) : Boolean
-		{
-		 	if (hasEventListener(evt.type) || evt.bubbles)
-		  		return super.dispatchEvent(evt);
-			return true;
 		}
 	}
 }
