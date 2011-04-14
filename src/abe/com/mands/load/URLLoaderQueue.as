@@ -83,7 +83,7 @@ package  abe.com.mands.load
 			else
 			{
 				_isRunning = false;
-				fireCommandEnd();
+				commandEnded.dispatch(this);
 			}
 		}
 		
@@ -98,12 +98,12 @@ package  abe.com.mands.load
 		public function ioerror ( e : IOErrorEvent ) : void
 		{
 			_isRunning = false;
-			fireCommandFailed( e.text );
+			commandFailed.dispatch( this, e.text );
 		}
 		public function securityError ( e : SecurityErrorEvent ) : void
 		{
 			_isRunning = false;
-			fireCommandFailed( e.text );
+			commandFailed.dispatch( this, e.text );
 		}
 		public function addURLLoader ( loader : URLLoader, request : URLRequest, callback : Function = null ) : void
 		{

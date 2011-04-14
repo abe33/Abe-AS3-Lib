@@ -11,9 +11,6 @@ package  abe.com.mands
 	import abe.com.motion.ImpulseEvent;
 
 	import org.osflash.signals.Signal;
-
-	import flash.events.Event;
-	
 	/**
 	 * Une commande <code>Interval</code> réalise un appel de fonction à interval régulier,
 	 * à l'instar de la fonction <code>setInterval</code>, mais en étant soumis au contrôle

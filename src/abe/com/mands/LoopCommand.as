@@ -13,7 +13,6 @@ package  abe.com.mands
 
 	import org.osflash.signals.Signal;
 
-	import flash.events.Event;
 	import flash.utils.getTimer;
 
 	/**

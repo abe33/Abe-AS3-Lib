@@ -7,6 +7,8 @@ package  abe.com.mands.load
 	import abe.com.mands.Command;
 	import abe.com.mon.core.Runnable;
 
+	import org.osflash.signals.Signal;
+
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -14,8 +16,6 @@ package  abe.com.mands.load
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	
-	[Event(type="flash.events.ProgressEvent", name="progress")]
 	public class LoaderQueue extends AbstractCommand implements Command, Runnable
 	{
 		/*FDT_IGNORE*/
@@ -36,6 +36,8 @@ package  abe.com.mands.load
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
 		protected var _currentLoader : Loader;		protected var _currentRequest : URLRequest;
+		
+		public var loadProgressed : Signal;
 		
 		public function LoaderQueue()
 		{
@@ -59,6 +61,8 @@ package  abe.com.mands.load
 			_requests = new Vector.<URLRequest>();			_contexts = new Vector.<LoaderContext>();
 			_callbacks = new Vector.<Function>();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			loadProgressed = new Signal(Number, Number);
 		}
 		override public function execute( ... args ) : void
 		{
@@ -91,7 +95,7 @@ package  abe.com.mands.load
 			else
 			{
 				_isRunning = false;
-				fireCommandEnd();
+				commandEnded.dispatch( this );
 			}
 		}
 		
@@ -106,16 +110,16 @@ package  abe.com.mands.load
 		public function ioerror ( e : IOErrorEvent ) : void
 		{
 			_isRunning = false;
-			fireCommandFailed( e.text );
+			commandFailed.dispatch( this, e.text );
 		}
 		public function securityError ( e : SecurityErrorEvent ) : void
 		{
 			_isRunning = false;
-			fireCommandFailed( e.text );
+			commandFailed.dispatch( this, e.text );
 		}
 		protected function progress (event : ProgressEvent) : void 
 		{
-			dispatchEvent( new ProgressEvent(ProgressEvent.PROGRESS, false, false, event.bytesLoaded, event.bytesTotal))
+			loadProgressed.dispatch( event.bytesLoaded, event.bytesTotal);
 		}
 		
 		public function addLoader ( loader : Loader, request : URLRequest, context : LoaderContext = null, callback : Function = null ) : void

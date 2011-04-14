@@ -51,10 +51,10 @@ package abe.com.mands.load
 		}
 		
 		public function get loader () : Loader { return _loader; }
-		protected function open ( e : Event ) : void { fireOpenEvent(); }
-		protected function complete ( e : Event ) : void { fireCompleteEvent(); }
-		protected function progress ( e : ProgressEvent ) : void { fireProgressEvent( e.bytesLoaded, e.bytesTotal ); }
-		protected function ioerror ( e : IOErrorEvent ) : void { fireIOErrorEvent( e.text ); fireCommandFailed( e.text ); }
+		protected function open ( e : Event ) : void { fireLoadOpenedSignal(); }
+		protected function complete ( e : Event ) : void { fireLoadCompletedSignal(); }
+		protected function progress ( e : ProgressEvent ) : void { fireLoadProgressedSignal( e.bytesLoaded, e.bytesTotal ); }
+		protected function ioerror ( e : IOErrorEvent ) : void { fireIOErrorOccuredSignal( e.text ); }
 		
 		protected function registerToLoaderEvent ( loader : Loader ) : void
 		{

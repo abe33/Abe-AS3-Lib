@@ -1,32 +1,23 @@
 package abe.com.mands 
 {
-	import abe.com.mands.AbstractCommand;
-
-	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class ProxyCommand extends AbstractCommand 
 	{
 		private var fn : Function;
-		private var passEvent : Boolean;
 		private var args : Array;
 
-		public function ProxyCommand ( fn : Function, passEvent : Boolean = false, ... args )
+		public function ProxyCommand ( fn : Function, ... args )
 		{
 			super();
 			this.fn = fn;
-			this.passEvent = passEvent;
 			this.args = args;
 		}
 
-		override public function execute( ... args ) : void
+		override public function execute( ... a ) : void
 		{
-			if( passEvent )
-				fn.call( null, e );
-			else
-				fn.apply( null, args );
+			fn.apply( null, args );
 			commandEnded.dispatch( this );
 		}
 	}

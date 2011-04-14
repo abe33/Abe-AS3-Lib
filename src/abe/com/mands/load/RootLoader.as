@@ -3,16 +3,10 @@
  */
 package  abe.com.mands.load
 {
-	import abe.com.mands.events.LoadingEstimationEvent;
-
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.ProgressEvent;
-	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
 	import flash.net.URLVariables;
 
@@ -110,35 +104,35 @@ package  abe.com.mands.load
 			registerToLoadEntryEvent( _currentEntry );
 			
 			if( _loaderUI && _loaderUI.hasOwnProperty( "requestSent" ) )
-				_loaderUI["requestSent"]( null );
+				_loaderUI["requestSent"](_currentEntry);
 			_currentEntry.load();
 		}
 		
-		protected function callMain ( e : RootLoaderEvent ) : void
+		protected function callMain ( e : LoadEntry ) : void
 		{
-			( e.loadedEntry as LoaderEntry ).loader.content["main"]( e.rootLoader );
+			( e as LoaderEntry ).loader.content["main"]( this );
 		}
 
-		protected function registerLoaderUI ( e : RootLoaderEvent ) : void
+		protected function registerLoaderUI ( e : LoadEntry ) : void
 		{
-			_loaderUI = ( e.loadedEntry as LoaderEntry ).loader.content;
+			_loaderUI = ( e as LoaderEntry ).loader.content;
 			if( _loaderUI && _loaderUI.hasOwnProperty( "init" ) )
 				_loaderUI["init"]();
 		}
-		protected function ioError ( e : IOErrorEvent ) : void 
+		protected function ioErrorOccured ( str : String ) : void 
 		{
 			if( _loaderUI && _loaderUI.hasOwnProperty( "ioError" ) )
-				_loaderUI["ioError"]( e );
-		}		protected function securityError ( e : SecurityErrorEvent ) : void 
+				_loaderUI["ioError"]( str );
+		}		protected function securityErrorOccured (  str : String) : void 
 		{
 			if( _loaderUI && _loaderUI.hasOwnProperty( "securityError" ) )
-				_loaderUI["securityError"]( e );
+				_loaderUI["securityError"]( str );
 		}		
-		protected function open ( e : Event ) : void 
+		protected function loadOpened ( e : LoadEntry ) : void 
 		{
 			if( _loaderUI && _loaderUI.hasOwnProperty( "loadStart" ) )
 				_loaderUI["loadStart"]( e );
-		}		protected function complete ( e : Event ) : void 
+		}		protected function loadCompleted ( e : LoadEntry ) : void 
 		{
 			if( _loaderUI && _loaderUI.hasOwnProperty( "loadComplete" ) )
 				_loaderUI["loadComplete"]( e );
@@ -154,47 +148,47 @@ package  abe.com.mands.load
 			{
 				_loading = false;	
 				if( _loaderUI && _loaderUI.hasOwnProperty( "queueComplete" ) )
-					_loaderUI["queueComplete"]( e );
+					_loaderUI["queueComplete"]( this );
 			}
 		}
-		protected function progress ( e : ProgressEvent ) : void 
+		protected function loadProgressed ( e : LoadEntry, loaded : Number, total : Number ) : void 
 		{
 			if( _loaderUI && _loaderUI.hasOwnProperty( "loadProgress" ) )
-				_loaderUI["loadProgress"]( e );
+				_loaderUI["loadProgress"]( e, loaded, total );
 		}		
-		protected function estimationsAvailable ( e : LoadingEstimationEvent ) : void 
+		protected function estimationsAvailable ( rate : Number, remain : Number ) : void 
 		{
 			if( _loaderUI && _loaderUI.hasOwnProperty( "estimationsAvailable" ) )
-				_loaderUI["estimationsAvailable"]( e );
+				_loaderUI["estimationsAvailable"]( rate, remain );
 		}
-		protected function newEstimation ( e : LoadingEstimationEvent ) : void 
+		protected function estimationsProgressed ( rate : Number, remain : Number  ) : void 
 		{
 			if( _loaderUI && _loaderUI.hasOwnProperty( "newEstimation" ) )
-				_loaderUI["newEstimation"]( e );
+				_loaderUI["estimationsProgressed"]( rate, remain );
 		}
 		
 		protected function registerToLoadEntryEvent ( entry : LoadEntry ) : void
 		{
-			entry.addEventListener( Event.OPEN, open );			entry.addEventListener( Event.COMPLETE, complete );
-			entry.addEventListener( ProgressEvent.PROGRESS, progress );
+			entry.loadOpened.add( loadOpened );			entry.loadCompleted.add( loadCompleted );
+			entry.loadProgressed.add( loadProgressed );
 			
-			entry.addEventListener( SecurityErrorEvent.SECURITY_ERROR, securityError );
-			entry.addEventListener( IOErrorEvent.IO_ERROR, ioError );
+			entry.securityErrorOccured.add( securityErrorOccured );
+			entry.ioErrorOccured.add( ioErrorOccured );
 
-			entry.estimator.addEventListener( LoadingEstimationEvent.ESTIMATIONS_AVAILABLE, estimationsAvailable );
-			entry.estimator.addEventListener( LoadingEstimationEvent.NEW_ESTIMATION, newEstimation );
+			entry.estimator.estimationsAvailable.add( estimationsAvailable );
+			entry.estimator.estimationsProgressed.add( estimationsProgressed );
 		}
 		protected function unregisterToLoadEntryEvent ( entry : LoadEntry ) : void
 		{
-			entry.removeEventListener( Event.OPEN, open );
-			entry.removeEventListener( Event.COMPLETE, complete );
-			entry.removeEventListener( ProgressEvent.PROGRESS, progress );
+			entry.loadOpened.remove( loadOpened );
+			entry.loadCompleted.remove( loadCompleted );
+			entry.loadProgressed.remove( loadProgressed );
 			
-			entry.removeEventListener( SecurityErrorEvent.SECURITY_ERROR, securityError );
-			entry.removeEventListener( IOErrorEvent.IO_ERROR, ioError );
+			entry.securityErrorOccured.remove( securityErrorOccured );
+			entry.ioErrorOccured.remove( ioErrorOccured );
 
-			entry.estimator.removeEventListener( LoadingEstimationEvent.ESTIMATIONS_AVAILABLE, estimationsAvailable );
-			entry.estimator.removeEventListener( LoadingEstimationEvent.NEW_ESTIMATION, newEstimation );
+			entry.estimator.estimationsAvailable.remove( estimationsAvailable );
+			entry.estimator.estimationsProgressed.remove( estimationsProgressed );
 		}
 	}
 }
