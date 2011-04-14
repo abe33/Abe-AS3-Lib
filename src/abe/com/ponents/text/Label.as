@@ -1,5 +1,6 @@
 package abe.com.ponents.text 
 {
+	import abe.com.mon.logs.Log;
 	import flash.events.MouseEvent;
 
 	import abe.com.mon.utils.StageUtils;
@@ -82,5 +83,7 @@ package abe.com.ponents.text
 			super.mouseOver( e );
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
+		override public function registerValue (e : Event = null) : void {}
 	}
 }
