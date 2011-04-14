@@ -56,9 +56,11 @@ package abe.com.mon.utils
 			return getConstructorCall( o );
 	}
 }
+
 import abe.com.mon.utils.magicToReflectionSource;
 
 import flash.utils.getQualifiedClassName;
+
 
 internal function getConstructorCall( o : * ) : String
 {

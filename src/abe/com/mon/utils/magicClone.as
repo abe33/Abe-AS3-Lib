@@ -10,6 +10,7 @@ package abe.com.mon.utils
 	import flash.utils.getQualifiedClassName;
 
 
+
 	/**
 	 * Renvoie une copie de l'objet <code>v</code>.
 	 * <p>

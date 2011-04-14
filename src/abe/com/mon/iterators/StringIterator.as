@@ -5,7 +5,6 @@ package  abe.com.mon.iterators
 {
 	import abe.com.mon.core.Iterator;
 	import abe.com.mon.core.ListIterator;
-
 	public class StringIterator implements ListIterator, Iterator
 	{
 		private var _sString : String;

@@ -5,7 +5,6 @@ package abe.com.ponents.dnd.gestures
 	import abe.com.ponents.dnd.DragSource;
 
 	import flash.events.MouseEvent;
-
 	/**
 	 * @author cedric
 	 */

@@ -5,8 +5,6 @@ package abe.com.ponents.actions
 {
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.ponents.skinning.icons.Icon;
-
-	import flash.events.Event;
 	/**
 	 * La classe <code>ProxyAction</code> permet de créer des actions correspondant
 	 * à de simple appel de fonctions.

@@ -4,17 +4,15 @@
 package abe.com.ponents.actions.builtin 
 {
 	import abe.com.mands.events.CommandEvent;
-	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.colors.Gradient;
+	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.actions.AbstractAction;
 	import abe.com.ponents.containers.Dialog;
 	import abe.com.ponents.events.DialogEvent;
 	import abe.com.ponents.skinning.icons.GradientIcon;
-
-	import flash.events.Event;
 	/**
 	 * @author Cédric Néhémie
 	 */

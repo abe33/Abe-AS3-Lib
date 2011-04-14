@@ -1,7 +1,5 @@
 package abe.com.ponents.lists 
 {
-	import flash.events.Event;
-
 	import abe.com.mon.core.IDisplayObject;
 	import abe.com.mon.core.IDisplayObjectContainer;
 	import abe.com.mon.core.IInteractiveObject;
@@ -21,6 +19,7 @@ package abe.com.ponents.lists
 	import abe.com.ponents.utils.Alignments;
 
 	import flash.display.DisplayObject;
+	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
 
@@ -235,7 +234,6 @@ import abe.com.ponents.history.Undoable;
 import abe.com.ponents.lists.List;
 import abe.com.ponents.lists.ListCell;
 
-import flash.events.Event;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 

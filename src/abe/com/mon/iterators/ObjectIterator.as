@@ -4,7 +4,6 @@
 package  abe.com.mon.iterators
 {
 	import abe.com.mon.core.Iterator;
-
 	public class ObjectIterator implements Iterator
 	{
 	    protected var _oObject : Object;

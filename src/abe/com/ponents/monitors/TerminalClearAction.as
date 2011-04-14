@@ -10,9 +10,6 @@ package  abe.com.ponents.monitors
 	import abe.com.ponents.actions.AbstractTerminalAction;
 	import abe.com.ponents.actions.TerminalAction;
 	import abe.com.ponents.actions.TerminalActionOption;
-
-	import flash.events.Event;
-
 	/**
 	 * 
 	 */

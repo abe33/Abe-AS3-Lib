@@ -10,7 +10,6 @@ package abe.com.ponents.skinning.decorations
 	import flash.display.Graphics;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

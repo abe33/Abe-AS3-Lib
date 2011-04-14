@@ -6,7 +6,6 @@ package abe.com.ponents.actions
 	import abe.com.ponents.skinning.icons.Icon;
 
 	import flash.events.ErrorEvent;
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

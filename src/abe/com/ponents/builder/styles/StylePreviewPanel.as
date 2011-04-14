@@ -1,7 +1,5 @@
 package abe.com.ponents.builder.styles 
 {
-	import abe.com.ponents.skinning.ComponentStyle;
-	import flash.events.Event;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.builder.events.StyleSelectionEvent;
@@ -12,6 +10,9 @@ package abe.com.ponents.builder.styles
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.BorderLayout;
 	import abe.com.ponents.layouts.components.InlineLayout;
+	import abe.com.ponents.skinning.ComponentStyle;
+
+	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

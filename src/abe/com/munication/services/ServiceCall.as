@@ -3,14 +3,12 @@
  */
 package abe.com.munication.services
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mands.AbstractCommand;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.munication.services.middleware.ServiceMiddleware;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
 
-	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.net.NetConnection;
 	import flash.utils.clearTimeout;

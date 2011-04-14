@@ -1,16 +1,14 @@
 package abe.com.ponents.monitors.recorders 
 {
-	import abe.com.mon.geom.Range;
 	import abe.com.mon.colors.Color;
+	import abe.com.mon.geom.Range;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.motion.MotionImpulse;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.monitors.GraphCurveSettings;
 
 	import flash.utils.getTimer;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -41,7 +39,7 @@ package abe.com.ponents.monitors.recorders
 		
 		public function get unit () : String { return "obj"; }
 		
-		public function tick (e : ImpulseEvent) : void
+		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number) : void
 		{
 			_values.push( _impulse.listenersCount );
 			

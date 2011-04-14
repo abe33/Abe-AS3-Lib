@@ -11,8 +11,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.containers.Dialog;
 	import abe.com.ponents.events.DialogEvent;
 	import abe.com.ponents.skinning.icons.Icon;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

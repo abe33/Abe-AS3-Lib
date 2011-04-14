@@ -6,7 +6,6 @@ package abe.com.patibility.codecs
 	import abe.com.patibility.lang._;
 
 	import flash.display.BitmapData;
-
 	/**
 	 * La classe <code>BMPPKCodec</code> permet d'encoder et de décoder des
 	 * chaîne de caractère sous forme d'image.

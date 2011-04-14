@@ -15,8 +15,6 @@ package abe.com.ponents.ressources.actions
 	import abe.com.ponents.ressources.CollectionsLoader;
 	import abe.com.ponents.ressources.LibraryAsset;
 	import abe.com.ponents.skinning.icons.Icon;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

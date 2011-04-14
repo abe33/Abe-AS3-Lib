@@ -6,7 +6,6 @@ package abe.com.ponents.actions
 	import abe.com.ponents.utils.ContextMenuItemUtils;
 
 	import flash.events.ContextMenuEvent;
-	import flash.events.Event;
 	import flash.ui.ContextMenuItem;
 	/**
 	 * @author cedric

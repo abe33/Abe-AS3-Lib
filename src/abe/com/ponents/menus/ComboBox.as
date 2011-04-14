@@ -550,8 +550,6 @@ package abe.com.ponents.menus
 import abe.com.ponents.actions.AbstractAction;
 import abe.com.ponents.menus.ComboBox;
 
-import flash.events.Event;
-
 internal class SelectAction extends AbstractAction
 {
 	protected var _id : Number;

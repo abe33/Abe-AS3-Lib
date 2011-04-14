@@ -5,7 +5,6 @@ package abe.com.ponents.skinning.icons
 
 	import flash.display.GradientType;
 	import flash.geom.Matrix;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

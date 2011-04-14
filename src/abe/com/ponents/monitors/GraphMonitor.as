@@ -5,7 +5,6 @@ package abe.com.ponents.monitors
 	import abe.com.mon.geom.Range;
 	import abe.com.mon.logs.Log;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.ponents.core.AbstractComponent;
 	import abe.com.ponents.monitors.recorders.Recorder;
@@ -178,7 +177,7 @@ package abe.com.ponents.monitors
 			_preferredSizeCache = new Dimension(100,100);
 			super.invalidatePreferredSizeCache();
 		}
-		public function tick ( e : ImpulseEvent ) : void
+		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
 			drawMonitorCurves();
 		}

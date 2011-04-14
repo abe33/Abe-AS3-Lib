@@ -1,12 +1,11 @@
 package abe.com.ponents.monitors
 {
-	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
+	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.layouts.components.ComponentLayout;
@@ -275,7 +274,7 @@ package abe.com.ponents.monitors
 			if( _playing )
 				Impulse.unregister(tick );
 		}
-		public function tick (e : ImpulseEvent) : void
+		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number) : void
 		{
 			/*FDT_IGNORE*/
 			TARGET::FLASH_9 { var rcd : Array = _monitor.recorders; }

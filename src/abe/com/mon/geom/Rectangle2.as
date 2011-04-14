@@ -3,10 +3,10 @@
  */
 package abe.com.mon.geom
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Copyable;
 	import abe.com.mon.core.Randomizable;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.GeometryUtils;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.PointUtils;

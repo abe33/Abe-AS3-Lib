@@ -1,7 +1,5 @@
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.core.AbstractComponent;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.logs.Log;
@@ -10,8 +8,6 @@ package abe.com.ponents.layouts.components
 	import abe.com.ponents.core.Container;
 	import abe.com.ponents.utils.Alignments;
 	import abe.com.ponents.utils.Insets;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

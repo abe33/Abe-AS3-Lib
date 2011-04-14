@@ -9,7 +9,6 @@ package abe.com.patibility.codecs
 
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
-
 	/**
 	 * La classe <code>SPZCodec</code> permet d'encoder et de décoder
 	 * des objets de types <code>MultiSideBitmapSprite</code> sauvegardés

@@ -1,7 +1,5 @@
 package abe.com.ponents.text 
 {
-	import flash.display.DisplayObject;
-
 	import abe.com.mon.core.ITextField;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.dm;
@@ -9,6 +7,7 @@ package abe.com.ponents.text
 
 	import fl.text.TLFTextField;
 
+	import flash.display.DisplayObject;
 	import flash.geom.Rectangle;
 	/**
 	 * @author cedric

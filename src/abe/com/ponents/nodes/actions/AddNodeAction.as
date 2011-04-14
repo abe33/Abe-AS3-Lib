@@ -9,7 +9,6 @@ package abe.com.ponents.nodes.actions
 	import abe.com.ponents.tools.CameraCanvas;
 
 	import flash.events.ContextMenuEvent;
-	import flash.events.Event;
 	import flash.ui.ContextMenuItem;
 	/**
 	 * @author cedric

@@ -26,8 +26,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.lists.ListEditor;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.utils.Insets;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

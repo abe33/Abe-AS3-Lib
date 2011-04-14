@@ -1,14 +1,12 @@
 package abe.com.ponents.text 
 {
-	import abe.com.mon.logs.Log;
-	import flash.events.MouseEvent;
-
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.ponents.core.Component;
 
 	import flash.display.InteractiveObject;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
+	import flash.events.MouseEvent;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 

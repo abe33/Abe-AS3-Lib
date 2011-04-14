@@ -10,9 +10,6 @@ package  abe.com.ponents.monitors
 	import abe.com.ponents.actions.AbstractTerminalAction;
 	import abe.com.ponents.actions.TerminalAction;
 	import abe.com.ponents.actions.TerminalActionOption;
-
-	import flash.events.Event;
-
 	/**
 	 * La commande <code>HelpAction</code> affiche la liste des commandes disponibles
 	 * dans un objet <code>Terminal</code> et permet d'afficher l'aide détaillée d'une

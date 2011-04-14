@@ -12,7 +12,6 @@ package abe.com.edia.bitmaps
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
 	/**
 	 * La classe <code>BitmapCollider</code> compose un objet <code>BitmapData</code>
 	 * et le transforme en un support pour des calculs de collision.

@@ -1,8 +1,8 @@
 package abe.com.ponents.tools
 {
-	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.colors.Gradient;
+	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.Button;
@@ -15,6 +15,7 @@ package abe.com.ponents.tools
 	import abe.com.ponents.skinning.icons.ColorIcon;
 	import abe.com.ponents.skinning.icons.GradientIcon;
 	import abe.com.ponents.utils.Insets;
+
 	import flash.events.ContextMenuEvent;
 	import flash.events.MouseEvent;
 	import flash.ui.ContextMenuItem;

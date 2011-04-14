@@ -7,7 +7,6 @@ package abe.com.mon.logs
 
 	import org.osflash.signals.Signal;
 
-	import flash.events.Event;
 	import flash.system.Capabilities;
 	/**
 	 * The <code>Log</code> class provides methods for global dispatching

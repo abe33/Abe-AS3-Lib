@@ -1,7 +1,6 @@
 package abe.com.mon.iterators 
 {
 	import abe.com.mon.core.Iterator;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

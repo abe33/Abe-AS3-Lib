@@ -4,8 +4,6 @@ package abe.com.ponents.nodes.actions
 	import abe.com.ponents.history.UndoManagerInstance;
 	import abe.com.ponents.nodes.core.CanvasNode;
 	import abe.com.ponents.nodes.core.NodeLink;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

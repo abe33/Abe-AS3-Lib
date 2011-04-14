@@ -4,7 +4,6 @@
 package abe.com.munication.services
 {
 	import abe.com.mands.events.CommandEvent;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -4,7 +4,6 @@
 package abe.com.mon.geom 
 {
 	import flash.geom.Point;
-
 	/**
 	 * The interface <code>Path</code> defined a method to retrieve
 	 * the coordinates in the path with a position value.

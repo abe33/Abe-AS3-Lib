@@ -1,7 +1,6 @@
 package abe.com.mon.geom
 {
 	import flash.geom.Point;
-
 	/**
 	 * The interface <code>size</code> defines the properties 
 	 * and methods that an object with a surface must implement.

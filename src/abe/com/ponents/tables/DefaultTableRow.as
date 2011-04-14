@@ -358,7 +358,6 @@ import abe.com.ponents.actions.AbstractAction;
 import abe.com.ponents.lists.List;
 import abe.com.ponents.tables.DefaultTableRow;
 
-import flash.events.Event;
 import flash.events.MouseEvent;
 
 internal class TableRowSelectAction extends AbstractAction 

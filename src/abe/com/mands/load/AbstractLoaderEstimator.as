@@ -5,7 +5,6 @@ package abe.com.mands.load
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
 	import flash.utils.getTimer;
-
 	public class AbstractLoaderEstimator implements Estimator
 	{
 		protected var _time : Number;

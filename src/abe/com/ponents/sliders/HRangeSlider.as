@@ -1,7 +1,7 @@
 package abe.com.ponents.sliders 
 {
-	import abe.com.mon.geom.Range;
 	import abe.com.mon.colors.Color;
+	import abe.com.mon.geom.Range;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.buttons.ButtonDisplayModes;

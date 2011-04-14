@@ -6,7 +6,6 @@ package  abe.com.mon.utils
 	import abe.com.mon.geom.Dimension;
 
 	import flash.geom.Point;
-
 	/**
 	 * Classe utilitaire contenant des fonctions mathématique avancées.
 	 *

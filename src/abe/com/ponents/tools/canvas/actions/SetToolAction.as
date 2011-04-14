@@ -1,15 +1,13 @@
 package abe.com.ponents.tools.canvas.actions 
 {
-	import abe.com.ponents.buttons.ToolButton;
-	import abe.com.ponents.core.Component;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.ponents.actions.AbstractAction;
+	import abe.com.ponents.buttons.ToolButton;
+	import abe.com.ponents.core.Component;
 	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.tools.canvas.Tool;
 	import abe.com.ponents.tools.canvas.ToolManager;
-
-	import flash.events.Event;
 
 	/**
 	 * Évènement diffusé lorsqu'une propriété de l'action est modifiée.

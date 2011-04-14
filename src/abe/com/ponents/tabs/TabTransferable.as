@@ -5,7 +5,6 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.transfer.ComponentsTransferModes;
 	import abe.com.ponents.transfer.DataFlavor;
 	import abe.com.ponents.transfer.Transferable;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

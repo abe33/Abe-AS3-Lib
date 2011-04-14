@@ -23,7 +23,6 @@ package abe.com.ponents.ressources.actions
 
 	import com.kode80.swf.SWF;
 
-	import flash.events.Event;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;

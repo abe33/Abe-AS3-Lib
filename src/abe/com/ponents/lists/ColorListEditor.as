@@ -4,7 +4,6 @@ package abe.com.ponents.lists
 	import abe.com.mon.colors.Palette;
 	import abe.com.mon.utils.Reflection;
 	import abe.com.ponents.buttons.ColorPicker;
-
 	/**
 	 * @author cedric
 	 */

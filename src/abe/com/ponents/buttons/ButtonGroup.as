@@ -3,9 +3,10 @@
  */
 package abe.com.ponents.buttons 
 {
-	import flash.events.EventDispatcher;
 	import abe.com.ponents.events.ComponentEvent;
-	
+
+	import flash.events.EventDispatcher;
+
 	/**
 	 * Évènement diffusé par l'instance lorsque le bouton sélectionné a changé.
 	 * 

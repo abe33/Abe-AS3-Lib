@@ -8,7 +8,6 @@ package  abe.com.mands
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 
 	import org.osflash.signals.Signal;
 	/**
@@ -106,11 +105,11 @@ package  abe.com.mands
 		 * 
 		 * @param	e	évènement diffusé par le <code>MotionImpulse</code>
 		 */
-		public function tick ( e : ImpulseEvent ) : void
+		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
 			try
             {
-				_n += e.bias;
+				_n += bias;
 			
 				if( _n >= _delay )
 	            {

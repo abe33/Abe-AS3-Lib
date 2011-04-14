@@ -5,13 +5,11 @@ package abe.com.motion
 {
 	import abe.com.mands.AbstractCommand;
 	import abe.com.mands.Command;
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.logs.Log;
 	import abe.com.motion.properties.SpecialProperty;
 
-	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	import flash.utils.Dictionary;
 
@@ -427,9 +425,9 @@ package abe.com.motion
 		 *
 		 * @param	e	évènement diffusé par l'objet <code>MotionImpulse</code>
 		 */
-		public function tick( e : ImpulseEvent ) : void
+		public function tick(  bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
-			 _playHead += e.bias * ( _reversedMotion ? -1 : 1 );
+			 _playHead += bias * ( _reversedMotion ? -1 : 1 );
 
 			if ( _reversedMotion ? isReversedMotionFinished() : isMotionFinished() )
 			{

@@ -12,7 +12,6 @@ package  abe.com.mands.load
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
-
 	public class URLLoaderQueue extends AbstractCommand implements Command, Runnable
 	{
 		/*FDT_IGNORE*/

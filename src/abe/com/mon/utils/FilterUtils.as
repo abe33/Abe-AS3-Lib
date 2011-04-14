@@ -4,11 +4,9 @@
 package  abe.com.mon.utils
 {
 	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Color;
 
 	import flash.filters.DropShadowFilter;
 	import flash.filters.GlowFilter;
-
 	/**
 	 * Classe utilitaire fournissant des filtres selon des pré-réglages.
 	 * 

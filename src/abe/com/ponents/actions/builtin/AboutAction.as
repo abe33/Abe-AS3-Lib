@@ -9,8 +9,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.text.Label;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

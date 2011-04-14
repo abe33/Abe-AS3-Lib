@@ -8,7 +8,6 @@ package  abe.com.patibility.lang
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe <code>LocaleObject</code> est utilisé pour représenter les sous-objets
 	 * d'un objet <code>Locale</code>. D'ailleurs la classe <code>Locale</code> hérite

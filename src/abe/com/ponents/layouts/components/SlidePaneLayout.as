@@ -7,7 +7,6 @@ package abe.com.ponents.layouts.components
 	import abe.com.ponents.scrollbars.Scrollable;
 	import abe.com.ponents.utils.Insets;
 	import abe.com.ponents.utils.ScrollPolicies;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

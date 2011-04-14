@@ -1,17 +1,6 @@
 package abe.com.ponents.actions.builtin 
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.skinning.decorations.SimpleBorders;
-	import abe.com.ponents.skinning.decorations.StripFill;
-	import flash.text.TextFormat;
-	import abe.com.ponents.utils.Insets;
-	import abe.com.ponents.utils.Corners;
 	import abe.com.mon.colors.Color;
-	import abe.com.ponents.skinning.decorations.SimpleFill;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.StageUtils;
@@ -20,22 +9,29 @@ package abe.com.ponents.actions.builtin
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.ponents.actions.AbstractAction;
+	import abe.com.ponents.actions.ProxyAction;
+	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.Window;
 	import abe.com.ponents.containers.WindowTitleBar;
 	import abe.com.ponents.core.AbstractComponent;
 	import abe.com.ponents.layouts.components.BoxSettings;
+	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.layouts.components.VBoxLayout;
 	import abe.com.ponents.lists.List;
 	import abe.com.ponents.lists.ListLineRuler;
 	import abe.com.ponents.models.DefaultListModel;
+	import abe.com.ponents.skinning.decorations.SimpleBorders;
+	import abe.com.ponents.skinning.decorations.StripFill;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
 	import abe.com.ponents.tables.Table;
 	import abe.com.ponents.tables.TableColumn;
 	import abe.com.ponents.text.Label;
+	import abe.com.ponents.utils.Corners;
+	import abe.com.ponents.utils.Insets;
 
-	import flash.events.Event;
+	import flash.text.TextFormat;
 	/**
 	 * @author cedric
 	 */

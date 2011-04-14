@@ -10,7 +10,6 @@ package abe.com.mon.geom
 
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * <code>CubicBezier</code> curve is a curve where each segment 
 	 * has two vertices of additional controls. Each segment 

@@ -14,7 +14,6 @@ package abe.com.edia.camera
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 
 	import flash.display.DisplayObject;
 	import flash.events.Event;
@@ -891,7 +890,7 @@ package abe.com.edia.camera
 		 *
 		 * @param	e	objet <code>ImpulseEvent</code> diffusé par le métronome
 		 */
-		protected function tick ( e : ImpulseEvent ) : void
+		protected function tick (  bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
 			var nx : Number = _safeCenter.x - _screen.width / 2 + _randomSource.balance( _shakingStrength ) ;
 			var ny : Number = _safeCenter.y - _screen.height / 2 + _randomSource.balance( _shakingStrength );
@@ -901,7 +900,7 @@ package abe.com.edia.camera
 				_screen.x = nx;				_screen.y = ny;
 				fireSilentCameraChange ();
 			}
-			if( ( _shakingTime += e.bias ) > _shakingDuration )
+			if( ( _shakingTime += bias ) > _shakingDuration )
 				endShake();
 		}
 		/**

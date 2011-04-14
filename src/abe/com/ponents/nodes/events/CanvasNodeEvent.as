@@ -1,7 +1,6 @@
 package abe.com.ponents.nodes.events 
 {
 	import abe.com.ponents.nodes.core.CanvasNode;
-	import abe.com.ponents.nodes.core.NodeLink;
 
 	import flash.events.Event;
 	/**

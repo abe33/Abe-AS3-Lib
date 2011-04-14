@@ -3,7 +3,6 @@ package abe.com.ponents.factory
 	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.Reflection;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.core.Component;
@@ -238,7 +237,7 @@ package abe.com.ponents.factory
 		{
 			return _processingContext.hasOwnProperty(id);
 		}
-		protected function tick ( e : ImpulseEvent ) : void
+		protected function tick ( bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
 			if( _currentStack.length == 0 )
 			{

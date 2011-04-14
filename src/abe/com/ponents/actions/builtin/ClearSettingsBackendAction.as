@@ -5,8 +5,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.patibility.settings.events.SettingsBackendEvent;
 	import abe.com.ponents.actions.AbstractAction;
 	import abe.com.ponents.skinning.icons.Icon;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

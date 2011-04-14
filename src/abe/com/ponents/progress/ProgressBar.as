@@ -7,7 +7,6 @@ package abe.com.ponents.progress
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.ponents.core.AbstractComponent;
 	import abe.com.ponents.core.Component;
@@ -200,7 +199,7 @@ package abe.com.ponents.progress
 			fireDataChange();
 		}
 		
-		public function tick (e : ImpulseEvent) : void
+		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number) : void
 		{
 			updateBar();
 		}

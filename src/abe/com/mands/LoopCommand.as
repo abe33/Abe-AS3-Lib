@@ -9,7 +9,6 @@ package  abe.com.mands
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.logs.Log;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 
 	import org.osflash.signals.Signal;
 
@@ -194,7 +193,7 @@ package  abe.com.mands
 		 * @param	e	évènement diffusé par l'instance de <code>MotionImpulse</code>
 		 * 				sur laquelle est branché la commande
 		 */
-		public function tick ( e : ImpulseEvent ) : void
+		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
 			var time:Number = 0;
 			var tmpTime:Number;

@@ -3,7 +3,6 @@ package abe.com.ponents.ressources.preview
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.geom.dm;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.models.SpinnerNumberModel;
@@ -69,10 +68,10 @@ package abe.com.ponents.ressources.preview
 			return _isRunning;
 		}
 		private var _t : Number = 0; 
-		public function tick (e : ImpulseEvent) : void
+		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number) : void
 		{
 			var mc : MovieClip =  _displayObject as MovieClip;
-			_t += e.biasInSeconds * _previewFrameRate.value;
+			_t += biasInSeconds * _previewFrameRate.value;
 			mc.gotoAndStop( 1 + Math.floor( _t % mc.totalFrames ) );
 		}
 	}

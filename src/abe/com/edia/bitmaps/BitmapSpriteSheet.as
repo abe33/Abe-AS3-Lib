@@ -8,7 +8,6 @@ package abe.com.edia.bitmaps
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
 	import flash.display.BitmapData;
@@ -229,9 +228,9 @@ package abe.com.edia.bitmaps
 		 *
 		 * @param	e	objet <code>ImpulseEvent</code> diffusé avec l'évènement
 		 */
-		public function tick( e : ImpulseEvent ) : void
+		public function tick(  bias : Number, biasInSeconds : Number, currentTime : Number ) : void
         {
-        	animate( e.bias );
+        	animate( bias );
         }
 
         /**

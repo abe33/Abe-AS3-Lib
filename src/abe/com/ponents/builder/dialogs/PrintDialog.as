@@ -1,7 +1,5 @@
 package abe.com.ponents.builder.dialogs 
 {
-	import abe.com.mon.logs.Log;
-	import flash.text.TextFieldType;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.patibility.lang._;
@@ -22,6 +20,7 @@ package abe.com.ponents.builder.dialogs
 
 	import flash.system.System;
 	import flash.text.StyleSheet;
+	import flash.text.TextFieldType;
 	/**
 	 * @author cedric
 	 */

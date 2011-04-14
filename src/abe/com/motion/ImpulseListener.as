@@ -16,6 +16,6 @@ package abe.com.motion
 		 *
 		 * @param	e	objet <code>ImpulseEvent</code> diffusé avec l'évènement
 		 */
-		function tick( e : ImpulseEvent ) : void;
+		function tick( bias : Number, biasInSeconds : Number, currentTime : Number ) : void;
 	}
 }

@@ -13,7 +13,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.skinning.icons.magicIconBuild;
 
 	import flash.events.ContextMenuEvent;
-	import flash.events.Event;
 	import flash.ui.ContextMenuItem;
 	/**
 	 * @author Cédric Néhémie

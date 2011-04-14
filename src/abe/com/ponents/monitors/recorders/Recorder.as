@@ -2,7 +2,6 @@ package abe.com.ponents.monitors.recorders
 {
 	import abe.com.mon.geom.Range;
 	import abe.com.ponents.monitors.GraphCurveSettings;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

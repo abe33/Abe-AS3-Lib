@@ -4,7 +4,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.actions.AbstractAction;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.Event;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	/**
