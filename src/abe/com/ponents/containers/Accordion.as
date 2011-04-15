@@ -74,7 +74,7 @@ package abe.com.ponents.containers
 				if( p && p is AbstractScrollContainer )
 					( p as AbstractScrollContainer ).invalidate();
 			}
-			fireResizeEvent();
+			fireComponentResizedSignal();
 		}
 
 		public function get selectedTab () : AccordionTab { return _selectedTab; }

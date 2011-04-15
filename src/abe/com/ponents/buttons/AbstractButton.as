@@ -283,7 +283,7 @@ package abe.com.ponents.buttons
 				unregisterToCommandEvents( _action );
 
 			_action = action;
-			firePropertyEvent("action", action);
+			firePropertyChangedSignal("action", action);
 			if( _action )
 			{
 				if( _action.name && _action.name != "" )
@@ -319,7 +319,7 @@ package abe.com.ponents.buttons
 			_size = null;
 			_buttonDisplayMode = displayMode;
 			checkDisplayMode();
-			firePropertyEvent( "displayMode", _buttonDisplayMode );
+			firePropertyChangedSignal( "displayMode", _buttonDisplayMode );
 
 		}
 		/**
@@ -346,7 +346,7 @@ package abe.com.ponents.buttons
 			else
 				_safeIcon = icon;
 
-			firePropertyEvent( "icon", _icon );
+			firePropertyChangedSignal( "icon", _icon );
 		}
 		/**
 		 * Le label de ce bouton.
@@ -376,7 +376,7 @@ package abe.com.ponents.buttons
 					setLabel(val);
 			}
 
-			firePropertyEvent( "label", _label );
+			firePropertyChangedSignal( "label", _label );
 		}
 		/**
 		 * Une valeur booléenne indiquant si ce bouton est actuellement sélectionné.
@@ -392,9 +392,9 @@ package abe.com.ponents.buttons
 			{
 				_selected = b;
 				invalidate();
-				fireChangeEvent();
+				fireComponentChangedSignal();
 				fireComponentEvent( ComponentEvent.SELECTED_CHANGE );
-				firePropertyEvent( "selected", _selected );
+				firePropertyChangedSignal( "selected", _selected );
 			}
 		}
 		/**

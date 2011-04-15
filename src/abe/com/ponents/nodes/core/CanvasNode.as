@@ -149,9 +149,9 @@ package abe.com.ponents.nodes.core
 			{
 				_selected = b;
 				invalidate();
-				fireChangeEvent();
+				fireComponentChangedSignal();
 				fireComponentEvent( ComponentEvent.SELECTED_CHANGE );
-				firePropertyEvent( "selected", _selected );
+				firePropertyChangedSignal( "selected", _selected );
 			}
 		}
 		public function get editObjectCallback () : Function { return _editObjectCallback; }

@@ -120,7 +120,7 @@ package abe.com.ponents.skinning.icons
 					init();
 					break;
 				default : 
-					super.propertyChange( e );
+					super.onPropertyChanged( e );
 					break;
 			}
 		}

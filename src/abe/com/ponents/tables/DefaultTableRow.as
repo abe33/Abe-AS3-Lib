@@ -317,7 +317,7 @@ package abe.com.ponents.tables
 			{
 				_selected = b;
 				invalidate();
-				fireChangeEvent();
+				fireComponentChangedSignal();
 				fireComponentEvent( ComponentEvent.SELECTED_CHANGE );
 				
 				for each( var c : ListCell in _children)

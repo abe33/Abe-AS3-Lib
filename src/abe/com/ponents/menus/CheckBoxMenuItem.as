@@ -73,7 +73,7 @@ package abe.com.ponents.menus
 			{
 				_checked = b; 
 				invalidate();
-				fireChangeEvent();
+				fireComponentChangedSignal();
 				fireComponentEvent( ComponentEvent.SELECTED_CHANGE );
 				fireComponentEvent( ComponentEvent.VALUE_CHANGE );
 			}

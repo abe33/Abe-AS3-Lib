@@ -89,7 +89,7 @@ package abe.com.ponents.containers
 				_resizer.release();
 				_resizer = null;
 			}
-			firePropertyEvent("resizable", _resizable );
+			firePropertyChangedSignal("resizable", _resizable );
 		}
 
 		public function get modal () : Boolean { return _modal; }	
@@ -98,7 +98,7 @@ package abe.com.ponents.containers
 			if(!displayed)
 			{
 				_modal = modal;
-				firePropertyEvent("modal", _modal);
+				firePropertyChangedSignal("modal", _modal);
 			}
 		}
 		public function get windowContent () : Component { return _windowContent; }		
@@ -128,7 +128,7 @@ package abe.com.ponents.containers
 			}
 			
 			invalidatePreferredSizeCache();
-			firePropertyEvent("windowContent", _windowContent );
+			firePropertyChangedSignal("windowContent", _windowContent );
 		}
 
 		override protected function registerToOnStageEvents () : void
@@ -167,7 +167,7 @@ package abe.com.ponents.containers
 				addComponent( _windowTitle );			
 			}
 			invalidatePreferredSizeCache();
-			firePropertyEvent("windowTitle", _windowTitle );
+			firePropertyChangedSignal("windowTitle", _windowTitle );
 		}
 
 		public function get windowStatus () : Component { return _windowStatus; }		
@@ -187,7 +187,7 @@ package abe.com.ponents.containers
 				addComponentAt( _windowStatus, 2 );			
 			}
 			invalidatePreferredSizeCache();
-			firePropertyEvent("windowStatus", _windowStatus );
+			firePropertyChangedSignal("windowStatus", _windowStatus );
 		}
 		public function get maximized () : Boolean { return _maximized; }		
 		public function get minimized () : Boolean { return _minimized; }

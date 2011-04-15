@@ -30,6 +30,9 @@ package abe.com.ponents.core
 	import abe.com.ponents.transfer.Transferable;
 	import abe.com.ponents.utils.Insets;
 
+	import org.osflash.signals.Signal;
+	import org.osflash.signals.natives.NativeMappedSignal;
+
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.display.InteractiveObject;
@@ -45,71 +48,6 @@ package abe.com.ponents.core
 	import flash.utils.Dictionary;
 
 	/*-----------------------------------------------------------------
- * 	EVENTS METADATA
- *----------------------------------------------------------------*/
-	/**
-	 * Évènement diffusé lors d'un redimensionnement du composant.
-	 * <p>
-	 * En règle général, un évènement ne sera diffusé que si la taille
-	 * du composant à réellement changé. C'est-à-dire si un appel à l'une
-	 * des propriétés du composant (<code>size</code>, <code>preferredSize</code>)
-	 * a été appelée avec des valeurs différente que la tailel actuelle, ou si le
-	 * contenu du composant à changer sa taille de préférence.
-	 * </p>
-	 *
-	 * @eventType abe.com.ponents.events.ComponentEvent.COMPONENT_RESIZE
-	 */
-	[Event(name="componentResize", type="abe.com.ponents.events.ComponentEvent")]
-	/**
-	 * Évènement diffusé lorsqu'un changement est provoqué au sein du composant.
-	 *
-	 * @eventType flash.events.Event.CHANGE
-	 */
-	[Event(name="change", type="flash.events.Event")]
-	/**
-	 * Évènement diffusé lorsque la position du composant à été changé.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.POSITION_CHANGE
-	 */
-	[Event(name="positionChange", type="abe.com.ponents.events.ComponentEvent")]
-	/**
-	 * Évènement diffusé lorsque le contenu du composant est déplacé à l'aide des
-	 * propriétés <code>contentScrollH</code> et <code>contentScrollV</code>.
-	 *
-	 * @eventType abe.com.ponents.events.ComponentEvent.SCROLL
-	 */	[Event(name="scroll", type="abe.com.ponents.events.ComponentEvent")]
-	/**
-	 * Évènement diffusé lorsque le composant est repaint.
-	 * <p>
-	 * Cet évènement intervient lors du passage dans la méthode <code>repaint</code>
-	 * et donc une seule fois par frame, quelque soit le nombre d'appel fait à la
-	 * méthode <code>invalidate</code>.
-	 * </p>
-	 *
-	 * @eventType abe.com.ponents.events.ComponentEvent.REPAINT
-	 */	[Event(name="repaint", type="abe.com.ponents.events.ComponentEvent")]
-	/**
-	 * Évènement diffusé lorsque l'état d'activation du composant à changer.
-	 *
-	 * @eventType abe.com.ponents.events.ComponentEvent.ENABLE_CHANGE
-	 */	[Event(name="enableChange", type="abe.com.ponents.events.ComponentEvent")]
-	/**
-	 * Évènement diffusé lorsque la souris est relâché à l'éxtérieur du composant.
-	 *
-	 * @eventType abe.com.ponents.events.ComponentEvent.RELEASE_OUTSIDE
-	 */
-	[Event(name="releaseOutside", type="abe.com.ponents.events.ComponentEvent")]
-	/**
-	 * Évènement diffusé lorsqu'une propriété du composant est modifiée.
-	 *
-	 * <p>Les propriétés suivantes sont à l'origine de la diffusion de l'évènement
-	 * <code>propertyChange</code></p>
-	 * <ul>
-	 * <li>cursor</li>	 * <li>contentScrollH</li>	 * <li>contentScrollV</li>	 * <li>enabled</li>	 * <li>focusParent</li>	 * <li>position</li>	 * <li>size</li>	 * <li>styleKey</li>	 * <li>tooltip</li>	 * </ul>
-	 *
-	 * @eventType abe.com.ponents.events.PropertyEvent.PROPERTY_CHANGE
-	 */	[Event(name="propertyChange", type="abe.com.ponents.events.PropertyEvent")]
-/*-----------------------------------------------------------------
  * 	STYLE METADATA
  *----------------------------------------------------------------*/
 	/**
@@ -712,6 +650,14 @@ package abe.com.ponents.core
 		 */
 		public function AbstractComponent ()
 		{
+			mouseMoved = new Signal();			mousePressed = new Signal();			mouseReleased = new Signal();			mouseReleasedOutside = new Signal();
+			_componentChanged = new Signal( Component );
+			_componentEnableChanged = new Signal( Component, Boolean );
+			_componentPositionChanged = new Signal( Component, Point );
+			_componentRepainted = new Signal( Component );
+			_componentResized = new Signal( Component, Dimension );
+			_componentScrollChanged = new Signal( Component );
+			
 			_enabled = true;
 			_pressed = false;			_selected = false;
 			_over = false;
@@ -759,12 +705,33 @@ package abe.com.ponents.core
 			addChild( _background );
 			addChild( _childrenContainer );			addChild( _foreground );
 
-			addWeakEventListener( Event.ADDED_TO_STAGE, addedToStage );			addWeakEventListener( Event.REMOVED_FROM_STAGE, removeFromStage );
+			addEventListener( Event.ADDED_TO_STAGE, addedToStage );			addEventListener( Event.REMOVED_FROM_STAGE, removeFromStage );
 
 			_style.addEventListener( PropertyEvent.PROPERTY_CHANGE, stylePropertyChanged, false, 0, true );
 		}
-
-/*-----------------------------------------------------------------
+/*-----------------------------------------------------------------------*
+ * SIGNALS
+ *-----------------------------------------------------------------------*/
+ 		public var mouseMoved : Signal;
+ 		public var mousePressed : Signal;
+ 		public var mouseReleased : Signal;
+ 		public var mouseReleasedOutside : Signal;
+ 		
+ 		protected var _componentResized : Signal;
+ 		protected var _componentChanged : Signal;
+ 		protected var _componentPositionChanged : Signal;
+ 		protected var _componentScrollChanged : Signal;
+ 		protected var _componentEnableChanged : Signal;
+ 		protected var _componentRepainted : Signal;
+ 		protected var _propertyChanged : Signal;
+		
+		public function get componentResized () : Signal { return _componentResized; }
+		public function get componentChanged () : Signal { return _componentChanged; }
+		public function get componentPositionChanged () : Signal { return _componentPositionChanged; }
+		public function get componentScrollChanged () : Signal { return _componentScrollChanged; }
+		public function get componentEnableChanged () : Signal { return _componentEnableChanged; }
+		public function get componentRepainted () : Signal { return _componentRepainted; }		public function get propertyChanged () : Signal { return _propertyChanged; }
+		/*-----------------------------------------------------------------
  * 	GETTERS / SETTERS
  *----------------------------------------------------------------*/
  		/**
@@ -853,9 +820,9 @@ package abe.com.ponents.core
 				}
 
 				buttonMode = tabEnabled = b;
-				fireChangeEvent( );
-				firePropertyEvent( "enabled", b );
-				fireComponentEvent( ComponentEvent.ENABLE_CHANGE );
+				fireComponentChangedSignal( );
+				firePropertyChangedSignal( "enabled", b );
+				_componentEnableChanged.dispatch( this, _enabled );
 				invalidate( true );
 			}
 		}
@@ -877,9 +844,9 @@ package abe.com.ponents.core
 		{
 			super.x = _integerForSpatialInformations ? Math.floor( p.x ) : p.x;
 			super.y = _integerForSpatialInformations ? Math.floor( p.y ) : p.y;
-			fireChangeEvent();
-			firePropertyEvent( "position", p );
-			firePositionChangeEvent();
+			fireComponentChangedSignal();
+			firePropertyChangedSignal( "position", p );
+			fireComponentPositionChangedSignal();
 			invalidate();
 		}
 		/**
@@ -895,9 +862,9 @@ package abe.com.ponents.core
 		override public function set x (value : Number) : void
 		{
 			super.x = _integerForSpatialInformations ? Math.floor( value ) : value;
-			fireChangeEvent();
-			firePropertyEvent( "position", position );
-			firePositionChangeEvent();		}
+			fireComponentChangedSignal();
+			firePropertyChangedSignal( "position", position );
+			fireComponentPositionChangedSignal();		}
 		/**
 		 * Réecriture de l'accesseur défini dans <code>DisplayObject</code>
 		 * afin de prendre en compte la gestion des entiers dans les coordonnées
@@ -911,9 +878,9 @@ package abe.com.ponents.core
 		override public function set y (value : Number) : void
 		{
 			super.y = _integerForSpatialInformations ? Math.floor( value ) : value;
-			fireChangeEvent();
-			firePropertyEvent( "position", position );
-			firePositionChangeEvent();
+			fireComponentChangedSignal();
+			firePropertyChangedSignal( "position", position );
+			fireComponentPositionChangedSignal();
 		}
 		/**
 		 * Réecriture de l'accesseur défini dans <code>DisplayObject</code>
@@ -998,7 +965,7 @@ package abe.com.ponents.core
 					_size.height = 0;
 				
 			}
-			fireResizeEventIfSizeChanged( oldw, oldh );			fireChangeEvent();
+			fireComponentResizedSignalIfSizeChanged( oldw, oldh );			fireComponentChangedSignal();
 			invalidateIfSizeChanged( oldw, oldh );
 		}
 		/**
@@ -1041,8 +1008,8 @@ package abe.com.ponents.core
 				oldh = _preferredSize.height;
 			}
 			_preferredSize = d;
-			fireResizeEventIfSizeChanged( oldw, oldh );
-			fireChangeEvent();
+			fireComponentResizedSignalIfSizeChanged( oldw, oldh );
+			fireComponentChangedSignal();
 			invalidateIfSizeChanged( oldw, oldh );
 		}
 		public function get maximumSize() : Dimension 
@@ -1118,8 +1085,8 @@ package abe.com.ponents.core
 		{
 			_style.defaultStyleKey = s;
 			invalidatePreferredSizeCache();
-			fireChangeEvent();
-			firePropertyEvent( "styleKey", styleKey );
+			fireComponentChangedSignal();
+			firePropertyChangedSignal( "styleKey", styleKey );
 		}
 		/**
 		 * Référence à l'objet <code>FocusGroup</code> auquel le composant doit se référer
@@ -1137,8 +1104,8 @@ package abe.com.ponents.core
 		public function set focusParent ( parent : FocusGroup ) : void
 		{
 			_focusParent = parent;
-			fireChangeEvent();
-			firePropertyEvent( "focusParent", _focusParent );
+			fireComponentChangedSignal();
+			firePropertyChangedSignal( "focusParent", _focusParent );
 		}
 		/**
 		 * Renvoie l'objet <code>Container</code> contenant actuellement
@@ -1209,10 +1176,10 @@ package abe.com.ponents.core
 		public function set contentScrollH (contentScrollH : Number) : void
 		{
 			_contentScrollH = contentScrollH;
-			fireComponentEvent( ComponentEvent.SCROLL );
+			_componentScrollChanged.dispatch( this );
 			invalidate( true );
-			fireChangeEvent();
-			firePropertyEvent( "contentScrollH", contentScrollH );
+			fireComponentChangedSignal();
+			firePropertyChangedSignal( "contentScrollH", contentScrollH );
 		}
 		/**
 		 * La valeur de décalage vertical appliquer au contenu de ce composant.
@@ -1225,10 +1192,10 @@ package abe.com.ponents.core
 		public function set contentScrollV (contentScrollV : Number) : void
 		{
 			_contentScrollV = contentScrollV;
-			fireComponentEvent( ComponentEvent.SCROLL );
+			_componentScrollChanged.dispatch( this );
 			invalidate( true );
-			fireChangeEvent();
-			firePropertyEvent( "contentScrollV", contentScrollV );
+			fireComponentChangedSignal();
+			firePropertyChangedSignal( "contentScrollV", contentScrollV );
 		}
 		/**
 		 * La distance maximum de décalage vertical du contenu de ce composant.
@@ -1297,7 +1264,7 @@ package abe.com.ponents.core
 		public function set allowOverEventBubbling (allowOverEventBubbling : Boolean) : void
 		{
 			_allowOverEventBubbling = allowOverEventBubbling;
-			fireChangeEvent();
+			fireComponentChangedSignal();
 		}
 		/**
 		 * État d'activation de la fonction de survol du composant par la souris.
@@ -1315,7 +1282,7 @@ package abe.com.ponents.core
 		public function set allowOver (allowOver : Boolean) : void
 		{
 			_allowOver = allowOver;
-			fireChangeEvent();
+			fireComponentChangedSignal();
 		}
 		/**
 		 * État d'activation de la fonction de sélection du composant.
@@ -1333,7 +1300,7 @@ package abe.com.ponents.core
 		public function set allowPressed (allowPressed : Boolean) : void
 		{
 			_allowPressed = allowPressed;
-			fireChangeEvent();
+			fireComponentChangedSignal();
 		}
 		/**
 		 * État d'activation de la fonction de focus du composant.
@@ -1351,7 +1318,7 @@ package abe.com.ponents.core
 		public function set allowSelected (allowSelected : Boolean) : void
 		{
 			_allowSelected = allowSelected;
-			fireChangeEvent();
+			fireComponentChangedSignal();
 		}
 		/**
 		 * État d'activation de la fonction de focus du composant.
@@ -1369,7 +1336,7 @@ package abe.com.ponents.core
 		public function set allowFocus (allowFocus : Boolean) : void
 		{
 			_allowFocus = allowFocus;
-			fireChangeEvent();
+			fireComponentChangedSignal();
 		}
 		/**
 		 * État d'activation de la fonction de transmissions du focus
@@ -1408,7 +1375,7 @@ package abe.com.ponents.core
 		public function set allowMask ( allowMask : Boolean ) : void
 		{
 			_allowMask = allowMask;
-			fireChangeEvent();
+			fireComponentChangedSignal();
 		}
 		/**
 		 * Renvoie <code>true</code> si la souris est actuellement au dessus de ce composant.
@@ -1726,7 +1693,7 @@ package abe.com.ponents.core
 		{
 			if( oldW != width || oldH != height )
 			{
-				firePropertyEvent( "size", new Dimension( width, height ) );
+				firePropertyChangedSignal( "size", dm( width, height ) );
 				invalidate();
 			}
 		}
@@ -1787,7 +1754,7 @@ package abe.com.ponents.core
 			{				_childrenContainer.scrollRect = null;
 			}
 
-			dispatchEvent( new ComponentEvent( ComponentEvent.REPAINT ) );
+			_componentRepainted.dispatch( this );
 		}
 		/**
 		 * Applique le masque sur le contenu du composant. Le masque n'est appliquer
@@ -2238,7 +2205,7 @@ package abe.com.ponents.core
 		public function set tooltip (tooltip : String) : void
 		{
 			_userTooltip = tooltip;
-			firePropertyEvent("tooltip", _userTooltip );
+			firePropertyChangedSignal("tooltip", _userTooltip );
 		}
 		/**
 		 * [conditional-compile] Déclenche l'affichage de l'info-bulle de ce composant.
@@ -2321,8 +2288,8 @@ package abe.com.ponents.core
 			if( _over && _enabled )
 				Cursor.setCursor( _cursor );
 
-			fireChangeEvent( );
-			firePropertyEvent( "cursor", cursor );
+			fireComponentChangedSignal( );
+			firePropertyChangedSignal( "cursor", cursor );
 		}
 
 		/**
@@ -3105,7 +3072,7 @@ package abe.com.ponents.core
 		 *
 		 * @param	e	évènement diffusé par l'objet
 		 */
-		protected function propertyChange (e : PropertyEvent) : void
+		protected function onPropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
 		}
 		/**
@@ -3130,7 +3097,6 @@ package abe.com.ponents.core
 		 */
 		public function releaseOutside ( e : MouseEvent = null ) : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.RELEASE_OUTSIDE ) );
 		}
 		/**
 		 * Recoit l'évènement de type <code>MouseEvent.MOUSE_DOWN</code>
@@ -3152,6 +3118,8 @@ package abe.com.ponents.core
 
 				if( this.stage )
 					this.stage.addEventListener( MouseEvent.MOUSE_UP, mouseUp );
+					
+				mousePressed.dispatch( this );
 			}
 		}
 		/**
@@ -3175,6 +3143,7 @@ package abe.com.ponents.core
 				if( _pressed && _over )
 				{
 					click( e );
+					mouseReleased.dispatch( this );
 					/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
 						hideToolTip();
 					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
@@ -3190,7 +3159,7 @@ package abe.com.ponents.core
 						this.stage.removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
 
 					releaseOutside( e );
-					dispatchEvent( new ComponentEvent( ComponentEvent.RELEASE_OUTSIDE ) );
+					mouseReleasedOutside.dispatch( this );
 				}
 				_pressed = false;
 
@@ -3286,6 +3255,7 @@ package abe.com.ponents.core
 		 */
 		public function mouseMove ( e : MouseEvent ) : void
 		{
+			mouseMoved.dispatch( this );
 		}
 		/**
 		 * Recoit l'évènement de type <code>FocusEvent.FOCUS_IN</code>
@@ -3333,7 +3303,7 @@ package abe.com.ponents.core
 				return;
 			}
 			_focus = true;
-			fireChangeEvent();
+			fireComponentChangedSignal();
 			if( _allowFocus )
 				invalidate( true );
 		}
@@ -3364,7 +3334,7 @@ package abe.com.ponents.core
 			if( !_allowFocusTraversing )
 				e.stopPropagation();
 			_focus = false;
-			fireChangeEvent();
+			fireComponentChangedSignal();
 			if( _allowFocus )
 				invalidate( true );
 		}
@@ -3532,29 +3502,18 @@ package abe.com.ponents.core
 			//_style.unregisterToParentStyleEvent();
 		}
 		/**
-		 * Ajoute un écouteur au composant en utilisant une référence faible pour stocker l'écouteur.
-		 *
-		 * @param eventType	type de l'évènement auquel l'écouteur s'abonne
-		 * @param listener	l'écouteur à enregistrer
-		 * @see http://livedocs.adobe.com/flex/3/langref/flash/events/EventDispatcher.html#addEventListener() EventDispatcher.addEventListener()
+		 * Diffuse un évènement de type <code>Event.CHANGE</code> pour ce composant.
 		 */
-		public function addWeakEventListener ( eventType : String, listener : Function ) : void
+		protected function fireComponentChangedSignal () : void
 		{
-			addEventListener( eventType, listener, false, 0, true );
+			_componentChanged.dispatch( this );
 		}
 		/**
 		 * Diffuse un évènement de type <code>Event.CHANGE</code> pour ce composant.
 		 */
-		protected function fireChangeEvent () : void
+		protected function fireComponentPositionChangedSignal () : void
 		{
-			dispatchEvent( new Event( Event.CHANGE, true, true ) );
-		}
-		/**
-		 * Diffuse un évènement de type <code>Event.CHANGE</code> pour ce composant.
-		 */
-		protected function firePositionChangeEvent () : void
-		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.POSITION_CHANGE, true, true ) );
+			_componentPositionChanged.dispatch( this, position );
 		}
 		/**
 		 * Diffuse un évènement de type <code>ComponentEvent.COMPONENT_RESIZE</code> pour ce composant seulement
@@ -3563,24 +3522,17 @@ package abe.com.ponents.core
 		 * @param	oldW	ancienne longueur à comparer à la longueur actuelle
 		 * @param	oldH	ancienne hauteur à comparer à la hauteur actuelle
 		 */
-		protected function fireResizeEventIfSizeChanged ( oldW : Number, oldH : Number) : void
+		protected function fireComponentResizedSignalIfSizeChanged ( oldW : Number, oldH : Number) : void
 		{
 			if( oldW != width || oldH != height )
-				fireResizeEvent();
+				fireComponentResizedSignal();
 		}
 		/**
 		 * Diffuse un évènement de type <code>ComponentEvent.COMPONENT_RESIZE</code> pour ce composant.
 		 */
-		protected function fireResizeEvent () : void
+		protected function fireComponentResizedSignal () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.COMPONENT_RESIZE, true, true ) );
-		}
-		/**
-		 * Diffuse un évènement de type <code>type</code> pour ce composant.
-		 */
-		protected function fireComponentEvent ( type : String ) : void
-		{
-			dispatchEvent( new ComponentEvent( type, true, true ) );
+			_componentResized.dispatch( this, dm( width, height ) );
 		}
 		/**
 		 * Diffuse un évènement de type <code>PropertyEvent.PROPERTY_CHANGE</code> pour ce composant.
@@ -3588,22 +3540,10 @@ package abe.com.ponents.core
 		 * @param	pname	nom de la propriété provoquant la diffusion de l'évènement
 		 * @param	pvalue	nouvelle valeur de cette propriété
 		 */
-		protected function firePropertyEvent ( pname : String, pvalue : * ) : void
+		protected function firePropertyChangedSignal ( pname : String, pvalue : * ) : void
 		{
-			var e : PropertyEvent = new PropertyEvent( PropertyEvent.PROPERTY_CHANGE, pname, pvalue, false, false );
-			propertyChange( e );
-			dispatchEvent( e );
-		}
-		/**
-		 * Version accélérée de la fonction de diffusion d'évènement.
-		 * @param	evt	l'évènement à diffuser
-		 * @return	l'évènement à t'il était diffusé ?
-		 */
-		override public function dispatchEvent ( evt : Event) : Boolean
-		{
-			if (hasEventListener( evt.type ) || evt.bubbles)
-		  		return super.dispatchEvent( evt );
-			return false;
+			onPropertyChanged( pname, pvalue );
+			_propertyChanged.dispatch( pname, pvalue );
 		}
 	}
 }

@@ -27,7 +27,7 @@ package abe.com.ponents.containers
 			this._closeable = closeable;
 		}
 		public function get closeable () : Boolean { return _closeable; }
-		public function set closeable (closeable : Boolean) : void { _closeable = closeable; firePropertyEvent("closeable", _closeable ); }		
+		public function set closeable (closeable : Boolean) : void { _closeable = closeable; firePropertyChangedSignal("closeable", _closeable ); }		
 		
 		override public function get supportedFlavors () : Array { return [ ComponentsFlavors.DOCKABLE ];
 		}

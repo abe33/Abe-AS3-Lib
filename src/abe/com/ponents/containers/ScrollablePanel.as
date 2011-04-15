@@ -70,7 +70,7 @@ package abe.com.ponents.containers
 		protected function componentResize (event : ComponentEvent) : void 
 		{
 			invalidatePreferredSizeCache();
-			fireResizeEvent();
+			fireComponentResizedSignal();
 		}
 		private var _childrenInvalidationSetProgramatically : Boolean;
 		override public function invalidatePreferredSizeCache () : void 

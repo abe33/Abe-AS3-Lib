@@ -15,25 +15,14 @@ package abe.com.ponents.core
 	import abe.com.ponents.layouts.components.ComponentLayout;
 	import abe.com.ponents.layouts.components.NoLayout;
 
+	import org.osflash.signals.Signal;
+
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.IEventDispatcher;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
-	/**
-	 * Évènement diffusé lors de l'ajout d'un enfant dans le composant.
-	 *
-	 * @eventType abe.com.ponents.events.ContainerEvent.CHILD_ADD
-	 */
-	[Event(name="childAdd", type="abe.com.ponents.events.ContainerEvent")]
-	/**
-	 * Évènement diffusé lors de la suppression d'un enfant du composant.
-	 *
-	 * @eventType abe.com.ponents.events.ContainerEvent.CHILD_REMOVE
-	 */	[Event(name="childRemove", type="abe.com.ponents.events.ContainerEvent")]
-
 	/**
 	 * Implémentation standard de l'interface <code>Container</code>.
 	 * <p>
@@ -130,8 +119,9 @@ package abe.com.ponents.core
 			super();
 			/*FDT_IGNORE*/
 			TARGET::FLASH_9 { _children = []; }			TARGET::FLASH_10 { _children = new Vector.<Component>(); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			_children = new Vector.<Component>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			_childAdded = new Signal( Container, Component );			_childRemoved = new Signal( Container, Component );
 			
+			_children = new Vector.<Component>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			_childrenLayout = _childrenLayout ? _childrenLayout : new NoLayout ( this );
 			_childrenContainer.mouseChildren = true;
 			_childrenContainer.mouseEnabled = true;
@@ -143,7 +133,9 @@ package abe.com.ponents.core
 			buttonMode = false;
 			invalidatePreferredSizeCache();
 		}
-
+		protected var _childAdded : Signal;
+		protected var _childRemoved : Signal;
+		public function get childAdded () : Signal { return _childAdded; } 		public function get childRemoved () : Signal { return _childAdded; } 
 /*-----------------------------------------------------------------
  * 	GETTERS / SETTERS
  *----------------------------------------------------------------*/
@@ -184,8 +176,8 @@ package abe.com.ponents.core
 		{
 			_childrenLayout = cl;
 			_childrenLayout.container = this;
-			fireChangeEvent();
-			firePropertyEvent("childrenLayout", _childrenLayout );
+			fireComponentChangedSignal();
+			firePropertyChangedSignal("childrenLayout", _childrenLayout );
 
 			if( hasChildren )
 				invalidatePreferredSizeCache();
@@ -198,8 +190,8 @@ package abe.com.ponents.core
 		public function set allowChildrenFocus (allowChildrenFocus : Boolean) : void
 		{
 			_allowChildrenFocus = allowChildrenFocus;
-			firePropertyEvent("allowChildrenFocus", _allowChildrenFocus );
-			fireChangeEvent();
+			firePropertyChangedSignal("allowChildrenFocus", _allowChildrenFocus );
+			fireComponentChangedSignal();
 		}
 		/**
 		 * Une valeur booléenne indiquant si la transmission du focus
@@ -219,8 +211,8 @@ package abe.com.ponents.core
 		public function set allowFocusLoopHole (allowFocusLoopHole : Boolean) : void
 		{
 			_allowFocusLoop = allowFocusLoopHole;
-			firePropertyEvent("allowFocusLoopHole", _allowFocusLoop );
-			fireChangeEvent();
+			firePropertyChangedSignal("allowFocusLoopHole", _allowFocusLoop );
+			fireComponentChangedSignal();
 		}
 		/**
 		 * Une valeur booléenne indiquant si ce composant est à considérer comme
@@ -244,8 +236,8 @@ package abe.com.ponents.core
 		public function set childrenContextEnabled (childrenContextEnabled : Boolean) : void
 		{
 			_childrenContextEnabled = childrenContextEnabled;
-			firePropertyEvent("childrenContextEnabled", _childrenContextEnabled );
-			fireChangeEvent();
+			firePropertyChangedSignal("childrenContextEnabled", _childrenContextEnabled );
+			fireComponentChangedSignal();
 		}
 		override public function get maximumContentSize () : Dimension { return _childrenLayout.maximumContentSize; }
 		/**
@@ -365,8 +357,7 @@ package abe.com.ponents.core
 				_childrenContainer.addChild( c as DisplayObject );
 				setupChildren(c);
 				invalidatePreferredSizeCache();
-
-				dispatchEvent( new ContainerEvent( ContainerEvent.CHILD_ADD, c ) );
+				_childAdded.dispatch( this, c );
 			}
 		}
 		/**
@@ -406,7 +397,7 @@ package abe.com.ponents.core
 				setupChildren(c);
 				invalidatePreferredSizeCache();
 
-				dispatchEvent( new ContainerEvent( ContainerEvent.CHILD_ADD, c ) );
+				_childAdded.dispatch( this, c );
 			}
 		}
 		/**
@@ -478,7 +469,7 @@ package abe.com.ponents.core
 				teardownChildren(c);
 				invalidatePreferredSizeCache();
 
-				dispatchEvent( new ContainerEvent( ContainerEvent.CHILD_REMOVE, c ) );
+				_childRemoved.dispatch( this, c );
 			}
 		}
 		/**

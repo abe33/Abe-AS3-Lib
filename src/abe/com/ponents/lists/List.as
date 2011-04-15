@@ -340,7 +340,7 @@ package abe.com.ponents.lists
 				buildChildren();
 				invalidatePreferredSizeCache();
 			}
-			firePropertyEvent("listCellClass", _listCellClass );
+			firePropertyChangedSignal("listCellClass", _listCellClass );
 		}
 
 		public function get undoManager () : UndoManager { return _undoManager; }		
@@ -1014,7 +1014,7 @@ package abe.com.ponents.lists
 				listLayout.clearEstimatedSize();
 				invalidatePreferredSizeCache();
 			}
-			fireResizeEvent();
+			fireComponentResizedSignal();
 			//fireComponentEvent( ComponentEvent.DATA_CHANGE );
 		}
 		override public function focusOut ( e : FocusEvent ) : void

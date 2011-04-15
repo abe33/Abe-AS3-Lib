@@ -13,6 +13,8 @@ package abe.com.ponents.core
 	import abe.com.ponents.skinning.ComponentStyle;
 	import abe.com.ponents.skinning.cursors.Cursor;
 
+	import org.osflash.signals.Signal;
+
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.ui.ContextMenuItem;
@@ -263,15 +265,6 @@ package abe.com.ponents.core
 		 */
 		function hideToolTip () : void;
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-		
-		/**
-		 * Ajoute un écouteur au composant en utilisant une référence faible pour stocker l'écouteur.
-		 *  
-		 * @param eventType	type de l'évènement auquel l'écouteur s'abonne
-		 * @param listener	l'écouteur à enregistrer
-		 * @see http://livedocs.adobe.com/flex/3/langref/flash/events/EventDispatcher.html#addEventListener() EventDispatcher.addEventListener()
-		 */
-		function addWeakEventListener ( eventType : String, listener : Function ) : void;
 		/**
 		 * Invalide le composant.
 		 * <p>
@@ -294,5 +287,11 @@ package abe.com.ponents.core
 		 * Redessine le composant.
 		 */
 		function repaint() : void;
+
+/*---------------------------------------------------------------------------------*
+ *  SIGNALS
+ *---------------------------------------------------------------------------------*/
+
+		function get componentResized () : Signal;		function get componentChanged () : Signal;		function get componentPositionChanged () : Signal;		function get componentScrollChanged () : Signal;		function get componentEnableChanged () : Signal;		function get componentRepainted () : Signal;		function get propertyChanged () : Signal;
 	}
 }

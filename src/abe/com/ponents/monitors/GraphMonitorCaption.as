@@ -151,7 +151,7 @@ package abe.com.ponents.monitors
 			{
 				captionMode = SettingsManagerInstance.get(this, "captionMode", _captionMode );				layoutMode = SettingsManagerInstance.get(this, "layoutMode", _layoutMode );
 				_settingsLoaded = true;
-				tick(null);
+				tick(0,0,0);
 			}
 			super.repaint();
 		}

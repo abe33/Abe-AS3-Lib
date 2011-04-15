@@ -5,7 +5,6 @@ package abe.com.ponents.utils
 {
 	import abe.com.mands.Command;
 	import abe.com.mands.NullCommand;
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.ITextField;
 	import abe.com.mon.logs.Log;
@@ -173,15 +172,15 @@ package abe.com.ponents.utils
 		protected function focusOut (event : FocusEvent) : void 
 		{
 		}
-		protected function commandEnd ( e : CommandEvent ) : void
+		protected function commandEnded ( command : Command ) : void
 		{
 			unregisterToCommandEvents( _oCurrentCommand );
 		}
-		protected function commandFailed ( e : CommandEvent ) : void
+		protected function commandFailed ( command : Command, msg : String ) : void
 		{
 			unregisterToCommandEvents( _oCurrentCommand );
 		}		
-		protected function commandCancelled ( e : CommandEvent ) : void
+		protected function commandCancelled ( command : Command ) : void
 		{
 			unregisterToCommandEvents( _oCurrentCommand );
 		}
@@ -220,11 +219,11 @@ package abe.com.ponents.utils
 		 */
 		protected function registerToCommandEvents ( c : Command ) : void
 		{
-			c.addEventListener( CommandEvent.COMMAND_END, commandEnd );
-			c.addEventListener( CommandEvent.COMMAND_FAIL, commandFailed );
+			c.commandEnded.add( commandEnded );
+			c.commandFailed.add( commandFailed );
 			
 			if( c is Cancelable )
-				c.addEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+			  ( c as Cancelable ).commandCancelled.add( commandCancelled );
 		}
 		
 		/**
@@ -238,11 +237,11 @@ package abe.com.ponents.utils
 		 */
 		protected function unregisterToCommandEvents ( c : Command ) : void
 		{
-			c.removeEventListener( CommandEvent.COMMAND_END, commandEnd );
-			c.removeEventListener( CommandEvent.COMMAND_FAIL, commandFailed );
+			c.commandEnded.remove( commandEnded );
+			c.commandFailed.remove( commandFailed );
 			
 			if( c is Cancelable )
-				c.removeEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+			  ( c as Cancelable ).commandCancelled.remove( commandCancelled );
 		}	
 
 		/**

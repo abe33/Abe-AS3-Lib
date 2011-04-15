@@ -2,7 +2,7 @@ package abe.com.ponents.utils
 {
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.motion.SingleTween;
-	import abe.com.motion.TweenEvent;
+	import abe.com.motion.Tween;
 	import abe.com.ponents.core.Component;
 
 	import flash.display.DisplayObject;
@@ -99,10 +99,10 @@ package abe.com.ponents.utils
 				c.grabFocus();
 			}
 		}
-		static protected function tweenEnd (event : TweenEvent) : void
+		static protected function tweenEnded ( t : Tween ) : void
 		{
-			ToolKit.popupLevel.removeChild( tween.target as DisplayObject );
-			tween.removeEventListener( TweenEvent.TWEEN_END, tweenEnd );
+			ToolKit.popupLevel.removeChild( tween as DisplayObject );
+			tween.tweenEnded.remove( tweenEnded );
 		}
 		static public function pop () : void
 		{
@@ -116,7 +116,7 @@ package abe.com.ponents.utils
 				if( animateModal )
 				{
 					tween.target = level.mouseCatcher;
-					tween.addEventListener( TweenEvent.TWEEN_END, tweenEnd );
+					tween.tweenEnded.add( tweenEnded );
 					tween.reversed = true;
 					tween.execute();
 				}

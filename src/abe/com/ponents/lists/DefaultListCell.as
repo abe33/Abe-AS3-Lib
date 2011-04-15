@@ -55,7 +55,7 @@ package abe.com.ponents.lists
 			
 			super.label = formatLabel( _value );
 			
-			firePropertyEvent( "value", _value );
+			firePropertyChangedSignal( "value", _value );
 		}		
 
 		protected function formatLabel ( value : * ) : String 
