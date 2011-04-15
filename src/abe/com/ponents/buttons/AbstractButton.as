@@ -3,8 +3,8 @@
  */
 package abe.com.ponents.buttons
 {
+	import abe.com.mands.Command;
 	import abe.com.mands.ProxyCommand;
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.IDisplayObject;
 	import abe.com.mon.core.IDisplayObjectContainer;
@@ -18,53 +18,20 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.SimpleDOContainer;
 	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ActionEvent;
-	import abe.com.ponents.events.ButtonEvent;
 	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.layouts.display.DOInlineLayout;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.text.TextFieldImpl;
 	import abe.com.ponents.utils.KeyboardControllerInstance;
 
+	import org.osflash.signals.Signal;
+
 	import flash.display.DisplayObject;
-	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 
-	/**
-	 * Évènement diffusé par l'instance au moment du délenchement de son action
-	 *
-	 * @eventType abe.com.ponents.events.ActionEvent.ACTION
-	 */
-	[Event(name="action", type="abe.com.ponents.events.ActionEvent")]	/**
-	 * Évènement diffusé par l'instance au moment du déclenchement du click du bouton.
-	 *
-	 * @eventType abe.com.ponents.events.ButtonEvent.BUTTON_CLICK
-	 */
-	[Event(name="buttonClick", type="abe.com.ponents.events.ButtonEvent")]	/**
-	 * Évènement diffusé par l'instance au moment du déclenchement du double-click du bouton.
-	 * <p>
-	 * L'évènement n'est diffusé que lorsque la propriété <code>doubleClickEnabled</code> du
-	 * bouton est marqué à <code>true</code>.
-	 * </p>
-	 *
-	 * @eventType abe.com.ponents.events.ButtonEvent.BUTTON_DBLE_CLICK
-	 */
-	[Event(name="buttonDbleClick", type="abe.com.ponents.events.ButtonEvent")]	/**
-	 * Évènement diffusé par l'instance lorsque le bouton de la souris est relâchée
-	 * en dehors du composant.
-	 *
-	 * @eventType abe.com.ponents.events.ButtonEvent.BUTTON_RELEASE_OUTSIDE
-	 */
-	[Event(name="buttonReleaseOutside", type="abe.com.ponents.events.ButtonEvent")]	/**
-	 * Évènement diffusé lorsque l'état de sélection du composant à changer.
-	 *
-	 * @eventType abe.com.ponents.events.ComponentEvent.SELECTED_CHANGE
-	 */
-	[Event(name="selectedChange", type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * Détermine si le champ de texte utilisé au sein du composant utilise des
 	 * polices embarquées (<code>true</code>) ou non (<code>false</code>).
@@ -242,6 +209,10 @@ package abe.com.ponents.buttons
 		public function AbstractButton ( actionOrLabel : * = null, icon : Icon = null )
 		{
 			super();
+			
+			actionTriggered = new Signal();
+			buttonClicked = new Signal();			buttonDoubleClicked = new Signal();			buttonReleasedOutside = new Signal( );			componentSelectedChanged = new Signal();
+			
 			_labelIndex = 0;
 			_iconIndex = 1;
 			_removeLabelOnEmptyString = true;
@@ -270,6 +241,13 @@ package abe.com.ponents.buttons
 			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( click, true );			_keyboardContext[ KeyStroke.getKeyStroke( Keys.SPACE ) ] = new ProxyCommand( click, true );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
+		
+		public var actionTriggered : Signal;
+		public var buttonClicked : Signal;
+		public var buttonDoubleClicked : Signal;
+		public var buttonReleasedOutside : Signal;
+		public var componentSelectedChanged : Signal;
+		
 		/*-----------------------------------------------------------------
 		 * 	GETTERS & SETTERS
 		 *----------------------------------------------------------------*/
@@ -391,9 +369,9 @@ package abe.com.ponents.buttons
 			if( b != _selected )
 			{
 				_selected = b;
-				invalidate();
+				invalidate( );
+				componentSelectedChanged.dispatch( this, _selected );
 				fireComponentChangedSignal();
-				fireComponentEvent( ComponentEvent.SELECTED_CHANGE );
 				firePropertyChangedSignal( "selected", _selected );
 			}
 		}
@@ -749,24 +727,24 @@ package abe.com.ponents.buttons
 		 */
 		protected function registerToCommandEvents (action : Action) : void
 		{
-			action.addEventListener( PropertyEvent.PROPERTY_CHANGE, actionPropertyChanged );
-			action.addEventListener( CommandEvent.COMMAND_END, commandEnd );
-			action.addEventListener( CommandEvent.COMMAND_FAIL, commandFail );
+			action.propertyChanged.add( actionPropertyChanged );
+			action.commandEnded.add( commandEnded );
+			action.commandFailed.add( commandFail );
 
 			if( action is Cancelable )
-				action.addEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+			  ( action as Cancelable ).commandCancelled.add( commandCancelled );
 		}
 		/**
 		 * @inheritDoc
 		 */
 		protected function unregisterToCommandEvents (action : Action) : void
 		{
-			action.removeEventListener( PropertyEvent.PROPERTY_CHANGE, actionPropertyChanged );
-			action.removeEventListener( CommandEvent.COMMAND_END, commandEnd );
-			action.removeEventListener( CommandEvent.COMMAND_FAIL, commandFail );
+			action.propertyChanged.remove( actionPropertyChanged );
+			action.commandEnded.remove( commandEnded );
+			action.commandFailed.remove( commandFail );
 
 			if( action is Cancelable )
-				action.removeEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+			  ( action as Cancelable ).commandCancelled.remove( commandCancelled );
 		}
 
 /*-----------------------------------------------------------------
@@ -785,9 +763,9 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		override protected function stylePropertyChanged (propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "embedFonts" :
 					_labelTextField.embedFonts = _style.embedFonts;
@@ -795,7 +773,7 @@ package abe.com.ponents.buttons
 					invalidatePreferredSizeCache();
 					break;
 				default :
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}
@@ -805,20 +783,20 @@ package abe.com.ponents.buttons
 		 *
 		 * @param	event	évènement diffusé par l'objet <code>Action</code>
 		 */
-		protected function actionPropertyChanged (event : PropertyEvent) : void
+		protected function actionPropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "actionEnabled" :
-					enabled = event.propertyValue;
+					enabled = propertyValue;
 					break;
 				case "name" :
-					label = event.propertyValue;
+					label = propertyValue;
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
 				case "icon" :
-					icon = ( event.propertyValue as Icon ).clone();
+					icon = ( propertyValue as Icon ).clone();
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
@@ -829,9 +807,9 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override public function releaseOutside (e : MouseEvent = null) : void
+		override public function releaseOutside () : void
 		{
-			dispatchEvent( new ButtonEvent( ButtonEvent.BUTTON_RELEASE_OUTSIDE ) );
+			buttonReleasedOutside.dispatch( this );
 		}
 		/**
 		 * Recoit l'évènement <code>MouseEvent.DOUBLE_CLICK</code> diffusé par cet objet.
@@ -840,53 +818,35 @@ package abe.com.ponents.buttons
 		 */
 		protected function doubleClick ( event : MouseEvent = null ) : void
 		{
-			dispatchEvent( new ButtonEvent( ButtonEvent.BUTTON_DBLE_CLICK ) );
+			buttonDoubleClicked.dispatch( this );
 		}
 		/**
 		 * @inheritDoc
 		 */
-		override public function click ( e : Event = null ) : void
+		override public function click () : void
 		{
 			if( _action )
 			{
 				if( disableButtonDuringActionExecution )
 					enabled = false;
 
-				_action.execute( e );
+				_action.execute();
 			}
-
-			dispatchEvent( new ButtonEvent( ButtonEvent.BUTTON_CLICK ) );			dispatchEvent( new ActionEvent( ActionEvent.ACTION ) );
+			actionTriggered.dispatch( this, action );
+			buttonClicked.dispatch( this );
 		}
-		/**
-		 * Recoit l'évènement <code>CommandEvent.COMMAND_END</code> diffusé
-		 * par l'objet <code>Action</code> de ce bouton.
-		 *
-		 * @param	event	évènement diffusé par l'objet <code>Action</code>
-		 */
-		protected function commandEnd ( event : CommandEvent ) : void
+
+		protected function commandEnded ( command : Command ) : void
 		{
 			if( disableButtonDuringActionExecution )
 				enabled = _action.actionEnabled;
 		}
-
-		/**
-		 * Recoit l'évènement <code>CommandEvent.COMMAND_FAIL</code> diffusé
-		 * par l'objet <code>Action</code> de ce bouton.
-		 *
-		 * @param	event	évènement diffusé par l'objet <code>Action</code>
-		 */
-		protected function commandFail (event : ErrorEvent) : void
+		protected function commandFail ( command : Command  ) : void
 		{
 			if( disableButtonDuringActionExecution )
 				enabled = true;
 		}
-		/**
-		 * Recoit l'évènement <code>CommandEvent.COMMAND_CANCEL</code> diffusé
-		 * par l'objet <code>Action</code> de ce bouton.
-		 *
-		 * @param	event	évènement diffusé par l'objet <code>Action</code>
-		 */
-		protected function commandCancelled (event : CommandEvent) : void
+		protected function commandCancelled ( command : Command ) : void
 		{
 			if( disableButtonDuringActionExecution )
 				enabled = true;

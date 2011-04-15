@@ -50,22 +50,22 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override public function click (e : Event = null) : void
+		override public function click () : void
 		{
 			swapSelect(true);
 		}
 		/**
 		 * @inheritDoc
 		 */
-		override protected function actionPropertyChanged (event : PropertyEvent) : void
+		override protected function actionPropertyChanged (propertyName : String, propertyValue : *) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "selected" : 
-					this.selected = event.propertyValue;
+					this.selected = propertyValue;
 					break;
 				default : 
-					super.actionPropertyChanged( event );
+					super.actionPropertyChanged(propertyName, propertyValue);
 					break;
 			}
 			

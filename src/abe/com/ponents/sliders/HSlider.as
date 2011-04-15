@@ -247,28 +247,28 @@ package abe.com.ponents.sliders
 		{
 			super.registerToOnStageEvents( );
 			
-			_knob.addWeakEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knob.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knob.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
-			_track.addWeakEventListener( MouseEvent.MOUSE_DOWN, trackDragStart );
-			_track.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_track.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );	
+			_knob.mousePressed.add( dragStart );
+			_knob.mouseReleased.add( dragEnd );
+			_knob.mouseReleasedOutside.add( dragEnd );
+			_track.mousePressed.add( trackDragStart );
+			_track.mouseReleased.add( dragEnd );
+			_track.mouseReleasedOutside.add( dragEnd );	
 			
-			addWeakEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			mouseWheelRolled.add( onMouseWheelRolled );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void 
 		{
 			super.unregisterFromOnStageEvents( );
 			
-			_knob.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knob.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knob.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
-			_track.removeEventListener( MouseEvent.MOUSE_DOWN, trackDragStart );
-			_track.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_track.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );	
+			_knob.mousePressed.remove( dragStart );
+			_knob.mouseReleased.remove( dragEnd );
+			_knob.mouseReleasedOutside.remove( dragEnd );
+			_track.mousePressed.remove( trackDragStart );
+			_track.mouseReleased.remove( dragEnd );
+			_track.mouseReleasedOutside.remove( dragEnd );	
 			
-			removeEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			mouseWheelRolled.add( onMouseWheelRolled );
 		}
 
 		protected function getTransformedValue ( n : Number ) : Number
@@ -279,16 +279,16 @@ package abe.com.ponents.sliders
 				return n;
 		}
 		
-		private function trackDragStart ( e : MouseEvent ) : void
+		private function trackDragStart ( c : Component ) : void
 		{
 			if( _enabled )
 			{
 				//_slider.x = mouseX - _slider.width / 2;
-				dragStart ( e );
+				dragStart ( c );
 			}
 		}
 
-		protected function dragStart ( e : MouseEvent ) : void
+		protected function dragStart ( c : Component ) : void
 		{
 			if( _enabled )
 			{
@@ -300,14 +300,14 @@ package abe.com.ponents.sliders
 					stage.addEventListener( MouseEvent.MOUSE_MOVE, drag );
 			}
 		}
-		protected function dragEnd ( e : Event ) : void
+		protected function dragEnd ( c : Component ) : void
 		{
 			drag ( null );
 			_dragging = false;
 			if( stage )
 				stage.removeEventListener( MouseEvent.MOUSE_MOVE, drag );
 		}
-		protected function drag ( e : MouseEvent ) : void
+		protected function drag ( c : Component ) : void
 		{
 			if( _dragging )
 			{
@@ -399,12 +399,11 @@ package abe.com.ponents.sliders
 		{
 			focusPrevious();
 		}
-		protected function mouseWheel ( e : MouseEvent ) : void
+		protected function onMouseWheelRolled ( c : Component, delta : Number ) : void
 		{
-			e.stopPropagation();
 			if( _enabled )
 			{
-				if( e.delta > 0 )
+				if( delta > 0 )
 					up();
 				else
 					down();
@@ -435,35 +434,35 @@ package abe.com.ponents.sliders
 				addComponent( _input );
 				
 		}
-		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		override protected function stylePropertyChanged (  propertyName : String, propertyValue : *  ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "icon" :
 					_knob.icon = _style.icon.clone();
 					invalidatePreferredSizeCache();
 					break;
 				case "buttonSize" :
-					_knob.preferredWidth = event.propertyValue;
+					_knob.preferredWidth = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "inputWidth" :
-					_input.preferredWidth = event.propertyValue;
+					_input.preferredWidth = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "tickSize" : 				case "tickMargin" : 
 					invalidate();
 					break;
 				case "tickColor" : 
-					_tickColor = event.propertyValue;
+					_tickColor = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "trackSize" : 
-					(_childrenLayout as HBoxLayout).boxes[2].size = event.propertyValue;
+					(_childrenLayout as HBoxLayout).boxes[2].size = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				default : 
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

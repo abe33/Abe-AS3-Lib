@@ -57,7 +57,7 @@ package abe.com.ponents.text
 			}
 		}
 
-		override public function click (e : Event = null) : void
+		override public function click () : void
 		{
 			if( _forComponent )
 			{

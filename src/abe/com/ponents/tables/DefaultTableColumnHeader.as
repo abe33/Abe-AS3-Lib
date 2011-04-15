@@ -83,9 +83,9 @@ package abe.com.ponents.tables
 					 _table.currentSortingMethod == column.sortingMethod;
 		}
 
-		override public function click (e : Event = null) : void
+		override public function click () : void
 		{
-			super.click( e );
+			super.click();
 			if( _column.sortable )
 			{
 				if ( _sorted )

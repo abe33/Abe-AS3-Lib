@@ -4,7 +4,6 @@ package abe.com.ponents.menus
 	import abe.com.mon.utils.Keys;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.ponents.actions.Action;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.layouts.display.DOBoxSettings;
 	import abe.com.ponents.layouts.display.DOHBoxLayout;
 	import abe.com.ponents.lists.DefaultListCell;
@@ -13,7 +12,6 @@ package abe.com.ponents.menus
 	import abe.com.ponents.transfer.Transferable;
 
 	import flash.display.DisplayObject;
-	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
 
@@ -164,9 +162,9 @@ package abe.com.ponents.menus
 			super.mouseOver( e );
 		}
 
-		override public function click (e : Event = null) : void
+		override public function click () : void
 		{
-			super.click( e );
+			super.click();
 			if( menuContainer )
 				menuContainer.done();
 		}
@@ -209,24 +207,24 @@ package abe.com.ponents.menus
 					_labelTextField.htmlText = s != "" ? s : " ";
 			}
 		}
-		override protected function actionPropertyChanged (event : PropertyEvent) : void 
+		override protected function actionPropertyChanged (propertyName : String, propertyValue : *) : void 
 		{
 			var hbox : DOHBoxLayout = _childrenLayout as DOHBoxLayout;
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "accelerator" :
 					if( hbox.boxes[2] )
 						hbox.boxes[2].size = 0;
-					super.actionPropertyChanged( event );
+					super.actionPropertyChanged(propertyName, propertyValue);
 					break;	
 				case "name" :
 					if( hbox.boxes[1] )
 						hbox.boxes[1].size = 0;
-					super.actionPropertyChanged( event );
+					super.actionPropertyChanged(propertyName, propertyValue);
 					if( _menuContainer )
 						_menuContainer.itemContentChange( this );					break;
 				default :
-					super.actionPropertyChanged( event );
+					super.actionPropertyChanged(propertyName, propertyValue);
 					break;
 			}
 		}

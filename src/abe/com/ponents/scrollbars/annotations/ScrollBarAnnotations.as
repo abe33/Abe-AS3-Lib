@@ -120,7 +120,7 @@ package abe.com.ponents.scrollbars.annotations
 			hideToolTip();
 			_tooltip = null;
 		}
-		override public function click ( e : Event = null ) : void
+		override public function click () : void
 		{
 			var canScroll : Boolean = _scrollBar.canScroll;
 			var h : Number;

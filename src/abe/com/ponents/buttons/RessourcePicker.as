@@ -42,7 +42,7 @@ package abe.com.ponents.buttons
 			else
 				act.name = _("No ressource");
 			
-			super.commandEnd( event );
+			super.commandEnded( event );
 		}
 		public function get disabledMode () : uint { return _disabledMode; }
 		public function set disabledMode (b : uint) : void

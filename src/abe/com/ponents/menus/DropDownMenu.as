@@ -120,7 +120,7 @@ package abe.com.ponents.menus
 			_popupMenu.removeMenuItem(m);
 		}
 
-		override public function click (e : Event = null) : void
+		override public function click () : void
 		{
 			if( !_popupMenu.stage )
 			{

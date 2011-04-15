@@ -25,7 +25,7 @@ package abe.com.ponents.menus
 			super( label, checked );
 		}
 		
-		override public function click (e : Event = null) : void
+		override public function click () : void
 		{
 			swapSelect(true);
 		}

@@ -5,23 +5,23 @@ package abe.com.ponents.skinning
 {
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
 	import abe.com.ponents.utils.Borders;
 	import abe.com.ponents.utils.Corners;
 	import abe.com.ponents.utils.Insets;
 
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
+	import org.osflash.signals.Signal;
+
 	import flash.text.TextFormat;
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	/**
 	 * @author Cédric Néhémie
 	 */
-	dynamic public class ComponentStateStyle extends Proxy implements IEventDispatcher, FormMetaProvider
+	dynamic public class ComponentStateStyle extends Proxy implements FormMetaProvider
 	{
+		public var propertyChanged : Signal;		public var styleStateChanged : Signal;
+		
 		protected var _background : ComponentDecoration;
 		protected var _foreground : ComponentDecoration;
 		protected var _textColor : Color;
@@ -29,7 +29,6 @@ package abe.com.ponents.skinning
 		protected var _outerFilters : Array;
 		protected var _innerFilters : Array;		protected var _corners : Corners;
 		protected var _insets : Insets;		protected var _borders : Borders;
-		protected var _eD : EventDispatcher;
 		protected var _customProperties : Object;
 
 		public function ComponentStateStyle ( background : ComponentDecoration = null, 
@@ -40,7 +39,8 @@ package abe.com.ponents.skinning
 											  borders : Borders = null,
 											  corners : Corners = null,
 											  outerFilters : Array = null,											  innerFilters : Array = null )
-		{				
+		{		
+			propertyChanged = new Signal();					styleStateChanged = new Signal();		
 			_background = background;			_foreground = foreground;
 			_textColor = textColor;
 			_corners = corners;
@@ -49,7 +49,6 @@ package abe.com.ponents.skinning
 			_borders = borders;
 			_outerFilters = outerFilters;			_innerFilters = innerFilters;
 			_customProperties = {};
-			_eD = new EventDispatcher( this );
 		}
 		[Form(type="componentDecoration", 
 			  defaultValue="new abe.com.ponents.skinning.decorations::NoDecoration()", 
@@ -62,7 +61,7 @@ package abe.com.ponents.skinning
 		{
 			_background = background;
 			fireChangeEvent ();
-			firePropertyEvent("background", background );
+			firePropertyChangedSignal("background", background );
 		}
 		[Form(type="componentDecoration", 
 			  defaultValue="new abe.com.ponents.skinning.decorations::NoDecoration()", 
@@ -75,7 +74,7 @@ package abe.com.ponents.skinning
 		{
 			_foreground = foreground;
 			fireChangeEvent ();
-			firePropertyEvent("foreground", foreground );
+			firePropertyChangedSignal("foreground", foreground );
 		}
 		[Form(type="filtersArray", 
 			  defaultValue="[]", 
@@ -89,7 +88,7 @@ package abe.com.ponents.skinning
 		{
 			_outerFilters = outerFilters;
 			fireChangeEvent ();
-			firePropertyEvent("outerFilters", outerFilters );
+			firePropertyChangedSignal("outerFilters", outerFilters );
 		}
 		[Form(type="filtersArray", 
 			  defaultValue="[]", 
@@ -102,7 +101,7 @@ package abe.com.ponents.skinning
 		{
 			_innerFilters = innerFilters;
 			fireChangeEvent ();
-			firePropertyEvent("innerFilters", innerFilters );
+			firePropertyChangedSignal("innerFilters", innerFilters );
 		}
 		
 		[Form(type="color", 
@@ -117,7 +116,7 @@ package abe.com.ponents.skinning
 		{
 			_textColor = textColor;
 			fireChangeEvent ();
-			firePropertyEvent("textColor", textColor );
+			firePropertyChangedSignal("textColor", textColor );
 		}
 		[Form(type="textFormat", 
 			  defaultValue="new flash.text::TextFormat('Verdana',10)", 
@@ -130,7 +129,7 @@ package abe.com.ponents.skinning
 		{
 			_format = format;
 			fireChangeEvent ();
-			firePropertyEvent("format", format );
+			firePropertyChangedSignal("format", format );
 		}
 		[Form(type="cornersUint", 
 			  defaultValue="new abe.com.ponents.utils::Corners()", 
@@ -144,7 +143,7 @@ package abe.com.ponents.skinning
 		{
 			_corners = corners;
 			fireChangeEvent ();
-			firePropertyEvent("corners", corners );
+			firePropertyChangedSignal("corners", corners );
 		}
 		[Form(type="insetsUint", 
 			  defaultValue="new abe.com.ponents.utils::Insets()", 
@@ -157,7 +156,7 @@ package abe.com.ponents.skinning
 		{
 			_insets = insets;
 			fireChangeEvent ();
-			firePropertyEvent("insets", insets );
+			firePropertyChangedSignal("insets", insets );
 		}
 		[Form(type="bordersUint", 
 			  defaultValue="new abe.com.ponents.utils::Borders()", 
@@ -170,7 +169,7 @@ package abe.com.ponents.skinning
 		{
 			_borders = borders;
 			fireChangeEvent ();
-			firePropertyEvent("borders", borders );
+			firePropertyChangedSignal("borders", borders );
 		}
 		
 		override flash_proxy function getProperty (name : *) : *
@@ -180,7 +179,7 @@ package abe.com.ponents.skinning
 		override flash_proxy function setProperty (name : *, value : *) : void
 		{
 			_customProperties[name]=value;
-			firePropertyEvent(name, value);
+			firePropertyChangedSignal(name, value);
 		}
 
 		override flash_proxy function callProperty (name : *, ...args : *) : *
@@ -201,39 +200,13 @@ package abe.com.ponents.skinning
 					"innerFilters"].indexOf(name) != -1;
 		}
 		
-		protected function firePropertyEvent ( pname : String, pvalue : * ) : void
+		protected function firePropertyChangedSignal ( pname : String, pvalue : * ) : void
 		{
-			dispatchEvent(new PropertyEvent( PropertyEvent.PROPERTY_CHANGE, pname, pvalue) );
+			propertyChanged.dispatch( pname, pvalue );
 		}
 		protected function fireChangeEvent () : void
 		{
-			dispatchEvent( new Event( Event.CHANGE ) );
-		}
-		public function dispatchEvent( evt : Event) : Boolean 
-		{
-		 	if (_eD.hasEventListener(evt.type) || evt.bubbles) 
-		  		return _eD.dispatchEvent(evt);
-		 	return true;
-		}
-		
-		public function hasEventListener (type : String) : Boolean
-		{
-			return _eD.hasEventListener(type);
-		}
-		
-		public function willTrigger (type : String) : Boolean
-		{
-			return _eD.willTrigger(type);
-		}
-		
-		public function removeEventListener (type : String, listener : Function, useCapture : Boolean = false) : void
-		{
-			_eD.removeEventListener(type, listener, useCapture);
-		}
-
-		public function addEventListener (type : String, listener : Function, useCapture : Boolean = false, priority : int = 0, useWeakReference : Boolean = false) : void
-		{
-			_eD.addEventListener(type, listener, useCapture, priority, useWeakReference );
+			styleStateChanged.dispatch( this );
 		}
 	}
 }

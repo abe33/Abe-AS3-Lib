@@ -149,7 +149,7 @@ package abe.com.ponents.menus
 				_popupMenu.hide();*/
 		}
 
-		override public function click (e : Event = null) : void
+		override public function click () : void
 		{}
 
 		public function popupHidden ( e : Event ) : void

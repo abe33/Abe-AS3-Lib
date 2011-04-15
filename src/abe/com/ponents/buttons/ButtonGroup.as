@@ -5,14 +5,9 @@ package abe.com.ponents.buttons
 {
 	import abe.com.ponents.events.ComponentEvent;
 
-	import flash.events.EventDispatcher;
+	import org.osflash.signals.Signal;
 
-	/**
-	 * Évènement diffusé par l'instance lorsque le bouton sélectionné a changé.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.SELECTION_CHANGE
-	 */
-	[Event(name="selectionChange",type="abe.com.ponents.events.ComponentEvent")]
+	import flash.events.EventDispatcher;
 	/**
 	 * La classe <code>ButtonGroup</code> permet de définir un groupe de bouton
 	 * dans lequel un seul bouton peut être sélectionné à un instant précis.
@@ -47,11 +42,14 @@ package abe.com.ponents.buttons
 		 */
 		private var _selectionSetProgrammatically : Boolean;
 		
+		public var selectionChanged : Signal;
+		
 		/**
 		 * Constructeur de la classe <code>ButtonGroup</code>.
 		 */
 		public function ButtonGroup ()
 		{
+			selectionChanged = new Signal();
 			/*FDT_IGNORE*/
 			TARGET::FLASH_9 {
 				_buttons = [];
@@ -88,7 +86,7 @@ package abe.com.ponents.buttons
 				_selectionSetProgrammatically = false;
 			}
 			
-			fireSelectionChange();
+			fireSelectionChangedSignal();
 		}
 		/**
 		 * Ajoute un objet <code>AbstractButton</code> à ce <code>ButtonGroup</code>.
@@ -104,7 +102,7 @@ package abe.com.ponents.buttons
 			if( _buttons.indexOf( bt ) == -1 )
 			{
 				_buttons.push( bt );
-				bt.addWeakEventListener( ComponentEvent.SELECTED_CHANGE, selectedChange );
+				bt.componentSelectedChanged.add( selectedChanged );
 				
 				if( bt.selected )				
 					selectedButton = bt;
@@ -127,7 +125,7 @@ package abe.com.ponents.buttons
 			if( bt == _selectedButton )
 			{
 				_selectedButton = null;
-				bt.removeEventListener( ComponentEvent.SELECTED_CHANGE, selectedChange );
+				bt.removeEventListener( ComponentEvent.SELECTED_CHANGE, selectedChanged );
 			}
 		}
 		/**
@@ -153,13 +151,12 @@ package abe.com.ponents.buttons
 		 * 
 		 * @param	e	évènement diffusé par le bouton lors de son changement d'état
 		 */
-		public function selectedChange ( e : ComponentEvent ) : void
+		public function selectedChanged ( bt : AbstractButton, v : Boolean ) : void
 		{
 			if( _selectionSetProgrammatically )
 				return;
 			
-			var bt : AbstractButton = e.target as AbstractButton;
-			if( bt.selected )
+			if( v )
 				selectedButton = bt;
 			else
 				selectedButton = null;
@@ -167,9 +164,9 @@ package abe.com.ponents.buttons
 		/**
 		 * Diffuse un évènement <code>ComponentEvent.SELECTION_CHANGE</code>.
 		 */
-		protected function fireSelectionChange () : void 
+		protected function fireSelectionChangedSignal () : void 
 		{
-			dispatchEvent(new ComponentEvent(ComponentEvent.SELECTION_CHANGE));
+			selectionChanged.dispatch( this );
 		}
 	}
 }

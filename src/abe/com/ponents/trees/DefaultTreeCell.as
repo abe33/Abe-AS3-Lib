@@ -213,7 +213,7 @@ package abe.com.ponents.trees
 
 			invalidatePreferredSizeCache();
 		}
-		override public function click (e : Event = null ) : void
+		override public function click () : void
 		{
 			if( !_interactive )
 				return;
@@ -242,7 +242,7 @@ package abe.com.ponents.trees
 			}
 			else
 			{
-				super.click( e );
+				super.click();
 			}
 		}
 

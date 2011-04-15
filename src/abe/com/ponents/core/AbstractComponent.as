@@ -20,7 +20,6 @@ package abe.com.ponents.core
 	import abe.com.ponents.dnd.DragSource;
 	import abe.com.ponents.dnd.gestures.DragGesture;
 	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.skinning.ComponentStyle;
 	import abe.com.ponents.skinning.SkinManagerInstance;
 	import abe.com.ponents.skinning.StyleProperties;
@@ -31,7 +30,6 @@ package abe.com.ponents.core
 	import abe.com.ponents.utils.Insets;
 
 	import org.osflash.signals.Signal;
-	import org.osflash.signals.natives.NativeMappedSignal;
 
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
@@ -650,7 +648,8 @@ package abe.com.ponents.core
 		 */
 		public function AbstractComponent ()
 		{
-			mouseMoved = new Signal();			mousePressed = new Signal();			mouseReleased = new Signal();			mouseReleasedOutside = new Signal();
+			mouseMoved = new Signal();			mousePressed = new Signal();			mouseReleased = new Signal();			mouseReleasedOutside = new Signal();			mouseEntered = new Signal();			mouseLeaved = new Signal();
+			mouseWheelRolled = new Signal();
 			_componentChanged = new Signal( Component );
 			_componentEnableChanged = new Signal( Component, Boolean );
 			_componentPositionChanged = new Signal( Component, Point );
@@ -707,15 +706,15 @@ package abe.com.ponents.core
 
 			addEventListener( Event.ADDED_TO_STAGE, addedToStage );			addEventListener( Event.REMOVED_FROM_STAGE, removeFromStage );
 
-			_style.addEventListener( PropertyEvent.PROPERTY_CHANGE, stylePropertyChanged, false, 0, true );
+			_style.propertyChanged.add( stylePropertyChanged );
 		}
 /*-----------------------------------------------------------------------*
  * SIGNALS
  *-----------------------------------------------------------------------*/
- 		public var mouseMoved : Signal;
+ 		public var mouseEntered : Signal; 		public var mouseLeaved : Signal; 		public var mouseMoved : Signal;
  		public var mousePressed : Signal;
  		public var mouseReleased : Signal;
- 		public var mouseReleasedOutside : Signal;
+ 		public var mouseReleasedOutside : Signal; 		public var mouseWheelRolled : Signal;
  		
  		protected var _componentResized : Signal;
  		protected var _componentChanged : Signal;
@@ -3085,7 +3084,7 @@ package abe.com.ponents.core
 		 *
 		 * @param	e	évènement diffusé par l'objet
 		 */
-		public function click ( e : Event = null ) : void
+		public function click () : void
 		{
 		}
 		/**
@@ -3095,7 +3094,7 @@ package abe.com.ponents.core
 		 *
 		 * @param	e	évènement diffusé par l'objet
 		 */
-		public function releaseOutside ( e : MouseEvent = null ) : void
+		public function releaseOutside () : void
 		{
 		}
 		/**
@@ -3142,7 +3141,7 @@ package abe.com.ponents.core
 			{
 				if( _pressed && _over )
 				{
-					click( e );
+					click();
 					mouseReleased.dispatch( this );
 					/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
 						hideToolTip();
@@ -3158,7 +3157,7 @@ package abe.com.ponents.core
 					if( this.stage )
 						this.stage.removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
 
-					releaseOutside( e );
+					releaseOutside();
 					mouseReleasedOutside.dispatch( this );
 				}
 				_pressed = false;
@@ -3193,6 +3192,8 @@ package abe.com.ponents.core
 
 				if( _allowOver )
 					invalidate( true );
+				
+				mouseLeaved.dispatch( this );
 			}
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 			unsetContextMenu();
@@ -3232,6 +3233,8 @@ package abe.com.ponents.core
 
 				if( _allowOver )
 					invalidate( true );
+				
+				mouseEntered.dispatch( this );
 			}
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 				setContextMenu();
@@ -3255,7 +3258,14 @@ package abe.com.ponents.core
 		 */
 		public function mouseMove ( e : MouseEvent ) : void
 		{
-			mouseMoved.dispatch( this );
+			if( _enabled )
+				mouseMoved.dispatch( this );
+		}
+		protected function mouseWheel (event : MouseEvent) : void 
+		{
+			event.stopPropagation();
+			if( _enabled )
+				mouseWheelRolled.dispatch( this, event.delta );
 		}
 		/**
 		 * Recoit l'évènement de type <code>FocusEvent.FOCUS_IN</code>
@@ -3445,9 +3455,9 @@ package abe.com.ponents.core
 		 *
 		 * @param	e	évènement diffusé par l'objet
 		 */
-		protected function stylePropertyChanged (event : PropertyEvent) : void
+		protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case StyleProperties.INSETS :				case StyleProperties.FORMAT :					invalidatePreferredSizeCache();
 					break;
@@ -3474,13 +3484,12 @@ package abe.com.ponents.core
 				addEventListener( MouseEvent.MOUSE_OUT, mouseOut );
 				addEventListener( MouseEvent.MOUSE_UP, mouseUp );
 				addEventListener( MouseEvent.MOUSE_OVER, mouseOver );
-				addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
+				addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );				addEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
 				addEventListener( FocusEvent.FOCUS_IN, focusIn );
 				addEventListener( FocusEvent.FOCUS_OUT, focusOut );
 				addEventListener( FocusEvent.KEY_FOCUS_CHANGE, keyFocusChange );				addEventListener( FocusEvent.MOUSE_FOCUS_CHANGE, mouseFocusChange );
 			}
 			//_style.registerToParentStyleEvent();		}
-
 		/**
 		 * Désabonne le composant comme écouteur des évènements liés à sa présence
 		 * dans la <code>Display List</code>.
@@ -3494,6 +3503,7 @@ package abe.com.ponents.core
 				removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
 				removeEventListener( MouseEvent.MOUSE_OVER, mouseOver );
 				removeEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
+				removeEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
 				removeEventListener( FocusEvent.FOCUS_IN, focusIn );
 				removeEventListener( FocusEvent.FOCUS_OUT, focusOut );
 				removeEventListener( FocusEvent.KEY_FOCUS_CHANGE, keyFocusChange );

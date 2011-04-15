@@ -18,13 +18,14 @@ package abe.com.ponents.text
 	import abe.com.ponents.core.focus.Focusable;
 	import abe.com.ponents.dnd.DragSource;
 	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.layouts.display.DOStretchLayout;
 	import abe.com.ponents.layouts.display.DisplayObjectLayout;
 
 	import com.adobe.linguistics.spelling.SpellChecker;
+
+	import org.osflash.signals.Signal;
 
 	import flash.display.DisplayObject;
 	import flash.display.InteractiveObject;
@@ -52,8 +53,6 @@ package abe.com.ponents.text
 	[Style(name="mispellWordsColor",type="abe.com.mon.colors.Color")]
 
 	[Skinable(skin="Text")]
-
-	[Event(name="textContentChange", type="abe.com.ponents.events.ComponentEvent")]
 	public class AbstractTextComponent extends AbstractComponent implements Component,
 																			IDisplayObject,
 																			IInteractiveObject,
@@ -64,6 +63,8 @@ package abe.com.ponents.text
 																			DragSource,
 																			FormComponent
 	{
+		public var textContentChanged : Signal;
+		
 		protected var _value : *;
 		protected var _label : ITextField;
 		protected var _childrenLayout : DisplayObjectLayout;
@@ -77,6 +78,7 @@ package abe.com.ponents.text
 		public function AbstractTextComponent ()
 		{
 			super( );
+			textContentChanged = new Signal();
 			_label = _label ? _label : new TextFieldImpl();			//_label = _label ? _label : new TLFTextFieldImpl();
 			_label.width = 100;
 			_label.height = 20;
@@ -443,11 +445,11 @@ package abe.com.ponents.text
 			var lastScrollV : Number = _label.scrollV;			var lastScrollH : Number = _label.scrollH;
 			_label.defaultTextFormat = _style.format;
 			_label.textColor = _style.textColor.hexa;
-			affectTextValue( );
+			affectTextValue();
 			
 			_label.scrollH = lastScrollH;
 			_label.scrollV = lastScrollV;
-			fireComponentEvent( ComponentEvent.TEXT_CONTENT_CHANGE );
+			textContentChanged.dispatch( this, _value );
 		}
 		protected function affectTextValue () : void
 		{
@@ -499,13 +501,13 @@ package abe.com.ponents.text
 		}
 		protected function textInput (event : TextEvent) : void 
 		{
-			//FIXME:Scrolling issue was typing
-			var c : int = _label.caretIndex;
-			var l : int = _label.getLineIndexOfChar( c );
+			//FIXME:Scrolling issue when typing
+			//var c : int = _label.caretIndex;
+			//var l : int = _label.getLineIndexOfChar( c );
 		}
-		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		override protected function stylePropertyChanged (  propertyName : String, propertyValue : *  ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "embedFonts" :
 					_label.embedFonts = _style.embedFonts;
@@ -517,7 +519,7 @@ package abe.com.ponents.text
 					invalidatePreferredSizeCache( );
 					break;
 				default :
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

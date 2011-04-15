@@ -102,32 +102,32 @@ package abe.com.ponents.containers
 			
 			bt.styleKey = style;
 			bt.icon = bt.style[ icon ].clone();
-			bt.addWeakEventListener( MouseEvent.MOUSE_OVER, over );
-			bt.addWeakEventListener( MouseEvent.MOUSE_OUT, clearScroll );
+			bt.mouseEntered.add(  over );
+			bt.mouseLeaved.add( clearScroll );
 			addComponent( bt );
 			return bt;
 		}
 		
-		protected function overScrollUp ( e : Event ) : void
+		protected function overScrollUp ( c : Component ) : void
 		{
 			if( _scrollUpButton.enabled )
 				_scrollInterval = setInterval( scrollUp , _scrollDelay );
 		}
-		protected function overScrollDown ( e : Event ) : void
+		protected function overScrollDown ( c : Component ) : void
 		{
 			if( _scrollDownButton.enabled )
 				_scrollInterval = setInterval( scrollDown , _scrollDelay );
 		}
-		protected function overScrollLeft ( e : Event ) : void
+		protected function overScrollLeft ( c : Component ) : void
 		{
 			if( _scrollLeftButton.enabled )
 				_scrollInterval = setInterval( scrollLeft , _scrollDelay );
 		}
-		protected function overScrollRight ( e : Event ) : void
+		protected function overScrollRight ( c : Component ) : void
 		{			if( _scrollRightButton.enabled )
 				_scrollInterval = setInterval( scrollRight , _scrollDelay );
 		}
-		protected function clearScroll ( e : Event = null ) : void
+		protected function clearScroll ( c : Component ) : void
 		{
 			clearInterval( _scrollInterval );
 		}
@@ -155,32 +155,32 @@ package abe.com.ponents.containers
 			_scrollDownButton.enabled = _enabled && _vmodel.value < _vmodel.maximum;
 		}
 
-		override protected function stylePropertyChanged ( e : PropertyEvent ) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : *) : void
 		{
-			switch( e.propertyName )
+			switch( propertyName )
 			{
 				case "upIcon" : 
-					_scrollUpButton.icon = ( e.propertyValue as Icon ).clone();
+					_scrollUpButton.icon = ( propertyValue as Icon ).clone();
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
 				case "downIcon" : 
-					_scrollDownButton.icon = ( e.propertyValue as Icon ).clone();
+					_scrollDownButton.icon = ( propertyValue as Icon ).clone();
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
 				case "leftIcon" : 
-					_scrollLeftButton.icon = ( e.propertyValue as Icon ).clone();
+					_scrollLeftButton.icon = ( propertyValue as Icon ).clone();
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
 				case "rightIcon" : 
-					_scrollRightButton.icon = ( e.propertyValue as Icon ).clone();
+					_scrollRightButton.icon = ( propertyValue as Icon ).clone();
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
 				default : 
-					super.stylePropertyChanged( e );
+					super.stylePropertyChanged(propertyName, propertyValue);
 					break;
 			}
 		}

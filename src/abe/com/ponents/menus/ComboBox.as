@@ -426,7 +426,7 @@ package abe.com.ponents.menus
 				_model.selectedElement = _model.getElementAt( id - 1 );
 		}
 		
-		override public function click (e : Event = null) : void
+		override public function click () : void
 		{
 			if( !_popupMenu.stage )
 			{

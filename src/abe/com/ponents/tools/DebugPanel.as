@@ -594,9 +594,9 @@ internal class Notifier extends Button
 								 start:1
 							   });
 	}
-	override public function click ( e : Event = null ) : void
+	override public function click () : void
 	{
-		super.click ( e );
+		super.click();
 		hide();
 	}
 }

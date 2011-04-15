@@ -95,8 +95,8 @@ package abe.com.ponents.text
 		{
 			super.registerToOnStageEvents( );
 
-			_label.addEventListener( Event.SCROLL, scroll );			_scrollbar.addEventListener( Event.SCROLL, scrollbarScroll );			_label.addEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
-			_scrollbar.addEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			_label.addEventListener( Event.SCROLL, scroll );			_scrollbar.addEventListener( Event.SCROLL, scrollbarScroll );			_label.addEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheelRolled );
+			_scrollbar.addEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheelRolled );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void
@@ -105,10 +105,10 @@ package abe.com.ponents.text
 
 			_label.removeEventListener( Event.SCROLL, scroll );
 			_scrollbar.removeEventListener( Event.SCROLL, scrollbarScroll );
-			_label.removeEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
-			_scrollbar.removeEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			_label.removeEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheelRolled );
+			_scrollbar.removeEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheelRolled );
 		}
-		protected function mouseWheel(event : MouseEvent) : void
+		protected function onMouseWheelRolled(event : MouseEvent) : void
 		{
 			var willScroll : Boolean = _scrollbar.canScroll &&
 									   event.delta < 0 ?

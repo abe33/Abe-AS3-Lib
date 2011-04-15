@@ -80,7 +80,7 @@ package abe.com.ponents.menus
 			super.icon = _checked ? _checkedIcon : _uncheckedIcon;
 		}
 		
-		override public function click ( e : Event = null ) : void
+		override public function click () : void
 		{
 			swapSelect( !selected );
 		}

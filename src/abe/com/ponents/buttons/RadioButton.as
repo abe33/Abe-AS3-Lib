@@ -93,7 +93,7 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override public function click (e : Event = null) : void
+		override public function click () : void
 		{
 			swapSelect(true);
 		}

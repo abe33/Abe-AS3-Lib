@@ -6,27 +6,23 @@ package abe.com.ponents.skinning
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
 	import abe.com.ponents.skinning.decorations.NoDecoration;
 	import abe.com.ponents.utils.Borders;
 	import abe.com.ponents.utils.Corners;
 	import abe.com.ponents.utils.Insets;
 
+	import org.osflash.signals.Signal;
+
 	import flash.display.Graphics;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
 	import flash.geom.Rectangle;
 	import flash.text.TextFormat;
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="change",type="flash.events.Event")]	[Event(name="propertyChange",type="abe.com.ponents.events.PropertyEvent")]
-	dynamic public class ComponentStyle extends Proxy implements IEventDispatcher
+	dynamic public class ComponentStyle extends Proxy
 	{	
 		static private const DEFAULTS : Object =
 			{
@@ -41,8 +37,9 @@ package abe.com.ponents.skinning
 				outerFilters : null
 			};
 
-		protected var _eD : EventDispatcher;
-		
+		public var styleChanged : Signal;
+		public var propertyChanged : Signal;
+
 		protected var _skinName : String;
 		protected var _styleName : String;
 		protected var _defaultStyleKey : String;
@@ -83,7 +80,8 @@ package abe.com.ponents.skinning
 		
 		private function init( defaultStyleKey : String = "", styleName : String = "" ) : void
 		{
-			_eD = new EventDispatcher( this );
+			styleChanged = new Signal( ComponentStyle );
+			propertyChanged = new Signal();
 			this.defaultStyleKey = defaultStyleKey;
 			_styleName = styleName;
 			_customProperties = {};
@@ -136,11 +134,11 @@ package abe.com.ponents.skinning
 		}
 		public function registerToParentStyleEvent () : void
 		{
-			_defaultStyleCache.addEventListener( PropertyEvent.PROPERTY_CHANGE, defaultStylePropertyChange );
+			_defaultStyleCache.propertyChanged.add( defaultStylePropertyChanged );
 		}
 		public function unregisterToParentStyleEvent () : void
 		{
-			_defaultStyleCache.removeEventListener( PropertyEvent.PROPERTY_CHANGE, defaultStylePropertyChange );
+			_defaultStyleCache.propertyChanged.remove( defaultStylePropertyChanged );
 		}
 		
 		public function get fullStyleName() : String
@@ -207,7 +205,7 @@ package abe.com.ponents.skinning
 		{ 
 			clearStates();
 			_states = o;
-			dispatchEvent( new Event( Event.CHANGE ) );
+			styleChanged.dispatch( this );
 		}
 		/*FDT_IGNORE*/}/*FDT_IGNORE*/
 	
@@ -369,7 +367,7 @@ package abe.com.ponents.skinning
 			else
 				_customProperties[name]=value;
 			
-			firePropertyEvent(name, value);
+			firePropertyChangedSignal(name, value);
 		}
 
 		override flash_proxy function callProperty (name : *, ...args : *) : *
@@ -383,7 +381,7 @@ package abe.com.ponents.skinning
 			else
 				return false;
 				
-			fireChangeEvent();
+			fireStyleChangedSignal();
 		}
 		override flash_proxy function hasProperty (name : *) : Boolean 
 		{
@@ -402,61 +400,35 @@ package abe.com.ponents.skinning
 		/*-----------------------------------------------------------------
  * 	EVENT HANDLERS
  *----------------------------------------------------------------*/		
-		protected function propertyChange (event : PropertyEvent) : void
+		protected function onPropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			firePropertyEvent( event.propertyName, event.propertyValue );
+			firePropertyChangedSignal( propertyName, propertyValue );
 		}
-		protected function defaultStylePropertyChange (event : PropertyEvent) : void
+		protected function defaultStylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			firePropertyEvent( event.propertyName, event.propertyValue );
+			firePropertyChangedSignal( propertyName, propertyValue );
 		}
 /*-----------------------------------------------------------------
  * 	EVENT MANAGEMENTS
  *----------------------------------------------------------------*/
 		protected function registerState ( c : ComponentStateStyle ) : void
 		{
-			c.addEventListener( PropertyEvent.PROPERTY_CHANGE, propertyChange, false, 0, true );
+			c.propertyChanged.add( onPropertyChanged );
 		}
 		protected function unregisterState ( c : ComponentStateStyle ) : void
 		{
-			c.removeEventListener( PropertyEvent.PROPERTY_CHANGE, propertyChange );
+			c.propertyChanged.remove( onPropertyChanged );
 		}
 /*-----------------------------------------------------------------
  * 	IEVENTDISPATCHER IMPLEMENTATION
  *----------------------------------------------------------------*/
-		protected function firePropertyEvent ( pname : String, pvalue : * ) : void
+		protected function firePropertyChangedSignal ( pname : String, pvalue : * ) : void
 		{
-			dispatchEvent(new PropertyEvent( PropertyEvent.PROPERTY_CHANGE, pname, pvalue) );
+			propertyChanged.dispatch( pname, pvalue );
 		}
-		protected function fireChangeEvent () : void
+		protected function fireStyleChangedSignal () : void
 		{
-			dispatchEvent( new Event( Event.CHANGE ) );
-		}
-		public function dispatchEvent( evt : Event) : Boolean 
-		{
-		 	if (_eD.hasEventListener(evt.type) || evt.bubbles) 
-		  		return _eD.dispatchEvent(evt);
-		 	return true;
-		}
-		
-		public function hasEventListener (type : String) : Boolean
-		{
-			return _eD.hasEventListener(type);
-		}
-		
-		public function willTrigger (type : String) : Boolean
-		{
-			return _eD.willTrigger(type);
-		}
-		
-		public function removeEventListener (type : String, listener : Function, useCapture : Boolean = false) : void
-		{
-			_eD.removeEventListener(type, listener, useCapture);
-		}
-
-		public function addEventListener (type : String, listener : Function, useCapture : Boolean = false, priority : int = 0, useWeakReference : Boolean = false) : void
-		{
-			_eD.addEventListener(type, listener, useCapture, priority, useWeakReference );
+			styleChanged.dispatch( this );
 		}
 	}
 }

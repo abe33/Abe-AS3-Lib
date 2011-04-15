@@ -248,7 +248,7 @@ internal class WindowTitleButton extends Button
 		this.fn = fn;
 	}
 
-	override public function click (e : Event = null) : void
+	override public function click () : void
 	{
 		fn( );
 	}

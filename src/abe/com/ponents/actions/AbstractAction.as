@@ -26,7 +26,7 @@ package abe.com.ponents.actions
 	 */
 	public class AbstractAction extends AbstractCommand implements Action, Command, Runnable
 	{
-		public var propertyChanged : Signal;
+		protected var _propertyChanged : Signal;
 		/**
 		 * Une chaîne de caractère utilisé comme texte d'affichage pour cette
 		 * action.
@@ -64,7 +64,7 @@ package abe.com.ponents.actions
 										 longDescription : String = null, 
 										 accelerator : KeyStroke = null )
 		{
-			propertyChanged = new Signal();
+			_propertyChanged = new Signal();
 			this.name = name;
 			this.icon = icon;
 			this.longDescription = longDescription;	
@@ -130,7 +130,8 @@ package abe.com.ponents.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function get component () : Component { return new Button(this); }
-
+		public function get component () : Component { return new Button(this ); 
+		}
+		public function get propertyChanged () : Signal { return _propertyChanged; }
 	}
 }

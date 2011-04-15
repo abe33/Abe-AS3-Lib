@@ -12,10 +12,8 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.core.focus.Focusable;
 	import abe.com.ponents.events.ActionEvent;
 	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.Event;
 	import flash.events.IEventDispatcher;
 
 	/**
@@ -69,10 +67,10 @@ package abe.com.ponents.buttons
 		 * </p>
 		 * @inheritDoc
 		 */
-		override public function click ( e : Event = null ) : void
+		override public function click () : void
 		{
 			if( _action && _action is BooleanAction )
-				_action.execute(e);
+				_action.execute();
 			else
 				swapSelect(!selected);
 		}
@@ -89,7 +87,7 @@ package abe.com.ponents.buttons
 		protected function swapSelect ( b : Boolean ) : void
 		{
 			 selected = b;
-			super.click( new ActionEvent( ActionEvent.ACTION ) );
+			super.click();
 			fireDataChange();
 		}
 		/**
@@ -103,12 +101,12 @@ package abe.com.ponents.buttons
 		/**
 		 * 
 		 */
-		override protected function actionPropertyChanged (event : PropertyEvent) : void 
+		override protected function actionPropertyChanged ( propertyName : String, propertyValue : * ) : void 
 		{
-			if( event.propertyName == "value" )
-				selected = event.propertyValue;
+			if( propertyName == "value" )
+				selected = propertyValue;
 			else
-				super.actionPropertyChanged( event );
+				super.actionPropertyChanged(propertyName, propertyValue);
 		}
 	}
 }

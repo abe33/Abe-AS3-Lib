@@ -151,21 +151,21 @@ package abe.com.ponents.spinners
 			this.model = model;
 		}
 
-		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "upIcon" :
-					_upButton.icon = event.propertyValue.clone();
+					_upButton.icon = propertyValue.clone();
 					break;
 				case "downIcon" :
-					_downButton.icon = event.propertyValue.clone();
+					_downButton.icon = propertyValue.clone();
 					break;
 				case "inputWidth" :
-					_input.preferredWidth = event.propertyValue;
+					_input.preferredWidth = propertyValue;
 					break;
 				default : 
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}
@@ -296,9 +296,9 @@ package abe.com.ponents.spinners
 			if( _caller )
 				_caller.confirmEdit();
 		}
-		protected function mouseWheel ( e : MouseEvent ) : void
+		override protected function mouseWheel ( e : MouseEvent ) : void
 		{
-			e.stopPropagation();
+			super.mouseWheel( e );
 			if( _enabled )
 			{
 				if( e.delta > 0 )
@@ -307,7 +307,7 @@ package abe.com.ponents.spinners
 					down();
 			}
 		}
-		protected function upMouseDown ( e : Event ) : void
+		protected function upMouseDown ( c : Component ) : void
 		{
 			if( _enabled )
 			{
@@ -315,11 +315,11 @@ package abe.com.ponents.spinners
 				up();
 			}
 		}
-		protected function upMouseUp ( e : Event ) : void
+		protected function upMouseUp ( c : Component ) : void
 		{
 			clearInterval( _interval );
 		}
-		protected function downMouseDown ( e : Event ) : void
+		protected function downMouseDown ( c : Component ) : void
 		{
 			if( _enabled )
 			{
@@ -327,7 +327,7 @@ package abe.com.ponents.spinners
 				down();
 			}
 		}
-		protected function downMouseUp ( e : Event ) : void
+		protected function downMouseUp ( c : Component ) : void
 		{
 			clearInterval( _interval );
 		}
@@ -395,15 +395,13 @@ package abe.com.ponents.spinners
 		{
 			super.registerToOnStageEvents();
 			
-			_upButton.addWeakEventListener( MouseEvent.MOUSE_DOWN, upMouseDown );
-			_upButton.addWeakEventListener( MouseEvent.MOUSE_UP, upMouseUp );
-			_upButton.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, upMouseUp );
+			_upButton.mousePressed.add( upMouseDown );
+			_upButton.mouseReleased.add( upMouseUp );
+			_upButton.mouseReleasedOutside.add( upMouseUp );
 			
-			_downButton.addWeakEventListener( MouseEvent.MOUSE_DOWN, downMouseDown );
-			_downButton.addWeakEventListener( MouseEvent.MOUSE_UP, downMouseUp );
-			_downButton.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, downMouseUp );
-			
-			addWeakEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			_downButton.mousePressed.add( downMouseDown );
+			_downButton.mouseReleased.add( downMouseUp );
+			_downButton.mouseReleasedOutside.add( downMouseUp );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void 
@@ -417,8 +415,6 @@ package abe.com.ponents.spinners
 			_downButton.removeEventListener( MouseEvent.MOUSE_DOWN, downMouseDown );
 			_downButton.removeEventListener( MouseEvent.MOUSE_UP, downMouseUp );
 			_downButton.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, downMouseUp );
-			
-			removeEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
 		}
 		protected function fireDataChange () : void 
 		{
