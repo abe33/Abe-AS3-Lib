@@ -35,7 +35,7 @@ package abe.com.ponents.actions.builtin
 				} 
 				catch (e:*){}
 			}
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }

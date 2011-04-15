@@ -1,6 +1,5 @@
 package abe.com.ponents.actions.builtin
 {
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Reflection;
@@ -11,6 +10,8 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.containers.Dialog;
 	import abe.com.ponents.events.DialogEvent;
 	import abe.com.ponents.skinning.icons.Icon;
+
+	import org.osflash.signals.Signal;
 	/**
 	 * @author cedric
 	 */
@@ -19,6 +20,8 @@ package abe.com.ponents.actions.builtin
 		protected var _filters : Array;
 		protected var _cancelled : Boolean;
 		protected var _dial : Dialog;
+		
+		protected var _commandCancelled : Signal;
 
 		public function EditFiltersAction ( filters : Array, icon : Icon = null,  accelerator : KeyStroke = null)
 		{
@@ -41,7 +44,7 @@ package abe.com.ponents.actions.builtin
 		override public function execute( ... args ) : void
 		{
 			_cancelled = false;
-
+			_isRunning = true;
 			FilterEditorPaneInstance.value = magicClone( _filters );
 
 			_dial = new Dialog( _("Edit Filters"), 3, FilterEditorPaneInstance );
@@ -56,12 +59,13 @@ package abe.com.ponents.actions.builtin
 					_filters = FilterEditorPaneInstance.value;
 					updateName ();
 					//firePropertyEvent( "icon", _icon );
-					fireCommandEnd();
+					commandEnded.dispatch( this );
 					break;
 				default :
-					fireCommandCancelled();
+					commandCancelled.dispatch( this );
 					break;
 			}
+			_isRunning = false;
 			_dial.close();
 			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
 			_dial = null;
@@ -72,16 +76,14 @@ package abe.com.ponents.actions.builtin
 			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
 			_dial = null;
 			_cancelled = true;
-			fireCommandCancelled();
+			_isRunning = false;
+			commandCancelled.dispatch( this );
 		}
 		public function isCancelled () : Boolean
 		{
 			return _cancelled;
 		}
-		protected function fireCommandCancelled () : void
-		{
-			dispatchEvent( new CommandEvent(CommandEvent.COMMAND_CANCEL) );
-		}
+		public function get commandCancelled () : Signal { return _commandCancelled; }
 	}
 }
 

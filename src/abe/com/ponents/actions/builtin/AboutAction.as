@@ -38,6 +38,7 @@ package abe.com.ponents.actions.builtin
 		}
 		override public function execute( ... args ) : void 
 		{
+			_isRunning = true;
 			var p : Panel = new Panel();
 			p.childrenLayout = new InlineLayout(p, 3, "left", "top", "topToBottom", true );
 			
@@ -47,7 +48,8 @@ package abe.com.ponents.actions.builtin
 			var d : Dialog = new Dialog( _("About"), Dialog.CLOSE_BUTTON, p );
 			d.open( Dialog.CLOSE_ON_RESULT );
 			
-			super.execute( e );
+			super.execute.apply( this, args );
+			_isRunning = false;
 		}
 	}
 }

@@ -3,7 +3,6 @@
  */
 package abe.com.ponents.actions.builtin 
 {
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.colors.Gradient;
 	import abe.com.mon.core.Cancelable;
@@ -13,6 +12,8 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.containers.Dialog;
 	import abe.com.ponents.events.DialogEvent;
 	import abe.com.ponents.skinning.icons.GradientIcon;
+
+	import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -22,6 +23,8 @@ package abe.com.ponents.actions.builtin
 		protected var _gradient : Gradient;
 		protected var _cancelled : Boolean;
 		protected var _dial : Dialog;
+		
+		protected var _commandCancelled : Signal;
 
 		public function GradientPickerAction ( gradient : Gradient = null, accelerator : KeyStroke = null)
 		{
@@ -36,6 +39,7 @@ package abe.com.ponents.actions.builtin
 		override public function execute( ... args ) : void
 		{
 			_cancelled = false;
+			_isRunning = true;
 			GradientEditorInstance.target = _gradient;
 			
 			_dial = new Dialog( _("Edit Gradient"), 3, GradientEditorInstance );
@@ -49,14 +53,15 @@ package abe.com.ponents.actions.builtin
 				case Dialog.RESULTS_OK : 
 					_gradient.colors = GradientEditorInstance.target.colors;
 					_gradient.positions = GradientEditorInstance.target.positions;
-					firePropertyEvent( "icon", _icon );
-					fireCommandEnd();
+					propertyChanged.dispatch( "icon", _icon );
+					commandEnded.dispatch( this );
 					break;
 					
 				default :
-					fireCommandCancelled(); 
+					commandCancelled.dispatch( this ); 
 					break;
 			}
+			_isRunning = false;
 			_dial.close();
 			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
 			_dial = null;	
@@ -68,15 +73,16 @@ package abe.com.ponents.actions.builtin
 			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
 			_dial = null;	
 			_cancelled = true;
-			fireCommandCancelled();
+			_isRunning = false;
+			commandCancelled.dispatch( this );
 		}
 		public function isCancelled () : Boolean
 		{
 			return _cancelled;
 		}
-		protected function fireCommandCancelled () : void
+		public function get commandCancelled () : Signal
 		{
-			dispatchEvent( new CommandEvent(CommandEvent.COMMAND_CANCEL) );
+			return _commandCancelled;
 		}
 	}
 }

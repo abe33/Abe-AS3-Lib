@@ -3,7 +3,6 @@
  */
 package abe.com.ponents.actions.builtin 
 {
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.utils.KeyStroke;
@@ -15,6 +14,8 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.events.DialogEvent;
 	import abe.com.ponents.skinning.icons.ColorIcon;
 
+	import org.osflash.signals.Signal;
+
 	import flash.display.DisplayObject;
 	/**
 	 * @author Cédric Néhémie
@@ -25,6 +26,8 @@ package abe.com.ponents.actions.builtin
 		protected var _cancelled : Boolean;
 		protected var _dial : Dialog;
 		protected var _caller : Editable;
+		
+		protected var _commandCancelled : Signal;
 
 		public function ColorPickerAction ( color : Color = null, accelerator : KeyStroke = null)
 		{
@@ -49,7 +52,7 @@ package abe.com.ponents.actions.builtin
 			if( _color )
 			{
 				( _icon as ColorIcon ).color = _color;
-				firePropertyEvent( "icon", _icon );
+				propertyChanged.dispatch( "icon", _icon );
 			}
 		}
 		public function get value () : * { return _color; }
@@ -67,7 +70,7 @@ package abe.com.ponents.actions.builtin
 		override public function execute( ... args ) : void
 		{
 			_cancelled = false;
-			
+			_isRunning = true;
 			ColorEditorInstance.target = _color;
 			
 			_dial = new Dialog( _("Edit Color"), 3, ColorEditorInstance );
@@ -91,17 +94,18 @@ package abe.com.ponents.actions.builtin
 					_color.alpha = ColorEditorInstance.target.alpha;
 					_color.blue = ColorEditorInstance.target.blue;
 					_color.green = ColorEditorInstance.target.green;
-					firePropertyEvent( "icon", _icon );
-					fireCommandEnd();
+					propertyChanged.dispatch( "icon", _icon );
+					commandEnded.dispatch( this );
 					
 					if( _caller )
 						_caller.confirmEdit();
 					
 					break;
 				default : 
-					fireCommandCancelled();
+					commandCancelled.dispatch( this );
 					break;
 			}
+			_isRunning = false;
 			_dial.close();
 			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
 			_dial = null;		
@@ -113,19 +117,15 @@ package abe.com.ponents.actions.builtin
 			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
 			_dial = null;		
 			_cancelled = true;
-			fireCommandCancelled();
+			_isRunning = false;
+			_commandCancelled.dispatch( this );
 			
 			if( _caller )
 				_caller.cancelEdit();
 		}
 
-		public function isCancelled () : Boolean
-		{
-			return _cancelled;
-		}
-		protected function fireCommandCancelled () : void
-		{
-			dispatchEvent( new CommandEvent(CommandEvent.COMMAND_CANCEL) );
+		public function isCancelled () : Boolean { return _cancelled; }
+		public function get commandCancelled () : Signal { return _commandCancelled; 
 		}
 	}
 }

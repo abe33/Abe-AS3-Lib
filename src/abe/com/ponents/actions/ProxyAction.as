@@ -49,7 +49,7 @@ package abe.com.ponents.actions
 		override public function execute( ... args ) : void
 		{
 			_function.apply( null, _arguments );
-			fireCommandEnd();
+			commandEnded.dispatch( this );
 		}
 	}
 }

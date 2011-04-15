@@ -64,6 +64,7 @@ package abe.com.ponents.actions.builtin
 		{
 			var t : *;
 			
+			_isRunning = true;
 			if( _object is FormMetaProvider )
 			{
 				t =  _workOnCopy ? magicClone( _object ) : _object;
@@ -177,8 +178,8 @@ package abe.com.ponents.actions.builtin
 			_window.removeEventListener(WindowEvent.CLOSE, onClose );
 
 			AllocatorInstance.release( _window );
-
-			fireCommandEnd();
+			_isRunning = false;
+			commandEnded.dispatch( this );
 		}
 	}
 }

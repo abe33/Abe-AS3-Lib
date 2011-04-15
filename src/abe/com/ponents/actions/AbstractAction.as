@@ -9,28 +9,10 @@ package abe.com.ponents.actions
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.utils.KeyboardControllerInstance;
 
-	import flash.events.IEventDispatcher;
-
-	/**
-	 * Évènement diffusé lorsqu'une propriété de l'action est modifiée.
-	 * 
-	 * <p>Les propriétés suivantes sont à l'origine de la diffusion de l'évènement
-	 * <code>propertyChange</code></p>
-	 * <ul>
-	 * <li>name</li>			
-	 * <li>icon</li>
-	 * <li>longDescription</li>
-	 * <li>accelerator</li>
-	 * <li>actionEnabled</li>
-	 * </ul>
-	 * 
-	 * @eventType abe.com.ponents.events.PropertyEvent.PROPERTY_CHANGE
-	 */
-	[Event(name="propertyChange", type="abe.com.ponents.events.PropertyEvent")]
+	import org.osflash.signals.Signal;
 	/**
 	 * La classe <code>AbstractAction</code> sert de classe de base aux actions concrètes
 	 * que vous voulez créer dans votre programme.
@@ -42,8 +24,9 @@ package abe.com.ponents.actions
 	 * 
 	 * @author Cédric Néhémie
 	 */
-	public class AbstractAction extends AbstractCommand implements Action, Command, Runnable, IEventDispatcher
+	public class AbstractAction extends AbstractCommand implements Action, Command, Runnable
 	{
+		public var propertyChanged : Signal;
 		/**
 		 * Une chaîne de caractère utilisé comme texte d'affichage pour cette
 		 * action.
@@ -81,6 +64,7 @@ package abe.com.ponents.actions
 										 longDescription : String = null, 
 										 accelerator : KeyStroke = null )
 		{
+			propertyChanged = new Signal();
 			this.name = name;
 			this.icon = icon;
 			this.longDescription = longDescription;	
@@ -95,7 +79,7 @@ package abe.com.ponents.actions
 		public function set icon ( icon : Icon) : void
 		{
 			_icon = icon;
-			firePropertyEvent( "icon", _icon );
+			propertyChanged.dispatch( "icon", _icon );
 		}
 		/**
 		 * @inheritDoc
@@ -104,7 +88,7 @@ package abe.com.ponents.actions
 		public function set name (name : String) : void
 		{
 			_name = name;
-			firePropertyEvent( "name", name );
+			propertyChanged.dispatch( "name", name );
 		}
 		/**
 		 * @inheritDoc
@@ -113,7 +97,7 @@ package abe.com.ponents.actions
 		public function set longDescription (longDescription : String) : void
 		{
 			_longDescription = longDescription;
-			firePropertyEvent( "longDescription", longDescription );
+			propertyChanged.dispatch( "longDescription", longDescription );
 		}
 		/**
 		 * @inheritDoc
@@ -132,7 +116,7 @@ package abe.com.ponents.actions
 					KeyboardControllerInstance.addGlobalKeyStroke( _accelerator, this );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
-			firePropertyEvent( "accelerator", accelerator );
+			propertyChanged.dispatch( "accelerator", accelerator );
 		}
 		/**
 		 * @inheritDoc
@@ -141,21 +125,12 @@ package abe.com.ponents.actions
 		public function set actionEnabled (actionEnabled : Boolean) : void
 		{
 			_actionEnabled = actionEnabled;
-			firePropertyEvent( "actionEnabled", actionEnabled );
+			propertyChanged.dispatch( "actionEnabled", actionEnabled );
 		}
 		/**
 		 * @inheritDoc
 		 */
 		public function get component () : Component { return new Button(this); }
-		/**
-		 * Diffuse un évènement de type <code>PropertyEvent.PROPERTY_CHANGE</code> pour ce composant.
-		 * 
-		 * @param	pname	nom de la propriété provoquant la diffusion de l'évènement
-		 * @param	pvalue	nouvelle valeur de cette propriété
-		 */
-		public function firePropertyEvent ( pname : String, pvalue : * ) : void
-		{
-			dispatchEvent( new PropertyEvent( PropertyEvent.PROPERTY_CHANGE, pname, pvalue) );
-		}
+
 	}
 }

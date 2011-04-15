@@ -28,7 +28,7 @@ package abe.com.ponents.actions.builtin
 		override public function execute( ... args ) : void 
 		{
 			navigateToURL( _query, _target );
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }

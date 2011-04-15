@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.actions.builtin 
 {
-	import abe.com.mands.events.CommandEvent;
+	import abe.com.mands.Command;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.utils.DateUtils;
 	import abe.com.mon.utils.KeyStroke;
@@ -12,6 +12,8 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.containers.Dialog;
 	import abe.com.ponents.events.DialogEvent;
 	import abe.com.ponents.skinning.icons.Icon;
+
+	import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -22,15 +24,19 @@ package abe.com.ponents.actions.builtin
 		protected var _cancelled : Boolean;
 		protected var _dial : Dialog;
 		
+		protected var _commandCancelled : Signal;
+		
 		public function CalendarAction ( date : Date, dateFormat : String = "d/m/Y", icon : Icon = null, accelerator : KeyStroke = null)
 		{
 			_date = date;
 			_dateFormat = dateFormat;
+			_commandCancelled = new Signal(Command);
 			super( DateUtils.format(_date, _dateFormat ), icon, _("Change date"), accelerator );
 		}
 
 		override public function execute( ... args ) : void
 		{
+			_isRunning = true;
 			_cancelled = false;
 			CalendarInstance.date = DateUtils.cloneDate(_date);
 			
@@ -45,13 +51,14 @@ package abe.com.ponents.actions.builtin
 				case Dialog.RESULTS_OK : 
 					_date = CalendarInstance.date;
 					name = DateUtils.format( _date, _dateFormat );
-					fireCommandEnd();
+					_commandEnded.dispatch( this );
 					break;
 					
 				default : 
-					fireCommandCancelled();
+					_commandCancelled.dispatch( this );
 					break;
 			}
+			_isRunning = false;
 			_dial.close();	
 			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
 			_dial = null;
@@ -63,23 +70,17 @@ package abe.com.ponents.actions.builtin
 			_date = date;
 			name = DateUtils.format( _date, _dateFormat );
 		}
-		
 		public function cancel () : void
 		{
 			_dial.close();	
 			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
 			_dial = null;
 			_cancelled = true;
-			fireCommandCancelled();
+			_isRunning = false;
+			_commandCancelled.dispatch( this );
 		}
-		public function isCancelled () : Boolean
-		{
-			return _cancelled;
-		}
-		protected function fireCommandCancelled () : void
-		{
-			dispatchEvent( new CommandEvent(CommandEvent.COMMAND_CANCEL) );
-		}
+		public function isCancelled () : Boolean { return _cancelled; }
+		public function get commandCancelled () : Signal { return _commandCancelled; }
 	}
 }
 

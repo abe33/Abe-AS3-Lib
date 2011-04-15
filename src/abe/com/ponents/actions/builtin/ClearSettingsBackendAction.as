@@ -22,7 +22,7 @@ package abe.com.ponents.actions.builtin
 				SettingsManagerInstance.backend.clear();
 			}
 			else
-				super.execute( e );
+				super.execute.apply( this, args );
 		}
 		protected function onClear (event : SettingsBackendEvent) : void 
 		{

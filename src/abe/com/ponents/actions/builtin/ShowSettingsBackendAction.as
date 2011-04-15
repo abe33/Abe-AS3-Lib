@@ -100,7 +100,7 @@ package abe.com.ponents.actions.builtin
 			
 			StageUtils.centerX( d, d.width );			StageUtils.centerY( d, d.height );
 			
-			super.execute(e );
+			super.execute.apply( this, args );
 		}
 		protected function formatProperty ( s : String ) : String 
 		{

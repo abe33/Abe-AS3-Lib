@@ -4,15 +4,17 @@
 package abe.com.ponents.actions.builtin
 {
 	import abe.com.mands.Command;
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.ponents.actions.AbstractAction;
 	import abe.com.ponents.actions.Action;
 	import abe.com.ponents.skinning.icons.Icon;
 
+	import org.osflash.signals.Signal;
+
 	import flash.events.Event;
 	import flash.net.FileReference;
+
 
 
 	/*FDT_IGNORE*/TARGET::AIR { 
@@ -31,6 +33,8 @@ package abe.com.ponents.actions.builtin
 
 		protected var _filters : Array;
 		protected var _isCanceled : Boolean;
+		
+		protected var _commandCancelled : Signal;
 
 		public function BrowseFileAction ( name : String = "",
 										   icon : Icon = null,
@@ -39,6 +43,7 @@ package abe.com.ponents.actions.builtin
 										   accelerator : KeyStroke = null )
 		{
 			super( name, icon, longDescription, accelerator );
+			_commandCancelled = new Signal( Command );
 			_filters = filters;
 		}
 		/*FDT_IGNORE*/
@@ -52,10 +57,12 @@ package abe.com.ponents.actions.builtin
 		public function get filters () : Array { return _filters; }
 		public function set filters (filters : Array) : void { _filters = filters; }
 		
+		public function get commandCancelled () : Signal { return _commandCancelled; }
+		
 		override public function execute( ... args ) : void
 		{
 			_isCanceled = false;
-
+			_isRunning = true;
 			/*FDT_IGNORE*/
 			TARGET::AIR { fileReference = new File(); }
 			TARGET::WEB { /*FDT_IGNORE*/
@@ -67,12 +74,13 @@ package abe.com.ponents.actions.builtin
 		protected function browseCancel (event : Event) : void
 		{
 			_isCanceled = true;
-			fireCommandCancelled();
+			_isRunning = false;
+			_commandCancelled.dispatch( this );
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
 		protected function fileSelect (event : Event) : void
 		{
-			fireCommandEnd();
+			commandEnded.dispatch( this );
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
 		protected function registerToFileReferenceEvents ( fileReference : FileReference ) : void
@@ -87,16 +95,12 @@ package abe.com.ponents.actions.builtin
 		public function cancel () : void
 		{
 			_isCanceled = true;
-			fireCommandCancelled();
+			_isRunning = false;
+			_commandCancelled.dispatch( this );
 		}
 		public function isCancelled () : Boolean
 		{
 			return _isCanceled;
-		}
-		protected function fireCommandCancelled () : void
-		{
-			_isRunning = false;
-			dispatchEvent( new CommandEvent( CommandEvent.COMMAND_CANCEL ) );
 		}
 	}
 }

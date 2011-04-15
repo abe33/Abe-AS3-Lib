@@ -32,6 +32,7 @@ package abe.com.ponents.actions.builtin
 		
 		override public function execute( ... args ) : void 
 		{
+			_isRunning = true;
 			ToolKit.toolLevel.addChild( shape );
 			StageUtils.stage.addEventListener( MouseEvent.MOUSE_MOVE, stageMouseMove );			StageUtils.root.addEventListener( MouseEvent.MOUSE_UP, mouseUp, true );			StageUtils.root.addEventListener( MouseEvent.MOUSE_DOWN, mouseDown, true );
 		}
@@ -45,8 +46,8 @@ package abe.com.ponents.actions.builtin
 			ToolKit.toolLevel.removeChild( shape );
 			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_MOVE, stageMouseMove );
 			StageUtils.root.removeEventListener( MouseEvent.MOUSE_UP, mouseUp, true );			StageUtils.root.removeEventListener( MouseEvent.MOUSE_DOWN, mouseDown, true );
-			
-			fireCommandEnd();
+			_isRunning = false;
+			commandEnded.dispatch( this );
 		}
 		protected function mouseDown (event : MouseEvent) : void 
 		{

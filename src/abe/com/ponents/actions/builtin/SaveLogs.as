@@ -24,7 +24,7 @@ package abe.com.ponents.actions.builtin
 		override public function execute( ... args ) : void 
 		{
 			this.data = _logView.textfield.text;
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }
