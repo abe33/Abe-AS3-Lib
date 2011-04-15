@@ -225,20 +225,20 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "checkedIcon" :
-					_checkedIcon = magicIconBuild( event.propertyValue );
+					_checkedIcon = magicIconBuild( propertyValue );
 					tickIcon = _selected ? _checkedIcon : _uncheckedIcon;
 					break;
 				case "uncheckedIcon" :
-					_uncheckedIcon = magicIconBuild( event.propertyValue );
+					_uncheckedIcon = magicIconBuild( propertyValue );
 					tickIcon = _selected ? _checkedIcon : _uncheckedIcon;
 					break;
 				default : 
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

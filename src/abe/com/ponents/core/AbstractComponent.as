@@ -3,6 +3,7 @@
  */
 package abe.com.ponents.core
 {
+	import org.osflash.signals.DeluxeSignal;
 	import abe.com.mon.core.IDisplayObject;
 	import abe.com.mon.core.IDisplayObjectContainer;
 	import abe.com.mon.core.IInteractiveObject;
@@ -654,7 +655,7 @@ package abe.com.ponents.core
 			_componentEnableChanged = new Signal( Component, Boolean );
 			_componentPositionChanged = new Signal( Component, Point );
 			_componentRepainted = new Signal( Component );
-			_componentResized = new Signal( Component, Dimension );
+			_componentResized = new DeluxeSignal(this, Component, Dimension );
 			_componentScrollChanged = new Signal( Component );
 			
 			_enabled = true;
@@ -716,7 +717,7 @@ package abe.com.ponents.core
  		public var mouseReleased : Signal;
  		public var mouseReleasedOutside : Signal; 		public var mouseWheelRolled : Signal;
  		
- 		protected var _componentResized : Signal;
+ 		protected var _componentResized : DeluxeSignal;
  		protected var _componentChanged : Signal;
  		protected var _componentPositionChanged : Signal;
  		protected var _componentScrollChanged : Signal;
@@ -724,7 +725,7 @@ package abe.com.ponents.core
  		protected var _componentRepainted : Signal;
  		protected var _propertyChanged : Signal;
 		
-		public function get componentResized () : Signal { return _componentResized; }
+		public function get componentResized () : DeluxeSignal { return _componentResized; }
 		public function get componentChanged () : Signal { return _componentChanged; }
 		public function get componentPositionChanged () : Signal { return _componentPositionChanged; }
 		public function get componentScrollChanged () : Signal { return _componentScrollChanged; }

@@ -141,7 +141,7 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override protected function commandEnded (e : CommandEvent) : void
+		override protected function commandEnded (c:Command) : void
 		{
 			super.commandEnded( e );
 			fireDataChange();

@@ -1,5 +1,7 @@
 package abe.com.ponents.containers 
 {
+	import org.osflash.signals.events.IEvent;
+	import org.osflash.signals.events.IBubbleEventHandler;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.core.AbstractContainer;
 	import abe.com.ponents.core.Component;
@@ -12,7 +14,7 @@ package abe.com.ponents.containers
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class AbstractScrollContainer extends AbstractContainer 
+	public class AbstractScrollContainer extends AbstractContainer implements IBubbleEventHandler
 	{
 		protected var _viewport : Viewport;
 		
@@ -28,7 +30,7 @@ package abe.com.ponents.containers
 			_hmodel.addEventListener( ComponentEvent.DATA_CHANGE, hscrollOccured );
 			_vmodel.addEventListener( ComponentEvent.DATA_CHANGE, vscrollOccured );
 			
-			addEventListener( ComponentEvent.COMPONENT_RESIZE, componentResize );			
+			//addEventListener( ComponentEvent.COMPONENT_RESIZE, onComponentResized );			
 			addComponent(viewport);
 		}
 		public function get viewport () : Viewport { return _viewport; }
@@ -36,12 +38,12 @@ package abe.com.ponents.containers
 		public function set view ( v : Component ) : void 
 		{ 
 			if( _viewport.view )
-				_viewport.view.removeEventListener( ComponentEvent.COMPONENT_RESIZE, componentResize );
+				_viewport.view.removeEventListener( ComponentEvent.COMPONENT_RESIZE, onComponentResized );
 			
 			_viewport.view = v;
 			
 			if( _viewport.view )
-				_viewport.view.addEventListener( ComponentEvent.COMPONENT_RESIZE, componentResize );
+				_viewport.view.addEventListener( ComponentEvent.COMPONENT_RESIZE, onComponentResized );
 			
 			invalidatePreferredSizeCache();
 		}
@@ -192,7 +194,7 @@ package abe.com.ponents.containers
 			}
 			invalidate();
 		}
-		protected function componentResize (event : Event) : void
+		protected function onComponentResized (event : Event) : void
 		{
 			updateModelsAfterResize();
 		}
@@ -214,6 +216,10 @@ package abe.com.ponents.containers
 		public function set isAlwaysValidateRoot (isAlwaysValidateRoot : Boolean) : void
 		{
 			_isAlwaysValidateRoot = isAlwaysValidateRoot;
+		}
+		public function onEventBubbled (event : IEvent) : Boolean
+		{
+			return null;
 		}
 	}
 }
