@@ -36,7 +36,10 @@ package abe.com.ponents.tables
 			allowDrag = true;
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
-
+		override protected function formatLabel (value : *) : String 
+		{
+			return _column ? _column.name : super.formatLabel(value);
+		}
 		override public function get supportEdit () : Boolean { return false; }
 		public function get sortOrder () : Boolean {	return _sortOrder; }		
 		public function set sortOrder (sortOrder : Boolean) : void
