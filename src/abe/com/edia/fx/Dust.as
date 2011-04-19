@@ -3,6 +3,7 @@
  */
 package abe.com.edia.fx 
 {
+	import abe.com.mon.logs.Log;
 	import abe.com.mon.core.Allocable;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
@@ -82,10 +83,10 @@ package abe.com.edia.fx
 		{
 			this.graphics.clear();
 			
-			var r : Number = 1 - Math.abs( ( easing( life, 0, 1, initlife ) - 0.65 ) * 1.35 );
+			var r : Number = 1 - Math.abs( ( easing( t, 0, 1, life ) - 0.65 ) * 1.35 );
 			//var r : Number = easing( life, 0, 1, initlife );
 			var s : Number = size * r;
-			var d : Number = ( dist ) * (1-(life / initlife));
+			var d : Number = ( dist ) * (t / life);
 			
 			if( shadow )
 			{
@@ -108,6 +109,7 @@ package abe.com.edia.fx
 		public function tick ( e : ImpulseEvent ) : void
 		{
 			t += e.bias;
+			
 			this.x -= e.biasInSeconds;
 			this.draw();
 			
