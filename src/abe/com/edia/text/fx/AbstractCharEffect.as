@@ -34,18 +34,15 @@ package abe.com.edia.text.fx
 			this.chars = new Vector.<Char>();
 			_isRunning = false;
 		}
-
 		public function addChar (l : Char) : void
 		{
 			chars.push( l );
 		}
-		
 		public function init () : void
 		{
 			if( autoStart )
 				start();
 		}
-		
 		public function dispose () : void
 		{
 			stop();
@@ -58,18 +55,22 @@ package abe.com.edia.text.fx
 		}
 		public function start () : void
 		{
-			Impulse.register( tick );
-			_isRunning = true;
+			if( !_isRunning )
+			{
+				Impulse.register( tick );
+				_isRunning = true;
+			}
 		}
 		public function stop () : void
 		{
-			_isRunning = false;
-			Impulse.unregister( tick );
+			if ( _isRunning )
+			{
+				_isRunning = false;
+				Impulse.unregister( tick );
+			}
 		}
-		public function tick ( e : ImpulseEvent ) : void
-		{
-		}
-		public function isRunning () : Boolean { return _isRunning; 
-		}
+		
+		public function tick ( e : ImpulseEvent ) : void {}		
+		public function isRunning () : Boolean { return _isRunning; }
 	}
 }

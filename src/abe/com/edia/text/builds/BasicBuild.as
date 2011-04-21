@@ -266,6 +266,7 @@ package abe.com.edia.text.builds
 							currentStyleContext.chars.push( char );
 							//char.format = currentBuildContext.format;							//char.format = currentStyleContext.format;
 							char.filters = currentBuildContext.filters;
+							
 							if( !isNaN( currentBuildContext.backgroundColor ) )
 							{
 								char.background = true,
@@ -698,10 +699,16 @@ package abe.com.edia.text.builds
 				var c : SpriteChar = new SpriteChar();
 				if( currentBuildContext.link )
 					c.link = currentBuildContext.link;
+				
+				if( attributes.hasOwnProperty("x") )
+					d.x = parseFloat( attributes["x"]);
+				if( attributes.hasOwnProperty("y") )
+					d.y = parseFloat( attributes["y"]);
 				 
 				c.addChild( d );
 				
 				char = c;
+				char.filters = currentBuildContext.filters;
 				
 				created[i] = char;
 								

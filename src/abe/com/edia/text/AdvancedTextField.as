@@ -84,7 +84,7 @@ package abe.com.edia.text
 			tabEnabled = false;
 			tabChildren = false;
 			
-			addEventListener(Event.ADDED_TO_STAGE, addedToStage, false, 0, true );			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStage, false, 0, true );
+			addEventListener( Event.ADDED_TO_STAGE, addedToStage, false, 0, true );			addEventListener( Event.REMOVED_FROM_STAGE, removedFromStage, false, 0, true );
 			
 			registerToBuildEvents( _build );
 		}
