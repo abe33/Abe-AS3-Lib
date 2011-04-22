@@ -159,9 +159,7 @@ package abe.com.edia.text.builds
 				fxid = 0;
 				// on supprime tout les effets qui auraient pu être créer la fois précédente
 				for each (var j : CharEffect in _effects )
-				{
 					j.dispose();
-				}
 				_effects = {};
 				
 				if( txt.length != 0 )
@@ -209,9 +207,7 @@ package abe.com.edia.text.builds
 						}
 						// si c'est l'ouverture d'une balise
 						else if( l == "<" )
-						{
 							checkTag(iterator);
-						}
 						// si c'est un espace on créer un caractère nul selon le type d'espace
 						else if( new RegExp( "[\\n\\t\\r]+", "g" ).test( l ) )
 						{		
@@ -241,9 +237,7 @@ package abe.com.edia.text.builds
 						{
 							// si c'est le début d'un caractère spécial
 							if( l == "&" )
-							{
 								l = checkSpecialChar(iterator);
-							}
 							// s'il s'agit d'une image
 							if ( char is SpriteChar )
 							{
@@ -268,26 +262,17 @@ package abe.com.edia.text.builds
 							char.filters = currentBuildContext.filters;
 							
 							if( !isNaN( currentBuildContext.backgroundColor ) )
-							{
-								char.background = true,
-								char.backgroundColor = currentBuildContext.backgroundColor;
-							}
+								_owner.backgroundChars[ char ] = currentBuildContext.backgroundColor;
 							
 							// on ajoute ce caractère a tout les effets du currentBuildContexte
 							for each ( var k : CharEffect in currentBuildContext.effects )
-							{
 								k.addChar( char );						
-							}
 							
 							// on définit le texte de ce caractère selon qu'un lien est défini dans le currentBuildContexte ou non
 							if( currentBuildContext.link )
-							{
 								char.text = "<a href='event:" + currentBuildContext.link + "'>" + l + "</a>";
-							}
 							else
-							{
 								char.text = l;
-							}
 						}
 					}
 					// on modifie la longueur du tableau pour toujours n'avoir que les char courante
@@ -304,9 +289,7 @@ package abe.com.edia.text.builds
 										
 					// initialise tout les effets 
 					for each ( var n : CharEffect in _effects )
-					{
 						n.init();
-					}
 					
 					// le processus est fini
 					fireInit ();
@@ -451,10 +434,8 @@ package abe.com.edia.text.builds
 		{
 			var a : Array = s.substr(0,-1).split(" ");
 			var tag : String = a[0];
-			
 			var xml : XML = new XML ( "<root xmlns:fx='http://abe.fr/fx'><" + s.substr(0,-1) + "/></root>" );
 				
-			
 			if( _tagMapping.hasOwnProperty( tag ) )
 			{
 				(_tagMapping[ tag ] as Function).call( null, cloneContext( currentBuildContext ), parseAttributes( xml.children()[0] ) );
@@ -504,7 +485,6 @@ package abe.com.edia.text.builds
 					currentBuildContext = (_tagMapping[ tag ] as Function).call( 
 									null, cloneContext( currentBuildContext ), parseAttributes( xml.children()[0] ) );
 					
-					
 					_activeTags.push( tag );
 					
 					styleContexts.push( currentStyleContext );
@@ -512,18 +492,14 @@ package abe.com.edia.text.builds
 					
 				}
 				else
-				{
 					Log.debug( "unknown tag : <" + tag +">" );
-				}
 			}			
 		}
 		protected function parseAttributes ( x : XML ) : Object
 		{
 			var o : Object = {};
 			for each( var att:XML in x.attributes() )
-			{		
 				o[ att.name().toString() ] = toArgument( att.toString() );
-			}
 			return o;
 		}
 		protected function parseArguments ( s : String ) : Array
@@ -546,9 +522,7 @@ package abe.com.edia.text.builds
 			if( isNaN( numval ) )
 			{
 				if( s == "false" || s == "true" )
-				{
 					return s == "true";
-				}
 				else if( s.indexOf(",") != -1 && s.indexOf("(") == -1 )
 				{
 					var a : Array = s.split(",");
@@ -619,9 +593,8 @@ package abe.com.edia.text.builds
 		protected function paragraph ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
 		{
 			if( !attributes.hasOwnProperty( "align" ) )
-			{
 				attributes.align = "left";
-			}
+			
 			checkCharRelease ( char );		
 			
 			var c : ParagraphChar = new ParagraphChar( attributes.align );
@@ -666,9 +639,7 @@ package abe.com.edia.text.builds
 		{
 			i--;
 			if( attributes.hasOwnProperty( "href" ) )
-			{
 				currentBuildContext.link = attributes.href;	
-			}
 			
 			return currentBuildContext;
 		}
@@ -715,9 +686,7 @@ package abe.com.edia.text.builds
 				setChar(i, char);
 				
 				for each ( var q : CharEffect in currentBuildContext.effects )
-				{
 					q.addChar( char );						
-				}
 			}			
 		}
 		/*--------------------------------------------------------------------------

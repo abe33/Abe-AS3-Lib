@@ -20,8 +20,12 @@ package abe.com.edia.text
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
+	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.StringUtils;
+	import abe.com.motion.Impulse;
+	import abe.com.motion.ImpulseEvent;
+	import abe.com.motion.ImpulseListener;
 
 	import flash.display.BlendMode;
 	import flash.display.DisplayObject;
@@ -37,6 +41,7 @@ package abe.com.edia.text
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
 	import flash.text.TextLineMetrics;
+	import flash.utils.Dictionary;
 
 	[Event(name="change", type="flash.events.Event")]	[Event(name="link", type="flash.events.TextEvent")]
 	public class AdvancedTextField extends Sprite implements IDisplayObject,
@@ -44,7 +49,8 @@ package abe.com.edia.text
 															 IInteractiveObject,
 															 Suspendable, 
 															 ITextField,
-															 Clearable
+															 Clearable,
+														 	 ImpulseListener
 	{
 		protected var _text : String;			
 		protected var _build : CharBuild;
@@ -68,6 +74,9 @@ package abe.com.edia.text
 		protected var _selectionShape : Shape;
 		protected var _alwaysShowSelection : Boolean;
 		protected var _focus : Boolean;
+		
+		protected var _backgroundChars : Dictionary;
+		protected var _isRunning : Boolean;
 
 		public function AdvancedTextField( build : CharBuild = null, layout : CharLayout = null )
 		{
@@ -79,10 +88,14 @@ package abe.com.edia.text
 			_allowMask = true;
 			_type = TextFieldType.DYNAMIC;
 			_align = "left";
+			_backgroundChars = new Dictionary( true );
 			//mouseChildren = false;
 			//mouseEnabled = false;
 			tabEnabled = false;
 			tabChildren = false;
+			
+			_build.owner = this;
+			_layout.owner = this;
 			
 			addEventListener( Event.ADDED_TO_STAGE, addedToStage, false, 0, true );			addEventListener( Event.REMOVED_FROM_STAGE, removedFromStage, false, 0, true );
 			
@@ -92,6 +105,7 @@ package abe.com.edia.text
 /*-------------------------------------------------------------------------
  * 	GETTER/SETTER
  *-------------------------------------------------------------------------*/
+ 		public function get backgroundChars () : Dictionary { return _backgroundChars; }
 		override public function get width () : Number 
 		{
 			if( _layout.autoSize == TextFieldAutoSize.NONE || _layout.wordWrap )
@@ -132,6 +146,7 @@ package abe.com.edia.text
 		public function set htmlText (s : String) : void
 		{
 			_text = s;
+			_backgroundChars = new Dictionary( true );
 			_build.buildChars( _text );
 			if( _allowMask )
 				scrollRect = new Rectangle(0,0,width,height);
@@ -236,24 +251,16 @@ package abe.com.edia.text
 			}
 		}
 		public function get alwaysShowSelection () : Boolean { return _alwaysShowSelection; }
-		public function set alwaysShowSelection (b : Boolean) : void
-		{
-			_alwaysShowSelection = b;
-		}
+		public function set alwaysShowSelection (b : Boolean) : void { _alwaysShowSelection = b; }
 		
 		public function get caretIndex () : int { return _caretIndex; }				public function get selectionBeginIndex () : int { return _selectionBeginIndex; }		
 		public function get selectionEndIndex () : int { return _selectionEndIndex; }
 		
-		
 		public function get maxChars () : int { return 0; }
-		public function set maxChars (m : int) : void
-		{
-		}
+		public function set maxChars (m : int) : void {}
 		
 		public function get displayAsPassword () : Boolean { return false; }
-		public function set displayAsPassword (b : Boolean) : void
-		{
-		}
+		public function set displayAsPassword (b : Boolean) : void {}
 		
 		public function get textWidth () : Number { return _layout.textSize.width; }
 		public function get textHeight () : Number { return _layout.textSize.height; }
@@ -262,34 +269,23 @@ package abe.com.edia.text
 		public function get bottomScrollV () : int { return 0; }
 		
 		public function get scrollV () : int { return 0; }
-		public function set scrollV (s : int) : void
-		{
-		}
+		public function set scrollV (s : int) : void {}
 		
 		public function get maxScrollH () : int { return 0;	}
 		
 		public function get scrollH () : int { return 0; }
-		public function set scrollH (s : int) : void
-		{
-		}
+		public function set scrollH (s : int) : void {}
 /*-------------------------------------------------------------------------
  * 	ITEXTFIELD METHODS
  *-------------------------------------------------------------------------*/
 	
-		public function appendText (s : String) : void
-		{
-			htmlText = htmlText+s;
-		}
-		public function getCharIndex ( char : Char ) : int
-		{
-			return _layout.chars.indexOf(char);
-		}
+		public function appendText (s : String) : void { htmlText = htmlText+s; }
+		public function getCharIndex ( char : Char ) : int { return _layout.chars.indexOf(char); }
 		public function getCharBoundaries (charIndex : int) : Rectangle
 		{
 			var c : Char = _layout.chars[ charIndex ];
 			return new Rectangle( c.x, c.y, c.width, c.height );
 		}
-		
 		public function getCharIndexAtPoint (x : Number, y : Number) : int
 		{
 			var a : Array = getObjectsUnderPoint(new Point( x, y ));
@@ -305,7 +301,6 @@ package abe.com.edia.text
 		{ 
 			return c is Char; 
 		}
-		
 		public function getFirstCharInParagraph ( charIndex : int ) : int
 		{
 			var index : int = findParagraphStartBefore(charIndex)+1;
@@ -321,7 +316,6 @@ package abe.com.edia.text
 		{
 			return countCharBefore( charIndex, NewLineChar );
 		}
-		
 		public function getLineLength ( lineIndex : int ) : int
 		{
 			var cli : int = findNthCharIndexAfter( 0, lineIndex, NewLineChar )+1;			var cli2 : int = findNthCharIndexAfter( cli, 1, NewLineChar )+1;
@@ -331,25 +325,21 @@ package abe.com.edia.text
 				
 			return cli2 - cli;
 		}
-		
 		public function getLineMetrics ( lineIndex : int ) : TextLineMetrics
 		{
 			var r : Range = getLineRange(lineIndex);
 			return _layout.getMetrics( r );
 		}
-		
 		public function getLineOffset ( lineIndex : int ) : int
 		{
 			return findNthCharIndexAfter( 0, lineIndex, NewLineChar ) + 1;
 		}
-		
 		public function getLineText ( lineIndex : int ) : String
 		{
 			var r : Range = getLineRange(lineIndex);
 			
 			return _layout.chars.slice( r.min, r.max ).join("");
 		}
-			
 		public function getParagraphLength ( charIndex : int ) : int
 		{
 			return getParagraphRange( charIndex ).size();
@@ -359,7 +349,6 @@ package abe.com.edia.text
 			var r : Range = getParagraphRange( charIndex );
 			return _layout.chars.slice( r.min, r.max ).join("");
 		}
-		
 		public function getLineRange ( lineIndex : int ) : Range
 		{
 			var cli : int = findNthCharIndexAfter( 0, lineIndex, NewLineChar )+1;
@@ -397,7 +386,6 @@ package abe.com.edia.text
 			}
 			return -1;
 		}
-		
 		protected function findParagraphStartBefore( charIndex : int ) : int
 		{
 			var c : Char;
@@ -467,20 +455,14 @@ package abe.com.edia.text
 /*-------------------------------------------------------------------------
  * 	SELECTION MANAGEMENT METHODS
  *-------------------------------------------------------------------------*/
-		public function replaceSelectedText (value : String) : void
-		{
-		}
-		
-		public function replaceText (beginIndex : int, endIndex : int, newText : String) : void
-		{
-		}
+		public function replaceSelectedText (value : String) : void	{}
+		public function replaceText (beginIndex : int, endIndex : int, newText : String) : void {}
 		
 		public function setSelection (beginIndex : int, endIndex : int) : void
 		{
 			_selectionBeginIndex = MathUtils.restrict( beginIndex, 0, _layout.chars.length-1 );			_selectionEndIndex = MathUtils.restrict( endIndex, 0, _layout.chars.length-1 );
 			updateSelection();
 		}
-
 		protected function updateSelection () : void
 		{
 			if( _selectionDragEndIndex >= 0 && 
@@ -519,6 +501,17 @@ package abe.com.edia.text
 				_selectionShape.graphics.endFill();
 			}
 		}
+		protected function drawCharBackground() : void
+		{
+			this.graphics.clear();
+			for( var char : * in  _backgroundChars )
+			{
+				var col : uint = _backgroundChars[ char ];
+				this.graphics.beginFill( col );
+				this.graphics.drawRect( char.x, char.y, char.width, char.height);
+				this.graphics.endFill();
+			}
+		}
 /*-------------------------------------------------------------------------
  * 	DISPLAY OBJECTS OVERRIDE
  *-------------------------------------------------------------------------*/
@@ -529,24 +522,30 @@ package abe.com.edia.text
 			var r : Rectangle = new Rectangle( x, y, width, height );
 			return r;
 		}
-		
 /*-------------------------------------------------------------------------
  * 	ANIMATIONS
  *-------------------------------------------------------------------------*/
 		public function start () : void
 		{
-			for each( var o : Object in _build.effects )
+			if( !_isRunning )
+			{
+				_isRunning = true;
+				Impulse.register( tick );
+			}			for each( var o : Object in _build.effects )
 				if( o.hasOwnProperty( "start" ) )
 					o.start();
 		}
-		
 		public function stop () : void
 		{
+			if( _isRunning )
+			{
+				_isRunning = false;
+				Impulse.unregister( tick );
+			}
 			for each( var o : Object in _build.effects )
 				if( o.hasOwnProperty( "stop" ) )
 					o.stop();
 		}
-		
 		public function isRunning () : Boolean
 		{
 			var b : Boolean = false;
@@ -556,11 +555,13 @@ package abe.com.edia.text
 			
 			return b;
 		}
-		
+		public function tick (e : ImpulseEvent) : void
+		{
+			drawCharBackground();
+		}
 /*-------------------------------------------------------------------------
  * 	EVENTS HANDLERS
  *-------------------------------------------------------------------------*/
-
 		protected function charsCreated ( e : CharEvent ) : void
 		{
 			for each ( var l : Char in e.chars )
@@ -580,13 +581,12 @@ package abe.com.edia.text
 		protected function buildComplete ( e : CharEvent ) : void
 		{
 			_layout.layout( _build.chars );
+			drawCharBackground();
 		}
-
 		protected function init ( e : Event ) : void
 		{
 			dispatchEvent( new Event( Event.CHANGE ) );
 		}
-		
 		protected function mouseMove (event : MouseEvent) : void 
 		{
 			if( _selectable && _selectionDrag )
@@ -612,7 +612,6 @@ package abe.com.edia.text
 				_caretIndex = _selectionDragEndIndex = _selectionDragStartIndex = getCharIndexAtPoint( event.stageX, event.stageY );				_selectionDrag = true;
 			}
 		}
-		
 		protected function addedToStage (event : Event) : void 
 		{
 			addEventListener(KeyboardEvent.KEY_DOWN, keyDown );
@@ -625,7 +624,6 @@ package abe.com.edia.text
 			removeEventListener( FocusEvent.FOCUS_OUT, focusOut );
 			removeEventListener( FocusEvent.FOCUS_IN, focusIn );
 		}
-		
 		protected function focusOut (event : FocusEvent) : void 
 		{
 			_focus = false;

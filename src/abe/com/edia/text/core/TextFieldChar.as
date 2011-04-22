@@ -88,12 +88,16 @@ package abe.com.edia.text.core
 		
 		public function init () : void
 		{
-			scaleX = scaleY = 1;
-			alpha = 1;
+			reset();
 		}
 		public function dispose () : void
 		{
-			scaleX = scaleY = 1;
+			reset();
+		}
+		public function reset() : void
+		{
+			scaleX = scaleY = 1;			_textField.scaleX = _textField.scaleY = 1;
+			_textField.x = _textField.y = 0;
 			alpha = 1;
 		}
 		
