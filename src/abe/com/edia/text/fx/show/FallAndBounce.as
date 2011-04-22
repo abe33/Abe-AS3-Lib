@@ -65,9 +65,10 @@ package abe.com.edia.text.fx.show
 		override protected function showChar (char : Char) : void
 		{
 			super.showChar( char );
+			/*
 			if( char.y != ys[char] )
 				ys[char] = char.y;
-			
+			*/
 			char.y = ys[char] - height;
 			activeChars.push( char );
 			

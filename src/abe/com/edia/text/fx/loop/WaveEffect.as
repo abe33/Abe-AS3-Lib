@@ -7,9 +7,6 @@ package abe.com.edia.text.fx.loop
 	import abe.com.edia.text.fx.AbstractCharEffect;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
-
-	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -20,8 +17,6 @@ package abe.com.edia.text.fx.loop
 		protected var speed : Number;
 		protected var frequency : Number;
 
-		protected var ys : Dictionary;
-		
 		public function WaveEffect( amplitude : Number = 10, angleSpeed : Number = Math.PI, frequency : Number = 0.05 )
 		{
 			super();
@@ -29,9 +24,6 @@ package abe.com.edia.text.fx.loop
 			this.amplitude = amplitude;
 			this.speed = angleSpeed;
 			this.frequency = frequency;
-			
-			this.ys = new Dictionary( true );
-			
 		}
 		override public function init () :void
 		{
@@ -41,9 +33,8 @@ package abe.com.edia.text.fx.loop
 			for(var i : Number = 0; i < l; i++ )
 			{
 				var char : Char = chars[ i ];
-				ys[ char ] = char.y;
-				
-				char.y += char.y + Math.cos( angle + frequency * char.x ) * amplitude;
+				if( char.charContent )
+					char.charContent.y = Math.cos( angle + frequency * char.x ) * amplitude;
 			}
 			
 			Impulse.register( tick );
@@ -52,9 +43,13 @@ package abe.com.edia.text.fx.loop
 		override public function dispose () : void
 		{
 			super.dispose();
-			
-			this.ys = new Dictionary( true );
-			
+			var l : Number = chars.length;
+			for(var i : Number = 0; i < l; i++ )
+			{
+				var char : Char = chars[ i ];
+				if( char.charContent )
+					char.charContent.y = 0;
+			}
 			Impulse.unregister( tick );
 		}
 
@@ -65,14 +60,9 @@ package abe.com.edia.text.fx.loop
 			for(var i : Number = 0; i < l; i++ )
 			{
 				var char : Char = chars[ i ];
-				
-				if( char != null )
-				{
-					
-					char.y = ys[ char ] + Math.cos( angle + frequency * char.x ) * amplitude;
-				}
+				if( char.charContent )
+					char.charContent.y = Math.cos( angle + frequency * char.x ) * amplitude;
 			}
-			
 			angle += speed * e.biasInSeconds;	
 		}
 	}

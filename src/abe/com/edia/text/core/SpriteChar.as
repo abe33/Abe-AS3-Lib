@@ -3,6 +3,7 @@
  */
 package abe.com.edia.text.core 
 {
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.events.TextEvent;
@@ -22,59 +23,18 @@ package abe.com.edia.text.core
 			mouseEnabled = true;
 			addEventListener( MouseEvent.MOUSE_UP, mouseUp );
 		}
-		
-		protected function mouseUp ( e : MouseEvent ) : void
-		{
-			dispatchEvent( new TextEvent( TextEvent.LINK, true, true, _link ) );
-		}
-		
-		public function get link () : String
-		{
-			return _link;
-		}
-
-		public function get charWidth () : Number
-		{
-			return width;
-		}
-		
-		public function get charHeight () : Number
-		{
-			return height;
-		}
-		
-		public function get text () : String
-		{
-			return "";
-		}
-		public function set text (s : String) : void
-		{
-		}
-		
-		public function get format () : TextFormat
-		{
-			return null;
-		}
-		public function set format (tf : TextFormat) : void
-		{
-		}
-		
-		public function get background () : Boolean
-		{
-			return false;
-		}
-		
-		public function get backgroundColor () : uint
-		{
-			return 0xffffff;
-		}
-		
-		public function set background (b : Boolean) : void
-		{
-		}
-		
-		public function set backgroundColor (b : uint) : void
-		{
-		}
+		public function get link () : String 					{ return _link; }
+		public function get charWidth () : Number				{ return width; }
+		public function get charHeight () : Number 				{ return height; }
+		public function get text () : String 					{ return ""; }
+		public function get format () : TextFormat				{ return null; }
+		public function get background () : Boolean 			{ return false; }
+		public function get backgroundColor () : uint 			{ return 0xffffff; }
+		public function get charContent () : DisplayObject		{ return getChildAt(0); }
+		public function set text (s : String) : void 			{}
+		public function set format (tf : TextFormat) : void 	{}
+		public function set background (b : Boolean) : void 	{}
+		public function set backgroundColor (b : uint) : void 	{}
+		protected function mouseUp ( e : MouseEvent ) : void 	{ dispatchEvent( new TextEvent( TextEvent.LINK, true, true, _link ) ); }
 	}
 }
