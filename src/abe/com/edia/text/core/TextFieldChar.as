@@ -31,7 +31,7 @@ package abe.com.edia.text.core
 															_textField.defaultTextFormat.size as Number : 
 															_textField.textHeight;	}
 
-		public function get text () : String { return _safeText; }
+		public function get text () : String { return _textField.text; }
 		public function set text (value : String) : void { _textField.htmlText = _safeText = value; }
 
 		public function get format () : TextFormat { return _textField.defaultTextFormat; }
@@ -68,6 +68,7 @@ package abe.com.edia.text.core
 		public function get scrollH () : int					{ return _textField.scrollH; }
 		public function get background () : Boolean				{ return _textField.background; }
 		public function get backgroundColor () : uint			{ return _textField.backgroundColor; }
+		public function get baseline () : Number				{ return _textField.getLineMetrics( 0 ).ascent;	}
 		
 		public function set htmlText (s : String) : void				{ _textField.htmlText = s; }
 		public function set type (s : String) : void					{ _textField.type = s; }
@@ -95,8 +96,8 @@ package abe.com.edia.text.core
 			reset();
 		}
 		public function reset() : void
-		{
-			scaleX = scaleY = 1;			_textField.scaleX = _textField.scaleY = 1;
+		{			scaleX = scaleY = 1;
+			_textField.scaleX = _textField.scaleY = 1;
 			_textField.x = _textField.y = 0;
 			alpha = 1;
 		}
@@ -116,7 +117,6 @@ package abe.com.edia.text.core
 		public function replaceText (beginIndex : int, endIndex : int, newText : String) : void	{ _textField.replaceText(beginIndex, endIndex, newText); }
 		public function setSelection (beginIndex : int, endIndex : int) : void { _textField.setSelection(beginIndex, endIndex); }
 		
-		override public function toString() : String { return text; 
-		}
+		override public function toString() : String { return text; }
 	}
 }

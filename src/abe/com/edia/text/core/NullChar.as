@@ -27,6 +27,7 @@ package abe.com.edia.text.core
 		public function get background () : Boolean				{ return false;	}
 		public function get backgroundColor () : uint			{ return 0xffffff; }
 		public function get charContent () : DisplayObject		{ return null; }
+		public function get baseline () : Number				{ return 0; }
 		public function set x (n : Number) : void				{}
 		public function set y (n : Number) : void				{}
 		public function set text (s : String) : void			{}

@@ -75,8 +75,9 @@ package abe.com.edia.text
 		protected var _alwaysShowSelection : Boolean;
 		protected var _focus : Boolean;
 		
-		protected var _backgroundChars : Dictionary;
 		protected var _isRunning : Boolean;
+				protected var _backgroundChars : Dictionary;
+		protected var _linkChars : Dictionary;
 
 		public function AdvancedTextField( build : CharBuild = null, layout : CharLayout = null )
 		{
@@ -88,7 +89,7 @@ package abe.com.edia.text
 			_allowMask = true;
 			_type = TextFieldType.DYNAMIC;
 			_align = "left";
-			_backgroundChars = new Dictionary( true );
+			_backgroundChars = new Dictionary( true );			_linkChars = new Dictionary( true );
 			//mouseChildren = false;
 			//mouseEnabled = false;
 			tabEnabled = false;
@@ -100,12 +101,13 @@ package abe.com.edia.text
 			addEventListener( Event.ADDED_TO_STAGE, addedToStage, false, 0, true );			addEventListener( Event.REMOVED_FROM_STAGE, removedFromStage, false, 0, true );
 			
 			registerToBuildEvents( _build );
+			
+			Impulse.addEventListener( ImpulseEvent.TICK, tick, false, -1 );
 		}
 
 /*-------------------------------------------------------------------------
  * 	GETTER/SETTER
  *-------------------------------------------------------------------------*/
- 		public function get backgroundChars () : Dictionary { return _backgroundChars; }
 		override public function get width () : Number 
 		{
 			if( _layout.autoSize == TextFieldAutoSize.NONE || _layout.wordWrap )
@@ -140,19 +142,21 @@ package abe.com.edia.text
 		public function set text ( s : String ) : void
 		{
 			htmlText = StringUtils.stripTags( s );
-			
 		}
 		public function get htmlText () : String { return _text; }
 		public function set htmlText (s : String) : void
 		{
 			_text = s;
-			_backgroundChars = new Dictionary( true );
+			_backgroundChars = new Dictionary( true );			_linkChars = new Dictionary( true );
 			_build.buildChars( _text );
 			if( _allowMask )
 				scrollRect = new Rectangle(0,0,width,height);
 		}
 		
-		public function get chars () : Vector.<Char> { return _build.chars; }		
+		public function get chars () : Vector.<Char> { return _build.chars; }
+		public function get backgroundChars () : Dictionary { return _backgroundChars; }
+ 		public function get linkChars () : Dictionary { return _linkChars; }
+ 				
 		public function get effects () : Object { return _build.effects; }
 		
 		public function get build () : CharBuild { return _build; }
@@ -482,6 +486,7 @@ package abe.com.edia.text
 		}
 		protected function drawSelection () : void
 		{
+			Log.debug("draw selection");
 			setChildIndex(_selectionShape, numChildren-1 );
 			_selectionShape.graphics.clear();
 			
@@ -508,7 +513,7 @@ package abe.com.edia.text
 			{
 				var col : uint = _backgroundChars[ char ];
 				this.graphics.beginFill( col );
-				this.graphics.drawRect( char.x, char.y, char.width, char.height);
+				this.graphics.drawRect( char.x + char.charContent.x , char.y + char.charContent.y, char.width, char.height );
 				this.graphics.endFill();
 			}
 		}
@@ -527,21 +532,12 @@ package abe.com.edia.text
  *-------------------------------------------------------------------------*/
 		public function start () : void
 		{
-			if( !_isRunning )
-			{
-				_isRunning = true;
-				Impulse.register( tick );
-			}			for each( var o : Object in _build.effects )
+			for each( var o : Object in _build.effects )
 				if( o.hasOwnProperty( "start" ) )
 					o.start();
 		}
 		public function stop () : void
 		{
-			if( _isRunning )
-			{
-				_isRunning = false;
-				Impulse.unregister( tick );
-			}
 			for each( var o : Object in _build.effects )
 				if( o.hasOwnProperty( "stop" ) )
 					o.stop();
@@ -602,6 +598,7 @@ package abe.com.edia.text
 			{
 				_caretIndex = _selectionDragEndIndex = getCharIndexAtPoint( event.stageX, event.stageY );
 				_selectionDrag = false;
+				Log.debug( _selectionDragEndIndex );
 				updateSelection ();
 			}
 		}
@@ -610,6 +607,7 @@ package abe.com.edia.text
 			if( _selectable )
 			{
 				_caretIndex = _selectionDragEndIndex = _selectionDragStartIndex = getCharIndexAtPoint( event.stageX, event.stageY );				_selectionDrag = true;
+				Log.debug( _caretIndex );
 			}
 		}
 		protected function addedToStage (event : Event) : void 

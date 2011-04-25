@@ -3,15 +3,15 @@
  */
 package abe.com.edia.text.core 
 {
-
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class SpaceChar extends NullChar 
+	public class SpaceChar extends TextFieldChar 
 	{
-		override public function get text () : String
+		public function SpaceChar () 
 		{
-			return " ";
+			text = " ";
 		}
+		override public function get text () : String { return " "; }
 	}
 }

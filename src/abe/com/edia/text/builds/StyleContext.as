@@ -12,7 +12,7 @@ package abe.com.edia.text.builds
 	 */
 	public class StyleContext 
 	{
-		static private const FORMAT_PROPERTIES : Array = [ "font", "size","color","bold","italic","underline" ];
+		static private const FORMAT_PROPERTIES : Array = [ "font", "size","color","bold","italic","underline","letterSpacing" ];
 		
 		public var format : TextFormat;
 		public var chars : Vector.<Char>;

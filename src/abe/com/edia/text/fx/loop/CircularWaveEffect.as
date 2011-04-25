@@ -70,8 +70,8 @@ package abe.com.edia.text.fx.loop
 				
 				if( char.charContent )
 				{
-					char.charContent.x = Math.sin( angle + frequency * xs[ char ] ) * amplitude;
-					char.charContent.y = Math.cos( angle + frequency * xs[ char ] ) * amplitude;
+					char.charContent.x = Math.sin( angle + frequency * char.x ) * amplitude;
+					char.charContent.y = Math.cos( angle + frequency * char.y ) * amplitude;
 				}
 			}
 			angle += speed * e.biasInSeconds;	

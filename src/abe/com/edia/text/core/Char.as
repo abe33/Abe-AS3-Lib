@@ -39,6 +39,8 @@ package abe.com.edia.text.core
 		function get width () : Number;
 		function get height () : Number;
 		
+		function get baseline() : Number;
+		
 		function get scaleX () : Number;		function set scaleX ( n : Number ) : void;
 		
 		function get scaleY () : Number;

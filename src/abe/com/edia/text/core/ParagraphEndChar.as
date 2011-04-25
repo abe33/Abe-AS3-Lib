@@ -9,13 +9,6 @@ package abe.com.edia.text.core
 	 */
 	public class ParagraphEndChar extends NullChar 
 	{
-		public function ParagraphEndChar ()
-		{
-		}
-
-		override public function toString () : String 
-		{
-			return "";
-		}
+		override public function get text () : String {	return "\n"; }
 	}
 }
