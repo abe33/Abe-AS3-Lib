@@ -36,6 +36,7 @@ package abe.com.edia.text.layouts
 		protected var _owner : AdvancedTextField;
 		
 		protected var _numLines : uint;
+		protected var _linesRanges : Array;		protected var _lines : Array;
 		
 		protected var _chars : Vector.<Char>;		
 		private var __x__ : Number;
@@ -110,10 +111,27 @@ package abe.com.edia.text.layouts
 			_chars = null;
 			toAlign = null;
 		}
-
+		public function getLineIndexAt (y : Number) : int
+		{
+			var a : Number;			var b : Number;
+			var l : int = _linesRanges.length;			var i : int;
+			for ( i=1; i<l; i++ )
+			{
+				a = _linesRanges[i-1];				b = _linesRanges[i];
+				if( y > a && y < b )
+					return i-1;
+			}
+			return -1;
+		}
+		public function getLineAt ( i : uint ) : Array
+		{
+			return _lines[i];
+		}
 		public function layout( chars : Vector.<Char> ):void
 		{
 			_textSize = new Dimension();
+			_linesRanges = [0];
+			_lines = [];
 			
 			var l : Number = chars.length;
 			__x__ = 0;
@@ -125,7 +143,7 @@ package abe.com.edia.text.layouts
 			toAlign = [];
 			var wasParagraphEnd : Boolean;
 			var currentAlign : String = _owner.align;
-			var currentAlignLine : Vector.<Char> = new Vector.<Char>();
+			var currentAlignLine : Array = [];
 			var tc : Number = 0;
 			var i : Number;
 			_chars = chars.concat();
@@ -153,6 +171,7 @@ package abe.com.edia.text.layouts
 						}
 					
 						if( __lineHeight__ == 0)
+						
 							__lineHeight__ = c.lineHeight;
 						
 						__linewidth__ = __x__;
@@ -160,6 +179,7 @@ package abe.com.edia.text.layouts
 						__x__ = 0;
 						tc = 0;
 						__y__ += __lineHeight__ + _lineSpacing + _paragraphMargin;
+
 						
 						if( currentAlignLine != null && currentAlign != "left" )
 							toAlign.push( {line:currentAlignLine, align:currentAlign,width:__linewidth__} );
@@ -172,7 +192,7 @@ package abe.com.edia.text.layouts
 						*/
 						
 						currentAlign = c.align;						
-						currentAlignLine = new Vector.<Char>();	
+						currentAlignLine = [];	
 						
 						__lineHeight__ = 0;
 						__baseline__ = 0;
@@ -195,7 +215,7 @@ package abe.com.edia.text.layouts
 					case char is NewLineChar : 
 						if( !_multiline )
 							break;
-							
+						
 						if( __lineHeight__ == 0 )
 							__lineHeight__ = ( char as NewLineChar ).lineHeight;
 						
@@ -215,7 +235,7 @@ package abe.com.edia.text.layouts
 						
 						alignVertical( currentAlignLine );
 						
-						currentAlignLine = new Vector.<Char>();	
+						currentAlignLine = [];	
 						
 						if( wasParagraphEnd )
 							currentAlign = "left";
@@ -266,7 +286,7 @@ package abe.com.edia.text.layouts
 			_textSize.height = __y__ + __lineHeight__;
 		}
 
-		protected function lookupWordStart ( i : Number, chars:Vector.<Char>, currentAlignLine : Vector.<Char> ) : Number
+		protected function lookupWordStart ( i : Number, chars:Vector.<Char>, currentAlignLine : Array ) : Number
 		{
 			for(i=i-1;i>=0;i--)
 			{
@@ -281,19 +301,21 @@ package abe.com.edia.text.layouts
 			return 0;
 		}
 		
-		protected function alignVertical ( line : Vector.<Char> ) : void
+		protected function alignVertical ( line : Array ) : void
 		{
+			_linesRanges.push( __y__ );
+			_lines.push( line );
 			for each( var c : Char in line )
 				c.y += __baseline__ - c.baseline;				//c.y += __lineHeight__ - c.baseline;
 		}
 		
-		protected function alignRight ( line : Vector.<Char>, w : Number ) : void
+		protected function alignRight ( line : Array, w : Number ) : void
 		{
 			var dif : Number = _owner.width - w - 4;
 			for each( var c : Char in line )
 				c.x += dif;
 		}
-		protected function alignCenter ( line : Vector.<Char>, w : Number ) : void
+		protected function alignCenter ( line : Array, w : Number ) : void
 		{ 
 			var dif : Number = (_owner.width - w) / 2;
 			for each ( var c : Char in line )

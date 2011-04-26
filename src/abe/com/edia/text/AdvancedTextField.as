@@ -3,6 +3,9 @@
  */
 package abe.com.edia.text
 {
+	import abe.com.mon.logs.Log;
+	import flash.text.TextField;
+	import abe.com.edia.text.core.TextFieldChar;
 	import abe.com.edia.text.builds.BasicBuild;
 	import abe.com.edia.text.builds.CharBuild;
 	import abe.com.edia.text.core.Char;
@@ -20,9 +23,11 @@ package abe.com.edia.text
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.MathUtils;
+	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.utils.StringUtils;
+	import abe.com.mon.utils.arrays.firstIn;
+	import abe.com.mon.utils.arrays.lastIn;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
@@ -41,6 +46,8 @@ package abe.com.edia.text
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
 	import flash.text.TextLineMetrics;
+	import flash.ui.Mouse;
+	import flash.ui.MouseCursor;
 	import flash.utils.Dictionary;
 
 	[Event(name="change", type="flash.events.Event")]	[Event(name="link", type="flash.events.TextEvent")]
@@ -71,7 +78,8 @@ package abe.com.edia.text
 		protected var _selectionDragStartIndex : int;
 		protected var _selectionDragEndIndex : int;
 		
-		protected var _selectionShape : Shape;
+		protected var _selectionShape : Shape;		protected var _backgroundShape : Shape;
+		
 		protected var _alwaysShowSelection : Boolean;
 		protected var _focus : Boolean;
 		
@@ -89,6 +97,8 @@ package abe.com.edia.text
 			_allowMask = true;
 			_type = TextFieldType.DYNAMIC;
 			_align = "left";
+			_backgroundShape = new Shape();
+			addChild( _backgroundShape );
 			_backgroundChars = new Dictionary( true );			_linkChars = new Dictionary( true );
 			//mouseChildren = false;
 			//mouseEnabled = false;
@@ -297,13 +307,13 @@ package abe.com.edia.text
 			a = a.filter( charFilter );
 			
 			if( a.length > 0 )
-				return getCharIndex(a[a.length-1] as Char);
+				return getCharIndex( lastIn(a).parent as Char);
 			else
 				return -1;
 		}
 		protected function charFilter ( c : Object, ... args ) : Boolean 
 		{ 
-			return c is Char; 
+			return c.parent is Char; 
 		}
 		public function getFirstCharInParagraph ( charIndex : int ) : int
 		{
@@ -312,9 +322,9 @@ package abe.com.edia.text
 		}
 		public function getLineIndexAtPoint ( x : Number, y : Number ) : int
 		{
-			var ci : int = getCharIndexAtPoint(x, y);
+			var ci : int = _layout.getLineIndexAt( y );
 			
-			return getLineIndexOfChar( ci );
+			return ci;
 		}
 		public function getLineIndexOfChar ( charIndex : int ) : int
 		{
@@ -355,8 +365,10 @@ package abe.com.edia.text
 		}
 		public function getLineRange ( lineIndex : int ) : Range
 		{
-			var cli : int = findNthCharIndexAfter( 0, lineIndex, NewLineChar )+1;
-			var cli2 : int = findNthCharIndexAfter( cli, 1, NewLineChar )+1;
+			var chars : Array = _layout.getLineAt( lineIndex );
+			
+			var cli : int = getCharIndex( firstIn( chars ) );
+			var cli2 : int = getCharIndex( lastIn( chars ) );
 			
 			if( cli2 == 0 )
 				cli2 = _layout.chars.length;
@@ -486,7 +498,6 @@ package abe.com.edia.text
 		}
 		protected function drawSelection () : void
 		{
-			Log.debug("draw selection");
 			setChildIndex(_selectionShape, numChildren-1 );
 			_selectionShape.graphics.clear();
 			
@@ -508,13 +519,13 @@ package abe.com.edia.text
 		}
 		protected function drawCharBackground() : void
 		{
-			this.graphics.clear();
+			_backgroundShape.graphics.clear();
 			for( var char : * in  _backgroundChars )
 			{
 				var col : uint = _backgroundChars[ char ];
-				this.graphics.beginFill( col );
-				this.graphics.drawRect( char.x + char.charContent.x , char.y + char.charContent.y, char.width, char.height );
-				this.graphics.endFill();
+				_backgroundShape.graphics.beginFill( col );
+				_backgroundShape.graphics.drawRect( char.x + char.charContent.x , char.y + char.charContent.y, char.width, char.height );
+				_backgroundShape.graphics.endFill();
 			}
 		}
 /*-------------------------------------------------------------------------
@@ -578,6 +589,10 @@ package abe.com.edia.text
 		{
 			_layout.layout( _build.chars );
 			drawCharBackground();
+			this.graphics.clear();
+			this.graphics.beginFill( 0, 0);
+			this.graphics.drawRect(0, 0, width, height);
+			this.graphics.endFill();
 		}
 		protected function init ( e : Event ) : void
 		{
@@ -585,11 +600,25 @@ package abe.com.edia.text
 		}
 		protected function mouseMove (event : MouseEvent) : void 
 		{
+			var i : int = getCharIndexAtPoint( event.stageX, event.stageY );
 			if( _selectable && _selectionDrag )
 			{
-				_caretIndex = _selectionDragEndIndex = getCharIndexAtPoint( event.stageX, event.stageY );
+				if( i == -1 )
+				{
+					var li : int = getLineIndexAtPoint( event.stageX, event.stageY );
+					i = getLineRange( li ).max;
+				}
+				_caretIndex = _selectionDragEndIndex = i;
 				
 				updateSelection ();
+			}
+			else if( i != -1 )
+			{
+				var c : Char = _layout.chars[i];
+				if( c is TextFieldChar && (( c as TextFieldChar ).charContent as TextField ).htmlText.indexOf("<A HREF") != -1 )
+					Mouse.cursor = MouseCursor.BUTTON;
+				else
+					Mouse.cursor = MouseCursor.IBEAM;
 			}
 		}
 		protected function mouseUp (event : MouseEvent) : void 
@@ -598,7 +627,6 @@ package abe.com.edia.text
 			{
 				_caretIndex = _selectionDragEndIndex = getCharIndexAtPoint( event.stageX, event.stageY );
 				_selectionDrag = false;
-				Log.debug( _selectionDragEndIndex );
 				updateSelection ();
 			}
 		}
@@ -607,8 +635,14 @@ package abe.com.edia.text
 			if( _selectable )
 			{
 				_caretIndex = _selectionDragEndIndex = _selectionDragStartIndex = getCharIndexAtPoint( event.stageX, event.stageY );				_selectionDrag = true;
-				Log.debug( _caretIndex );
 			}
+		}
+		protected function mouseOut (event : MouseEvent) : void 
+		{
+			Mouse.cursor = MouseCursor.AUTO;		}
+		protected function mouseOver (event : MouseEvent) : void 
+		{
+			Mouse.cursor = MouseCursor.IBEAM;
 		}
 		protected function addedToStage (event : Event) : void 
 		{
@@ -658,12 +692,14 @@ package abe.com.edia.text
 		}
 		protected function registerToSelectableEvent () : void
 		{
-			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );			addEventListener( MouseEvent.MOUSE_UP, mouseUp );			addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );					}
+			addEventListener( MouseEvent.MOUSE_OVER, mouseOver );			addEventListener( MouseEvent.MOUSE_OUT, mouseOut );			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
+						StageUtils.stage.addEventListener( MouseEvent.MOUSE_UP, mouseUp );			StageUtils.stage.addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );		}
+		
 		protected function unregisterFromSelectableEvent () : void
 		{
-			removeEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
-			removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
-			removeEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
+			removeEventListener( MouseEvent.MOUSE_OVER, mouseOver );			removeEventListener( MouseEvent.MOUSE_OUT, mouseOut );			removeEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
+			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
+			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
 		}
 	}
 }
