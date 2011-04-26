@@ -139,7 +139,7 @@ package abe.com.edia.text.layouts
 			__linewidth__ = 0;
 			__lineHeight__ = 0;
 			__baseline__ = 0;
-			_numLines = 1;
+			_numLines = 0;
 			toAlign = [];
 			var wasParagraphEnd : Boolean;
 			var currentAlign : String = _owner.align;

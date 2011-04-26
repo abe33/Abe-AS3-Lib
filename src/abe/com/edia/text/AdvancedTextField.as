@@ -100,6 +100,7 @@ package abe.com.edia.text
 			_backgroundShape = new Shape();
 			addChild( _backgroundShape );
 			_backgroundChars = new Dictionary( true );			_linkChars = new Dictionary( true );
+			selectable = true;
 			//mouseChildren = false;
 			//mouseEnabled = false;
 			tabEnabled = false;
@@ -341,8 +342,15 @@ package abe.com.edia.text
 		}
 		public function getLineMetrics ( lineIndex : int ) : TextLineMetrics
 		{
-			var r : Range = getLineRange(lineIndex);
-			return _layout.getMetrics( r );
+			if( lineIndex >= _layout.numLines )
+			{
+				return new TextLineMetrics(0, 0, 0, 0, 0, 0);
+			}
+			else
+			{
+				var r : Range = getLineRange(lineIndex);
+				return _layout.getMetrics( r );
+			}
 		}
 		public function getLineOffset ( lineIndex : int ) : int
 		{
