@@ -41,8 +41,7 @@ package abe.com.edia.commands
 			_commandEndTimeout = commandEndTimeout;
 			_autoHideLaunch = autoHideLaunch;
 			_args = args;
-			_txt = new AdvancedTextField( );
-			Impulse.removeEventListener( ImpulseEvent.TICK, _txt.tick );
+			_txt = new AdvancedTextField();
 			
 			if( _commandEndTimeout != -1 )
 				_timeout = new Timeout( clearSpeech, _commandEndTimeout );
