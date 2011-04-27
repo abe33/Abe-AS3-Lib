@@ -1,28 +1,27 @@
 = AbeLib AS3 1.0
 
-The AbeLib library is a general purpose actionscript library. This library contains four
-distinct parts : 
+The AbeLib library is a general purpose actionscript library. This library contains four distinct parts : 
 
-* The abe.com.mon and abe.com.patibility packages contains all the general utilities, interfaces and classes used by the rest of the library. In abe.com.patibility you can find all the codecs and the gettext implementation used by the rest of the library.
+* The abe.com.mon and abe.com.p
+atibility packages contains all the general utilities, interfaces and classes used by the rest of the library. In abe.com.patibility you can find all the codecs and the gettext implementation used by the rest of the library.
 * The abe.com.mands and the abe.com.munication packages contains all the command pattern's implementations and some concret implementations of commands dealing with server call and web services.
 * The abe.com.motion and the abe.com.media packages contains the classes in charge of making things move.
 * The abe.com.ponents package contains the complete sets of components I created, with their own interfaces, classes and utilities.
 
 == Library dependencies
 
-The AbeLib library components set have one dependence regarding the spell checking, and since conditionnal compilation can't be used with import statements, event if you don't use the spelling features you should link to the Adobe Spelling SDK when compiling.
+The AbeLib library components set have many dependencies regarding different set of features and since conditionnal compilation can't be used with import statements, even if you don't use the these features you should link these dependencies in your project to avoid missing dependencies at compile time.
 
-The only *.swc required from the Adobe Spelling SDK is the AdobeSpellingEngine.swc file.
-
-The Adobe Spelling SDK can be found at http://labs.adobe.com/downloads/squiggly.html
+* The spell checking in text components is performed with the {Adobe Spelling SDK}[http://labs.adobe.com/downloads/squiggly.html], the only *.swc required from the Adobe Spelling SDK is the +AdobeSpellingEngine.swc+ file.
+* Classes related to ressources loading and management make usage of the {AS3SWF library}[http://code.google.com/p/as3swf/] to parse the bytecode of a *.swf file and extract its ressources.
+* The unit tests and the test runner are based on {Flex Unit}[http://opensource.adobe.com/wiki/display/flexunit/FlexUnit] and {Hamcrest AS3}[http://github.com/drewbourne/hamcrest-as3].
 
 == About the conditionnal compilation
 
-The AbeLib library make an heavy use of the actionscript's conditionnal compilation feature,
-conditionnal compilation is used to differenciate builds and to include or exclude functionnalities
+The AbeLib library make an heavy use of the actionscript's conditionnal compilation feature. Conditionnal compilation is used to differenciate builds and to include or exclude functionnalities
 from the components.
 
-The list and description of all the conditionnal compilation constant are available in the documentation annexes. See also the patch-flex-config.xml for a standard configuration.
+The list and description of all the conditionnal compilation constant are available in the github wiki of this project. See also the {patch-flex-config.xml}[https://github.com/abe33/Abe-AS3-Lib/blob/master/patch-flex-config.txt] for a standard configuration.
 
 == About the custom metadata tags
 
@@ -34,11 +33,8 @@ The AbeLib library use four custom metadatas tags :
 * +FormList+
 * +SettingsBackend+
 
-Those tags are mainly used by the components. The two first tags, +Skin+ and +Skinable+, are
-used to declare and link styles to components. The following two tags, +Form+ and +FormList+, are
-used to generate forms from objects by using the informations provided by these tags.
-The last one, +SettingsBackend+ is used in combination with the +ComponentFactoryPreload+ to specify
-the concret backend to use to handle the application settings management.
+Those tags are mainly used by the components. The two first tags, +Skin+ and +Skinable+, are used to declare and link styles to components. The following two tags, +Form+ and +FormList+, are used to generate forms from objects by using the informations provided by these tags.
+The last one, +SettingsBackend+ is used in combination with the +ComponentFactoryPreload+ to specify the concret backend to use to handle the application settings management.
 
 The list and description of all the custom metadata tags are available in the documentation annexes.
 See also the patch-flex-config.xml for a standard configuration.
