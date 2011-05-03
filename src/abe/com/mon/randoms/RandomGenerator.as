@@ -6,5 +6,6 @@ package abe.com.mon.randoms
 	public interface RandomGenerator 
 	{
 		function random() : Number;
+		function get isSeeded () : Boolean;
 	}
 }
