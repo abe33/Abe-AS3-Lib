@@ -1,5 +1,7 @@
-package abe.com.mon.utils 
+package abe.com.mon.randoms 
 {
+	import abe.com.mon.randoms.Random;
+	
 	import abe.com.mon.core.Randomizable;
 	/**
 	 * @author cedric

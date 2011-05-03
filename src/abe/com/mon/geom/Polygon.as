@@ -10,7 +10,7 @@ package abe.com.mon.geom
 	import abe.com.mon.utils.GeometryUtils;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.Random;
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.mon.utils.magicToReflectionSource;

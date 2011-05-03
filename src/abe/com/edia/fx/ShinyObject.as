@@ -11,7 +11,7 @@ package abe.com.edia.fx
 	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.Random;
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;

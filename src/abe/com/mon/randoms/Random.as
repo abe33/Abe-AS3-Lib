@@ -1,6 +1,5 @@
-package abe.com.mon.utils 
+package abe.com.mon.randoms 
 {
-	
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
 	import abe.com.mon.geom.pt;
