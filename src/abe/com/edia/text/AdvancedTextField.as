@@ -3,15 +3,13 @@
  */
 package abe.com.edia.text
 {
-	import abe.com.mon.logs.Log;
-	import flash.text.TextField;
-	import abe.com.edia.text.core.TextFieldChar;
 	import abe.com.edia.text.builds.BasicBuild;
 	import abe.com.edia.text.builds.CharBuild;
 	import abe.com.edia.text.core.Char;
 	import abe.com.edia.text.core.CharEvent;
 	import abe.com.edia.text.core.NewLineChar;
 	import abe.com.edia.text.core.ParagraphChar;
+	import abe.com.edia.text.core.TextFieldChar;
 	import abe.com.edia.text.core.WordWrapNewLineChar;
 	import abe.com.edia.text.layouts.BasicLayout;
 	import abe.com.edia.text.layouts.CharLayout;
@@ -23,6 +21,7 @@ package abe.com.edia.text
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
+	import abe.com.mon.geom.rect;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.utils.StringUtils;
@@ -42,6 +41,7 @@ package abe.com.edia.text
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
@@ -280,16 +280,16 @@ package abe.com.edia.text
 		public function get textWidth () : Number { return _layout.textSize.width; }
 		public function get textHeight () : Number { return _layout.textSize.height; }
 		
-		public function get maxScrollV () : int { return 0; }		
+		public function get maxScrollV () : int { return textHeight > height ? textHeight - height : 0; }		
 		public function get bottomScrollV () : int { return 0; }
 		
-		public function get scrollV () : int { return 0; }
-		public function set scrollV (s : int) : void {}
+		public function get scrollV () : int { return -y; }
+		public function set scrollV (s : int) : void { y = -s; }
 		
-		public function get maxScrollH () : int { return 0;	}
+		public function get maxScrollH () : int { return textWidth > width ? textWidth - width : 0;	}
 		
-		public function get scrollH () : int { return 0; }
-		public function set scrollH (s : int) : void {}
+		public function get scrollH () : int { return -x; }
+		public function set scrollH (s : int) : void { x = -s; }
 /*-------------------------------------------------------------------------
  * 	ITEXTFIELD METHODS
  *-------------------------------------------------------------------------*/
@@ -298,6 +298,9 @@ package abe.com.edia.text
 		public function getCharIndex ( char : Char ) : int { return _layout.chars.indexOf(char); }
 		public function getCharBoundaries (charIndex : int) : Rectangle
 		{
+			if( charIndex == -1 )
+				return rect();
+			
 			var c : Char = _layout.chars[ charIndex ];
 			return new Rectangle( c.x, c.y, c.width, c.height );
 		}
@@ -308,7 +311,7 @@ package abe.com.edia.text
 			a = a.filter( charFilter );
 			
 			if( a.length > 0 )
-				return getCharIndex( lastIn(a).parent as Char);
+				return getCharIndex( firstIn(a).parent as Char);
 			else
 				return -1;
 		}
@@ -376,7 +379,7 @@ package abe.com.edia.text
 			var chars : Array = _layout.getLineAt( lineIndex );
 			
 			var cli : int = getCharIndex( firstIn( chars ) );
-			var cli2 : int = getCharIndex( lastIn( chars ) );
+			var cli2 : int = getCharIndex( lastIn( chars ) ) + 1;
 			
 			if( cli2 == 0 )
 				cli2 = _layout.chars.length;
@@ -597,10 +600,11 @@ package abe.com.edia.text
 		{
 			_layout.layout( _build.chars );
 			drawCharBackground();
+			/*
 			this.graphics.clear();
-			this.graphics.beginFill( 0, 0);
+			this.graphics.beginFill( 0, .1);
 			this.graphics.drawRect(0, 0, width, height);
-			this.graphics.endFill();
+			this.graphics.endFill();*/
 		}
 		protected function init ( e : Event ) : void
 		{
