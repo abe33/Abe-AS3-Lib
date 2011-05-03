@@ -18,8 +18,6 @@ package abe.com.edia.text.fx.show
 		protected var activeChars : Vector.<Char>;
 		protected var charsLife : Dictionary;
 		protected var tweenDuration : Number;
-		protected var xs : Dictionary;
-		protected var ys : Dictionary;
 		protected var sizexs : Dictionary;
 		protected var sizeys : Dictionary;
 		protected var easing : Function;
@@ -39,8 +37,6 @@ package abe.com.edia.text.fx.show
 		{
 			activeChars = new Vector.<Char>( );
 			charsLife = new Dictionary( true );
-			xs = new Dictionary( true );
-			ys = new Dictionary( true );
 			sizexs = new Dictionary( true );
 			sizeys = new Dictionary( true );
 			
@@ -48,8 +44,6 @@ package abe.com.edia.text.fx.show
 			for(var i : Number = 0; i < l; i++ )
 			{
 				var char : Char = chars[ i ];
-				xs[ char ] = char.x;
-				ys[ char ] = char.y;
 				sizexs[ char ] = char.width;
 				sizeys[ char ] = char.height;
 			}
@@ -92,7 +86,7 @@ package abe.com.edia.text.fx.show
 					
 					var r : Number = this.easing ( l, 0, 1, tweenDuration );
 					
-					char.scaleX = char.scaleY = r;
+					char.charContent.scaleX = char.charContent.scaleY = r;
 					
 					updateCharPos( char, r );
 					
@@ -100,9 +94,9 @@ package abe.com.edia.text.fx.show
 					
 					if( l > tweenDuration )
 					{
-						char.scaleX = char.scaleY = 1;
-						char.x = xs[ char ];
-						char.y = ys[ char];
+						char.charContent.scaleX = char.charContent.scaleY = 1;
+						char.charContent.x = 0;
+						char.charContent.y = 0;
 						activeChars.splice( activeChars.indexOf( char ), 1 );
 					}
 						
@@ -118,7 +112,7 @@ package abe.com.edia.text.fx.show
 		override protected function showCharOnShowAll (char : Char) : void
 		{
 			showChar(char);
-			char.scaleX = char.scaleY = 1;
+			char.charContent.scaleX = char.charContent.scaleY = 1;
 			updateCharPos(char, 1);
 		}
 
@@ -129,7 +123,7 @@ package abe.com.edia.text.fx.show
 			if( char != null )
 			{
 				showChar(char);
-				char.scaleX = char.scaleY = .1;
+				char.charContent.scaleX = char.charContent.scaleY = .1;
 				initCharPos(char);
 				activeChars.push( char );
 			}
@@ -155,13 +149,13 @@ package abe.com.edia.text.fx.show
 		
 		protected function initCharPos ( char : Char ) : void
 		{
-			char.x = xs[ char ] + ( sizexs[ char ] - sizexs[ char ] * .1 ) / 2;
-			char.y = ys[ char] + ( sizeys[ char ] - sizeys[ char ] * .1 ) / 2;
+			char.charContent.x = ( sizexs[ char ] - sizexs[ char ] * .1 ) / 2;
+			char.charContent.y = ( sizeys[ char ] - sizeys[ char ] * .1 ) / 2;
 		}
 		protected function updateCharPos ( char : Char, r : Number ) : void
 		{
-			char.x = xs[ char ] + ( sizexs[ char ] - sizexs[ char ] * r ) / 2;
-			char.y = ys[ char] + ( sizeys[ char ] - sizeys[ char ] * r ) / 2;
+			char.charContent.x = ( sizexs[ char ] - sizexs[ char ] * r ) / 2;
+			char.charContent.y = ( sizeys[ char ] - sizeys[ char ] * r ) / 2;
 		}
 	}
 }

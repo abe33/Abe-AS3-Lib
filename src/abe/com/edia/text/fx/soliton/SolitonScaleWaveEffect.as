@@ -37,9 +37,9 @@ package abe.com.edia.text.fx.soliton
 		override protected function changeChar ( c : Char, i : Number ) : void
 		{
 			var factor : Number = 1+i * waveAmplitude;
-			c.scaleX = c.scaleY = factor;
-			c.x = xs[ c ] + ( sizexs[ c ] - sizexs[ c ] * factor ) / 2;
-			c.y = ys[ c ] + ( sizeys[ c ] - sizeys[ c ] * factor ) / 2;			
+			c.charContent.scaleX = c.charContent.scaleY = factor;
+			c.charContent.x = ( sizexs[ c ] - sizexs[ c ] * factor ) / 2;
+			c.charContent.y = ( sizeys[ c ] - sizeys[ c ] * factor ) / 2;			
 		}
 	}
 }

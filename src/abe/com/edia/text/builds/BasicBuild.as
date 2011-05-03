@@ -7,10 +7,10 @@ package abe.com.edia.text.builds
 	import abe.com.edia.text.core.Char;
 	import abe.com.edia.text.core.CharEvent;
 	import abe.com.edia.text.core.NewLineChar;
+	import abe.com.edia.text.core.NonBreakingSpaceChar;
 	import abe.com.edia.text.core.NullChar;
 	import abe.com.edia.text.core.ParagraphChar;
 	import abe.com.edia.text.core.ParagraphEndChar;
-	import abe.com.edia.text.core.SpaceChar;
 	import abe.com.edia.text.core.SpriteChar;
 	import abe.com.edia.text.core.TabChar;
 	import abe.com.edia.text.core.TextFieldChar;
@@ -37,12 +37,17 @@ package abe.com.edia.text.builds
 		static private const END_SUFFIX : String = ":end";
 
 		// 
-		public var _embedFonts : Boolean;
-		// 
 		public var cacheAsBitmap : Boolean;
 		//
 		public var antiAliasType : String;
-
+		// un object stockant les instance crées de Char
+		public var created : Object;
+		// un objet stockant les instances supprimées de Char
+		public var removed : Object;
+		
+		public var linkTextFormatter : Function;
+		// 
+		protected var _embedFonts : Boolean;
 		// le format original du champs de texte
 		protected var _format : TextFormat;
 		// un vecteur contenant tout les caractère de la chaîne une fois traitée.s
@@ -62,19 +67,11 @@ package abe.com.edia.text.builds
 		protected var _owner : AdvancedTextField;
 		// 
 		protected var _styleContextRoot : StyleContext;
-		
 		// le context de construction courant 
 		private var currentBuildContext : BuildContext;		// le context de style courant
 		private var currentStyleContext : StyleContext;
 		// vecteurs des context
 		private var styleContexts : Vector.<StyleContext>;
-		
-		// un object stockant les instance crées de Char
-		private var created : Object;
-		// un objet stockant les instances supprimées de Char
-		private var removed : Object;
-		// la position du curseur de traitement
-		private var i : Number;
 		// le nombre initial de char dans _chars au départ du traitement
 		private var m : Number;
 		// l'instance courante de Char
@@ -85,13 +82,14 @@ package abe.com.edia.text.builds
 		private var forceRebuild : Boolean;
 		
 		public function BasicBuild( defaultFormat : TextFormat = null, 
-									cacheAsBitmap : Boolean = true, 
+									cacheAsBitmap : Boolean = false, 
 									embedFonts : Boolean = false, 
 									antiAliasType : String = "advanced" )
 		{
 			//this.cacheAsBitmap = cacheAsBitmap;
 			this._embedFonts = embedFonts;
 			this.antiAliasType = antiAliasType;
+			this.cacheAsBitmap = cacheAsBitmap;
 			
 			_format = defaultFormat ? defaultFormat : new TextFormat( "Verdana", 12, 0x000000, false, false, false );
 			_chars = new Vector.<Char> ();				
@@ -111,7 +109,7 @@ package abe.com.edia.text.builds
 			_tagMapping.i = italic;
 			_tagMapping.u = underline;
 			_tagMapping.p = paragraph;			_tagMapping.img = image;			_tagMapping.font = font;			_tagMapping.br = br;
-			_tagMapping[ "p:end" ] = paragraphEnd;
+			_tagMapping[ "p" + END_SUFFIX ] = paragraphEnd;
 			_tagMapping[ "fx:effect" ] = effect;			_tagMapping[ "fx:filter" ] = filter;
 			
 			_charMapping[ "&nbsp;" ] = nbsp;
@@ -159,15 +157,14 @@ package abe.com.edia.text.builds
 				fxid = 0;
 				// on supprime tout les effets qui auraient pu être créer la fois précédente
 				for each (var j : CharEffect in _effects )
-				{
 					j.dispose();
-				}
 				_effects = {};
 				
 				if( txt.length != 0 )
 				{		
 					// on créer un currentBuildContext de départ, basé sur le format transmis à cette instance de CharBuild			
 					currentBuildContext = new BuildContext();
+					currentBuildContext.build = this;
 					//currentBuildContext.format = _format;
 					currentBuildContext.embedFonts = _embedFonts;					currentBuildContext.cacheAsBitmap = cacheAsBitmap;
 					_buildContexts.push( currentBuildContext );
@@ -181,7 +178,7 @@ package abe.com.edia.text.builds
 					var iterator : StringIterator = new StringIterator( txt );
 					
 					// on initialise le compteur de caractère
-					i = -1;
+					currentBuildContext.i = -1;
 					// on initialise le nombre de caractère créer dans le build précédent
 					m = _chars.length;
 					// on initialise les objets de modifications
@@ -191,17 +188,17 @@ package abe.com.edia.text.builds
 					var newLength : Number;
 					
 					// tant qu'on a des caractère dans la chaîne ou d'un build précédent
-					while( ++i < m || iterator.hasNext() )
+					while( ++currentBuildContext.i < m || iterator.hasNext() )
 					{
 						// on récup le caractère de la chaine et celui du build précédent					
 						var l : String = iterator.hasNext() ? iterator.next() as String : null;
-						char = i < m ? _chars[ i ] : null;	
+						char = currentBuildContext.i < m ? _chars[ currentBuildContext.i ] : null;	
 						
 						// si il n'y a plus de caractère dans la chaine			
 						if( l == null)
 						{
 							if( isNaN( newLength ) )
-								newLength = i;
+								newLength = currentBuildContext.i;
 								
 							// et le caractère associé
 							checkCharRelease ( char );
@@ -209,9 +206,7 @@ package abe.com.edia.text.builds
 						}
 						// si c'est l'ouverture d'une balise
 						else if( l == "<" )
-						{
 							checkTag(iterator);
-						}
 						// si c'est un espace on créer un caractère nul selon le type d'espace
 						else if( new RegExp( "[\\n\\t\\r]+", "g" ).test( l ) )
 						{		
@@ -229,11 +224,7 @@ package abe.com.edia.text.builds
 									break;
 							}
 							
-							// on remplace ou ajoute en fonction de l'index
-							setChar( i, lt );
-							
-							// et si un champs de texte précédent existait on le supprime
-							checkCharRelease ( char );
+							currentBuildContext.setChar( lt );
 							continue;
 						}
 						// on est dans le cas général
@@ -241,21 +232,19 @@ package abe.com.edia.text.builds
 						{
 							// si c'est le début d'un caractère spécial
 							if( l == "&" )
-							{
 								l = checkSpecialChar(iterator);
-							}
 							// s'il s'agit d'une image
 							if ( char is SpriteChar )
 							{
-								removed[ i ] = char;
+								removed[ currentBuildContext.i ] = char;
 								char = null;	
 							}
 							// si il n'y a pas de champs texte, on en récupère un
 							if( char == null || char is NullChar )
 							{
 							 	char = getChar( l, currentBuildContext );
-							 	created[ i ] =  char;
-								setChar( i, char );
+							 	created[ currentBuildContext.i ] =  char;
+								setChar( currentBuildContext.i, char );
 								
 							}
 							// on force la réaffectation de l'embed si changement
@@ -268,16 +257,11 @@ package abe.com.edia.text.builds
 							char.filters = currentBuildContext.filters;
 							
 							if( !isNaN( currentBuildContext.backgroundColor ) )
-							{
-								char.background = true,
-								char.backgroundColor = currentBuildContext.backgroundColor;
-							}
+								_owner.backgroundChars[ char ] = currentBuildContext.backgroundColor;
 							
 							// on ajoute ce caractère a tout les effets du currentBuildContexte
 							for each ( var k : CharEffect in currentBuildContext.effects )
-							{
 								k.addChar( char );						
-							}
 							
 							// on définit le texte de ce caractère selon qu'un lien est défini dans le currentBuildContexte ou non
 							if( currentBuildContext.link )
@@ -285,13 +269,11 @@ package abe.com.edia.text.builds
 								char.text = "<a href='event:" + currentBuildContext.link + "'>" + l + "</a>";
 							}
 							else
-							{
 								char.text = l;
-							}
 						}
 					}
 					// on modifie la longueur du tableau pour toujours n'avoir que les char courante
-					_chars.length = isNaN( newLength ) ? i : newLength;
+					_chars.length = isNaN( newLength ) ? currentBuildContext.i : newLength;
 					
 					updateCharsFormat();
 					
@@ -304,9 +286,7 @@ package abe.com.edia.text.builds
 										
 					// initialise tout les effets 
 					for each ( var n : CharEffect in _effects )
-					{
 						n.init();
-					}
 					
 					// le processus est fini
 					fireInit ();
@@ -349,6 +329,10 @@ package abe.com.edia.text.builds
 		public function addCharMapping ( char : String, func : Function ) : void
 		{
 			_charMapping[ char ] = func;
+		}
+		public function addTagMapping ( tag : String, func : Function ) : void
+		{
+			_tagMapping[ tag ] = func;
 		}
 		public function removeCharMapping ( char : String ) : Boolean
 		{
@@ -451,18 +435,19 @@ package abe.com.edia.text.builds
 		{
 			var a : Array = s.substr(0,-1).split(" ");
 			var tag : String = a[0];
-			
 			var xml : XML = new XML ( "<root xmlns:fx='http://abe.fr/fx'><" + s.substr(0,-1) + "/></root>" );
 				
-			
 			if( _tagMapping.hasOwnProperty( tag ) )
 			{
-				(_tagMapping[ tag ] as Function).call( null, cloneContext( currentBuildContext ), parseAttributes( xml.children()[0] ) );
+				currentBuildContext.char = char;
+				var context : BuildContext = cloneContext( currentBuildContext );
+				(_tagMapping[ tag ] as Function).call( null, context, currentStyleContext, parseAttributes( xml.children()[0] ) );
+				char = context.char;
 				return true;
 			}
 			else
 			{
-				Log.warn( "unknown tag <" + tag +">" );
+				Log.warn( "unknown tag <" + tag +"/>" );
 				return false;
 			}
 		}
@@ -474,22 +459,31 @@ package abe.com.edia.text.builds
 				tag = s.substr(1);
 				if( _tagMapping.hasOwnProperty( tag ) && _activeTags[ _activeTags.length -1 ] == tag )
 				{
+					
 					if( _tagMapping.hasOwnProperty( tag + END_SUFFIX ) )
-						_tagMapping[ tag + END_SUFFIX ].call( null, currentBuildContext, null );
+					{
+						currentBuildContext.char = char;
+						_tagMapping[ tag + END_SUFFIX ].call( null, currentBuildContext, currentStyleContext, null );
+						char = currentBuildContext.char;
+					}
 					else
-						i--;
-						
+						currentBuildContext.i--;
+					
 					_activeTags.pop();
 					_buildContexts.pop();
 					styleContexts.pop();
 					
+					var i : uint = currentBuildContext.i;
+					
 					currentStyleContext = styleContexts[ styleContexts.length - 1 ];
 					currentBuildContext = _buildContexts[ _buildContexts.length -1 ];
+					currentBuildContext.i = i;
+					currentBuildContext.char = char;
 				}
 			}
 			else
 			{
-				var a : Array = s.split(" ");
+				var a : Array = s.split( /\s+/g );
 				tag = a[0];
 				
 				var xml : XML = new XML ( "<root xmlns:fx='http://abe.fr/fx'><" + s + "/></root>" );
@@ -500,11 +494,13 @@ package abe.com.edia.text.builds
 					styleContext.format = new TextFormat();//currentBuildContext.format;
 					currentStyleContext.subContexts.push( styleContext );
 					currentStyleContext = styleContext;
+					currentBuildContext.char = char;
+					currentBuildContext = cloneContext( currentBuildContext );
 					
-					currentBuildContext = (_tagMapping[ tag ] as Function).call( 
-									null, cloneContext( currentBuildContext ), parseAttributes( xml.children()[0] ) );
+					( _tagMapping[ tag ] as Function).call( 
+									null, currentBuildContext, currentStyleContext, parseAttributes( xml.children()[0] ) );
 					
-					
+					char = currentBuildContext.char;
 					_activeTags.push( tag );
 					
 					styleContexts.push( currentStyleContext );
@@ -512,18 +508,14 @@ package abe.com.edia.text.builds
 					
 				}
 				else
-				{
 					Log.debug( "unknown tag : <" + tag +">" );
-				}
 			}			
 		}
 		protected function parseAttributes ( x : XML ) : Object
 		{
 			var o : Object = {};
 			for each( var att:XML in x.attributes() )
-			{		
 				o[ att.name().toString() ] = toArgument( att.toString() );
-			}
 			return o;
 		}
 		protected function parseArguments ( s : String ) : Array
@@ -546,9 +538,7 @@ package abe.com.edia.text.builds
 			if( isNaN( numval ) )
 			{
 				if( s == "false" || s == "true" )
-				{
 					return s == "true";
-				}
 				else if( s.indexOf(",") != -1 && s.indexOf("(") == -1 )
 				{
 					var a : Array = s.split(",");
@@ -561,32 +551,29 @@ package abe.com.edia.text.builds
 			else return numval;
             return undefined;
         }
-
+        
 		/*--------------------------------------------------------------------------
 		 * 	DOUBLE TAGS NODES
 		 *-------------------------------------------------------------------------*/
 
-		protected function bold ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function bold ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
-			i--;
+			currentBuildContext.notAChar();
 			//currentBuildContext.format.bold = true;			currentStyleContext.format.bold = true;
-			return currentBuildContext;
 		}
-		protected function italic ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function italic ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
-			i--;
+			currentBuildContext.notAChar();
 			//currentBuildContext.format.italic = true;			currentStyleContext.format.italic = true;
-			return currentBuildContext;	
 		}
-		protected function underline ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function underline ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
-			i--;
+			currentBuildContext.notAChar();
 			//currentBuildContext.format.underline = true;			currentStyleContext.format.underline = true;
-			return currentBuildContext;
 		}
-		protected function font ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function font ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
-			i--;
+			currentBuildContext.notAChar();
 			if( attributes.hasOwnProperty( "embedFonts" ) )
 				currentBuildContext.embedFonts = attributes.embedFonts;	
 				
@@ -602,39 +589,31 @@ package abe.com.edia.text.builds
 			if( attributes.hasOwnProperty( "size" ) )
 				currentStyleContext.format.size = attributes.size;
 				
+			if( attributes.hasOwnProperty( "letterSpacing" ) )
+			{
+				currentStyleContext.format.letterSpacing = parseInt( attributes.letterSpacing );
+			}
 			if( attributes.hasOwnProperty( "background" ) )
 				currentBuildContext.backgroundColor = parseInt( attributes.background );
 				
-			return currentBuildContext;
 		}
-		protected function paragraphEnd ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function paragraphEnd ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
-			checkCharRelease ( char );			
-			var c : ParagraphEndChar = new ParagraphEndChar();
-			
-			char = c;	
-			setChar(i, char);
-			return currentBuildContext;
+			currentBuildContext.setChar( new ParagraphEndChar() );
 		}
-		protected function paragraph ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function paragraph ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
 			if( !attributes.hasOwnProperty( "align" ) )
-			{
 				attributes.align = "left";
-			}
-			checkCharRelease ( char );		
 			
 			var c : ParagraphChar = new ParagraphChar( attributes.align );
 			currentBuildContext.align = attributes.align;
 			
-			char = c;	
-			setChar(i, char);	
-
-			return currentBuildContext;	
+			currentBuildContext.setChar( c );
 		}
-		protected function effect ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function effect ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
-			i--;
+			currentBuildContext.notAChar();
 			if( attributes.hasOwnProperty( "type" ) )
 			{
 				//var a : Array = attributes.type.split( "(" );
@@ -648,55 +627,39 @@ package abe.com.edia.text.builds
 				else
 					_effects[ fxid++ ] = fx;
 			}
-			
-			return currentBuildContext;
 		}
-		protected function filter ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function filter ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
-			i--;
+			currentBuildContext.notAChar();
 			if( attributes.hasOwnProperty( "type" ) )
 			{
 				var fx : BitmapFilter = Reflection.get( attributes.type ) as BitmapFilter;
 				
-				currentBuildContext.filters.push( fx );			}
-			
-			return currentBuildContext;
+				currentBuildContext.filters.unshift( fx );			}
 		}
-		protected function anchor ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function anchor ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
-			i--;
+			currentBuildContext.notAChar();
 			if( attributes.hasOwnProperty( "href" ) )
-			{
 				currentBuildContext.link = attributes.href;	
-			}
-			
-			return currentBuildContext;
+				
+			if( linkTextFormatter != null )
+				linkTextFormatter( currentBuildContext, currentStyleContext, attributes );
 		}
-		
 		/*--------------------------------------------------------------------------
 		 * 	SINGLE TAG NODES
 		 *-------------------------------------------------------------------------*/
-		
-		protected function br ( currentBuildContext : BuildContext, attributes : Object ) : BuildContext
+		protected function br ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
-			checkCharRelease ( char );		
-			
-			var c : NewLineChar = new NewLineChar();
-			
-			char = c;	
-			setChar(i, char);	
-
-			return currentBuildContext;	
+			currentBuildContext.setChar( new NewLineChar() );
 		}
-		protected function image ( currentBuildContext : BuildContext, attributes : Object ) : void
+		protected function image ( currentBuildContext : BuildContext, currentStyleContext : StyleContext, attributes : Object ) : void
 		{
 			if( attributes.hasOwnProperty( "src" ) )
 			{
-				checkCharRelease ( char );
-								
 				var d : DisplayObject = new (Reflection.get( attributes.src ) as Class)();
 				
-				var c : SpriteChar = new SpriteChar();
+				var c : SpriteChar = new SpriteChar( d );
 				if( currentBuildContext.link )
 					c.link = currentBuildContext.link;
 				
@@ -705,19 +668,7 @@ package abe.com.edia.text.builds
 				if( attributes.hasOwnProperty("y") )
 					d.y = parseFloat( attributes["y"]);
 				 
-				c.addChild( d );
-				
-				char = c;
-				char.filters = currentBuildContext.filters;
-				
-				created[i] = char;
-								
-				setChar(i, char);
-				
-				for each ( var q : CharEffect in currentBuildContext.effects )
-				{
-					q.addChar( char );						
-				}
+				currentBuildContext.setChar( c );
 			}			
 		}
 		/*--------------------------------------------------------------------------
@@ -725,7 +676,7 @@ package abe.com.edia.text.builds
 		 *-------------------------------------------------------------------------*/
 		protected function nbsp ( char : String, currentBuildContext : BuildContext ) : Char
 		{
-			return new SpaceChar();
+			return new NonBreakingSpaceChar();
 		}
 		/*--------------------------------------------------------------------------
 		 * 	CONTEXT AND DEFAULTS
@@ -734,15 +685,9 @@ package abe.com.edia.text.builds
 		protected function cloneContext ( currentBuildContext : BuildContext ) : BuildContext
 		{
 			var c : BuildContext = new BuildContext();
-			/*
-			var ntf : TextFormat = new TextFormat( 
-							currentBuildContext.format.font,
-							currentBuildContext.format.size,
-							currentBuildContext.format.color, 
-							currentBuildContext.format.bold, 
-							currentBuildContext.format.italic, 
-							currentBuildContext.format.underline );
-			*/
+
+			c.char = currentBuildContext.char;
+			c.build = this;
 			c.effects = currentBuildContext.effects.concat();
 			c.filters = currentBuildContext.filters.concat();
 			c.align = currentBuildContext.align;
@@ -750,10 +695,11 @@ package abe.com.edia.text.builds
 			c.cacheAsBitmap = currentBuildContext.cacheAsBitmap;
 			//c.format = ntf;
 			c.backgroundColor = currentBuildContext.backgroundColor;
+			c.i = currentBuildContext.i;
 			
 			return c;
 		}
-        protected function setDefaults( char : TextFieldChar, currentBuildContext : BuildContext ) : TextFieldChar
+        public function setDefaults( char : TextFieldChar, currentBuildContext : BuildContext ) : TextFieldChar
 		{
 			char.visible = true;
 			char.alpha = 1;

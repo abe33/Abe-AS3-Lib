@@ -3,7 +3,7 @@
  */
 package abe.com.edia.text.core 
 {
-
+	import abe.com.mon.utils.StringUtils;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -13,12 +13,9 @@ package abe.com.edia.text.core
 		
 		public function ParagraphChar ( align : String = "left" )
 		{
+			super( true );
 			this.align = align;
 		}
-
-		override public function toString () : String
-		{
-			return "";
-		}
+		override public function get text () : String { return StringUtils.tokenReplace( "\n", align ); }
 	}
 }

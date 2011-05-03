@@ -3,6 +3,7 @@
  */
 package abe.com.edia.text.core
 {
+	import flash.display.DisplayObject;
 	import flash.text.TextFormat;
 
 	/**
@@ -10,6 +11,8 @@ package abe.com.edia.text.core
 	 */
 	public interface Char 
 	{	
+		function get charContent () : DisplayObject; 
+		
 		function get x () : Number;
 		function set x ( n : Number ) : void;
 
@@ -35,6 +38,8 @@ package abe.com.edia.text.core
 		
 		function get width () : Number;
 		function get height () : Number;
+		
+		function get baseline() : Number;
 		
 		function get scaleX () : Number;		function set scaleX ( n : Number ) : void;
 		

@@ -65,9 +65,10 @@ package abe.com.edia.text.fx.show
 		override protected function showChar (char : Char) : void
 		{
 			super.showChar( char );
+			/*
 			if( char.y != ys[char] )
 				ys[char] = char.y;
-			
+			*/
 			char.y = ys[char] - height;
 			activeChars.push( char );
 			
@@ -104,12 +105,15 @@ package abe.com.edia.text.fx.show
 			{
 				for each( var char : Char in activeChars )
 				{
-					speedY[ char ] += e.biasInSeconds * gravity;					speedY[ char ] *= .9;
+					speedY[ char ] += e.biasInSeconds * gravity;					speedY[ char ] *= 0.9;
 					char.y += speedY[ char ];
 					if( char.y >= ys[char] )
 					{
-						speedY[ char ] *= -1;
+						speedY[ char ] *= -0.9;
 						char.y = ys[char];
+						
+						if( Math.abs(speedY[ char ]) > 0.1 )
+							bounceOccured( char );
 					}
 					
 					if( Math.abs(speedY[ char ]) <= 0.1 &&
@@ -126,5 +130,6 @@ package abe.com.edia.text.fx.show
 				}
 			}
 		}
+		protected function bounceOccured (char : Char) : void {}
 	}
 }
