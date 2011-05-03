@@ -100,7 +100,7 @@ package abe.com.edia.text
 			_backgroundShape = new Shape();
 			addChild( _backgroundShape );
 			_backgroundChars = new Dictionary( true );			_linkChars = new Dictionary( true );
-			selectable = true;
+			//selectable = true;
 			//mouseChildren = false;
 			//mouseEnabled = false;
 			tabEnabled = false;
