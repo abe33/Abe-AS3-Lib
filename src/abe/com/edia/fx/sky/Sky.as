@@ -4,8 +4,8 @@ package abe.com.edia.fx.sky
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
 	import abe.com.mon.colors.Color;
-	import abe.com.mon.utils.MTRandom;
-	import abe.com.mon.utils.Random;
+	import abe.com.mon.randoms.MTRandom;
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.RandomUtils;
 
 	import flash.display.BitmapData;

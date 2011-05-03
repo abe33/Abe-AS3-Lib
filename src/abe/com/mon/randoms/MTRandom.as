@@ -1,7 +1,7 @@
 /**
  * @license
  */
-package abe.com.mon.utils
+package abe.com.mon.randoms
 {
 	import abe.com.mon.core.Randomizable;
 	/**
@@ -56,6 +56,7 @@ package abe.com.mon.utils
 		{
 			return ( Number( seed() )/ 0xffffffff * 2 );
 		}
+		public function get isSeeded () : Boolean { return true; }
 		/**
 		 * Renvoie le prochain entier de la séquence pseudo-aléatoire.
 		 *

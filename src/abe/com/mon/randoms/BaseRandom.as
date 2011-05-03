@@ -1,4 +1,4 @@
-package abe.com.mon.utils 
+package abe.com.mon.randoms 
 {
 	import abe.com.mon.core.Randomizable;
 	/**
@@ -11,9 +11,7 @@ package abe.com.mon.utils
 			o.randomSource = new Random();
 			return o;
 		}
-		public function random () : Number
-		{
-			return Math.random();
-		}
+		public function random () : Number { return Math.random(); }
+		public function get isSeeded () : Boolean { return false; }
 	}
 }

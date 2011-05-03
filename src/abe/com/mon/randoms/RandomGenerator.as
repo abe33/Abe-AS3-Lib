@@ -1,4 +1,4 @@
-package abe.com.mon.utils 
+package abe.com.mon.randoms 
 {
 	/**
 	 * @author cedric
@@ -6,5 +6,6 @@ package abe.com.mon.utils
 	public interface RandomGenerator 
 	{
 		function random() : Number;
+		function get isSeeded () : Boolean;
 	}
 }

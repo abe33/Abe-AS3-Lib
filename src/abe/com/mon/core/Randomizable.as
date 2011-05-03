@@ -3,7 +3,7 @@
  */
 package abe.com.mon.core 
 {
-	import abe.com.mon.utils.Random;
+	import abe.com.mon.randoms.Random;
 	/**
 	 * A <code>Randomizable</code> object is subject to random in its behavior. 
 	 * A <code>Randomizable</code> object defines a <code>randomSource</code>, another
