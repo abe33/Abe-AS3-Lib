@@ -3,6 +3,7 @@
  */
 package abe.com.edia.text.fx 
 {
+	import flash.display.DisplayObject;
 	import abe.com.mon.core.Clearable;
 	import abe.com.edia.text.core.Char;
 	import abe.com.mon.core.Allocable;
@@ -36,7 +37,8 @@ package abe.com.edia.text.fx
 		}
 		public function addChar (l : Char) : void
 		{
-			chars.push( l );
+			if( l is DisplayObject )
+				chars.push( l );
 		}
 		public function init () : void
 		{
