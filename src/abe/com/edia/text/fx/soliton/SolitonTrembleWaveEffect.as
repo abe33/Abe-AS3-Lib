@@ -5,7 +5,6 @@ package abe.com.edia.text.fx.soliton
 {
 	import abe.com.edia.text.core.Char;
 	import abe.com.mon.utils.RandomUtils;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

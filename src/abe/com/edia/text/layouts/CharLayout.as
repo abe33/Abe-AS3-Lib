@@ -10,7 +10,6 @@ package abe.com.edia.text.layouts
 	import abe.com.mon.geom.Range;
 
 	import flash.text.TextLineMetrics;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

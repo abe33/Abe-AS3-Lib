@@ -1,14 +1,25 @@
 package abe.com.ponents.monitors 
 {
-	import abe.com.mon.utils.Reflection;
-	import abe.com.ponents.text.Label;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Suspendable;
+	import abe.com.mon.geom.pt;
+	import abe.com.mon.geom.rect;
 	import abe.com.mon.randoms.RandomGenerator;
+	import abe.com.mon.utils.Reflection;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
+	import abe.com.patibility.lang._$;
 	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.layouts.components.InlineLayout;
+	import abe.com.ponents.core.SimpleDOContainer;
+	import abe.com.ponents.layouts.components.BoxSettings;
+	import abe.com.ponents.layouts.components.VBoxLayout;
+	import abe.com.ponents.layouts.display.DOInlineLayout;
+	import abe.com.ponents.text.Label;
+
+	import flash.display.Bitmap;
+	import flash.display.BitmapData;
+	import flash.display.PixelSnapping;
 
 	/**
 	 * @author cedric
@@ -23,26 +34,71 @@ package abe.com.ponents.monitors
 		protected var _generator : RandomGenerator;
 		protected var _isRunning : Boolean;
 		
-		protected var _barGraph : VBarGraph; 
+		protected var _typeLabel : Label;
+		protected var _countLabel : Label;
+		protected var _barGraph : VBarGraph;
+		protected var _counter : int;
+		private var _bitmapGraph : SimpleDOContainer;
+		private var _bitmap : BitmapData;
+		private var _graphColor : Color;
+				static private const BITMAP_SIZE : uint = 64;
+		static private const BITMAP_WIDTH : uint = 165;
 
-		public function RandomMonitor ( generator : RandomGenerator )
+		public function RandomMonitor ( generator : RandomGenerator, graphColor : Color = null )
 		{
-			_childrenLayout = new InlineLayout(this, 5, "left", "top", "topToBottom", true );
+			_counter = 0;
 			_generator = generator;
+			_graphColor = graphColor ? graphColor : Color.Crimson;
 			super();
 			allowMask = false;
 			
+			_typeLabel = new Label( Reflection.getClassName( _generator ) );
+			_barGraph = new VBarGraph( 40, _graphColor);
+			_countLabel = new Label( getCountLabel() );
+			_bitmapGraph = new SimpleDOContainer();
 			
-			_barGraph = new VBarGraph();
+			_bitmapGraph.styleKey = "EmptyComponent";
+			_bitmapGraph.childrenLayout = new DOInlineLayout();
+			_bitmap = new BitmapData( BITMAP_WIDTH, BITMAP_SIZE, false, 0 );
+			_bitmap.fillRect(rect(BITMAP_SIZE,0,1,BITMAP_SIZE), 0xffffff );
+			_bitmapGraph.addComponentChild( new Bitmap( _bitmap, PixelSnapping.ALWAYS, false ) );
 			
-			addComponent( new Label( Reflection.getClassName( _generator ) ) );
+			childrenLayout = new VBoxLayout(this, 3, 
+									new BoxSettings(0,"left","center",_typeLabel,true),
+									new BoxSettings(0,"left","center", _barGraph, true, true, true ),
+									new BoxSettings(0, "left", "center", _countLabel, true ),									new BoxSettings(64, "left", "center", _bitmapGraph, true, true )
+							 );
+			
+			addComponent( _typeLabel );
 			addComponent( _barGraph );
+			addComponent( _countLabel );
+			addComponent( _bitmapGraph );
+		}
+		protected function getCountLabel () : String 
+		{
+			return _$("Generated : $0", _counter);
 		}
 		public function tick (e : ImpulseEvent) : void
 		{
 			var n1 : Number = _generator.random();			var n2 : Number = _generator.random();
 			
-			_barGraph.appendValue( n1 );			_barGraph.appendValue( n2 );
+			
+			_counter += 2;
+			
+			_barGraph.appendValue( n1 );
+			_barGraph.appendValue( n2 );
+			
+			_bitmap.copyPixels( _bitmap, 
+								rect( BITMAP_SIZE + 3, 0, BITMAP_WIDTH - 2, BITMAP_SIZE), 
+								pt(BITMAP_SIZE + 1,0) );
+			
+			_bitmap.fillRect( rect( BITMAP_WIDTH-2, 0, 2, BITMAP_SIZE ), 
+							  0 );
+						_bitmap.setPixel( Math.floor( BITMAP_WIDTH - 2 ), BITMAP_SIZE - Math.floor( n1 * BITMAP_SIZE ), _graphColor.hexa );			_bitmap.setPixel( Math.floor( BITMAP_WIDTH - 1 ), BITMAP_SIZE - Math.floor( n2 * BITMAP_SIZE ), _graphColor.hexa );						_bitmap.setPixel( Math.floor( n1 * BITMAP_SIZE ), 
+							  Math.floor( n2 * BITMAP_SIZE ), 
+							  _graphColor.hexa );
+			
+			_countLabel.value = getCountLabel();
 		}
 		public function start () : void
 		{
@@ -60,16 +116,16 @@ package abe.com.ponents.monitors
 				_isRunning = false;
 			}
 		}
-		public function isRunning () : Boolean { return _isRunning; }
+		public function isRunning () : Boolean { return _isRunning; 
+		}
 	}
 }
 
-import abe.com.mon.logs.Log;
-import abe.com.ponents.utils.Insets;
 import abe.com.mon.colors.Color;
 import abe.com.mon.geom.Dimension;
 import abe.com.mon.utils.MathUtils;
 import abe.com.ponents.core.AbstractComponent;
+import abe.com.ponents.utils.Insets;
 
 [Skinable(skin="EmptyComponent")]
 internal class VBarGraph extends AbstractComponent
@@ -79,7 +135,7 @@ internal class VBarGraph extends AbstractComponent
 	protected var _numBars : uint;
 	protected var _barColor : Color;
 		
-	public function VBarGraph ( numBars : uint = 20, barColor : Color = null ) 
+	public function VBarGraph ( numBars : uint = 40, barColor : Color = null ) 
 	{
 		_numBars = numBars;
 		_maxValue = 1;

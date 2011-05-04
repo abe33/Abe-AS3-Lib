@@ -1,15 +1,12 @@
 package abe.com.mands.load 
 {
 	import abe.com.mands.AbstractCommand;
-	import abe.com.mands.load.Estimator;
-	import abe.com.mands.load.LoadEntry;
 
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

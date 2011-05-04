@@ -10,7 +10,6 @@ package  abe.com.motion
 	import abe.com.mon.logs.Log;
 
 	import flash.events.IEventDispatcher;
-
 	/**
 	 * La classe <code>SingleTween</code> réalise une interpolation de la valeur d'une propriété
 	 * d'un objet cible dans le temps.

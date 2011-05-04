@@ -1,7 +1,6 @@
 package abe.com.edia.keyboard
 {
 	import flash.events.Event;
-
 	/**
 	 * @author cedric
 	 */

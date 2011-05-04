@@ -1,7 +1,5 @@
 package abe.com.ponents.containers 
 {
-	import flash.ui.ContextMenuItem;
-
 	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.core.AbstractComponent;
 	import abe.com.ponents.skinning.decorations.SeparatorDecoration;
@@ -11,6 +9,7 @@ package abe.com.ponents.containers
 
 	import flash.display.DisplayObject;
 	import flash.events.FocusEvent;
+	import flash.ui.ContextMenuItem;
 
 	/**
 	 * @author Cédric Néhémie

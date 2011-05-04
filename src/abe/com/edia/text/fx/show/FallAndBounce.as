@@ -11,7 +11,6 @@ package abe.com.edia.text.fx.show
 	import abe.com.motion.ImpulseListener;
 
 	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

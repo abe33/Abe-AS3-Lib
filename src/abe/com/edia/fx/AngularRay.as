@@ -3,19 +3,18 @@
  */
 package abe.com.edia.fx 
 {
-	import flash.display.SpreadMethod;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Allocable;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.colors.Color;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
 	import flash.display.GradientType;
 	import flash.display.Shape;
+	import flash.display.SpreadMethod;
 	import flash.geom.Matrix;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

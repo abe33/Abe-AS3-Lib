@@ -4,6 +4,7 @@
 package abe.com.mon.logs 
 {
 	import abe.com.mon.utils.StringUtils;
+
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.system.Capabilities;

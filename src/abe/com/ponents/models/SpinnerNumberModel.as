@@ -6,7 +6,6 @@ package abe.com.ponents.models
 
 	import flash.events.ContextMenuEvent;
 	import flash.ui.ContextMenuItem;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

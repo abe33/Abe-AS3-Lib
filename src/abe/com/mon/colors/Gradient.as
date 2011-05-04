@@ -3,14 +3,13 @@
  */
 package  abe.com.mon.colors 
 {
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Equatable;
 	import abe.com.mon.core.Serializable;
+	import abe.com.mon.utils.MathUtils;
+	import abe.com.mon.utils.StringUtils;
 
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * Un objet <code>Gradient</code> représente une rampe de dégradé coloré
 	 * à l'aide d'objet <code>Color</code>.

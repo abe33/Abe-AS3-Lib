@@ -1,6 +1,5 @@
 package abe.com.ponents.text
 {
-	import flash.display.DisplayObject;
 	import abe.com.mon.core.ITextField;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.utils.StringUtils;
@@ -8,6 +7,7 @@ package abe.com.ponents.text
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.display.DOStretchLayout;
 
+	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.text.TextField;
 

@@ -1,6 +1,5 @@
 package abe.com.ponents.demos.dockables 
 {
-	import abe.com.ponents.progress.GradientProgressBar;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.containers.FieldSet;
 	import abe.com.ponents.containers.ScrollPane;
@@ -8,6 +7,7 @@ package abe.com.ponents.demos.dockables
 	import abe.com.ponents.factory.ComponentFactory;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
+	import abe.com.ponents.progress.GradientProgressBar;
 	import abe.com.ponents.progress.MinimalGradientProgressBar;
 	import abe.com.ponents.progress.MinimalProgressBar;
 	import abe.com.ponents.progress.ProgressBar;

@@ -12,7 +12,6 @@ package abe.com.ponents.core
 	import abe.com.ponents.dnd.gestures.PressAndMoveGesture;
 
 	import flash.events.IEventDispatcher;
-	
 	/**
 	 * Implémentation standard d'un composant activant la fonctionalité de glisser/déposer.
 	 * <p>

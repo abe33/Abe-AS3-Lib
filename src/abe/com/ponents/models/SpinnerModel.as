@@ -1,8 +1,7 @@
 package abe.com.ponents.models 
 {
-	import flash.ui.ContextMenuItem;
 	import flash.events.IEventDispatcher;
-
+	import flash.ui.ContextMenuItem;
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -8,8 +8,8 @@ package abe.com.edia.text.fx.complex
 	import abe.com.edia.fx.Streamer;
 	import abe.com.edia.text.core.Char;
 	import abe.com.edia.text.fx.show.RandomTimeTweenScaleDisplayEffect;
-	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.colors.Color;
+	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
@@ -18,8 +18,6 @@ package abe.com.edia.text.fx.complex
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

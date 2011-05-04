@@ -9,7 +9,6 @@ package  abe.com.ponents.dnd
 
 	import flash.display.DisplayObject;
 	import flash.display.InteractiveObject;
-
 	public interface DragSource extends IInteractiveObject
 	{
 		 /*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/

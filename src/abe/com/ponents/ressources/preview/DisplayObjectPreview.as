@@ -1,6 +1,5 @@
 package abe.com.ponents.ressources.preview 
 {
-	import abe.com.ponents.sliders.VLogarithmicSlider;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.dm;
 	import abe.com.patibility.lang._;
@@ -18,6 +17,7 @@ package abe.com.ponents.ressources.preview
 	import abe.com.ponents.skinning.DefaultSkin;
 	import abe.com.ponents.skinning.decorations.SimpleFill;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
+	import abe.com.ponents.sliders.VLogarithmicSlider;
 	import abe.com.ponents.sliders.VSlider;
 
 	import flash.display.DisplayObject;

@@ -3,7 +3,6 @@
  */
 package abe.com.ponents.allocators 
 {
-	import flash.utils.setTimeout;
 	import abe.com.mands.load.LoaderQueue;
 	import abe.com.mon.utils.RandomUtils;
 
@@ -15,7 +14,7 @@ package abe.com.ponents.allocators
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
-
+	import flash.utils.setTimeout;
 	/**
 	 * @author Cédric Néhémie
 	 */

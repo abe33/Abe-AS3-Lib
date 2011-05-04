@@ -1,7 +1,6 @@
 package abe.com.ponents.tools.canvas.core 
 {
 	import abe.com.ponents.skinning.cursors.Cursor;
-	
 	import abe.com.ponents.tools.CameraCanvas;
 	/**
 	 * @author cedric

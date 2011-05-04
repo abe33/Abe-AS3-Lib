@@ -14,7 +14,7 @@ package abe.com.mon.randoms
 
 		public function Random ( generator : RandomGenerator = null ) 
 		{
-			this.generator = generator ? generator : new BaseRandom();
+			this.generator = generator ? generator : new MathRandom();
 		}
 		/*----------------------------------------------------------*
 		 * FLOAT METHODS

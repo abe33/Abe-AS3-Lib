@@ -3,8 +3,9 @@
  */
 package abe.com.mon.utils
 {
-	import flash.utils.getQualifiedClassName;
 	import abe.com.mon.core.Equatable;
+
+	import flash.utils.getQualifiedClassName;
 	/**
 	 * La fonction compare deux objets <code>a</code> et <code>b</code>
 	 * et renvoie <code>true</code> si ceux-ci sont égaux.

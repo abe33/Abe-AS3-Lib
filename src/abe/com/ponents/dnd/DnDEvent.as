@@ -6,7 +6,6 @@ package  abe.com.ponents.dnd
 	import abe.com.ponents.transfer.Transferable;
 
 	import flash.events.Event;
-
 	public class DnDEvent extends Event 
 	{
 		static public const DRAG		  : String = "drag";

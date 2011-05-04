@@ -6,7 +6,6 @@ package abe.com.edia.text.builds
 	import abe.com.edia.text.core.Char;
 
 	import flash.text.TextFormat;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

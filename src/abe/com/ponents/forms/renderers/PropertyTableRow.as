@@ -6,7 +6,6 @@ package abe.com.ponents.forms.renderers
 	import abe.com.ponents.forms.FormCategory;
 	import abe.com.ponents.skinning.decorations.SimpleFill;
 	import abe.com.ponents.tables.DefaultTableRow;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

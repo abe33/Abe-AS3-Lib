@@ -1,11 +1,10 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.ponents.tools.prettify.GPrettify;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.geom.pt;
 	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.Reflection;
+	import abe.com.mon.utils.StringUtils;
 	import abe.com.munication.remoting.NetConnectionFactory;
 	import abe.com.munication.services.ServiceCall;
 	import abe.com.munication.services.ServiceEvent;
@@ -23,6 +22,7 @@ package abe.com.ponents.tools
 	import abe.com.ponents.menus.ComboBox;
 	import abe.com.ponents.text.Label;
 	import abe.com.ponents.text.TextInput;
+	import abe.com.ponents.tools.prettify.GPrettify;
 	import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric

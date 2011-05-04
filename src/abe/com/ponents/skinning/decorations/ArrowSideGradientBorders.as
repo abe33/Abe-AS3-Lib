@@ -12,7 +12,6 @@ package abe.com.ponents.skinning.decorations
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

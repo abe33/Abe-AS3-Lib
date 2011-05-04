@@ -10,7 +10,6 @@ package abe.com.ponents.layouts.components
 
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

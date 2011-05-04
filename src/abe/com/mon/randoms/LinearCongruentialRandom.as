@@ -1,5 +1,6 @@
 package abe.com.mon.randoms 
 {
+	import abe.com.mon.logs.Log;
 	/**
 	 * @author cedric
 	 */
@@ -17,8 +18,8 @@ package abe.com.mon.randoms
 		{
 			var tmpseed : uint = _currentSeed;
 			var q : uint = tmpseed; /* low */
-			q = q >> 1;
-			var p : uint = tmpseed >> 31 ; /* hi */
+			q = q << 1;
+			var p : uint = tmpseed << 32 ; /* hi */
 			var mlcg : uint = p + q;
 			if (mlcg & 0x80000000) 
 			{
@@ -26,8 +27,7 @@ package abe.com.mon.randoms
 				mlcg++;
 			}
 			_currentSeed = mlcg;
-			 
-			return mlcg / uint.MAX_VALUE; 
+			return ( mlcg / uint.MAX_VALUE ) * 2; 
 		}
 		public function get isSeeded () : Boolean { return true; }
 	}

@@ -9,7 +9,6 @@ package abe.com.edia.text.fx.hide
 	import abe.com.motion.ImpulseEvent;
 
 	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

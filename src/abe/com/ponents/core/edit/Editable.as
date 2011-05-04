@@ -4,7 +4,6 @@
 package abe.com.ponents.core.edit 
 {
 	import abe.com.ponents.core.Component;
-
 	/**
 	 * Un composant <code>Editable</code> est un composant dont le contenu
 	 * peut être édité par un composant tiers.

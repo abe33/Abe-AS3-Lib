@@ -5,7 +5,6 @@ package abe.com.ponents.lists
 	import abe.com.ponents.events.EditEvent;
 
 	import flash.display.DisplayObject;
-
 	/**
 	 * @author cedric
 	 */

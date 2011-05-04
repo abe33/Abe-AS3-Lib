@@ -11,7 +11,6 @@ package abe.com.edia.text.fx.complex
 
 	import flash.display.DisplayObject;
 	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

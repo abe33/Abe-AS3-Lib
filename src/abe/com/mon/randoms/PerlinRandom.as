@@ -14,12 +14,12 @@ package abe.com.mon.randoms
 			return o;
 		}
 		public function PerlinRandom ( seed : int = 0,
-									   baseX : Number = 64, 
-									   baseY : Number = 64, 
+									   baseX : Number = 16, 
+									   baseY : Number = 16, 
 									   fractalNoise : Boolean = false, 
 									   numOctaves : uint = 2, 
-									   width : int = 64, 
-									   height : int = 64, 
+									   width : int = 16, 
+									   height : int = 16, 
 									   stitch : Boolean = false, 
 									   transparent : Boolean = false, 
 									   channelOptions : uint = 7, 

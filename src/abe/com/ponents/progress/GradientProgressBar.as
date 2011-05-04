@@ -1,9 +1,10 @@
 package abe.com.ponents.progress 
 {
-	import flash.geom.ColorTransform;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.colors.Gradient;
 	import abe.com.ponents.models.BoundedRangeModel;
+
+	import flash.geom.ColorTransform;
 	/**
 	 * @author cedric
 	 */

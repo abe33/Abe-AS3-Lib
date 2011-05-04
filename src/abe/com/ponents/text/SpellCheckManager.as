@@ -6,7 +6,6 @@ package abe.com.ponents.text
 	import com.adobe.linguistics.spelling.SpellChecker;
 
 	import flash.events.Event;
-	import flash.net.URLRequest;
 	public class SpellCheckManager 
 	{
 		protected var _spellCheckers : Object;

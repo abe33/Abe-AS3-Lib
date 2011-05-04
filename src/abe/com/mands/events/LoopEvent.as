@@ -4,7 +4,6 @@
 package  abe.com.mands.events
 {
 	import flash.events.Event;
-
 	/**
 	 * Évènement diffusé par un objet <code>LoopCommand</code> durant son éxécution.
 	 *

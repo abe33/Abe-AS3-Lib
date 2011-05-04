@@ -3,10 +3,7 @@
  */
 package  abe.com.edia.dialogues
 {
-	import abe.com.edia.dialogues.Speech;
-
 	import flash.events.Event;
-
 	/**
 	 * Classe d'évènement diffusés par les objets <code>DialogKernel</code>.
 	 * 

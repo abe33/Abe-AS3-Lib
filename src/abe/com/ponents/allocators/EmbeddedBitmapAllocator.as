@@ -8,7 +8,6 @@ package abe.com.ponents.allocators
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.utils.Dictionary;
-
 	/**
 	 * 
 	 * 

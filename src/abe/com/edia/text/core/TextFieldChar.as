@@ -3,11 +3,10 @@
  */
 package abe.com.edia.text.core 
 {
-	import flash.display.DisplayObject;
-
 	import abe.com.mon.core.Allocable;
 	import abe.com.mon.core.ITextField;
 
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;

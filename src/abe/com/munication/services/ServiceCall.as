@@ -3,7 +3,6 @@
  */
 package abe.com.munication.services
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mands.AbstractCommand;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.munication.services.middleware.ServiceMiddleware;

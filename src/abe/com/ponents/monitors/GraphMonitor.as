@@ -1,6 +1,5 @@
 package abe.com.ponents.monitors
 {
-	import abe.com.ponents.events.MonitorEvent;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
@@ -9,6 +8,7 @@ package abe.com.ponents.monitors
 	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.ponents.core.AbstractComponent;
+	import abe.com.ponents.events.MonitorEvent;
 	import abe.com.ponents.monitors.recorders.Recorder;
 	import abe.com.ponents.skinning.decorations.GraphMonitorBorder;
 	import abe.com.ponents.utils.ContextMenuItemUtils;

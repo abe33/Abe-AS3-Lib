@@ -1,14 +1,12 @@
 package abe.com.ponents.text 
 {
-	import flash.text.TextFormat;
-
 	import abe.com.mon.core.ITextField;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.scrollbars.Scrollable;
 
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
-
+	import flash.text.TextFormat;
 	/**
 	 * @author Cédric Néhémie
 	 */

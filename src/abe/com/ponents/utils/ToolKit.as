@@ -7,7 +7,6 @@ package  abe.com.ponents.utils
 	import abe.com.ponents.skinning.cursors.Cursor;
 
 	import flash.display.Sprite;
-
 	/**
 	 * La classe utilitaire <code>Toolkit</code> fournit quelques méthodes
 	 * bien pratique pour la configuration rapide d'une scène Flash.

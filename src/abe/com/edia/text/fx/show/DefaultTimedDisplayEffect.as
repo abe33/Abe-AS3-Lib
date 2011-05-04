@@ -9,7 +9,6 @@ package abe.com.edia.text.fx.show
 	import abe.com.mands.Timeout;
 
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

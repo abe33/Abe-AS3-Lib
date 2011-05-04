@@ -3,11 +3,11 @@
  */
 package abe.com.edia.fx 
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Allocable;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.utils.AllocatorInstance;
-	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
@@ -15,7 +15,6 @@ package abe.com.edia.fx
 
 	import flash.display.Shape;
 	import flash.geom.Point;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

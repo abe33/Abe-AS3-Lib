@@ -4,7 +4,6 @@ package abe.com.ponents.skinning.icons
 	import abe.com.ponents.allocators.EmbeddedBitmapAllocatorInstance;
 
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

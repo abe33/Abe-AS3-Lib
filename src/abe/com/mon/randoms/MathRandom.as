@@ -4,7 +4,7 @@ package abe.com.mon.randoms
 	/**
 	 * @author cedric
 	 */
-	public class BaseRandom implements RandomGenerator 
+	public class MathRandom implements RandomGenerator 
 	{
 		static public function init( o : Randomizable ) : Randomizable
 		{

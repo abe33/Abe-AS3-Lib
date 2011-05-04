@@ -1,8 +1,5 @@
 package abe.com.patibility.lang
 {
-
-	import abe.com.patibility.lang.LocaleObject;
-	import abe.com.patibility.lang.Locale;
 	/**
 	 * La classe <code>LocalePath</code> représente un lien vers une entrée d'un
 	 * objet <code>Locale</code>.

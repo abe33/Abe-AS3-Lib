@@ -4,7 +4,6 @@
 package abe.com.mon.utils
 {
 	import flash.geom.Matrix;
-
 	/**
 	 * Classe utilitaire contenant des méthodes opérant sur des objets
 	 * <code>Matrix</code>.

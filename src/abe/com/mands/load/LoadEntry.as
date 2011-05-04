@@ -1,8 +1,7 @@
 package abe.com.mands.load 
 {
-
-	import flash.net.URLRequest;
 	import flash.events.IEventDispatcher;
+	import flash.net.URLRequest;
 	/**
 	 * @author Cédric Néhémie
 	 */

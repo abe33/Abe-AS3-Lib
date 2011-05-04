@@ -8,7 +8,6 @@ package abe.com.edia.text.core
 	import flash.events.MouseEvent;
 	import flash.events.TextEvent;
 	import flash.text.TextFormat;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

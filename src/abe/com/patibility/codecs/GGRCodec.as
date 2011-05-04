@@ -7,7 +7,6 @@ package abe.com.patibility.codecs
 	import abe.com.mon.colors.Gradient;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.patibility.lang._$;
-
 	/**
 	 * La classe <code>GGRCodec</code> permet d'encoder et de décoder des objets
 	 * <code>Gradient</code> au format <code>GGR</code> de GIMP.

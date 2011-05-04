@@ -1,8 +1,8 @@
 package abe.com.edia.fx.emitters 
 {
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.Delegate;
 	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.RandomUtils;
 	/**
 	 * @author cedric

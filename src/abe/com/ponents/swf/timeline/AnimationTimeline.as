@@ -1,7 +1,7 @@
 package abe.com.ponents.swf.timeline
 {
-	import abe.com.ponents.layouts.components.AnimationTimelineLayout;
 	import abe.com.ponents.core.AbstractContainer;
+	import abe.com.ponents.layouts.components.AnimationTimelineLayout;
 
 	[Skinable(skin="AnimationTimeline")]
 	[Skin(define="AnimationTimeline",

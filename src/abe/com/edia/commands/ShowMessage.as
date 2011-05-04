@@ -3,7 +3,6 @@
  */
 package abe.com.edia.commands 
 {
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.edia.text.AdvancedTextField;
 	import abe.com.mands.AbstractCommand;
 	import abe.com.mands.Command;
@@ -11,7 +10,6 @@ package abe.com.edia.commands
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.utils.StageUtils;
-	import abe.com.motion.Impulse;
 	import abe.com.ponents.utils.ToolKit;
 
 	import flash.display.Sprite;

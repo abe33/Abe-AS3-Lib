@@ -1,12 +1,11 @@
 package abe.com.mands.load 
 {
-	import flash.events.SecurityErrorEvent;
-	import flash.events.IOErrorEvent;
 	import abe.com.mands.events.LoadingEstimationEvent;
 
 	import flash.events.Event;
+	import flash.events.IOErrorEvent;
 	import flash.events.ProgressEvent;
-
+	import flash.events.SecurityErrorEvent;
 	/**
 	 * @author Cédric Néhémie
 	 */

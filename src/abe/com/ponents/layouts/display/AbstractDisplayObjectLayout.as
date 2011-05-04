@@ -7,7 +7,6 @@ package abe.com.ponents.layouts.display
 	import abe.com.ponents.utils.Insets;
 
 	import flash.display.DisplayObjectContainer;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

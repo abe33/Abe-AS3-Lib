@@ -3,7 +3,6 @@
  */
 package abe.com.mon.utils 
 {
-	import flash.utils.getQualifiedClassName;
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Copyable;
 	import abe.com.mon.core.Equatable;
@@ -14,6 +13,7 @@ package abe.com.mon.utils
 	import flash.utils.IDataInput;
 	import flash.utils.IDataOutput;
 	import flash.utils.IExternalizable;
+	import flash.utils.getQualifiedClassName;
 	/**
 	 * Represents an interval of time 
 	 */     

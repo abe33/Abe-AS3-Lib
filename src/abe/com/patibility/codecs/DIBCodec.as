@@ -4,12 +4,10 @@
 package abe.com.patibility.codecs
 {
 	import abe.com.mon.logs.Log;
-	import abe.com.patibility.codecs.Codec;
 
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-
 	/**
 	 * La classe <code>DIBCodec</code> permet d'encoder et de décoder
 	 * des images au format <code>DIB</code>.

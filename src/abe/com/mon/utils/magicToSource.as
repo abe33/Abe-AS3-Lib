@@ -56,6 +56,7 @@ import abe.com.mon.utils.magicToSource;
 
 import flash.utils.getQualifiedClassName;
 
+
 internal function getConstructorCall( o : * ) : String
 {
 	if( o is Array )

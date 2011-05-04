@@ -7,9 +7,6 @@ package abe.com.edia.text.fx.soliton
 	import abe.com.edia.text.fx.AbstractCharEffect;
 	import abe.com.mands.Timeout;
 	import abe.com.motion.ImpulseEvent;
-
-	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

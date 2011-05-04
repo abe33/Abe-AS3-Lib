@@ -5,9 +5,9 @@ package abe.com.edia.commands
 {
 	import abe.com.mands.AbstractCommand;
 	import abe.com.mands.Command;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
@@ -17,7 +17,6 @@ package abe.com.edia.commands
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
