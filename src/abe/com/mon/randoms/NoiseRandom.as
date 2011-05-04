@@ -6,8 +6,11 @@ package abe.com.mon.randoms
 	/**
 	 * @author cedric
 	 */
-	public class NoiseRandom extends BitmapRandom implements RandomGenerator 
+	public class NoiseRandom extends BitmapRandom implements RandomGenerator, SeededRandomGenerator 
 	{
+		protected var _channelOptions : uint;
+		protected var _grayScale : Boolean;
+
 		static public function init( o : Randomizable ) : Randomizable
 		{
 			o.randomSource = new Random( new NoiseRandom() );
@@ -22,9 +25,14 @@ package abe.com.mon.randoms
 									  grayScale : Boolean = false ) 
 		{
 			var bmp : BitmapData = new BitmapData(width, height, transparent, 0 );
-			bmp.noise( seed, 0, 255, channelOptions, grayScale);
-			
+			_channelOptions = channelOptions;
+			_grayScale = grayScale;
 			super( bmp );
+			plantSeed(seed);
+		}
+		public function plantSeed (seed : uint) : void
+		{
+			_bmp.noise( seed, 0, 255, _channelOptions, _grayScale);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 package abe.com.ponents.monitors 
 {
+	import abe.com.patibility.humanize.capitalize;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.geom.pt;
@@ -9,6 +10,7 @@ package abe.com.ponents.monitors
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
+	import abe.com.patibility.humanize.spaceOut;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.core.SimpleDOContainer;
@@ -20,6 +22,7 @@ package abe.com.ponents.monitors
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.PixelSnapping;
+	import flash.utils.getTimer;
 
 	/**
 	 * @author cedric
@@ -41,8 +44,10 @@ package abe.com.ponents.monitors
 		private var _bitmapGraph : SimpleDOContainer;
 		private var _bitmap : BitmapData;
 		private var _graphColor : Color;
-				static private const BITMAP_SIZE : uint = 64;
+		private var _bench : int;		
+		static private const BITMAP_SIZE : uint = 64;
 		static private const BITMAP_WIDTH : uint = 165;
+		static private const BENCHMARK_ITERATIONS : uint = 10000;
 
 		public function RandomMonitor ( generator : RandomGenerator, graphColor : Color = null )
 		{
@@ -52,7 +57,9 @@ package abe.com.ponents.monitors
 			super();
 			allowMask = false;
 			
-			_typeLabel = new Label( Reflection.getClassName( _generator ) );
+			bench();
+			
+			_typeLabel = new Label( capitalize( spaceOut ( Reflection.getClassName( _generator ) ), true ) );
 			_barGraph = new VBarGraph( 40, _graphColor);
 			_countLabel = new Label( getCountLabel() );
 			_bitmapGraph = new SimpleDOContainer();
@@ -76,7 +83,19 @@ package abe.com.ponents.monitors
 		}
 		protected function getCountLabel () : String 
 		{
-			return _$("Generated : $0", _counter);
+			return _$("Bench ($2 loops) : <font color='#$3'><b>$1</b></font> ms\nGenerated : <font color='#$3'><b>$0</b></font>", 
+					   _counter, 
+					   _bench, 
+					   BENCHMARK_ITERATIONS,
+					   _graphColor.rgb );
+		}
+		protected function bench() : void
+		{
+			var ms : int = getTimer();
+			var l : uint = BENCHMARK_ITERATIONS;
+			while(l--)
+				_generator.random();
+			_bench = getTimer() - ms;
 		}
 		public function tick (e : ImpulseEvent) : void
 		{

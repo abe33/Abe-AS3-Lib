@@ -25,11 +25,11 @@ package abe.com.mon.randoms
 				n = _bmp.getPixel(_x, _y);
 			
 			_x++;
-			if( _x > _bmp.width )
+			if( _x >= _bmp.width )
 			{
 				_x = 0;
 				_y++;
-				if( _y > _bmp.height )
+				if( _y >= _bmp.height )
 					_y = 0;
 			}
 			

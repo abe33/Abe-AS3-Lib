@@ -2,7 +2,7 @@ package abe.com.edia.fx.planet
 {
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.Range;
-	import abe.com.mon.randoms.MTRandom;
+	import abe.com.mon.randoms.MersenneTwisterRandom;
 	import abe.com.mon.randoms.Random;
 
 	import flash.display.BitmapData;
@@ -162,7 +162,7 @@ package abe.com.edia.fx.planet
 
 		public function draw () : void
 		{
-			planetRandom = new Random( new MTRandom( planetSeed ) );			cloudRandom = new Random( new MTRandom( cloudSeed ) );
+			planetRandom = new Random( new MersenneTwisterRandom( planetSeed ) );			cloudRandom = new Random( new MersenneTwisterRandom( cloudSeed ) );
 			
 			objects.rotation = planetGround.rotation = background.rotation = foreground.rotation = planetAxis;
 			
