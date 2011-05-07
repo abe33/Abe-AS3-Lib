@@ -10,7 +10,6 @@ package abe.com.ponents.layouts.display
 	import flash.display.DisplayObject;
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

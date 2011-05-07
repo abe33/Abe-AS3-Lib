@@ -6,13 +6,12 @@ package abe.com.edia.text.builds
 	import abe.com.edia.text.core.Char;
 
 	import flash.text.TextFormat;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class StyleContext 
 	{
-		static private const FORMAT_PROPERTIES : Array = [ "font", "size","color","bold","italic","underline" ];
+		static private const FORMAT_PROPERTIES : Array = [ "font", "size","color","bold","italic","underline","letterSpacing" ];
 		
 		public var format : TextFormat;
 		public var chars : Vector.<Char>;

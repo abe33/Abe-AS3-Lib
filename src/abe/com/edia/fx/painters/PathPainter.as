@@ -1,7 +1,6 @@
 package abe.com.edia.fx.painters 
 {
 	import abe.com.mon.geom.Path;
-	import abe.com.edia.fx.painters.Painter;
 	/**
 	 * @author cedric
 	 */

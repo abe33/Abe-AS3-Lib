@@ -1,6 +1,5 @@
 package abe.com.ponents.sliders 
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.models.BoundedRangeModel;

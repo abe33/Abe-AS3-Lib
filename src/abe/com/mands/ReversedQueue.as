@@ -3,13 +3,9 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mands.Command;
-	import abe.com.mands.MacroCommand;
-	import abe.com.mands.ReversedBatch;
 	import abe.com.mon.core.Runnable;
 
 	import flash.events.Event;
-
 	/**
 	 * Une commande <code>Queue</code> éxécute un lot de commandes les unes à la suites des autres
 	 * dans l'ordre inverse de leur ajout, en transmettant à chaque commande l'évènement 

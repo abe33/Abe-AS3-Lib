@@ -3,15 +3,11 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mands.AbstractCommand;
-	import abe.com.mands.Command;
-	import abe.com.mands.MacroCommand;
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Runnable;
 
 	import flash.events.Event;
-
 	/**
 	 * Implémentation de base de l'interface <code>MacroCommand</code>. En règle
 	 * générale, il suffit d'étendre <code>AbstractMacroCommand</code> et de réécrire

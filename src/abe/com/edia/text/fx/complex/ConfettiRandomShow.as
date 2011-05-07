@@ -8,8 +8,8 @@ package abe.com.edia.text.fx.complex
 	import abe.com.edia.fx.Streamer;
 	import abe.com.edia.text.core.Char;
 	import abe.com.edia.text.fx.show.RandomTimeTweenScaleDisplayEffect;
-	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.colors.Color;
+	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
@@ -18,8 +18,6 @@ package abe.com.edia.text.fx.complex
 	import flash.display.DisplayObjectContainer;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -54,19 +52,17 @@ package abe.com.edia.text.fx.complex
 		{
 			super.dispose();
 			
-			this.ys = new Dictionary( true );
-			
 			Impulse.unregister( wavetick );
 		}
 		override protected function initCharPos ( char : Char ) : void
 		{
-			char.x = xs[ char ] + ( sizexs[ char ] - sizexs[ char ] * .1 ) / 2;
-			char.y = ys[ char] + ( sizeys[ char ] - sizeys[ char ] * .1 ) / 2;
+			char.charContent.x = ( sizexs[ char ] - sizexs[ char ] * .1 ) / 2;
+			char.charContent.y = ( sizeys[ char ] - sizeys[ char ] * .1 ) / 2;
 		}
 		override protected function updateCharPos ( char : Char, r : Number ) : void
 		{
-			char.x = xs[ char ] + ( sizexs[ char ] - sizexs[ char ] * r ) / 2;
-			char.y = ys[ char] + ( sizeys[ char ] - sizeys[ char ] * r ) / 2 + Math.cos( angle + frequency * char.x ) * amplitude;
+			char.charContent.x = ( sizexs[ char ] - sizexs[ char ] * r ) / 2;
+			char.charContent.y = ( sizeys[ char ] - sizeys[ char ] * r ) / 2 + Math.cos( angle + frequency * char.x ) * amplitude;
 		}
 		public function wavetick ( e : ImpulseEvent ) : void
 		{

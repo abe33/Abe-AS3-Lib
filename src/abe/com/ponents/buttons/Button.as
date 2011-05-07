@@ -12,7 +12,6 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.skinning.icons.Icon;
 
 	import flash.events.IEventDispatcher;
-
 	/**
 	 * La classe <code>Button</code> étend <code>AbstractButton</code> afin de fournir une
 	 * implémentation concrète de base d'un bouton.

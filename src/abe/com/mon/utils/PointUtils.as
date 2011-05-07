@@ -7,7 +7,6 @@ package  abe.com.mon.utils
 
 	import flash.geom.Matrix;
 	import flash.geom.Point;
-
 	/**
 	 * Classe utilitaire contenant des méthodes opérant sur des objets
 	 * <code>Point</code>.

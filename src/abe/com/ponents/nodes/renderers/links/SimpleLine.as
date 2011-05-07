@@ -1,6 +1,5 @@
 package abe.com.ponents.nodes.renderers.links 
 {
-	
 	import abe.com.mon.colors.Color;
 	import abe.com.ponents.nodes.core.NodeLink;
 

@@ -6,7 +6,6 @@ package abe.com.ponents.skinning
 	import abe.com.ponents.skinning.decorations.SimpleBorders;
 	import abe.com.ponents.skinning.decorations.SimpleFill;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

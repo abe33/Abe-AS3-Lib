@@ -4,10 +4,8 @@
 package abe.com.edia.fx.emitters
 {
 	import abe.com.mon.geom.Surface;
-	import abe.com.edia.fx.emitters.Emitter;
 
 	import flash.geom.Point;
-
 	/**
 	 * La classe <code>SurfaceEmitter</code> permet la génération
 	 * d'objets au sein d'un objet <code>Surface</code>.

@@ -5,7 +5,6 @@ package abe.com.edia.text.fx.soliton
 {
 	import abe.com.edia.text.core.Char;
 	import abe.com.mon.utils.RandomUtils;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -17,8 +16,11 @@ package abe.com.edia.text.fx.soliton
 		}
 		override protected function changeChar ( c : Char, i : Number ) : void
 		{
-			c.x = xs[ c ] + RandomUtils.balance( waveAmplitude ) * i;
-			c.y = ys[ c ] + RandomUtils.balance( waveAmplitude ) * i;			
+			if( c.charContent )
+			{
+				c.charContent.x = RandomUtils.balance( waveAmplitude ) * i;
+				c.charContent.y = RandomUtils.balance( waveAmplitude ) * i;	
+			}		
 		}
 	}
 }

@@ -3,7 +3,6 @@ package abe.com.ponents.lists
 	import abe.com.mon.core.Allocable;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.edit.Editable;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -2,7 +2,6 @@ package abe.com.ponents.lists
 {
 	import abe.com.mon.colors.Gradient;
 	import abe.com.ponents.buttons.GradientPicker;
-
 	/**
 	 * @author cedric
 	 */

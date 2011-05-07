@@ -3,8 +3,6 @@
  */
 package  abe.com.mon.core
 {
-	import abe.com.mon.core.Iterator;
-
 	/**
 	 * A <code>ListIterator</code> is an <code>Iterator</code> that can
 	 * iterate over a collection in both ways.

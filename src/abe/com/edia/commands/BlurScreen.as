@@ -11,7 +11,6 @@ package abe.com.edia.commands
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

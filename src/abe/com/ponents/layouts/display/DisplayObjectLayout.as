@@ -6,7 +6,6 @@ package abe.com.ponents.layouts.display
 	import abe.com.ponents.layouts.Layout;
 
 	import flash.display.DisplayObjectContainer;
-
 	/**
 	 * L'interface <code>DisplayObjectLayout</code> définie l'accès au 
 	 * type de container utilisé pour la mise en page d'objets <code>DisplayObject</code>.

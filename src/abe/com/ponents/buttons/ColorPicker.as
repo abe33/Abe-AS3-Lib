@@ -4,11 +4,11 @@
 package abe.com.ponents.buttons 
 {
 	import abe.com.mands.events.CommandEvent;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.IDisplayObject;
 	import abe.com.mon.core.IDisplayObjectContainer;
 	import abe.com.mon.core.IInteractiveObject;
 	import abe.com.mon.core.LayeredSprite;
-	import abe.com.mon.colors.Color;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.actions.builtin.ColorPickerAction;
 	import abe.com.ponents.core.Component;
@@ -19,7 +19,7 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.layouts.display.DOStretchLayout;
 
 	import flash.events.IEventDispatcher;
-	
+
 	/**
 	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
 	 * 

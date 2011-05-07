@@ -12,7 +12,6 @@ package abe.com.ponents.tools
 	import abe.com.ponents.utils.Insets;
 
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

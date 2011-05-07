@@ -3,7 +3,6 @@
  */
 package abe.com.edia.text.fx.complex 
 {
-	import flash.display.DisplayObjectContainer;
 	import abe.com.edia.text.core.Char;
 	import abe.com.edia.text.fx.AbstractCharEffect;
 	import abe.com.mon.utils.AllocatorInstance;
@@ -11,8 +10,8 @@ package abe.com.edia.text.fx.complex
 	import abe.com.motion.ImpulseEvent;
 
 	import flash.display.DisplayObject;
+	import flash.display.DisplayObjectContainer;
 	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

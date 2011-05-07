@@ -3,10 +3,10 @@
  */
 package  abe.com.motion
 {
-	import flash.utils.Dictionary;
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
+	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
 
 	/**

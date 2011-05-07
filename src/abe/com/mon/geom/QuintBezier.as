@@ -10,7 +10,6 @@ package abe.com.mon.geom
 
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * Quintic Bezier curve is a curve where each segment has three additional
 	 * vertices of controls. Each segment is composed of <code>5</code> vertices.

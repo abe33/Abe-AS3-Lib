@@ -1,7 +1,6 @@
 package abe.com.ponents.models 
 {
 	import abe.com.ponents.events.ComponentEvent;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

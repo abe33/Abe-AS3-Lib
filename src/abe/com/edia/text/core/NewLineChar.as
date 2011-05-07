@@ -9,9 +9,16 @@ package abe.com.edia.text.core
 	 */
 	public class NewLineChar extends NullChar 
 	{
-		override public function get text () : String
+		static public const DEFAULT_LINE_HEIGHT : Number = 16;
+		
+		public var ignoredAfterParagraph : Boolean;
+		public var lineHeight : Number;
+
+		public function NewLineChar ( ignoredAfterParagraph : Boolean = false, lineHeight : Number = DEFAULT_LINE_HEIGHT ) 
 		{
-			return "\n";
+			this.ignoredAfterParagraph = ignoredAfterParagraph;
+			this.lineHeight = lineHeight;
 		}
+		override public function get text () : String {	return "\n"; }
 	}
 }

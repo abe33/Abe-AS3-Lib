@@ -3,7 +3,6 @@
  */
 package abe.com.mon.geom
 {
-	import abe.com.mon.geom.Rectangle2;
 	/**
 	 * Returns a new instance of the class <code>Rectangle2</code>
 	 * according to data supplied as arguments.

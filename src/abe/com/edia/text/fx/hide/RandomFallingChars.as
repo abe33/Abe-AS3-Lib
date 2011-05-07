@@ -4,7 +4,6 @@
 package abe.com.edia.text.fx.hide 
 {
 	import abe.com.mon.utils.RandomUtils;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

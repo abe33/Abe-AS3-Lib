@@ -9,6 +9,7 @@ package abe.com.edia.text
 	import abe.com.edia.text.core.CharEvent;
 	import abe.com.edia.text.core.NewLineChar;
 	import abe.com.edia.text.core.ParagraphChar;
+	import abe.com.edia.text.core.TextFieldChar;
 	import abe.com.edia.text.core.WordWrapNewLineChar;
 	import abe.com.edia.text.layouts.BasicLayout;
 	import abe.com.edia.text.layouts.CharLayout;
@@ -20,8 +21,15 @@ package abe.com.edia.text
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
+	import abe.com.mon.geom.rect;
 	import abe.com.mon.utils.MathUtils;
+	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.utils.StringUtils;
+	import abe.com.mon.utils.arrays.firstIn;
+	import abe.com.mon.utils.arrays.lastIn;
+	import abe.com.motion.Impulse;
+	import abe.com.motion.ImpulseEvent;
+	import abe.com.motion.ImpulseListener;
 
 	import flash.display.BlendMode;
 	import flash.display.DisplayObject;
@@ -33,10 +41,14 @@ package abe.com.edia.text
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	import flash.text.TextField;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 	import flash.text.TextFormat;
 	import flash.text.TextLineMetrics;
+	import flash.ui.Mouse;
+	import flash.ui.MouseCursor;
+	import flash.utils.Dictionary;
 
 	[Event(name="change", type="flash.events.Event")]	[Event(name="link", type="flash.events.TextEvent")]
 	public class AdvancedTextField extends Sprite implements IDisplayObject,
@@ -44,7 +56,8 @@ package abe.com.edia.text
 															 IInteractiveObject,
 															 Suspendable, 
 															 ITextField,
-															 Clearable
+															 Clearable,
+														 	 ImpulseListener
 	{
 		protected var _text : String;			
 		protected var _build : CharBuild;
@@ -65,9 +78,14 @@ package abe.com.edia.text
 		protected var _selectionDragStartIndex : int;
 		protected var _selectionDragEndIndex : int;
 		
-		protected var _selectionShape : Shape;
+		protected var _selectionShape : Shape;		protected var _backgroundShape : Shape;
+		
 		protected var _alwaysShowSelection : Boolean;
 		protected var _focus : Boolean;
+		
+		protected var _isRunning : Boolean;
+				protected var _backgroundChars : Dictionary;
+		protected var _linkChars : Dictionary;
 
 		public function AdvancedTextField( build : CharBuild = null, layout : CharLayout = null )
 		{
@@ -79,14 +97,23 @@ package abe.com.edia.text
 			_allowMask = true;
 			_type = TextFieldType.DYNAMIC;
 			_align = "left";
+			_backgroundShape = new Shape();
+			addChild( _backgroundShape );
+			_backgroundChars = new Dictionary( true );			_linkChars = new Dictionary( true );
+			//selectable = true;
 			//mouseChildren = false;
 			//mouseEnabled = false;
 			tabEnabled = false;
 			tabChildren = false;
 			
+			_build.owner = this;
+			_layout.owner = this;
+			
 			addEventListener( Event.ADDED_TO_STAGE, addedToStage, false, 0, true );			addEventListener( Event.REMOVED_FROM_STAGE, removedFromStage, false, 0, true );
 			
 			registerToBuildEvents( _build );
+			
+			Impulse.addEventListener( ImpulseEvent.TICK, tick, false, -1 );
 		}
 
 /*-------------------------------------------------------------------------
@@ -126,18 +153,21 @@ package abe.com.edia.text
 		public function set text ( s : String ) : void
 		{
 			htmlText = StringUtils.stripTags( s );
-			
 		}
 		public function get htmlText () : String { return _text; }
 		public function set htmlText (s : String) : void
 		{
 			_text = s;
+			_backgroundChars = new Dictionary( true );			_linkChars = new Dictionary( true );
 			_build.buildChars( _text );
 			if( _allowMask )
 				scrollRect = new Rectangle(0,0,width,height);
 		}
 		
-		public function get chars () : Vector.<Char> { return _build.chars; }		
+		public function get chars () : Vector.<Char> { return _build.chars; }
+		public function get backgroundChars () : Dictionary { return _backgroundChars; }
+ 		public function get linkChars () : Dictionary { return _linkChars; }
+ 				
 		public function get effects () : Object { return _build.effects; }
 		
 		public function get build () : CharBuild { return _build; }
@@ -236,60 +266,44 @@ package abe.com.edia.text
 			}
 		}
 		public function get alwaysShowSelection () : Boolean { return _alwaysShowSelection; }
-		public function set alwaysShowSelection (b : Boolean) : void
-		{
-			_alwaysShowSelection = b;
-		}
+		public function set alwaysShowSelection (b : Boolean) : void { _alwaysShowSelection = b; }
 		
 		public function get caretIndex () : int { return _caretIndex; }				public function get selectionBeginIndex () : int { return _selectionBeginIndex; }		
 		public function get selectionEndIndex () : int { return _selectionEndIndex; }
 		
-		
 		public function get maxChars () : int { return 0; }
-		public function set maxChars (m : int) : void
-		{
-		}
+		public function set maxChars (m : int) : void {}
 		
 		public function get displayAsPassword () : Boolean { return false; }
-		public function set displayAsPassword (b : Boolean) : void
-		{
-		}
+		public function set displayAsPassword (b : Boolean) : void {}
 		
 		public function get textWidth () : Number { return _layout.textSize.width; }
 		public function get textHeight () : Number { return _layout.textSize.height; }
 		
-		public function get maxScrollV () : int { return 0; }		
+		public function get maxScrollV () : int { return textHeight > height ? textHeight - height : 0; }		
 		public function get bottomScrollV () : int { return 0; }
 		
-		public function get scrollV () : int { return 0; }
-		public function set scrollV (s : int) : void
-		{
-		}
+		public function get scrollV () : int { return -y; }
+		public function set scrollV (s : int) : void { y = -s; }
 		
-		public function get maxScrollH () : int { return 0;	}
+		public function get maxScrollH () : int { return textWidth > width ? textWidth - width : 0;	}
 		
-		public function get scrollH () : int { return 0; }
-		public function set scrollH (s : int) : void
-		{
-		}
+		public function get scrollH () : int { return -x; }
+		public function set scrollH (s : int) : void { x = -s; }
 /*-------------------------------------------------------------------------
  * 	ITEXTFIELD METHODS
  *-------------------------------------------------------------------------*/
 	
-		public function appendText (s : String) : void
-		{
-			htmlText = htmlText+s;
-		}
-		public function getCharIndex ( char : Char ) : int
-		{
-			return _layout.chars.indexOf(char);
-		}
+		public function appendText (s : String) : void { htmlText = htmlText+s; }
+		public function getCharIndex ( char : Char ) : int { return _layout.chars.indexOf(char); }
 		public function getCharBoundaries (charIndex : int) : Rectangle
 		{
+			if( charIndex == -1 )
+				return rect();
+			
 			var c : Char = _layout.chars[ charIndex ];
 			return new Rectangle( c.x, c.y, c.width, c.height );
 		}
-		
 		public function getCharIndexAtPoint (x : Number, y : Number) : int
 		{
 			var a : Array = getObjectsUnderPoint(new Point( x, y ));
@@ -297,15 +311,14 @@ package abe.com.edia.text
 			a = a.filter( charFilter );
 			
 			if( a.length > 0 )
-				return getCharIndex(a[a.length-1] as Char);
+				return getCharIndex( firstIn(a).parent as Char);
 			else
 				return -1;
 		}
 		protected function charFilter ( c : Object, ... args ) : Boolean 
 		{ 
-			return c is Char; 
+			return c.parent is Char; 
 		}
-		
 		public function getFirstCharInParagraph ( charIndex : int ) : int
 		{
 			var index : int = findParagraphStartBefore(charIndex)+1;
@@ -313,15 +326,14 @@ package abe.com.edia.text
 		}
 		public function getLineIndexAtPoint ( x : Number, y : Number ) : int
 		{
-			var ci : int = getCharIndexAtPoint(x, y);
+			var ci : int = _layout.getLineIndexAt( y );
 			
-			return getLineIndexOfChar( ci );
+			return ci;
 		}
 		public function getLineIndexOfChar ( charIndex : int ) : int
 		{
 			return countCharBefore( charIndex, NewLineChar );
 		}
-		
 		public function getLineLength ( lineIndex : int ) : int
 		{
 			var cli : int = findNthCharIndexAfter( 0, lineIndex, NewLineChar )+1;			var cli2 : int = findNthCharIndexAfter( cli, 1, NewLineChar )+1;
@@ -331,25 +343,28 @@ package abe.com.edia.text
 				
 			return cli2 - cli;
 		}
-		
 		public function getLineMetrics ( lineIndex : int ) : TextLineMetrics
 		{
-			var r : Range = getLineRange(lineIndex);
-			return _layout.getMetrics( r );
+			if( lineIndex >= _layout.numLines )
+			{
+				return new TextLineMetrics(0, 0, 0, 0, 0, 0);
+			}
+			else
+			{
+				var r : Range = getLineRange(lineIndex);
+				return _layout.getMetrics( r );
+			}
 		}
-		
 		public function getLineOffset ( lineIndex : int ) : int
 		{
 			return findNthCharIndexAfter( 0, lineIndex, NewLineChar ) + 1;
 		}
-		
 		public function getLineText ( lineIndex : int ) : String
 		{
 			var r : Range = getLineRange(lineIndex);
 			
 			return _layout.chars.slice( r.min, r.max ).join("");
 		}
-			
 		public function getParagraphLength ( charIndex : int ) : int
 		{
 			return getParagraphRange( charIndex ).size();
@@ -359,11 +374,12 @@ package abe.com.edia.text
 			var r : Range = getParagraphRange( charIndex );
 			return _layout.chars.slice( r.min, r.max ).join("");
 		}
-		
 		public function getLineRange ( lineIndex : int ) : Range
 		{
-			var cli : int = findNthCharIndexAfter( 0, lineIndex, NewLineChar )+1;
-			var cli2 : int = findNthCharIndexAfter( cli, 1, NewLineChar )+1;
+			var chars : Array = _layout.getLineAt( lineIndex );
+			
+			var cli : int = getCharIndex( firstIn( chars ) );
+			var cli2 : int = getCharIndex( lastIn( chars ) ) + 1;
 			
 			if( cli2 == 0 )
 				cli2 = _layout.chars.length;
@@ -397,7 +413,6 @@ package abe.com.edia.text
 			}
 			return -1;
 		}
-		
 		protected function findParagraphStartBefore( charIndex : int ) : int
 		{
 			var c : Char;
@@ -467,20 +482,14 @@ package abe.com.edia.text
 /*-------------------------------------------------------------------------
  * 	SELECTION MANAGEMENT METHODS
  *-------------------------------------------------------------------------*/
-		public function replaceSelectedText (value : String) : void
-		{
-		}
-		
-		public function replaceText (beginIndex : int, endIndex : int, newText : String) : void
-		{
-		}
+		public function replaceSelectedText (value : String) : void	{}
+		public function replaceText (beginIndex : int, endIndex : int, newText : String) : void {}
 		
 		public function setSelection (beginIndex : int, endIndex : int) : void
 		{
 			_selectionBeginIndex = MathUtils.restrict( beginIndex, 0, _layout.chars.length-1 );			_selectionEndIndex = MathUtils.restrict( endIndex, 0, _layout.chars.length-1 );
 			updateSelection();
 		}
-
 		protected function updateSelection () : void
 		{
 			if( _selectionDragEndIndex >= 0 && 
@@ -519,6 +528,17 @@ package abe.com.edia.text
 				_selectionShape.graphics.endFill();
 			}
 		}
+		protected function drawCharBackground() : void
+		{
+			_backgroundShape.graphics.clear();
+			for( var char : * in  _backgroundChars )
+			{
+				var col : uint = _backgroundChars[ char ];
+				_backgroundShape.graphics.beginFill( col );
+				_backgroundShape.graphics.drawRect( char.x + char.charContent.x , char.y + char.charContent.y, char.width, char.height );
+				_backgroundShape.graphics.endFill();
+			}
+		}
 /*-------------------------------------------------------------------------
  * 	DISPLAY OBJECTS OVERRIDE
  *-------------------------------------------------------------------------*/
@@ -529,7 +549,6 @@ package abe.com.edia.text
 			var r : Rectangle = new Rectangle( x, y, width, height );
 			return r;
 		}
-		
 /*-------------------------------------------------------------------------
  * 	ANIMATIONS
  *-------------------------------------------------------------------------*/
@@ -539,14 +558,12 @@ package abe.com.edia.text
 				if( o.hasOwnProperty( "start" ) )
 					o.start();
 		}
-		
 		public function stop () : void
 		{
 			for each( var o : Object in _build.effects )
 				if( o.hasOwnProperty( "stop" ) )
 					o.stop();
 		}
-		
 		public function isRunning () : Boolean
 		{
 			var b : Boolean = false;
@@ -556,11 +573,13 @@ package abe.com.edia.text
 			
 			return b;
 		}
-		
+		public function tick (e : ImpulseEvent) : void
+		{
+			drawCharBackground();
+		}
 /*-------------------------------------------------------------------------
  * 	EVENTS HANDLERS
  *-------------------------------------------------------------------------*/
-
 		protected function charsCreated ( e : CharEvent ) : void
 		{
 			for each ( var l : Char in e.chars )
@@ -580,20 +599,38 @@ package abe.com.edia.text
 		protected function buildComplete ( e : CharEvent ) : void
 		{
 			_layout.layout( _build.chars );
+			drawCharBackground();
+			/*
+			this.graphics.clear();
+			this.graphics.beginFill( 0, .1);
+			this.graphics.drawRect(0, 0, width, height);
+			this.graphics.endFill();*/
 		}
-
 		protected function init ( e : Event ) : void
 		{
 			dispatchEvent( new Event( Event.CHANGE ) );
 		}
-		
 		protected function mouseMove (event : MouseEvent) : void 
 		{
+			var i : int = getCharIndexAtPoint( event.stageX, event.stageY );
 			if( _selectable && _selectionDrag )
 			{
-				_caretIndex = _selectionDragEndIndex = getCharIndexAtPoint( event.stageX, event.stageY );
+				if( i == -1 )
+				{
+					var li : int = getLineIndexAtPoint( event.stageX, event.stageY );
+					i = getLineRange( li ).max;
+				}
+				_caretIndex = _selectionDragEndIndex = i;
 				
 				updateSelection ();
+			}
+			else if( i != -1 )
+			{
+				var c : Char = _layout.chars[i];
+				if( c is TextFieldChar && (( c as TextFieldChar ).charContent as TextField ).htmlText.indexOf("<A HREF") != -1 )
+					Mouse.cursor = MouseCursor.BUTTON;
+				else
+					Mouse.cursor = MouseCursor.IBEAM;
 			}
 		}
 		protected function mouseUp (event : MouseEvent) : void 
@@ -612,7 +649,13 @@ package abe.com.edia.text
 				_caretIndex = _selectionDragEndIndex = _selectionDragStartIndex = getCharIndexAtPoint( event.stageX, event.stageY );				_selectionDrag = true;
 			}
 		}
-		
+		protected function mouseOut (event : MouseEvent) : void 
+		{
+			Mouse.cursor = MouseCursor.AUTO;		}
+		protected function mouseOver (event : MouseEvent) : void 
+		{
+			Mouse.cursor = MouseCursor.IBEAM;
+		}
 		protected function addedToStage (event : Event) : void 
 		{
 			addEventListener(KeyboardEvent.KEY_DOWN, keyDown );
@@ -625,7 +668,6 @@ package abe.com.edia.text
 			removeEventListener( FocusEvent.FOCUS_OUT, focusOut );
 			removeEventListener( FocusEvent.FOCUS_IN, focusIn );
 		}
-		
 		protected function focusOut (event : FocusEvent) : void 
 		{
 			_focus = false;
@@ -662,12 +704,14 @@ package abe.com.edia.text
 		}
 		protected function registerToSelectableEvent () : void
 		{
-			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );			addEventListener( MouseEvent.MOUSE_UP, mouseUp );			addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );					}
+			addEventListener( MouseEvent.MOUSE_OVER, mouseOver );			addEventListener( MouseEvent.MOUSE_OUT, mouseOut );			addEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
+						StageUtils.stage.addEventListener( MouseEvent.MOUSE_UP, mouseUp );			StageUtils.stage.addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );		}
+		
 		protected function unregisterFromSelectableEvent () : void
 		{
-			removeEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
-			removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
-			removeEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
+			removeEventListener( MouseEvent.MOUSE_OVER, mouseOver );			removeEventListener( MouseEvent.MOUSE_OUT, mouseOut );			removeEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
+			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
+			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
 		}
 	}
 }

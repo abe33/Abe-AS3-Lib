@@ -11,7 +11,6 @@ package abe.com.patibility.codecs
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
 	import flash.utils.ByteArray;
-
 	/**
 	 * La classe <code>PNGCodec</code> permet d'encoder et de décoder des images
 	 * au format <code>PNG</code>.

@@ -1,9 +1,6 @@
 package abe.com.mands 
 {
-	import abe.com.mands.AbstractCommand;
-
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -18,7 +18,6 @@ package abe.com.edia.text.layouts
 
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextLineMetrics;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -37,11 +36,12 @@ package abe.com.edia.text.layouts
 		protected var _owner : AdvancedTextField;
 		
 		protected var _numLines : uint;
+		protected var _linesRanges : Array;		protected var _lines : Array;
 		
 		protected var _chars : Vector.<Char>;		
-		private var x : Number;
-		private var y : Number;
-		private var linewidth : Number;		private var lineHeight : Number;
+		private var __x__ : Number;
+		private var __y__ : Number;
+		private var __linewidth__ : Number;		private var __lineHeight__ : Number;		private var __baseline__ : Number;
 		
 		private var toAlign : Array;
 		
@@ -58,20 +58,15 @@ package abe.com.edia.text.layouts
 			_wordwrap = false;
 			_multiline = true;
 			_autoSize = TextFieldAutoSize.NONE;
+			_numLines = 0;
 			
 			if( tabs.length == 0 )
-			{
-				_tabSize = 4;
-			}
+				_tabSize = 24;
 			else if( tabs.length == 1 )
-			{
 				_tabSize = tabs[0];
-			}
 			else
-			{
 				_tabs = tabs;
-			}
-			_numLines = 0;
+			
 		}
 		public function get chars () : Vector.<Char> { return _chars; }
 		
@@ -116,32 +111,51 @@ package abe.com.edia.text.layouts
 			_chars = null;
 			toAlign = null;
 		}
-
+		public function getLineIndexAt (y : Number) : int
+		{
+			var a : Number;			var b : Number;
+			var l : int = _linesRanges.length;			var i : int;
+			for ( i=1; i<l; i++ )
+			{
+				a = _linesRanges[i-1];				b = _linesRanges[i];
+				if( y > a && y < b )
+					return i-1;
+			}
+			return -1;
+		}
+		public function getLineAt ( i : uint ) : Array
+		{
+			return _lines[i];
+		}
 		public function layout( chars : Vector.<Char> ):void
 		{
 			_textSize = new Dimension();
+			_linesRanges = [0];
+			_lines = [];
 			
 			var l : Number = chars.length;
-			x = 0;
-			y = 0;
-			linewidth = 0;
-			lineHeight = 0;
-			_numLines = 1;
+			__x__ = 0;
+			__y__ = 0;
+			__linewidth__ = 0;
+			__lineHeight__ = 0;
+			__baseline__ = 0;
+			_numLines = 0;
 			toAlign = [];
 			var wasParagraphEnd : Boolean;
 			var currentAlign : String = _owner.align;
-			var currentAlignLine : Vector.<Char> = new Vector.<Char>();
+			var currentAlignLine : Array = [];
 			var tc : Number = 0;
 			var i : Number;
 			_chars = chars.concat();
-			
 			// pour chaque caractère de la chaîne
 			for( i = 0; i < l; i++ )
 			{	
 				wasParagraphEnd = false;
 				
 				var char : Char = _chars[ i ];
-				
+				if( !char )
+					continue;
+							
 				// selon la nature du caractère
 				switch ( true )
 				{
@@ -156,17 +170,19 @@ package abe.com.edia.text.layouts
 							break;
 						}
 					
-						if( lineHeight == 0)
-							lineHeight = 16;
+						if( __lineHeight__ == 0)
 						
-						linewidth = x;
-						_textSize.width = Math.max( _textSize.width, linewidth );
-						x = 0;
+							__lineHeight__ = c.lineHeight;
+						
+						__linewidth__ = __x__;
+						_textSize.width = Math.max( _textSize.width, __linewidth__ );
+						__x__ = 0;
 						tc = 0;
-						y += lineHeight + _lineSpacing + _paragraphMargin;
+						__y__ += __lineHeight__ + _lineSpacing + _paragraphMargin;
+
 						
 						if( currentAlignLine != null && currentAlign != "left" )
-							toAlign.push( {line:currentAlignLine, align:currentAlign,width:linewidth} );
+							toAlign.push( {line:currentAlignLine, align:currentAlign,width:__linewidth__} );
 						
 						alignVertical( currentAlignLine );
 						
@@ -176,9 +192,10 @@ package abe.com.edia.text.layouts
 						*/
 						
 						currentAlign = c.align;						
-						currentAlignLine = new Vector.<Char>();	
+						currentAlignLine = [];	
 						
-						lineHeight = 0;
+						__lineHeight__ = 0;
+						__baseline__ = 0;
 						_numLines++;
 						break;
 						
@@ -186,32 +203,27 @@ package abe.com.edia.text.layouts
 						wasParagraphEnd = true;
 						if( !_multiline )
 							break;
-							
+						
 						if( i + 1 < l)
 						{ 
-							if ( chars[ i + 1 ] is NewLineChar ) 
-							{
-								y += _paragraphMargin;
+							var nc : Char = _chars[ i + 1 ];
+							if ( nc is NewLineChar && ( nc as NewLineChar ).ignoredAfterParagraph ) 
 								break;
-							}
-						  	else if ( _chars[ i + 1 ] is ParagraphChar )
-						  		break;
-					
-								}						  	
-						y += _paragraphMargin;
+						}						  	
+						__y__ += _paragraphMargin;
 					
 					case char is NewLineChar : 
 						if( !_multiline )
 							break;
-							
-						if( lineHeight == 0 )
-							lineHeight = 16;
 						
-						linewidth = x;
-						_textSize.width = Math.max( _textSize.width, linewidth );
-						x = 0;
+						if( __lineHeight__ == 0 )
+							__lineHeight__ = ( char as NewLineChar ).lineHeight;
+						
+						__linewidth__ = __x__;
+						_textSize.width = Math.max( _textSize.width, __linewidth__ );
+						__x__ = 0;
 						tc = 0;
-						y += lineHeight + _lineSpacing;
+						__y__ += __lineHeight__ + _lineSpacing;
 						
 						/*
 						if( currentAlignLine != null && _alignMap.hasOwnProperty( currentAlign ) )
@@ -219,23 +231,24 @@ package abe.com.edia.text.layouts
 						*/
 						
 						if( currentAlignLine != null && currentAlign != "left" )
-							toAlign.push( {line:currentAlignLine, align:currentAlign,width:linewidth} );
+							toAlign.push( {line:currentAlignLine, align:currentAlign,width:__linewidth__} );
 						
 						alignVertical( currentAlignLine );
 						
-						currentAlignLine = new Vector.<Char>();	
+						currentAlignLine = [];	
 						
 						if( wasParagraphEnd )
 							currentAlign = "left";
-						lineHeight = 0;
+						__lineHeight__ = 0;
+						__baseline__ = 0;
 						_numLines++;	
 						break;
 					
 					case char is TabChar :
 						if( _tabs )
-							x = _tabs[ tc++ % _tabs.length ];
+							__x__ = _tabs[ tc++ % _tabs.length ];
 						else
-							x = Math.ceil( x / _tabSize ) * _tabSize;
+							__x__ = _tabSize + Math.ceil( __x__ / _tabSize ) * _tabSize;
 						break;
 					
 					case char is NullChar : 
@@ -243,7 +256,7 @@ package abe.com.edia.text.layouts
 					
 					default : 
 						if( _wordwrap && 
-							x + char.charWidth > _owner.width - 4 )
+							__x__ + char.charWidth > _owner.width - 4 )
 						{
 							i = lookupWordStart( i, _chars, currentAlignLine );
 							_chars.splice(i+1, 0, new WordWrapNewLineChar());
@@ -253,26 +266,27 @@ package abe.com.edia.text.layouts
 						{
 							currentAlignLine.push( char );
 							placeChar( char );
-							lineHeight = Math.max( lineHeight, char.charHeight );
+							__lineHeight__ = Math.max( __lineHeight__, char.charHeight );
+							__baseline__ = Math.max( __baseline__, char.baseline );
 						}
 						break;
 				}
 			}
-			linewidth = x;
-			_textSize.width = Math.max( _textSize.width, linewidth );
+			__linewidth__ = __x__;
+			_textSize.width = Math.max( _textSize.width, __linewidth__ );
 			
 			if( currentAlignLine != null && currentAlign != "left" )
-				toAlign.push( {line:currentAlignLine, align:currentAlign,width:linewidth} );
+				toAlign.push( {line:currentAlignLine, align:currentAlign,width:__linewidth__} );
 						
 			alignVertical( currentAlignLine );	
 			
 			for( i = 0; i < toAlign.length; i++ )
 				_alignMap[ toAlign[ i ].align ].call( null, toAlign[ i ].line, toAlign[ i ].width );
 			
-			_textSize.height = y + lineHeight;
+			_textSize.height = __y__ + __lineHeight__;
 		}
 
-		protected function lookupWordStart ( i : Number, chars:Vector.<Char>, currentAlignLine : Vector.<Char> ) : Number
+		protected function lookupWordStart ( i : Number, chars:Vector.<Char>, currentAlignLine : Array ) : Number
 		{
 			for(i=i-1;i>=0;i--)
 			{
@@ -281,25 +295,27 @@ package abe.com.edia.text.layouts
 					return i;
 				}
 				else
-				{					x -= chars[i].charWidth + _tracking;					currentAlignLine.pop();
+				{					__x__ -= chars[i].charWidth + _tracking;					currentAlignLine.pop();
 				}
 			}
 			return 0;
 		}
 		
-		protected function alignVertical ( line : Vector.<Char> ) : void
+		protected function alignVertical ( line : Array ) : void
 		{
+			_linesRanges.push( __y__ );
+			_lines.push( line );
 			for each( var c : Char in line )
-				c.y += lineHeight - c.charHeight;
+				c.y += __baseline__ - c.baseline;				//c.y += __lineHeight__ - c.baseline;
 		}
 		
-		protected function alignRight ( line : Vector.<Char>, w : Number ) : void
+		protected function alignRight ( line : Array, w : Number ) : void
 		{
 			var dif : Number = _owner.width - w - 4;
 			for each( var c : Char in line )
 				c.x += dif;
 		}
-		protected function alignCenter ( line : Vector.<Char>, w : Number ) : void
+		protected function alignCenter ( line : Array, w : Number ) : void
 		{ 
 			var dif : Number = (_owner.width - w) / 2;
 			for each ( var c : Char in line )
@@ -309,16 +325,15 @@ package abe.com.edia.text.layouts
 		{
 			if( char is SpriteChar )
 			{
-				char.x = x + 2;
-				char.y = y + 4;
+				char.x = __x__ + 2;
+				char.y = __y__ + 4;
 			}
 			else
 			{
-				char.x = x;
-				char.y = y;
+				char.x = __x__;
+				char.y = __y__;
 			}
-			
-			x += char.charWidth + _tracking;
+			__x__ += char.charWidth + int( char.format ? char.format.letterSpacing : 0 ) + _tracking;
 		}
 		
 		public function getMetrics (r : Range) : TextLineMetrics

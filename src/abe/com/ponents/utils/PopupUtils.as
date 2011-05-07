@@ -6,7 +6,6 @@ package abe.com.ponents.utils
 	import abe.com.ponents.core.Component;
 
 	import flash.display.DisplayObject;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

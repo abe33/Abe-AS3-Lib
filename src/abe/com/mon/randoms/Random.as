@@ -1,6 +1,5 @@
-package abe.com.mon.utils 
+package abe.com.mon.randoms 
 {
-	
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
 	import abe.com.mon.geom.pt;
@@ -15,7 +14,7 @@ package abe.com.mon.utils
 
 		public function Random ( generator : RandomGenerator = null ) 
 		{
-			this.generator = generator ? generator : new BaseRandom();
+			this.generator = generator ? generator : new MathRandom();
 		}
 		/*----------------------------------------------------------*
 		 * FLOAT METHODS

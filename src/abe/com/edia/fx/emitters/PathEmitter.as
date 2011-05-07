@@ -6,8 +6,8 @@ package abe.com.edia.fx.emitters
 	import abe.com.mon.core.Randomizable;
 	import abe.com.mon.geom.Path;
 	import abe.com.mon.geom.pt;
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.Random;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.motion.easing.Constant;
 

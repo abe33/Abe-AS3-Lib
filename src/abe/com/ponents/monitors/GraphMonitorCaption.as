@@ -1,15 +1,15 @@
 package abe.com.ponents.monitors
 {
-	import abe.com.ponents.events.MonitorEvent;
-	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
+	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.core.Component;
+	import abe.com.ponents.events.MonitorEvent;
 	import abe.com.ponents.layouts.components.ComponentLayout;
 	import abe.com.ponents.layouts.components.FlowLayout;
 	import abe.com.ponents.layouts.components.GridLayout;

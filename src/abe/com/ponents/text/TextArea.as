@@ -13,6 +13,7 @@ package abe.com.ponents.text
 	import abe.com.ponents.layouts.display.DOHBoxLayout;
 	import abe.com.ponents.menus.CompletionDropDown;
 	import abe.com.ponents.scrollbars.ScrollBar;
+
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.events.FocusEvent;

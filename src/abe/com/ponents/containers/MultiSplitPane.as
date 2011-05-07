@@ -1,10 +1,10 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.ponents.events.SplitPaneEvent;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.dnd.DropEvent;
 	import abe.com.ponents.dnd.DropTarget;
 	import abe.com.ponents.dnd.DropTargetDragEvent;
+	import abe.com.ponents.events.SplitPaneEvent;
 	import abe.com.ponents.layouts.components.MultiSplitLayout;
 	import abe.com.ponents.layouts.components.splits.Divider;
 	import abe.com.ponents.layouts.components.splits.Leaf;

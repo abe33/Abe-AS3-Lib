@@ -2,7 +2,6 @@ package abe.com.ponents.layouts.display
 {
 	import abe.com.mon.core.ITextField;
 	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.utils.Alignments;
 	import abe.com.ponents.utils.Insets;
 
 	import flash.display.DisplayObject;

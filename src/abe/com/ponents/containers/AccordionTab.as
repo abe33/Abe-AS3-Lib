@@ -1,14 +1,13 @@
 package abe.com.ponents.containers
 {
-	import abe.com.ponents.core.Dockable;
-	import abe.com.ponents.transfer.DockableTransferable;
-	import abe.com.ponents.transfer.Transferable;
 	import abe.com.ponents.buttons.DraggableButton;
-	import abe.com.ponents.buttons.AbstractButton;
 	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.Dockable;
 	import abe.com.ponents.layouts.display.DOInlineLayout;
 	import abe.com.ponents.skinning.decorations.GradientFill;
 	import abe.com.ponents.skinning.icons.Icon;
+	import abe.com.ponents.transfer.DockableTransferable;
+	import abe.com.ponents.transfer.Transferable;
 
 	[Skinable(skin="AccordionTab")]
 	[Skin(define="AccordionTab",

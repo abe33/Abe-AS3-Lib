@@ -7,7 +7,6 @@ package  abe.com.mands
 
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
-
 	/**
 	 * Encapsule une opération au sein d'un objet. Par simplicité
 	 * on considère toute les commandes comme étant des processus

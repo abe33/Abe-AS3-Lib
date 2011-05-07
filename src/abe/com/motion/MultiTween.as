@@ -10,7 +10,6 @@ package  abe.com.motion
 	import abe.com.mon.logs.Log;
 
 	import flash.events.IEventDispatcher;
-
 	/**
 	 * La classe <code>MultiTween</code> permet de réaliser une interpolation
 	 * sur plusieurs propriété d'un même objet dans le temps.

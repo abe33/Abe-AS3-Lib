@@ -4,7 +4,6 @@ package abe.com.ponents.tools.canvas
 	import abe.com.ponents.skinning.cursors.Cursor;
 
 	import flash.utils.Dictionary;
-
 	/**
 	 * 
 	 */

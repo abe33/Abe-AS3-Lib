@@ -14,7 +14,6 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.skinning.icons.Icon;
 
 	import flash.events.IEventDispatcher;
-
 	/**
 	 * La classe <code>DraggableButton</code> est une implémentation standard 
 	 * d'un bouton autorisant les actions de glisser/déposer à travers un 

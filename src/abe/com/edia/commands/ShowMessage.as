@@ -16,7 +16,6 @@ package abe.com.edia.commands
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

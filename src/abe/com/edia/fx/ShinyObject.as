@@ -3,15 +3,15 @@
  */
 package abe.com.edia.fx 
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Allocable;
 	import abe.com.mon.core.LayeredSprite;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.logs.Log;
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.AllocatorInstance;
-	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.Random;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;

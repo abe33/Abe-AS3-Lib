@@ -3,8 +3,6 @@
  */
 package  abe.com.mon.core 
 {
-	import abe.com.mon.core.Runnable;
-
 	/**
 	 * A <code>Cancelable</code> object is a <code>Runnable</code> whose run
 	 * can be interrupted.

@@ -4,8 +4,8 @@
 package  abe.com.edia.dialogues
 {
 	import abe.com.mands.Command;
-	import abe.com.mon.core.Runnable;
 	import abe.com.mon.colors.Color;
+	import abe.com.mon.core.Runnable;
 	import abe.com.ponents.actions.AbstractTerminalAction;
 	import abe.com.ponents.actions.TerminalAction;
 	import abe.com.ponents.monitors.Terminal;
@@ -14,7 +14,6 @@ package  abe.com.edia.dialogues
 
 	import flash.events.Event;
 	import flash.utils.Dictionary;
-
 	/**
 	 * Permet de tester le moteur de dialogue dans le terminal
 	 */

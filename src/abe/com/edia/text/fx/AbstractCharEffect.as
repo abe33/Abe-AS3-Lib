@@ -3,16 +3,16 @@
  */
 package abe.com.edia.text.fx 
 {
-	import abe.com.mon.core.Clearable;
 	import abe.com.edia.text.core.Char;
 	import abe.com.mon.core.Allocable;
+	import abe.com.mon.core.Clearable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
+	import flash.display.DisplayObject;
 	import flash.events.EventDispatcher;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -36,7 +36,8 @@ package abe.com.edia.text.fx
 		}
 		public function addChar (l : Char) : void
 		{
-			chars.push( l );
+			if( l is DisplayObject )
+				chars.push( l );
 		}
 		public function init () : void
 		{

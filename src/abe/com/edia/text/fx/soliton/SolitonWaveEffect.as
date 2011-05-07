@@ -7,17 +7,11 @@ package abe.com.edia.text.fx.soliton
 	import abe.com.edia.text.fx.AbstractCharEffect;
 	import abe.com.mands.Timeout;
 	import abe.com.motion.ImpulseEvent;
-
-	import flash.utils.Dictionary;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class SolitonWaveEffect extends AbstractCharEffect 
 	{
-		protected var xs : Dictionary;
-		protected var ys : Dictionary;
-		
 		protected var cursor : Number;
 		protected var waveLength : Number;		protected var waveSpeed : Number;		protected var waveAmplitude : Number;
 		
@@ -30,21 +24,11 @@ package abe.com.edia.text.fx.soliton
 			this.waveSpeed = waveSpeed;
 			this.waveAmplitude = waveAmplitude;
 			this.timeout = new Timeout( super.start, timeout );
-			this.xs = new Dictionary( true );
-			this.ys = new Dictionary( true );
 		}
 
 		override public function init () :void
 		{
-			var l : Number = chars.length;
-			for(var i : Number = 0; i < l; i++ )
-			{
-				var char : Char = chars[ i ];
-				xs[ char ] = char.x;
-				ys[ char ] = char.y;
-			}
 			cursor = 0;
-			
 			super.init();
 		}
 
@@ -95,7 +79,8 @@ package abe.com.edia.text.fx.soliton
 
 		protected function changeChar ( c : Char, i : Number ) : void
 		{
-			c.y = ys[ c ] + Math.cos( i * Math.PI ) * waveAmplitude;
+			if( c.charContent )
+				c.charContent.y = Math.cos( i * Math.PI ) * waveAmplitude;
 		}
 
 		protected function getRatio ( i : Number ) : Number

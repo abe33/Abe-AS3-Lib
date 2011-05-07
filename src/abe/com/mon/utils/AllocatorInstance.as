@@ -3,7 +3,6 @@
  */
 package abe.com.mon.utils 
 {
-
 	import abe.com.mon.core.impl.AllocatorImpl;
 	/**
 	 * Instance globale de la classe <code>AllocatorImpl</code>.

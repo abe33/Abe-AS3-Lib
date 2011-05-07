@@ -3,13 +3,9 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mands.Batch;
-	import abe.com.mands.Command;
-	import abe.com.mands.MacroCommand;
 	import abe.com.mon.core.Runnable;
 
 	import flash.events.Event;
-
 	/**
 	 * Une commande <code>Batch</code> éxécute un lot de commandes les unes à la suites des autres
 	 * dans l'ordre inverse de leur ajour avec les mêmes paramètres d'entrée que la commande 

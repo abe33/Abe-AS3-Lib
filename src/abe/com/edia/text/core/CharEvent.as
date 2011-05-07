@@ -4,7 +4,6 @@
 package abe.com.edia.text.core 
 {
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

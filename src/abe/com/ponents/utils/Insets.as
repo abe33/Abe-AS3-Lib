@@ -3,11 +3,11 @@
  */
 package abe.com.ponents.utils 
 {
+	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Equatable;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.core.Cloneable;
-	import flash.utils.getQualifiedClassName;
 
+	import flash.utils.getQualifiedClassName;
 	/**
 	 * @author Cédric Néhémie
 	 */

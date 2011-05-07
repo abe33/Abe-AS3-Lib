@@ -10,7 +10,6 @@ package abe.com.edia.text.layouts
 	import abe.com.mon.geom.Range;
 
 	import flash.text.TextLineMetrics;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -34,5 +33,6 @@ package abe.com.edia.text.layouts
 		function set owner ( o : AdvancedTextField ) : void;		function get owner (): AdvancedTextField;
 
 		function getMetrics (r : Range) : TextLineMetrics;
+		function getLineAt( i : uint ) : Array;		function getLineIndexAt( y : Number ) : int;
 	}
 }

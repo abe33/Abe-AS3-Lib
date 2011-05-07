@@ -4,7 +4,6 @@
 package abe.com.mon.core 
 {
 	import flash.display.Sprite;
-
 	/**
 	 * A <code>LayeredSprite</code> is a graphical entity which provide
 	 * two specific levels, <code>background</code> and <code>foreground</code>,

@@ -8,7 +8,6 @@ package abe.com.edia.bitmaps
 	import flash.display.BitmapData;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
 	/**
 	 * Classe de base pour un moteur de <a href="http://en.wikipedia.org/wiki/Bit_blit">blitting</a>.
 	 * Un objet <code>BitmapSprite</code> représente une entité pouvant être dessiné sur un canevas bitmap.

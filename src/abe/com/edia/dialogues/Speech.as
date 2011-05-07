@@ -6,7 +6,6 @@ package  abe.com.edia.dialogues
 	import abe.com.mon.core.Serializable;
 
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * La classe <code>Speech</code> est la classe de base de tout les types
 	 * de paroles échangées avec les <acronym title="Personnages Non Joueurs">PNJ</acronym>.

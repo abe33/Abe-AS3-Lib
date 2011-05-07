@@ -1,7 +1,7 @@
 package abe.com.ponents.builder.styles 
 {
-	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.patibility.lang._;
+	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.text.TextInput;
 	import abe.com.ponents.trees.Tree;

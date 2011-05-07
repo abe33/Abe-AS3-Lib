@@ -3,8 +3,6 @@
  */
 package abe.com.munication.services
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.munication.services.middleware.ServiceMiddleware;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IEventDispatcher;

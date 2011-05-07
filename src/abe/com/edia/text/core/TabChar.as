@@ -9,10 +9,6 @@ package abe.com.edia.text.core
 	 */
 	public class TabChar extends NullChar
 	{
-		
-		override public function get text () : String
-		{
-			return "\\t";
-		}
+		override public function get text () : String {	return "\\t"; }
 	}
 }

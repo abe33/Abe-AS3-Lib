@@ -15,7 +15,6 @@ package abe.com.edia.commands
 	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.filters.BlurFilter;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

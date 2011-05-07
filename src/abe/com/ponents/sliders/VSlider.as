@@ -1,6 +1,5 @@
 package abe.com.ponents.sliders 
 {
-	import abe.com.ponents.skinning.decorations.VSliderTrackFill;
 	import abe.com.mands.ProxyCommand;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.KeyStroke;
@@ -20,8 +19,10 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.layouts.components.VBoxLayout;
 	import abe.com.ponents.models.BoundedRangeModel;
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
+	import abe.com.ponents.skinning.decorations.VSliderTrackFill;
 	import abe.com.ponents.text.TextInput;
 	import abe.com.ponents.utils.Alignments;
+
 	import flash.events.Event;
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;

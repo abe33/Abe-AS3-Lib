@@ -1,6 +1,5 @@
 package abe.com.mands.load 
 {
-
 	import flash.events.IEventDispatcher;
 	/**
 	 * @author Cédric Néhémie
