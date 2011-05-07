@@ -1,4 +1,5 @@
-package  abe.com.prehension.examples{
+package  abe.com.prehension.examples
+{
 	import abe.com.edia.text.AdvancedTextField;
 	import abe.com.edia.text.builds.BasicBuild;
 	import abe.com.edia.text.builds.BuildContext;
@@ -86,7 +87,9 @@ package  abe.com.prehension.examples{
 				build.addTagMapping( "code", function ( context : BuildContext, styleContext : StyleContext, attributes : Object ) : void
 				{
 					context.notAChar();
-					styleContext.format.font = "MonoSpace";					styleContext.format.color = 0xcccccc;					styleContext.format.size = 10;
+					styleContext.format.font = "MonoSpace";
+					styleContext.format.color = 0xcccccc;
+					styleContext.format.size = 10;
 					context.backgroundColor = 0x222222;
 					context.embedFonts = false;
 				});
@@ -94,7 +97,8 @@ package  abe.com.prehension.examples{
 			 	{
 					context.setChar( new H1Char() );
 					styleContext.format.size = 18;
-					styleContext.format.bold = true;					styleContext.format.italic = true;
+					styleContext.format.bold = true;
+					styleContext.format.italic = true;
 				} );
 				build.addTagMapping( "h1:end" , function( context : BuildContext, styleContext : StyleContext, attributes : Object ) : void 
 				{
@@ -168,7 +172,8 @@ package  abe.com.prehension.examples{
 			 				   "</ul>" +
 							   "<p>Background are affected by effects, as in <fx:effect type='new abe.com.edia.text.fx.loop::TrembleEffect()'>" +
 							   "<font background='0x99ff66' color='0x000000'><b>this example</b></font></fx:effect>.</p>" +
-							   "<p>Effects can be combined to produce much more spectacular transformations : </p>" +							   "<p align='center'>"+
+							   "<p>Effects can be combined to produce much more spectacular transformations : </p>" +
+							   "<p align='center'>"+
 							   "<fx:filter type='new flash.filters::GlowFilter(0xffffff, 1,2,2,10,2)'>" +
 								   "<fx:filter type='new flash.filters::GlowFilter(0x"+ Color.OrangeRed.rgb +",1,1.1,1.1,10,3)'>" +
 									   "<fx:effect type='new abe.com.edia.text.fx.complex::TwinklingChar()'>" +
@@ -177,7 +182,8 @@ package  abe.com.prehension.examples{
 											   		 "size='16' " +
 											   		 "face='Ubuntu' " +
 											   		 "embedFonts='true' " +
-											   		 "letterSpacing='1' >" +												   "<b>Level Complete !</b>" +
+											   		 "letterSpacing='1' >" +
+												   "<b>Level Complete !</b>" +
 											   "</font>" +
 										   "</fx:effect>" +
 									   "</fx:effect>" +

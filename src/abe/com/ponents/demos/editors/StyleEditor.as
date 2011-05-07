@@ -87,7 +87,8 @@ package abe.com.ponents.demos.editors
 			instance = this;
 			
 			StageUtils.noMenu();
-			FormUtils.addNewValueFunction( ComponentDecoration, function( t : Class) : * { return new NoDecoration(); } );			FormUtils.addNewValueFunction( Icon, function( t : Class) : * { return new EmbeddedBitmapIcon(); } );
+			FormUtils.addNewValueFunction( ComponentDecoration, function( t : Class) : * { return new NoDecoration(); } );
+			FormUtils.addNewValueFunction( Icon, function( t : Class) : * { return new EmbeddedBitmapIcon(); } );
 			
 			FormUtils.addTypeMapFunction( "embeddedBitmap" , function( v : *, args : Object ) : Component
 			{
@@ -103,7 +104,8 @@ package abe.com.ponents.demos.editors
 																   _("AbeLib © 2010 - All rights reserved."), 
 																   _("About Style Editor") ), 
 												  "about" );
-			ActionManagerInstance.registerAction( new LoadExternalRessource( BuilderCollections, _( "Load External Ressources")), "loadExternals");			ActionManagerInstance.registerAction( new OpenRessourceManager( BuilderCollections, _( "Open Ressources Manager")), "manageRessources");
+			ActionManagerInstance.registerAction( new LoadExternalRessource( BuilderCollections, _( "Load External Ressources")), "loadExternals");
+			ActionManagerInstance.registerAction( new OpenRessourceManager( BuilderCollections, _( "Open Ressources Manager")), "manageRessources");
 			
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 				StageUtils.versionMenuContext.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT, ActionManagerInstance.getAction("about").execute );	
@@ -125,12 +127,13 @@ package abe.com.ponents.demos.editors
 			_preload = preload;
 			_preload.setProgressLabel(_("Loading collections"));
 			
-			BuilderCollections.addEventListener(CommandEvent.COMMAND_END, collectionsLoaded );			BuilderCollections.addEventListener(ProgressEvent.PROGRESS, collectionProgress );
+			BuilderCollections.addEventListener(CommandEvent.COMMAND_END, collectionsLoaded );
+			BuilderCollections.addEventListener(ProgressEvent.PROGRESS, collectionProgress );
 
 			var collections : Array = SettingsManagerInstance.get( this, "collections", DEFAULT_DECORATIONS_COLLECTIONS );
 			var l : uint = collections.length;
 			
-			for( var i : uint = 0; i<l; i++ )
+			for( var i : uint = 0; i < l; i++ )
 				BuilderCollections.loadCollection( collections[ i ] );
 			
 			BuilderCollections.execute();
@@ -258,9 +261,13 @@ package abe.com.ponents.demos.editors
 			/*
 			c = new ScrollBar();
 			c = new ProgressBar(new DefaultBoundedRangeModel());
-			c = new TextInput();			c = new TextArea();			c = new Button();			c = new RadioButton();
+			c = new TextInput();
+			c = new TextArea();
+			c = new Button();
+			c = new RadioButton();
 			c = new Dialog("foo",0,new Panel());*/
-			c = new VSlider(new DefaultBoundedRangeModel());			//c = new HSlider(new DefaultBoundedRangeModel());
+			c = new VSlider(new DefaultBoundedRangeModel());
+			//c = new HSlider(new DefaultBoundedRangeModel());
 		}
 		protected function buildStylesTreeModel () : TreeModel
 		{

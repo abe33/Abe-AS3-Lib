@@ -30,7 +30,7 @@ package abe.com.ponents.text
 
 		public function get tracksViewportH () : Boolean { return multiline && wordWrap; }		
 		public function get tracksViewportV () : Boolean { return false; }	
-
+        
 		override public function getBounds (targetCoordinateSpace : DisplayObject) : Rectangle 
 		{
 			var r : Rectangle = super.getBounds( targetCoordinateSpace );
