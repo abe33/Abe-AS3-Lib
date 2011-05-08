@@ -1,4 +1,4 @@
-package abe.com.ponents.demos.dockables 
+package abe.com.prehension.examples.dockables 
 {
 	import abe.com.ponents.containers.ScrollPane;
 	import abe.com.ponents.core.Component;
@@ -31,7 +31,7 @@ package abe.com.ponents.demos.dockables
 				   			kwargs,
 				   			function( c : Container, ctx : Object ):void
 				   			{
-				   				for( var i:uint=0;i<objs.length;i++ )
+				   				for( var i:uint=0;i < objs.length;i++ )
 				   					c.addComponent( ctx[objs[i]] );
 				   				/*
 				   				if( callback != null )
@@ -44,7 +44,8 @@ package abe.com.ponents.demos.dockables
 				   			function( sp : ScrollPane, ctx:Object ):void
 				   			{
 				   				sp.view = ctx[ id ];
-				   				sp.styleKey = "NoDecorationComponent";				   				sp.viewport.styleKey = "EmptyComponent";
+				   				sp.styleKey = "NoDecorationComponent";
+				   				sp.viewport.styleKey = "EmptyComponent";
 				   				
 				   				if( callback != null )
 									callback( sp, ctx, objs );	

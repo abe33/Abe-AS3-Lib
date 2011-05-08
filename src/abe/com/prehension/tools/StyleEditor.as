@@ -1,4 +1,4 @@
-package abe.com.ponents.demos.editors
+package abe.com.prehension.tools
 {
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.logs.Log;
@@ -63,13 +63,13 @@ package abe.com.ponents.demos.editors
 		
 		static private const DEPENDENCIES : Array = [ CookieBackend ];
 		
-		[Embed(source="../../skinning/icons/components/tree.png")]
+		[Embed(source="../../ponents/skinning/icons/components/tree.png")]
 		static private var treeIcon : Class;
-		[Embed(source="../../skinning/icons/application_form_edit.png")]
+		[Embed(source="../../ponents/skinning/icons/application_form_edit.png")]
 		static private var styleFormIcon : Class;
-		[Embed(source="../../skinning/icons/brick.png")]
+		[Embed(source="../../ponents/skinning/icons/brick.png")]
 		static private var stylePreviewIcon : Class;
-		[Embed(source="../../skinning/icons/table.png")]
+		[Embed(source="../../ponents/skinning/icons/table.png")]
 		static private var styleInfosIcon : Class;
 		
 		protected var _selectionModel : StyleSelectionModel;
@@ -107,14 +107,15 @@ package abe.com.ponents.demos.editors
 			ActionManagerInstance.registerAction( new LoadExternalRessource( BuilderCollections, _( "Load External Ressources")), "loadExternals");
 			ActionManagerInstance.registerAction( new OpenRessourceManager( BuilderCollections, _( "Open Ressources Manager")), "manageRessources");
 			
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-				StageUtils.versionMenuContext.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT, ActionManagerInstance.getAction("about").execute );	
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
+				StageUtils.versionMenuContext.addEventListener( ContextMenuEvent.MENU_ITEM_SELECT, 
+				                                                ActionManagerInstance.getAction("about").execute );	
+			} 
 			
-			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
-			dragRenderer = new DnDDragObjectRenderer( DnDManagerInstance );
-			dropRenderer = new DnDDropRenderer( DnDManagerInstance );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::DND { 
+			    dragRenderer = new DnDDragObjectRenderer( DnDManagerInstance );
+			    dropRenderer = new DnDDropRenderer( DnDManagerInstance );
+			} 
 			
 			_defaultToolBarSettings = ["newSkin","removeSkin","newStyle","removeStyle"].join("," );
 			_defaultDMSPSettings = "H(V(H([200,200]styleTree,V([200,200]statesGrid,[200,200]stylePreview)),styleInfos),styleForm)";
@@ -147,9 +148,8 @@ package abe.com.ponents.demos.editors
 			BuilderCollections.removeEventListener(CommandEvent.COMMAND_END, collectionsLoaded );
 			BuilderCollections.removeEventListener(ProgressEvent.PROGRESS, collectionProgress );
 			
-			/*FDT_IGNORE*/ CONFIG::RELEASE { _init(); } 
-			CONFIG::DEBUG { /*FDT_IGNORE*/
-			setTimeout( _init, 1000 ); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			CONFIG::RELEASE { _init(); } 
+			CONFIG::DEBUG { setTimeout( _init, 1000 ); } 
 		}
 		protected function _init() : void
 		{
@@ -329,7 +329,11 @@ package abe.com.ponents.demos.editors
 			}
 			catch( e : Error )
 			{
-				Log.error( _$(_("Can't build the tree node for style '$0' : $1" ), style, Capabilities.isDebugger ? e.getStackTrace() : e.message ) );
+			    CONFIG::DEBUG {
+				    Log.error( _$(_("Can't build the tree node for style '$0' : $1" ), 
+				               style, 
+				               Capabilities.isDebugger ? e.getStackTrace() : e.message ) );
+			    }
 			}
 			return n;
 		}

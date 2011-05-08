@@ -1,4 +1,4 @@
-package abe.com.ponents.demos.dockables 
+package abe.com.prehension.examples.dockables 
 {
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.factory.ComponentFactory;

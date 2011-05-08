@@ -1,4 +1,4 @@
-package abe.com.ponents.demos.dockables 
+package abe.com.prehension.examples.dockables 
 {
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ScrollPane;
@@ -98,7 +98,9 @@ package abe.com.ponents.demos.dockables
 		}
 		protected function onBuildComplete ( p : Panel, ctx : Object ) : void 
 		{
-			ctx["listsDemoPanel"].addComponent(ctx["listsDemoMultiSelectionListPane"]);			ctx["listsDemoPanel"].addComponent(ctx["listsDemoStaticListPane"]);			ctx["listsDemoPanel"].addComponent(ctx["listsDemoDisabledStaticListPane"]);
+			ctx["listsDemoPanel"].addComponent(ctx["listsDemoMultiSelectionListPane"]);
+			ctx["listsDemoPanel"].addComponent(ctx["listsDemoStaticListPane"]);
+			ctx["listsDemoPanel"].addComponent(ctx["listsDemoDisabledStaticListPane"]);
 			
 			ctx["listsDemoPanel"].style.setForAllStates("insets", new Insets(4));
 			_content = p;

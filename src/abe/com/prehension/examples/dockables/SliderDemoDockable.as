@@ -1,4 +1,4 @@
-package abe.com.ponents.demos.dockables 
+package abe.com.prehension.examples.dockables 
 {
 	import abe.com.mon.geom.Range;
 	import abe.com.patibility.lang._;
@@ -36,12 +36,16 @@ package abe.com.ponents.demos.dockables
 						"slidersDemoHSlider",
 						[ // args
 							[new DefaultBoundedRangeModel( 10 )],
-							[new DefaultBoundedRangeModel( 20 )],							[new DefaultBoundedRangeModel( 30, 0, 50 ), 10, 1],							[new DefaultBoundedRangeModel( 30 )],							[new DefaultBoundedRangeModel( 30 )]
+							[new DefaultBoundedRangeModel( 20 )],
+							[new DefaultBoundedRangeModel( 30, 0, 50 ), 10, 1],
+							[new DefaultBoundedRangeModel( 30 )],
+							[new DefaultBoundedRangeModel( 30 )]
 						],
 						[ // kwargs
 							{},
 							{snapToTicks:true},
-							{displayTicks:true,preferredWidth:300,displayInput:false},							{displayTicks:true,preferredWidth:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
+							{displayTicks:true,preferredWidth:300,displayInput:false},
+							{displayTicks:true,preferredWidth:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" )},
 							{displayTicks:true,preferredWidth:300,displayInput:true,preComponent:new Label( "min" ),postComponent:new Label( "max" ), enabled:false}
 						], // container
 						FieldSet, 
@@ -77,7 +81,9 @@ package abe.com.ponents.demos.dockables
 						3, 
 						"slidersDemoHLogarithmicSlider",
 						[ // args
-							[new DefaultBoundedRangeModel( 10, 0.1 )],							[new DefaultBoundedRangeModel( 30, 0.1 )],							[new DefaultBoundedRangeModel( 70, 0.1 )]
+							[new DefaultBoundedRangeModel( 10, 0.1 )],
+							[new DefaultBoundedRangeModel( 30, 0.1 )],
+							[new DefaultBoundedRangeModel( 70, 0.1 )]
 						],
 						[ // kwargs
 							{},
@@ -162,7 +168,9 @@ package abe.com.ponents.demos.dockables
 			   		    null,
 			   			{ 'childrenLayout':new GridLayout(null, 1, 3, 10, 3) },
 			    		[
-			    			"slidersDemoHSliderFieldset",			    			"slidersDemoHRangeSliderFieldset",			    			"slidersDemoHLogarithmicSliderFieldset"
+			    			"slidersDemoHSliderFieldset",
+			    			"slidersDemoHRangeSliderFieldset",
+			    			"slidersDemoHLogarithmicSliderFieldset"
 			    		] );
 			 
 			fillBatch( factory,Panel, 
@@ -170,7 +178,9 @@ package abe.com.ponents.demos.dockables
 			   		    null,
 			   			{ 'childrenLayout':new GridLayout(null, 1, 3, 10, 3) },
 			    		[
-			    			"slidersDemoVSliderFieldset",			    			"slidersDemoVRangeSliderFieldset",			    			"slidersDemoVLogarithmicSliderFieldset"
+			    			"slidersDemoVSliderFieldset",
+			    			"slidersDemoVRangeSliderFieldset",
+			    			"slidersDemoVLogarithmicSliderFieldset"
 			    		] );
 			   			
 			fillBatch( factory,ScrollablePanel, 
@@ -178,7 +188,8 @@ package abe.com.ponents.demos.dockables
 			   		    null,
 			   			{ 'childrenLayout':new InlineLayout(null, 3, "left", "top", "topToBottom", true ) },
 			    		[
-			    			"hslidersDemoPanel",			    			"vslidersDemoPanel"
+			    			"hslidersDemoPanel",
+			    			"vslidersDemoPanel"
 			    		],			    		
 			   			onBuildComplete );
 		}
