@@ -1,7 +1,6 @@
 package abe.com.ponents.models 
 {
 	import flash.events.IEventDispatcher;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

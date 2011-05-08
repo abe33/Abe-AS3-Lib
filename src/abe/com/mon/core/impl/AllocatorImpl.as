@@ -6,7 +6,6 @@ package abe.com.mon.core.impl
 	import abe.com.mon.utils.Reflection;
 
 	import flash.utils.Dictionary;
-
 	/**
 	 * The <code>AllocatorImpl</code> class is a standard implementation of
 	 * the <code>Allocator</code> interface. That implementation is fully generic,

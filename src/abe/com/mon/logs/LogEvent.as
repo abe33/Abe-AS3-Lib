@@ -4,7 +4,6 @@
 package  abe.com.mon.logs
 {
 	import flash.events.Event;
-	
 	/**
 	 * The <code>LogEvent</code> class is used to broadcast messages
 	 * within an AS3 program.

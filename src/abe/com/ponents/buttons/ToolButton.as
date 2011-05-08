@@ -3,9 +3,9 @@
  */
 package abe.com.ponents.buttons 
 {
-	import abe.com.ponents.tools.canvas.actions.SetToolAction;
 	import abe.com.ponents.actions.Action;
 	import abe.com.ponents.events.PropertyEvent;
+	import abe.com.ponents.tools.canvas.actions.SetToolAction;
 
 	import flash.events.Event;
 

@@ -1,6 +1,5 @@
 package abe.com.ponents.factory
 {
-	import abe.com.ponents.factory.ComponentFactoryProcessor;
 	/**
 	 * @author cedric
 	 */

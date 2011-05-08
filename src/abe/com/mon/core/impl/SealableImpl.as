@@ -7,7 +7,6 @@ package  abe.com.mon.core.impl
 
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
-
 	/**
 	 * A standard implementation of the <code>Sealable</code> interface.
 	 * <fr>

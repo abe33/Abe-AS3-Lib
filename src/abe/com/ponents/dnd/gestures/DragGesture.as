@@ -1,7 +1,6 @@
 package abe.com.ponents.dnd.gestures 
 {
 	import abe.com.ponents.dnd.DragSource;
-
 	/**
 	 * @author cedric
 	 */

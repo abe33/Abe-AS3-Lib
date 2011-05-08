@@ -7,7 +7,6 @@ package abe.com.ponents.lists
 	import abe.com.ponents.utils.Directions;
 
 	import flash.display.BitmapData;
-
 	/**
 	 * @author cedric
 	 */

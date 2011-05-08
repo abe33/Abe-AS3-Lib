@@ -3,16 +3,12 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mands.AbstractMacroCommand;
-	import abe.com.mands.Command;
-	import abe.com.mands.MacroCommand;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Runnable;
+	import abe.com.mon.core.Suspendable;
 
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
-
 	/**
 	 * Macro-Commande permettant d'éxécuter plusieurs autres commandes 
 	 * simultanément et de ne renvoyer un évènement <code>CommandEvent.COMMAND_END</code> 

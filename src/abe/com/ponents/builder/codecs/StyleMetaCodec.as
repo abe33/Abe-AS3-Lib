@@ -7,7 +7,6 @@ package abe.com.ponents.builder.codecs
 	import abe.com.ponents.skinning.ComponentStyle;
 
 	import flash.utils.Dictionary;
-
 	/**
 	 * @author cedric
 	 */

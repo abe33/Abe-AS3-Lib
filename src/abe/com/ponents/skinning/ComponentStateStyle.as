@@ -3,8 +3,8 @@
  */
 package abe.com.ponents.skinning 
 {
-	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.colors.Color;
+	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
 	import abe.com.ponents.utils.Borders;
@@ -17,7 +17,6 @@ package abe.com.ponents.skinning
 	import flash.text.TextFormat;
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -6,7 +6,6 @@ package  abe.com.edia.camera
 	import abe.com.mon.geom.Rectangle2;
 
 	import flash.events.Event;
-
 	/**
 	 * Classe d'évènement diffusé par les différentes classes de caméra.
 	 */

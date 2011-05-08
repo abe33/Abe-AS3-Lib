@@ -4,7 +4,6 @@
 package  abe.com.mands.events
 {
 	import flash.events.Event;
-
 	/**
 	 * Classe d'évènement diffusé par les différentes classes de commandes.
 	 * 

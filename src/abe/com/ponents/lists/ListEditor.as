@@ -1,6 +1,5 @@
 package abe.com.ponents.lists 
 {
-	import abe.com.ponents.menus.ComboBox;
 	import abe.com.mands.ProxyCommand;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.utils.KeyStroke;
@@ -16,6 +15,7 @@ package abe.com.ponents.lists
 	import abe.com.ponents.events.ButtonEvent;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormComponent;
+	import abe.com.ponents.menus.ComboBox;
 	import abe.com.ponents.models.DefaultListModel;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
 

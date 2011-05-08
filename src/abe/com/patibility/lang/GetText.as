@@ -1,7 +1,5 @@
 package abe.com.patibility.lang
 {
-	import abe.com.mon.utils.StringUtils;
-
 	/**
 	 * La classe <code>GetText</code> implémente le mécanisme de localisation
 	 * <code>gettext</code> définie par le proget <code>GNU</code>.

@@ -4,7 +4,6 @@ package abe.com.ponents.skinning.icons
 
 	import flash.display.Shape;
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

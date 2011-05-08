@@ -5,7 +5,6 @@ package abe.com.ponents.skinning.icons
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Serializable;
 	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.rect;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.core.AbstractComponent;
 	import abe.com.ponents.layouts.display.DOStretchLayout;

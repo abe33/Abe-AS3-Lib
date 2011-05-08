@@ -1,6 +1,5 @@
 package abe.com.ponents.sliders 
 {
-	import abe.com.ponents.skinning.decorations.HSliderTrackFill;
 	import abe.com.mands.ProxyCommand;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.KeyStroke;
@@ -20,6 +19,7 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.models.BoundedRangeModel;
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
+	import abe.com.ponents.skinning.decorations.HSliderTrackFill;
 	import abe.com.ponents.text.TextInput;
 	import abe.com.ponents.utils.Alignments;
 

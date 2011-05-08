@@ -3,7 +3,7 @@
  */
 package abe.com.edia.fx.emitters
 {
-	import abe.com.mon.utils.Random;
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.RandomUtils;
 
 	import flash.geom.Point;

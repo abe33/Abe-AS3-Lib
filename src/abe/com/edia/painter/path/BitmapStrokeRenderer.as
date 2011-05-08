@@ -1,6 +1,5 @@
 package abe.com.edia.painter.path 
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.geom.Path;
 	import abe.com.mon.utils.PointUtils;
 

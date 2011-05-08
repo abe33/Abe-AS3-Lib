@@ -16,7 +16,6 @@ package  abe.com.ponents.skinning.cursors
 	import flash.ui.Mouse;
 	import flash.ui.MouseCursor;
 	import flash.utils.Dictionary;
-
 	/**
 	 * Classe de gestion du curseur, des objets peuvent s'enregistrer, et
 	 * laisser la classe s'occuper de l'affichage du curseur. A l'inverse,

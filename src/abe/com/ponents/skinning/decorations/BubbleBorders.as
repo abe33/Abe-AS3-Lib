@@ -1,6 +1,5 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.pt;
 	import abe.com.mon.utils.GeometryUtils;

@@ -3,10 +3,8 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mands.Command;
 	import abe.com.mon.core.Iterable;
 	import abe.com.mon.core.Runnable;
-
 	/**
 	 * Encapsule l'éxécution d'une itération de boucle au sein d'un objet
 	 * pour un usage avec une commande <code>LoopCommand</code>.

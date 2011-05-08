@@ -1,15 +1,14 @@
 package abe.com.ponents.monitors.recorders 
 {
-	import abe.com.motion.ImpulseListener;
-	import abe.com.mon.geom.Range;
 	import abe.com.mon.colors.Color;
+	import abe.com.mon.geom.Range;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
+	import abe.com.motion.ImpulseListener;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.monitors.GraphCurveSettings;
 
 	import flash.utils.getTimer;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

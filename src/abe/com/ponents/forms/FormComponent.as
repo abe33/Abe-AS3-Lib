@@ -1,7 +1,6 @@
 package abe.com.ponents.forms 
 {
 	import abe.com.ponents.core.Component;
-
 	/**
 	 * @author cedric
 	 */

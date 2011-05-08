@@ -5,7 +5,6 @@ package abe.com.ponents.layouts.components
 	import abe.com.ponents.core.Container;
 	import abe.com.ponents.utils.Alignments;
 	import abe.com.ponents.utils.Insets;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

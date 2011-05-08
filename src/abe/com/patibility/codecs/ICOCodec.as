@@ -3,12 +3,9 @@
  */
 package abe.com.patibility.codecs
 {
-	import abe.com.patibility.codecs.Codec;
-
 	import flash.display.BitmapData;
 	import flash.utils.ByteArray;
 	import flash.utils.Endian;
-
 	/**
 	 * La classe <code>ICOCodec</code> permet d'encoder et de décoder
 	 * des images au format <code>ICO</code>.

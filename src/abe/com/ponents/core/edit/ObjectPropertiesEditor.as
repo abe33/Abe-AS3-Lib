@@ -1,7 +1,5 @@
 package abe.com.ponents.core.edit 
 {
-	import abe.com.ponents.utils.Inspect;
-	import abe.com.mon.logs.Log;
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.utils.magicCopy;

@@ -4,7 +4,6 @@
 package abe.com.edia.fx.emitters 
 {
 	import flash.geom.Point;
-
 	/**
 	 * L'interface <code>Emitter</code> définie la méthode <code>get</code>
 	 * laquelle renvoie des coordonnées utilisables dans le cadre de générations

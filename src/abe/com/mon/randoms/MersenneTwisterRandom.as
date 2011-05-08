@@ -1,7 +1,7 @@
 /**
  * @license
  */
-package abe.com.mon.utils
+package abe.com.mon.randoms
 {
 	import abe.com.mon.core.Randomizable;
 	/**
@@ -10,8 +10,8 @@ package abe.com.mon.utils
 	 * Chaque instance initie une séquence de nombres qui seront identiques pour une <code>seed</code>
 	 * donnée. Tel que :
 	 * </p>
-	 * <listing>var mt1 : MTRandom = new MTRandom();
-	 * var mt2 : MTRandom = new MTRandom();
+	 * <listing>var mt1 : MersenneTwisterRandom = new MersenneTwisterRandom();
+	 * var mt2 : MersenneTwisterRandom = new MersenneTwisterRandom();
 	 *
 	 * trace( mt1.random() == mt2.random() ); // output : true </listing>
 	 *
@@ -19,15 +19,15 @@ package abe.com.mon.utils
 	 * @see http://fr.wikipedia.org/wiki/Mersenne_Twister Mersenne Twister sur Wikipédia
 	 * @see http://www.devslash.com/ Implementation originale d'après Matthew Lloyd
 	 */
-	public class MTRandom implements RandomGenerator
+	public class MersenneTwisterRandom implements RandomGenerator, SeededRandomGenerator
 	{
 		static public function init( o : Randomizable, seed : uint = 0 ) : Randomizable
 		{
-			o.randomSource = new Random( new MTRandom( seed ) );
+			o.randomSource = new Random( new MersenneTwisterRandom( seed ) );
 			return o;
 		}
 		/**
-		 * Créer une nouvelle instance de la classe <code>MTRandom</code> avec
+		 * Créer une nouvelle instance de la classe <code>MersenneTwisterRandom</code> avec
 		 * la graine <code>seed</code>.
 		 * <p>
 		 * Deux instances dont les graines sont égales renverront la même séquence de nombres.
@@ -35,7 +35,7 @@ package abe.com.mon.utils
 		 *
 		 * @param	seed	graine initialisant la séquence de nombre
 		 */
-		public function MTRandom ( seed : uint = 0 )
+		public function MersenneTwisterRandom ( seed : uint = 0 )
 		{
 			plantSeed( seed );
 		}
@@ -54,8 +54,9 @@ package abe.com.mon.utils
 		 */
 		public function random() : Number
 		{
-			return ( Number( seed() )/ 0xffffffff * 2 );
+			return ( Number( seed() ) / 0x80000000 );
 		}
+		public function get isSeeded () : Boolean { return true; }
 		/**
 		 * Renvoie le prochain entier de la séquence pseudo-aléatoire.
 		 *

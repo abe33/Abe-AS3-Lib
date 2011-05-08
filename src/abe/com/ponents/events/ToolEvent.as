@@ -4,7 +4,6 @@ package abe.com.ponents.events
 	import abe.com.ponents.tools.canvas.ToolManager;
 
 	import flash.geom.Point;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

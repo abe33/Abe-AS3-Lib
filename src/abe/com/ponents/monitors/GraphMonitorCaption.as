@@ -1,14 +1,15 @@
 package abe.com.ponents.monitors
 {
-	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
+	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.core.Component;
+	import abe.com.ponents.events.MonitorEvent;
 	import abe.com.ponents.layouts.components.ComponentLayout;
 	import abe.com.ponents.layouts.components.FlowLayout;
 	import abe.com.ponents.layouts.components.GridLayout;
@@ -59,7 +60,6 @@ package abe.com.ponents.monitors
 			
 			var l : uint = rcd.length;
 
-
 			for( var i : uint = 0; i<l;i++ )
 			{
 				var rec : Recorder = rcd[i];
@@ -74,8 +74,9 @@ package abe.com.ponents.monitors
 			this.layoutMode = layoutMode;
 			mouseChildren = false;
 			start();
+			
+			registerToMonitorEvents( _monitor );
 		}
-
 		public function get captionMode () : uint { return _captionMode; }
 		public function set captionMode (captionMode : uint) : void
 		{
@@ -275,6 +276,28 @@ package abe.com.ponents.monitors
 			if( _playing )
 				Impulse.unregister(tick );
 		}
+		protected function registerToMonitorEvents (monitor : GraphMonitor) : void 
+		{
+			monitor.addEventListener(  MonitorEvent.RECORDER_ADD, recorderAdd );
+			monitor.addEventListener(  MonitorEvent.RECORDER_REMOVE, recorderRemove );
+		}
+		protected function unregisterFromMonitorEvents (monitor : GraphMonitor) : void 
+		{
+			monitor.removeEventListener(  MonitorEvent.RECORDER_ADD, recorderAdd );
+			monitor.removeEventListener(  MonitorEvent.RECORDER_REMOVE, recorderRemove );
+		}
+		protected function recorderAdd (event : MonitorEvent) : void 
+		{
+			var rec : Recorder = event.recorder;
+			var cl : CaptionLabel = new CaptionLabel( formatLabel( rec ), new ColorIcon( rec.curveSettings.color ) ) ;
+			cl.tooltip = rec.curveSettings.name;
+			addComponent( cl );
+		}
+		protected function recorderRemove (event : MonitorEvent) : void 
+		{
+			var index : uint = _monitor.recorders.indexOf( event.recorder );
+			removeComponentAt(index);
+		}
 		public function tick (e : ImpulseEvent) : void
 		{
 			/*FDT_IGNORE*/
@@ -287,7 +310,8 @@ package abe.com.ponents.monitors
 			for( var i : uint = 0; i<l;i++ )
 			{
 				var rec : Recorder = rcd[i];
-				(getComponentAt( i ) as CaptionLabel).value = formatLabel( rec );
+				if( i < childrenCount )
+					(getComponentAt( i ) as CaptionLabel).value = formatLabel( rec );
 			}
 		}
 		protected function formatLabel( rec : Recorder ) : String

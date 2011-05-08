@@ -1,13 +1,12 @@
 package abe.com.ponents.text 
 {
-	import flash.events.MouseEvent;
-
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.ponents.core.Component;
 
 	import flash.display.InteractiveObject;
 	import flash.events.Event;
 	import flash.events.FocusEvent;
+	import flash.events.MouseEvent;
 	import flash.text.TextFieldAutoSize;
 	import flash.text.TextFieldType;
 
@@ -82,5 +81,7 @@ package abe.com.ponents.text
 			super.mouseOver( e );
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
+		override public function registerValue (e : Event = null) : void {}
 	}
 }

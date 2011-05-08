@@ -4,7 +4,6 @@
 package abe.com.mon.geom
 {
 	import flash.geom.Point;
-
 	/**
 	 * The <code>Triangulate</code> class provides methods for triangulate
 	 * geometry, and obtain all the constituent sub-triangles.

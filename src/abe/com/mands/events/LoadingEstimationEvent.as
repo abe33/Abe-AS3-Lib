@@ -4,7 +4,6 @@
 package  abe.com.mands.events
 {
 	import flash.events.ProgressEvent;
-
 	/**
 	 * Évènement diffusé par un objet <code>Estimator</code> durant son analyse d'un transfert.
 	 *

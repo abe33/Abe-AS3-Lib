@@ -5,7 +5,6 @@ package abe.com.motion
 
 	import flash.display.DisplayObject;
 	import flash.geom.Point;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

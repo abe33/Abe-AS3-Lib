@@ -10,7 +10,6 @@ package abe.com.ponents.layouts.components
 	import abe.com.ponents.utils.Insets;
 
 	import flash.geom.Point;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

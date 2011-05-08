@@ -7,7 +7,6 @@ package abe.com.mon.core.impl
 
 	import flash.display.Sprite;
 	import flash.events.Event;
-
 	/**
 	 * A standard implementation of the <code>LayeredSprite</code> interface.
 	 * <fr>

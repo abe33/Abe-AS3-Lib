@@ -6,7 +6,6 @@ package abe.com.ponents.skinning.icons
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

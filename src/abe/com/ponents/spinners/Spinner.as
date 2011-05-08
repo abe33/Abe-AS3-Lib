@@ -37,7 +37,6 @@ package abe.com.ponents.spinners
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
-	import flash.utils.IExternalizable;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 

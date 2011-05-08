@@ -5,7 +5,6 @@ package abe.com.ponents.utils
 	import abe.com.mon.core.Serializable;
 
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

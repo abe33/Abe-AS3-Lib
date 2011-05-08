@@ -3,13 +3,13 @@
  */
 package abe.com.ponents.core 
 {
-	import abe.com.mon.core.Identifiable;
-	import abe.com.ponents.dnd.DragSource;
-	import abe.com.mon.core.IInteractiveObject;
 	import abe.com.mon.core.IDisplayObject;
 	import abe.com.mon.core.IDisplayObjectContainer;
+	import abe.com.mon.core.IInteractiveObject;
+	import abe.com.mon.core.Identifiable;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.core.focus.Focusable;
+	import abe.com.ponents.dnd.DragSource;
 	import abe.com.ponents.skinning.ComponentStyle;
 	import abe.com.ponents.skinning.cursors.Cursor;
 
@@ -17,7 +17,6 @@ package abe.com.ponents.core
 	import flash.geom.Rectangle;
 	import flash.ui.ContextMenuItem;
 	import flash.utils.Dictionary;
-
 	/**
 	 * L'interface <code>Component</code> définie l'ensemble des propriétés 
 	 * essentielle des composants.

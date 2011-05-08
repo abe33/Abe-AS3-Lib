@@ -1,7 +1,5 @@
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.ponents.events.ContainerEvent;
-	import flash.events.Event;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.dm;
 	import abe.com.ponents.core.Component;
@@ -10,6 +8,7 @@ package abe.com.ponents.layouts.components
 	import abe.com.ponents.dnd.DropEvent;
 	import abe.com.ponents.dnd.DropTarget;
 	import abe.com.ponents.dnd.DropTargetDragEvent;
+	import abe.com.ponents.events.ContainerEvent;
 	import abe.com.ponents.transfer.ComponentsFlavors;
 	import abe.com.ponents.transfer.DataFlavor;
 	import abe.com.ponents.transfer.ToolBarTransferable;

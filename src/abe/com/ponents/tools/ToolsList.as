@@ -1,6 +1,5 @@
 package abe.com.ponents.tools 
 {
-
 	import abe.com.ponents.tools.canvas.Tool;
 	/**
 	 * @author cedric

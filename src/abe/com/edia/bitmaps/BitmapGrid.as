@@ -3,12 +3,12 @@
  */
 package abe.com.edia.bitmaps
 {
-	import abe.com.mon.utils.RandomUtils;
 	import abe.com.mon.core.Randomizable;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.pt;
 	import abe.com.mon.geom.rect;
-	import abe.com.mon.utils.Random;
+	import abe.com.mon.randoms.Random;
+	import abe.com.mon.utils.RandomUtils;
 
 	import flash.display.BitmapData;
 	import flash.geom.Point;

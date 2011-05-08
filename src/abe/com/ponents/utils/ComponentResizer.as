@@ -1,10 +1,11 @@
 package abe.com.ponents.utils 
 {
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.skinning.cursors.Cursor;
+
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
 
 	[Event(name="resize",type="flash.events.Event")]

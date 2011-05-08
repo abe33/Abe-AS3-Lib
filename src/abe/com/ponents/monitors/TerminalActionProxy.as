@@ -5,9 +5,9 @@ package  abe.com.ponents.monitors
 {
 	import abe.com.mands.Command;
 	import abe.com.mands.events.CommandEvent;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Runnable;
-	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.ponents.actions.AbstractTerminalAction;
 	import abe.com.ponents.actions.TerminalAction;
@@ -15,7 +15,6 @@ package  abe.com.ponents.monitors
 
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
-
 	/**
 	 * Un objet <code>TerminalActionProxy</code> permet d'utiliser n'importe quelle classe implémentant
 	 * l'interface <code>Command</code> comme commande dans un terminal.

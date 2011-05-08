@@ -3,12 +3,9 @@
  */
 package  abe.com.mands.load
 {
-	import abe.com.mands.load.AbstractLoaderEstimator;
-
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.ProgressEvent;
-
 	public class LoaderEstimator extends AbstractLoaderEstimator
 	{
 		protected var _loader : Loader;

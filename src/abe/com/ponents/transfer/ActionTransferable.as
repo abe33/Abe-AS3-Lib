@@ -4,10 +4,6 @@
 package abe.com.ponents.transfer 
 {
 	import abe.com.ponents.actions.Action;
-	
-	
-	
-
 	/**
 	 * @author Cédric Néhémie
 	 */

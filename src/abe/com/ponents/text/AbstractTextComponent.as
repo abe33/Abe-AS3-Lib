@@ -77,7 +77,7 @@ package abe.com.ponents.text
 		public function AbstractTextComponent ()
 		{
 			super( );
-			_label = _label ? _label : new TextFieldImpl( );			//_label = _label ? _label : new TLFTextFieldImpl();
+			_label = _label ? _label : new TextFieldImpl();			//_label = _label ? _label : new TLFTextFieldImpl();
 			_label.width = 100;
 			_label.height = 20;
 			_label.type = TextFieldType.INPUT;
@@ -523,12 +523,14 @@ package abe.com.ponents.text
 		}
 		public function registerValue ( e : Event = null ) : void
 		{
-			if( _label )
+			if( _label && _label.type == "input" )
+			{
 				_value = _label.htmlText;
 
-			/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
-			checkContent( );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
+				checkContent( );
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			}
 		}
 		override public function focusIn (e : FocusEvent) : void
 		{

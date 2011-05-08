@@ -1,9 +1,8 @@
 package abe.com.patibility.humanize 
 {
-	import abe.com.mon.utils.arrays.equalTo;
-
 	import org.hamcrest.assertThat;
-
+	import org.hamcrest.object.equalTo;
+	import abe.com.patibility.humanize.*;
 	/**
 	 * @author cedric
 	 */

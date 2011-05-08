@@ -4,7 +4,6 @@
 package abe.com.mon.utils 
 {
 	import abe.com.mon.geom.Dimension;
-
 	/**
 	 * Classe utilitaire fournissant des méthodes de traitement des objets
 	 * <code>Dimension</code>.

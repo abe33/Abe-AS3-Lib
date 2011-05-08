@@ -1,5 +1,5 @@
 package abe.com.ponents.trees {
-	import abe.com.ponents.history.UndoManagerInstance;	import abe.com.ponents.lists.List;	import abe.com.ponents.lists.ListTransferable;	import abe.com.ponents.models.TreeNode;	import abe.com.ponents.transfer.ComponentsFlavors;	import abe.com.ponents.transfer.ComponentsTransferModes;	import abe.com.ponents.transfer.DataFlavor;	/**
+	import abe.com.ponents.history.UndoManagerInstance;	import abe.com.ponents.lists.List;	import abe.com.ponents.lists.ListTransferable;	import abe.com.ponents.models.TreeNode;	import abe.com.ponents.transfer.ComponentsFlavors;	import abe.com.ponents.transfer.ComponentsTransferModes;	import abe.com.ponents.transfer.DataFlavor;	/**
 	 * @author Cédric Néhémie
 	 */
 	public class TreeTransferable extends ListTransferable 	{

@@ -14,6 +14,7 @@ package abe.com.ponents.builder.styles
 	import flash.text.TextFormat;
 	import flash.utils.getQualifiedClassName;
 
+
 	/**
 	 * @author cedric
 	 */

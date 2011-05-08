@@ -1,12 +1,11 @@
 package abe.com.ponents.builder.styles 
 {
-	import abe.com.ponents.layouts.display.DOInlineLayout;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.core.AbstractComponent;
+	import abe.com.ponents.layouts.display.DOInlineLayout;
 	import abe.com.ponents.layouts.display.DisplayObjectLayout;
 
 	import flash.text.TextField;
-
 	/**
 	 * @author cedric
 	 */

@@ -4,7 +4,6 @@
 package  abe.com.mands.events
 {
 	import flash.events.Event;
-
 	/**
 	 * Évènement utilisé par la classe <code>LoopCommand</code> pour
 	 * fournir les informations d'une itération à l'<code>IterationCommand</code>

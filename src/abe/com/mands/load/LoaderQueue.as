@@ -14,7 +14,7 @@ package  abe.com.mands.load
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
-	
+
 	[Event(type="flash.events.ProgressEvent", name="progress")]
 	public class LoaderQueue extends AbstractCommand implements Command, Runnable
 	{

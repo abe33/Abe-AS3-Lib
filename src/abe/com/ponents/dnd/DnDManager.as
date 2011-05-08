@@ -3,7 +3,6 @@
  */
 package  abe.com.ponents.dnd 
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.ponents.transfer.DataFlavor;
 	import abe.com.ponents.transfer.Transferable;
