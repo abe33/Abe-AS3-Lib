@@ -427,7 +427,7 @@ package abe.com.ponents.sliders
 		{
 			focusPrevious();
 		}
-		protected function mouseWheel ( e : MouseEvent ) : void
+		public function mouseWheel ( e : MouseEvent ) : void
 		{
 			e.stopPropagation();
 			if( _enabled )

@@ -2,7 +2,6 @@ package abe.com.ponents.ressources.handlers
 {
 	import abe.com.mon.utils.Reflection;
 	import abe.com.patibility.humanize.plural;
-	import abe.com.patibility.lang._$;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.ressources.ClassCollectionViewer;
 	import abe.com.ponents.ressources.preview.MovieClipPreview;
@@ -14,9 +13,8 @@ package abe.com.ponents.ressources.handlers
 	 */
 	public class MovieClipHandler extends DisplayObjectHandler 
 	{
-		public function MovieClipHandler ()
-		{
-		}
+		public function MovieClipHandler () {}
+		override public function get title () : String { return "MovieClip"; }
 		override public function getPreview (o : *) : Component 
 		{
 			try
@@ -27,9 +25,7 @@ package abe.com.ponents.ressources.handlers
 				instance.displayObject = d;
 				return instance;
 			}
-			catch( e : Error )
-			{				
-			}
+			catch( e : Error ) {}
 			return ClassCollectionViewer.DEFAULT_HANDLER.getPreview( o );
 		}
 		override public function getDescription (o : *) : String 
@@ -37,11 +33,7 @@ package abe.com.ponents.ressources.handlers
 			try
 			{
 				var d : MovieClip = Reflection.buildInstance( o as Class ) as MovieClip;
-				return _$( "$0\n<font color='#666666'>Duration :</font> ${totalFrames}",
-							{
-								'totalFrames':d.totalFrames + plural(d.totalFrames, " frame", " frames")
-							},
-							super.getDescription( o ) );
+				return HandlerUtils.getField( "Duration", d.totalFrames + plural(d.totalFrames, " frame", " frames") );
 			}
 			catch( e : Error ) {}
 			return "";
