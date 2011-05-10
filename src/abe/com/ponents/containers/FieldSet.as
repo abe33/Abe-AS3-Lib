@@ -40,7 +40,9 @@ package abe.com.ponents.containers
 		  inherit="EmptyComponent",
 		  preview="abe.com.ponents.containers::FieldSet.defaultFieldSetPreview",
 		  previewAcceptStyleSetup="false",
-		  state__all__insets="new cutils::Insets(2,0,2,0)"
+		  
+          state__all__textColor="color(SteelBlue)",
+		  state__all__insets="new cutils::Insets(2,0,2,0)"
 	)]
 	public class FieldSet extends Panel
 	{
@@ -58,11 +60,13 @@ package abe.com.ponents.containers
 		static private const DEPENDENCIES : Array = [FieldSetBorders];
 
 		protected var _label : Label;
-		protected var _insidePanel : Panel;		protected var _labelPanel : Panel;
+		protected var _insidePanel : Panel;
+		protected var _labelPanel : Panel;
 
 		public function FieldSet ( label : String = null )
 		{
-			_insidePanel = new Panel();			_labelPanel = new Panel();
+			_insidePanel = new Panel();
+			_labelPanel = new Panel();
 			
 			super();
 
@@ -73,10 +77,12 @@ package abe.com.ponents.containers
 			}
 
 			_insidePanel.styleKey = "FieldSet_InnerPanel";
-			_insidePanel.allowMask = false;			_labelPanel.styleKey = "FieldSet_LabelPanel";
+			_insidePanel.allowMask = false;
+			_labelPanel.styleKey = "FieldSet_LabelPanel";
 			_labelPanel.childrenLayout = new InlineLayout( _labelPanel, 0, Alignments.LEFT );
 			
-			var l : BorderLayout = new BorderLayout();			l.addComponent( _labelPanel, CardinalPoints.NORTH );
+			var l : BorderLayout = new BorderLayout();
+			l.addComponent( _labelPanel, CardinalPoints.NORTH );
 			l.addComponent( _insidePanel );
 			_childrenLayout = l;
 			
