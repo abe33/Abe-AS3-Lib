@@ -34,23 +34,18 @@ abe.com.prehension.examples{
 	[SWF(backgroundColor="#666666", width="720")]
 	public class ShinyObjectDemo extends Sprite
 	{
-		protected var shinyObject : ShinyObject;		protected var waterBall : WaterBall;		protected var fireBall : FireBall;
-		protected var twirl : ParticlesTwirl;		protected var sg : SmokeRingGenerator;
+		protected var shinyObject : ShinyObject;
+		protected var waterBall : WaterBall;
+		protected var fireBall : FireBall;
+		protected var twirl : ParticlesTwirl;
+		protected var sg : SmokeRingGenerator;
 		protected var twirlRib : TwirlRibbons;
 		protected var rocks : RocksLiftUp;
 		protected var twinklingObj : Object;
 
 		public function ShinyObjectDemo ()
 		{
-			StageUtils.setup(this);
-			StageUtils.flexibleStage();
-			ToolKit.initializeToolKit();
-
-			var p : DebugPanel = new DebugPanel();
-			ToolKit.popupLevel.addChild(p);
-			p.visible = false;
-
-			KeyboardControllerInstance.eventProvider = stage;
+			ToolKit.initializeToolKit( this, false );
 
 			stage.addEventListener( MouseEvent.CLICK, click );
 
@@ -58,7 +53,8 @@ abe.com.prehension.examples{
 			{
 				var spr :  LayeredSpriteImpl;
 
-				///////////////////////////////////////////////////////////////////////				spr = getLayeredSprite( Color.Black );
+				///////////////////////////////////////////////////////////////////////
+				spr = getLayeredSprite( Color.Black );
 				spr.x = 60;
 				spr.y = 60;
 
@@ -67,7 +63,8 @@ abe.com.prehension.examples{
 
 				ToolKit.mainLevel.addChild( spr );
 
-				///////////////////////////////////////////////////////////////////////				spr = getLayeredSprite( Color.Black );
+				///////////////////////////////////////////////////////////////////////
+				spr = getLayeredSprite( Color.Black );
 				spr.filters = [new GlowFilter( Color.DarkSlateGray.hexa, 1, 3, 3, 1, 2)];
 				spr.x = 160;
 				spr.y = 60;
@@ -78,13 +75,15 @@ abe.com.prehension.examples{
 
 				ToolKit.mainLevel.addChild( spr );
 
-				///////////////////////////////////////////////////////////////////////				spr = getLayeredSprite( Color.Black );
+				///////////////////////////////////////////////////////////////////////
+				spr = getLayeredSprite( Color.Black );
 				spr.x = 260;
 				spr.y = 60;
 				spr.foreground.filters = [new GlowFilter( Color.Gold.hexa, 1, 6, 6, 2, 2)];
 				spr.background.filters = [new GlowFilter( Color.Gold.hexa, 1, 6, 6, 2, 2)];
 
-				twirl = new ParticlesTwirl( spr, Number.POSITIVE_INFINITY );				twirl.init();
+				twirl = new ParticlesTwirl( spr, Number.POSITIVE_INFINITY );
+				twirl.init();
 
 				ToolKit.mainLevel.addChild( spr );
 
@@ -97,7 +96,8 @@ abe.com.prehension.examples{
 				waterBall.init();
 
 				ToolKit.mainLevel.addChild( spr );
-				///////////////////////////////////////////////////////////////////////
+
+				///////////////////////////////////////////////////////////////////////
 				spr = getLayeredSprite( Color.Black );
 				spr.x = 460;
 				spr.y = 60;
@@ -172,10 +172,12 @@ abe.com.prehension.examples{
 			ToolKit.mainLevel.addChild(r);
 			*/
 			/*
-			var pn : PerlinGlow = new PerlinGlow();			pn.x = stage.mouseX;
+			var pn : PerlinGlow = new PerlinGlow();
+			pn.x = stage.mouseX;
 			pn.y = stage.mouseY;
 			pn.init();
-			ToolKit.mainLevel.addChild(pn);*/
+
+			ToolKit.mainLevel.addChild(pn);*/
 		}
 
 		protected function getLayeredSprite ( c : Color ) : LayeredSpriteImpl

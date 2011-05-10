@@ -60,7 +60,7 @@ package abe.com.ponents.factory
 		{ 
 			var l : uint = _buildStack.length;
 			var n : uint = 0;
-			for( var i : uint = 0;i<l;i++ )
+			for( var i : uint = 0;i < l;i++ )
 			{
 				if( _buildStack[i] is ComponentFactoryProcessGroup )
 					n += (_buildStack[i] as ComponentFactoryProcessGroup).componentsToBuild;
@@ -183,7 +183,8 @@ package abe.com.ponents.factory
 						_processingContext[ id ] = o;
 						if( o is Component )
 						{
-						  ( o as Component ).id = id;						  ( o as Component ).name = id;
+						  ( o as Component ).id = id;
+						  ( o as Component ).name = id;
 						}
 					}
 					else

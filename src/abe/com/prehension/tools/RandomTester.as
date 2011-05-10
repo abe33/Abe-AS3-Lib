@@ -23,14 +23,7 @@ package abe.com.prehension.tools{
 	{
 		public function RandomTester ()
 		{
-			StageUtils.setup(this);
-			StageUtils.flexibleStage();
-			ToolKit.initializeToolKit();
-			
-			var p : DebugPanel = new DebugPanel();
-			ToolKit.popupLevel.addChild(p);
-			p.visible = false;
-			KeyboardControllerInstance.eventProvider = stage;
+			ToolKit.initializeToolKit( this, false );
 			
 			try
 			{

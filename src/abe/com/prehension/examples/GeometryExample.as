@@ -52,19 +52,11 @@ package abe.com.prehension.examples
 
 		public function GeometryExample ()
 		{
-			StageUtils.setup(this);
-			StageUtils.flexibleStage();
-			ToolKit.initializeToolKit();
-
-			var d : DebugPanel = new DebugPanel();
-			ToolKit.popupLevel.addChild(d);
-			d.visible = false;
+			ToolKit.initializeToolKit( this, false );
 
 			tweens = [];
 
 			stage.addEventListener(MouseEvent.CLICK, click);
-
-			KeyboardControllerInstance.eventProvider = stage;
 
 			try
 			{
@@ -188,7 +180,8 @@ package abe.com.prehension.examples
 				///////////////////////////////////////////////////////////////////////
 				var csp : CubicBezier = new CubicBezier( [ pt(340,160),
 														   pt(340,240),
-														   pt(400,240),														   pt(400,200),
+														   pt(400,240),
+														   pt(400,200),
 														   pt(400,160),
 														   pt(460,160),
 														   pt(500,220)] );
@@ -288,7 +281,9 @@ package abe.com.prehension.examples
 				ToolKit.mainLevel.addChild(s);
 
 
-				var r1 : Rectangle2 = new Rectangle2(120, 240, 100, 60 );				var r2 : Rectangle2 = new Rectangle2(140, 260, 100, 60, MathUtils.deg2rad( -30 ) );				var r3 : Rectangle2 = new Rectangle2(150, 250, 20, 30, MathUtils.deg2rad( 45 ) );
+				var r1 : Rectangle2 = new Rectangle2(120, 240, 100, 60 );
+				var r2 : Rectangle2 = new Rectangle2(140, 260, 100, 60, MathUtils.deg2rad( -30 ) );
+				var r3 : Rectangle2 = new Rectangle2(150, 250, 20, 30, MathUtils.deg2rad( 45 ) );
 				var t1 : Triangle = new Triangle( pt( 140, 220 ),
 												  pt( 250, 320 ),
 												  pt( 290, 270 ) );
@@ -318,7 +313,9 @@ package abe.com.prehension.examples
 					}
 				}
 
-				Log.debug( "r1 contains r2 : " + r1.containsGeometry(r2));				Log.debug( "r1 contains r3 : " + r1.containsGeometry(r3));				Log.debug( "r2 contains r3 : " + r2.containsGeometry(r3));
+				Log.debug( "r1 contains r2 : " + r1.containsGeometry(r2));
+				Log.debug( "r1 contains r3 : " + r1.containsGeometry(r3));
+				Log.debug( "r2 contains r3 : " + r2.containsGeometry(r3));
 			}
 			catch( e : Error )
 			{

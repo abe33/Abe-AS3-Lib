@@ -63,7 +63,7 @@ package abe.com.prehension.examples
 		}
 		override public function init( preload : ComponentFactoryPreload ) : void
 		{
-			var debugPanel : DebugPanel = ToolKit.popupLevel.getChildByName("debugPanel") as DebugPanel;
+			var debugPanel : DebugPanel = ToolKit.debugPanel;
 			debugPanel.addTab( new SimpleTab( _("Service"), 
 							  				 new ServiceTesterPanel(), 
 							  				 magicIconBuild("../res/icons/tools/server_go.png")));

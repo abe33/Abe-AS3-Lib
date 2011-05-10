@@ -30,6 +30,7 @@ package abe.com.ponents.buttons
 	 * 
 	 * @author Cédric Néhémie
 	 */
+	[Skinable(skin="Button")]
 	public class ToggleButton extends AbstractButton  implements IDisplayObject, 
 																 IInteractiveObject, 
 																 IDisplayObjectContainer, 

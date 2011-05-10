@@ -75,7 +75,7 @@ package  abe.com.ponents.utils
 		 * 
 		 * @param	r	la véritable racine d'origine de l'animation
 		 */		 
-		static public function initializeToolKit ( root : DisplayObjectContainer ) : void
+		static public function initializeToolKit ( root : DisplayObjectContainer, visibleDebug : Boolean = true ) : void
 		{
 			if( _initialized )
 				return;
@@ -125,9 +125,10 @@ package  abe.com.ponents.utils
 			    debugLevel.name = "debugLevel";
                 debugPanel = new DebugPanel();
                 debugPanel.name = "debugPanel";
+                debugPanel.visible = visibleDebug;
                 
                 debugLevel.addChild( debugPanel );
-			    StageUtils.root.addChildAt( debugLevel, 2 );
+			    StageUtils.root.addChildAt( debugLevel, 3 );
             }			
 			
 			_initialized = true;

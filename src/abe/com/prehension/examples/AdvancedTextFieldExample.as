@@ -49,15 +49,8 @@ package  abe.com.prehension.examples
 		{
 			GlowFilter, WaveEffect, TrembleEffect, CircularWaveEffect, TwinklingChar, RandomFallingChars;
 			
-			StageUtils.setup(this);
-			StageUtils.flexibleStage();
-			ToolKit.initializeToolKit();
-			 
-			var p : DebugPanel = new DebugPanel();
-			ToolKit.popupLevel.addChild(p);
-			p.visible = false;
-			
-			KeyboardControllerInstance.eventProvider = stage;
+			ToolKit.initializeToolKit( this );
+			ToolKit.debugPanel.visible = false;
 			 
 			try
 			{

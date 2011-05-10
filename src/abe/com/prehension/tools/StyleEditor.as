@@ -1,25 +1,26 @@
 package abe.com.prehension.tools
 {
+	
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.Reflection;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
-	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.patibility.settings.backends.CookieBackend;
+	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.ponents.actions.ActionManagerInstance;
 	import abe.com.ponents.actions.builtin.AboutAction;
 	import abe.com.ponents.builder.events.StyleSelectionEvent;
 	import abe.com.ponents.builder.models.BuilderCollections;
 	import abe.com.ponents.builder.models.StyleSelectionModel;
+	import abe.com.ponents.builder.styles.initializePrototypeSerializableSupport;
 	import abe.com.ponents.builder.styles.StyleFormPanel;
 	import abe.com.ponents.builder.styles.StyleInfosPanel;
 	import abe.com.ponents.builder.styles.StylePreviewPanel;
 	import abe.com.ponents.builder.styles.StyleStateGrid;
 	import abe.com.ponents.builder.styles.StylesTree;
 	import abe.com.ponents.builder.styles.StylesTreeHeader;
-	import abe.com.ponents.builder.styles.initializePrototypeSerializableSupport;
 	import abe.com.ponents.buttons.RessourcePicker;
 	import abe.com.ponents.containers.ScrollPane;
 	import abe.com.ponents.core.Component;
@@ -40,15 +41,16 @@ package abe.com.prehension.tools
 	import abe.com.ponents.ressources.actions.LoadExternalRessource;
 	import abe.com.ponents.ressources.actions.OpenRessourceManager;
 	import abe.com.ponents.skinning.ComponentStyle;
-	import abe.com.ponents.skinning.SkinManager;
-	import abe.com.ponents.skinning.SkinManagerInstance;
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
 	import abe.com.ponents.skinning.decorations.NoDecoration;
 	import abe.com.ponents.skinning.icons.EmbeddedBitmapIcon;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
+	import abe.com.ponents.skinning.SkinManager;
+	import abe.com.ponents.skinning.SkinManagerInstance;
 	import abe.com.ponents.sliders.VSlider;
-
+	import abe.com.ponents.utils.ToolKit;
+	
 	import flash.events.ContextMenuEvent;
 	import flash.events.ProgressEvent;
 	import flash.system.Capabilities;
