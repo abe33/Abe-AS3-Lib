@@ -38,7 +38,8 @@ package abe.com.ponents.core
 			super();
 			_childrenLayout = _childrenLayout ? _childrenLayout : new DOInlineLayout( _childrenContainer );
 			/*
-			_childrenContainer.addEventListener( Event.ADDED, childrenChange );			_childrenContainer.addEventListener( Event.REMOVED, childrenChange );
+			_childrenContainer.addEventListener( Event.ADDED, childrenChange );
+			_childrenContainer.addEventListener( Event.REMOVED, childrenChange );
 			*/
 			invalidatePreferredSizeCache();
 		}
@@ -105,7 +106,7 @@ package abe.com.ponents.core
 		{
 			var children : Array = [];
 			var l : uint = _childrenContainer.numChildren;
-			for(var i : uint=0;i<l;i++)
+			for(var i : uint = 0; i < l ; i++)
 				children.push(_childrenContainer.getChildAt(i));
 
 			children.sort ( displayObjectSort );
