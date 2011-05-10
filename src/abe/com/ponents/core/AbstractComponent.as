@@ -77,7 +77,8 @@ package abe.com.ponents.core
 	 * propriétés <code>contentScrollH</code> et <code>contentScrollV</code>.
 	 *
 	 * @eventType abe.com.ponents.events.ComponentEvent.SCROLL
-	 */	[Event(name="scroll", type="abe.com.ponents.events.ComponentEvent")]
+	 */
+	[Event(name="scroll", type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * Évènement diffusé lorsque le composant est repaint.
 	 * <p>
@@ -87,12 +88,14 @@ package abe.com.ponents.core
 	 * </p>
 	 *
 	 * @eventType abe.com.ponents.events.ComponentEvent.REPAINT
-	 */	[Event(name="repaint", type="abe.com.ponents.events.ComponentEvent")]
+	 */
+	[Event(name="repaint", type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * Évènement diffusé lorsque l'état d'activation du composant à changer.
 	 *
 	 * @eventType abe.com.ponents.events.ComponentEvent.ENABLE_CHANGE
-	 */	[Event(name="enableChange", type="abe.com.ponents.events.ComponentEvent")]
+	 */
+	[Event(name="enableChange", type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * Évènement diffusé lorsque la souris est relâché à l'éxtérieur du composant.
 	 *
@@ -105,10 +108,20 @@ package abe.com.ponents.core
 	 * <p>Les propriétés suivantes sont à l'origine de la diffusion de l'évènement
 	 * <code>propertyChange</code></p>
 	 * <ul>
-	 * <li>cursor</li>	 * <li>contentScrollH</li>	 * <li>contentScrollV</li>	 * <li>enabled</li>	 * <li>focusParent</li>	 * <li>position</li>	 * <li>size</li>	 * <li>styleKey</li>	 * <li>tooltip</li>	 * </ul>
+	 * <li>cursor</li>
+	 * <li>contentScrollH</li>
+	 * <li>contentScrollV</li>
+	 * <li>enabled</li>
+	 * <li>focusParent</li>
+	 * <li>position</li>
+	 * <li>size</li>
+	 * <li>styleKey</li>
+	 * <li>tooltip</li>
+	 * </ul>
 	 *
 	 * @eventType abe.com.ponents.events.PropertyEvent.PROPERTY_CHANGE
-	 */	[Event(name="propertyChange", type="abe.com.ponents.events.PropertyEvent")]
+	 */
+	[Event(name="propertyChange", type="abe.com.ponents.events.PropertyEvent")]
 /*-----------------------------------------------------------------
  * 	STYLE METADATA
  *----------------------------------------------------------------*/
@@ -403,7 +416,8 @@ package abe.com.ponents.core
 		protected var _displayed : Boolean;
 		/**
 		 * L'état de pression du bouton de la souris au dessus du composant.
-		 *		 * @default false
+		 *
+		 * @default false
 		 * @see ../../../../Components-Structure.html#behavior Structure comportementale
 		 */
 		protected var _pressed : Boolean;
@@ -493,7 +507,8 @@ package abe.com.ponents.core
 		 * @default true
 		 * @see ../../../../Components-Structure.html#focus Transmission du focus
 		 * @private
-		 */		protected var _allowFocusTraversing : Boolean;
+		 */
+		protected var _allowFocusTraversing : Boolean;
 		/**
 		 * L'état d'activation de la fonction de masque du contenu du composant.
 		 * <p>
@@ -566,7 +581,8 @@ package abe.com.ponents.core
 		 * <code>[Skinable]</code> et <code>[Skin]</code> définies pour ce composant.
 		 * </p>
 		 * @see ../../../../Components-Structure.html#styles Construction des styles
-		 * @see ../../../../Metas.html#skinable Balise [Skinable]		 * @see ../../../../Metas.html#skin Balise [Skin]
+		 * @see ../../../../Metas.html#skinable Balise [Skinable]
+		 * @see ../../../../Metas.html#skin Balise [Skin]
 		 */
 		protected var _style : ComponentStyle;
 		/**
@@ -574,7 +590,8 @@ package abe.com.ponents.core
 		 *
 		 * @see ../../../../Components-Structure.html#graphics Structure graphique
 		 */
-		protected var _background : Sprite;		/**
+		protected var _background : Sprite;
+		/**
 		 * Un objet <code>Shape</code> servant au dessin du premier plan du composant.
 		 *
 		 * @see ../../../../Components-Structure.html#graphics Structure graphique
@@ -587,7 +604,8 @@ package abe.com.ponents.core
 		 */
 		/*
 		protected var _visibleWhileNotInStage : Boolean;
-		protected var _wasAddedToStage : Boolean;
+
+		protected var _wasAddedToStage : Boolean;
 		*/
 /*-----------------------------------------------------------------
  * 	DISPLAY LIST RELATED
@@ -631,7 +649,8 @@ package abe.com.ponents.core
 		 *
 		 * @default null
 		 * @see ../../../../Components-Structure.html#layout Taille et layouts
-		 */		protected var _preferredSize : Dimension;
+		 */
+		protected var _preferredSize : Dimension;
 		/**
 		 * La dernière taille de préférence calculée pour ce composant.
 		 * <p>
@@ -713,7 +732,8 @@ package abe.com.ponents.core
 		public function AbstractComponent ()
 		{
 			_enabled = true;
-			_pressed = false;			_selected = false;
+			_pressed = false;
+			_selected = false;
 			_over = false;
 			_allowFocus = true;
 			_allowOver = true;
@@ -724,7 +744,8 @@ package abe.com.ponents.core
 			_integerForSpatialInformations = true;
 			_allowOverEventBubbling = false;
 			_background = new Sprite();
-			_foreground = new Sprite();			_childrenContainer = new Sprite();			
+			_foreground = new Sprite();
+			_childrenContainer = new Sprite();			
 			_style = SkinManagerInstance.getComponentStyle( this );
 			_contentScrollH = 0;
 			_tooltipOverlayOnMouseOver = false;
@@ -739,14 +760,17 @@ package abe.com.ponents.core
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
 			_keyboardContext = new Dictionary();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+
+			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 			_menuContextEnabled = true;
 			_menuContextGroups = {};
 			_menuContextOrder = [];
 			_menuContextMap = {};
-			_menuContextEnabledMap = new Dictionary(true);			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			_menuContextEnabledMap = new Dictionary(true);
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
-			_background.mouseEnabled = false;			_foreground.mouseEnabled = false;
+			_background.mouseEnabled = false;
+			_foreground.mouseEnabled = false;
 			_childrenContainer.mouseEnabled = false;
 			_childrenContainer.mouseChildren = false;
 
@@ -754,12 +778,16 @@ package abe.com.ponents.core
 			useHandCursor = false;
 			focusRect = false;
 			
-			_childrenContainer.name= "childrenContainer";			_background.name= "background";			_foreground.name= "foreground";
+			_childrenContainer.name= "childrenContainer";
+			_background.name= "background";
+			_foreground.name= "foreground";
 
 			addChild( _background );
-			addChild( _childrenContainer );			addChild( _foreground );
+			addChild( _childrenContainer );
+			addChild( _foreground );
 
-			addWeakEventListener( Event.ADDED_TO_STAGE, addedToStage );			addWeakEventListener( Event.REMOVED_FROM_STAGE, removeFromStage );
+			addWeakEventListener( Event.ADDED_TO_STAGE, addedToStage );
+			addWeakEventListener( Event.REMOVED_FROM_STAGE, removeFromStage );
 
 			_style.addEventListener( PropertyEvent.PROPERTY_CHANGE, stylePropertyChanged, false, 0, true );
 		}
@@ -897,7 +925,8 @@ package abe.com.ponents.core
 			super.x = _integerForSpatialInformations ? Math.floor( value ) : value;
 			fireChangeEvent();
 			firePropertyEvent( "position", position );
-			firePositionChangeEvent();		}
+			firePositionChangeEvent();
+		}
 		/**
 		 * Réecriture de l'accesseur défini dans <code>DisplayObject</code>
 		 * afin de prendre en compte la gestion des entiers dans les coordonnées
@@ -998,7 +1027,8 @@ package abe.com.ponents.core
 					_size.height = 0;
 				
 			}
-			fireResizeEventIfSizeChanged( oldw, oldh );			fireChangeEvent();
+			fireResizeEventIfSizeChanged( oldw, oldh );
+			fireChangeEvent();
 			invalidateIfSizeChanged( oldw, oldh );
 		}
 		/**
@@ -1274,9 +1304,11 @@ package abe.com.ponents.core
 
 			while( p )
 			{
-				rp = p.visibleArea;				r = r.intersection( rp );
+				rp = p.visibleArea;
+				r = r.intersection( rp );
 				//r = intersection( r, rp );
-				r.x += p.x;
+
+				r.x += p.x;
 				r.y += p.y;
 				p = p.parentContainer;
 			}
@@ -1518,7 +1550,8 @@ package abe.com.ponents.core
 		 * à la diffusion d'un évènement <code>PropertyEvent.PROPERTY_CHANGE</code>
 		 * si la taille du composant à changer.
 		 * </p>
-		 * @param	w	nouvelle longueur du composant		 * @param	h	nouvelle hauteur du composant
+		 * @param	w	nouvelle longueur du composant
+		 * @param	h	nouvelle hauteur du composant
 		 * @return	une référence vers l'instance courante pour satisfaire l'interface fluide
 		 * @see abe.com.ponents.layouts.Layout
 		 * @see ../../../../Components-Structure.html#layout Taille et layouts
@@ -1768,11 +1801,13 @@ package abe.com.ponents.core
 			
 			if( forceClear )
 			{
-				_background.graphics.clear();				_foreground.graphics.clear();
+				_background.graphics.clear();
+				_foreground.graphics.clear();
 			}
 			else
 			{
-				clearBackgroundGraphics();				clearForegroundGraphics();
+				clearBackgroundGraphics();
+				clearForegroundGraphics();
 			}
 			if( size )
 			{
@@ -1784,7 +1819,8 @@ package abe.com.ponents.core
 				applyMask( size, insets );
 			}
 			else
-			{				_childrenContainer.scrollRect = null;
+			{
+				_childrenContainer.scrollRect = null;
 			}
 
 			dispatchEvent( new ComponentEvent( ComponentEvent.REPAINT ) );
@@ -1821,7 +1857,9 @@ package abe.com.ponents.core
 		 * Dans l'ordre ceci donne :
 		 * </p>
 		 * <ul>
-		 * <li>Si <code>_size</code> est non nul, <code>_size</code> est renvoyée.</li>		 * <li>Si <code>_preferredSize</code> est non nul, <code>_preferredSize</code> est renvoyée.</li>		 * <li>Si <code>_preferredSizeCache</code> est non nul, <code>_preferredSizeCache</code> est renvoyée.</li>
+		 * <li>Si <code>_size</code> est non nul, <code>_size</code> est renvoyée.</li>
+		 * <li>Si <code>_preferredSize</code> est non nul, <code>_preferredSize</code> est renvoyée.</li>
+		 * <li>Si <code>_preferredSizeCache</code> est non nul, <code>_preferredSizeCache</code> est renvoyée.</li>
 		 * <li>Autrement, un nouvel objet <code>Dimension</code> vide est renvoyé.</li>
 		 * </ul>
 		 * @return la taille finale de ce composant
@@ -2157,7 +2195,8 @@ package abe.com.ponents.core
 		{
 			if( !_backgroundCleared )
 			{
-				_background.graphics.clear();				_background.graphics.lineStyle();
+				_background.graphics.clear();
+				_background.graphics.lineStyle();
 				addEventListener(Event.EXIT_FRAME, exitFrame );
 				_backgroundCleared = true;
 			}
@@ -2169,7 +2208,8 @@ package abe.com.ponents.core
 		{
 			if( !_foregroundCleared )
 			{
-				_foreground.graphics.clear();				_foreground.graphics.lineStyle();
+				_foreground.graphics.clear();
+				_foreground.graphics.lineStyle();
 				addEventListener(Event.EXIT_FRAME, exitFrame );
 				_foregroundCleared = true;
 			}
@@ -2575,7 +2615,8 @@ package abe.com.ponents.core
 		 *
 		 * @see ../../../../Conditional-Compilation.html#MENU_CONTEXT Constante FEATURES::MENU_CONTEXT
 		 */
-		public function get menuContextGroups () : Object { return _menuContextGroups; }		public function set menuContextGroups ( o : Object ): void
+		public function get menuContextGroups () : Object { return _menuContextGroups; }
+		public function set menuContextGroups ( o : Object ): void
 		{
 			_menuContextGroups = o;
 		}
@@ -2590,7 +2631,9 @@ package abe.com.ponents.core
 		 * </p>
 		 *
 		 * @see ../../../../Conditional-Compilation.html#MENU_CONTEXT Constante FEATURES::MENU_CONTEXT
-		 */		public function get menuContextOrder () : Array { return _menuContextOrder; }		public function set menuContextOrder ( a : Array ) : void
+		 */
+		public function get menuContextOrder () : Array { return _menuContextOrder; }
+		public function set menuContextOrder ( a : Array ) : void
 		{
 			_menuContextOrder = a;
 		}
@@ -2630,19 +2673,21 @@ package abe.com.ponents.core
 		private function prepareMenuContext():*
 		{
 			/*FDT_IGNORE*/
-			TARGET::FLASH_9 { var v : Array = []; }			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = []; }
+			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 			var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			if( _menuContextEnabled )
 			{
 				var l : uint = _menuContextOrder.length;
-				for( var i:int=0;i<l;i++)
+				for( var i:int=0;i < l;i++)
 				{
 					var contextGroup : Array = _menuContextGroups[ _menuContextOrder[i] ] as Array;
 					if( contextGroup )
 					{
 						var m : uint = contextGroup.length;
-						for(var j:int=0;j<m;j++)
+						for(var j:int=0;j < m;j++)
 						{
 							var cmi : ContextMenuItem = contextGroup[j];
 							cmi.separatorBefore = i!=0 && j==0;
@@ -2654,7 +2699,8 @@ package abe.com.ponents.core
 			}
 			return v;
 		}
-				/**
+		
+		/**
 		 * [conditional-compile] Affecte les menus définis dans ce composant en tant que menus à afficher.
 		 *
 		 * <p>
@@ -2669,7 +2715,9 @@ package abe.com.ponents.core
 		protected function setContextMenu () : void
 		{
 			/*FDT_IGNORE*/
-			TARGET::FLASH_9 { var v : Array = menuContext; }			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = menuContext; }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = menuContext; }
+			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = menuContext; }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 			var v : Vector.<ContextMenuItem> = menuContext; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			var l : Number = v.length;
@@ -2842,9 +2890,13 @@ package abe.com.ponents.core
 		 * Veillez donc à conditionner l'usage de cette fonctionnalité à l'usage de la constante de compilation associée.
 		 * </p>
 		 *
-		 * @param	id			l'identifiant du menu contextuel		 * @param	group		le nom du groupe cible		 * @param	forceMove	force le déplacement du menu si celui-ci est déja présent
+		 * @param	id			l'identifiant du menu contextuel
+		 * @param	group		le nom du groupe cible
+		 * @param	forceMove	force le déplacement du menu si celui-ci est déja présent
 		 * 						dans un autre groupe
-		 * @throws Error Impossible de manipuler un menu inexistant.		 * @throws Error Le groupe cible 'group' n'existe pas.		 * @throws Error Impossible de déplacer le menu 'id' car il est déjà contenu dans le groupe 'group'.
+		 * @throws Error Impossible de manipuler un menu inexistant.
+		 * @throws Error Le groupe cible 'group' n'existe pas.
+		 * @throws Error Impossible de déplacer le menu 'id' car il est déjà contenu dans le groupe 'group'.
 		 * @see ../../../../Conditional-Compilation.html#MENU_CONTEXT Constante FEATURES::MENU_CONTEXT
 		 */
 		public function putContextMenuItemInGroup( id : String, group : String, forceMove : Boolean = true ) : void
@@ -3324,7 +3376,8 @@ package abe.com.ponents.core
 				e.stopPropagation();
 
 			if( !_enabled )
-			{				e.stopPropagation();
+			{
+				e.stopPropagation();
 
 				if( e.shiftKey )
 					focusPrevious();
@@ -3463,7 +3516,8 @@ package abe.com.ponents.core
 			/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
 				hideToolTip();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			_background.graphics.clear();			_foreground.graphics.clear();
+			_background.graphics.clear();
+			_foreground.graphics.clear();
 			
 			if( StageUtils.stage.focus == this )
 				StageUtils.stage.focus = null;
@@ -3479,9 +3533,16 @@ package abe.com.ponents.core
 		{
 			switch( event.propertyName )
 			{
-				case StyleProperties.INSETS :				case StyleProperties.FORMAT :					invalidatePreferredSizeCache();
+				case StyleProperties.INSETS :
+				case StyleProperties.FORMAT :
+					invalidatePreferredSizeCache();
 					break;
-				case StyleProperties.BACKGROUND :				case StyleProperties.FOREGROUND :				case StyleProperties.INNER_FILTERS :				case StyleProperties.OUTER_FILTERS :				case StyleProperties.CORNERS :				case StyleProperties.TEXT_COLOR :
+				case StyleProperties.BACKGROUND :
+				case StyleProperties.FOREGROUND :
+				case StyleProperties.INNER_FILTERS :
+				case StyleProperties.OUTER_FILTERS :
+				case StyleProperties.CORNERS :
+				case StyleProperties.TEXT_COLOR :
 				case StyleProperties.BORDERS :
 				default :
 					invalidate( true );
@@ -3507,9 +3568,11 @@ package abe.com.ponents.core
 				addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
 				addEventListener( FocusEvent.FOCUS_IN, focusIn );
 				addEventListener( FocusEvent.FOCUS_OUT, focusOut );
-				addEventListener( FocusEvent.KEY_FOCUS_CHANGE, keyFocusChange );				addEventListener( FocusEvent.MOUSE_FOCUS_CHANGE, mouseFocusChange );
+				addEventListener( FocusEvent.KEY_FOCUS_CHANGE, keyFocusChange );
+				addEventListener( FocusEvent.MOUSE_FOCUS_CHANGE, mouseFocusChange );
 			}
-			//_style.registerToParentStyleEvent();		}
+			//_style.registerToParentStyleEvent();
+		}
 
 		/**
 		 * Désabonne le composant comme écouteur des évènements liés à sa présence
