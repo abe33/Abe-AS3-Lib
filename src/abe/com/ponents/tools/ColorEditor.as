@@ -28,7 +28,7 @@ package abe.com.ponents.tools
 		public function ColorEditor (tabsPosition : String = "north")
 		{
 			super( tabsPosition );
-			//preferredSize = new Dimension(290, 300);
+			preferredSize = new Dimension(290, 350);
 			
 			_tabBar.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			
