@@ -1,4 +1,4 @@
-package abe.com.ponents.demos.dockables 
+package abe.com.prehension.examples.dockables 
 {
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.containers.FieldSet;
@@ -70,7 +70,7 @@ package abe.com.ponents.demos.dockables
 							{ 
 								'allowHTML':true,
 								'value':"thiis is a wrongly spelled word in TextArea, use context menu to see suggestions.\n\n\n\n<font size='20'>A big text</font>\n<u>miiispelled</u> waurd.",
-								'setSpellCheckerDictionnary':["en_US.aff", "en_US.dic"],
+								'setSpellCheckerDictionnary':["../res/en_US.aff", "../res/en_US.dic"],
 								'spellCheckEnabled':true
 							}
 						], 
@@ -87,7 +87,7 @@ package abe.com.ponents.demos.dockables
 						[
 							{ 
 								'value':"I Can't wriite wel",
-								'setSpellCheckerDictionnary':["en_US.aff", "en_US.dic"],
+								'setSpellCheckerDictionnary':["../res/en_US.aff", "../res/en_US.dic"],
 								'spellCheckEnabled':true
 							}
 						], 
@@ -103,7 +103,8 @@ package abe.com.ponents.demos.dockables
 			   		    null,
 			   			{ 'childrenLayout':new InlineLayout(null, 3, "left", "top", "topToBottom", true ) },
 			    		[
-			    			"textDemoInputFieldset",			    			"textDemoTextAreaFieldset",
+			    			"textDemoInputFieldset",
+			    			"textDemoTextAreaFieldset",
 			    			"textAreaSpellingFieldSet",
 			    			"textInputSpellingFieldSet"
 			    		],			    		

@@ -86,10 +86,12 @@ package abe.com.ponents.sliders
 /*----------------------------------------------------------------------------------*
  * 	INSTANCE MEMBERS
  *----------------------------------------------------------------------------------*/
-		protected var _inputLeft : TextInput;		protected var _inputRight : TextInput;
+		protected var _inputLeft : TextInput;
+		protected var _inputRight : TextInput;
 		protected var _track : Button;
 		
-		protected var _knobLeft : Button;		protected var _knobRight : Button;
+		protected var _knobLeft : Button;
+		protected var _knobRight : Button;
 		
 		protected var _model : BoundedRangeModel;
 		
@@ -152,7 +154,8 @@ package abe.com.ponents.sliders
 				dataChanged(null);
 			}
 		}
-		public function get inputLeft () : TextInput { return _inputLeft; }		public function get inputRight () : TextInput { return _inputRight; }
+		public function get inputLeft () : TextInput { return _inputLeft; }
+		public function get inputRight () : TextInput { return _inputRight; }
 		public function get track () : Button { return _track; }
 		public function get knobLeft () : Button { return _knobLeft; }
 		public function get knobRight () : Button { return _knobRight; }
@@ -173,13 +176,15 @@ package abe.com.ponents.sliders
 		public function get disabledMode () : uint { return _inputLeft.disabledMode; }
 		public function set disabledMode (b : uint) : void 
 		{
-			_inputLeft.disabledMode = b;			_inputRight.disabledMode = b;
+			_inputLeft.disabledMode = b;
+			_inputRight.disabledMode = b;
 		}
 		
 		public function get disabledValue () : * { return _inputLeft.disabledValue; }
 		public function set disabledValue (v : *) : void 
 		{
-			_inputLeft.disabledValue = v;			_inputRight.disabledValue = v;
+			_inputLeft.disabledValue = v;
+			_inputRight.disabledValue = v;
 		}
 		
 		public function get minorTickSpacing () : Number { return _minorTickSpacing; }		
@@ -246,9 +251,11 @@ package abe.com.ponents.sliders
 		{
 			_displayInput = displayInput;
 			
-			var b1 : BoxSettings = (_childrenLayout as HBoxLayout).boxes[0];			var b2 : BoxSettings = (_childrenLayout as HBoxLayout).boxes[4];
+			var b1 : BoxSettings = (_childrenLayout as HBoxLayout).boxes[0];
+			var b2 : BoxSettings = (_childrenLayout as HBoxLayout).boxes[4];
 			
-			b1.object = _displayInput ? _inputLeft : null;			b2.object = _displayInput ? _inputRight : null;
+			b1.object = _displayInput ? _inputLeft : null;
+			b2.object = _displayInput ? _inputRight : null;
 			
 			if( !_displayInput && containsComponent( _inputLeft ) )
 				removeComponent( _inputLeft );
@@ -304,12 +311,15 @@ package abe.com.ponents.sliders
 			
 			if( _displayInput )
 			{
-				addComponent( _inputLeft );				addComponent( _inputRight );
+				addComponent( _inputLeft );
+				addComponent( _inputRight );
 			}
-			addComponent( _knobLeft );			addComponent( _knobRight );
+			addComponent( _knobLeft );
+			addComponent( _knobRight );
 			 
 			var layout : HBoxLayout = new HBoxLayout( this, 3, 
-											new BoxSettings( 0, "left", "center", _displayInput ? _inputLeft : null ),											new BoxSettings( 0, "right", "center", null ),
+											new BoxSettings( 0, "left", "center", _displayInput ? _inputLeft : null ),
+											new BoxSettings( 0, "right", "center", null ),
 											new BoxSettings( _style.trackSize, "left", "center", _track, true, true, true ),
 											new BoxSettings( 0, "left", "center", null ),
 											new BoxSettings( 0, "left", "center", _displayInput ? _inputRight : null ) );
@@ -420,7 +430,7 @@ package abe.com.ponents.sliders
 				_background.graphics.moveTo( x, y - h );
 				_background.graphics.lineTo( x, y );
 			}
-			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
+			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 500 );
 			
 			for( i = _model.minimum; i <= _model.maximum; i += _minorTickSpacing )
 			{
@@ -438,15 +448,18 @@ package abe.com.ponents.sliders
 			switch( event.propertyName )
 			{
 				case "icon" :
-					_knobLeft.icon = _style.icon.clone();					_knobRight.icon = _style.icon.clone();
+					_knobLeft.icon = _style.icon.clone();
+					_knobRight.icon = _style.icon.clone();
 					invalidatePreferredSizeCache();
 					break;
 				case "buttonSize" :
-					_knobLeft.preferredWidth = event.propertyValue;					_knobRight.preferredWidth = event.propertyValue;
+					_knobLeft.preferredWidth = event.propertyValue;
+					_knobRight.preferredWidth = event.propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "inputWidth" :
-					_inputLeft.preferredWidth = event.propertyValue;					_inputRight.preferredWidth = event.propertyValue;
+					_inputLeft.preferredWidth = event.propertyValue;
+					_inputRight.preferredWidth = event.propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "tickSize" : 
@@ -482,7 +495,8 @@ package abe.com.ponents.sliders
 			_track.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
 			_track.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );	*/
 			
-			_inputLeft.addWeakEventListener( MouseEvent.MOUSE_WHEEL, leftMouseWheel );			_inputRight.addWeakEventListener( MouseEvent.MOUSE_WHEEL, rightMouseWheel );
+			_inputLeft.addWeakEventListener( MouseEvent.MOUSE_WHEEL, leftMouseWheel );
+			_inputRight.addWeakEventListener( MouseEvent.MOUSE_WHEEL, rightMouseWheel );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void 
@@ -563,7 +577,8 @@ package abe.com.ponents.sliders
 		}
 		protected function dataChanged (event : ComponentEvent) : void 
 		{
-			_inputLeft.value = _model.displayValue;			_inputRight.value = ( _model as RangeBoundedRangeModel ).displayRangeMax;
+			_inputLeft.value = _model.displayValue;
+			_inputRight.value = ( _model as RangeBoundedRangeModel ).displayRangeMax;
 			invalidate( true );
 			
 			fireDataChange();

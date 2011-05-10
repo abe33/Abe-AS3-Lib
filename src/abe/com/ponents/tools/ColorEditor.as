@@ -28,13 +28,14 @@ package abe.com.ponents.tools
 		public function ColorEditor (tabsPosition : String = "north")
 		{
 			super( tabsPosition );
-			preferredSize = new Dimension(290, 300);
+			preferredSize = new Dimension(290, 350);
 			
 			_tabBar.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			
 			
 			_rgbEditor = new RGBColorEditor();
-			addTab( new SimpleTab( _("RGB"), _rgbEditor, magicIconBuild(RGB_ICON) ) );			
+			addTab( new SimpleTab( _("RGB"), _rgbEditor, magicIconBuild(RGB_ICON) ) );
+			
 			_paletteEditor = new PaletteColorEditor();
 			addTab( new SimpleTab( _("Palettes"), _paletteEditor, magicIconBuild(PALETTE_ICON) ) );
 			
@@ -56,7 +57,8 @@ package abe.com.ponents.tools
 		{
 			_target = target.clone();
 			
-			_rgbEditor.target = _target;			_rgbEditor.safeTarget = _target;
+			_rgbEditor.target = _target;
+			_rgbEditor.safeTarget = _target;
 			_paletteEditor.target = _target;
 		}
 		protected function fireDataChange () : void 

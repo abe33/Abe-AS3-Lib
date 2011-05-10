@@ -1,4 +1,4 @@
-package abe.com.ponents.demos.dockables 
+package abe.com.prehension.examples.dockables 
 {
 	import abe.com.mon.geom.dm;
 	import abe.com.patibility.lang._;
@@ -91,7 +91,9 @@ package abe.com.ponents.demos.dockables
 			   		    null,
 			   			{ 'childrenLayout':new InlineLayout(null, 3, "left", "top", "topToBottom", true ) },
 			    		[
-			    			"spinnersDemoSpinnerFieldset",			    			"spinnersDemoDoubleSpinnerFieldset",			    			"spinnersDemoQuadSpinnerFieldset"
+			    			"spinnersDemoSpinnerFieldset",
+			    			"spinnersDemoDoubleSpinnerFieldset",
+			    			"spinnersDemoQuadSpinnerFieldset"
 			    		],			    		
 			   			onBuildComplete );
 		}

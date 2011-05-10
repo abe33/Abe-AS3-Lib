@@ -1,4 +1,4 @@
-package abe.com.ponents.demos.dockables 
+package abe.com.prehension.examples.dockables 
 {
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.containers.FieldSet;
@@ -27,12 +27,15 @@ package abe.com.ponents.demos.dockables
 						4, 
 						"comboBoxesDemoComboBox",
 						[ // args
-							["Item 1", "Item 2", "Item 3", "Item 4", "Item 5 with a longer text", "Item 6", "Item 7"],							["Item 1", "Item 2", "Item 3", "Item 4", "Item 5 with a longer text", "Item 6", "Item 7"],							["Item 1", "Item 2", "Item 3", "Item 4", "Item 5 with a longer text", "Item 6", "Item 7"],							["Item 1", "Item 2", "Item 3", "Item 4", "Item 5 with a longer text", "Item 6", "Item 7"],
+							["Item 1", "Item 2", "Item 3", "Item 4", "Item 5 with a longer text", "Item 6", "Item 7"],
+							["Item 1", "Item 2", "Item 3", "Item 4", "Item 5 with a longer text", "Item 6", "Item 7"],
+							["Item 1", "Item 2", "Item 3", "Item 4", "Item 5 with a longer text", "Item 6", "Item 7"],
+							["Item 1", "Item 2", "Item 3", "Item 4", "Item 5 with a longer text", "Item 6", "Item 7"],
 						],
 						[ // kwargs
-							{icon:magicIconBuild("icons/control_play_blue.png")},
-							{enabled:false,icon:magicIconBuild("icons/control_play_blue.png")},
-							{popupAsDropDown:true,icon:magicIconBuild("icons/control_play_blue.png")},
+							{icon:magicIconBuild("../res/icons/control_play_blue.png")},
+							{enabled:false,icon:magicIconBuild("../res/icons/control_play_blue.png")},
+							{popupAsDropDown:true,icon:magicIconBuild("../res/icons/control_play_blue.png")},
 							{popupAlignOnSelection:true}
 						], // container
 						FieldSet, 

@@ -12,8 +12,9 @@ package abe.com.ponents.skinning.icons
 	[Skinable(skin="ColorIcon")]
 	[Skin(define="ColorIcon",
 			  inherit="EmptyComponent",
-			  custom_checkerColor1="color(0xffffffff)",			  custom_checkerColor2="color(0xcccccccc)",
-			  state__all__foreground="new abe.com.ponents.skinning.decorations::SimpleBorders(color(DimGray))"
+			  custom_checkerColor1="color(0xffffffff)",
+			  custom_checkerColor2="color(0xcccccccc)",
+			  state__all__foreground="new abe.com.ponents.skinning.decorations::SimpleBorders(skin.borderColor)"
 	)]
 	public class ColorIcon extends Icon
 	{
@@ -32,7 +33,8 @@ package abe.com.ponents.skinning.icons
 			_allowFocus = false;
 			_allowFocusTraversing = false;
 			_color = color;
-			_checkerColor1 = _style.checkerColor1;			_checkerColor2 = _style.checkerColor2;
+			_checkerColor1 = _style.checkerColor1;
+			_checkerColor2 = _style.checkerColor2;
 			
 			if( !_checkerBitmapData )
 			{
@@ -64,7 +66,10 @@ package abe.com.ponents.skinning.icons
 
 		protected function drawBitmapData () : void
 		{
-			_checkerBitmapData.fillRect(new Rectangle(0,0,_checkerSize,_checkerSize), _checkerColor1.hexa );			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,_checkerSize,_checkerSize,_checkerSize), _checkerColor1.hexa );			_checkerBitmapData.fillRect(new Rectangle(0,_checkerSize,_checkerSize,_checkerSize), _checkerColor2.hexa );			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,0,_checkerSize,_checkerSize), _checkerColor2.hexa );
+			_checkerBitmapData.fillRect(new Rectangle(0,0,_checkerSize,_checkerSize), _checkerColor1.hexa );
+			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,_checkerSize,_checkerSize,_checkerSize), _checkerColor1.hexa );
+			_checkerBitmapData.fillRect(new Rectangle(0,_checkerSize,_checkerSize,_checkerSize), _checkerColor2.hexa );
+			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,0,_checkerSize,_checkerSize), _checkerColor2.hexa );
 			
 		}
 		override protected function _repaint (size : Dimension, forceClear : Boolean = true ) : void

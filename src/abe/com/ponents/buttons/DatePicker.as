@@ -132,6 +132,8 @@ package abe.com.ponents.buttons
 				case FormComponentDisabledModes.NORMAL :
 				case FormComponentDisabledModes.INHERITED : 
 				default : 
+				    disabledValue = _action.name;
+					affectLabelText();
 					break;
 			}
 		}

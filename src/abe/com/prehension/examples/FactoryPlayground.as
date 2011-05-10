@@ -1,4 +1,4 @@
-package abe.com.ponents.demos 
+package abe.com.prehension.examples
 {
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.patibility.lang._;
@@ -7,16 +7,6 @@ package abe.com.ponents.demos
 	import abe.com.ponents.actions.builtin.AboutAction;
 	import abe.com.ponents.actions.builtin.ColorPickerAction;
 	import abe.com.ponents.actions.builtin.GradientPickerAction;
-	import abe.com.ponents.demos.dockables.ButtonDemoDockable;
-	import abe.com.ponents.demos.dockables.ComboBoxDemoDockable;
-	import abe.com.ponents.demos.dockables.DemoDockable;
-	import abe.com.ponents.demos.dockables.ListDemoDockable;
-	import abe.com.ponents.demos.dockables.ProgressDemoDockable;
-	import abe.com.ponents.demos.dockables.SliderDemoDockable;
-	import abe.com.ponents.demos.dockables.SpinnerDemoDockable;
-	import abe.com.ponents.demos.dockables.TableDemoDockable;
-	import abe.com.ponents.demos.dockables.TextDemoDockable;
-	import abe.com.ponents.demos.dockables.TreeDemoDockable;
 	import abe.com.ponents.dnd.DnDDragObjectRenderer;
 	import abe.com.ponents.dnd.DnDDropRenderer;
 	import abe.com.ponents.dnd.DnDManagerInstance;
@@ -27,6 +17,7 @@ package abe.com.ponents.demos
 	import abe.com.ponents.tools.DebugPanel;
 	import abe.com.ponents.tools.ServiceTesterPanel;
 	import abe.com.ponents.utils.ToolKit;
+	import abe.com.prehension.examples.dockables.*;
 
 	import flash.events.ContextMenuEvent;
 
@@ -52,7 +43,8 @@ package abe.com.ponents.demos
 			ActionManagerInstance.registerAction( new GradientPickerAction(), "gradientPick" );
 			ActionManagerInstance.registerAction( new AboutAction( _appName, 
 																   _appVersion, 
-																   _("The Playground is a way to demonstrate\nthe features of the AbeLib Components Kit."), 																   _("AbeLib © 2010 - All rights reserved."), 
+																   _("The Playground is a way to demonstrate\nthe features of the AbeLib Components Kit."), 
+																   _("AbeLib © 2010 - All rights reserved."), 
 																   _("About Playground") ), 
 												  "about" );
 			
@@ -74,17 +66,17 @@ package abe.com.ponents.demos
 			var debugPanel : DebugPanel = ToolKit.popupLevel.getChildByName("debugPanel") as DebugPanel;
 			debugPanel.addTab( new SimpleTab( _("Service"), 
 							  				 new ServiceTesterPanel(), 
-							  				 magicIconBuild("icons/tools/server_go.png")));
+							  				 magicIconBuild("../res/icons/tools/server_go.png")));
 			
-			_buildUnits.push( new ButtonDemoDockable( 	"buttons", 	_("Buttons"), 	 magicIconBuild("icons/components/button.png") ) );
-			_buildUnits.push( new TextDemoDockable( 	"text", 	_("Text"), 		 magicIconBuild("icons/components/textfield.png") ) );
-			_buildUnits.push( new SpinnerDemoDockable( 	"spinners", _("Spinners"), 	 magicIconBuild("icons/components/spinner.png") ) );
-			_buildUnits.push( new SliderDemoDockable( 	"sliders", 	_("Sliders"), 	 magicIconBuild("icons/components/slider.png") ) );
-			_buildUnits.push( new ComboBoxDemoDockable( "combobox", _("ComboBoxes"), magicIconBuild("icons/components/combobox.png") ) );
-			_buildUnits.push( new ProgressDemoDockable( "progress", _("Progress"), 	 magicIconBuild("icons/components/progress.png") ) );
-			_buildUnits.push( new ListDemoDockable( 	"lists", 	_("Lists"), 	 magicIconBuild("icons/components/list.png") ) );
-			_buildUnits.push( new TreeDemoDockable( 	"trees", 	_("Trees"), 	 magicIconBuild("icons/components/tree.png") ) );
-			_buildUnits.push( new TableDemoDockable( 	"tables", 	_("Tables"), 	 magicIconBuild("icons/components/table.png") ) );
+			_buildUnits.push( new ButtonDemoDockable( 	"buttons", 	_("Buttons"), 	 magicIconBuild("../res/icons/components/button.png") ) );
+			_buildUnits.push( new TextDemoDockable( 	"text", 	_("Text"), 		 magicIconBuild("../res/icons/components/textfield.png") ) );
+			_buildUnits.push( new SpinnerDemoDockable( 	"spinners", _("Spinners"), 	 magicIconBuild("../res/icons/components/spinner.png") ) );
+			_buildUnits.push( new SliderDemoDockable( 	"sliders", 	_("Sliders"), 	 magicIconBuild("../res/icons/components/slider.png") ) );
+			_buildUnits.push( new ComboBoxDemoDockable( "combobox", _("ComboBoxes"), magicIconBuild("../res/icons/components/combobox.png") ) );
+			_buildUnits.push( new ProgressDemoDockable( "progress", _("Progress"), 	 magicIconBuild("../res/icons/components/progress.png") ) );
+			_buildUnits.push( new ListDemoDockable( 	"lists", 	_("Lists"), 	 magicIconBuild("../res/icons/components/list.png") ) );
+			_buildUnits.push( new TreeDemoDockable( 	"trees", 	_("Trees"), 	 magicIconBuild("../res/icons/components/tree.png") ) );
+			_buildUnits.push( new TableDemoDockable( 	"tables", 	_("Tables"), 	 magicIconBuild("../res/icons/components/table.png") ) );
 			
 			for each ( var d : DemoDockable in _buildUnits )
 				_dockables[d.id] = d;

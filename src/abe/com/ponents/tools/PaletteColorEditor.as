@@ -2,6 +2,7 @@ package abe.com.ponents.tools
 {
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.colors.Palette;
+	import abe.com.mon.geom.dm;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.buttons.ButtonDisplayModes;
@@ -47,7 +48,9 @@ package abe.com.ponents.tools
 			_paletteList = new List( PaletteListModelInstance );
 			_paletteList.listCellClass = PaletteListCell;
 			_paletteList.dndEnabled = false;
-			_paletteList.editEnabled = false;			_paletteList.allowMultiSelection = false;			_paletteList.loseSelectionOnFocusOut = false;
+			_paletteList.editEnabled = false;
+			_paletteList.allowMultiSelection = false;
+			_paletteList.loseSelectionOnFocusOut = false;
 			_paletteList.addEventListener(ComponentEvent.SELECTION_CHANGE, paletteSelectionChange );
 			
 			_colorList = new List();
@@ -65,7 +68,6 @@ package abe.com.ponents.tools
 
 			var split : SplitPane = new SplitPane ( SplitPane.VERTICAL_SPLIT, scpPalette, scpColor );
 			split.oneTouchExpandFirstComponent = false;
-			split.preferredHeight = 200;
 
 			var paletteBar : ToolBar = new ToolBar(ButtonDisplayModes.ICON_ONLY, false );
 			paletteBar.addComponent( 
@@ -76,7 +78,10 @@ package abe.com.ponents.tools
 
 			l.north = paletteBar;
 			l.center = split;
-			addComponent( paletteBar );			addComponent( split );
+			addComponent( paletteBar );
+			addComponent( split );
+			
+			preferredSize = dm( 150, 200 );
 		}
 		protected function colorSelectionChange (event : ComponentEvent) : void 
 		{
