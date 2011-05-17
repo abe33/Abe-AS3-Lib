@@ -106,7 +106,7 @@ package abe.com.ponents.core
 		{
 			var children : Array = [];
 			var l : uint = _childrenContainer.numChildren;
-			for(var i : uint=0;i< l ;i++)
+			for(var i : uint = 0; i < l ; i++)
 				children.push(_childrenContainer.getChildAt(i));
 
 			children.sort ( displayObjectSort );
@@ -168,7 +168,11 @@ package abe.com.ponents.core
 			while( l-- )
 				_childrenContainer.removeChild ( _childrenContainer.getChildAt(l) );
 
-			invalidatePreferredSizeCache();
+			invalidatePreferredSizeCache( );
+		}
+		public function getComponentChildAt (index:int) : DisplayObject 
+		{
+			return _childrenContainer.getChildAt(index);
 		}
 	}
 }

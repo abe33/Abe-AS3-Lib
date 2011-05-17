@@ -4,6 +4,7 @@
 package  abe.com.mands
 {
 	import abe.com.mon.core.Runnable;
+
 	/**
 	 * Une commande <code>Batch</code> éxécute un lot de commandes les unes à la suites des autres
 	 * dans l'ordre inverse de leur ajour avec les mêmes paramètres d'entrée que la commande 

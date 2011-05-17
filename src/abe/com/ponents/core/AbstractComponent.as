@@ -46,7 +46,8 @@ package abe.com.ponents.core
 	import flash.ui.ContextMenuItem;
 	import flash.utils.Dictionary;
 
-	/*-----------------------------------------------------------------
+
+/*-----------------------------------------------------------------
  * 	STYLE METADATA
  *----------------------------------------------------------------*/
 	/**
@@ -756,7 +757,7 @@ package abe.com.ponents.core
 		public function get componentEnableChanged () : Signal { return _componentEnableChanged; }
 		public function get componentRepainted () : Signal { return _componentRepainted; }
 		public function get propertyChanged () : Signal { return _propertyChanged; }
-		/*-----------------------------------------------------------------
+/*-----------------------------------------------------------------
  * 	GETTERS / SETTERS
  *----------------------------------------------------------------*/
  		/**
@@ -2645,13 +2646,13 @@ package abe.com.ponents.core
 			if( _menuContextEnabled )
 			{
 				var l : uint = _menuContextOrder.length;
-				for( var i:int=0;i<l;i++)
+				for( var i:int=0;i < l;i++)
 				{
 					var contextGroup : Array = _menuContextGroups[ _menuContextOrder[i] ] as Array;
 					if( contextGroup )
 					{
 						var m : uint = contextGroup.length;
-						for(var j:int=0;j<m;j++)
+						for(var j:int=0;j < m;j++)
 						{
 							var cmi : ContextMenuItem = contextGroup[j];
 							cmi.separatorBefore = i!=0 && j==0;

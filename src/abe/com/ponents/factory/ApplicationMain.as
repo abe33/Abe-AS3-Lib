@@ -46,17 +46,22 @@ package abe.com.ponents.factory
 
 		protected var _dockables : Object = {};
 		
-		protected var _appName : String;		protected var _appVersion : String;
+		protected var _appName : String;
+		protected var _appVersion : String;
 		
 		protected var _mainMenuBar : MenuBar;
 		protected var _mainToolBar : ToolBar;
 		protected var _mainSplitPane : DockableMultiSplitPane;
 		
-		protected var _defaultToolBarSettings : String = "undo,redo";		protected var _defaultMenuBarSettings : String = "*Edit(*undo,*redo),?(*about)";		protected var _defaultDMSPSettings : String = "V()";
+		protected var _defaultToolBarSettings : String = "undo,redo";
+		protected var _defaultMenuBarSettings : String = "*Edit(*undo,*redo),?(*about)";
+		protected var _defaultDMSPSettings : String = "V()";
 		protected var _defaultToolBarPosition : String = "north";
 
 		public function ApplicationMain ( appName : String = "Unnamed Application", appVersion : String = "0.1.0" )
 		{
+		    ToolKit.initializeToolKit( StageUtils.root, false );
+		    
 			instance = this;
 			
 			/*FDT_IGNORE*/
@@ -73,7 +78,8 @@ package abe.com.ponents.factory
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 			StageUtils.noMenu();
 			//StageUtils.addGlobalMenu( ( ActionManagerInstance.getAction( BuiltInActionsList.UNDO ) as UndoAction ).contextMenuItem );
-			//StageUtils.addGlobalMenu( ( ActionManagerInstance.getAction( BuiltInActionsList.REDO ) as RedoAction ).contextMenuItem );			StageUtils.versionMenuContext = new ContextMenuItem( _$(_("$0 $1"), _appName, _appVersion ) );
+			//StageUtils.addGlobalMenu( ( ActionManagerInstance.getAction( BuiltInActionsList.REDO ) as RedoAction ).contextMenuItem );
+			StageUtils.versionMenuContext = new ContextMenuItem( _$(_("$0 $1"), _appName, _appVersion ) );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_COMPLETE, buildComplete );
@@ -166,7 +172,8 @@ package abe.com.ponents.factory
 				
 				dmsp.style.setForAllStates("insets", new Insets(5));
 				dmsp.addEventListener(ComponentEvent.CLOSE, contentClose );
-				dmsp.multiSplitLayout.addEventListener(SplitPaneEvent.OPTIMIZE, multiSplitOptimize );				dmsp.addEventListener(SplitPaneEvent.WEIGHT_CHANGE, multiSplitWeightChange );
+				dmsp.multiSplitLayout.addEventListener(SplitPaneEvent.OPTIMIZE, multiSplitOptimize );
+				dmsp.addEventListener(SplitPaneEvent.WEIGHT_CHANGE, multiSplitWeightChange );
 				
 				p.childrenLayout.addEventListener( ApplicationWindowLayout.TOOLBAR_DROP, toolBarDrop );
 				

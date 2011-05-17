@@ -8,6 +8,7 @@ package abe.com.ponents.monitors
 	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.core.Component;
+	import abe.com.ponents.events.MonitorEvent;
 	import abe.com.ponents.layouts.components.ComponentLayout;
 	import abe.com.ponents.layouts.components.FlowLayout;
 	import abe.com.ponents.layouts.components.GridLayout;
@@ -34,9 +35,15 @@ package abe.com.ponents.monitors
 		static public const LONG_LABEL_MODE : uint = 0;
 		static public const SHORT_LABEL_MODE : uint = 1;
 
-		static public const FLOW_LAYOUT_MODE : uint = 0;		static public const COLUMN_1_LAYOUT_MODE : uint = 1;		static public const COLUMN_2_LAYOUT_MODE : uint = 2;		static public const COLUMN_3_LAYOUT_MODE : uint = 3;		static public const COLUMN_4_LAYOUT_MODE : uint = 4;		static public const COLUMN_5_LAYOUT_MODE : uint = 5;
+		static public const FLOW_LAYOUT_MODE : uint = 0;
+		static public const COLUMN_1_LAYOUT_MODE : uint = 1;
+		static public const COLUMN_2_LAYOUT_MODE : uint = 2;
+		static public const COLUMN_3_LAYOUT_MODE : uint = 3;
+		static public const COLUMN_4_LAYOUT_MODE : uint = 4;
+		static public const COLUMN_5_LAYOUT_MODE : uint = 5;
 
-		protected var _captionMode : int = -1;		protected var _layoutMode : int = -1;
+		protected var _captionMode : int = -1;
+		protected var _layoutMode : int = -1;
 
 		protected var _monitor : GraphMonitor;
 		protected var _playing : Boolean;
@@ -58,7 +65,6 @@ package abe.com.ponents.monitors
 			
 			var l : uint = rcd.length;
 
-
 			for( var i : uint = 0; i<l;i++ )
 			{
 				var rec : Recorder = rcd[i];
@@ -73,8 +79,9 @@ package abe.com.ponents.monitors
 			this.layoutMode = layoutMode;
 			mouseChildren = false;
 			start();
+			
+			registerToMonitorEvents( _monitor );
 		}
-
 		public function get captionMode () : uint { return _captionMode; }
 		public function set captionMode (captionMode : uint) : void
 		{
@@ -149,7 +156,8 @@ package abe.com.ponents.monitors
 		{
 			if( id && !_settingsLoaded )
 			{
-				captionMode = SettingsManagerInstance.get(this, "captionMode", _captionMode );				layoutMode = SettingsManagerInstance.get(this, "layoutMode", _layoutMode );
+				captionMode = SettingsManagerInstance.get(this, "captionMode", _captionMode );
+				layoutMode = SettingsManagerInstance.get(this, "layoutMode", _layoutMode );
 				_settingsLoaded = true;
 				tick(0,0,0);
 			}
@@ -232,9 +240,15 @@ package abe.com.ponents.monitors
 
 			_cmis.push( addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("5 column layout"), isLayoutModeSelected( 5 ) ),
 									   "5columnLayout", switchLayoutMode, "layoutModes" ) );
-		}		protected function updateLayoutCaptions () : void
+		}
+		protected function updateLayoutCaptions () : void
 		{
-			_cmis[ 0 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Flow layout"),  	 isLayoutModeSelected( 0 ) );			_cmis[ 1 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("1 column layout"), isLayoutModeSelected( 1 ) );			_cmis[ 2 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("2 column layout"), isLayoutModeSelected( 2 ) );			_cmis[ 3 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("3 column layout"), isLayoutModeSelected( 3 ) );			_cmis[ 4 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("4 column layout"), isLayoutModeSelected( 4 ) );			_cmis[ 5 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("5 column layout"), isLayoutModeSelected( 5 ) );
+			_cmis[ 0 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Flow layout"),  	 isLayoutModeSelected( 0 ) );
+			_cmis[ 1 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("1 column layout"), isLayoutModeSelected( 1 ) );
+			_cmis[ 2 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("2 column layout"), isLayoutModeSelected( 2 ) );
+			_cmis[ 3 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("3 column layout"), isLayoutModeSelected( 3 ) );
+			_cmis[ 4 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("4 column layout"), isLayoutModeSelected( 4 ) );
+			_cmis[ 5 ].caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("5 column layout"), isLayoutModeSelected( 5 ) );
 		}
 
 		protected function isLayoutModeSelected (i : int) : Boolean
@@ -274,7 +288,29 @@ package abe.com.ponents.monitors
 			if( _playing )
 				Impulse.unregister(tick );
 		}
-		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number) : void
+		protected function registerToMonitorEvents (monitor : GraphMonitor) : void 
+		{
+			monitor.addEventListener(  MonitorEvent.RECORDER_ADD, recorderAdd );
+			monitor.addEventListener(  MonitorEvent.RECORDER_REMOVE, recorderRemove );
+		}
+		protected function unregisterFromMonitorEvents (monitor : GraphMonitor) : void 
+		{
+			monitor.removeEventListener(  MonitorEvent.RECORDER_ADD, recorderAdd );
+			monitor.removeEventListener(  MonitorEvent.RECORDER_REMOVE, recorderRemove );
+		}
+		protected function recorderAdd (event : MonitorEvent) : void 
+		{
+			var rec : Recorder = event.recorder;
+			var cl : CaptionLabel = new CaptionLabel( formatLabel( rec ), new ColorIcon( rec.curveSettings.color ) ) ;
+			cl.tooltip = rec.curveSettings.name;
+			addComponent( cl );
+		}
+		protected function recorderRemove (event : MonitorEvent) : void 
+		{
+			var index : uint = _monitor.recorders.indexOf( event.recorder );
+			removeComponentAt(index);
+		}
+		public function tick (e : ImpulseEvent) : void
 		{
 			/*FDT_IGNORE*/
 			TARGET::FLASH_9 { var rcd : Array = _monitor.recorders; }
@@ -283,10 +319,11 @@ package abe.com.ponents.monitors
 			var rcd : Vector.<Recorder> = _monitor.recorders; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			var l : uint = rcd.length;
-			for( var i : uint = 0; i<l;i++ )
+			for( var i : uint = 0; i< l;i++ )
 			{
 				var rec : Recorder = rcd[i];
-				(getComponentAt( i ) as CaptionLabel).value = formatLabel( rec );
+				if( i < childrenCount )
+					(getComponentAt( i ) as CaptionLabel).value = formatLabel( rec );
 			}
 		}
 		protected function formatLabel( rec : Recorder ) : String

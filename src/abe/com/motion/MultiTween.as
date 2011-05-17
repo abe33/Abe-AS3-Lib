@@ -50,7 +50,8 @@ package  abe.com.motion
 			var duration : Number = params["duration"];
 			var easing : Function = params["easing"];
 
-			delete params["duration"];			delete params["easing"];
+			delete params["duration"];
+			delete params["easing"];
 
 			var setters : Array = [];
 			var ends : Array = [];

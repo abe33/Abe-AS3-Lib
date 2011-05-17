@@ -7,6 +7,7 @@ package abe.com.ponents.monitors
 	import abe.com.motion.Impulse;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.ponents.core.AbstractComponent;
+	import abe.com.ponents.events.MonitorEvent;
 	import abe.com.ponents.monitors.recorders.Recorder;
 	import abe.com.ponents.skinning.decorations.GraphMonitorBorder;
 	import abe.com.ponents.utils.ContextMenuItemUtils;
@@ -18,15 +19,15 @@ package abe.com.ponents.monitors
 	import flash.ui.ContextMenuItem;
 	import flash.utils.Dictionary;
 
-	/**
-	 * @author Cédric Néhémie
-	 */
 	[Skinable(skin="GraphMonitor")]
 	[Skin(define="GraphMonitor",
 		  inherit="EmptyComponent",
 
-		  state__all__foreground="new deco::GraphMonitorBorder( skin.borderColor )",		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )"
-		  )]
+		  state__all__foreground="new deco::GraphMonitorBorder( skin.borderColor )",
+		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )"		  )]
+	/**
+	 * @author Cédric Néhémie
+	 */
 	public class GraphMonitor extends AbstractComponent implements ImpulseListener, Suspendable
 	{
 		static private const SKIN_DEPENDENCIES : Array = [ GraphMonitorBorder ];
@@ -106,7 +107,7 @@ package abe.com.ponents.monitors
 				var cmi : ContextMenuItem = addNewContextMenuItemForGroup( getContextLabel( o ), o.curveSettings.name, contextMenuClick, "recorders" );
 				_contextMap[ cmi ] = o;
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			}
+				dispatchEvent( new MonitorEvent(MonitorEvent.RECORDER_ADD, o));			}
 		}
 		public function addRecorders ( ... args ) : void
 		{
@@ -118,6 +119,7 @@ package abe.com.ponents.monitors
 		{
 			if( containsRecorder( o ) )
 			{
+				dispatchEvent( new MonitorEvent(MonitorEvent.RECORDER_REMOVE, o));
 				_recorders.splice(  _recorders.indexOf( o ), 1 );
 				/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 				removeContextMenuItem( o.curveSettings.name );

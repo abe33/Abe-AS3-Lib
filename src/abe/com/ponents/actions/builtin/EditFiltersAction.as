@@ -27,6 +27,7 @@ package abe.com.ponents.actions.builtin
 		{
 			this._filters = filters;
 			super( _("Filters"), icon, _("Edit Filters"), accelerator );
+			updateName();
 		}
 
 		public function get filters () : Array { return _filters; }

@@ -6,6 +6,7 @@ package  abe.com.mands
 	import abe.com.mon.core.Runnable;
 
 	import org.osflash.signals.Signal;
+
 	/**
 	 * Encapsule une opération au sein d'un objet. Par simplicité
 	 * on considère toute les commandes comme étant des processus
@@ -27,6 +28,7 @@ package  abe.com.mands
 		 */
 		function execute( ... args ) : void;
 		
-		function get commandEnded () : Signal;		function get commandFailed () : Signal;
+		function get commandEnded () : Signal;
+		function get commandFailed () : Signal;
 	}
 }

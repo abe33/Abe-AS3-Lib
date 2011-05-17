@@ -19,15 +19,8 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.layouts.display.DOStretchLayout;
 
 	import flash.events.IEventDispatcher;
-	
 	import org.osflash.signals.Signal;
 
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * La classe <code>ColorPicker</code> permet de créer un bouton servant
 	 * à l'édition d'un objet <code>Color</code>. Lorsque l'on clique sur un

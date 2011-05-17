@@ -23,7 +23,8 @@ package abe.com.ponents.tools
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="selectionChange", type="abe.com.ponents.events.ComponentEvent")]	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
+	[Event(name="selectionChange", type="abe.com.ponents.events.ComponentEvent")]
+	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="GradientSampler")]
 	[Skin(define="GradientSampler",
 		  inherit="EmptyComponent"
@@ -31,7 +32,8 @@ package abe.com.ponents.tools
 	[Skin(define="GradientCursor",
 		  inherit="DefaultComponent",
 
-		  state__all__insets="new cutils::Insets(2,7,2,2)",		  state__all__corners="new cutils::Corners(3)",
+		  state__all__insets="new cutils::Insets(2,7,2,2)",
+		  state__all__corners="new cutils::Corners(3)",
 
 		  state__0_3_4_7__background="new deco::ArrowSideFill( skin.backgroundColor )",
 		  state__1_2_5_6__background="new deco::ArrowSideFill( skin.overBackgroundColor )",
@@ -75,8 +77,13 @@ package abe.com.ponents.tools
 
 			_cursorsPanel = new Panel();
 			_cursorsPanel.allowMask = false;
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-				addNewContextMenuItemForGroup(_("Add Color"), "addColor", addColor, "gradient" );			/*FDT_IGNORE*/ } /*FDT_IGNORE*/			l.center = _gradientIcon;
+
+			FEATURES::MENU_CONTEXT {
+				addNewContextMenuItemForGroup(_("Add Color"), "addColor", addColor, "gradient" );
+				_cursorsPanel.addNewContextMenuItemForGroup( _("Add Color"), "addColor", addColor, "gradient" );
+			}
+
+			l.center = _gradientIcon;
 			l.south = _cursorsPanel;
 
 			addComponents( _gradientIcon, _cursorsPanel );
@@ -89,7 +96,8 @@ package abe.com.ponents.tools
 			var w : Number = _gradientIcon.width;
 			var p : Number = MathUtils.restrict( _gradientIcon.mouseX, 0, w ) / w;
 			_dragging = false;
-			_oldStartIndex = _gradient.getStartIndex(p);			_oldEndIndex = _gradient.getEndIndex(p);
+			_oldStartIndex = _gradient.getStartIndex(p);
+			_oldEndIndex = _gradient.getEndIndex(p);
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, dragging);
 			stage.removeEventListener(MouseEvent.MOUSE_UP, stopDragging );
 		}
@@ -100,9 +108,12 @@ package abe.com.ponents.tools
 			{
 				var w : Number = _gradientIcon.width;
 				var p : Number = MathUtils.restrict( _gradientIcon.mouseX, 0, w ) / w;
-				var index : Number = _gradient.colors.indexOf(selectedColor);				var pindex : Number = _gradient.getStartIndex(p);				var c : Color = selectedColor;
+				var index : Number = _gradient.colors.indexOf(selectedColor);
+				var pindex : Number = _gradient.getStartIndex(p);
+				var c : Color = selectedColor;
 
-				_gradient.positions[index] = p;				_selectedButton.x = p*w - _selectedButton.width/2;
+				_gradient.positions[index] = p;
+				_selectedButton.x = p*w - _selectedButton.width/2;
 
 				invalidate(true);
 			}
@@ -127,21 +138,21 @@ package abe.com.ponents.tools
 			_cursorsPanel.removeAllComponents();
 
 			var l : uint = _gradient.colors.length;
-			for( var i : int = 0; i<l;i++ )
+			for( var i : int = 0; i < l;i++ )
 			{
-				var c : Color = _gradient.colors[i];				var p : Number = _gradient.positions[i];
+				var c : Color = _gradient.colors[i];
+				var p : Number = _gradient.positions[i];
 				var ico : ColorIcon = new ColorIcon(c);
 				ico.preferredSize = new Dimension(8,8);
 				var bt : Button = new Button( "", ico );
-				bt.addWeakEventListener(MouseEvent.MOUSE_DOWN, buttonMouseDown );				bt.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+				bt.addWeakEventListener(MouseEvent.MOUSE_DOWN, buttonMouseDown );
+				bt.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 				bt.styleKey = "GradientCursor";
 				bt.y = 2;
 
-				/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-					var rc : ContextMenuItem = new ContextMenuItem( "Remove Color" );
-					rc.addEventListener(ContextMenuEvent.MENU_ITEM_SELECT, removeColor );
-					bt.menuContextGroups["gradient"] = [rc];					bt.menuContextOrder = ["gradient"];
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				FEATURES::MENU_CONTEXT {
+					bt.addNewContextMenuItemForGroup( _("Remove Color"), "removeColor", removeColor, "gradient" );
+				}
 
 				_cursorsPanel.addComponent( bt );
 				bt.x = p * _cursorsPanel.width - bt.width/2;
@@ -156,13 +167,14 @@ package abe.com.ponents.tools
 			invalidatePreferredSizeCache();
 		}
 
-		protected function addColor (event : ContextMenuEvent) : void
+		protected function addColor (event : ContextMenuEvent = null ) : void
 		{
 			var p : Number = MathUtils.restrict(_gradientIcon.mouseX, 0, _gradientIcon.width ) / _gradientIcon.width;
 			var c : Color = _gradient.getColor(p).clone();
 
 			var index : int = _gradient.getEndIndex( p );
-			_gradient.colors.splice(index,0,c);			_gradient.positions.splice(index,0,p);
+			_gradient.colors.splice(index,0,c);
+			_gradient.positions.splice(index,0,p);
 
 			updateCursors();
 
@@ -171,7 +183,7 @@ package abe.com.ponents.tools
 			selectedButton = _cursorsPanel.getComponentAt(index) as Button;
 		}
 
-		protected function removeColor (event : ContextMenuEvent) : void
+		protected function removeColor (event : ContextMenuEvent = null ) : void
 		{
 			if( _gradient.colors.length <= 2)
 			{
@@ -181,10 +193,12 @@ package abe.com.ponents.tools
 			var bt : Button = event.mouseTarget as Button;
 			var index : int = _cursorsPanel.getComponentIndex(bt);
 
-			_gradient.colors.splice(index,1);			_gradient.positions.splice(index,1);
+			_gradient.colors.splice(index,1);
+			_gradient.positions.splice(index,1);
 
 			updateCursors();
-			fireDataChange();
+
+			fireDataChange();
 
 			if( bt == _selectedButton )
 				selectedButton = _cursorsPanel.getComponentAt(0) as Button;
@@ -225,7 +239,7 @@ package abe.com.ponents.tools
 		public function updateCursorsIcons () : void
 		{
 			var l : uint = _gradient.colors.length;
-			for( var i : int = 0; i<l;i++ )
+			for( var i : int = 0; i < l;i++ )
 			{
 				var c : Button = _cursorsPanel.getComponentAt(i) as Button;
 				c.icon.invalidate();
@@ -234,7 +248,7 @@ package abe.com.ponents.tools
 		public function updateCursorsPositions () : void
 		{
 			var l : uint = _gradient.colors.length;
-			for( var i : int = 0; i<l;i++ )
+			for( var i : int = 0; i < l;i++ )
 			{
 				var p : Number = _gradient.positions[i];
 				var c : Button = _cursorsPanel.getComponentAt(i) as Button;

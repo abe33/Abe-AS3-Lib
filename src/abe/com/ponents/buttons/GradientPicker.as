@@ -20,12 +20,6 @@ package abe.com.ponents.buttons
 
 	import flash.events.IEventDispatcher;
 
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	
 	/**
 	 * Le composant <code>GradientPicker</code> permet l'édition d'objets <code>Gradient</code>
@@ -68,7 +62,11 @@ package abe.com.ponents.buttons
 			action = new GradientPickerAction(gradient);
 			childrenLayout = new DOStretchLayout();
 			buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+		    _dataChanged = new Signal();
 		}
+		
+		protected var _dataChanged : Signal;
+		public function get _dataChanged() : Signal { return _dataChanged; }
 		/**
 		 * Une référence vers l'objet <code>Gradient</code> de ce composant.
 		 */
@@ -141,7 +139,7 @@ package abe.com.ponents.buttons
 		override protected function commandEnded (c:Command) : void
 		{
 			super.commandEnded( e );
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 		/**
 		 * @inheritDoc
@@ -157,9 +155,9 @@ package abe.com.ponents.buttons
 		 * Diffuse un évènement de type <code>ComponentEvent.DATA_CHANGE</code> aux écouteurs
 		 * de ce composant.
 		 */
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, value );
 		}
 	}
 }

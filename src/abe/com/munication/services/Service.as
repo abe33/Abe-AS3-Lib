@@ -4,13 +4,13 @@
 package abe.com.munication.services
 {
 	import org.osflash.signals.Signal;
-
 	import flash.net.NetConnection;
 	import flash.net.Responder;
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 
-	[Event(name="serviceError", type="abe.com.munication.services.ServiceEvent")]	/**
+	[Event(name="serviceError", type="abe.com.munication.services.ServiceEvent")]
+	/**
 	 * La classe <code>Service</code> représente un proxy vers un service distant.
 	 * <p>
 	 * Il suffit d'appeler une méthode sur cette objet pour provoquer une communication
@@ -35,7 +35,8 @@ package abe.com.munication.services
 		 */
 		protected var _responder : Responder;
 		
-		public var serviceResponded : Signal;		public var serviceErrorOccured : Signal;
+		public var serviceResponded : Signal;
+		public var serviceErrorOccured : Signal;
 		/**
 		 * Constructeur de la classe <code>Service</code>.
 		 *
@@ -47,7 +48,8 @@ package abe.com.munication.services
 			_serviceName = name;
 			_netConnection = connection;
 			_responder = new Responder( handleResult, handleStatus );
-			serviceResponded = new Signal();			serviceErrorOccured = new Signal();
+			serviceResponded = new Signal();
+			serviceErrorOccured = new Signal();
 		}
 		/**
 		 * Le nom du service.

@@ -7,8 +7,6 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.core.AbstractContainer;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ButtonEvent;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.HBoxLayout;
@@ -18,9 +16,10 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.text.TextInput;
 	import abe.com.ponents.utils.Alignments;
 
-	import flash.events.MouseEvent;
+	import flash.events.Event;
+	
+	import org.osflash.signal.Signal;
 
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Style(name="inputWidth", type="Number")]
 	[Style(name="buttonSize", type="Number")]
 	[Style(name="trackSize", type="Number")]
@@ -84,10 +83,12 @@ package abe.com.ponents.sliders
 /*----------------------------------------------------------------------------------*
  * 	INSTANCE MEMBERS
  *----------------------------------------------------------------------------------*/
-		protected var _inputLeft : TextInput;		protected var _inputRight : TextInput;
+		protected var _inputLeft : TextInput;
+		protected var _inputRight : TextInput;
 		protected var _track : Button;
 		
-		protected var _knobLeft : Button;		protected var _knobRight : Button;
+		protected var _knobLeft : Button;
+		protected var _knobRight : Button;
 		
 		protected var _model : BoundedRangeModel;
 		
@@ -106,6 +107,8 @@ package abe.com.ponents.sliders
 		protected var _pressedX : Number;
 		protected var _pressedY : Number;
 		
+		protected var _dataChanged : Signal;
+		
 		public function HRangeSlider ( model : BoundedRangeModel, 
 									   majorTickSpacing : Number = 10, 
 									   minorTickSpacing : Number = 5, 
@@ -116,6 +119,7 @@ package abe.com.ponents.sliders
 									   postComp : Component = null )
 		{
 			super();
+			_dataChanged = new Signal();
 			_childrenContextEnabled = false;
 			_minorTickSpacing = minorTickSpacing;
 			_majorTickSpacing = majorTickSpacing;
@@ -131,6 +135,7 @@ package abe.com.ponents.sliders
 			
 			this.model = model; 
 		}
+		public function get dataChanged() : Signal { return _dataChanged; }
 /*----------------------------------------------------------------------------------*
  * 	GETTER/SETTERS
  *----------------------------------------------------------------------------------*/
@@ -141,16 +146,17 @@ package abe.com.ponents.sliders
 				return;
 			
 			if( _model )
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.add( modelDataChanged );
 			
 			_model = model;
 			if( _model )
 			{
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged( modelDataChanged );
 				dataChanged(null);
 			}
 		}
-		public function get inputLeft () : TextInput { return _inputLeft; }		public function get inputRight () : TextInput { return _inputRight; }
+		public function get inputLeft () : TextInput { return _inputLeft; }
+		public function get inputRight () : TextInput { return _inputRight; }
 		public function get track () : Button { return _track; }
 		public function get knobLeft () : Button { return _knobLeft; }
 		public function get knobRight () : Button { return _knobRight; }
@@ -171,13 +177,15 @@ package abe.com.ponents.sliders
 		public function get disabledMode () : uint { return _inputLeft.disabledMode; }
 		public function set disabledMode (b : uint) : void 
 		{
-			_inputLeft.disabledMode = b;			_inputRight.disabledMode = b;
+			_inputLeft.disabledMode = b;
+			_inputRight.disabledMode = b;
 		}
 		
 		public function get disabledValue () : * { return _inputLeft.disabledValue; }
 		public function set disabledValue (v : *) : void 
 		{
-			_inputLeft.disabledValue = v;			_inputRight.disabledValue = v;
+			_inputLeft.disabledValue = v;
+			_inputRight.disabledValue = v;
 		}
 		
 		public function get minorTickSpacing () : Number { return _minorTickSpacing; }		
@@ -244,9 +252,11 @@ package abe.com.ponents.sliders
 		{
 			_displayInput = displayInput;
 			
-			var b1 : BoxSettings = (_childrenLayout as HBoxLayout).boxes[0];			var b2 : BoxSettings = (_childrenLayout as HBoxLayout).boxes[4];
+			var b1 : BoxSettings = (_childrenLayout as HBoxLayout).boxes[0];
+			var b2 : BoxSettings = (_childrenLayout as HBoxLayout).boxes[4];
 			
-			b1.object = _displayInput ? _inputLeft : null;			b2.object = _displayInput ? _inputRight : null;
+			b1.object = _displayInput ? _inputLeft : null;
+			b2.object = _displayInput ? _inputRight : null;
 			
 			if( !_displayInput && containsComponent( _inputLeft ) )
 				removeComponent( _inputLeft );
@@ -302,12 +312,15 @@ package abe.com.ponents.sliders
 			
 			if( _displayInput )
 			{
-				addComponent( _inputLeft );				addComponent( _inputRight );
+				addComponent( _inputLeft );
+				addComponent( _inputRight );
 			}
-			addComponent( _knobLeft );			addComponent( _knobRight );
+			addComponent( _knobLeft );
+			addComponent( _knobRight );
 			 
 			var layout : HBoxLayout = new HBoxLayout( this, 3, 
-											new BoxSettings( 0, "left", "center", _displayInput ? _inputLeft : null ),											new BoxSettings( 0, "right", "center", null ),
+											new BoxSettings( 0, "left", "center", _displayInput ? _inputLeft : null ),
+											new BoxSettings( 0, "right", "center", null ),
 											new BoxSettings( _style.trackSize, "left", "center", _track, true, true, true ),
 											new BoxSettings( 0, "left", "center", null ),
 											new BoxSettings( 0, "left", "center", _displayInput ? _inputRight : null ) );
@@ -418,7 +431,7 @@ package abe.com.ponents.sliders
 				_background.graphics.moveTo( x, y - h );
 				_background.graphics.lineTo( x, y );
 			}
-			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
+			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 500 );
 			
 			for( i = _model.minimum; i <= _model.maximum; i += _minorTickSpacing )
 			{
@@ -436,15 +449,18 @@ package abe.com.ponents.sliders
 			switch( propertyName )
 			{
 				case "icon" :
-					_knobLeft.icon = _style.icon.clone();					_knobRight.icon = _style.icon.clone();
+					_knobLeft.icon = _style.icon.clone();
+					_knobRight.icon = _style.icon.clone();
 					invalidatePreferredSizeCache();
 					break;
 				case "buttonSize" :
-					_knobLeft.preferredWidth = propertyValue;					_knobRight.preferredWidth = propertyValue;
+					_knobLeft.preferredWidth = propertyValue;
+					_knobRight.preferredWidth = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "inputWidth" :
-					_inputLeft.preferredWidth = propertyValue;					_inputRight.preferredWidth = propertyValue;
+					_inputLeft.preferredWidth = propertyValue;
+					_inputRight.preferredWidth = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "tickSize" : 
@@ -476,7 +492,8 @@ package abe.com.ponents.sliders
 			_knobRight.mouseReleased.add( dragEnd );
 			_knobRight.mouseReleasedOutside.add( dragEnd );
 			
-			_inputLeft.mouseWheelRolled.add( leftMouseWheel );			_inputRight.mouseWheelRolled.add( rightMouseWheel );
+			_inputLeft.mouseWheelRolled.add( leftMouseWheel );
+			_inputRight.mouseWheelRolled.add( rightMouseWheel );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void 
@@ -514,7 +531,7 @@ package abe.com.ponents.sliders
 			if( stage )
 				stage.removeEventListener( MouseEvent.MOUSE_MOVE, drag );
 		}
-		protected function drag ( c : Component  ) : void
+		protected function drag ( e : Event  ) : void
 		{
 			if( _dragging )
 			{
@@ -545,16 +562,17 @@ package abe.com.ponents.sliders
 					downRight();
 			}
 		}
-		protected function dataChanged (event : ComponentEvent) : void 
+		protected function modelDataChanged ( model : BoundedRangeModel ) : void 
 		{
-			_inputLeft.value = _model.displayValue;			_inputRight.value = ( _model as RangeBoundedRangeModel ).displayRangeMax;
+			_inputLeft.value = _model.displayValue;
+			_inputRight.value = ( _model as RangeBoundedRangeModel ).displayRangeMax;
 			invalidate( true );
 			
-			fireDataChange();
+			fireDataChangedSignal();
 		}
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatchEvent( this, value );
 		}
 	}
 }

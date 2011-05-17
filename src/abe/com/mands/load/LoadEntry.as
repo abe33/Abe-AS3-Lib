@@ -1,5 +1,6 @@
 package abe.com.mands.load 
 {
+
 	import org.osflash.signals.Signal;
 
 	import flash.net.URLRequest;
@@ -9,7 +10,9 @@ package abe.com.mands.load
 	public interface LoadEntry
 	{
 		function get estimator () : Estimator;
-				function get callback () : Function;		function set callback ( f : Function ) : void;
+		
+		function get callback () : Function;
+		function set callback ( f : Function ) : void;
 		function get request() : URLRequest;
 		
 		function get ioErrorOccured () : Signal;

@@ -73,12 +73,12 @@ package  abe.com.ponents.monitors
 				}
 				a.sort();
 				te.terminal.echo( a.join("\n") );
-				fireCommandEnd();
+				commandEnded.dispatch( this );
 			}
 			else if ( o.hasOwnProperty( "--help" ) || o.hasOwnProperty( "-h" ) )
 			{
 				te.terminal.echo( this.formatCommandInfoDetails( this ) );
-				fireCommandEnd();
+				commandEnded.dispatch( this );
 			}
 			else if ( o.value != null )
 			{
@@ -87,16 +87,16 @@ package  abe.com.ponents.monitors
 				if( command != null )
 				{
 					te.terminal.echo( formatCommandInfoDetails( command ) );
-					fireCommandEnd();
+					commandEnded.dispatch( this );
 				}
 				else
 				{
-					fireCommandFailed( _( "Unknown command '$0'." ).replace("$0", o.value ) );
+					commandFailed.dispatch( this, _( "Unknown command '$0'." ).replace("$0", o.value ) );
 				}
 			}
 			else
 			{
-				fireCommandFailed( _("Unknown parameters in '$0', type 'help --help' to display the full command's informations.").replace("$0", te.options ) );
+				commandFailed.dispatch( this, _("Unknown parameters in '$0', type 'help --help' to display the full command's informations.").replace("$0", te.options ) );
 			}
 		}
 	}

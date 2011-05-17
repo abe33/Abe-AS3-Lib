@@ -24,5 +24,6 @@ package abe.com.ponents.ressources.handlers
 		}
 		public function getDescription ( o : * ) : String { return ""; }
 		public function getIconHandler () : Function { return null; }
+		public function get title () : String { return ""; }
 	}
 }

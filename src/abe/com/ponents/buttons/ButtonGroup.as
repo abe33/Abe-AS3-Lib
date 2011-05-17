@@ -7,7 +7,6 @@ package abe.com.ponents.buttons
 
 	import org.osflash.signals.Signal;
 
-	import flash.events.EventDispatcher;
 	/**
 	 * La classe <code>ButtonGroup</code> permet de définir un groupe de bouton
 	 * dans lequel un seul bouton peut être sélectionné à un instant précis.
@@ -19,16 +18,20 @@ package abe.com.ponents.buttons
 	 * 
 	 * @author Cédric Néhémie
 	 */
-	public class ButtonGroup extends EventDispatcher
+	public class ButtonGroup
 	{
 		/**
 		 * Un vecteur contenant les boutons gérés par ce <code>ButtonGroup</code>.
 		 */
 		/*FDT_IGNORE*/
 		TARGET::FLASH_9
-		protected var _buttons : Array;		
-		TARGET::FLASH_10		protected var _buttons : Vector.<AbstractButton>;		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _buttons : Vector.<AbstractButton>;
+		protected var _buttons : Array;
+		
+		TARGET::FLASH_10
+		protected var _buttons : Vector.<AbstractButton>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _buttons : Vector.<AbstractButton>;
 		/**
 		 * Une référence vers le bouton actuellement sélectionné
 		 * dans ce <code>ButtonGroup</code>.
@@ -50,15 +53,9 @@ package abe.com.ponents.buttons
 		public function ButtonGroup ()
 		{
 			selectionChanged = new Signal();
-			/*FDT_IGNORE*/
-			TARGET::FLASH_9 {
-				_buttons = [];
-			}
-			TARGET::FLASH_10 {
-				_buttons = new Vector.<AbstractButton>();
-			}
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			_buttons = new Vector.<AbstractButton>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_9 { _buttons = []; }
+			TARGET::FLASH_10 { _buttons = new Vector.<AbstractButton>(); }
+			TARGET::FLASH_10_1 { _buttons = new Vector.<AbstractButton>(); } 
 		}
 		/**
 		 * Une référence vers le bouton actuellement sélectionné

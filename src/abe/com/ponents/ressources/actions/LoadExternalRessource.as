@@ -10,7 +10,6 @@ package abe.com.ponents.ressources.actions
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.containers.Dialog;
 	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.demos.editors.StyleEditor;
 	import abe.com.ponents.events.DialogEvent;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.ressources.ClassCollection;
@@ -19,6 +18,7 @@ package abe.com.ponents.ressources.actions
 	import abe.com.ponents.text.Label;
 	import abe.com.ponents.text.TextInput;
 	import abe.com.ponents.utils.Insets;
+	import abe.com.prehension.tools.StyleEditor;
 
 	import flash.display.Loader;
 	import flash.display.LoaderInfo;
@@ -65,7 +65,8 @@ package abe.com.ponents.ressources.actions
 			}
 			_tmpInput.value = "";
 			
-			_dialog.addEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );			_dialog.open( Dialog.CLOSE_ON_RESULT );
+			_dialog.addEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );
+			_dialog.open( Dialog.CLOSE_ON_RESULT );
 		}
 		protected function loadTmpFile () : void 
 		{
@@ -73,7 +74,8 @@ package abe.com.ponents.ressources.actions
 			_dialog.removeEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );
 			
 			_lastAction = new OpenSWFFileAction("");
-			_lastAction.addEventListener( CommandEvent.COMMAND_END, openTmpComplete );			_lastAction.addEventListener( CommandEvent.COMMAND_FAIL, openTmpFail );
+			_lastAction.addEventListener( CommandEvent.COMMAND_END, openTmpComplete );
+			_lastAction.addEventListener( CommandEvent.COMMAND_FAIL, openTmpFail );
 			_lastAction.execute();
 		}
 		protected function openTmpComplete ( e : CommandEvent ) : void 

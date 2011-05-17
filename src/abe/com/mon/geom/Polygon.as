@@ -7,10 +7,10 @@ package abe.com.mon.geom
 	import abe.com.mon.core.Randomizable;
 	import abe.com.mon.core.Serializable;
 	import abe.com.mon.logs.Log;
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.GeometryUtils;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.Random;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.mon.utils.magicToReflectionSource;
@@ -84,7 +84,8 @@ package abe.com.mon.geom
 		 * 	AB.length + BC.length,
 		 * 	AB.length + BC.length + CA.length
 		 * ]</listing>
-		 */		protected var _pathSteps : Array;
+		 */
+		protected var _pathSteps : Array;
 		/**
 		 * An array containing the accumulated acreages of different triangles
 		 * constituting the polygon. 
@@ -251,8 +252,10 @@ package abe.com.mon.geom
 		 */
 		public function getPathPoint (path : Number) : Point
 		{
-			var startIndex : uint;			var endIndex : uint;
-			var pathStep1 : Number;			var pathStep2 : Number;
+			var startIndex : uint;
+			var endIndex : uint;
+			var pathStep1 : Number;
+			var pathStep2 : Number;
 
 			if( pathBasedOnLength )
 			{
@@ -261,15 +264,18 @@ package abe.com.mon.geom
 				var step : Number;
 				for( var i : int = 0; i < l; i++ )
 				{
-					step = _pathSteps[i] / le;					if( path <= step )
+					step = _pathSteps[i] / le;
+					if( path <= step )
 					{
 						if( i == 0 )
 							pathStep1 = 0;
 						else
 							pathStep1 = _pathSteps[i-1] / le;
-						startIndex = i;
+
+						startIndex = i;
 						endIndex = i+1;
-						pathStep2 = _pathSteps[i] / le;
+
+						pathStep2 = _pathSteps[i] / le;
 						break;
 					}
 				}
@@ -287,7 +293,8 @@ package abe.com.mon.geom
 				{
 					startIndex = Math.floor( path * _vertices.length );
 					endIndex = startIndex + 1;
-					pathStep1 = startIndex / _vertices.length;					pathStep2 = endIndex / _vertices.length;
+					pathStep1 = startIndex / _vertices.length;
+					pathStep2 = endIndex / _vertices.length;
 				}
 			}
 			if( endIndex >= _vertices.length )
@@ -433,7 +440,8 @@ package abe.com.mon.geom
 				var p : Point = _vertices[i];
 				g.lineTo( p.x, p.y );
 
-			}			g.lineTo( s.x, s.y );
+			}
+			g.lineTo( s.x, s.y );
 			g.lineStyle();
 		}
 		/**
@@ -554,8 +562,11 @@ package abe.com.mon.geom
 		 * suivantes :
 		 * </p>
 		 * <ul>
-		 * <li>Triangulation de ce polygone.</li>		 * <li>Calcul de l'aire de ce polygone.</li>		 * <li>Calculs des longueurs de chaque arrête afin de constituer le tableau
-		 * <code>_pathSteps</code>.</li>		 * <li>Calcul de la longueur du périmètre de ce polygone.</li>
+		 * <li>Triangulation de ce polygone.</li>
+		 * <li>Calcul de l'aire de ce polygone.</li>
+		 * <li>Calculs des longueurs de chaque arrête afin de constituer le tableau
+		 * <code>_pathSteps</code>.</li>
+		 * <li>Calcul de la longueur du périmètre de ce polygone.</li>
 		 * </ul>
 		 * <p>
 		 * Cette méthode est automatiquement appelée lorsque la propriété

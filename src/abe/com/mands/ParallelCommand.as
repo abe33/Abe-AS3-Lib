@@ -6,6 +6,7 @@ package  abe.com.mands
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
+
 	/**
 	 * Macro-Commande permettant d'éxécuter plusieurs autres commandes 
 	 * simultanément et de ne renvoyer un évènement <code>CommandEvent.COMMAND_END</code> 

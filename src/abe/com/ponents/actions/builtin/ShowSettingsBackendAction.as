@@ -50,18 +50,20 @@ package abe.com.ponents.actions.builtin
 			var a : Array =  SettingsManagerInstance.settingsList;
 			var b : Array = [];
 			var l : uint = a.length;
-			for( var i : uint = 0; i<l;i++)
+			for( var i : uint = 0; i < l;i++)
 			{
 				var p : String = a[i];
 				var acc : Accessor = new SettingsAccessor( SettingsManagerInstance, p );
 				b.push(acc);
 			}
 			
-			var warning : Label = new Label(_("<b>Warning !</b>\n<p>Changing the value in the settings can broke the application, be really cautious when you modify a setting.</p>"));			//warning.autoSize = "left";
+			var warning : Label = new Label(_("<b>Warning !</b>\n<p>Changing the value in the settings can broke the application, be really cautious when you modify a setting.</p>"));
+			//warning.autoSize = "left";
 			warning.wordWrap = true;
 			warning.style.background = new StripFill([Color.Gold,Color.Khaki], [5,5], 45);
 			warning.style.foreground = new SimpleBorders( Color.Orange );
-			warning.style.corners = new Corners(4);			warning.style.insets = new Insets(4);
+			warning.style.corners = new Corners(4);
+			warning.style.insets = new Insets(4);
 			warning.style.format = new TextFormat( "Verdana", 10, 0, false, false, false, null, null, "center");
 			
 			var table : Table = new Table();
@@ -72,13 +74,16 @@ package abe.com.ponents.actions.builtin
 			
 			table.model = new DefaultListModel( b );
 			table.rowHead = new ListLineRuler( table.view as List );
-			table.header.addColumns( 					new TableColumn(_("Property"), "setting", 200, null, null, true, null, formatProperty, false ),					new TableColumn(_("Type"), "type", 50, null, null, true, null, null, false ),
+			table.header.addColumns( 
+					new TableColumn(_("Property"), "setting", 200, null, null, true, null, formatProperty, false ),
+					new TableColumn(_("Type"), "type", 50, null, null, true, null, null, false ),
 					new TableColumn(_("Value"), "value", 50, null, null, true, null, formatValue, true )
 			);
 			
 			var panel : Panel = new Panel();
 			panel.childrenLayout = new VBoxLayout( panel, 3, 
-												   new BoxSettings(70, "left", "top", warning, true, true, false ),												   new BoxSettings(0, "left", "top", table, true, true, true )
+												   new BoxSettings(70, "left", "top", warning, true, true, false ),
+												   new BoxSettings(0, "left", "top", table, true, true, true )
 												  );
 			
 			panel.addComponents( table, warning );
@@ -98,7 +103,8 @@ package abe.com.ponents.actions.builtin
 			d.resizable = true;
 			d.open();
 			
-			StageUtils.centerX( d, d.width );			StageUtils.centerY( d, d.height );
+			StageUtils.centerX( d, d.width );
+			StageUtils.centerY( d, d.height );
 			
 			super.execute.apply( this, args );
 		}

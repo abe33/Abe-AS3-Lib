@@ -1,5 +1,6 @@
 package abe.com.mands 
 {
+
 	/**
 	 * @author Cédric Néhémie
 	 */

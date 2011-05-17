@@ -28,11 +28,11 @@ package abe.com.ponents.text
 		}
 		
 		public function get tracksViewportH () : Boolean { return multiline && wordWrap; }		
-		public function get tracksViewportV () : Boolean { return false; 
-		}	
+		public function get tracksViewportV () : Boolean { return false; }	
+		
 		override public function set defaultTextFormat (format : TextFormat) : void 
 		{
-			if( !styleSheet )
+			if( !styleSheet && format )
 				super.defaultTextFormat = format;
 		}
 		override public function set textColor (value : uint) : void 

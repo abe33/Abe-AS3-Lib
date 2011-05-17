@@ -8,52 +8,35 @@ package abe.com.ponents.factory
 	import abe.com.mon.utils.url;
 	import abe.com.patibility.codecs.MOCodec;
 	import abe.com.patibility.codecs.POCodec;
-	import abe.com.patibility.lang.GetTextInstance;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
-	import abe.com.patibility.settings.SettingsManagerInstance;
+	import abe.com.patibility.lang.GetTextInstance;
 	import abe.com.patibility.settings.backends.SettingsBackend;
 	import abe.com.patibility.settings.events.SettingsBackendEvent;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.events.ComponentFactoryEvent;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.models.DefaultBoundedRangeModel;
-	import abe.com.ponents.progress.ProgressBar;
-	import abe.com.ponents.skinning.decorations.NoDecoration;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.tools.DebugPanel;
-	import abe.com.ponents.utils.Corners;
-	import abe.com.ponents.utils.Insets;
-	import abe.com.ponents.utils.KeyboardControllerInstance;
-	import abe.com.ponents.utils.ToolKit;
-
-	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
-	import flash.events.Event;
-	import flash.events.ProgressEvent;
-	import flash.filters.DropShadowFilter;
-	import flash.net.URLLoader;
-	import flash.net.URLLoaderDataFormat;
-	import flash.net.URLRequest;
-	import flash.utils.ByteArray;
-	import flash.utils.Endian;
-	import flash.utils.clearTimeout;
-	import flash.utils.getDefinitionByName;
-	import flash.utils.setTimeout;
+	import abe.com.patibility.settings.SettingsManagerInstance;
+	import abe.com.ponents.events.*;
+	
+	import flash.display.*;
+	import flash.events.*;
+	import flash.filters.*;
+	import flash.net.*;
+	import flash.text.*;
+	import flash.utils.*;
+	import flash.geom.*;
+	
 	/**
 	 * @author cedric
 	 */
 	public class ComponentFactoryPreload extends MovieClip
 	{
-		static protected var __mainClassName__ : String /*FDT_IGNORE*/= CONFIG::MAIN_CLASS/*FDT_IGNORE*/;
+		static protected var __mainClassName__ : String = CONFIG::MAIN_CLASS;
 		
 		protected var _langLoader : URLLoaderQueue;
-		protected var _progressPanel : Panel;
-		protected var _progressLabel : Label;		protected var _progressBar : ProgressBar;
 		protected var _app : DisplayObject;
 		protected var _numLangFile : int;
 		protected var _currentLangFile : int;
-		protected var _backendTimeout : uint;		protected var _timeout : uint;
+		protected var _backendTimeout : uint;
+		protected var _timeout : uint;
 
 		public function ComponentFactoryPreload ()
 		{
@@ -61,57 +44,106 @@ package abe.com.ponents.factory
 			
 			StageUtils.setup( this );
 			StageUtils.flexibleStage();
-			ToolKit.initializeToolKit();
-			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
-				KeyboardControllerInstance.eventProvider = stage;
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-
+			
 			createProgressPanel();
 			
 			this.addEventListener(Event.ENTER_FRAME, this.enterFrame);
 		}
-		
-		public function setProgressLabel( s : String ) : void
-		{
-			_progressLabel.value = s;
-		}
-		public function setProgressValue( n : Number ) : void
-		{
-			_progressBar.value = n;
-		}
-		
-		/*FDT_IGNORE*/CONFIG::DEBUG/*FDT_IGNORE*/
-		protected function createDebugTools () : void
-		{
-			var p : DebugPanel = new DebugPanel();
-			p.id = p.name = "debugPanel";
-			ToolKit.popupLevel.addChild(p);
-			p.visible = false;
-		}
+        
+        
+        private var _progressText : TextField;	
+        private var _progressBar : Shape;	
+        private var _progressBarBackground : Shape;	
+        private var _progressPanel : Sprite;	
+        private var _progressPercent : TextField;	
+        	
 		protected function createProgressPanel () : void
 		{
-			_progressBar = new ProgressBar(new DefaultBoundedRangeModel(0, 0, 100, 1), true );
-			_progressLabel = new Label( getMessage("load" ) );
-			_progressPanel = new Panel( );
-			_progressPanel.childrenLayout = new InlineLayout( _progressPanel, 3, "left", "top", "topToBottom", true );
-			_progressPanel.styleKey = "DefaultComponent";
-			_progressPanel.style.setForAllStates("insets", new Insets(4)
-						 ).setForAllStates("corners", new Corners(3)
-						 ).setForAllStates("outerFilters", [new DropShadowFilter(1, 45, 0, .6, 3, 3)]
-						 ).setForAllStates("foreground", new NoDecoration() );
-			_progressPanel.addComponents( _progressLabel, _progressBar );
-			
-			StageUtils.lockToStage( _progressPanel, StageUtils.X_ALIGN_CENTER + StageUtils.Y_ALIGN_CENTER );
-			ToolKit.mainLevel.addChild( _progressPanel );
+		    _progressPanel = new Sprite();
+		    _progressPanel.graphics.beginFill (0xf7f5ef);
+		    _progressPanel.graphics.drawRoundRect( 0, 0, 170, 46, 5 );
+		    _progressPanel.graphics.endFill();
+		    _progressPanel.filters = [ new DropShadowFilter(1,90,0x1b3338,1,4,4,1,3)];
+		    
+		    _progressBarBackground = new Shape();
+		    
+		    _progressBarBackground.graphics.beginFill(0x8ea5ac);
+		    _progressBarBackground.graphics.drawRoundRect( 0, 0, 160, 16, 3 );
+		    _progressBarBackground.graphics.drawRoundRect( 1, 1, 158, 14, 2 );
+		    _progressBarBackground.graphics.endFill();
+		    
+		    _progressBarBackground.graphics.beginFill(0xa9bfc6);
+		    _progressBarBackground.graphics.drawRoundRect( 1, 1, 158, 14, 2 );
+		    _progressBarBackground.graphics.endFill();
+		    
+		    _progressBar = new Shape();
+		    
+		    _progressText = new TextField();
+		    _progressText.width = 160;
+		    _progressText.height = 20;
+		    _progressText.defaultTextFormat = new TextFormat("Verdana", 10);
+		    _progressText.text = getMessage( "load" );
+		    
+		    _progressPercent = new TextField();
+		    _progressPercent.autoSize="left";
+		    _progressPercent.defaultTextFormat = new TextFormat("Verdana", 10, false, false, false, null, null, "center");
+		    _progressPercent.blendMode = "invert";
+		    
+		    _progressText.x = 5;
+		    _progressText.y = 5;
+		    
+		    _progressBarBackground.x = 5;
+		    _progressBarBackground.y = 25;
+		    
+		    _progressBar.x = 5;
+		    _progressBar.y = 25; 
+		    _progressPercent.x = 5;
+		    _progressPercent.y = 24;
+		    
+		    _progressPanel.addChild( _progressText );
+		    _progressPanel.addChild( _progressBarBackground );
+		    _progressPanel.addChild( _progressBar );
+		    _progressPanel.addChild( _progressPercent );
+		    
+		    addChild( _progressPanel );
+		    
+		    StageUtils.lockToStage( _progressPanel, StageUtils.X_ALIGN_CENTER + StageUtils.Y_ALIGN_CENTER );
+		    
+		    setProgressValue(0);
 		}
 		protected function releaseProgressPanel() : void
 		{
-			StageUtils.unlockFromStage( _progressPanel );
-			ToolKit.mainLevel.removeChild( _progressPanel );
+		    StageUtils.unlockFromStage( _progressPanel );
+		    removeChild( _progressPanel );
 		}
+		public function setProgressLabel( s : String ) : void
+		{
+		    _progressText.text = s;
+		}
+		public function setProgressValue( n : Number ) : void
+		{
+		    var m : Matrix = new Matrix();
+		    var w : Number = 160 * n / 100;
+		    
+		    m.createGradientBox( 160, 14, Math.PI/2, 0, 1 );
+		   
+		    _progressBar.graphics.clear();
+		    _progressBar.graphics.beginFill(0x8ea5ac);
+		    _progressBar.graphics.drawRoundRect( 0, 0, w, 16, 3 );
+		    _progressBar.graphics.drawRoundRect( 1, 1, w-2, 14, 2 );
+		    _progressBar.graphics.endFill();
+		    
+		    _progressBar.graphics.beginGradientFill( "linear", [0xd7e2c0, 0xb7d8cc, 0xd7e2c0], [1,1,1],[125,127,255], m, "repeat" );
+		    _progressBar.graphics.drawRoundRect( 1, 1, w-2, 14, 2 );
+		    _progressBar.graphics.endFill();
+		    
+		    _progressPercent.text = n+"%";
+		    _progressPercent.x = 5 + ( 160 - _progressPercent.width ) / 2; 
+		}
+		
 		protected function initMain () : void
 		{
-			_progressLabel.value = "Looking for a backend";
+			setProgressLabel( "Looking for a backend" );
 			
   			var be : SettingsBackend;
 			var mainClass:Class = getDefinitionByName(__mainClassName__) as Class;
@@ -125,61 +157,65 @@ package abe.com.ponents.factory
 			{
 				bck = settings[0];
 	            backend = bck.arg.(@key=="backend").@value;
-	            appName = bck.arg.(@key=="appName").@value;	            _timeout = parseInt( bck.arg.(@key=="timeout").@value ) || 10000;
+	            appName = bck.arg.(@key=="appName").@value;
+	            _timeout = parseInt( bck.arg.(@key=="timeout").@value ) || 10000;
 			}
 			
             if( backend && backend != "" )
             {
-            	_progressLabel.value = "Found a backend";
+            	setProgressLabel( "Found a backend" );
             	try
             	{
             		var cls : Class = getDefinitionByName( backend ) as Class;
             		if( cls )
             		{
             			if( appName && appName != "" )
-            				be = new cls( appName ) as SettingsBackend;            			else
+            				be = new cls( appName ) as SettingsBackend;
+            			else
             				be = new cls() as SettingsBackend;
             				
             			if(be)
             			{
 							SettingsManagerInstance.backend = be;
 							
-            				be.addEventListener( SettingsBackendEvent.INIT, backendInit );            				be.addEventListener( SettingsBackendEvent.PROGRESS, backendProgress );
+            				be.addEventListener( SettingsBackendEvent.INIT, backendInit );
+            				be.addEventListener( SettingsBackendEvent.PROGRESS, backendProgress );
 
-							_progressLabel.value = getMessage("settings");
+							setProgressLabel ( getMessage("settings") );
             				_backendTimeout = setTimeout( checkBackendInit, _timeout);
             				
-            				_progressLabel.value = "Backend initialize";
+            				setProgressLabel ( "Backend initialize" );
             				be.init();
 						}
             			else 
             			{
-            				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+            				CONFIG::DEBUG { 
             				Log.error(_$(_("The settings backend '$0' don't implements the SettingsBackend interface."), 
             						 	 backend ) );
-            				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+            				} 
             			}
             		}
             		else 
             		{
-            			/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+            			CONFIG::DEBUG { 
             			Log.error( _$(_("The settings backend definition '$0' isn't a Class."), 
             					   	  backend ) );            					
-            			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+            			} 
             		}
             	}
             	catch( e : ReferenceError )
             	{
-            		/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/            					
+            		CONFIG::DEBUG {            					
             		Log.error( _$(_("The settings backend definition '$0' can't be found in this file."), 
             				   	  backend ) );
-            		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-            	}            	catch( e : Error )
+            		} 
+            	}
+            	catch( e : Error )
             	{       
-            		/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/            					
+            		CONFIG::DEBUG {            					
             		Log.error( _$(_("An unespected error occured while creating the following settings backend definition : '$0'\ninstance = $1\n$2"), 
             				      backend, be, e.getStackTrace() ) );
-            		/*FDT_IGNORE*/ } /*FDT_IGNORE*/     		
+            		}     		
             	}
             }
             else
@@ -187,13 +223,9 @@ package abe.com.ponents.factory
 		}
 		protected function buildMain() : void
 		{
-			_progressLabel.value = "Start the program";
+			setProgressLabel( "Start the program" );
 			var mainClass:Class = getDefinitionByName(__mainClassName__) as Class;
 			
-			/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
-				createDebugTools();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-	            
             _app = new mainClass() as DisplayObject;
             if( _app is EntryPoint )
             {
@@ -211,25 +243,25 @@ package abe.com.ponents.factory
             			ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_COMPLETE, buildComplete );
             			ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_PROGRESS, buildProgress );
             			ComponentFactoryInstance.process();
-						_progressLabel.value = getMessage("build");
+						setProgressLabel( getMessage("build") );
 					}
             		else
             			releaseProgressPanel();
             	}
             	catch( e : Error )
             	{
-            		/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+            		CONFIG::DEBUG { 
             		Log.error( e.message + "\n" + e.getStackTrace() );
-            		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+            		} 
             	}
             }
             else
             {
-            	/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+            	CONFIG::DEBUG { 
             		Log.warn( _("The main class don't have an init method. The instance will be placed on stage as a regular boot class.") );
-            	/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+            	} 
 	            releaseProgressPanel();
-				ToolKit.mainLevel.addChild( _app );
+				addChild( _app );
 			}
 		}
 		protected function proceedBuild (event : ComponentFactoryEvent) : void 
@@ -241,14 +273,15 @@ package abe.com.ponents.factory
     			ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_COMPLETE, buildComplete );
     			ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_PROGRESS, buildProgress );
     			ComponentFactoryInstance.process();
-				_progressLabel.value = getMessage("build");
+				setProgressLabel( getMessage("build") );
 			}
+			
     		else
     			releaseProgressPanel();
 		}
 		protected function checkBackendInit () : void 
 		{
-			/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/			
+			CONFIG::DEBUG { 			
 			Log.error( _$( _( "Seems like the settings backend $0 haven't respond after $1ms. The settings backend will be discarded and no backend will be used" ), 
 							   SettingsManagerInstance.backend ) );
 			
@@ -256,66 +289,67 @@ package abe.com.ponents.factory
 			SettingsManagerInstance.backend.removeEventListener(SettingsBackendEvent.PROGRESS, backendProgress );
 			SettingsManagerInstance.discardBackend();
 			buildMain();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			
 		}
 		protected function backendInit (event : SettingsBackendEvent) : void 
 		{
-			_progressLabel.value = "Backend Initialized";
+			setProgressLabel( "Backend Initialized" );
 			SettingsManagerInstance.backend.removeEventListener(SettingsBackendEvent.INIT, backendInit );
 			SettingsManagerInstance.backend.removeEventListener(SettingsBackendEvent.PROGRESS, backendProgress );
 			
 			clearTimeout( _backendTimeout );
 			
-			/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+			CONFIG::DEBUG { 
 			Log.info( _$(_("Settings backend $0 initialized." ), SettingsManagerInstance.backend ) );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			
 			buildMain();
 		}
 		protected function backendProgress (event : ProgressEvent ) : void 
 		{
-			_progressBar.value = Math.round( event.bytesLoaded / event.bytesTotal * 100 );
+			setProgressValue(  Math.round( event.bytesLoaded / event.bytesTotal * 100 ) );
 		}
 		protected function buildProgress (event : ComponentFactoryEvent ) : void 
 		{
-			_progressBar.value = Math.round( event.current / event.total * 100 );
+			setProgressValue( Math.round( event.current / event.total * 100 ) );
 		}
 		protected function buildComplete (event : ComponentFactoryEvent ) : void 
 		{
-			ComponentFactoryInstance.removeEventListener(ComponentFactoryEvent.BUILD_COMPLETE, buildComplete);			ComponentFactoryInstance.removeEventListener(ComponentFactoryEvent.BUILD_PROGRESS, buildProgress );
+			ComponentFactoryInstance.removeEventListener(ComponentFactoryEvent.BUILD_COMPLETE, buildComplete);
+			ComponentFactoryInstance.removeEventListener(ComponentFactoryEvent.BUILD_PROGRESS, buildProgress );
 			releaseProgressPanel();
 		}
-		/*FDT_IGNORE*/ CONFIG::WITHOUT_SERVER { /*FDT_IGNORE*/
+		CONFIG::WITHOUT_SERVER
 		protected var _n : uint = 0;
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
 		protected function enterFrame(event:Event):void
 	    {
-			_progressBar.value = Math.round( this.loaderInfo.bytesLoaded / this.loaderInfo.bytesTotal * 100 );
-			/*FDT_IGNORE*/ CONFIG::WITHOUT_SERVER { /*FDT_IGNORE*/
+			setProgressValue( Math.round( this.loaderInfo.bytesLoaded / this.loaderInfo.bytesTotal * 100 ) );
+			CONFIG::WITHOUT_SERVER { 
 			if ( _n >= 100 ) 
 	        {
 	           this.removeEventListener(Event.ENTER_FRAME, this.enterFrame);
 	           this.nextFrame();
-	           _progressLabel.value = "Loading complete";
+	           setProgressLabel( "Loading complete" );
 	           loadLang();
 	        }
 	        else
 	        {
 	        	_n++;
-				_progressBar.value = _n;	
+				setProgressValue( _n );	
 			}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			
-			/*FDT_IGNORE*/ CONFIG::WITH_DISTANT_SERVER { /*FDT_IGNORE*/
+			CONFIG::WITH_DISTANT_SERVER { 
 			if (this.framesLoaded >= this.totalFrames) 
 	        {
 	           this.removeEventListener(Event.ENTER_FRAME, this.enterFrame);
 	           this.nextFrame();
-	           _progressLabel.value = "Loading complete";
+	           setProgressLabel( "Loading complete" );
 	           loadLang();
 	        }
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 		private function loadLang () : void
 		{
@@ -338,18 +372,18 @@ package abe.com.ponents.factory
 				_numLangFile = _langLoader.size;
 				_currentLangFile = 0;
 				_langLoader.execute();
-				_progressLabel.value = getMessage("lang") + " " + _currentLangFile + "/" + _numLangFile;
+				setProgressLabel( getMessage("lang") + " " + _currentLangFile + "/" + _numLangFile );
 			}
 			else initMain();
 		}
 		protected function langLoadingProgress (event : ProgressEvent) : void 
 		{
-			_progressBar.value = Math.round( event.bytesLoaded / event.bytesTotal * 100 );
+			setProgressValue( Math.round( event.bytesLoaded / event.bytesTotal * 100 ) );
 		}
 		protected function langCallBack ( loader : URLLoader, request : URLRequest ) : void
 		{
 			_currentLangFile++;
-			_progressLabel.value = getMessage("lang") + " " + _currentLangFile + "/" + _numLangFile;
+			setProgressLabel( getMessage("lang") + " " + _currentLangFile + "/" + _numLangFile );
 			loader.removeEventListener( ProgressEvent.PROGRESS, langLoadingProgress );
 			if( loader.dataFormat == URLLoaderDataFormat.TEXT )
 			{
@@ -358,15 +392,15 @@ package abe.com.ponents.factory
 					var poc : POCodec = new POCodec ();
 					GetTextInstance.addTranslations ( poc.decode ( loader.data ) );
 					
-					/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+					CONFIG::DEBUG { 
 					Log.info( _$(_("Language in file '$0' successfully loaded."), request.url ) );
-					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+					} 
 				}
 				catch( e : Error )
 				{
-					/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+					CONFIG::DEBUG { 
 					Log.error( _$(_("The content of the file '$0' seems not valid.\n$1"), request.url, e.getStackTrace() ) );
-					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+					} 
 				}
 			}
 			else
@@ -377,24 +411,24 @@ package abe.com.ponents.factory
 					( loader.data as ByteArray ).endian = Endian.LITTLE_ENDIAN;
 					GetTextInstance.addTranslations ( moc.decode ( loader.data ) );
 					
-					/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+					CONFIG::DEBUG { 
 					Log.info( _$(_("Language in file '$0' successfully loaded."), request.url ) );
-					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+					} 
 				}
 				catch( e : Error )
 				{
-					/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+					CONFIG::DEBUG { 
 					Log.error( _$(_("The content of the file '$0' seems not valid.\n$1"), request.url, e.getStackTrace() ) );
-					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+					} 
 				}
 			}
 		}
 
 		protected function langLoadingComplete ( event : Event ) : void
 		{
-			/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
+			CONFIG::DEBUG { 
 			Log.info( _("Languages loading completed.") );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			_langLoader.removeEventListener( CommandEvent.COMMAND_END, langLoadingComplete );
 			initMain();
 		}

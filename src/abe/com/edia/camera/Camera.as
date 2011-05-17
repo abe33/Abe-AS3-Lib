@@ -9,8 +9,8 @@ package abe.com.edia.camera
 	import abe.com.mon.geom.Range;
 	import abe.com.mon.geom.Rectangle2;
 	import abe.com.mon.geom.pt;
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.Random;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.utils.StringUtils;
@@ -119,14 +119,16 @@ package abe.com.edia.camera
 		 * La force du tremblement de la caméra en pixel. Le tremblement produit un décalage
 		 * allant de <code>-_shakingStrength</code> à <code>_shakingStrength</code> sur les axes
 		 * <code>x</code> et <code>y</code>.
-		 */		protected var _shakingStrength : Number;
+		 */
+		protected var _shakingStrength : Number;
 		/**
 		 * Un nombre représentant le temps écoulé depuis le lancement du tremblement de la caméra.
 		 */
 		protected var _shakingTime : Number;
 		/**
 		 * La durée courante du tremblement de la caméra.
-		 */		protected var _shakingDuration : Number;
+		 */
+		protected var _shakingDuration : Number;
 		/**
 		 * <code>Rectangle2</code> représentant le champ de la caméra.
 		 */
@@ -137,7 +139,7 @@ package abe.com.edia.camera
 		 * <p>
 		 * Si <code>silentMode</code> vaut <code>true</code> aucun évènement n'est
 		 * diffusé. La diffusion devra se faire de manière manuelle en utilisant
-		 * la méthode <code>fireCameraChange</code>.
+		 * la méthode <code>fireCameraChangedSignal</code>.
 		 * </p>
 		 * @default false
 		 */
@@ -176,11 +178,12 @@ package abe.com.edia.camera
 		 * 							et <code>zoomOut</code>
 		 * @param	silent			si <code>true</code> les modifications de la caméra ne diffusent
 		 * 							aucun évènements. La diffusion devra être faite manuellement
-		 * 							en appelant la méthode <code>fireCameraChange</code>
+		 * 							en appelant la méthode <code>fireCameraChangedSignal</code>
 		 * @example On construit une nouvelle instance de la classe <code>Camera</code> :
 		 * <listing>var camera : Camera = new Camera();</listing>
 		 * On construit une nouvelle instance de la classe <code>Camera</code> avec des contraintes sur
-		 * ses déplacements :		 * <listing>var camera : Camera = new Camera( new Rectangle2( 100,100,480,320 ),
+		 * ses déplacements :
+		 * <listing>var camera : Camera = new Camera( new Rectangle2( 100,100,480,320 ),
 		 * 					new Rectangle2 (0,0,1000,1000) );</listing>
 		 */
 		public function Camera ( screen : Rectangle2 = null,
@@ -255,7 +258,7 @@ package abe.com.edia.camera
 		{
 			_screen.rotateAroundCenter ( rotation - _screen.rotation );
 			_rotation = _screen.rotation;
-			fireSilentCameraChange();
+			fireSilentCameraChangedSignal();
 		}
 		/**
 		 * Accès en lecture et en écriture au facteur de zoom de la caméra courante.
@@ -295,7 +298,8 @@ package abe.com.edia.camera
 		 * Cette valeur sert de référence lors des calculs de zoom.
 		 * </p>
 		 */
-		public function get safeWidth () : Number { return _safeWidth; }		public function set safeWidth ( n : Number ) : void 
+		public function get safeWidth () : Number { return _safeWidth; }
+		public function set safeWidth ( n : Number ) : void 
 		{ 
 			var z : Number = zoom;
 			var c : Point = screenCenter;
@@ -311,7 +315,8 @@ package abe.com.edia.camera
 		 * Cette valeur sert de référence lors des calculs de zoom.
 		 * </p>
 		 */
-		public function get safeHeight () : Number { return _safeHeight; }		public function set safeHeight ( n : Number ): void
+		public function get safeHeight () : Number { return _safeHeight; }
+		public function set safeHeight ( n : Number ): void
 		{ 
 			var z : Number = zoom;
 			var c : Point = screenCenter;
@@ -399,9 +404,10 @@ package abe.com.edia.camera
 				_safeCenter.x = x;
 				_safeCenter.y = y;
 
-				if( !_shaking )				{
+				if( !_shaking )
+				{
 					_screen.center = pt(x,y);
-					fireSilentCameraChange ();
+					fireSilentCameraChangedSignal ();
 				}
 			}
 		}
@@ -425,7 +431,7 @@ package abe.com.edia.camera
 				if( !_shaking )
 				{
 					_screen.center = pt ( x, _safeCenter.y ) ;
-					fireSilentCameraChange ();
+					fireSilentCameraChangedSignal ();
 				}
 			}
 		}
@@ -449,7 +455,7 @@ package abe.com.edia.camera
 				if( !_shaking )
 				{
 					_screen.center = pt ( _safeCenter.x, y ) ;
-					fireSilentCameraChange ();
+					fireSilentCameraChangedSignal ();
 				}
 			}
 		}
@@ -514,13 +520,14 @@ package abe.com.edia.camera
 		 */
 		public function moveToXY ( x : Number, y : Number ) : void
 		{
-			_safeCenter.x = x + _screen.width/2;			_safeCenter.y = y + _screen.height/2;
+			_safeCenter.x = x + _screen.width/2;
+			_safeCenter.y = y + _screen.height/2;
 
 			if( !_shaking )
 			{
 				_screen.x = x;
 				_screen.y = y;
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
@@ -542,7 +549,7 @@ package abe.com.edia.camera
 			if( !_shaking )
 			{
 				_screen.x = x;
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
@@ -564,7 +571,7 @@ package abe.com.edia.camera
 			if( !_shaking )
 			{
 				_screen.y = y;
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
@@ -598,12 +605,13 @@ package abe.com.edia.camera
 		 */
 		public function translateXY ( x : Number, y : Number ) : void
 		{
-			_safeCenter.x += x;			_safeCenter.y += y;
+			_safeCenter.x += x;
+			_safeCenter.y += y;
 
 			if( !_shaking )
 			{
 				_screen.offset( x, y );
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
@@ -625,7 +633,7 @@ package abe.com.edia.camera
 			if( !_shaking )
 			{
 				_screen.offset( x, 0 );
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
@@ -647,7 +655,7 @@ package abe.com.edia.camera
 			if( !_shaking )
 			{
 				_screen.offset( 0, y );
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 /*--------------------------------------------------------------------
@@ -839,7 +847,7 @@ package abe.com.edia.camera
 			var oldRatio : Number = _screen.width / _safeWidth;
 			_screen.scaleAroundCenter ( _zoom / oldRatio );
 
-			fireCameraChange();
+			fireCameraChangedSignal();
 			//var width : Number = _safeWidth / _zoom;
 			//var height : Number = _safeHeight / _zoom;
 
@@ -892,8 +900,9 @@ package abe.com.edia.camera
 
 			if( nx !=  _screen.x || ny != _screen.y )
 			{
-				_screen.x = nx;				_screen.y = ny;
-				fireSilentCameraChange ();
+				_screen.x = nx;
+				_screen.y = ny;
+				fireSilentCameraChangedSignal ();
 			}
 			if( ( _shakingTime += bias ) > _shakingDuration )
 				endShake();
@@ -949,7 +958,7 @@ package abe.com.edia.camera
 		 * Notifie les écouteurs à l'évènement <code>CameraEvent.CAMERA_CHANGE</code>
 		 * qu'une ou plusieurs propriétés de la caméra ont été modifiées.
 		 */
-		public function fireCameraChange () : void
+		public function fireCameraChangedSignal () : void
 		{
 			cameraChanged.dispatch( this );
 		}
@@ -961,10 +970,10 @@ package abe.com.edia.camera
 		 * propriété de l'objet caméra.
 		 * </p>
 		 */
-		protected function fireSilentCameraChange () : void
+		protected function fireSilentCameraChangedSignal () : void
 		{
 			if( !silentMode )
-				fireCameraChange();
+				fireCameraChangedSignal();
 		}
 	}
 }

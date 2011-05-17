@@ -20,15 +20,18 @@ package abe.com.ponents.skinning
 	 */
 	dynamic public class ComponentStateStyle extends Proxy implements FormMetaProvider
 	{
-		public var propertyChanged : Signal;		public var styleStateChanged : Signal;
+		public var propertyChanged : Signal;
+		public var styleStateChanged : Signal;
 		
 		protected var _background : ComponentDecoration;
 		protected var _foreground : ComponentDecoration;
 		protected var _textColor : Color;
 		protected var _format : TextFormat;
 		protected var _outerFilters : Array;
-		protected var _innerFilters : Array;		protected var _corners : Corners;
-		protected var _insets : Insets;		protected var _borders : Borders;
+		protected var _innerFilters : Array;
+		protected var _corners : Corners;
+		protected var _insets : Insets;
+		protected var _borders : Borders;
 		protected var _customProperties : Object;
 
 		public function ComponentStateStyle ( background : ComponentDecoration = null, 
@@ -38,16 +41,20 @@ package abe.com.ponents.skinning
 											  insets : Insets = null,
 											  borders : Borders = null,
 											  corners : Corners = null,
-											  outerFilters : Array = null,											  innerFilters : Array = null )
+											  outerFilters : Array = null,
+											  innerFilters : Array = null )
 		{		
-			propertyChanged = new Signal();					styleStateChanged = new Signal();		
-			_background = background;			_foreground = foreground;
+			propertyChanged = new Signal();		
+			styleStateChanged = new Signal();		
+			_background = background;
+			_foreground = foreground;
 			_textColor = textColor;
 			_corners = corners;
 			_format = format;
 			_insets = insets;
 			_borders = borders;
-			_outerFilters = outerFilters;			_innerFilters = innerFilters;
+			_outerFilters = outerFilters;
+			_innerFilters = innerFilters;
 			_customProperties = {};
 		}
 		[Form(type="componentDecoration", 

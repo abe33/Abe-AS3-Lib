@@ -428,7 +428,7 @@ package abe.com.ponents.sliders
 				_background.graphics.moveTo( x - w, y );
 				_background.graphics.lineTo( x, y );
 			}
-			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 255 );
+			_background.graphics.lineStyle( 0, _tickColor.hexa, _tickColor.alpha / 500 );
 			for( i = _model.minimum; i <= _model.maximum; i += _minorTickSpacing )
 			{
 				y = _track.y + _knobLeft.height/2 + MathUtils.map( i , _model.minimum, _model.maximum, 0, _track.height - _knobLeft.height );

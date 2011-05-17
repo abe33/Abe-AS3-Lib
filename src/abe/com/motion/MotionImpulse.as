@@ -31,7 +31,8 @@ package  abe.com.motion
 	 * diffusées par l'instance.</p>
 	 *
 	 * @author Cédric Néhémie
-	 * @see ImpulseListener	 * @see ImpulseEvent
+	 * @see ImpulseListener
+	 * @see ImpulseEvent
 	 */
 	public class MotionImpulse extends Shape
 	{

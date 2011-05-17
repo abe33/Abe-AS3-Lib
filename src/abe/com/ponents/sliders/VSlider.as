@@ -39,7 +39,10 @@ package abe.com.ponents.sliders
 		  preview="abe.com.ponents.sliders::VSlider.defaultVSliderPreview",
 		  
 		  custom_inputWidth="30",
-		  custom_buttonSize="20",		  custom_trackSize="150",		  custom_tickSize="8",		  custom_tickMargin="5",
+		  custom_buttonSize="20",
+		  custom_trackSize="150",
+		  custom_tickSize="8",
+		  custom_tickMargin="5",
 		  custom_tickColor="skin.sliderTickColor",
 		  custom_icon="icon(abe.com.ponents.sliders::VSlider.SLIDER_ICON)"
 	)]
@@ -63,8 +66,10 @@ package abe.com.ponents.sliders
 		  preview="abe.com.ponents.sliders::VSlider.defaultVSliderPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__background="new deco::VSliderTrackFill( skin.sliderTrackBackgroundColor1, skin.sliderTrackBackgroundColor2, 4, 10)",		  state__1_5_9_13__background="new deco::VSliderTrackFill( skin.sliderTrackDisabledBackgroundColor1, skin.sliderTrackDisabledBackgroundColor2, 4, 10)",
-		  state__all__corners="new cutils::Corners(2)",		  state__all__insets="new cutils::Insets(2,10,2,10)"
+		  state__all__background="new deco::VSliderTrackFill( skin.sliderTrackBackgroundColor1, skin.sliderTrackBackgroundColor2, 4, 10)",
+		  state__1_5_9_13__background="new deco::VSliderTrackFill( skin.sliderTrackDisabledBackgroundColor1, skin.sliderTrackDisabledBackgroundColor2, 4, 10)",
+		  state__all__corners="new cutils::Corners(2)",
+		  state__all__insets="new cutils::Insets(2,10,2,10)"
 	)]
 	public class VSlider extends AbstractContainer implements FormComponent
 	{

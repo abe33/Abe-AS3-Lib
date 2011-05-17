@@ -13,12 +13,19 @@ package abe.com.mands.load
 		protected var _estimator : Estimator;
 		protected var _callback : Function;
 		
-		protected var _ioErrorOccured : Signal; 		protected var _securityErrorOccured : Signal; 		protected var _loadOpened : Signal; 		protected var _loadProgressed : Signal; 		protected var _loadCompleted : Signal; 
+		protected var _ioErrorOccured : Signal; 
+		protected var _securityErrorOccured : Signal; 
+		protected var _loadOpened : Signal; 
+		protected var _loadProgressed : Signal; 
+		protected var _loadCompleted : Signal; 
 		
 		public function AbstractLoadingEntry ( callback : Function = null )
 		{
-			_ioErrorOccured = new Signal(String);			_securityErrorOccured = new Signal(String);
-			_loadOpened = new Signal(LoadEntry);			_loadProgressed = new Signal(LoadEntry, Number, Number);			_loadCompleted = new Signal(LoadEntry);
+			_ioErrorOccured = new Signal(String);
+			_securityErrorOccured = new Signal(String);
+			_loadOpened = new Signal(LoadEntry);
+			_loadProgressed = new Signal(LoadEntry, Number, Number);
+			_loadCompleted = new Signal(LoadEntry);
 			_callback = callback;
 		}
 		

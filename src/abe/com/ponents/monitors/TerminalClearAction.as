@@ -10,6 +10,7 @@ package  abe.com.ponents.monitors
 	import abe.com.ponents.actions.AbstractTerminalAction;
 	import abe.com.ponents.actions.TerminalAction;
 	import abe.com.ponents.actions.TerminalActionOption;
+
 	/**
 	 * 
 	 */
@@ -44,14 +45,16 @@ package  abe.com.ponents.monitors
 			if( o.length == 0 )
 			{
 				te.terminal.clear();
+				commandEnded.dispatch( this );
 			}
 			else if( o.hasOwnProperty( "--help" ) || o.hasOwnProperty( "-h" ) )
 			{
 				te.terminal.echo( this.formatCommandInfoDetails( this ) );
+				commandEnded.dispatch( this );
 			}
 			else
 			{
-				fireCommandFailed( 	_("Unknown parameters in '$0', type 'clear --help' to display the full command's informations.").replace("$0", te.options ) );
+				commandFailed.dispatch(	this, _("Unknown parameters in '$0', type 'clear --help' to display the full command's informations.").replace("$0", te.options ) );
 			}
 		}
 	}
