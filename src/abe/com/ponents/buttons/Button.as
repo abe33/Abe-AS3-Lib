@@ -18,6 +18,7 @@ package abe.com.ponents.buttons
 	 * 
 	 * @author Cédric Néhémie
 	 */
+	[Skinable(skin="Button")]
 	public class Button extends AbstractButton  implements IDisplayObject, 
 															 IInteractiveObject, 
 															 IDisplayObjectContainer, 

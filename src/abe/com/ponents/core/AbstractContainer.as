@@ -49,10 +49,14 @@ package abe.com.ponents.core
 		 * @default new Vector.<Component>()
 		 */
 		/*FDT_IGNORE*/
-		TARGET::FLASH_9		protected var _children : Array;
-				TARGET::FLASH_10		protected var _children : Vector.<Component>;
+		TARGET::FLASH_9
+		protected var _children : Array;
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _children : Vector.<Component>;
+		TARGET::FLASH_10
+		protected var _children : Vector.<Component>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _children : Vector.<Component>;
 		/**
 		 * Un objet <code>ComponentLayout</code> chargé de calculer la taille de préférence
 		 * de ce composant et de mettre en forme les composants enfants.
@@ -118,8 +122,12 @@ package abe.com.ponents.core
 		{
 			super();
 			/*FDT_IGNORE*/
-			TARGET::FLASH_9 { _children = []; }			TARGET::FLASH_10 { _children = new Vector.<Component>(); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			_childAdded = new Signal( Container, Component );			_childRemoved = new Signal( Container, Component );
+			TARGET::FLASH_9 { _children = []; }
+			TARGET::FLASH_10 { _children = new Vector.<Component>(); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_childAdded = new Signal( Container, Component );
+			_childRemoved = new Signal( Container, Component );
+			_childResized = new Signal( Container, Component, Dimension );
 			
 			_children = new Vector.<Component>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			_childrenLayout = _childrenLayout ? _childrenLayout : new NoLayout ( this );
@@ -135,7 +143,10 @@ package abe.com.ponents.core
 		}
 		protected var _childAdded : Signal;
 		protected var _childRemoved : Signal;
-		public function get childAdded () : Signal { return _childAdded; } 		public function get childRemoved () : Signal { return _childAdded; } 
+		protected var _childResized : Signal;
+		public function get childAdded () : Signal { return _childAdded; } 
+		public function get childRemoved () : Signal { return _childRemoved; } 
+		public function get childResized () : Signal { return _childResized; } 
 /*-----------------------------------------------------------------
  * 	GETTERS / SETTERS
  *----------------------------------------------------------------*/
@@ -144,9 +155,13 @@ package abe.com.ponents.core
  		 */
  		/*FDT_IGNORE*/
  		TARGET::FLASH_9
-		public function get children () : Array { return _children.concat(); } 		
- 		TARGET::FLASH_10		public function get children () : Vector.<Component> { return _children.concat(); } 		
- 		TARGET::FLASH_10_1	/*FDT_IGNORE*/		public function get children () : Vector.<Component> { return _children.concat(); }
+		public function get children () : Array { return _children.concat(); }
+ 		
+ 		TARGET::FLASH_10
+		public function get children () : Vector.<Component> { return _children.concat(); }
+ 		
+ 		TARGET::FLASH_10_1	/*FDT_IGNORE*/
+		public function get children () : Vector.<Component> { return _children.concat(); }
 		
 		/**
 		 * Un entier représentant le nombre de composants contenu dans ce <code>Container</code>.
@@ -666,6 +681,7 @@ package abe.com.ponents.core
 		{
 			c.focusParent = this;
 			c.interactive = _interactive;
+			c.componentResized.add( childrenResized );
 		}
 		/**
 		 * Remet à zéro les propriétés d'un composant nouvellement supprimé de ce <code>Container</code>.
@@ -675,6 +691,12 @@ package abe.com.ponents.core
 		protected function teardownChildren ( c : Component ) : void
 		{
 			c.focusParent = null;
+			c.componentResized.remove( childrenResized );
+		}
+		
+		protected function childrenResized( c : Component, d : Dimension ) : void
+		{
+		    _childResized.dispatch( this, c, d );
 		}
 
 /*-----------------------------------------------------------------
@@ -750,7 +772,7 @@ package abe.com.ponents.core
 			if( hasChildren )
 			{
 				var l : uint = childrenCount;
-				for( var i : int = 0; i<l; i++ )
+				for( var i : int = 0; i < l; i++ )
 				{
 					var c : Component = _children[i];
 					if( c.enabled )

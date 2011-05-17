@@ -1,7 +1,6 @@
 package abe.com.ponents.containers 
 {
-	import org.osflash.signals.events.IEvent;
-	import org.osflash.signals.events.IBubbleEventHandler;
+	
 	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.core.AbstractContainer;
 	import abe.com.ponents.core.Component;
@@ -11,26 +10,35 @@ package abe.com.ponents.containers
 
 	import flash.events.Event;
 	import flash.geom.Rectangle;
+
+	import org.osflash.signals.Signal;
+
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class AbstractScrollContainer extends AbstractContainer implements IBubbleEventHandler
+	public class AbstractScrollContainer extends AbstractContainer
 	{
 		protected var _viewport : Viewport;
 		
-		protected var _hmodel : BoundedRangeModel;		protected var _vmodel : BoundedRangeModel;
+		protected var _hmodel : BoundedRangeModel;
+		protected var _vmodel : BoundedRangeModel;
 		protected var _isAlwaysValidateRoot : Boolean;
+		
+		public var scrolled : Signal;
 
 		public function AbstractScrollContainer ()
 		{
+		    scrolled = new Signal();
 			_viewport = new Viewport();
 			_hmodel = new DefaultBoundedRangeModel(0,0,0,0);
 			_vmodel = new DefaultBoundedRangeModel(0,0,0,0);
-			_isAlwaysValidateRoot = true;			super();
-			_hmodel.addEventListener( ComponentEvent.DATA_CHANGE, hscrollOccured );
-			_vmodel.addEventListener( ComponentEvent.DATA_CHANGE, vscrollOccured );
+			_isAlwaysValidateRoot = true;
+			super();
+			_hmodel.dataChanged.add( hscrollOccured );
+			_vmodel.dataChanged.add( vscrollOccured );
 			
-			//addEventListener( ComponentEvent.COMPONENT_RESIZE, onComponentResized );			
+			//addEventListener( ComponentEvent.COMPONENT_RESIZE, onComponentResized );
+			
 			addComponent(viewport);
 		}
 		public function get viewport () : Viewport { return _viewport; }
@@ -38,12 +46,12 @@ package abe.com.ponents.containers
 		public function set view ( v : Component ) : void 
 		{ 
 			if( _viewport.view )
-				_viewport.view.removeEventListener( ComponentEvent.COMPONENT_RESIZE, onComponentResized );
+				_viewport.view.componentResized.remove( onComponentResized );
 			
 			_viewport.view = v;
 			
 			if( _viewport.view )
-				_viewport.view.addEventListener( ComponentEvent.COMPONENT_RESIZE, onComponentResized );
+				_viewport.view.componentResized.add( onComponentResized );
 			
 			invalidatePreferredSizeCache();
 		}
@@ -83,7 +91,8 @@ package abe.com.ponents.containers
 		public function scrollLeft () : void
 		{
 			scrollH += _viewport.getUnitIncrementH ( -1 );
-		}		public function scrollRight () : void
+		}
+		public function scrollRight () : void
 		{
 			scrollH += _viewport.getUnitIncrementH ( 1 );
 		}
@@ -141,20 +150,20 @@ package abe.com.ponents.containers
 			return _hmodel.maximum > _hmodel.minimum;
 		}
 		
-		protected function hscrollOccured ( e : Event ) : void
+		protected function hscrollOccured ( model : BoundedRangeModel ) : void
 		{
 			if( _viewport.view )
 			{
 				_viewport.view.x = -_hmodel.value;
-				fireScrollEvent ();
+				fireScrolledSignal ();
 			}
 		}
-		protected function vscrollOccured ( e : Event ) : void
+		protected function vscrollOccured ( model : BoundedRangeModel ) : void
 		{
 			if( _viewport.view )
 			{
 				_viewport.view.y = -_vmodel.value;
-				fireScrollEvent ();
+				fireScrolledSignal ();
 			}
 		}
 
@@ -180,7 +189,9 @@ package abe.com.ponents.containers
 				
 				_hmodel.maximum = Math.max( 0, _viewport.view.preferredSize.width - _viewport.width );
 				_hmodel.extent = _viewport.width;
-				_hmodel.minimum = 0;								if( !canScrollV )
+				_hmodel.minimum = 0;
+				
+				if( !canScrollV )
 				{
 					_vmodel.value = _vmodel.minimum;
 					vscrollOccured(null);
@@ -194,7 +205,7 @@ package abe.com.ponents.containers
 			}
 			invalidate();
 		}
-		protected function onComponentResized (event : Event) : void
+		protected function onComponentResized ( c : Component, d : Dimension ) : void
 		{
 			updateModelsAfterResize();
 		}
@@ -203,9 +214,9 @@ package abe.com.ponents.containers
 			return _isAlwaysValidateRoot || _validateRoot;
 		}
 
-		protected function fireScrollEvent () : void
+		protected function fireScrolledSignal () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.SCROLL ) );
+			scrolled.dispatch( this );
 		}
 		
 		public function get isAlwaysValidateRoot () : Boolean
@@ -216,10 +227,6 @@ package abe.com.ponents.containers
 		public function set isAlwaysValidateRoot (isAlwaysValidateRoot : Boolean) : void
 		{
 			_isAlwaysValidateRoot = isAlwaysValidateRoot;
-		}
-		public function onEventBubbled (event : IEvent) : Boolean
-		{
-			return null;
 		}
 	}
 }

@@ -340,7 +340,8 @@ package abe.com.ponents.core
 		protected var _displayed : Boolean;
 		/**
 		 * L'état de pression du bouton de la souris au dessus du composant.
-		 *		 * @default false
+		 *
+		 * @default false
 		 * @see ../../../../Components-Structure.html#behavior Structure comportementale
 		 */
 		protected var _pressed : Boolean;
@@ -430,7 +431,8 @@ package abe.com.ponents.core
 		 * @default true
 		 * @see ../../../../Components-Structure.html#focus Transmission du focus
 		 * @private
-		 */		protected var _allowFocusTraversing : Boolean;
+		 */
+		protected var _allowFocusTraversing : Boolean;
 		/**
 		 * L'état d'activation de la fonction de masque du contenu du composant.
 		 * <p>
@@ -503,7 +505,8 @@ package abe.com.ponents.core
 		 * <code>[Skinable]</code> et <code>[Skin]</code> définies pour ce composant.
 		 * </p>
 		 * @see ../../../../Components-Structure.html#styles Construction des styles
-		 * @see ../../../../Metas.html#skinable Balise [Skinable]		 * @see ../../../../Metas.html#skin Balise [Skin]
+		 * @see ../../../../Metas.html#skinable Balise [Skinable]
+		 * @see ../../../../Metas.html#skin Balise [Skin]
 		 */
 		protected var _style : ComponentStyle;
 		/**
@@ -511,7 +514,8 @@ package abe.com.ponents.core
 		 *
 		 * @see ../../../../Components-Structure.html#graphics Structure graphique
 		 */
-		protected var _background : Sprite;		/**
+		protected var _background : Sprite;
+		/**
 		 * Un objet <code>Shape</code> servant au dessin du premier plan du composant.
 		 *
 		 * @see ../../../../Components-Structure.html#graphics Structure graphique
@@ -524,7 +528,8 @@ package abe.com.ponents.core
 		 */
 		/*
 		protected var _visibleWhileNotInStage : Boolean;
-		protected var _wasAddedToStage : Boolean;
+
+		protected var _wasAddedToStage : Boolean;
 		*/
 /*-----------------------------------------------------------------
  * 	DISPLAY LIST RELATED
@@ -568,7 +573,8 @@ package abe.com.ponents.core
 		 *
 		 * @default null
 		 * @see ../../../../Components-Structure.html#layout Taille et layouts
-		 */		protected var _preferredSize : Dimension;
+		 */
+		protected var _preferredSize : Dimension;
 		/**
 		 * La dernière taille de préférence calculée pour ce composant.
 		 * <p>
@@ -649,17 +655,24 @@ package abe.com.ponents.core
 		 */
 		public function AbstractComponent ()
 		{
-			mouseMoved = new Signal();			mousePressed = new Signal();			mouseReleased = new Signal();			mouseReleasedOutside = new Signal();			mouseEntered = new Signal();			mouseLeaved = new Signal();
+			mouseMoved = new Signal();
+			mousePressed = new Signal();
+			mouseReleased = new Signal();
+			mouseReleasedOutside = new Signal();
+			mouseEntered = new Signal();
+			mouseLeaved = new Signal();
 			mouseWheelRolled = new Signal();
 			_componentChanged = new Signal( Component );
 			_componentEnableChanged = new Signal( Component, Boolean );
 			_componentPositionChanged = new Signal( Component, Point );
 			_componentRepainted = new Signal( Component );
-			_componentResized = new DeluxeSignal(this, Component, Dimension );
+			_componentResized = new Signal( Component, Dimension );
 			_componentScrollChanged = new Signal( Component );
+			_propertyChanged = new Signal();
 			
 			_enabled = true;
-			_pressed = false;			_selected = false;
+			_pressed = false;
+			_selected = false;
 			_over = false;
 			_allowFocus = true;
 			_allowOver = true;
@@ -670,7 +683,8 @@ package abe.com.ponents.core
 			_integerForSpatialInformations = true;
 			_allowOverEventBubbling = false;
 			_background = new Sprite();
-			_foreground = new Sprite();			_childrenContainer = new Sprite();			
+			_foreground = new Sprite();
+			_childrenContainer = new Sprite();			
 			_style = SkinManagerInstance.getComponentStyle( this );
 			_contentScrollH = 0;
 			_tooltipOverlayOnMouseOver = false;
@@ -685,14 +699,17 @@ package abe.com.ponents.core
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
 			_keyboardContext = new Dictionary();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+
+			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 			_menuContextEnabled = true;
 			_menuContextGroups = {};
 			_menuContextOrder = [];
 			_menuContextMap = {};
-			_menuContextEnabledMap = new Dictionary(true);			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			_menuContextEnabledMap = new Dictionary(true);
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
-			_background.mouseEnabled = false;			_foreground.mouseEnabled = false;
+			_background.mouseEnabled = false;
+			_foreground.mouseEnabled = false;
 			_childrenContainer.mouseEnabled = false;
 			_childrenContainer.mouseChildren = false;
 
@@ -700,24 +717,31 @@ package abe.com.ponents.core
 			useHandCursor = false;
 			focusRect = false;
 			
-			_childrenContainer.name= "childrenContainer";			_background.name= "background";			_foreground.name= "foreground";
+			_childrenContainer.name= "childrenContainer";
+			_background.name= "background";
+			_foreground.name= "foreground";
 
 			addChild( _background );
-			addChild( _childrenContainer );			addChild( _foreground );
+			addChild( _childrenContainer );
+			addChild( _foreground );
 
-			addEventListener( Event.ADDED_TO_STAGE, addedToStage );			addEventListener( Event.REMOVED_FROM_STAGE, removeFromStage );
+			addEventListener( Event.ADDED_TO_STAGE, addedToStage );
+			addEventListener( Event.REMOVED_FROM_STAGE, removeFromStage );
 
 			_style.propertyChanged.add( stylePropertyChanged );
 		}
 /*-----------------------------------------------------------------------*
  * SIGNALS
  *-----------------------------------------------------------------------*/
- 		public var mouseEntered : Signal; 		public var mouseLeaved : Signal; 		public var mouseMoved : Signal;
+ 		public var mouseEntered : Signal;
+ 		public var mouseLeaved : Signal;
+ 		public var mouseMoved : Signal;
  		public var mousePressed : Signal;
  		public var mouseReleased : Signal;
- 		public var mouseReleasedOutside : Signal; 		public var mouseWheelRolled : Signal;
+ 		public var mouseReleasedOutside : Signal;
+ 		public var mouseWheelRolled : Signal;
  		
- 		protected var _componentResized : DeluxeSignal;
+ 		protected var _componentResized : Signal;
  		protected var _componentChanged : Signal;
  		protected var _componentPositionChanged : Signal;
  		protected var _componentScrollChanged : Signal;
@@ -725,12 +749,13 @@ package abe.com.ponents.core
  		protected var _componentRepainted : Signal;
  		protected var _propertyChanged : Signal;
 		
-		public function get componentResized () : DeluxeSignal { return _componentResized; }
+		public function get componentResized () : Signal { return _componentResized; }
 		public function get componentChanged () : Signal { return _componentChanged; }
 		public function get componentPositionChanged () : Signal { return _componentPositionChanged; }
 		public function get componentScrollChanged () : Signal { return _componentScrollChanged; }
 		public function get componentEnableChanged () : Signal { return _componentEnableChanged; }
-		public function get componentRepainted () : Signal { return _componentRepainted; }		public function get propertyChanged () : Signal { return _propertyChanged; }
+		public function get componentRepainted () : Signal { return _componentRepainted; }
+		public function get propertyChanged () : Signal { return _propertyChanged; }
 		/*-----------------------------------------------------------------
  * 	GETTERS / SETTERS
  *----------------------------------------------------------------*/
@@ -864,7 +889,8 @@ package abe.com.ponents.core
 			super.x = _integerForSpatialInformations ? Math.floor( value ) : value;
 			fireComponentChangedSignal();
 			firePropertyChangedSignal( "position", position );
-			fireComponentPositionChangedSignal();		}
+			fireComponentPositionChangedSignal();
+		}
 		/**
 		 * Réecriture de l'accesseur défini dans <code>DisplayObject</code>
 		 * afin de prendre en compte la gestion des entiers dans les coordonnées
@@ -965,7 +991,8 @@ package abe.com.ponents.core
 					_size.height = 0;
 				
 			}
-			fireComponentResizedSignalIfSizeChanged( oldw, oldh );			fireComponentChangedSignal();
+			fireComponentResizedSignalIfSizeChanged( oldw, oldh );
+			fireComponentChangedSignal();
 			invalidateIfSizeChanged( oldw, oldh );
 		}
 		/**
@@ -1241,9 +1268,11 @@ package abe.com.ponents.core
 
 			while( p )
 			{
-				rp = p.visibleArea;				r = r.intersection( rp );
+				rp = p.visibleArea;
+				r = r.intersection( rp );
 				//r = intersection( r, rp );
-				r.x += p.x;
+
+				r.x += p.x;
 				r.y += p.y;
 				p = p.parentContainer;
 			}
@@ -1485,7 +1514,8 @@ package abe.com.ponents.core
 		 * à la diffusion d'un évènement <code>PropertyEvent.PROPERTY_CHANGE</code>
 		 * si la taille du composant à changer.
 		 * </p>
-		 * @param	w	nouvelle longueur du composant		 * @param	h	nouvelle hauteur du composant
+		 * @param	w	nouvelle longueur du composant
+		 * @param	h	nouvelle hauteur du composant
 		 * @return	une référence vers l'instance courante pour satisfaire l'interface fluide
 		 * @see abe.com.ponents.layouts.Layout
 		 * @see ../../../../Components-Structure.html#layout Taille et layouts
@@ -1735,11 +1765,13 @@ package abe.com.ponents.core
 			
 			if( forceClear )
 			{
-				_background.graphics.clear();				_foreground.graphics.clear();
+				_background.graphics.clear();
+				_foreground.graphics.clear();
 			}
 			else
 			{
-				clearBackgroundGraphics();				clearForegroundGraphics();
+				clearBackgroundGraphics();
+				clearForegroundGraphics();
 			}
 			if( size )
 			{
@@ -1751,7 +1783,8 @@ package abe.com.ponents.core
 				applyMask( size, insets );
 			}
 			else
-			{				_childrenContainer.scrollRect = null;
+			{
+				_childrenContainer.scrollRect = null;
 			}
 
 			_componentRepainted.dispatch( this );
@@ -1788,7 +1821,9 @@ package abe.com.ponents.core
 		 * Dans l'ordre ceci donne :
 		 * </p>
 		 * <ul>
-		 * <li>Si <code>_size</code> est non nul, <code>_size</code> est renvoyée.</li>		 * <li>Si <code>_preferredSize</code> est non nul, <code>_preferredSize</code> est renvoyée.</li>		 * <li>Si <code>_preferredSizeCache</code> est non nul, <code>_preferredSizeCache</code> est renvoyée.</li>
+		 * <li>Si <code>_size</code> est non nul, <code>_size</code> est renvoyée.</li>
+		 * <li>Si <code>_preferredSize</code> est non nul, <code>_preferredSize</code> est renvoyée.</li>
+		 * <li>Si <code>_preferredSizeCache</code> est non nul, <code>_preferredSizeCache</code> est renvoyée.</li>
 		 * <li>Autrement, un nouvel objet <code>Dimension</code> vide est renvoyé.</li>
 		 * </ul>
 		 * @return la taille finale de ce composant
@@ -2124,7 +2159,8 @@ package abe.com.ponents.core
 		{
 			if( !_backgroundCleared )
 			{
-				_background.graphics.clear();				_background.graphics.lineStyle();
+				_background.graphics.clear();
+				_background.graphics.lineStyle();
 				addEventListener(Event.EXIT_FRAME, exitFrame );
 				_backgroundCleared = true;
 			}
@@ -2136,7 +2172,8 @@ package abe.com.ponents.core
 		{
 			if( !_foregroundCleared )
 			{
-				_foreground.graphics.clear();				_foreground.graphics.lineStyle();
+				_foreground.graphics.clear();
+				_foreground.graphics.lineStyle();
 				addEventListener(Event.EXIT_FRAME, exitFrame );
 				_foregroundCleared = true;
 			}
@@ -2542,7 +2579,8 @@ package abe.com.ponents.core
 		 *
 		 * @see ../../../../Conditional-Compilation.html#MENU_CONTEXT Constante FEATURES::MENU_CONTEXT
 		 */
-		public function get menuContextGroups () : Object { return _menuContextGroups; }		public function set menuContextGroups ( o : Object ): void
+		public function get menuContextGroups () : Object { return _menuContextGroups; }
+		public function set menuContextGroups ( o : Object ): void
 		{
 			_menuContextGroups = o;
 		}
@@ -2557,7 +2595,9 @@ package abe.com.ponents.core
 		 * </p>
 		 *
 		 * @see ../../../../Conditional-Compilation.html#MENU_CONTEXT Constante FEATURES::MENU_CONTEXT
-		 */		public function get menuContextOrder () : Array { return _menuContextOrder; }		public function set menuContextOrder ( a : Array ) : void
+		 */
+		public function get menuContextOrder () : Array { return _menuContextOrder; }
+		public function set menuContextOrder ( a : Array ) : void
 		{
 			_menuContextOrder = a;
 		}
@@ -2597,7 +2637,9 @@ package abe.com.ponents.core
 		private function prepareMenuContext():*
 		{
 			/*FDT_IGNORE*/
-			TARGET::FLASH_9 { var v : Array = []; }			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = []; }
+			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 			var v : Vector.<ContextMenuItem> = new Vector.<ContextMenuItem> (); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			if( _menuContextEnabled )
@@ -2621,7 +2663,8 @@ package abe.com.ponents.core
 			}
 			return v;
 		}
-				/**
+		
+		/**
 		 * [conditional-compile] Affecte les menus définis dans ce composant en tant que menus à afficher.
 		 *
 		 * <p>
@@ -2636,7 +2679,9 @@ package abe.com.ponents.core
 		protected function setContextMenu () : void
 		{
 			/*FDT_IGNORE*/
-			TARGET::FLASH_9 { var v : Array = menuContext; }			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = menuContext; }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			TARGET::FLASH_9 { var v : Array = menuContext; }
+			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = menuContext; }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 			var v : Vector.<ContextMenuItem> = menuContext; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
 			var l : Number = v.length;
@@ -2809,9 +2854,13 @@ package abe.com.ponents.core
 		 * Veillez donc à conditionner l'usage de cette fonctionnalité à l'usage de la constante de compilation associée.
 		 * </p>
 		 *
-		 * @param	id			l'identifiant du menu contextuel		 * @param	group		le nom du groupe cible		 * @param	forceMove	force le déplacement du menu si celui-ci est déja présent
+		 * @param	id			l'identifiant du menu contextuel
+		 * @param	group		le nom du groupe cible
+		 * @param	forceMove	force le déplacement du menu si celui-ci est déja présent
 		 * 						dans un autre groupe
-		 * @throws Error Impossible de manipuler un menu inexistant.		 * @throws Error Le groupe cible 'group' n'existe pas.		 * @throws Error Impossible de déplacer le menu 'id' car il est déjà contenu dans le groupe 'group'.
+		 * @throws Error Impossible de manipuler un menu inexistant.
+		 * @throws Error Le groupe cible 'group' n'existe pas.
+		 * @throws Error Impossible de déplacer le menu 'id' car il est déjà contenu dans le groupe 'group'.
 		 * @see ../../../../Conditional-Compilation.html#MENU_CONTEXT Constante FEATURES::MENU_CONTEXT
 		 */
 		public function putContextMenuItemInGroup( id : String, group : String, forceMove : Boolean = true ) : void
@@ -3262,7 +3311,7 @@ package abe.com.ponents.core
 			if( _enabled )
 				mouseMoved.dispatch( this );
 		}
-		protected function mouseWheel (event : MouseEvent) : void 
+		public function mouseWheel (event : MouseEvent) : void 
 		{
 			event.stopPropagation();
 			if( _enabled )
@@ -3305,7 +3354,8 @@ package abe.com.ponents.core
 				e.stopPropagation();
 
 			if( !_enabled )
-			{				e.stopPropagation();
+			{
+				e.stopPropagation();
 
 				if( e.shiftKey )
 					focusPrevious();
@@ -3400,7 +3450,7 @@ package abe.com.ponents.core
 		{
 			_displayed = true;
 			_childrenContainer.visible = false;
-			addEventListener(ComponentEvent.REPAINT, wasAddedToStage );
+			componentRepainted.addOnce(wasAddedToStage );
 			invalidatePreferredSizeCache();
 		
 			registerToOnStageEvents();
@@ -3416,10 +3466,9 @@ package abe.com.ponents.core
 		 * </p>
 		 * @param	e	évènement diffusé par l'objet
 		 */
-		protected function wasAddedToStage ( e : ComponentEvent) : void
+		protected function wasAddedToStage ( c : Component ) : void
 		{
 			_childrenContainer.visible = true;
-			removeEventListener(ComponentEvent.REPAINT, wasAddedToStage );
 		}
 
 		/**
@@ -3444,7 +3493,8 @@ package abe.com.ponents.core
 			/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
 				hideToolTip();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			_background.graphics.clear();			_foreground.graphics.clear();
+			_background.graphics.clear();
+			_foreground.graphics.clear();
 			
 			if( StageUtils.stage.focus == this )
 				StageUtils.stage.focus = null;
@@ -3460,9 +3510,16 @@ package abe.com.ponents.core
 		{
 			switch( propertyName )
 			{
-				case StyleProperties.INSETS :				case StyleProperties.FORMAT :					invalidatePreferredSizeCache();
+				case StyleProperties.INSETS :
+				case StyleProperties.FORMAT :
+					invalidatePreferredSizeCache();
 					break;
-				case StyleProperties.BACKGROUND :				case StyleProperties.FOREGROUND :				case StyleProperties.INNER_FILTERS :				case StyleProperties.OUTER_FILTERS :				case StyleProperties.CORNERS :				case StyleProperties.TEXT_COLOR :
+				case StyleProperties.BACKGROUND :
+				case StyleProperties.FOREGROUND :
+				case StyleProperties.INNER_FILTERS :
+				case StyleProperties.OUTER_FILTERS :
+				case StyleProperties.CORNERS :
+				case StyleProperties.TEXT_COLOR :
 				case StyleProperties.BORDERS :
 				default :
 					invalidate( true );
@@ -3485,12 +3542,15 @@ package abe.com.ponents.core
 				addEventListener( MouseEvent.MOUSE_OUT, mouseOut );
 				addEventListener( MouseEvent.MOUSE_UP, mouseUp );
 				addEventListener( MouseEvent.MOUSE_OVER, mouseOver );
-				addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );				addEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+				addEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
+				addEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
 				addEventListener( FocusEvent.FOCUS_IN, focusIn );
 				addEventListener( FocusEvent.FOCUS_OUT, focusOut );
-				addEventListener( FocusEvent.KEY_FOCUS_CHANGE, keyFocusChange );				addEventListener( FocusEvent.MOUSE_FOCUS_CHANGE, mouseFocusChange );
+				addEventListener( FocusEvent.KEY_FOCUS_CHANGE, keyFocusChange );
+				addEventListener( FocusEvent.MOUSE_FOCUS_CHANGE, mouseFocusChange );
 			}
-			//_style.registerToParentStyleEvent();		}
+			//_style.registerToParentStyleEvent();
+		}
 		/**
 		 * Désabonne le composant comme écouteur des évènements liés à sa présence
 		 * dans la <code>Display List</code>.

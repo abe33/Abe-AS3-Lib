@@ -40,7 +40,9 @@ package abe.com.ponents.spinners
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 
-	[Style(name="inputWidth", type="Number")]	[Style(name="upIcon", type="abe.com.ponents.skinning.icons.Icon")]	[Style(name="downIcon", type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="inputWidth", type="Number")]
+	[Style(name="upIcon", type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="downIcon", type="abe.com.ponents.skinning.icons.Icon")]
 	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="Spinner")]
 	[Skin(define="Spinner",
@@ -56,7 +58,9 @@ package abe.com.ponents.spinners
 		  preview="abe.com.ponents.spinners::Spinner.defaultSpinnerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__insets="new cutils::Insets( 4, 0, 4, 0 )",		  state__all__borders="new cutils::Borders( 0,1,1,1 )",		  state__all__corners="new cutils::Corners( 0, 6, 0, 0 )"
+		  state__all__insets="new cutils::Insets( 4, 0, 4, 0 )",
+		  state__all__borders="new cutils::Borders( 0,1,1,1 )",
+		  state__all__corners="new cutils::Corners( 0, 6, 0, 0 )"
 	)]
 	[Skin(define="SpinnerDownButton",
 		  inherit="Button",
@@ -115,7 +119,8 @@ package abe.com.ponents.spinners
 			_childrenContextEnabled = false;
 			_input = new TextInput();
 			_buttonContainer = new Panel();
-			_upButton = new Button("");			_downButton = new Button("");
+			_upButton = new Button("");
+			_downButton = new Button("");
 			
 			_input.isComponentIndependent = false;
 			_upButton.isComponentIndependent = false;
@@ -127,9 +132,12 @@ package abe.com.ponents.spinners
 			
 			_upButton.icon = _style.upIcon.clone();
 			_upButton.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
-			_upButton.styleKey = "SpinnerUpButton";			
+			_upButton.styleKey = "SpinnerUpButton";
+			
 			_downButton.icon = _style.downIcon.clone();
-			_downButton.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;			_downButton.styleKey = "SpinnerDownButton";			
+			_downButton.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+			_downButton.styleKey = "SpinnerDownButton";
+			
 			addComponent( _input );
 			addComponent( _buttonContainer );
 			
@@ -145,7 +153,9 @@ package abe.com.ponents.spinners
 			childrenLayout = layout;
 			
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
-				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( validateInput );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( validateInput );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				
 			this.model = model;
@@ -188,7 +198,8 @@ package abe.com.ponents.spinners
 			var hadModel : Boolean = false;
 			if( _model )
 			{
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );				_model.removeEventListener( PropertyEvent.PROPERTY_CHANGE, modelPropertyChange );
+				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.removeEventListener( PropertyEvent.PROPERTY_CHANGE, modelPropertyChange );
 				hadModel = true;
 				
 			}
@@ -196,7 +207,8 @@ package abe.com.ponents.spinners
 			
 			if( _model )
 			{
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );				_model.addEventListener( PropertyEvent.PROPERTY_CHANGE, modelPropertyChange );
+				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.addEventListener( PropertyEvent.PROPERTY_CHANGE, modelPropertyChange );
 				dataChanged(null);
 				
 				if(!hadModel)
@@ -207,7 +219,7 @@ package abe.com.ponents.spinners
 				/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 					_input.cleanContextMenuItemGroup("format");
 					var l:int=_model.modelMenuContext.length;
-					for (var i:uint = 0;i<l;i++) 
+					for (var i:uint = 0;i < l;i++) 
 					    _input.addContextMenuItemForGroup( _model.modelMenuContext[i], "spinnerModelMenu" + i, "format" );
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			}
@@ -234,7 +246,7 @@ package abe.com.ponents.spinners
 				/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
 					_input.cleanContextMenuItemGroup("format");
 					var l:int=_model.modelMenuContext.length;
-					for (var i:uint = 0;i<l;i++) 
+					for (var i:uint = 0;i < l;i++) 
 					    _input.addContextMenuItemForGroup( _model.modelMenuContext[i], "spinnerModelMenu" + i, "format" );
 				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 					break;
@@ -255,7 +267,8 @@ package abe.com.ponents.spinners
 			_preferredSizeCache = new Dimension( bb.width, bb.height );
 			
 			StageUtils.stage.addEventListener(MouseEvent.MOUSE_UP, stageMouseUp );
-			grabFocus( );		}
+			grabFocus( );
+		}
 
 		public function get caller () : Editable { return _caller; }
 		public function set caller (e : Editable) : void
@@ -296,7 +309,7 @@ package abe.com.ponents.spinners
 			if( _caller )
 				_caller.confirmEdit();
 		}
-		override protected function mouseWheel ( e : MouseEvent ) : void
+		override public function mouseWheel ( e : MouseEvent ) : void
 		{
 			super.mouseWheel( e );
 			if( _enabled )
@@ -360,7 +373,8 @@ package abe.com.ponents.spinners
 				super.keyFocusChange(e);
 		}
 		override public function focusIn (e : FocusEvent) : void
-		{			_focusIn( e );
+		{
+			_focusIn( e );
 			
 			if( !( e.target is TextField ) && e.target != _input )
 			{

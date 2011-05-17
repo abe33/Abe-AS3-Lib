@@ -12,6 +12,7 @@ package abe.com.ponents.buttons
 	import abe.com.mon.core.ITextField;
 	import abe.com.mon.core.LayeredSprite;
 	import abe.com.mon.geom.Dimension;
+	import abe.com.mon.logs.*;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Keys;
 	import abe.com.ponents.actions.Action;
@@ -54,12 +55,14 @@ package abe.com.ponents.buttons
 	[Skin(define="ToolBar_Button",
 		  inherit="Button",
 		  state__0_1_4_5__foreground="skin.noDecoration",
-		  state__0_1_4_5__background="skin.emptyDecoration",		  state__0_1_4_5__outerFilters="[]"
+		  state__0_1_4_5__background="skin.emptyDecoration",
+		  state__0_1_4_5__outerFilters="[]"
 	)]
 	[Skin(define="Button",
 		  inherit="DefaultGradientComponent",
 		  preview="abe.com.ponents.buttons::AbstractButton.defaultButtonPreview",
-		  state__all__insets="new cutils::Insets(3)",		  state__all__corners="new cutils::Corners(4)",
+		  state__all__insets="new cutils::Insets(3)",
+		  state__all__corners="new cutils::Corners(4)",
 
 		  custom_embedFonts="false"
 	)]
@@ -189,7 +192,8 @@ package abe.com.ponents.buttons
 		 * dans la structure graphique.
 		 *
 		 * @default 0
-		 */		protected var _labelIndex : int;
+		 */
+		protected var _labelIndex : int;
 
 		/**
 		 * Constructeur de la classe <code>AbstractButton</code>.
@@ -211,7 +215,11 @@ package abe.com.ponents.buttons
 			super();
 			
 			actionTriggered = new Signal();
-			buttonClicked = new Signal();			buttonDoubleClicked = new Signal();			buttonReleasedOutside = new Signal( );			componentSelectedChanged = new Signal();
+			buttonClicked = new Signal();
+			buttonDoubleClicked = new Signal();
+			buttonReleasedOutside = new Signal( );
+			componentSelectedChanged = new Signal();
+			buttonDisplayModeChanged = new Signal();
 			
 			_labelIndex = 0;
 			_iconIndex = 1;
@@ -220,7 +228,7 @@ package abe.com.ponents.buttons
 			_labelTextField.autoSize = "left";
 			_labelTextField.selectable = false;
 			_labelTextField.defaultTextFormat = _style.format;
-			_labelTextField.embedFonts = _style.embedFonts;
+			//_labelTextField.embedFonts = _style.embedFonts;
 			_childrenLayout = _childrenLayout ? _childrenLayout : new DOInlineLayout( _childrenContainer );
 			_childrenContainer.addChild( _labelTextField as DisplayObject );
 			_tooltipOverlayTarget = _labelTextField as DisplayObject;
@@ -234,12 +242,14 @@ package abe.com.ponents.buttons
 
 			if( icon )
 				this.icon = icon;
-
+			
 			this.buttonDisplayMode = ButtonDisplayModes.TEXT_AND_ICON;
 
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
-			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( click, true );			_keyboardContext[ KeyStroke.getKeyStroke( Keys.SPACE ) ] = new ProxyCommand( click, true );
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( click, true );
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.SPACE ) ] = new ProxyCommand( click, true );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
 		}
 		
 		public var actionTriggered : Signal;
@@ -247,6 +257,7 @@ package abe.com.ponents.buttons
 		public var buttonDoubleClicked : Signal;
 		public var buttonReleasedOutside : Signal;
 		public var componentSelectedChanged : Signal;
+		public var buttonDisplayModeChanged : Signal;
 		
 		/*-----------------------------------------------------------------
 		 * 	GETTERS & SETTERS
@@ -298,7 +309,7 @@ package abe.com.ponents.buttons
 			_buttonDisplayMode = displayMode;
 			checkDisplayMode();
 			firePropertyChangedSignal( "displayMode", _buttonDisplayMode );
-
+			buttonDisplayModeChanged.dispatch( this, displayMode );
 		}
 		/**
 		 * Un référence vers l'objet <code>Icon</code> de ce bouton.
@@ -447,7 +458,7 @@ package abe.com.ponents.buttons
 		{
 			if( _icon && contains( _icon ) )
 			{
-				_icon.removeEventListener( ComponentEvent.COMPONENT_RESIZE, iconResized );
+				_icon.componentResized.remove( iconResized );
 				removeComponentChild( _icon );
 			}
 
@@ -459,7 +470,7 @@ package abe.com.ponents.buttons
 			{
 				_icon.init();
 				_icon.invalidate();
-				_icon.addEventListener( ComponentEvent.COMPONENT_RESIZE, iconResized );
+				_icon.componentResized.add( iconResized );
 
 				if( _labelTextField && containsComponentChild( _labelTextField as DisplayObject ) )
 					addComponentChildAfter( _icon, _labelTextField as DisplayObject );
@@ -528,7 +539,8 @@ package abe.com.ponents.buttons
 		override public function showToolTip ( overlay : Boolean = false ) : void
 		{
 			var r : Rectangle = screenVisibleArea;
-			var w : Number = r.width;			var h : Number = r.height;
+			var w : Number = r.width;
+			var h : Number = r.height;
 			var s : String;
 			var ks : Array = [];
 
@@ -656,6 +668,7 @@ package abe.com.ponents.buttons
 
 			if( _icon )
 				_icon.repaint();
+
 		}
 		/**
 		 * Met à jour le style de l'objet <code>ITextField</code>.
@@ -756,7 +769,7 @@ package abe.com.ponents.buttons
 		 *
 		 * @param	event	évènement diffusé par l'objet <code>Icon</code>
 		 */
-		protected function iconResized (event : Event) : void
+		protected function iconResized ( c : Component, d : Dimension ) : void
 		{
 			invalidatePreferredSizeCache();
 		}
@@ -768,7 +781,7 @@ package abe.com.ponents.buttons
 			switch( propertyName )
 			{
 				case "embedFonts" :
-					_labelTextField.embedFonts = _style.embedFonts;
+					_labelTextField.embedFonts = propertyValue;
 					updateLabelText();
 					invalidatePreferredSizeCache();
 					break;

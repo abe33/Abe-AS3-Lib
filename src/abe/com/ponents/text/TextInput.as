@@ -32,21 +32,24 @@ package abe.com.ponents.text
 			_label.maxChars = maxChars;
 			_displayAsPassword = _label.displayAsPassword = password;
 			
-			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::KEYBOARD_CONTEXT { 
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( comfirmInput );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.ESCAPE ) ] = new ProxyCommand( cancelInput );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			
-			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
-				/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			FEATURES::AUTOCOMPLETION { 
+				FEATURES::SETTINGS_MEMORY { 
 					if( id )
 						this.id = id;
 					if( _autoComplete && _autoComplete is InputMemory )
 						( _autoComplete as InputMemory ).showLastValue = showLastValueAtStartup;
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 				
-				/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/					_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );					_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				FEATURES::KEYBOARD_CONTEXT { 
+					_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
+					_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
+				} 
+			} 
 		}
 		
 		public function get maxChars () : int { return _label.maxChars; }
@@ -61,45 +64,48 @@ package abe.com.ponents.text
 			_displayAsPassword = _label.displayAsPassword = m; 
 		}
 		
-		/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY /*FDT_IGNORE*/
+		FEATURES::SETTINGS_MEMORY 
 		override public function set id (id : String) : void 
 		{
 			super.id = id;
-			if( id == null )
-			{
-				if( autoComplete )
-					autoComplete = null;
-			}
-			else
-			{
-				if( autoComplete  )
-				{
-					if( autoComplete is InputMemory )
-					{
-						var mem : InputMemory = autoComplete as InputMemory;
-						mem.id = id;
-					}
-				}
-				else
-					this.autoComplete = new InputMemory( this, id );
+			FEATURES::AUTOCOMPLETION {
+			    if( id == null )
+			    {
+			        
+				    if( autoComplete )
+					    autoComplete = null;
+			    }
+			    else
+			    {
+				    if( autoComplete  )
+				    {
+					    if( autoComplete is InputMemory )
+					    {
+						    var mem : InputMemory = autoComplete as InputMemory;
+						    mem.id = id;
+					    }
+				    }
+				    else
+					    this.autoComplete = new InputMemory( this, id );
+			    }
 			}
 		}
 		override protected function registerToOnStageEvents () : void 
 		{
 			super.registerToOnStageEvents( );
 			
-			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
+			FEATURES::AUTOCOMPLETION { 
 				_label.addEventListener( KeyboardEvent.KEY_UP, keyUp );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 
 		override protected function unregisterFromOnStageEvents () : void 
 		{
 			super.unregisterFromOnStageEvents( );
 			
-			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
+			FEATURES::AUTOCOMPLETION { 
 				_label.removeEventListener( KeyboardEvent.KEY_UP, keyUp );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 
 		override protected function affectTextValue () : void
@@ -107,7 +113,8 @@ package abe.com.ponents.text
 			if( _enabled )
 			{
 				_label.text = String( _value );
-				_label.displayAsPassword = _displayAsPassword;			}
+				_label.displayAsPassword = _displayAsPassword;
+			}
 			else
 			{
 				if( _disabledMode != FormComponentDisabledModes.NORMAL )
@@ -127,13 +134,13 @@ package abe.com.ponents.text
 			if( _label && _enabled )
 				_value = _label.text;
 				
-			/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
+			FEATURES::SPELLING { 
 				checkContent();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 		public function comfirmInput ( e : Event = null ) : void
 		{
-			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
+			FEATURES::AUTOCOMPLETION { 
 			if( _autoCompleteDropDown && _autoCompleteDropDown.displayed )
 			{
 				if(_autoCompleteDropDown.hasSelection)
@@ -144,11 +151,11 @@ package abe.com.ponents.text
 				else
 					_autoCompleteDropDown.hide();
 			}
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			FEATURES::SETTINGS_MEMORY { 
 				if( _autoComplete is InputMemory )
 				  ( _autoComplete as InputMemory ).registerCurrent();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
+			} 
 				
 			registerValue();
 			//StageUtils.stage.focus = null;
@@ -157,16 +164,16 @@ package abe.com.ponents.text
 		}
 		public function cancelInput () : void
 		{
-			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
+			FEATURES::AUTOCOMPLETION { 
 			if( _autoCompleteDropDown )
 			{
 				_autoCompleteDropDown.hide();
 				replaceSelectedText("");
 			}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 
-		/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+		FEATURES::TOOLTIP { 
 		override public function mouseOver (e : MouseEvent) : void
 		{
 			if( _label.textWidth > _label.width ||
@@ -185,9 +192,9 @@ package abe.com.ponents.text
 		{
 			super.mouseOut( e );
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 		
-		/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
+		FEATURES::AUTOCOMPLETION { 
 		protected var _autoComplete : AutoCompletion;
 		protected var _autoCompleteDropDown : CompletionDropDown;
 		
@@ -255,7 +262,7 @@ package abe.com.ponents.text
 				replaceSelectedText("");
 			}
 		}	
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 		protected function fireDataChange () : void 
 		{
 			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );

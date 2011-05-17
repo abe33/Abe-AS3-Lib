@@ -41,8 +41,10 @@ package abe.com.ponents.monitors
 			this.direction = direction;
 			addEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
 		}
-		protected function mouseWheel ( e : MouseEvent ) : void
+		override public function mouseWheel ( e : MouseEvent ) : void
 		{
+		    super.mouseWheel( e );
+		    
 			var p : Container = parentContainer;
 			if( p && p is Viewport )
 			{
@@ -114,9 +116,9 @@ package abe.com.ponents.monitors
 			}
 		}
 
-		override public function releaseOutside (e : MouseEvent = null) : void
+		override public function releaseOutside () : void
 		{
-			super.releaseOutside( e );
+			super.releaseOutside();
 			_dragging = false;
 			stage.removeEventListener( MouseEvent.MOUSE_MOVE, stageMouseMove );
 		}

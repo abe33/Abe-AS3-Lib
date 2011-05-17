@@ -56,14 +56,15 @@ package abe.com.ponents.containers
 			addComponent( _vscrollbar );
 			layout.vscrollbar = _vscrollbar;
 			_vscrollbar.addWeakEventListener( ComponentEvent.SCROLL, vscrollOccured );
-						_hscrollbar = new ScrollPane_ScrollBar( viewport, 0, 0, 1, 0, 10 );
+			
+			_hscrollbar = new ScrollPane_ScrollBar( viewport, 0, 0, 1, 0, 10 );
 			_hscrollbar.model = _hmodel;
 			addComponent( _hscrollbar );
 			layout.hscrollbar = _hscrollbar;
 			_hscrollbar.addWeakEventListener( ComponentEvent.SCROLL, hscrollOccured );
 		}
 		
-		protected function mouseWheel (event : MouseEvent) : void
+		override public function mouseWheel (event : MouseEvent) : void
 		{
 			var willScroll : Boolean = layout.vscrollbar.canScroll && 
 									   event.delta < 0 ? 
@@ -75,6 +76,7 @@ package abe.com.ponents.containers
 				event.stopPropagation();
 				layout.vscrollbar.mouseWheel( event );
 			}
+		    super.mouseWheel( event );
 		}
 		
 		override public function get contentSize () : Dimension
@@ -98,7 +100,8 @@ package abe.com.ponents.containers
 		
 		public function get layout () : ScrollPaneLayout { return childrenLayout as ScrollPaneLayout; }
 		
-		override public function get scrollPolicy () : String { return layout.scrollPolicy; }		override public function set scrollPolicy ( s : String ) : void { layout.scrollPolicy = s; }
+		override public function get scrollPolicy () : String { return layout.scrollPolicy; }
+		override public function set scrollPolicy ( s : String ) : void { layout.scrollPolicy = s; }
 		
 		public function get vscrollbar () : ScrollBar { return _vscrollbar; }		
 		public function get hscrollbar () : ScrollBar { return _hscrollbar; }		
@@ -208,7 +211,8 @@ internal class ScrollPane_ScrollBar extends ScrollBar
 	override public function getUnitIncrement ( direction : Number = 1 ) : Number
 	{
 		return isVertical ?
-					_viewport.getUnitIncrementV ( direction ) : 					_viewport.getUnitIncrementH ( direction );
+					_viewport.getUnitIncrementV ( direction ) : 
+					_viewport.getUnitIncrementH ( direction );
 	}
 
 	override public function getBlockIncrement ( direction : Number = 1 ) : Number
