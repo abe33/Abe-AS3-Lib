@@ -25,8 +25,6 @@ package abe.com.ponents.lists
 	import abe.com.ponents.dnd.DropEvent;
 	import abe.com.ponents.dnd.DropTarget;
 	import abe.com.ponents.dnd.DropTargetDragEvent;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.ListEvent;
 	import abe.com.ponents.history.UndoManager;
 	import abe.com.ponents.history.UndoManagerInstance;
 	import abe.com.ponents.history.UndoProvider;
@@ -49,8 +47,9 @@ package abe.com.ponents.lists
 	import flash.geom.Rectangle;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="selectionChange", type="abe.com.ponents.events.ComponentEvent")]	[Event(name="modelChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="List")]
 	[Skin(define="List",
 		  inherit="DropPanel",
@@ -71,7 +70,7 @@ package abe.com.ponents.lists
 												   IDisplayObjectContainer,
 												   IInteractiveObject
 	{
-		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
+		FEATURES::BUILDER { 
 		static public function defaultListPreview () : List
 			{
 				var l : List = new List(_("Sample Item 1"), 
@@ -81,7 +80,7 @@ package abe.com.ponents.lists
 				
 				return l;
 			}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 		
 		protected var _model : ListModel;
 		protected var _allowMultiSelection : Boolean;
@@ -93,7 +92,8 @@ package abe.com.ponents.lists
 		
 		// for multi selection mode
 		protected var _selectedIndices : Array;
-		protected var _selectedValues : Array;		protected var _selectedItems : Array;
+		protected var _selectedValues : Array;
+		protected var _selectedItems : Array;
 		
 		protected var _editEnabled : Boolean;
 		protected var _scrollDuringDragTimeout : Number;
@@ -102,16 +102,24 @@ package abe.com.ponents.lists
 		protected var _sampleListCellInstance : ListCell;
 		
 		protected var _modelHasChanged : Boolean;
-		protected var _parentAsScrolled : Boolean;
+		protected var _parentHasScrolled : Boolean;
 		
 		protected var _firstVisibleIndex : int;
 		protected var _lastVisibleIndex : int;
 		protected var _undoManager : UndoManager;
 		
 		protected var _itemFormatingFunction : Function;
+		
+		public var selectionChanged : Signal;
+		public var modelChanged : Signal;
+		public var dataChanged : Signal;
 
 		public function List ( ... args )
 		{			
+		    selectionChanged = new Signal();
+		    modelChanged = new Signal();
+		    dataChanged = new Signal();
+		
 			_undoManager = UndoManagerInstance;
 			_listCellClass = _listCellClass ? _listCellClass : DefaultListCell;
 			_selectedIndices = [];
@@ -130,9 +138,9 @@ package abe.com.ponents.lists
 																	enabled:_enabled, 
 																	allowEdit:_editEnabled
 																} );
-			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+			FEATURES::DND { 
 			_sampleListCellInstance.allowDrag = _allowDrag;
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			
 			_allowMask = false;
 
@@ -148,7 +156,7 @@ package abe.com.ponents.lists
 			else
 				model = new DefaultListModel();
 
-			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::KEYBOARD_CONTEXT { 
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.F2 ) ] = new ProxyCommand( editSelected );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( selectPrevious );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( selectNext );
@@ -157,7 +165,7 @@ package abe.com.ponents.lists
 				
 				addEventListener( KeyboardEvent.KEY_UP, listKeyUp );
 				_searchString = "";
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 		public function get listLayout () : OldListLayout { return _childrenLayout as OldListLayout; }
 		public function get modelHasChanged () : Boolean { return _modelHasChanged; }
@@ -210,10 +218,12 @@ package abe.com.ponents.lists
 				p = listLayout.getLocationAt(index);
 				
 				if( listLayout.fixedHeight )
-					increment = y + p.y + listLayout.lastPreferredCellHeight;				else
+					increment = y + p.y + listLayout.lastPreferredCellHeight;
+				else
 				{
 					d = getItemPreferredSize(index);
-					increment = y + p.y + d.height;				}
+					increment = y + p.y + d.height;
+				}
 			}
 			else
 			{
@@ -251,7 +261,7 @@ package abe.com.ponents.lists
 		{
 			var old : Boolean = _enabled;
 			super.enabled = b;
-			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+			FEATURES::DND { 
 			if( old != _enabled )
 			{
 				if( _enabled && _allowDrag )
@@ -259,7 +269,7 @@ package abe.com.ponents.lists
 				else if( !_enabled && _allowDrag )
 					DnDManagerInstance.unregisterDropTarget( this );
 			}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 
 		public function get model () : ListModel { return _model; }	
@@ -269,27 +279,27 @@ package abe.com.ponents.lists
 				return;
 			
 			if( _model )
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.remove( modelDataChanged );
 			
 			_model = model;
 				
 			if( _model )	
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.add( modelDataChanged );
 				
-			dataChanged(null);
-			fireComponentEvent( ComponentEvent.MODEL_CHANGE );
+			modelDataChanged( _model );
+			modelChanged.dispatch( this );
 		}
 
 		public function get length () : Number { return _model.size; }
 		
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		public function get items () : Array { return _children.concat(); }
 		
 		TARGET::FLASH_10
 		public function get items () : Vector.<Component> { return _children.concat(); }
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		public function get items () : Vector.<Component> { return _children.concat(); }
 		
 		public function get allowMultiSelection () : Boolean { return _allowMultiSelection; }
@@ -328,9 +338,9 @@ package abe.com.ponents.lists
 																enabled:_enabled, 
 																allowEdit:_editEnabled
 															} );
-			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+			FEATURES::DND { 
 			_sampleListCellInstance.allowDrag = _allowDrag;
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			
 			//_sampleListCellInstance = getCell();
 			if( _model.size > 0 )
@@ -372,7 +382,7 @@ package abe.com.ponents.lists
 					_selectedValue = null;
 				}
 				
-				fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+				selectionChanged.dispatch( selectedIndex );
 				repaintSelection();
 			}
 		}
@@ -417,7 +427,7 @@ package abe.com.ponents.lists
 				
 				repaintSelection();
 					
-				fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+				selectionChanged.dispatch( selectedIndices );
 			}
 		}
 		public function get selectedValues() : Array
@@ -433,7 +443,7 @@ package abe.com.ponents.lists
 			{
 				var a : Array = [];
 				
-				for( var i:int=0;i<_model.size;i++)
+				for( var i:int=0;i< _model.size;i++)
 					a.push(i);
 				
 				selectedIndices = a;
@@ -448,7 +458,7 @@ package abe.com.ponents.lists
 				_selectedValues.push ( _model.getElementAt(item.index) );
 				
 				ensureCellIsVisible( item );
-				fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+				selectionChanged.dispatch( selectedIndices );
 				repaintSelection ();
 			}
 		}
@@ -460,7 +470,7 @@ package abe.com.ponents.lists
 				_selectedValues.push( _model.getElementAt( index ) );
 				
 				ensureIndexIsVisible( index );
-				fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+				selectionChanged.dispatch( selectedIndices );
 				repaintSelection ();
 			}
 		}
@@ -469,7 +479,8 @@ package abe.com.ponents.lists
 			if( _allowMultiSelection )
 			{
 				_selectedIndices.sort();
-				var indexStart : Number = _selectedIndices[_selectedIndices.length-1];				var indexEnd : Number = item.index;
+				var indexStart : Number = _selectedIndices[_selectedIndices.length-1];
+				var indexEnd : Number = item.index;
 				var i : int;
 				if( indexEnd > indexStart )
 					for( i = indexStart; i <= indexEnd; i++ )
@@ -488,7 +499,7 @@ package abe.com.ponents.lists
 				_selectedIndices.splice( _selectedIndices.indexOf( i ), 1 );
 				_selectedValues.splice( _model.getElementAt( i ), 1 );
 
-				fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+				selectionChanged.dispatch( selectedIndices );
 				repaintSelection ();
 			}
 		}
@@ -499,7 +510,7 @@ package abe.com.ponents.lists
 				_selectedIndices.splice( _selectedIndices.indexOf( index ), 1 );
 				_selectedValues.splice( _model.getElementAt( index ), 1 );
 				
-				fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+				selectionChanged.dispatch( selectedIndices );
 				repaintSelection ();
 			}
 		}
@@ -508,10 +519,10 @@ package abe.com.ponents.lists
 		{
 			if( _allowMultiSelection )
 			{
-				/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				FEATURES::TOOLTIP { 
 				if( _selectedIndices.length == 1 && _selectedIndices[0] != -1 )
 					( _selectedItems[0] as ListCell ).hideToolTip();
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 				
 				if( _selectedIndices.length == 0 )
 					selectedIndices = [ _model.size - 1 ];
@@ -522,18 +533,18 @@ package abe.com.ponents.lists
 				
 				ensureIndexIsVisible( _selectedIndices[0] );
 				
-				/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				FEATURES::TOOLTIP { 
 				if( _selectedIndices.length == 1 )
 					( _selectedItems[0] as ListCell ).showToolTip( true );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 					
 			}
 			else
 			{
-				/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				FEATURES::TOOLTIP { 
 				if( _selectedIndex != -1 )
 					( _selectedItems[0] as ListCell ).hideToolTip();
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 				
 				if( isNaN( selectedIndex ) )
 					selectedIndex = _model.size - 1;
@@ -544,10 +555,10 @@ package abe.com.ponents.lists
 
 				ensureIndexIsVisible( selectedIndex );
 				
-				/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				FEATURES::TOOLTIP { 
 				if(  _selectedIndex != -1 )
 					( _selectedItems[0] as ListCell ).showToolTip( true );	
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 				
 			}
 			fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
@@ -557,10 +568,10 @@ package abe.com.ponents.lists
 		{
 			if( _allowMultiSelection )
 			{
-				/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				FEATURES::TOOLTIP { 
 				if( _selectedIndices.length == 1 && _selectedIndices[0] != -1 )
 					( _selectedItems[0] as ListCell ).hideToolTip();
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 					
 				if( _selectedIndices.length == 0 )
 					selectedIndices = [ 0 ];
@@ -571,18 +582,18 @@ package abe.com.ponents.lists
 				
 				ensureIndexIsVisible( _selectedIndices[0] );
 				
-				/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				FEATURES::TOOLTIP { 
 				if( _selectedIndices.length == 1 )
 					( _selectedItems[0] as ListCell ).showToolTip( true );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 				 
 			}
 			else
 			{
-				/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				FEATURES::TOOLTIP { 
 				if( _selectedIndex != -1 )
 					( _selectedItems[0] as ListCell ).hideToolTip();
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 					
 				var nextIndex : Number;
 				if( isNaN( selectedIndex ) )
@@ -599,10 +610,10 @@ package abe.com.ponents.lists
 				selectedIndex = nextIndex;
 				ensureIndexIsVisible( selectedIndex );
 				
-				/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				FEATURES::TOOLTIP { 
 				if( _selectedIndex != -1  )
 					( _selectedItems[0] as ListCell ).showToolTip( true );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 				
 			}
 			//fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
@@ -642,7 +653,8 @@ package abe.com.ponents.lists
 				
 			var l : Number = Math.max( _lastVisibleIndex - _firstVisibleIndex, _children.length );
 			
-			var i : uint;			var j : uint;
+			var i : uint;
+			var j : uint;
 			for( i = _firstVisibleIndex, j=0; j <= l; i++, j++ )
 			{
 				item = getCell( i, j );//_children[ j ] as ListCell;
@@ -655,17 +667,18 @@ package abe.com.ponents.lists
 					releaseCell( item );
 				}
 			}
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 { _children = a; }
 			TARGET::FLASH_10 { _children = Vector.<Component>( a ); }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			_children = Vector.<Component>( a ); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { 
+			_children = Vector.<Component>( a ); } 
 		}
 		public function updateCellsData () : void
 		{
 			var item : ListCell;
 			var data : *;
-			var i : uint;			var j : uint;
+			var i : uint;
+			var j : uint;
 			var l : Number = _children.length;
 			for( i = _firstVisibleIndex, j=0; j < l; i++, j++ )
 			{
@@ -693,9 +706,9 @@ package abe.com.ponents.lists
 																interactive:_interactive,
 																allowEdit:_editEnabled
 																 } );
-				/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+				FEATURES::DND { 
 				cell.allowDrag = _allowDrag;
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 				
 				
 				if( !_childrenContainer.contains( cell as DisplayObject) )
@@ -738,10 +751,11 @@ package abe.com.ponents.lists
 
 		override public function repaint () : void
 		{
-			if( _modelHasChanged || _parentAsScrolled )
+			if( _modelHasChanged || _parentHasScrolled )
 			{
 				buildChildren();
-				_modelHasChanged = false;				_parentAsScrolled = false;
+				_modelHasChanged = false;
+				_parentHasScrolled = false;
 			}
 			updateCellsData ();
 			super.repaint();
@@ -769,7 +783,8 @@ package abe.com.ponents.lists
 					item = _children[ i ] as ListCell;
 					applySelection( item, _selectedIndex == item.index );
 					
-					if( _selectedIndex == item.index )						a.push(item);
+					if( _selectedIndex == item.index )
+						a.push(item);
 				}
 			}
 			_selectedItems = a;
@@ -896,7 +911,8 @@ package abe.com.ponents.lists
 			{
 				var vp : Viewport = p as Viewport;
 				var scp : AbstractScrollContainer = p.parentContainer as AbstractScrollContainer;
-				var pt : Point = listLayout.getLocationAt(i);				var d : Dimension = getItemPreferredSize(i);
+				var pt : Point = listLayout.getLocationAt(i);
+				var d : Dimension = getItemPreferredSize(i);
 				
 				if( pt.y < scp.scrollV )
 					scp.scrollV = pt.y;
@@ -966,33 +982,39 @@ package abe.com.ponents.lists
 			if( p is Viewport )
 			{
 				var scp : AbstractScrollContainer = p.parentContainer as AbstractScrollContainer;
-				scp.addEventListener(ComponentEvent.SCROLL, parentScrolled );
+				scp.scrolled.add( parentScrolled );
 			}
 		}
 		
-		private function parentScrolled (event : ComponentEvent) : void
+		private function parentScrolled ( c : AbstractScrollContainer ) : void
 		{
-			_parentAsScrolled = true;
-			//invalidate( true );
+			_parentHasScrolled = true;
 		}
 
-		protected function dataChanged (event : ListEvent) : void
+		protected function modelDataChanged (  action : uint = 0, indices : Array = null, values : Array = null ) : void
 		{
 			if( event )
 			{
-				switch( event.action )
+				switch( action )
 				{
-					 case ListEvent.ADD : 
-					 	listLayout.addComponents( event.indices );
+					 case DefaultListModel.ADD : 
+					 	listLayout.addComponents( indices );
 						_modelHasChanged = true;
-					 	invalidatePreferredSizeCache();						break;					case ListEvent.REMOVE :
-					 	listLayout.removeComponents( event.indices );						_modelHasChanged = true;
 					 	invalidatePreferredSizeCache();
 						break;
-					 case ListEvent.CLEAR : 					 	listLayout.removeAll();
+					case DefaultListModel.REMOVE :
+					 	listLayout.removeComponents( indices );
 						_modelHasChanged = true;
 					 	invalidatePreferredSizeCache();
-					 	break;					 case ListEvent.SET : 					 case ListEvent.MOVE : 					 case ListEvent.SORT : 
+						break;
+					 case DefaultListModel.CLEAR : 
+					 	listLayout.removeAll();
+						_modelHasChanged = true;
+					 	invalidatePreferredSizeCache();
+					 	break;
+					 case DefaultListModel.SET : 
+					 case DefaultListModel.MOVE : 
+					 case DefaultListModel.SORT : 
 					 	invalidate(true); 
 						if( !listLayout.fixedHeight )
 						{	
@@ -1000,7 +1022,7 @@ package abe.com.ponents.lists
 							invalidatePreferredSizeCache();
 						}
 						break;
-					 case ListEvent.REBUILD : 					 
+					 case DefaultListModel.REBUILD : 					 
 					 default :
 					 	_modelHasChanged = true;
 					 	listLayout.clearEstimatedSize();
@@ -1035,242 +1057,244 @@ package abe.com.ponents.lists
 /*-----------------------------------------------------------------
  *  SEARCH SUPPORT
  *----------------------------------------------------------------*/		
-		/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
-		protected var _searchString : String;
-		protected var _searchField : TextInput;
-		protected var _safeLoseSelectionOnFocusOut : Boolean;
-		public function listKeyUp (event : KeyboardEvent) : void 
-		{
-			if( !_searchString || _searchString.length == 1 )
-			{
-				var s : String = String.fromCharCode( event.charCode ).toLowerCase();
-				if( s.match( /[a-zA-Z0-9]/i ) != null )
-					showSearch( s );
-			}
-		}
-		protected function search( search : String ) : void
-		{
-			var l : uint = _model.size;
-			var ind : int; 
-			var re : RegExp = new RegExp( search, "i" );
-			for( var i : uint = 0; i<l;i++ )
-			{
-				var v : * = _model.getElementAt(i);
-				var s : String = getSearchValue( v );
-				if( ( ind = s.search( re ) ) != -1 )
-				{
-					if( _allowMultiSelection )
-						selectedIndices = [i];
-					else
-						selectedIndex = i;
+		FEATURES::KEYBOARD_CONTEXT { 
+		    protected var _searchString : String;
+		    protected var _searchField : TextInput;
+		    protected var _safeLoseSelectionOnFocusOut : Boolean;
+		    public function listKeyUp (event : KeyboardEvent) : void 
+		    {
+			    if( !_searchString || _searchString.length == 1 )
+			    {
+				    var s : String = String.fromCharCode( event.charCode ).toLowerCase();
+				    if( s.match( /[a-zA-Z0-9]/i ) != null )
+					    showSearch( s );
+			    }
+		    }
+		    protected function search( search : String ) : void
+		    {
+			    var l : uint = _model.size;
+			    var ind : int; 
+			    var re : RegExp = new RegExp( search, "i" );
+			    for( var i : uint = 0; i < l;i++ )
+			    {
+				    var v : * = _model.getElementAt(i);
+				    var s : String = getSearchValue( v );
+				    if( ( ind = s.search( re ) ) != -1 )
+				    {
+					    if( _allowMultiSelection )
+						    selectedIndices = [i];
+					    else
+						    selectedIndex = i;
 					
-					ensureIndexIsVisible(i);
-					focusSearchInput();
-					return;
-				}
-			}
-			selectedIndex = NaN;
-			focusSearchInput( );
-		}
-		protected function getSearchValue (v : *) : String 
-		{
-			return hasFormatingFunction ? itemFormatingFunction.call( this, v ) : String( v );
-		}
-		public function showSearch( s : String ) : void
-		{
-			_safeLoseSelectionOnFocusOut = _loseSelectionOnFocusOut;
-			loseSelectionOnFocusOut = false;
+					    ensureIndexIsVisible(i);
+					    focusSearchInput();
+					    return;
+				    }
+			    }
+			    selectedIndex = NaN;
+			    focusSearchInput( );
+		    }
+		    protected function getSearchValue (v : *) : String 
+		    {
+			    return hasFormatingFunction ? itemFormatingFunction.call( this, v ) : String( v );
+		    }
+		    public function showSearch( s : String ) : void
+		    {
+			    _safeLoseSelectionOnFocusOut = _loseSelectionOnFocusOut;
+			    loseSelectionOnFocusOut = false;
 			
-			var r : Rectangle = screenVisibleArea;
+			    var r : Rectangle = screenVisibleArea;
 			
-			_searchField = AllocatorInstance.get(TextInput);			
-			_searchField.x = r.x;
+			    _searchField = AllocatorInstance.get(TextInput);			
+			    _searchField.x = r.x;
 			
-			if( r.bottom + _searchField.preferredHeight < StageUtils.stage.stageHeight )
-			{
-				_searchField.x = r.x;
-				_searchField.y = r.bottom;
-			}
-			else
-			{
-				if( r.right + _searchField.preferredWidth < StageUtils.stage.stageWidth )
-				{
-					_searchField.x = r.right;
-					_searchField.y = r.bottom - _searchField.preferredHeight;
-				}
-				else
-				{
-					_searchField.x = r.left - _searchField.preferredWidth;
-					_searchField.y = r.bottom - _searchField.preferredHeight;
-				}
-			}
+			    if( r.bottom + _searchField.preferredHeight < StageUtils.stage.stageHeight )
+			    {
+				    _searchField.x = r.x;
+				    _searchField.y = r.bottom;
+			    }
+			    else
+			    {
+				    if( r.right + _searchField.preferredWidth < StageUtils.stage.stageWidth )
+				    {
+					    _searchField.x = r.right;
+					    _searchField.y = r.bottom - _searchField.preferredHeight;
+				    }
+				    else
+				    {
+					    _searchField.x = r.left - _searchField.preferredWidth;
+					    _searchField.y = r.bottom - _searchField.preferredHeight;
+				    }
+			    }
 			
-			_searchField.textfield.addEventListener( Event.CHANGE, searchInput );			_searchField.addEventListener( ComponentEvent.DATA_CHANGE, searchComfirm );
-			StageUtils.stage.addEventListener( MouseEvent.MOUSE_UP, stageSearchMouseUp );			ToolKit.popupLevel.addChild( _searchField );
+			    _searchField.textfield.addEventListener( Event.CHANGE, searchInput );
+			    _searchField.dataChanged.add( searchComfirm );
+			    StageUtils.stage.addEventListener( MouseEvent.MOUSE_UP, stageSearchMouseUp );
+			    ToolKit.popupLevel.addChild( _searchField );
 			
-			_searchString = s;
-			_searchField.textfield.text = _searchString;
-			focusSearchInput();
-			search( _searchString );
-		}
-		protected function searchComfirm (event : ComponentEvent) : void 
-		{
-			hideSearch();
-		}
-		protected function stageSearchMouseUp (event : MouseEvent) : void 
-		{
-			if( !this.hitTestPoint( event.stageX, event.stageY ) &&
-				!_searchField.hitTestPoint( event.stageX, event.stageY ) )
-				hideSearch();
-		}
+			    _searchString = s;
+			    _searchField.textfield.text = _searchString;
+			    focusSearchInput();
+			    search( _searchString );
+		    }
+		    protected function searchComfirm ( c : Component, v : * ) : void 
+		    {
+			    hideSearch();
+		    }
+		    protected function stageSearchMouseUp (event : MouseEvent) : void 
+		    {
+			    if( !this.hitTestPoint( event.stageX, event.stageY ) &&
+				    !_searchField.hitTestPoint( event.stageX, event.stageY ) )
+				    hideSearch();
+		    }
 		
-		protected function searchInput (event : Event) : void 
-		{
-			_searchString = _searchField.textfield.text;
-			search( _searchString );
-		}
-		protected function focusSearchInput() : void
-		{
-			StageUtils.stage.focus = _searchField;
-			_searchField.setSelection(_searchField.textfield.text.length,_searchField.textfield.text.length);
-		}
-		protected function hideSearch() : void
-		{
-			if( _searchField )
-			{
-				ToolKit.popupLevel.removeChild( _searchField );
-				AllocatorInstance.release( _searchField );
-				_searchField.textfield.removeEventListener( Event.CHANGE, searchInput );
-				_searchField.removeEventListener( ComponentEvent.DATA_CHANGE, searchComfirm );
-				StageUtils.stage.removeEventListener( MouseEvent.MOUSE_UP, stageSearchMouseUp );
-				_searchField = null;
-				_searchString = "";
-			}
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		    protected function searchInput (event : Event) : void 
+		    {
+			    _searchString = _searchField.textfield.text;
+			    search( _searchString );
+		    }
+		    protected function focusSearchInput() : void
+		    {
+			    StageUtils.stage.focus = _searchField;
+			    _searchField.setSelection(_searchField.textfield.text.length,_searchField.textfield.text.length);
+		    }
+		    protected function hideSearch() : void
+		    {
+			    if( _searchField )
+			    {
+				    ToolKit.popupLevel.removeChild( _searchField );
+				    AllocatorInstance.release( _searchField );
+				    _searchField.textfield.removeEventListener( Event.CHANGE, searchInput );
+				    _searchField.dataChanged.remove( searchComfirm );
+				    StageUtils.stage.removeEventListener( MouseEvent.MOUSE_UP, stageSearchMouseUp );
+				    _searchField = null;
+				    _searchString = "";
+			    }
+		    }
+		} 
 		
 /*-----------------------------------------------------------------
  *  DND SUPPORT
  *----------------------------------------------------------------*/
-		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
-		override public function get supportedFlavors () : Array { return [ ComponentsFlavors.LIST_ITEM ]; }
+		FEATURES::DND { 
+		    override public function get supportedFlavors () : Array { return [ ComponentsFlavors.LIST_ITEM ]; }
 		
-		override public function dragEnter (e : DropTargetDragEvent) : void
-		{
-			// cas spécial pour les 
-			if( _model is DefaultListModel )
-			{
-				if( (_model as DefaultListModel).immutable )
-				{
-					e.rejectDrag( this );
-					return;
-				}
-			}
+		    override public function dragEnter (e : DropTargetDragEvent) : void
+		    {
+			    // cas spécial pour les 
+			    if( _model is DefaultListModel )
+			    {
+				    if( (_model as DefaultListModel).immutable )
+				    {
+					    e.rejectDrag( this );
+					    return;
+				    }
+			    }
 						
-			startScrollDuringDragInterval();	
-			if( _enabled && ComponentsFlavors.LIST_ITEM.isSupported( e.flavors )  )
-				e.acceptDrag( this );
-			else
-				e.rejectDrag( this );
-		}
+			    startScrollDuringDragInterval();	
+			    if( _enabled && ComponentsFlavors.LIST_ITEM.isSupported( e.flavors )  )
+				    e.acceptDrag( this );
+			    else
+				    e.rejectDrag( this );
+		    }
 		
-		protected function startScrollDuringDragInterval () : void
-		{
-			_scrollDuringDragTimeout = setInterval( scrollDuringDrag, 250 );
-		}
+		    protected function startScrollDuringDragInterval () : void
+		    {
+			    _scrollDuringDragTimeout = setInterval( scrollDuringDrag, 250 );
+		    }
 
-		override public function dragOver ( e : DropTargetDragEvent ) : void
-		{	
-			_dropStatusShape.graphics.clear();
-			var lc : ListCell = getListCellUnderPoint ( new Point( this.stage.mouseX, 
-										   			 			this.stage.mouseY ) );
-			if( lc )
-			{
-				if( lc.mouseY > lc.height / 2 )
-					drawDropBelow( lc );
-				else
-					drawDropAbove( lc );
-			}
-		}
+		    override public function dragOver ( e : DropTargetDragEvent ) : void
+		    {	
+			    _dropStatusShape.graphics.clear();
+			    var lc : ListCell = getListCellUnderPoint ( new Point( this.stage.mouseX, 
+										       			 			this.stage.mouseY ) );
+			    if( lc )
+			    {
+				    if( lc.mouseY > lc.height / 2 )
+					    drawDropBelow( lc );
+				    else
+					    drawDropAbove( lc );
+			    }
+		    }
 			
-		override public function dragExit (e : DropTargetDragEvent) : void
-		{
-			clearInterval( _scrollDuringDragTimeout );
-			_dropStatusShape.graphics.clear();
-		}
+		    override public function dragExit (e : DropTargetDragEvent) : void
+		    {
+			    clearInterval( _scrollDuringDragTimeout );
+			    _dropStatusShape.graphics.clear();
+		    }
 		
-		override public function drop (e : DropEvent) : void
-		{
-			clearInterval( _scrollDuringDragTimeout );
-			_dropStatusShape.graphics.clear();
+		    override public function drop (e : DropEvent) : void
+		    {
+			    clearInterval( _scrollDuringDragTimeout );
+			    _dropStatusShape.graphics.clear();
 			
-			var d : * ;
-			var lc : ListCell = getListCellUnderPoint ( new Point( 	this.stage.mouseX, 
-										   			 				this.stage.mouseY ) );
+			    var d : * ;
+			    var lc : ListCell = getListCellUnderPoint ( new Point( 	this.stage.mouseX, 
+										       			 				this.stage.mouseY ) );
 			
-			var id : int;
+			    var id : int;
 			
-			if( lc )
-			{
-				var index : int = lc.index;
+			    if( lc )
+			    {
+				    var index : int = lc.index;
 				
-				d = e.transferable.getData( ComponentsFlavors.LIST_ITEM );
-				id = _model.indexOf( d );
+				    d = e.transferable.getData( ComponentsFlavors.LIST_ITEM );
+				    id = _model.indexOf( d );
 				
-				// when the new position is below the old one, we have to grow the index by 1
-				if( index > id )
-					index++;
+				    // when the new position is below the old one, we have to grow the index by 1
+				    if( index > id )
+					    index++;
 				
-				// we insert after the item under the mouse 
-				if( mouseY > lc.y + lc.height / 2)
-					index++;
+				    // we insert after the item under the mouse 
+				    if( mouseY > lc.y + lc.height / 2)
+					    index++;
 				
-				if( id == -1 )
-				{
-					e.transferable.transferPerformed();
+				    if( id == -1 )
+				    {
+					    e.transferable.transferPerformed();
 					
-					if( index < 0 )
-						index = 0;
+					    if( index < 0 )
+						    index = 0;
 					
-					_undoManager.add( new ListDnDInsertUndoableEdit( this, d, index ) );
+					    _undoManager.add( new ListDnDInsertUndoableEdit( this, d, index ) );
 					
-					if( index >= _model.size )
-						_model.addElement( d );
-					else				
-						_model.addElementAt( d, index );
-				}
-				else
-				{
-					if( id != -1 && id < index )
-						index--;
+					    if( index >= _model.size )
+						    _model.addElement( d );
+					    else				
+						    _model.addElementAt( d, index );
+				    }
+				    else
+				    {
+					    if( id != -1 && id < index )
+						    index--;
 							
-					if( index < 0 )
-						index = 0;
+					    if( index < 0 )
+						    index = 0;
 						
-					_undoManager.add( new ListDnDMoveUndoableEdit( this, d, _model.indexOf(d), index ) );
-					_model.setElementIndex( d, index );
-				}
-			}
-			else
-			{
-				d = e.transferable.getData( ComponentsFlavors.LIST_ITEM );
-				id = _model.indexOf( d );
+					    _undoManager.add( new ListDnDMoveUndoableEdit( this, d, _model.indexOf(d), index ) );
+					    _model.setElementIndex( d, index );
+				    }
+			    }
+			    else
+			    {
+				    d = e.transferable.getData( ComponentsFlavors.LIST_ITEM );
+				    id = _model.indexOf( d );
 				
-				if( id == -1 )
-				{
-					_undoManager.add( new ListDnDInsertUndoableEdit( this, d, index ) );
-					e.transferable.transferPerformed();
-					_model.addElement( d );
-				}
-				else
-				{
-					_undoManager.add( new ListDnDMoveUndoableEdit( this, d, id, _model.size - 1) );
-					_model.setElementIndex( d, _model.size );
-				}
+				    if( id == -1 )
+				    {
+					    _undoManager.add( new ListDnDInsertUndoableEdit( this, d, index ) );
+					    e.transferable.transferPerformed();
+					    _model.addElement( d );
+				    }
+				    else
+				    {
+					    _undoManager.add( new ListDnDMoveUndoableEdit( this, d, id, _model.size - 1) );
+					    _model.setElementIndex( d, _model.size );
+				    }
 				
-			}
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			    }
+		    }
+		} 
 	}
 }
 
@@ -1282,18 +1306,21 @@ internal class ListDnDMoveUndoableEdit extends AbstractUndoable
 {
 	private var _list : List;
 	private var value : *;
-	private var oldIndex : Number;	private var newIndex : Number;
+	private var oldIndex : Number;
+	private var newIndex : Number;
 
 	public function ListDnDMoveUndoableEdit ( list : List, value : *, oldIndex : Number, newIndex : Number )
 	{
 		this._label = _("Move List Item");
 		this._list = list;
 		this.value = value;
-		this.oldIndex = oldIndex;		this.newIndex = newIndex;
+		this.oldIndex = oldIndex;
+		this.newIndex = newIndex;
 	}
 	override public function undo () : void
 	{
-		this._list.model.setElementIndex( value, oldIndex);		super.undo();
+		this._list.model.setElementIndex( value, oldIndex);
+		super.undo();
 	}
 	override public function redo () : void
 	{

@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.buttons 
 {
-	import abe.com.mands.events.CommandEvent;
+	import abe.com.mands.*;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.IDisplayObject;
 	import abe.com.mon.core.IDisplayObjectContainer;
@@ -19,6 +19,8 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.layouts.display.DOStretchLayout;
 
 	import flash.events.IEventDispatcher;
+	
+	import org.osflash.signals.Signal;
 
 	/**
 	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
@@ -57,6 +59,7 @@ package abe.com.ponents.buttons
 		 */
 		protected var _disabledValue : *;
 		
+		
 		/**
 		 * Constructeur de la classe <code>ColorPicker</code>.
 		 * 
@@ -70,7 +73,11 @@ package abe.com.ponents.buttons
 			buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			_isComponentLeaf = true;
 			_disabledMode = 0;
+			_dataChanged = new Signal();
 		}
+		
+		protected var _dataChanged : Signal;
+		public function get _dataChanged() : Signal { return _dataChanged; }
 		/**
 		 * Une référence vers l'objet <code>Color</code> de ce <code>ColorPicker</code>.
 		 */
@@ -128,7 +135,8 @@ package abe.com.ponents.buttons
 					disabledValue = _("not defined");
 					affectLabelText();
 					buttonDisplayMode = ButtonDisplayModes.TEXT_ONLY;
-					break;				
+					break;
+				
 				case FormComponentDisabledModes.NORMAL :
 				case FormComponentDisabledModes.INHERITED : 
 				default : 
@@ -151,16 +159,16 @@ package abe.com.ponents.buttons
 		 */
 		override protected function commandEnded (c:Command) : void
 		{
-			super.commandEnded( e );
-			fireDataChange();
+			super.commandEnded( c );
+			fireDataChangedSignal();
 		}
 		/**
 		 * Diffuse un évènement de type <code>ComponentEvent.DATA_CHANGE</code> aux écouteurs
 		 * de ce <code>ColorPicker</code>.
 		 */
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			dataChanged.dispatch( this, value );
 		}
 	}
 }

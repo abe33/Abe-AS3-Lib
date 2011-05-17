@@ -21,7 +21,7 @@ package abe.com.ponents.text
 	public class TextInput extends AbstractTextComponent 
 	{
 		protected var _displayAsPassword : Boolean;
-
+        protected var _dataChanged : Signal;
 		public function TextInput ( maxChars : int = 0, 
 									password : Boolean = false, 
 									id : String = null,
@@ -51,6 +51,7 @@ package abe.com.ponents.text
 				} 
 			} 
 		}
+		public function get dataChanged() : Signal { return _dataChanged; }
 		
 		public function get maxChars () : int { return _label.maxChars; }
 		public function set maxChars ( m : int ) : void 
@@ -141,131 +142,131 @@ package abe.com.ponents.text
 		public function comfirmInput ( e : Event = null ) : void
 		{
 			FEATURES::AUTOCOMPLETION { 
-			if( _autoCompleteDropDown && _autoCompleteDropDown.displayed )
-			{
-				if(_autoCompleteDropDown.hasSelection)
-				{
-					_autoCompleteDropDown.validateCompletion();
-					return;
-				}
-				else
-					_autoCompleteDropDown.hide();
-			}
-			FEATURES::SETTINGS_MEMORY { 
-				if( _autoComplete is InputMemory )
-				  ( _autoComplete as InputMemory ).registerCurrent();
-			} 
+			    if( _autoCompleteDropDown && _autoCompleteDropDown.displayed )
+			    {
+				    if(_autoCompleteDropDown.hasSelection)
+				    {
+					    _autoCompleteDropDown.validateCompletion();
+					    return;
+				    }
+				    else
+					    _autoCompleteDropDown.hide();
+			    }
+			    FEATURES::SETTINGS_MEMORY { 
+			        if( _autoComplete is InputMemory )
+			          ( _autoComplete as InputMemory ).registerCurrent();
+		        } 
 			} 
 				
 			registerValue();
 			//StageUtils.stage.focus = null;
-			fireDataChange();
+			fireDataChangedSignal();
 			focusNext();
 		}
 		public function cancelInput () : void
 		{
 			FEATURES::AUTOCOMPLETION { 
-			if( _autoCompleteDropDown )
-			{
-				_autoCompleteDropDown.hide();
-				replaceSelectedText("");
-			}
+			    if( _autoCompleteDropDown )
+			    {
+				    _autoCompleteDropDown.hide();
+				    replaceSelectedText("");
+			    }
 			} 
 		}
 
 		FEATURES::TOOLTIP { 
-		override public function mouseOver (e : MouseEvent) : void
-		{
-			if( _label.textWidth > _label.width ||
-				_label.textWidth > width )
-			{
-				_tooltip = _enabled ? _value : _disabledValue;
-			}
-			else
-			{
-				_tooltip = "";	
-			}
-			super.mouseOver( e );
-		}
+		    override public function mouseOver (e : MouseEvent) : void
+		    {
+			    if( _label.textWidth > _label.width ||
+				    _label.textWidth > width )
+			    {
+				    _tooltip = _enabled ? _value : _disabledValue;
+			    }
+			    else
+			    {
+				    _tooltip = "";	
+			    }
+			    super.mouseOver( e );
+		    }
 		
-		override public function mouseOut (e : MouseEvent) : void
-		{
-			super.mouseOut( e );
-		}
+		    override public function mouseOut (e : MouseEvent) : void
+		    {
+			    super.mouseOut( e );
+		    }
 		} 
 		
 		FEATURES::AUTOCOMPLETION { 
-		protected var _autoComplete : AutoCompletion;
-		protected var _autoCompleteDropDown : CompletionDropDown;
+		    protected var _autoComplete : AutoCompletion;
+		    protected var _autoCompleteDropDown : CompletionDropDown;
 		
-		public function get autoComplete () : AutoCompletion { return _autoComplete; }		
-		public function set autoComplete (autoComplete : AutoCompletion) : void
-		{
-			_autoComplete = autoComplete;
+		    public function get autoComplete () : AutoCompletion { return _autoComplete; }		
+		    public function set autoComplete (autoComplete : AutoCompletion) : void
+		    {
+			    _autoComplete = autoComplete;
 			
-			if( _autoComplete )
-			{
-				if( _autoCompleteDropDown )
-					_autoCompleteDropDown.autoComplete = _autoComplete;
-				else
-					_autoCompleteDropDown = new CompletionDropDown( this, _autoComplete );
-			}
-			else
-			{
-				_autoCompleteDropDown.autoComplete = null;
-				_autoCompleteDropDown = null;
-			}
-		}
+			    if( _autoComplete )
+			    {
+				    if( _autoCompleteDropDown )
+					    _autoCompleteDropDown.autoComplete = _autoComplete;
+				    else
+					    _autoCompleteDropDown = new CompletionDropDown( this, _autoComplete );
+			    }
+			    else
+			    {
+				    _autoCompleteDropDown.autoComplete = null;
+				    _autoCompleteDropDown = null;
+			    }
+		    }
 		
-		public function get maxCompletionVisibleItems () : Number { return _autoCompleteDropDown.maxVisibleItems; }		
-		public function set maxCompletionVisibleItems (maxCompletionVisibleItems : Number) : void
-		{
-			_autoCompleteDropDown.maxVisibleItems = maxCompletionVisibleItems;
-		}
-		protected function up () : void
-		{
-			if( _autoCompleteDropDown )
-				_autoCompleteDropDown.up();
-			grabFocus();
-		}
-		protected function down () : void
-		{
-			if( _autoCompleteDropDown )
-				_autoCompleteDropDown.down();
-			grabFocus();
-		}
-		protected function keyUp (event : KeyboardEvent) : void
-		{
-			if( _autoComplete )
-			{ 
-				switch ( event.keyCode )
-				{
-					case Keys.DOWN : 
-					case Keys.UP :
-						if( _autoComplete.last )
-						{
-							var index : Number = _autoComplete.last.length;
-							setSelection( index, _label.length );
-						}
-						break;
-					default : 
-						break;
-				}
-			}
-		}	
-		override public function keyFocusChange (e : FocusEvent) : void
-		{
-			super.keyFocusChange( e );
-			if( _autoCompleteDropDown )
-			{
-				_autoCompleteDropDown.hide();
-				replaceSelectedText("");
-			}
-		}	
+		    public function get maxCompletionVisibleItems () : Number { return _autoCompleteDropDown.maxVisibleItems; }		
+		    public function set maxCompletionVisibleItems (maxCompletionVisibleItems : Number) : void
+		    {
+			    _autoCompleteDropDown.maxVisibleItems = maxCompletionVisibleItems;
+		    }
+		    protected function up () : void
+		    {
+			    if( _autoCompleteDropDown )
+				    _autoCompleteDropDown.up();
+			    grabFocus();
+		    }
+		    protected function down () : void
+		    {
+			    if( _autoCompleteDropDown )
+				    _autoCompleteDropDown.down();
+			    grabFocus();
+		    }
+		    protected function keyUp (event : KeyboardEvent) : void
+		    {
+			    if( _autoComplete )
+			    { 
+				    switch ( event.keyCode )
+				    {
+					    case Keys.DOWN : 
+					    case Keys.UP :
+						    if( _autoComplete.last )
+						    {
+							    var index : Number = _autoComplete.last.length;
+							    setSelection( index, _label.length );
+						    }
+						    break;
+					    default : 
+						    break;
+				    }
+			    }
+		    }	
+		    override public function keyFocusChange (e : FocusEvent) : void
+		    {
+			    super.keyFocusChange( e );
+			    if( _autoCompleteDropDown )
+			    {
+				    _autoCompleteDropDown.hide();
+				    replaceSelectedText("");
+			    }
+		    }	
 		} 
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, value );
 		}
 	}
 }

@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.buttons 
 {
-	import abe.com.mands.events.CommandEvent;
+	import abe.com.mands.*;
 	import abe.com.mon.core.IDisplayObject;
 	import abe.com.mon.core.IDisplayObjectContainer;
 	import abe.com.mon.core.IInteractiveObject;

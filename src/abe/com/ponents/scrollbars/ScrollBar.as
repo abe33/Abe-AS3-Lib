@@ -198,7 +198,7 @@ package abe.com.ponents.scrollbars
 			if( canScroll && _enabled )
 				scroll += getUnitIncrement( -e.delta / Math.abs(e.delta) ) * Math.abs( e.delta );
 		}
-		protected function buttonMouseWheelRolled( c : Component, d : Number ) : void
+		public function buttonMouseWheelRolled( c : Component, d : Number ) : void
 		{
 		    if( canScroll && _enabled )
 				scroll += getUnitIncrement( -d / Math.abs(d) ) * Math.abs(d);

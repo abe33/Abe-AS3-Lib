@@ -41,7 +41,7 @@ package abe.com.ponents.containers
 			
 			layout.viewport = _viewport;
 			_viewport.styleKey = "Viewport";
-			_viewport.addEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			_viewport.mouseWheelRolled.add( viewportMouseWheelRolled );
 			
 			_rowHeader = new Viewport();
 			addComponent( _rowHeader );
@@ -55,28 +55,24 @@ package abe.com.ponents.containers
 			_vscrollbar.model = _vmodel;
 			addComponent( _vscrollbar );
 			layout.vscrollbar = _vscrollbar;
-			_vscrollbar.addWeakEventListener( ComponentEvent.SCROLL, vscrollOccured );
+			_vscrollbar.scrolled.add( vScrolled );
 			
 			_hscrollbar = new ScrollPane_ScrollBar( viewport, 0, 0, 1, 0, 10 );
 			_hscrollbar.model = _hmodel;
 			addComponent( _hscrollbar );
 			layout.hscrollbar = _hscrollbar;
-			_hscrollbar.addWeakEventListener( ComponentEvent.SCROLL, hscrollOccured );
+			_hscrollbar.scrolled.add( hScrolled );
 		}
 		
-		override public function mouseWheel (event : MouseEvent) : void
+		public function viewportMouseWheelRolled ( c : Component, d: Number ) : void
 		{
 			var willScroll : Boolean = layout.vscrollbar.canScroll && 
-									   event.delta < 0 ? 
+									   d < 0 ? 
 									   	   layout.vscrollbar.scroll < layout.vscrollbar.maxScroll : 
 									   	   layout.vscrollbar.scroll > layout.vscrollbar.minScroll;
 			
 			if( willScroll )
-			{
-				event.stopPropagation();
-				layout.vscrollbar.mouseWheel( event );
-			}
-		    super.mouseWheel( event );
+				layout.vscrollbar.buttonMouseWheelRolled( c, d );
 		}
 		
 		override public function get contentSize () : Dimension
@@ -177,19 +173,19 @@ package abe.com.ponents.containers
 			layout.viewport.focusFirstChild();
 		}
 
-		override protected function hscrollOccured ( e : Event ) : void
+		protected function hScrolled ( c : Component ) : void
 		{
 			if( layout.colHead.view )
 				layout.colHead.view.x = -_hmodel.value;
 				
-			super.hscrollOccured(e);
+			hscrollOccured( _hscrollbar.model );
 		}
-		override protected function vscrollOccured ( e : Event ) : void
+		protected function vScrolled ( c : Component ) : void
 		{
 			if( layout.rowHead.view )
 				layout.rowHead.view.y = -_vmodel.value;
 				
-			super.vscrollOccured(e);
+			vscrollOccured( _vscrollbar.model );
 		}
 	}
 }

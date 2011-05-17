@@ -7,30 +7,35 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.core.Dockable;
 	import abe.com.ponents.core.DockableContainer;
 	import abe.com.ponents.dnd.DragSource;
-	import abe.com.ponents.events.ActionEvent;
-	import abe.com.ponents.events.DockEvent;
-	import abe.com.ponents.events.TabEvent;
 	import abe.com.ponents.layouts.components.BorderLayout;
 	import abe.com.ponents.utils.CardinalPoints;
 
 	import flash.geom.Rectangle;
+	
+    import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="tabChange",type="abe.com.ponents.events.TabEvent")]	[Event(name="tabAdd",type="abe.com.ponents.events.TabEvent")]	[Event(name="tabRemove",type="abe.com.ponents.events.TabEvent")]	[Event(name="dockAdd",type="abe.com.ponents.events.DockEvent")]	[Event(name="dockRemove",type="abe.com.ponents.events.DockEvent")]
+	[Event(name="tabChange",type="abe.com.ponents.events.TabEvent")]
+	[Event(name="tabAdd",type="abe.com.ponents.events.TabEvent")]
+	[Event(name="tabRemove",type="abe.com.ponents.events.TabEvent")]
+	[Event(name="dockAdd",type="abe.com.ponents.events.DockEvent")]
+	[Event(name="dockRemove",type="abe.com.ponents.events.DockEvent")]
 	[Skinable(skin="TabbedPane")]
 	[Skin(define="TabbedPane",
 		  inherit="DefaultComponent",
 		  preview="abe.com.ponents.tabs::TabbedPane.defaultTabbedPanePreview",
 		  
-		  state__all__foreground="skin.noDecoration"	)]
+		  state__all__foreground="skin.noDecoration"
+	)]
 	[Skin(define="TabBarViewport",
 		  inherit="DefaultComponent",
 		  preview="abe.com.ponents.tabs::TabbedPane.defaultTabbedPanePreview",
 		  acceptStyleSetting="false",
 		  
-		  state__all__foreground="skin.noDecoration",		  state__all__background="new deco::SimpleFill(skin.rulerBackgroundColor.brighterClone(20))"
+		  state__all__foreground="skin.noDecoration",
+		  state__all__background="new deco::SimpleFill(skin.rulerBackgroundColor.brighterClone(20))"
 	)]
 	public class TabbedPane extends AbstractContainer implements DockableContainer
 	{
@@ -69,6 +74,12 @@ package abe.com.ponents.tabs
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
+		public var tabChanged : Signal;
+		public var tabAdded : Signal;
+		public var tabRemoved : Signal;
+		public var dockAdded : Signal;
+		public var dockRemoved : Signal;
+		
 		protected var _tabBar : TabBar;
 		protected var _tabScroller : SlidePane;
 		protected var _tabsPlacement : String;
@@ -77,6 +88,12 @@ package abe.com.ponents.tabs
 		
 		public function TabbedPane ( tabsPosition : String = "north" )
 		{
+		    tabAdded = new Signal();
+		    tabRemoved = new Signal();
+		    tabChanged = new Signal();
+		    dockAdded = new Signal();
+		    dockRemoved = new Signal();
+		
 			_childrenLayout = new BorderLayout( this );
 			super();
 			_allowFocus = false;
@@ -84,7 +101,8 @@ package abe.com.ponents.tabs
 			_tabBar = new TabBar();
 			_tabBar.tabbedPane = this;
 			_tabScroller = new SlidePane ();	
-			_tabScroller.styleKey = "EmptyComponent";			_tabScroller.viewport.styleKey = "TabBarViewport";
+			_tabScroller.styleKey = "EmptyComponent";
+			_tabScroller.viewport.styleKey = "TabBarViewport";
 			_tabScroller.view = _tabBar;
 			addComponent( _tabScroller );
 			this.tabsPosition = tabsPosition;
@@ -128,7 +146,7 @@ package abe.com.ponents.tabs
 				addComponent( _selectedTab.content );
 				layout.addComponent( _selectedTab.content, CardinalPoints.CENTER );
 			}
-			fireTabChangeEvent();		
+			fireTabChangedSignal();		
 		}
 		
 		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
@@ -155,18 +173,18 @@ package abe.com.ponents.tabs
 		{
 			_tabBar.addComponent( tab );
 			setUpTab ( tab );
-			fireDockAddEvent(tab);
+			fireDockAddeddSignal(tab);
 		}
 		public function removeTab ( tab : Tab ) : void
 		{
 			_tabBar.removeComponent( tab );
 			tearDownTab(tab);
-			fireDockRemoveEvent(tab);
+			fireDockRemovedSignal(tab);
 		}
 		public function setUpTab ( tab : Tab ) : void
 		{
 			tab.parentTabbedPane = this;
-			tab.addWeakEventListener( ActionEvent.ACTION, tabClick );
+			tab.tabClicked.add( tabClicked );
 			tab.placement = _tabsPlacement;	
 			
 			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
@@ -184,7 +202,7 @@ package abe.com.ponents.tabs
 		{
 			tab.parentTabbedPane = null;
 			tab.selected = false;
-			tab.removeEventListener( ActionEvent.ACTION, tabClick );
+			tab.tabClicked.remove( tabClicked );
 			tab.size = null;
 			
 			//_tabScroller.checkScroll();
@@ -203,24 +221,24 @@ package abe.com.ponents.tabs
 			return true;
 		}
 
-		public function tabClick ( e : ActionEvent ) : void
+		public function tabClicked ( t : Tab ) : void
 		{
-			var t : Tab = e.target as Tab;
-			
 			if( t )
 				selectedTab = t;
 		}
-		protected function fireTabChangeEvent () : void
+		protected function fireTabChangedSignal () : void
 		{
-			dispatchEvent( new TabEvent(TabEvent.TAB_CHANGE ) );
+			tabChanged.dispatch( this, _selectedTab );
 		}
-		protected function fireDockAddEvent ( t : Dockable ) : void
+		protected function fireDockAddeddSignal ( t : Dockable ) : void
 		{
-			dispatchEvent( new DockEvent(DockEvent.DOCK_ADD, t ) );			dispatchEvent( new TabEvent(TabEvent.TAB_ADD, t as Tab ) );		}
-		protected function fireDockRemoveEvent ( t : Dockable ) : void
+			tabAdded.dispatch( t );
+			dockAdded.dispatch( t );
+		}
+		protected function fireDockRemovedSignal ( t : Dockable ) : void
 		{
-			dispatchEvent( new DockEvent(DockEvent.DOCK_REMOVE, t ) );
-			dispatchEvent( new TabEvent(TabEvent.TAB_REMOVE, t as Tab ) );
+			tabRemoved.dispatch( t );
+			dockRemoved.dispatch( t );
 		}
 		public function hasDockableClone (dock : Dockable) : Dockable
 		{

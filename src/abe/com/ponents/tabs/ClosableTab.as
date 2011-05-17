@@ -70,8 +70,10 @@ package abe.com.ponents.tabs
 	[Skin(define="ClosableTab_CloseButton",
 		  inherit="DefaultComponent",
 		  
-		  state__0_1_4_5_8_9_12_13__background="skin.emptyDecoration",		  state__0_1_4_5_8_9_12_13__foreground="skin.noDecoration",
-		  state__all__corners="new cutils::Corners(4)",		  state__all__insets="new cutils::Insets(0)"
+		  state__0_1_4_5_8_9_12_13__background="skin.emptyDecoration",
+		  state__0_1_4_5_8_9_12_13__foreground="skin.noDecoration",
+		  state__all__corners="new cutils::Corners(4)",
+		  state__all__insets="new cutils::Insets(0)"
 	)]
 	public class ClosableTab extends DraggablePanel implements Tab, DragSource
 	{
@@ -113,9 +115,11 @@ package abe.com.ponents.tabs
 		[Embed(source="../skinning/icons/control_close_blue.png")]
 		static public var CROSS : Class;	
 		
-		public var tabClosed : Signal;		public var actionTriggered : Signal;
+		protected var _tabClicked : Signal;
+		public var tabClosed : Signal;
 		
-		protected var _closeButton : Button;		protected var _mainButton : Button;
+		protected var _closeButton : Button;
+		protected var _mainButton : Button;
 		protected var _content : Component;
 		protected var _placement : String;
 		protected var _parentTabbedPane : TabbedPane;
@@ -123,9 +127,11 @@ package abe.com.ponents.tabs
 		public function ClosableTab ( name : String, content : Component = null, icon : Icon = null )
 		{
 			super();
-			tabClosed = new Signal( );			actionTriggered = new Signal();
+			tabClosed = new Signal( );
+			_tabClicked = new Signal();
 			
-			_allowOver = true;			_allowPressed = true;
+			_allowOver = true;
+			_allowPressed = true;
 			
 			var layout : HBoxLayout = new HBoxLayout( this, 3, 
 							new BoxSettings(0), 
@@ -146,9 +152,11 @@ package abe.com.ponents.tabs
 			_closeButton.styleKey = "ClosableTab_CloseButton";
 			_closeButton.isComponentIndependent = false;
 			
-			layout.setObjectForBox( _mainButton, 0 );			layout.setObjectForBox( _closeButton, 1 );
+			layout.setObjectForBox( _mainButton, 0 );
+			layout.setObjectForBox( _closeButton, 1 );
 			
-			addComponent( _mainButton );			addComponent( _closeButton );
+			addComponent( _mainButton );
+			addComponent( _closeButton );
 		}
 		protected function onClose () : void 
 		{
@@ -252,7 +260,8 @@ package abe.com.ponents.tabs
 		override public function click () : void
 		{
 			if( !_closeButton.hitTestPoint( stage.mouseX, stage.mouseY ) )
-				actionTriggered.dispatch( this );			else
+				_tabClicked.dispatch( this );
+			else
 				tabClosed.dispatch( this );
 				
 		}

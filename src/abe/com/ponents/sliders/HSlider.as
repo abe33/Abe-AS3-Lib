@@ -27,8 +27,16 @@ package abe.com.ponents.sliders
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]	[Style(name="inputWidth", type="Number")]	[Style(name="buttonSize", type="Number")]	[Style(name="trackSize", type="Number")]	[Style(name="tickSize", type="Number")]	[Style(name="tickMargin", type="Number")]	[Style(name="tickColor", type="abe.com.mon.colors.Color")]
+	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
+	[Style(name="inputWidth", type="Number")]
+	[Style(name="buttonSize", type="Number")]
+	[Style(name="trackSize", type="Number")]
+	[Style(name="tickSize", type="Number")]
+	[Style(name="tickMargin", type="Number")]
+	[Style(name="tickColor", type="abe.com.mon.colors.Color")]
 	[Style(name="icon", type="abe.com.ponents.skinning.icons.Icon")]
 	[Skinable(skin="HSlider")]
 	[Skin(define="HSlider",
@@ -36,8 +44,10 @@ package abe.com.ponents.sliders
 		  preview="abe.com.ponents.sliders::HSlider.defaultHSliderPreview",
 		  
 		  custom_inputWidth="30",
-		  custom_buttonSize="20",		  custom_trackSize="150",
-		  custom_tickSize="8",		  custom_tickMargin="5",
+		  custom_buttonSize="20",
+		  custom_trackSize="150",
+		  custom_tickSize="8",
+		  custom_tickMargin="5",
 		  custom_tickColor="skin.sliderTickColor",
 		  custom_icon="icon(abe.com.ponents.sliders::HSlider.SLIDER_ICON)"
 	)]
@@ -85,17 +95,22 @@ package abe.com.ponents.sliders
 		protected var _model : BoundedRangeModel;
 		
 		protected var _dragging : Boolean;
-		protected var _pressedX : Number;		protected var _pressedY : Number;
+		protected var _pressedX : Number;
+		protected var _pressedY : Number;
 		
-		protected var _minorTickSpacing : Number;		protected var _majorTickSpacing : Number;
+		protected var _minorTickSpacing : Number;
+		protected var _majorTickSpacing : Number;
 		protected var _displayTicks : Boolean;
 		protected var _snapToTicks : Boolean;
 		
-		protected var _preComponent : Component; 		protected var _postComponent : Component; 
+		protected var _preComponent : Component; 
+		protected var _postComponent : Component; 
 		
 		protected var _tickColor : Color;
 		
 		protected var _displayInput : Boolean;
+		
+		public var dataChanged : Signal;
 		
 		public function HSlider ( model : BoundedRangeModel, 
 								 majorTickSpacing : Number = 10, 
@@ -108,6 +123,8 @@ package abe.com.ponents.sliders
 		{
 			super();
 			
+			dataChanged = new Signal();
+			
 			_childrenContextEnabled = false;
 			_minorTickSpacing = minorTickSpacing;
 			_majorTickSpacing = majorTickSpacing;
@@ -118,7 +135,8 @@ package abe.com.ponents.sliders
 			_input = new TextInput( );
 			_input.styleKey = "HSliderInput";
 			_input.preferredWidth = _style.inputWidth;
-			_input.isComponentIndependent = false;			
+			_input.isComponentIndependent = false;
+			
 			_knob = new Button("");
 			_knob.styleKey = "HSliderButton";
 			_knob.icon = _style.icon.clone();
@@ -130,7 +148,8 @@ package abe.com.ponents.sliders
 			_track.styleKey = "HSliderTrack";
 			_track.label = "";
 			_track.allowFocus = false;
-			_track.allowOver = false;			_track.allowPressed = false;
+			_track.allowOver = false;
+			_track.allowPressed = false;
 			_track.isComponentIndependent = false;
 			
 			_tickColor = _style.tickColor;
@@ -143,17 +162,22 @@ package abe.com.ponents.sliders
 			addComponent( _knob );
 			
 			var layout : HBoxLayout = new HBoxLayout( this, 3, 
-											new BoxSettings( 0, "left", "center", _displayInput ? _input : null ),											new BoxSettings( 0, "right", "center", null ),											new BoxSettings( _style.trackSize, "left", "center", _track, true, true, true ),
+											new BoxSettings( 0, "left", "center", _displayInput ? _input : null ),
+											new BoxSettings( 0, "right", "center", null ),
+											new BoxSettings( _style.trackSize, "left", "center", _track, true, true, true ),
 											new BoxSettings( 0, "left", "center", null ) );
 			childrenLayout = layout;
 			
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
-				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT ) ] = new ProxyCommand( down );
-				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT ) ] = new ProxyCommand( up );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT ) ] = new ProxyCommand( down );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT ) ] = new ProxyCommand( up );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( validateInput );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
-			preComponent = preComp;			postComponent = postComp;
+			preComponent = preComp;
+			postComponent = postComp;
 			
 			this.model = model;
 		}
@@ -174,12 +198,12 @@ package abe.com.ponents.sliders
 				return;
 			
 			if( _model )
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.remove( modelDataChanged );
 			
 			_model = model;
 			if( _model )
 			{
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.add( modelDataChanged );
 				dataChanged(null);
 			}
 		}
@@ -409,14 +433,14 @@ package abe.com.ponents.sliders
 					down();
 			}
 		}
-		protected function dataChanged (event : ComponentEvent) : void
+		protected function modelDataChanged ( m : BoundedRangeModel ) : void
 		{			
 			_input.value = _model.displayValue;
 			invalidate( true );
 			_input.selectAll();
 			_input.textfield.scrollH = 0;
 			
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 
 		public function get displayInput () : Boolean { return _displayInput; }		
@@ -450,7 +474,8 @@ package abe.com.ponents.sliders
 					_input.preferredWidth = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
-				case "tickSize" : 				case "tickMargin" : 
+				case "tickSize" : 
+				case "tickMargin" : 
 					invalidate();
 					break;
 				case "tickColor" : 
@@ -467,7 +492,7 @@ package abe.com.ponents.sliders
 			}
 		}
 		
-		public function get disabledMode () : uint { return _input.disabledMode; }		
+		public function get disabledMode () : uint { return _input.disabledMode; }
 		public function set disabledMode (b : uint) : void
 		{
 			_input.disabledMode = b;
@@ -478,9 +503,9 @@ package abe.com.ponents.sliders
 		{
 			_input.disabledValue;
 		}
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			dataChanged.dispatch( this );
 		}
 	}
 }

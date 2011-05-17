@@ -1,6 +1,6 @@
 package abe.com.ponents.buttons 
 {
-	import abe.com.mands.events.CommandEvent;
+	import abe.com.mands.*;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.utils.TimeDelta;
 	import abe.com.mon.utils.magicCopy;
@@ -47,7 +47,8 @@ package abe.com.ponents.buttons
 		public function get value () : * { return ( _action as EditObjectPropertiesAction ).object; }
 		public function set value (v : *) : void 
 		{ 
-			( _action as EditObjectPropertiesAction ).object = v; 			( _action as EditObjectPropertiesAction ).name = format( v ); 
+			( _action as EditObjectPropertiesAction ).object = v; 
+			( _action as EditObjectPropertiesAction ).name = format( v ); 
 		}
 		
 		/**

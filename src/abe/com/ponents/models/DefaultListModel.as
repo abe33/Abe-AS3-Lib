@@ -6,26 +6,38 @@ package abe.com.ponents.models
 	import abe.com.ponents.events.ListEvent;
 
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
+	import org.osflash.signals.Signal;
 
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class DefaultListModel extends EventDispatcher implements ListModel 
+	public class DefaultListModel implements ListModel 
 	{
+	    static public const ADD : uint = 0;
+		static public const SET : uint = 1;
+		static public const MOVE : uint = 2;
+		static public const REMOVE : uint = 3;
+		static public const CLEAR : uint = 4;
+		static public const SORT : uint = 5;
+		static public const REBUILD : uint = 6;
+	
 		protected var _datas : Array;
 		protected var _immutable : Boolean;
 		protected var _contentType : Class;
 		
+		protected var _dataChanged : Signal;
+		
 		public function DefaultListModel ( initialData : Array = null )
 		{
 			_datas = initialData ? initialData : [];
+			_dataChanged = new Signal();
 		}
 		
 		/*-----------------------------------------------------------------
 		 * 	GETTERS / SETTERS
 		 *----------------------------------------------------------------*/
+		public function get dataChanged() : Signal { return _dataChanged; }
+		
 		public function get contentType () : Class { return _contentType; }	
 		public function set contentType (contentType : Class) : void
 		{
@@ -59,7 +71,7 @@ package abe.com.ponents.models
 				if( _contentType == null || el is _contentType )
 				{
 					_datas[ id ] = el;
-					fireDataChange( ListEvent.SET, [id], [el] ); 
+					fireDataChangedSignal( SET, [id], [el] ); 
 				}
 				else
 				{
@@ -76,11 +88,12 @@ package abe.com.ponents.models
 					if( id < _datas.length )
 					{
 						_datas.splice( id, 0, el );
-						fireDataChange( ListEvent.ADD, [id], [el]); 
+						fireDataChangedSignal( ADD, [id], [el]); 
 					}
 					else
 					{
-						_datas.push( el );						fireDataChange( ListEvent.ADD, [_datas.length-1], [el]); 
+						_datas.push( el );
+						fireDataChangedSignal( ADD, [_datas.length-1], [el]); 
 					}
 				}
 				else
@@ -108,7 +121,7 @@ package abe.com.ponents.models
 					for( i = id ; i < l2 ; i++ )
 						indices.push(i);
 					
-					fireDataChange( ListEvent.ADD, indices, els); 
+					fireDataChangedSignal( ADD, indices, els); 
 				}
 				else
 				{
@@ -118,7 +131,7 @@ package abe.com.ponents.models
 					for( i = l ; i < l2 ; i++ )
 						indices.push(i);
 					
-					fireDataChange( ListEvent.ADD, indices, els); 
+					fireDataChangedSignal( ADD, indices, els); 
 				}
 			}
 		}
@@ -128,7 +141,8 @@ package abe.com.ponents.models
 			if( !_immutable && id < _datas.length )
 			{
 				var el : Array = _datas.splice( id, 1 );
-				fireDataChange( ListEvent.REMOVE, [id], el ); 			}
+				fireDataChangedSignal( REMOVE, [id], el ); 
+			}
 		}
 		public function clear() : void
 		{
@@ -138,7 +152,7 @@ package abe.com.ponents.models
 				var b : Array = _datas.concat();
 				
 				_datas = [];
-				fireDataChange( ListEvent.CLEAR, a, b );
+				fireDataChangedSignal( CLEAR, a, b );
 			} 
 		}
 		public function contains ( el : * ) : Boolean
@@ -183,12 +197,12 @@ package abe.com.ponents.models
 				from < to )
 			{
 				var a : Array = [];
-				for(var i : Number = from; i<to;i++)
+				for(var i : Number = from; i< to;i++)
 					a.push(i);
 					
 				var els : Array = _datas.splice( from, to - from );
 				
-				fireDataChange( ListEvent.REMOVE, a, els ); 
+				fireDataChangedSignal( REMOVE, a, els ); 
 			}
 		}
 		public function setElementIndex (el : *, id : uint) : void
@@ -203,7 +217,7 @@ package abe.com.ponents.models
 			
 			_datas.splice( index, 1 );
 			_datas.splice( id, 0, el );
-			fireDataChange( ListEvent.MOVE, [id], [el] );
+			fireDataChangedSignal( MOVE, [id], [el] );
 		}
 		public function indexOf ( el : * ) : int
 		{
@@ -216,13 +230,13 @@ package abe.com.ponents.models
 		public function sort (...args : *) :Array
 		{
 			_datas.sort.apply( _datas, args );
-			fireDataChange( ListEvent.SORT );
+			fireDataChangedSignal( SORT );
 			return _datas;
 		}
 		public function sortOn (fieldName : Object, options : Object = null) : Array
 		{
 			_datas.sortOn.call( _datas, fieldName, options );
-			fireDataChange( ListEvent.SORT );
+			fireDataChangedSignal( SORT );
 			return _datas;
 		}
 		public function toArray () : Array
@@ -235,7 +249,7 @@ package abe.com.ponents.models
 			{
 				var l : int = els.length;
 				var i : int;
-				for(i=0;i<l;i++)
+				for(i=0;i < l;i++)
 					if( !( els[i] is _contentType ) )
 						throw new TypeError( _$( _( "The type of $0 don't match the contentType $1 for this model." ), els[i], _contentType ) );
 			}
@@ -244,17 +258,10 @@ package abe.com.ponents.models
 		 * 	EVENTS METHODS
 		 *----------------------------------------------------------------*/
 
-		public function fireDataChange ( action : uint = 0, indices : Array = null, values : Array = null ) : void
+		public function fireDataChangedSignal ( action : uint = 0, indices : Array = null, values : Array = null ) : void
 		{
-			dispatchEvent( new ListEvent( ComponentEvent.DATA_CHANGE, action, indices, values ) );
+			dataChanged.dispatch( action, indices, values );
 		}
-		override public function dispatchEvent( evt : Event) : Boolean 
-		{
-		 	if (hasEventListener(evt.type) || evt.bubbles) 
-		 	{
-		  		return super.dispatchEvent(evt);
-		  	}
-		 	return true;
-		}
+
 	}
 }

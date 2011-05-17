@@ -79,7 +79,8 @@ package abe.com.ponents.text
 		{
 			super( );
 			textContentChanged = new Signal();
-			_label = _label ? _label : new TextFieldImpl();			//_label = _label ? _label : new TLFTextFieldImpl();
+			_label = _label ? _label : new TextFieldImpl();
+			//_label = _label ? _label : new TLFTextFieldImpl();
 			_label.width = 100;
 			_label.height = 20;
 			_label.type = TextFieldType.INPUT;
@@ -89,7 +90,8 @@ package abe.com.ponents.text
 			_childrenContainer.addChild( _label as DisplayObject );
 			_childrenContainer.mouseEnabled = true;
 			_childrenContainer.mouseChildren = true;
-			//_childrenLayout = _childrenLayout ? _childrenLayout : new TextLayout( _childrenContainer, _label );			_childrenLayout = _childrenLayout ? _childrenLayout : new DOStretchLayout( _childrenContainer, _label );
+			//_childrenLayout = _childrenLayout ? _childrenLayout : new TextLayout( _childrenContainer, _label );
+			_childrenLayout = _childrenLayout ? _childrenLayout : new DOStretchLayout( _childrenContainer, _label );
 			_allowPressed = false;
 			_allowOver = false;
 			_allowInput = true;
@@ -113,69 +115,43 @@ package abe.com.ponents.text
 
 			invalidatePreferredSizeCache( );
 		}
-		public function get caretIndex () : int	
-		{ 
-			return _label.caretIndex; 
-		}
-		public function get selectionBeginIndex () : int 
-		{ 
-			return _label.selectionBeginIndex; 
-		}		public function get selectionEndIndex () : int 
-		{ 
-			return _label.selectionEndIndex; 
-		}
-		public function get childrenLayout () : DisplayObjectLayout	
-		{ 
-			return _childrenLayout; 
-		}
-		public function set childrenLayout (childrenLayout : DisplayObjectLayout) : void
-		{
-			_childrenLayout = childrenLayout;
-		}
-		public function get textfield () : ITextField
-		{
-			return _label;
-		}
-		public function get multiline () : Boolean 
-		{ 
-			return _label.multiline; 
-		}		public function set multiline ( b : Boolean ) : void
+		
+		public function get caretIndex () : int	 { return _label.caretIndex; }
+		public function get selectionBeginIndex () : int { return _label.selectionBeginIndex; }
+		public function get selectionEndIndex () : int { return _label.selectionEndIndex; }
+		
+		public function get childrenLayout () : DisplayObjectLayout	{ return _childrenLayout; }
+		public function set childrenLayout (childrenLayout : DisplayObjectLayout) : void { _childrenLayout = childrenLayout; }
+		
+		public function get textfield () : ITextField { return _label; }
+		
+		public function get multiline () : Boolean	{ 	return _label.multiline;}
+		public function set multiline ( b : Boolean ) : void
 		{
 			_label.multiline = b;
 			updateTextFormat();
 			invalidatePreferredSizeCache();
 		}
-		public function get wordWrap () : Boolean 
-		{ 
-			return _label.wordWrap; 
-		}
+		public function get wordWrap () : Boolean { return _label.wordWrap; }
 		public function set wordWrap ( b : Boolean ) : void
 		{
 			_label.wordWrap = b;
 			updateTextFormat();
 			invalidatePreferredSizeCache();
 		}
-		public function get autoSize () : String 
-		{ 
-			return _label.autoSize; 
-		}
+		public function get autoSize () : String { return _label.autoSize; }
 		public function set autoSize ( s : String ) : void
 		{
 			_label.autoSize = s;
 			updateTextFormat();
 			invalidatePreferredSizeCache();
 		}
-		public function get text () : String 
-		{ 
-			return _label.text; 
-		}		public function get htmlText () : String 
+		public function get text () : String { return _label.text; }
+		public function get htmlText () : String 
 		{ 
 			return _label.htmlText; 
 		}
-		public function get value () : * 
-		{ 
-			return _value; 
-		}
+		public function get value () : * { return _value; }
 		public function set value ( val : * ) : void
 		{
 			// avoid the text to scroll while clicking on a text component (will be buggy on style changes)
@@ -223,7 +199,8 @@ package abe.com.ponents.text
 		}
 		public function set disabledMode (b : uint) : void
 		{
-			_disabledMode = b;			checkDisableMode( );
+			_disabledMode = b;
+			checkDisableMode( );
 		}
 		public function get disabledValue () : * 
 		{ 
@@ -252,7 +229,8 @@ package abe.com.ponents.text
 				case FormComponentDisabledModes.DIFFERENT_ACROSS_MANY :
 					disabledValue = _( "different values across many" );
 					break;
-				case FormComponentDisabledModes.UNDEFINED :					disabledValue = _( "not defined" );
+				case FormComponentDisabledModes.UNDEFINED :
+					disabledValue = _( "not defined" );
 					break;
 				case FormComponentDisabledModes.NORMAL :
 				case FormComponentDisabledModes.INHERITED :
@@ -410,7 +388,8 @@ package abe.com.ponents.text
 		public function get textWidth () : Number 
 		{ 
 			return _label.textWidth; 
-		}		public function get textHeight () : Number 
+		}
+		public function get textHeight () : Number 
 		{ 
 			return _label.textHeight; 
 		}
@@ -428,8 +407,10 @@ package abe.com.ponents.text
 		}
 		override public function repaint () : void
 		{
-			_background.graphics.clear( );			_foreground.graphics.clear( );
-			var ls : Number = _label.scrollV;			var lh : Number = _label.scrollH;
+			_background.graphics.clear( );
+			_foreground.graphics.clear( );
+			var ls : Number = _label.scrollV;
+			var lh : Number = _label.scrollH;
 
 			updateTextFormat( );
 
@@ -438,11 +419,13 @@ package abe.com.ponents.text
 			_childrenLayout.layout( size, _style.insets );
 			super.repaint( );
 
-			_label.scrollV = ls;			_label.scrollH = lh;
+			_label.scrollV = ls;
+			_label.scrollH = lh;
 		}
 		protected function updateTextFormat () : void
 		{
-			var lastScrollV : Number = _label.scrollV;			var lastScrollH : Number = _label.scrollH;
+			var lastScrollV : Number = _label.scrollV;
+			var lastScrollH : Number = _label.scrollH;
 			_label.defaultTextFormat = _style.format;
 			_label.textColor = _style.textColor.hexa;
 			affectTextValue();
@@ -490,7 +473,8 @@ package abe.com.ponents.text
 
 			_label.addEventListener( FocusEvent.FOCUS_OUT, registerValue );
 			_label.addEventListener( Event.CHANGE, registerValue );
-			_label.addEventListener( TextEvent.TEXT_INPUT, textInput );		}
+			_label.addEventListener( TextEvent.TEXT_INPUT, textInput );
+		}
 		override protected function unregisterFromOnStageEvents () : void
 		{
 			super.unregisterFromOnStageEvents( );
@@ -594,7 +578,8 @@ package abe.com.ponents.text
 		 *----------------------------------------------------------------*/
 		/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
 		protected var _spellChecker : SpellChecker;
-		protected var _spellCheckerRules : String;		protected var _spellCheckerDict : String;
+		protected var _spellCheckerRules : String;
+		protected var _spellCheckerDict : String;
 		protected var _spellCheckEnabled : Boolean;
 		
 		/*FDT_IGNORE*/
@@ -618,7 +603,8 @@ package abe.com.ponents.text
 		
 		public function setSpellCheckerDictionnary ( spellCheckerRules : String, spellCheckerDict : String ) : void
 		{
-			_spellCheckerRules = spellCheckerRules;			_spellCheckerDict = spellCheckerDict;
+			_spellCheckerRules = spellCheckerRules;
+			_spellCheckerDict = spellCheckerDict;
 			SpellCheckManagerInstance.loadDictionary( _spellCheckerRules, _spellCheckerDict, spellCheckLoadingCallback );
 		}
 		
