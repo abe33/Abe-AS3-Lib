@@ -73,7 +73,8 @@ package abe.com.mon.geom
 		 * <fr>
 		 * Le second sommet du triangle.
 		 * </fr>
-		 */		public var b : Point;
+		 */
+		public var b : Point;
 		[Form(type="point",
 			  label="C",
 			  order="2")]
@@ -82,7 +83,8 @@ package abe.com.mon.geom
 		 * <fr>
 		 * Le dernier sommet du triangle.
 		 * </fr>
-		 */		public var c : Point;
+		 */
+		public var c : Point;
 		[Form(type="boolean",
 			  label="Path based on length",
 			  order="3")]
@@ -123,7 +125,8 @@ package abe.com.mon.geom
 		 * @default true
 		 */
 		public var pathBasedOnLength : Boolean;
-
+        
+        protected var _rotation : Number;
 		/**
 		 * <code>Triangle</code> class constructor.
 		 * <fr>
@@ -146,7 +149,10 @@ package abe.com.mon.geom
 								   c : Point,
 								   pathBasedOnLength : Boolean = true )
 		{
-			this.a = a;			this.b = b;			this.c = c;
+			this.a = a;
+			this.b = b;
+			this.c = c;
+			this._rotation = 0;
 			this.pathBasedOnLength = pathBasedOnLength;
 			_randomSource = RandomUtils.RANDOM;
 		}
@@ -166,7 +172,8 @@ package abe.com.mon.geom
 		 * Un objet <code>Point</code> représentant le vecteur
 		 * reliant les sommets <code>b</code> et <code>c</code>.
 		 * </fr>
-		 */		public function get bc () : Point { return c.subtract( b ); }
+		 */
+		public function get bc () : Point { return c.subtract( b ); }
 		/**
 		 * A <code>Point</code> representing the vector connecting
 		 * the vertices <code>c</code> and <code>a</code>.
@@ -174,7 +181,8 @@ package abe.com.mon.geom
 		 * Un objet <code>Point</code> représentant le vecteur
 		 * reliant les sommets <code>c</code> et <code>a</code>.
 		 * </fr>
-		 */		public function get ca () : Point { return a.subtract( c ); }
+		 */
+		public function get ca () : Point { return a.subtract( c ); }
 		/**
 		 * The value of the angle formed by the two vectors
 		 * sharing the vertex <code>b</code> in radians.
@@ -227,9 +235,17 @@ package abe.com.mon.geom
 		/**
 		 * A boolean value indicating whether this triangle is a right triangle.
 		 * <fr>Une valeur booléenne indiquant si ce triangle est un triangle rectangle.</fr>
-		 */		public function get isRectangle () : Boolean { return Math.abs( MathUtils.rad2deg( abc ) ) == 90 ||
+		 */
+		public function get isRectangle () : Boolean { return Math.abs( MathUtils.rad2deg( abc ) ) == 90 ||
 															  Math.abs( MathUtils.rad2deg( bac ) ) == 90 ||
 															  Math.abs( MathUtils.rad2deg( acb ) ) == 90; }
+		public function get rotation () : Number { return _rotation; }
+		public function set rotation ( a : Number ) : void 
+		{ 
+		    var d : Number = a - _rotation;
+		    rotateAroundCenter( d );
+		    _rotation = a; 
+		}
 		/**
 		 * @inheritDoc
 		 */
@@ -238,6 +254,24 @@ package abe.com.mon.geom
 		{
 			_randomSource = randomSource;
 		}
+		
+		public function get x () : Number { return center.x; }
+		public function set x ( nx : Number ) : void
+		{ 
+	        var d : Number = nx - x;
+	        a.x += d;
+	        b.x += d;
+	        c.x += d;
+	    }
+		public function get y () : Number { return center.y; }
+		public function set y ( ny : Number ) : void
+		{ 
+	        var d : Number = ny - y;
+	        a.y += d;
+	        b.y += d;
+	        c.y += d;
+	    }
+	    
 		/**
 		 * @inheritDoc
 		 */
@@ -373,13 +407,15 @@ package abe.com.mon.geom
 		 * @param	r	angle of rotation to perform
 		 * 				<fr>angle de la rotation à effectuer</fr>
 		 */
-		public function rotateAroundCenter ( r : Number) : void
+		public function rotateAroundCenter ( r : Number ) : void
 		{
 			var d : Point = center;
 
-			a = PointUtils.rotateAround( a, d, r);
-			b = PointUtils.rotateAround( b, d, r);
-			c = PointUtils.rotateAround( c, d, r);
+			a = PointUtils.rotateAround( a, d, r );
+			b = PointUtils.rotateAround( b, d, r );
+			c = PointUtils.rotateAround( c, d, r );
+			
+			_rotation += r;
 		}
 		/**
 		 * @inheritDoc
@@ -437,10 +473,13 @@ package abe.com.mon.geom
 		/**
 		 * @inheritDoc
 		 */
-		public function draw (g : Graphics, color : Color) : void
+		public function draw (g : Graphics, color : Color ) : void
 		{
 			g.lineStyle( 0, color.hexa, color.alpha/255 );
-			g.moveTo(a.x, a.y);			g.lineTo(b.x, b.y);			g.lineTo(c.x, c.y);			g.lineTo(a.x, a.y);
+			g.moveTo(a.x, a.y);
+			g.lineTo(b.x, b.y);
+			g.lineTo(c.x, c.y);
+			g.lineTo(a.x, a.y);
 			g.lineStyle();
 		}
 		/**
@@ -496,7 +535,9 @@ package abe.com.mon.geom
 		{
 			return StringUtils.tokenReplace("new $0($1,$2,$3,$4)",
 						getQualifiedClassName( this ),
-						magicToReflectionSource( a ),						magicToReflectionSource( b ),						magicToReflectionSource( c ),
+						magicToReflectionSource( a ),
+						magicToReflectionSource( b ),
+						magicToReflectionSource( c ),
 						pathBasedOnLength );
 		}
 		/**
