@@ -1,6 +1,7 @@
 package abe.com.ponents.tables 
 {
 	import abe.com.ponents.events.PropertyEvent;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.transfer.Transferable;
 
 	import flash.events.Event;
@@ -13,9 +14,11 @@ package abe.com.ponents.tables
 	[Style(name="descendingIcon", type="abe.com.ponents.skinning.icons.Icon")]
 	[Skinable(skin="ColumnHeader")]
 	[Skin(define="ColumnHeader",
-		  //inherit="ListCell",		  inherit="EmptyComponent",
+		  //inherit="ListCell",
+		  inherit="EmptyComponent",
 		  state__all__insets="new cutils::Insets(4,0,0,0)",
-		  custom_ascendingIcon="icon(abe.com.ponents.tables::DefaultTableColumnHeader.ASCENDING_ICON)",		  custom_descendingIcon="icon(abe.com.ponents.tables::DefaultTableColumnHeader.DESCENDING_ICON)"
+		  custom_ascendingIcon="icon(abe.com.ponents.tables::DefaultTableColumnHeader.ASCENDING_ICON)",
+		  custom_descendingIcon="icon(abe.com.ponents.tables::DefaultTableColumnHeader.DESCENDING_ICON)"
 	)]
 	public class DefaultTableColumnHeader extends DefaultTableCell implements TableColumnHeader 
 	{
@@ -86,9 +89,9 @@ package abe.com.ponents.tables
 					 _table.currentSortingMethod == column.sortingMethod;
 		}
 
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
-			super.click();
+			super.click(context);
 			if( _column.sortable )
 			{
 				if ( _sorted )
@@ -120,16 +123,16 @@ package abe.com.ponents.tables
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
-		override protected function stylePropertyChanged ( event : PropertyEvent ) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "ascendingIcon" : 
 				case "descendingIcon" : 
 					updateIcon();
 					break;	
 				default : 
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

@@ -3,8 +3,8 @@ package abe.com.ponents.menus
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.Button;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.events.PopupEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.utils.ToolKit;
 
@@ -38,7 +38,9 @@ package abe.com.ponents.menus
 		static public function defaultDropDownMenuPreview(): DropDownMenu
 		{
 			var ddm : DropDownMenu = new DropDownMenu( _("Sample"), null, 
-														new MenuItem( _("Sample MenuItem 1")),														new MenuItem( _("Sample MenuItem 2")),														new MenuItem( _("Sample MenuItem 3"))
+														new MenuItem( _("Sample MenuItem 1")),
+														new MenuItem( _("Sample MenuItem 2")),
+														new MenuItem( _("Sample MenuItem 3"))
 														);	
 			return ddm;
 		}
@@ -56,7 +58,8 @@ package abe.com.ponents.menus
 			styleKey = "DropDownMenu";
 			_popupMenu = new PopupMenu();
 			_popupMenu.invoker = this;
-			_popupMenu.addEventListener( PopupEvent.CLOSE_ON_CANCEL, closeOnCancel );			_popupMenu.addEventListener( PopupEvent.CLOSE_ON_ACTION, closeOnAction );
+			_popupMenu.addEventListener( PopupEvent.CLOSE_ON_CANCEL, closeOnCancel );
+			_popupMenu.addEventListener( PopupEvent.CLOSE_ON_ACTION, closeOnAction );
 			
 			_dropDownIcon = _style.dropDownIcon.clone();
 			_childrenContainer.addChild( _dropDownIcon );
@@ -120,7 +123,7 @@ package abe.com.ponents.menus
 			_popupMenu.removeMenuItem(m);
 		}
 
-		override public function click () : void
+		override public function click (context : UserActionContext ) : void
 		{
 			if( !_popupMenu.stage )
 			{
@@ -133,7 +136,8 @@ package abe.com.ponents.menus
 			}
 			else
 			{
-				_popupMenu.hide();				selected = false;
+				_popupMenu.hide();
+				selected = false;
 			}
 		}		
 		public function getPopupCoordinates () : Point
@@ -150,12 +154,13 @@ package abe.com.ponents.menus
 			
 			return new Point( x, y );
 		}
-		override protected function stylePropertyChanged ( e : PropertyEvent ) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( e.propertyName )
+			switch( propertyName )
 			{
 				case "dropDownIcon" : 
-					if( _dropDownIcon )						_childrenContainer.removeChild( _dropDownIcon );
+					if( _dropDownIcon )
+						_childrenContainer.removeChild( _dropDownIcon );
 	
 					_dropDownIcon = _style.dropDownIcon.clone();
 					
@@ -163,7 +168,7 @@ package abe.com.ponents.menus
 						_childrenContainer.addChild( _dropDownIcon );
 					break;
 				default : 
-					super.stylePropertyChanged( e );
+					super.stylePropertyChanged( propertyValue, propertyValue );
 					break;
 			}
 		}

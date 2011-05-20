@@ -41,7 +41,6 @@ package abe.com.ponents.containers
 			
 			layout.viewport = _viewport;
 			_viewport.styleKey = "Viewport";
-			_viewport.mouseWheelRolled.add( viewportMouseWheelRolled );
 			
 			_rowHeader = new Viewport();
 			addComponent( _rowHeader );
@@ -64,7 +63,7 @@ package abe.com.ponents.containers
 			_hscrollbar.scrolled.add( hScrolled );
 		}
 		
-		public function viewportMouseWheelRolled ( c : Component, d: Number ) : void
+		override public function viewportMouseWheelRolled ( c : Component, d: Number ) : void
 		{
 			var willScroll : Boolean = layout.vscrollbar.canScroll && 
 									   d < 0 ? 
@@ -178,14 +177,14 @@ package abe.com.ponents.containers
 			if( layout.colHead.view )
 				layout.colHead.view.x = -_hmodel.value;
 				
-			hscrollOccured( _hscrollbar.model );
+			hscrollOccured( _hscrollbar.model, _hscrollbar.model.value );
 		}
 		protected function vScrolled ( c : Component ) : void
 		{
 			if( layout.rowHead.view )
 				layout.rowHead.view.y = -_vmodel.value;
 				
-			vscrollOccured( _vscrollbar.model );
+			vscrollOccured( _vscrollbar.model, _vscrollbar.model.value );
 		}
 	}
 }

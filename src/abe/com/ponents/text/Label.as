@@ -1,7 +1,7 @@
 package abe.com.ponents.text 
 {
 	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
 
 	import flash.display.InteractiveObject;
 	import flash.events.Event;
@@ -57,7 +57,7 @@ package abe.com.ponents.text
 			}
 		}
 
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
 			if( _forComponent )
 			{

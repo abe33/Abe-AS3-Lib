@@ -1,6 +1,7 @@
 package abe.com.ponents.menus 
 {
 	import abe.com.mon.utils.StageUtils;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.actions.Action;
 	import abe.com.ponents.events.PopupEvent;
 	import abe.com.ponents.events.PropertyEvent;
@@ -29,7 +30,8 @@ package abe.com.ponents.menus
 		
 		protected var _popupMenu : PopupMenu;
 		protected var _showSubMenuIcon : Boolean;
-		protected var _subMenuIcon : DisplayObject;		
+		protected var _subMenuIcon : DisplayObject;
+		
 		public function Menu ( name : String, icon : Icon = null )
 		{
 			super();
@@ -59,7 +61,8 @@ package abe.com.ponents.menus
 			{
 				_popupMenu.menuList.size = null;
 				_popupMenu.size = null;
-				_popupMenu.menuList.invalidatePreferredSizeCache();				_popupMenu.invalidatePreferredSizeCache();
+				_popupMenu.menuList.invalidatePreferredSizeCache();
+				_popupMenu.invalidatePreferredSizeCache();
 			}*/
 		}
 		public function addMenuItems ( ... args ) : void
@@ -117,7 +120,7 @@ package abe.com.ponents.menus
 				
 				_popupMenu.invoker = this;
 				_popupMenu.addMenuItemsVector( _subItems );
-				_popupMenu.addWeakEventListener( PopupEvent.CLOSE_ON_ACTION, popupHidden );
+				_popupMenu.popupClosedOnAction.add( popupHidden );
 				pt = menuContainer.getPopupCoordinates( this );
 				_popupMenu.x = pt.x;
 				_popupMenu.y = pt.y;
@@ -149,10 +152,10 @@ package abe.com.ponents.menus
 				_popupMenu.hide();*/
 		}
 
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{}
 
-		public function popupHidden ( e : Event ) : void
+		public function popupHidden ( c : Component ) : void
 		{
 			if( menuContainer )
 				menuContainer.done();
@@ -185,23 +188,24 @@ package abe.com.ponents.menus
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
-		override protected function stylePropertyChanged ( e : PropertyEvent ) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( e.propertyName )
+			switch( propertyName )
 			{
 				case "subMenuIcon" : 
 					if( _showSubMenuIcon )
 					{
 						_childrenContainer.removeChild( _subMenuIcon );
-						_subMenuIcon = e.propertyValue.clone();						showSubMenuIcon = true;
+						_subMenuIcon = propertyValue.clone();
+						showSubMenuIcon = true;
 					}
 					else
 					{
-						_subMenuIcon = e.propertyValue.clone();						
+						_subMenuIcon = propertyValue.clone();						
 					}
 					break;
 				default : 
-					super.stylePropertyChanged( e );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

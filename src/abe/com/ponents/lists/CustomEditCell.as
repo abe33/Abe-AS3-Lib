@@ -24,15 +24,16 @@ package abe.com.ponents.lists
 				
 				if( _value is Number || _value is String || _value is Boolean )
 					_editor = EditorFactoryInstance.getForType( Reflection.getClass(_value) );
-				else						_editor = EditorFactoryInstance.get( "*" );
+				else	
+					_editor = EditorFactoryInstance.get( "*" );
 				
 				_editor.initEditState( this, _value, _labelTextField as DisplayObject );
 				
-				fireComponentEvent( EditEvent.EDIT_START );
+				editStarted.dispatch( this );
 				
-				/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+				FEATURES::TOOLTIP { 
 					hideToolTip();
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 			}
 		}
 	}

@@ -8,7 +8,7 @@ package abe.com.ponents.tables
 	import abe.com.mon.core.IInteractiveObject;
 	import abe.com.ponents.actions.Action;
 	import abe.com.ponents.containers.DraggablePanel;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.core.edit.Editable;
 	import abe.com.ponents.core.edit.Editor;
 	import abe.com.ponents.core.focus.Focusable;
@@ -21,6 +21,8 @@ package abe.com.ponents.tables
 
 	import flash.events.Event;
 	import flash.geom.Rectangle;
+	
+	import org.osflash.signals.Signal;
 
 	[Skinable(skin="ListCell")]
 	public class DefaultTableRow extends DraggablePanel implements ListCell, 
@@ -37,29 +39,36 @@ package abe.com.ponents.tables
 		protected var _index : uint;
 		protected var _allowEdit : Boolean;
 		protected var _table : Table;
+		
+		public var componentSelectedChanged : Signal;
 
 		public function DefaultTableRow () 
 		{
+		    componentSelectedChanged = new Signal();
 			_columns = [];
 			_action = new TableRowSelectAction( this );
 			super();
 			_childrenLayout = new HBoxLayout(this,0);
 			_allowFocus = false;
-			_allowChildrenFocus = false;			_allowOver = true;			_allowPressed = true;
+			_allowChildrenFocus = false;
+			_allowOver = true;
+			_allowPressed = true;
 			_allowSelected = true;
 		}
 		public function buildChildren () : void
 		{	
 			if( _data != null && _columns )
 			{
-				var l1 : Number = _columns.length;				var l2 : Number = _children.length;				var l : Number = Math.max( l1, l2 );
+				var l1 : Number = _columns.length;
+				var l2 : Number = _children.length;
+				var l : Number = Math.max( l1, l2 );
 				var i : Number;
 				
-				/*FDT_IGNORE*/
+				
 				TARGET::FLASH_9 { var a : Array = []; }
 				TARGET::FLASH_10 { var a : Vector.<Component> = new Vector.<Component>(); }
-				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-				var a : Vector.<Component> = new Vector.<Component>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				TARGET::FLASH_10_1 { 
+				var a : Vector.<Component> = new Vector.<Component>(); } 
 				
 				var item : TableCell;
 				var column : TableColumn;
@@ -103,11 +112,13 @@ package abe.com.ponents.tables
 			var item : TableCell;
 			var cl : HBoxLayout = _childrenLayout as HBoxLayout;				
 			
-			/*FDT_IGNORE*/
-			TARGET::FLASH_9 { cl.boxes = []; }			TARGET::FLASH_10 { cl.boxes = new Vector.<BoxSettings>(); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			cl.boxes = new Vector.<BoxSettings>();	/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			TARGET::FLASH_9 { cl.boxes = []; }
+			TARGET::FLASH_10 { cl.boxes = new Vector.<BoxSettings>(); }
+			TARGET::FLASH_10_1 { 
+			cl.boxes = new Vector.<BoxSettings>();	} 
 				
-			for( i=0;i<l;i++ )
+			for( i=0;i< l;i++ )
 			{
 				column = _columns[i] as TableColumn;
 				item = _children[i] as TableCell;
@@ -138,14 +149,14 @@ package abe.com.ponents.tables
 			return item;
 		}
 		
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		public function get cells () : Array { return _children; }
 		
 		TARGET::FLASH_10
 		public function get cells () : Vector.<Component> { return _children; }
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		public function get cells () : Vector.<Component> { return _children; }
 		
 		public function set columns ( a : Array ) : void
@@ -199,17 +210,17 @@ package abe.com.ponents.tables
 			
 			return this;
 		}
-		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+		FEATURES::DND 
 		override public function get transferData () : Transferable
 		{
 			return new TableTransferable( _data, _owner, "move", _owner.children.indexOf(this) );
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		
 
 		public function get firstEditableComponent() : Editable
 		{
 			var l : uint = _children.length;
-			for(var i : uint = 0;i<l;i++)
+			for(var i : uint = 0;i< l;i++)
 			{
 				var c : Component = _children[i];
 				if( c is Editable && ( c as Editable ).allowEdit )
@@ -318,18 +329,18 @@ package abe.com.ponents.tables
 				_selected = b;
 				invalidate();
 				fireComponentChangedSignal();
-				fireComponentEvent( ComponentEvent.SELECTED_CHANGE );
+				componentSelectedChanged.dispatch( this, _selected );
 				
 				for each( var c : ListCell in _children)
 					c.selected = b;
 			}
 		}
 
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
-			super.click();
+			super.click(context);
 			if( _action )
-				_action.execute(e);
+				_action.execute();
 		}
 
 		public function startEdit () : void {}		
@@ -371,16 +382,13 @@ internal class TableRowSelectAction extends AbstractAction
 	
 	override public function execute( ... args ) : void
 	{
+		/*
 		var list : List = _row.owner;
-		var evt : MouseEvent = e as MouseEvent;
+		var evt : MouseEvent = args as MouseEvent;
 		
 		if( evt.shiftKey && list.allowMultiSelection )
 		{
-			/*
-			if( cell.selected )
-				list.removeFromSelection( cell );
-			else*/
-				list.expandSelectionTo( _row );
+			list.expandSelectionTo( _row );
 		}
 		else if( evt.ctrlKey && list.allowMultiSelection )
 		{
@@ -405,7 +413,7 @@ internal class TableRowSelectAction extends AbstractAction
 				list.selectedIndex = -1;
 			else
 				list.selectedIndex = _row.index;
-		}
+		}*/
 		
 	}
 }

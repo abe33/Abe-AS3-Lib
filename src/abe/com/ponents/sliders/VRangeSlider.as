@@ -20,8 +20,9 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.utils.Alignments;
 
 	import flash.events.MouseEvent;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Style(name="inputWidth", type="Number")]
 	[Style(name="buttonSize", type="Number")]
 	[Style(name="trackSize", type="Number")]
@@ -71,12 +72,12 @@ package abe.com.ponents.sliders
 /*----------------------------------------------------------------------------------*
  *  CLASS MEMBERS
  *----------------------------------------------------------------------------------*/
-		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
-		static public function defaultVRangeSliderPreview () : VRangeSlider
-		{
-			return new VRangeSlider(new RangeBoundedRangeModel(new Range( 20, 50 ), 0, 100 ), 5, 10, true, true, true );
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		FEATURES::BUILDER { 
+		    static public function defaultVRangeSliderPreview () : VRangeSlider
+		    {
+			    return new VRangeSlider(new RangeBoundedRangeModel(new Range( 20, 50 ), 0, 100 ), 5, 10, true, true, true );
+		    }
+		} 
 		
 		static private const DEPENDENCIES : Array = [VRangeSliderTrackFill];
 		[Embed(source="../skinning/icons/vgrip.png")]
@@ -109,6 +110,9 @@ package abe.com.ponents.sliders
 		protected var _pressedX : Number;
 		protected var _pressedY : Number;
 		
+		protected var _dataChanged : Signal;
+		public function get dataChanged () : Signal { return _dataChanged; }
+		
 		public function VRangeSlider ( model : BoundedRangeModel, 
 									   majorTickSpacing : Number = 10, 
 									   minorTickSpacing : Number = 5, 
@@ -119,6 +123,7 @@ package abe.com.ponents.sliders
 									   postComp : Component = null )
 		{
 			super();
+			_dataChanged = new Signal();
 			_childrenContextEnabled = false;
 			_minorTickSpacing = minorTickSpacing;
 			_majorTickSpacing = majorTickSpacing;
@@ -144,13 +149,13 @@ package abe.com.ponents.sliders
 				return;
 			
 			if( _model )
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.remove( modelDataChanged );
 			
 			_model = model;
 			if( _model )
 			{
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
-				dataChanged(null);
+				_model.dataChanged.add( modelDataChanged );
+				modelDataChanged( _model, _model.value );
 			}
 		}
 		public function get inputLeft () : TextInput { return _inputLeft; }
@@ -496,17 +501,16 @@ package abe.com.ponents.sliders
 		{
 			super.unregisterFromOnStageEvents( );
 			
-			_
-			_knobLeft.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knobLeft.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knobLeft.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_knobLeft.mousePressed.remove( dragStart );
+			_knobLeft.mouseReleased.remove( dragEnd );
+			_knobLeft.mouseReleasedOutside.remove( dragEnd );
 			
-			_knobRight.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knobRight.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knobRight.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_knobRight.mousePressed.remove( dragStart );
+			_knobRight.mouseReleased.remove( dragEnd );
+			_knobRight.mouseReleasedOutside.remove( dragEnd );
 			
-			_inputLeft.mouseWheelRolled.remove( leftMouseWheel );
-			_inputRight.mouseWheelRolled.remove( rightMouseWheel );
+			_inputLeft.mouseWheelRolled.add( leftMouseWheel );
+			_inputRight.mouseWheelRolled.add( rightMouseWheel );
 		}
 		protected function dragStart (c : Component) : void
 		{
@@ -560,17 +564,17 @@ package abe.com.ponents.sliders
 					downRight();
 			}
 		}
-		protected function dataChanged (event : ComponentEvent) : void 
+		protected function modelDataChanged ( m : BoundedRangeModel, v : * ) : void 
 		{
 			_inputLeft.value = _model.displayValue;
 			_inputRight.value = ( _model as RangeBoundedRangeModel ).displayRangeMax;
 			invalidate( true );
 			
-			fireDataChange();
+			fireDataChangedSignal();
 		}
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, value );
 		}
 	}
 }

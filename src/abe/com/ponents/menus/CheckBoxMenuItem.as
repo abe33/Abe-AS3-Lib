@@ -1,5 +1,6 @@
 package abe.com.ponents.menus 
 {
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.events.ActionEvent;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.events.PropertyEvent;
@@ -12,7 +13,8 @@ package abe.com.ponents.menus
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Style(name="checkedIcon",type="abe.com.ponents.skinning.icons.Icon")]	[Style(name="uncheckedIcon",type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="checkedIcon",type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="uncheckedIcon",type="abe.com.ponents.skinning.icons.Icon")]
 	[Skinable(skin="CheckBoxMenuItem")]
 	[Skin(define="CheckBoxMenuItem",
 		  inherit="MenuItem",
@@ -80,16 +82,15 @@ package abe.com.ponents.menus
 			super.icon = _checked ? _checkedIcon : _uncheckedIcon;
 		}
 		
-		override public function click () : void
+		override public function click (context : UserActionContext ) : void
 		{
 			swapSelect( !selected );
 		}
 
 		protected function swapSelect ( b : Boolean ) : void
 		{
-			selected
-			 = b;
-			super.click( new ActionEvent( ActionEvent.ACTION ) );
+			selected = b;
+			super.click( new UserActionContext( this, UserActionContext.PROGRAM_ACTION ) );
 		}
 		
 		override protected function stylePropertyChanged ( event : PropertyEvent ) : void

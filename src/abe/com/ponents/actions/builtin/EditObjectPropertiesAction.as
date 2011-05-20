@@ -35,7 +35,8 @@ package abe.com.ponents.actions.builtin
 		
 		protected var _object : Object;
 		protected var _formObject : FormObject;
-		protected var _formManager : SimpleFormManager;		protected var _currentClass : Class;
+		protected var _formManager : SimpleFormManager;
+		protected var _currentClass : Class;
 		protected var _saveFunction : Function;
 		protected var _workOnCopy : Boolean;
 		protected var _saveButton : Button;
@@ -96,7 +97,7 @@ package abe.com.ponents.actions.builtin
 				_window = AllocatorInstance.get(Window); 
 				_window.resizable = true;
 				_window.windowTitle = new WindowTitleBar(_("Properties"),null,WindowTitleBar.CLOSE_BUTTON + WindowTitleBar.MAXIMIZE_BUTTON );
-				_window.addEventListener( WindowEvent.CLOSE, onClose );
+				_window.windowClosed.add( onClose );
 				
 				_window.windowStatus = getWindowStatus();
 				
@@ -104,7 +105,8 @@ package abe.com.ponents.actions.builtin
 				if( _window.width > StageUtils.stage.stageWidth*.6 || _window.height > StageUtils.stage.stageHeight * .6 )
 					_window.preferredSize = dm(StageUtils.stage.stageWidth * .6, StageUtils.stage.stageHeight * .6 );
 				
-				StageUtils.centerY(_window);				StageUtils.centerX(_window);
+				StageUtils.centerY(_window);
+				StageUtils.centerX(_window);
 				
 				_window.open();
 				
@@ -126,7 +128,7 @@ package abe.com.ponents.actions.builtin
 			_window = AllocatorInstance.get(Window); 
 			_window.resizable = true;
 			_window.windowTitle = new WindowTitleBar(_("Properties"),null,WindowTitleBar.CLOSE_BUTTON + WindowTitleBar.MAXIMIZE_BUTTON );
-			_window.addEventListener( WindowEvent.CLOSE, onClose );
+			_window.windowClosed.add(  onClose );
 			
 			_window.windowStatus = getWindowStatus();
 			
@@ -161,9 +163,10 @@ package abe.com.ponents.actions.builtin
 				
 			return p;
 		}
-		protected function onClose (event : WindowEvent) : void
+		protected function onClose ( w : Window ) : void
 		{
-			//_dialog.removeEventListener( WindowEvent.CLOSE, onClose );			if( _formManager )
+			//_dialog.removeEventListener( WindowEvent.CLOSE, onClose );
+			if( _formManager )
 			{
 				_formManager.updateTargetWithFields();
 				_formManager.dispose();
@@ -175,7 +178,7 @@ package abe.com.ponents.actions.builtin
 			_window.windowContent = null;
 			_window.windowStatus = null;
 			_window.windowTitle = null;
-			_window.removeEventListener(WindowEvent.CLOSE, onClose );
+			_window.windowClosed.remove( onClose );
 
 			AllocatorInstance.release( _window );
 			_isRunning = false;

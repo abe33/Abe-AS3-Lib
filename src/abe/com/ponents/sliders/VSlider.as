@@ -24,8 +24,9 @@ package abe.com.ponents.sliders
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
 	import flash.text.TextField;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Style(name="inputWidth", type="Number")]
 	[Style(name="buttonSize", type="Number")]
 	[Style(name="trackSize", type="Number")]
@@ -73,12 +74,12 @@ package abe.com.ponents.sliders
 	)]
 	public class VSlider extends AbstractContainer implements FormComponent
 	{
-		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
-		static public function defaultVSliderPreview () : VSlider
-		{
-			return new VSlider(new DefaultBoundedRangeModel(10, 0, 100, 1), 5, 10, true, true, true );
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		FEATURES::BUILDER { 
+		    static public function defaultVSliderPreview () : VSlider
+		    {
+			    return new VSlider(new DefaultBoundedRangeModel(10, 0, 100, 1), 5, 10, true, true, true );
+		    }
+		} 
 		
 		static private const DEPENDENCIES : Array = [VSliderTrackFill];
 		
@@ -106,6 +107,9 @@ package abe.com.ponents.sliders
 		
 		protected var _displayInput : Boolean;
 		
+		protected var _dataChanged : Signal;
+		public function get dataChanged () : Signal { return _dataChanged; }
+		
 		public function VSlider ( model : BoundedRangeModel, 
 								 majorTickSpacing : Number = 10, 
 								 minorTickSpacing : Number = 5, 
@@ -116,7 +120,7 @@ package abe.com.ponents.sliders
 								 postComp : Component = null )
 		{
 			super();
-			
+			_dataChanged = new Signal();
 			_childrenContextEnabled = false;
 			_minorTickSpacing = minorTickSpacing;
 			_majorTickSpacing = majorTickSpacing;
@@ -162,13 +166,13 @@ package abe.com.ponents.sliders
 											 );
 			childrenLayout = layout;
 			
-			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
+			 FEATURES::KEYBOARD_CONTEXT { 
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT ) ] = new ProxyCommand( down );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT ) ] = new ProxyCommand( up );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( validateInput );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			 } 
 			
 			this.model = model;
 		}
@@ -202,13 +206,13 @@ package abe.com.ponents.sliders
 				return;
 			
 			if( _model )
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.remove( modelDataChanged );
 			
 			_model = model;
 			if( _model )
 			{
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
-				dataChanged(null);
+				_model.dataChanged.add( modelDataChanged );
+				modelDataChanged( _model, _model.value );
 			}
 		}
 		public function get minorTickSpacing () : Number { return _minorTickSpacing; }		
@@ -274,31 +278,36 @@ package abe.com.ponents.sliders
 		{
 			super.registerToOnStageEvents( );
 			
+			_input.mouseWheelRolled.add( onMouseWheelRolled );
 			_knob.mousePressed.add( dragStart );
 			_knob.mouseReleased.add( dragEnd );
 			_knob.mouseReleasedOutside.add( dragEnd );
+			_knob.mouseWheelRolled.add( onMouseWheelRolled );
+			
 			_track.mousePressed.add( trackDragStart );
 			_track.mouseReleased.add( dragEnd );
 			_track.mouseReleasedOutside.add( dragEnd );	
+			_track.mouseWheelRolled.add( onMouseWheelRolled );
 			
-			mouseWheelRolled.add( onMouseWheelRolled );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void 
 		{
 			super.unregisterFromOnStageEvents( );
 			
+			_input.mouseWheelRolled.add( onMouseWheelRolled );
+			
 			_knob.mousePressed.remove( dragStart );
 			_knob.mouseReleased.remove( dragEnd );
 			_knob.mouseReleasedOutside.remove( dragEnd );
+			_knob.mouseWheelRolled.add( onMouseWheelRolled );
+			
 			_track.mousePressed.remove( trackDragStart );
 			_track.mouseReleased.remove( dragEnd );
-			_track.mouseReleasedOutside.remove( dragEnd );	
+			_track.mouseReleasedOutside.remove( dragEnd );
+			_track.mouseWheelRolled.add( onMouseWheelRolled );
 			
-			mouseWheelRolled.add( onMouseWheelRolled );
 		}
-		
-		
 		protected function getTransformedValue ( n : Number ) : Number
 		{
 			if( _snapToTicks )
@@ -335,7 +344,7 @@ package abe.com.ponents.sliders
 			if( stage )
 				stage.removeEventListener( MouseEvent.MOUSE_MOVE, drag );
 		}
-		protected function drag ( c : Component ) : void
+		protected function drag ( ... args ) : void
 		{
 			if( _dragging )
 			{
@@ -439,14 +448,14 @@ package abe.com.ponents.sliders
 					down();
 			}
 		}
-		protected function dataChanged (event : ComponentEvent) : void
+		protected function modelDataChanged ( m : BoundedRangeModel, v : * ) : void
 		{			
 			_input.value = _model.displayValue;
 			invalidate( true );
 			_input.selectAll( );
 			_input.textfield.scrollH = 0;
 			
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 		
 		public function get displayInput () : Boolean { return _displayInput; }		
@@ -494,9 +503,9 @@ package abe.com.ponents.sliders
 					break;
 			}
 		}
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, value );
 		}
 	}
 }

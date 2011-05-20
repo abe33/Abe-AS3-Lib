@@ -7,7 +7,7 @@ package abe.com.ponents.buttons
 	import abe.com.mon.core.IDisplayObjectContainer;
 	import abe.com.mon.core.IInteractiveObject;
 	import abe.com.mon.core.LayeredSprite;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.core.focus.Focusable;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.skinning.icons.RadioCheckedIcon;
@@ -21,7 +21,6 @@ package abe.com.ponents.buttons
 	 * 
 	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="Radio")]
 	[Skin(define="Radio",
 		  inherit="CheckBox",
@@ -93,7 +92,7 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
 			swapSelect(true);
 		}

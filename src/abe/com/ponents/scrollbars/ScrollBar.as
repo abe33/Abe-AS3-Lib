@@ -429,7 +429,7 @@ package abe.com.ponents.scrollbars
 		/*--------------------------------------------------------------
 		 * 	EVENT DISPATCHING
 		 *-------------------------------------------------------------*/
-		protected function dataChanged ( model : BoundedRangeModel ) : void
+		protected function dataChanged ( model : BoundedRangeModel, v : * ) : void
 		{
 			invalidate();
 		}
@@ -733,7 +733,7 @@ internal class ScrollBarButton extends Button
 		}
 	}
 
-	/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
+	FEATURES::TOOLTIP { 
 	override public function showToolTip (overlay : Boolean = false) : void	{}
-	/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+	} 
 }

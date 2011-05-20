@@ -1,5 +1,6 @@
 package abe.com.ponents.actions.builtin
 {
+	import abe.com.mands.*;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.ponents.actions.AbstractAction;
@@ -37,6 +38,7 @@ package abe.com.ponents.actions.builtin
 										 accelerator : KeyStroke = null)
 		{
 			super( name, icon, longDescription, accelerator );
+			_commandCancelled = new Signal( Command );
 			_fileName = fileName;
 			_data = data;
 		}
@@ -89,13 +91,15 @@ package abe.com.ponents.actions.builtin
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
 		protected function browseCancel (event : Event) : void
-		{			_isRunning = false;
+		{
+			_isRunning = false;
 			_isCancelled = true;
 			commandCancelled.dispatch( this );
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
 		protected function complete (event : Event) : void
-		{			_isRunning = false;
+		{
+			_isRunning = false;
 			commandEnded.dispatch( this );
 			unregisterFromFileReferenceEvents(_fileReference );
 		}

@@ -16,12 +16,13 @@ package abe.com.ponents.text
 	import flash.events.FocusEvent;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	public class TextInput extends AbstractTextComponent 
 	{
 		protected var _displayAsPassword : Boolean;
-        protected var _dataChanged : Signal;
+        
 		public function TextInput ( maxChars : int = 0, 
 									password : Boolean = false, 
 									id : String = null,
@@ -51,7 +52,6 @@ package abe.com.ponents.text
 				} 
 			} 
 		}
-		public function get dataChanged() : Signal { return _dataChanged; }
 		
 		public function get maxChars () : int { return _label.maxChars; }
 		public function set maxChars ( m : int ) : void 
@@ -139,7 +139,7 @@ package abe.com.ponents.text
 				checkContent();
 			} 
 		}
-		public function comfirmInput ( e : Event = null ) : void
+		public function comfirmInput ( ... args ) : void
 		{
 			FEATURES::AUTOCOMPLETION { 
 			    if( _autoCompleteDropDown && _autoCompleteDropDown.displayed )

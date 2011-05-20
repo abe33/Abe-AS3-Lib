@@ -28,7 +28,8 @@ package abe.com.ponents.menus
 	[Skin(define="MenuBar",
 		  inherit="DefaultComponent",
 		  
-		  state__all__foreground="skin.noDecoration",		  state__all__background="new deco::SimpleFill(skin.RulerBlue)"
+		  state__all__foreground="skin.noDecoration",
+		  state__all__background="new deco::SimpleFill(skin.RulerBlue)"
 	)]
 	public class MenuBar extends AbstractContainer implements MenuContainer, Scrollable
 	{
@@ -41,12 +42,12 @@ package abe.com.ponents.menus
 			_allowFocus = false;
 			childrenLayout = new InlineLayout(this, 0, "left");
 			
-			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
-			_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
-			_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
-			_keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT ) ] = new ProxyCommand( navigateToLeft );
-			_keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT ) ] = new ProxyCommand( navigateToRight );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::KEYBOARD_CONTEXT { 
+			    _keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
+			    _keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
+			    _keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT ) ] = new ProxyCommand( navigateToLeft );
+			    _keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT ) ] = new ProxyCommand( navigateToRight );
+			} 
 		}
 		
 		public function get selectedIndex () : Number { return _selectedIndex; }		
@@ -86,8 +87,10 @@ package abe.com.ponents.menus
 			
 			addComponent( menu );
 			
-			menu.addWeakEventListener( MouseEvent.MOUSE_OVER, overMenu );			menu.addWeakEventListener( MouseEvent.CLICK, clickMenu );
-			//menu.popupMenu.addWeakEventListener( PopupEvent.POPUP_HIDDEN_ON_CANCEL, popupHiddenOnCancel );			menu.menuContainer = this;
+			menu.mouseEntered.add( overMenu );
+			menu.mouseReleased.add( clickMenu );
+			//menu.popupMenu.addWeakEventListener( PopupEvent.POPUP_HIDDEN_ON_CANCEL, popupHiddenOnCancel );
+			menu.menuContainer = this;
 		}
 		public function addMenus ( ... args ) : void
 		{
@@ -95,12 +98,12 @@ package abe.com.ponents.menus
 				addMenu( m );
 		}
 		
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		public function addMenusVector ( v : Array ) : void { for each( var m : Menu in v ) addMenu( m ); }
 		TARGET::FLASH_10
 		public function addMenusVector ( v : Vector.<Menu> ) : void { for each( var m : Menu in v ) addMenu( m ); }
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		public function addMenusVector ( v : Vector.<Menu> ) : void { for each( var m : Menu in v ) addMenu( m ); }
 		
 		public function removeMenuItem (m : MenuItem) : void 
@@ -122,12 +125,12 @@ package abe.com.ponents.menus
 				removeMenu( m );
 		}
 		
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		public function removeMenusVector ( v : Array ) : void { for each( var m : Menu in v ) removeMenu( m ); }
 		TARGET::FLASH_10
 		public function removeMenusVector ( v : Vector.<Menu> ) : void { for each( var m : Menu in v ) removeMenu( m ); }
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		public function removeMenusVector ( v : Vector.<Menu> ) : void { for each( var m : Menu in v ) removeMenu( m ); }
 		
 		public function isMenuDescendant (c : Component) : Boolean
@@ -212,12 +215,11 @@ package abe.com.ponents.menus
 		{
 			done();
 		}
-		public function overMenu ( event : MouseEvent ) : void
+		public function overMenu ( m : Menu ) : void
 		{
 			if( !_interactive )
 				return;
 			
-			var m : Menu = event.target as Menu;
 			if( m.enabled && selectedMenu )
 			{
 				selectedMenu = m;
@@ -226,9 +228,8 @@ package abe.com.ponents.menus
 					StageUtils.stage.focus = this;*/
 			}
 		}
-		protected function clickMenu (event : MouseEvent) : void
+		protected function clickMenu ( m : Menu ) : void
 		{
-			var m : Menu = event.target as Menu;			
 			if( !_interactive )
 				return;
 			
@@ -242,7 +243,7 @@ package abe.com.ponents.menus
 			}
 			else
 			{
-				selectedMenu = event.target as Menu;
+				selectedMenu = m;
 				//selectedMenu.click();
 			}
 		}
@@ -331,7 +332,7 @@ package abe.com.ponents.menus
 			}
 		}
 		
-		/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
+		FEATURES::KEYBOARD_CONTEXT
 		override public function get keyboardContext () : Dictionary
 		{
 			var d : Dictionary = new Dictionary( true );
@@ -345,7 +346,6 @@ package abe.com.ponents.menus
 			}
 			return d;
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		protected function selectExecute ( m : Menu ) : void
 		{
 			selectedMenu = m;

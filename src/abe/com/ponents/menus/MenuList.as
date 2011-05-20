@@ -1,6 +1,7 @@
 package abe.com.ponents.menus 
 {
 	import abe.com.mon.geom.Dimension;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.MenuListLayout;
 	import abe.com.ponents.lists.List;
@@ -75,7 +76,7 @@ package abe.com.ponents.menus
 				selectedIndex = nextIndex;
 				ensureIndexIsVisible( selectedIndex );
 			}
-			fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+			selectionChanged.dispatch( _allowMultiSelection ? selectedIndices : selectedIndex );
 			repaintSelection();
 		}
 		override public function selectNext () : void
@@ -135,7 +136,7 @@ package abe.com.ponents.menus
 				selectedIndex = nextIndex;
 				ensureIndexIsVisible( selectedIndex );
 			}
-			fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+			selectionChanged.dispatch( _allowMultiSelection ? selectedIndices : selectedIndex );
 			repaintSelection();
 		}
 		override protected function getCell (itemIndex : int = 0, childIndex : int = 0) : ListCell
@@ -155,7 +156,8 @@ package abe.com.ponents.menus
 			{
 				var nextCell : ListCell = _model.getElementAt( itemIndex ) as ListCell;
 				if( nextCell )
-				{					if( !_childrenContainer.contains( nextCell as DisplayObject) )
+				{
+					if( !_childrenContainer.contains( nextCell as DisplayObject) )
 						_childrenContainer.addChild( nextCell as DisplayObject );
 				}
 				return nextCell;			
@@ -213,7 +215,7 @@ package abe.com.ponents.menus
 		override protected function hideSearch () : void 
 		{
 			super.hideSearch();
-			selectedValue.click();
+			selectedValue.click( new UserActionContext( this, UserActionContext.PROGRAM_ACTION ) );
 		}
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	}

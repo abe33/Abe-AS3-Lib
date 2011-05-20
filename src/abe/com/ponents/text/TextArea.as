@@ -19,7 +19,6 @@ package abe.com.ponents.text
 	import flash.events.FocusEvent;
 	import flash.events.MouseEvent;
 
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="Text")]
 	public class TextArea extends AbstractTextComponent
 	{
@@ -47,11 +46,11 @@ package abe.com.ponents.text
 												new DOBoxSettings(0, "center", "center", _label as DisplayObject, true, true, true ),
 												new DOBoxSettings(0, "left", "center", _scrollbar, false, true, false ));
 
-			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::KEYBOARD_CONTEXT { 
 				//_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( comfirmInput );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
 			invalidatePreferredSizeCache();
 		}
@@ -60,7 +59,7 @@ package abe.com.ponents.text
 
 		override public function focusOut (e : FocusEvent) : void
 		{
-			fireDataChange();
+			fireDataChangedSignal();
 			super.focusOut(e);
 		}
 
@@ -95,8 +94,10 @@ package abe.com.ponents.text
 		{
 			super.registerToOnStageEvents( );
 
-			_label.addEventListener( Event.SCROLL, scroll );			_scrollbar.addEventListener( Event.SCROLL, scrollbarScroll );			_label.addEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheelRolled );
-			_scrollbar.addEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheelRolled );
+			_label.addEventListener( Event.SCROLL, scroll );
+			_label.addEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheelRolled );
+			_scrollbar.scrolled.add( scrollbarScrolled );
+			_scrollbar.mouseWheelRolled.add( onMouseWheelRolled );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void
@@ -104,19 +105,25 @@ package abe.com.ponents.text
 			super.unregisterFromOnStageEvents( );
 
 			_label.removeEventListener( Event.SCROLL, scroll );
-			_scrollbar.removeEventListener( Event.SCROLL, scrollbarScroll );
 			_label.removeEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheelRolled );
-			_scrollbar.removeEventListener( MouseEvent.MOUSE_WHEEL, onMouseWheelRolled );
+			_scrollbar.scrolled.remove( scrollbarScrolled );
+			_scrollbar.mouseWheelRolled.remove( onMouseWheelRolled );
 		}
-		protected function onMouseWheelRolled(event : MouseEvent) : void
+		protected function onMouseWheelRolled(... args) : void
 		{
+		    var d : Number;
+		    if( args[0] is MouseEvent )
+		        d = args[0].delta;
+		    else
+		        d = args[1];
+		        
 			var willScroll : Boolean = _scrollbar.canScroll &&
-									   event.delta < 0 ?
+									   d < 0 ?
 									   	   _scrollbar.scroll < _scrollbar.maxScroll :
 									   	   _scrollbar.scroll > _scrollbar.minScroll;
 
-			if( willScroll )
-				event.stopPropagation();
+			if( willScroll && args[0] is MouseEvent )
+				args[0].stopPropagation();
 		}
 		protected function updateScrollBar() : void
 		{
@@ -142,19 +149,19 @@ package abe.com.ponents.text
 
 			updateScrollBar();
 
-			/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
+			FEATURES::SPELLING { 
 				checkContent();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 		protected function scroll (event : Event) : void
 		{
-			/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
+			FEATURES::SPELLING { 
 				renderMispelledWords();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
 			updateScrollBar();
 		}
-		private function scrollbarScroll (event : Event) : void
+		private function scrollbarScrolled ( s : ScrollBar ) : void
 		{
 			if( _label.scrollV != _scrollbar.model.value )
 				_label.scrollV = _scrollbar.model.value;
@@ -162,52 +169,52 @@ package abe.com.ponents.text
 
 		protected function up () : void
 		{
-			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
-			if( _autoCompleteDropDown )
-				_autoCompleteDropDown.up();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::AUTOCOMPLETION { 
+			    if( _autoCompleteDropDown )
+				    _autoCompleteDropDown.up();
+			} 
 		}
 
 		protected function down () : void
 		{
-			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
-			if( _autoCompleteDropDown )
-				_autoCompleteDropDown.down();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::AUTOCOMPLETION { 
+			    if( _autoCompleteDropDown )
+				    _autoCompleteDropDown.down();
+			} 
 		}
 
-		/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
-		protected var _autoComplete : AutoCompletion;
-		protected var _autoCompleteDropDown : CompletionDropDown;
+		FEATURES::AUTOCOMPLETION { 
+		    protected var _autoComplete : AutoCompletion;
+		    protected var _autoCompleteDropDown : CompletionDropDown;
 
-		public function get autoComplete () : AutoCompletion { return _autoComplete; }
-		public function set autoComplete (autoComplete : AutoCompletion) : void
-		{
-			_autoComplete = autoComplete;
+		    public function get autoComplete () : AutoCompletion { return _autoComplete; }
+		    public function set autoComplete (autoComplete : AutoCompletion) : void
+		    {
+			    _autoComplete = autoComplete;
 
-			if( _autoComplete )
-			{
-				if( _autoCompleteDropDown )
-					_autoCompleteDropDown.autoComplete = _autoComplete;
-				else
-					_autoCompleteDropDown = new CompletionDropDown( this, _autoComplete );
-			}
-			else
-			{
-				_autoCompleteDropDown.autoComplete = null;
-				_autoCompleteDropDown = null;
-			}
-		}
-		public function get maxCompletionVisibleItems () : Number { return _autoCompleteDropDown.maxVisibleItems; }
-		public function set maxCompletionVisibleItems (maxCompletionVisibleItems : Number) : void
-		{
-			_autoCompleteDropDown.maxVisibleItems = maxCompletionVisibleItems;
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			    if( _autoComplete )
+			    {
+				    if( _autoCompleteDropDown )
+					    _autoCompleteDropDown.autoComplete = _autoComplete;
+				    else
+					    _autoCompleteDropDown = new CompletionDropDown( this, _autoComplete );
+			    }
+			    else
+			    {
+				    _autoCompleteDropDown.autoComplete = null;
+				    _autoCompleteDropDown = null;
+			    }
+		    }
+		    public function get maxCompletionVisibleItems () : Number { return _autoCompleteDropDown.maxVisibleItems; }
+		    public function set maxCompletionVisibleItems (maxCompletionVisibleItems : Number) : void
+		    {
+			    _autoCompleteDropDown.maxVisibleItems = maxCompletionVisibleItems;
+		    }
+		} 
 
-		protected function fireDataChange () : void
+		protected function fireDataChangedSignal () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, _value );
 		}
 	}
 }

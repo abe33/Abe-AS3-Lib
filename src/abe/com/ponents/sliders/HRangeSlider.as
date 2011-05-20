@@ -16,9 +16,9 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.text.TextInput;
 	import abe.com.ponents.utils.Alignments;
 
-	import flash.events.Event;
+	import flash.events.*;
 	
-	import org.osflash.signal.Signal;
+	import org.osflash.signals.Signal;
 
 	[Style(name="inputWidth", type="Number")]
 	[Style(name="buttonSize", type="Number")]
@@ -146,13 +146,13 @@ package abe.com.ponents.sliders
 				return;
 			
 			if( _model )
-				_model.dataChanged.add( modelDataChanged );
+				_model.dataChanged.remove( modelDataChanged );
 			
 			_model = model;
 			if( _model )
 			{
-				_model.dataChanged( modelDataChanged );
-				dataChanged(null);
+				_model.dataChanged.add( modelDataChanged );
+				modelDataChanged( _model, _model.value );
 			}
 		}
 		public function get inputLeft () : TextInput { return _inputLeft; }
@@ -500,13 +500,13 @@ package abe.com.ponents.sliders
 		{
 			super.unregisterFromOnStageEvents( );
 			
-			_knobLeft.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knobLeft.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knobLeft.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_knobLeft.mousePressed.remove( dragStart );
+			_knobLeft.mouseReleased.remove( dragEnd );
+			_knobLeft.mouseReleasedOutside.remove( dragEnd );
 			
-			_knobRight.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knobRight.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knobRight.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_knobRight.mousePressed.remove( dragStart );
+			_knobRight.mouseReleased.remove( dragEnd );
+			_knobRight.mouseReleasedOutside.remove( dragEnd );
 			
 			_inputLeft.mouseWheelRolled.remove( leftMouseWheel );
 			_inputRight.mouseWheelRolled.remove( rightMouseWheel );
@@ -562,7 +562,7 @@ package abe.com.ponents.sliders
 					downRight();
 			}
 		}
-		protected function modelDataChanged ( model : BoundedRangeModel ) : void 
+		protected function modelDataChanged ( model : BoundedRangeModel, v : * ) : void 
 		{
 			_inputLeft.value = _model.displayValue;
 			_inputRight.value = ( _model as RangeBoundedRangeModel ).displayRangeMax;
@@ -572,7 +572,7 @@ package abe.com.ponents.sliders
 		}
 		protected function fireDataChangedSignal () : void 
 		{
-			_dataChanged.dispatchEvent( this, value );
+			_dataChanged.dispatch( this, value );
 		}
 	}
 }

@@ -7,12 +7,14 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.core.Dockable;
 	import abe.com.ponents.core.DockableContainer;
 	import abe.com.ponents.dnd.DragSource;
+	import abe.com.ponents.events.ComponentSignalEvent;
 	import abe.com.ponents.layouts.components.BorderLayout;
 	import abe.com.ponents.utils.CardinalPoints;
 
 	import flash.geom.Rectangle;
 	
     import org.osflash.signals.Signal;
+    import org.osflash.signals.DeluxeSignal;
 
 	/**
 	 * @author Cédric Néhémie
@@ -39,46 +41,46 @@ package abe.com.ponents.tabs
 	)]
 	public class TabbedPane extends AbstractContainer implements DockableContainer
 	{
-		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
-		static public function defaultTabbedPanePreview () : TabbedPane
-		{
-			var tp : TabbedPane = new TabbedPane();
-			tp.addTab( new SimpleTab("Tab 1", new Panel() ) ); 		
-			tp.addTab( new SimpleTab("Tab 2", new Panel() ) ); 
-			tp.preferredSize = dm(100,100);
-			return tp;		
-		}
-		static public function northTabbedPanePreview () : TabbedPane
-		{
-			var tp : TabbedPane = defaultTabbedPanePreview();
-			tp.tabsPosition = CardinalPoints.NORTH;
-			return tp;		
-		}
-		static public function southTabbedPanePreview () : TabbedPane
-		{
-			var tp : TabbedPane = defaultTabbedPanePreview();
-			tp.tabsPosition = CardinalPoints.SOUTH;
-			return tp;		
-		}
-		static public function eastTabbedPanePreview () : TabbedPane
-		{
-			var tp : TabbedPane = defaultTabbedPanePreview();
-			tp.tabsPosition = CardinalPoints.EAST;
-			return tp;		
-		}
-		static public function westTabbedPanePreview () : TabbedPane
-		{
-			var tp : TabbedPane = defaultTabbedPanePreview();
-			tp.tabsPosition = CardinalPoints.WEST;
-			return tp;		
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		FEATURES::BUILDER { 
+		    static public function defaultTabbedPanePreview () : TabbedPane
+		    {
+			    var tp : TabbedPane = new TabbedPane();
+			    tp.addTab( new SimpleTab("Tab 1", new Panel() ) );
+			    tp.addTab( new SimpleTab("Tab 2", new Panel() ) ); 
+			    tp.preferredSize = dm(100,100);
+			    return tp;		
+		    }
+		    static public function northTabbedPanePreview () : TabbedPane
+		    {
+			    var tp : TabbedPane = defaultTabbedPanePreview();
+			    tp.tabsPosition = CardinalPoints.NORTH;
+			    return tp;		
+		    }
+		    static public function southTabbedPanePreview () : TabbedPane
+		    {
+			    var tp : TabbedPane = defaultTabbedPanePreview();
+			    tp.tabsPosition = CardinalPoints.SOUTH;
+			    return tp;		
+		    }
+		    static public function eastTabbedPanePreview () : TabbedPane
+		    {
+			    var tp : TabbedPane = defaultTabbedPanePreview();
+			    tp.tabsPosition = CardinalPoints.EAST;
+			    return tp;		
+		    }
+		    static public function westTabbedPanePreview () : TabbedPane
+		    {
+			    var tp : TabbedPane = defaultTabbedPanePreview();
+			    tp.tabsPosition = CardinalPoints.WEST;
+			    return tp;		
+		    }
+		} 
 		
 		public var tabChanged : Signal;
 		public var tabAdded : Signal;
 		public var tabRemoved : Signal;
 		public var dockAdded : Signal;
-		public var dockRemoved : Signal;
+		public var dockRemoved : DeluxeSignal;
 		
 		protected var _tabBar : TabBar;
 		protected var _tabScroller : SlidePane;
@@ -92,7 +94,7 @@ package abe.com.ponents.tabs
 		    tabRemoved = new Signal();
 		    tabChanged = new Signal();
 		    dockAdded = new Signal();
-		    dockRemoved = new Signal();
+		    dockRemoved = new DeluxeSignal( this );
 		
 			_childrenLayout = new BorderLayout( this );
 			super();
@@ -149,22 +151,22 @@ package abe.com.ponents.tabs
 			fireTabChangedSignal();		
 		}
 		
-		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
-		public function set dndEnabled ( b : Boolean ) : void
-		{
-			_tabBar.dndEnabled = b;
-		}
-		public function get dropEnabled () : Boolean { return _tabBar.dropEnabled; }
-		public function set dropEnabled ( b : Boolean ) : void
-		{
-			_tabBar.dropEnabled = b;
-		}
-		public function get dragEnabled () : Boolean { return _tabBar.dragEnabled; }
-		public function set dragEnabled ( b : Boolean ) : void
-		{
-			_tabBar.dragEnabled = b;
-		}	
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		FEATURES::DND { 
+		    public function set dndEnabled ( b : Boolean ) : void
+		    {
+			    _tabBar.dndEnabled = b;
+		    }
+		    public function get dropEnabled () : Boolean { return _tabBar.dropEnabled; }
+		    public function set dropEnabled ( b : Boolean ) : void
+		    {
+			    _tabBar.dropEnabled = b;
+		    }
+		    public function get dragEnabled () : Boolean { return _tabBar.dragEnabled; }
+		    public function set dragEnabled ( b : Boolean ) : void
+		    {
+			    _tabBar.dragEnabled = b;
+		    }	
+		} 
 		public function getTabAt (i : int) : Tab 
 		{
 			return _tabBar.getComponentAt( i ) as Tab; 
@@ -187,10 +189,10 @@ package abe.com.ponents.tabs
 			tab.tabClicked.add( tabClicked );
 			tab.placement = _tabsPlacement;	
 			
-			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
-			if( tab is DragSource )
-			  ( tab as DragSource ).allowDrag = dragEnabled;
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::DND { 
+			    if( tab is DragSource )
+			      ( tab as DragSource ).allowDrag = dragEnabled;
+			} 
 			
 			//_tabScroller.checkScroll();
 				
@@ -238,7 +240,7 @@ package abe.com.ponents.tabs
 		protected function fireDockRemovedSignal ( t : Dockable ) : void
 		{
 			tabRemoved.dispatch( t );
-			dockRemoved.dispatch( t );
+			dockRemoved.dispatch( new ComponentSignalEvent( "dockRemoved", true, t) );
 		}
 		public function hasDockableClone (dock : Dockable) : Dockable
 		{

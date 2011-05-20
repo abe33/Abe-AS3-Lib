@@ -20,7 +20,7 @@ package abe.com.ponents.models
 
 		public function DefaultBoundedRangeModel ( value : Number = 0, min : Number = 0, max : Number = 100, extent : Number = 1 )
 		{
-			_dataChanged = new Signal( BoundedRangeModel );
+			_dataChanged = new Signal();
 			
 			_minimum = !isNaN(min) ? min : 0;
 			_maximum = !isNaN(max) ? max : 100;
@@ -74,7 +74,7 @@ package abe.com.ponents.models
 		}
 		protected function fireDataChangedSignal () : void
 		{
-			_dataChanged.dispatch( this );
+			_dataChanged.dispatch( this, value );
 		}
 		protected function format( v : Number ) : String
 		{

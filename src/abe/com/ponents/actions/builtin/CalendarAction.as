@@ -41,12 +41,12 @@ package abe.com.ponents.actions.builtin
 			CalendarInstance.date = DateUtils.cloneDate(_date);
 			
 			_dial = new Dialog( _("Select Date"), 3, CalendarInstance );
-			_dial.addWeakEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.add( dialogResponded );
 			_dial.open();
 		}
-		private function dialogResult (event : DialogEvent) : void
+		private function dialogResponded ( d : Dialog, result : uint ) : void
 		{
-			switch( event.result )
+			switch( result )
 			{
 				case Dialog.RESULTS_OK : 
 					_date = CalendarInstance.date;
@@ -60,7 +60,7 @@ package abe.com.ponents.actions.builtin
 			}
 			_isRunning = false;
 			_dial.close();	
-			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.remove( dialogResponded );
 			_dial = null;
 		}
 
@@ -73,7 +73,7 @@ package abe.com.ponents.actions.builtin
 		public function cancel () : void
 		{
 			_dial.close();	
-			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.remove( dialogResponded );
 			_dial = null;
 			_cancelled = true;
 			_isRunning = false;

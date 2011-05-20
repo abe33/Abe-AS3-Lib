@@ -8,6 +8,7 @@ package abe.com.ponents.lists
 	import abe.com.mon.core.IDisplayObjectContainer;
 	import abe.com.mon.core.IInteractiveObject;
 	import abe.com.mon.geom.Dimension;
+	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Keys;
@@ -17,7 +18,7 @@ package abe.com.ponents.lists
 	import abe.com.ponents.containers.DropPanel;
 	import abe.com.ponents.containers.ScrollPane;
 	import abe.com.ponents.containers.Viewport;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.core.Container;
 	import abe.com.ponents.core.edit.Editable;
 	import abe.com.ponents.core.focus.Focusable;
@@ -139,7 +140,7 @@ package abe.com.ponents.lists
 																	allowEdit:_editEnabled
 																} );
 			FEATURES::DND { 
-			_sampleListCellInstance.allowDrag = _allowDrag;
+			    _sampleListCellInstance.allowDrag = _allowDrag;
 			} 
 			
 			_allowMask = false;
@@ -211,7 +212,6 @@ package abe.com.ponents.lists
 			var index : int = listLayout.getIndexAt( -y );
 			var d : Dimension;
 			var p : Point;
-			
 			
 			if( direction > 0 )
 			{
@@ -286,7 +286,7 @@ package abe.com.ponents.lists
 			if( _model )	
 				_model.dataChanged.add( modelDataChanged );
 				
-			modelDataChanged( _model );
+			modelDataChanged();
 			modelChanged.dispatch( this );
 		}
 
@@ -520,8 +520,10 @@ package abe.com.ponents.lists
 			if( _allowMultiSelection )
 			{
 				FEATURES::TOOLTIP { 
-				if( _selectedIndices.length == 1 && _selectedIndices[0] != -1 )
-					( _selectedItems[0] as ListCell ).hideToolTip();
+				    if( _selectedIndices.length == 1 && 
+				        _selectedIndices[0] != -1 &&
+				        _selectedItems.length > 0 )
+					    ( _selectedItems[0] as ListCell ).hideToolTip();
 				} 
 				
 				if( _selectedIndices.length == 0 )
@@ -534,16 +536,18 @@ package abe.com.ponents.lists
 				ensureIndexIsVisible( _selectedIndices[0] );
 				
 				FEATURES::TOOLTIP { 
-				if( _selectedIndices.length == 1 )
-					( _selectedItems[0] as ListCell ).showToolTip( true );
+				    if( _selectedIndices.length == 1 &&
+				        _selectedItems.length > 0 )
+					    ( _selectedItems[0] as ListCell ).showToolTip( true );
 				} 
 					
 			}
 			else
 			{
 				FEATURES::TOOLTIP { 
-				if( _selectedIndex != -1 )
-					( _selectedItems[0] as ListCell ).hideToolTip();
+				    if( _selectedIndex != -1 &&
+				        _selectedItems.length > 0 )
+					    ( _selectedItems[0] as ListCell ).hideToolTip();
 				} 
 				
 				if( isNaN( selectedIndex ) )
@@ -556,21 +560,25 @@ package abe.com.ponents.lists
 				ensureIndexIsVisible( selectedIndex );
 				
 				FEATURES::TOOLTIP { 
-				if(  _selectedIndex != -1 )
-					( _selectedItems[0] as ListCell ).showToolTip( true );	
+				    if(  _selectedIndex != -1 &&
+				        _selectedItems.length > 0 )
+					    ( _selectedItems[0] as ListCell ).showToolTip( true );	
 				} 
 				
 			}
-			fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+			selectionChanged.dispatch( _allowMultiSelection ? selectedIndices : selectedIndex );
 			repaintSelection();
 		}
 		public function selectNext () : void
 		{
 			if( _allowMultiSelection )
 			{
+			
 				FEATURES::TOOLTIP { 
-				if( _selectedIndices.length == 1 && _selectedIndices[0] != -1 )
-					( _selectedItems[0] as ListCell ).hideToolTip();
+				    if( _selectedIndices.length == 1 && 
+				        _selectedIndices[0] != -1 &&
+				        _selectedItems.length > 0 )
+					    ( _selectedItems[0] as ListCell ).hideToolTip();
 				} 
 					
 				if( _selectedIndices.length == 0 )
@@ -581,20 +589,22 @@ package abe.com.ponents.lists
 					selectedIndices = [ _selectedIndices[0] + 1 ];
 				
 				ensureIndexIsVisible( _selectedIndices[0] );
-				
+			
 				FEATURES::TOOLTIP { 
-				if( _selectedIndices.length == 1 )
-					( _selectedItems[0] as ListCell ).showToolTip( true );
+				    if( _selectedIndices.length == 1 &&
+				        _selectedItems.length > 0 )
+					    ( _selectedItems[0] as ListCell ).showToolTip( true );
 				} 
-				 
+			 
 			}
 			else
 			{
 				FEATURES::TOOLTIP { 
-				if( _selectedIndex != -1 )
-					( _selectedItems[0] as ListCell ).hideToolTip();
+				    if( _selectedIndex != -1&&
+				        _selectedItems.length > 0 )
+					    ( _selectedItems[0] as ListCell ).hideToolTip();
 				} 
-					
+				
 				var nextIndex : Number;
 				if( isNaN( selectedIndex ) )
 					nextIndex = 0;
@@ -611,9 +621,10 @@ package abe.com.ponents.lists
 				ensureIndexIsVisible( selectedIndex );
 				
 				FEATURES::TOOLTIP { 
-				if( _selectedIndex != -1  )
-					( _selectedItems[0] as ListCell ).showToolTip( true );
-				} 
+				    if( _selectedIndex != -1 &&
+				        _selectedItems.length > 0  )
+					    ( _selectedItems[0] as ListCell ).showToolTip( true );
+				}
 				
 			}
 			//fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
@@ -670,8 +681,7 @@ package abe.com.ponents.lists
 			
 			TARGET::FLASH_9 { _children = a; }
 			TARGET::FLASH_10 { _children = Vector.<Component>( a ); }
-			TARGET::FLASH_10_1 { 
-			_children = Vector.<Component>( a ); } 
+			TARGET::FLASH_10_1 { _children = Vector.<Component>( a ); } 
 		}
 		public function updateCellsData () : void
 		{
@@ -690,6 +700,7 @@ package abe.com.ponents.lists
 		protected function releaseCell (item : ListCell) : void
 		{
 			_childrenContainer.removeChild( item as DisplayObject );
+			( item as AbstractComponent ).mouseWheelRolled.remove( childrenMouseWheelRolled );
 			AllocatorInstance.release(item);
 		}
 		protected function getCell ( itemIndex : int = 0, childIndex : int = 0 ) : ListCell
@@ -707,10 +718,9 @@ package abe.com.ponents.lists
 																allowEdit:_editEnabled
 																 } );
 				FEATURES::DND { 
-				cell.allowDrag = _allowDrag;
+				    cell.allowDrag = _allowDrag;
 				} 
-				
-				
+				( cell as AbstractComponent ).mouseWheelRolled.add( childrenMouseWheelRolled );
 				if( !_childrenContainer.contains( cell as DisplayObject) )
 					_childrenContainer.addChild( cell as DisplayObject );
 			}
@@ -725,6 +735,10 @@ package abe.com.ponents.lists
 				cell.selected = _allowMultiSelection ? _selectedIndices.indexOf(index) != -1 : 
 													   _selectedIndex == index;
 			}
+		}
+		protected function childrenMouseWheelRolled( c : Component, d : Number) : void
+		{
+		    mouseWheelRolled.dispatch( this, d );
 		}
 		public function getListCellWithIndex( index : uint ) : ListCell
 		{
@@ -991,50 +1005,41 @@ package abe.com.ponents.lists
 			_parentHasScrolled = true;
 		}
 
-		protected function modelDataChanged (  action : uint = 0, indices : Array = null, values : Array = null ) : void
+		protected function modelDataChanged ( action : uint = 0, indices : Array = null, values : Array = null ) : void
 		{
-			if( event )
+			switch( action )
 			{
-				switch( action )
-				{
-					 case DefaultListModel.ADD : 
-					 	listLayout.addComponents( indices );
+				 case DefaultListModel.ADD : 
+				 	listLayout.addComponents( indices );
+					_modelHasChanged = true;
+				 	invalidatePreferredSizeCache();
+					break;
+				case DefaultListModel.REMOVE :
+				 	listLayout.removeComponents( indices );
+					_modelHasChanged = true;
+				 	invalidatePreferredSizeCache();
+					break;
+				 case DefaultListModel.CLEAR : 
+				 	listLayout.removeAll();
+					_modelHasChanged = true;
+				 	invalidatePreferredSizeCache();
+				 	break;
+				 case DefaultListModel.SET : 
+				 case DefaultListModel.MOVE : 
+				 case DefaultListModel.SORT : 
+				 	invalidate(true); 
+					if( !listLayout.fixedHeight )
+					{	
 						_modelHasChanged = true;
-					 	invalidatePreferredSizeCache();
-						break;
-					case DefaultListModel.REMOVE :
-					 	listLayout.removeComponents( indices );
-						_modelHasChanged = true;
-					 	invalidatePreferredSizeCache();
-						break;
-					 case DefaultListModel.CLEAR : 
-					 	listLayout.removeAll();
-						_modelHasChanged = true;
-					 	invalidatePreferredSizeCache();
-					 	break;
-					 case DefaultListModel.SET : 
-					 case DefaultListModel.MOVE : 
-					 case DefaultListModel.SORT : 
-					 	invalidate(true); 
-						if( !listLayout.fixedHeight )
-						{	
-							_modelHasChanged = true;
-							invalidatePreferredSizeCache();
-						}
-						break;
-					 case DefaultListModel.REBUILD : 					 
-					 default :
-					 	_modelHasChanged = true;
-					 	listLayout.clearEstimatedSize();
 						invalidatePreferredSizeCache();
-					 	break;
-				}
-			}
-			else
-			{
-				_modelHasChanged = true;
-				listLayout.clearEstimatedSize();
-				invalidatePreferredSizeCache();
+					}
+					break;
+				 case DefaultListModel.REBUILD : 					 
+				 default :
+				 	_modelHasChanged = true;
+				 	listLayout.clearEstimatedSize();
+					invalidatePreferredSizeCache();
+				 	break;
 			}
 			fireComponentResizedSignal();
 			//fireComponentEvent( ComponentEvent.DATA_CHANGE );

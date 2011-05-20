@@ -7,7 +7,6 @@ package abe.com.ponents.tools
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.munication.remoting.NetConnectionFactory;
 	import abe.com.munication.services.ServiceCall;
-	import abe.com.munication.services.ServiceEvent;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.actions.ProxyAction;
@@ -117,16 +116,15 @@ package abe.com.ponents.tools
 			}
 		}
 
-		protected function handleResult ( e : ServiceEvent ) : void
+		protected function handleResult ( res :* ) : void
 		{
-			var res : * = e.results;
 			Log.debug( res );
 			Log.debug( "Result:\n" + new GPrettify().prettyPrintOne( recursivePrint( res ), "default", true ), true );			
 		}
 
-		protected function handleError ( e : ServiceEvent ) : void
+		protected function handleError ( msg : String ) : void
 		{
-			Log.error( "Error!\n" + e.results );
+			Log.error( "Error!\n" + msg );
 		}
 		protected function recursivePrint( o:*, indent:String = ""):String
 		{

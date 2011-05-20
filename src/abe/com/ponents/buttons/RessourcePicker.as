@@ -1,6 +1,6 @@
 package abe.com.ponents.buttons 
 {
-	import abe.com.mands.events.CommandEvent;
+	import abe.com.mands.*;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Reflection;
 	import abe.com.patibility.lang._;
@@ -15,11 +15,8 @@ package abe.com.ponents.buttons
 	/**
 	 * @author cedric
 	 */
-	public class RessourcePicker extends Button implements FormComponent
+	public class RessourcePicker extends AbstractFormButton implements FormComponent
 	{
-		protected var _disabledMode : uint;
-		protected var _disabledValue : *;
-
 		public function RessourcePicker ( collectionsLoader : CollectionsLoader, 
 										  ressourceType : String = null, 
 										  ressource : * = null,
@@ -34,7 +31,7 @@ package abe.com.ponents.buttons
 				act.name = act.ressource.name;
 			}
 		}
-		override protected function commandEnd (event : CommandEvent) : void 
+		override protected function commandEnd ( c : Command ) : void 
 		{
 			var act : BrowseRessources = _action as BrowseRessources;
 			if( act.ressource )
@@ -42,56 +39,24 @@ package abe.com.ponents.buttons
 			else
 				act.name = _("No ressource");
 			
-			super.commandEnded( event );
+			super.commandEnded( c );
 		}
-		public function get disabledMode () : uint { return _disabledMode; }
-		public function set disabledMode (b : uint) : void
-		{
-			_disabledMode = b;
-			if( !_enabled )
-				checkDisableMode( );
-		}
-		public function get disabledValue () : * { return _disabledValue; }
-		public function set disabledValue (v : *) : void
-		{
-			_disabledValue = v;
-
-		}
-		public function get value () : * 
+		
+		override public function get value () : * 
 		{ 
 			var res : LibraryAsset = (_action as BrowseRessources).ressource;
 			return res ? res.type : null; 
 		}
-		public function set value (v : *) : void
+		override public function set value (v : *) : void
 		{
 			if( v && !(v is LibraryAsset) )
 			{
 				if( v is Class )
 					v = new LibraryAsset( v, "null", ApplicationDomain.currentDomain );
-				else					v = new LibraryAsset( Reflection.getClass( v ), "null", ApplicationDomain.currentDomain );
+				else
+					v = new LibraryAsset( Reflection.getClass( v ), "null", ApplicationDomain.currentDomain );
 			}
 			(_action as BrowseRessources).ressource = v;
-		}
-		protected function checkDisableMode () : void 
-		{
-			switch( _disabledMode )
-			{
-				case FormComponentDisabledModes.DIFFERENT_ACROSS_MANY :
-					disabledValue = _("different values across many");
-					( _action as BrowseRessources ).name = _disabledValue;
-					break;
-
-				case FormComponentDisabledModes.UNDEFINED :
-					disabledValue = _("not defined");
-					( _action as BrowseRessources ).name = _disabledValue;
-					break;
-
-				case FormComponentDisabledModes.NORMAL :
-				case FormComponentDisabledModes.INHERITED :
-				default :
-					( _action as BrowseRessources ).name = value ? value.name : _("No ressource");
-					break;
-			}
 		}
 	}
 }

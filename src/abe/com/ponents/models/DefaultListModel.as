@@ -13,13 +13,13 @@ package abe.com.ponents.models
 	 */
 	public class DefaultListModel implements ListModel 
 	{
-	    static public const ADD : uint = 0;
-		static public const SET : uint = 1;
-		static public const MOVE : uint = 2;
-		static public const REMOVE : uint = 3;
-		static public const CLEAR : uint = 4;
-		static public const SORT : uint = 5;
-		static public const REBUILD : uint = 6;
+		static public const REBUILD : uint = 0;
+	    static public const ADD : uint = 1;
+		static public const SET : uint = 2;
+		static public const MOVE : uint = 3;
+		static public const REMOVE : uint = 4;
+		static public const CLEAR : uint = 5;
+		static public const SORT : uint = 6;
 	
 		protected var _datas : Array;
 		protected var _immutable : Boolean;

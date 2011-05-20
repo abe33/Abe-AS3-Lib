@@ -11,7 +11,7 @@ package abe.com.ponents.forms.managers
 	import abe.com.ponents.builder.dialogs.PreventOverrideUndefinedValue;
 	import abe.com.ponents.containers.Dialog;
 	import abe.com.ponents.containers.WarningDialog;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.events.DialogEvent;
 	import abe.com.ponents.events.FormEvent;
@@ -30,7 +30,10 @@ package abe.com.ponents.forms.managers
 	import flash.events.MouseEvent;
 	import flash.utils.getQualifiedClassName;
 
-	[Event(name="change",type="flash.events.Event")]	[Event(name="differentFields",type="abe.com.ponents.events.FormEvent")]	[Event(name="undefinedField",type="abe.com.ponents.events.FormEvent")]	[Event(name="sharedField",type="abe.com.ponents.events.FormEvent")]
+	[Event(name="change",type="flash.events.Event")]
+	[Event(name="differentFields",type="abe.com.ponents.events.FormEvent")]
+	[Event(name="undefinedField",type="abe.com.ponents.events.FormEvent")]
+	[Event(name="sharedField",type="abe.com.ponents.events.FormEvent")]
 	[Event(name="propertyChange",type="abe.com.ponents.events.PropertyEvent")]
 	/**
 	 * @author cedric
@@ -111,7 +114,8 @@ package abe.com.ponents.forms.managers
 			
 			for each ( var f: FormField in _formObject.fields )
 			{	
-				f.component.removeEventListener( MouseEvent.CLICK, clickDifferentAcrossMany );				f.component.removeEventListener( MouseEvent.CLICK, clickUndefined );
+				f.component.removeEventListener( MouseEvent.CLICK, clickDifferentAcrossMany );
+				f.component.removeEventListener( MouseEvent.CLICK, clickUndefined );
 							
 				if( hasDifferentValuesAcrossTargets( f.memberName ) )
 				{
@@ -182,7 +186,7 @@ package abe.com.ponents.forms.managers
 			for each ( var f: FormField in _formObject.fields )
 			{
 				var l : uint = _targets.length;
-				for(var i:int=0;i<l;i++)
+				for(var i:int=0;i< l;i++)
 					_targets[i][ f.memberName ] = f.component["value"];
 			}
 			dispatchEvent( new Event(Event.CHANGE ));
@@ -216,7 +220,7 @@ package abe.com.ponents.forms.managers
 		protected function fieldChanged ( name : String, value : * ) : void
 		{
 			var l : uint = _targets.length;
-			for(var i:int=0;i<l;i++)
+			for(var i:int=0;i< l;i++)
 				_targets[i][ name ] = value;
 				
 			firePropertyEvent( name , value );
@@ -265,7 +269,7 @@ package abe.com.ponents.forms.managers
 				{
 					throw new Error( _$(_("The class $0 can't be instanciated with no arguments in its constructor function."), t ) );
 				}
-				(_componentConcernedByWarning as Object).click();
+				(_componentConcernedByWarning as Object).click( new UserActionContext( UserActionContext.PROGRAM_ACTION ) );
 			}
 			_componentConcernedByWarning = null;
 		}
@@ -306,7 +310,7 @@ package abe.com.ponents.forms.managers
 				{
 					throw new Error( _$(_("The class $0 can't be instanciated with no arguments in its constructor function."), t ) );
 				}
-				(_componentConcernedByWarning as Object).click();
+				(_componentConcernedByWarning as Object).click( new UserActionContext( UserActionContext.PROGRAM_ACTION ) );
 			}
 			_componentConcernedByWarning = null;
 		}
@@ -318,7 +322,7 @@ package abe.com.ponents.forms.managers
 			
 				v = _targets[0][member];
 			
-			for(var i:int=0;i<l;i++)
+			for(var i:int=0;i< l;i++)
 				if( _targets[i][member] != v )
 					return true;
 					

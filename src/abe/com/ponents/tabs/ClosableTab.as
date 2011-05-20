@@ -8,7 +8,7 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.containers.DraggablePanel;
 	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.dnd.DragSource;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.HBoxLayout;
@@ -77,7 +77,7 @@ package abe.com.ponents.tabs
 	)]
 	public class ClosableTab extends DraggablePanel implements Tab, DragSource
 	{
-		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
+		FEATURES::BUILDER { 
 		static public function defaultTabbedPanePreview () : TabbedPane
 		{
 			var tp : TabbedPane = new TabbedPane();
@@ -110,7 +110,7 @@ package abe.com.ponents.tabs
 			tp.tabsPosition = CardinalPoints.WEST;
 			return tp;		
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		 } 
 		
 		[Embed(source="../skinning/icons/control_close_blue.png")]
 		static public var CROSS : Class;	
@@ -158,6 +158,7 @@ package abe.com.ponents.tabs
 			addComponent( _mainButton );
 			addComponent( _closeButton );
 		}
+		public function get tabClicked() : Signal { return _tabClicked; }
 		protected function onClose () : void 
 		{
 			tabClosed.dispatch( this );
@@ -257,7 +258,7 @@ package abe.com.ponents.tabs
 			invalidate(true);
 		}
 
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
 			if( !_closeButton.hitTestPoint( stage.mouseX, stage.mouseY ) )
 				_tabClicked.dispatch( this );
@@ -265,12 +266,12 @@ package abe.com.ponents.tabs
 				tabClosed.dispatch( this );
 				
 		}
-		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+		 FEATURES::DND { 
 		override public function get transferData () : Transferable
 		{
 			return new TabTransferable( this, _parentTabbedPane );
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		 } 
 		
 		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{

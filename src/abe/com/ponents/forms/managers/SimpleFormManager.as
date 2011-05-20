@@ -5,25 +5,34 @@ package abe.com.ponents.forms.managers
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.forms.FormField;
+	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormObject;
 	import abe.com.ponents.text.AbstractTextComponent;
 
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="change",type="flash.events.Event")]	[Event(name="propertyChange",type="abe.com.ponents.events.PropertyEvent")]
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class SimpleFormManager extends EventDispatcher implements Allocable
 	{
+	    public var formChanged : Signal;
+	    public var propertyChanged : Signal;
+	
 		protected var _formObject : FormObject;
 		public function SimpleFormManager ( fo : FormObject = null )
 		{
 			if( fo )
 				formObject = fo;
+			
+			formChanged = new Signal();
+			propertyChanged = new Signal();
 		}
-		public function get formObject () : FormObject { return _formObject; }		public function set formObject ( o : FormObject ) : void
+		public function get formObject () : FormObject { return _formObject; }
+		public function set formObject ( o : FormObject ) : void
 		{ 
 			if( _formObject )
 				dispose();
@@ -45,14 +54,17 @@ package abe.com.ponents.forms.managers
 		{
 			for each ( var f: FormField in _formObject.fields )
 				if( f.component )
-					f.component.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				{
+				    if( f.component is FormComponent || ( f.component as Object ).hasOwnProperty( "dataChanged" ) )
+					    f.component["dataChanged"].add( dataChanged );
+				}
 		}
 		
 		public function dispose () : void
 		{
 			for each ( var f: FormField in _formObject.fields )
-				if( f.component )
-					f.component.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				 if( f.component is FormComponent || ( f.component as Object ).hasOwnProperty( "dataChanged" ) )
+					    f.component["dataChanged"].remove( dataChanged );
 		}
 		
 		public function updateFieldsWithTarget () : void
@@ -66,7 +78,7 @@ package abe.com.ponents.forms.managers
 				}
 			}
 				
-			fireChangeEvent ();
+			fireFormChangedSignal ();
 		}
 		
 		public function updateTargetWithFields () : void
@@ -75,7 +87,7 @@ package abe.com.ponents.forms.managers
 				if( f.component && f.component.enabled )
 					_formObject.target[ f.memberName ] = f.component["value"];
 			
-			dispatchEvent( new Event(Event.CHANGE ));
+			fireFormChangedSignal();
 		}
 		
 		public function getFieldByComponent ( c : Component ) : FormField
@@ -105,24 +117,24 @@ package abe.com.ponents.forms.managers
 		protected function fieldChanged ( name : String, value : * ) : void
 		{
 			_formObject.target[ name ] = value;
-			firePropertyEvent( name , value );
-			fireChangeEvent ();
+			firePropertyChangedSignal( name , value );
+			fireFormChangedSignal ();
 		}
 		
-		public function dataChanged ( e : ComponentEvent ) : void
+		public function dataChanged ( c : Component, v : * ) : void
 		{
-			var field : FormField = getFieldByComponent( e.target as Component );
+			var field : FormField = getFieldByComponent( c );
 			fieldChanged( field.memberName, field.component["value"] );
-			fireChangeEvent ();
+			fireFormChangedSignal ();
 		}
 
-		protected function firePropertyEvent ( name : String, v : *) : void
+		protected function firePropertyChangedSignal ( name : String, v : *) : void
 		{
-			dispatchEvent( new PropertyEvent( PropertyEvent.PROPERTY_CHANGE, name, v ) );
+			propertyChanged.dispatch( name, v );
 		}
-		protected function fireChangeEvent () : void
+		protected function fireFormChangedSignal () : void
 		{
-			dispatchEvent( new Event(Event.CHANGE ));
+			formChanged.dispatch( this );
 		}
 	}
 }

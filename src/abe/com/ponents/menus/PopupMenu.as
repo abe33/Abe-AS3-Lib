@@ -10,9 +10,7 @@ package abe.com.ponents.menus
 	import abe.com.ponents.containers.AbstractScrollContainer;
 	import abe.com.ponents.containers.ScrollPane;
 	import abe.com.ponents.containers.SlidePane;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.events.ActionEvent;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.events.ListEvent;
@@ -29,6 +27,8 @@ package abe.com.ponents.menus
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
+	
+	import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie
@@ -50,8 +50,11 @@ package abe.com.ponents.menus
 			pm.invoker = StageUtils.root;
 			var m : Menu = new Menu( _("Sample Menu"));
 			
-			pm.addMenuItem( new MenuItem( _("Sample MenuItem 1") ) );			pm.addMenuItem( new MenuItem( _("Sample MenuItem 2") ) );			pm.addMenuItem( new MenuItem( _("Sample MenuItem 3") ) );
-			pm.addSeparator();			pm.addMenuItem( m );
+			pm.addMenuItem( new MenuItem( _("Sample MenuItem 1") ) );
+			pm.addMenuItem( new MenuItem( _("Sample MenuItem 2") ) );
+			pm.addMenuItem( new MenuItem( _("Sample MenuItem 3") ) );
+			pm.addSeparator();
+			pm.addMenuItem( m );
 			m.addMenuItem( new MenuItem( _("Sample SubMenuItem 1") ) );
 			m.addMenuItem( new MenuItem( _("Sample SubMenuItem 2") ) );
 			m.addMenuItem( new MenuItem( _("Sample SubMenuItem 3") ) );
@@ -71,11 +74,19 @@ package abe.com.ponents.menus
 		protected var _scrollContainer : AbstractScrollContainer;
 		protected var _scrollLayout : uint;
 		
-		static public const SCROLLBAR_SCROLL_LAYOUT : uint = 0;		static public const SLIDER_SCROLL_LAYOUT : uint = 1;
+		static public const SCROLLBAR_SCROLL_LAYOUT : uint = 0;
+		static public const SLIDER_SCROLL_LAYOUT : uint = 1;
+		
+		public var popupClosedOnCancel : Signal;
+		public var popupClosedOnAction : Signal;
 		
 		public function PopupMenu ()
 		{
 			super();
+			
+			popupClosedOnAction = new Signal();
+			popupClosedOnCancel = new Signal();
+			
 			_allowOver = false;
 			_allowPressed = false;
 			_allowChildrenFocus = false;
@@ -83,14 +94,17 @@ package abe.com.ponents.menus
 			_childrenLayout = new GridLayout( this, 1, 1, 0, 0 );
 			
 			_menuList = new MenuList( new DefaultListModel() );
-			_menuList.model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+			_menuList.model.dataChanged.add( dataChanged );
 			_menuList.allowMultiSelection = false;
 			
 			scrollLayout = SLIDER_SCROLL_LAYOUT;
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
 			_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN 	) ] = new ProxyCommand( down 			);
-			_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP 		) ] = new ProxyCommand( up 				);			_keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT 	) ] = new ProxyCommand( navigateToLeft 	);			_keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT 	) ] = new ProxyCommand( navigateToRight );
-			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER 	) ] = new ProxyCommand( enter 			);			_keyboardContext[ KeyStroke.getKeyStroke( Keys.SPACE 	) ] = new ProxyCommand( enter 			);
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP 		) ] = new ProxyCommand( up 				);
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT 	) ] = new ProxyCommand( navigateToLeft 	);
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT 	) ] = new ProxyCommand( navigateToRight );
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER 	) ] = new ProxyCommand( enter 			);
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.SPACE 	) ] = new ProxyCommand( enter 			);
 			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ESCAPE 	) ] = new ProxyCommand( escape 			);
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
@@ -115,13 +129,13 @@ package abe.com.ponents.menus
 		
 		protected function registerToMenuItemEvent (m : MenuItem) : void 
 		{
-			m.addEventListener( ActionEvent.ACTION_CHANGE, actionChanged );
+			m.actionChanged.add( actionChanged );
 		}
 		protected function unregisterFromMenuItemEvent (m : MenuItem) : void 
 		{
-			m.removeEventListener( ActionEvent.ACTION_CHANGE, actionChanged );
+			m.actionChanged.remove( actionChanged );
 		}
-		protected function actionChanged (event : Event) : void 
+		protected function actionChanged ( mi : MenuItem, a : Action ) : void 
 		{
 			var l : MenuListLayout = ( menuList.childrenLayout as MenuListLayout );
 			l.harmonizeBoxesSize();
@@ -146,15 +160,18 @@ package abe.com.ponents.menus
 				switch( _scrollLayout )
 				{
 					case SCROLLBAR_SCROLL_LAYOUT : 
-						_scrollContainer = new ScrollPane();						break;
+						_scrollContainer = new ScrollPane();
+						break;
 					case SLIDER_SCROLL_LAYOUT : 
 					default : 
 						_scrollContainer = new SlidePane( "auto", 250 );
 						break;						
 				}
-				_scrollContainer.viewport.styleKey = "EmptyComponent";				_scrollContainer.styleKey = "EmptyComponent";
+				_scrollContainer.viewport.styleKey = "EmptyComponent";
+				_scrollContainer.styleKey = "EmptyComponent";
 				_scrollContainer.view = _menuList;
-				_scrollContainer.isAlwaysValidateRoot = false;				addComponent( _scrollContainer );
+				_scrollContainer.isAlwaysValidateRoot = false;
+				addComponent( _scrollContainer );
 			}
 			invalidatePreferredSizeCache();
 		}
@@ -227,19 +244,19 @@ package abe.com.ponents.menus
 				if( _invoker && notifyInvoker )
 					StageUtils.stage.focus = _invoker as InteractiveObject;
 				else 
-					dispatchEvent( new PopupEvent( PopupEvent.CLOSE_ON_CANCEL ) );
+					popupClosedOnCancel.dispatch( this );
 			}
 		}
 		public function done () : void
 		{
 			hide();
-			dispatchEvent( new PopupEvent( PopupEvent.CLOSE_ON_ACTION ) );
+			popupClosedOnAction.dispatch( this );
 		}
 
 		public function escape () : void
 		{
 			hide();
-			dispatchEvent( new PopupEvent( PopupEvent.CLOSE_ON_CANCEL ) );
+			popupClosedOnCancel.dispatch( this );
 		}
 		
 		public function navigateToLeft () : void
@@ -285,7 +302,8 @@ package abe.com.ponents.menus
 		
 		public function ensureIndexIsVisible ( i : Number ) : void
 		{
-			var m : MenuItem = getItem( i );			if( m )
+			var m : MenuItem = getItem( i );
+			if( m )
 				_scrollContainer.ensureRectIsVisible( new Rectangle(m.x, m.y, m.width, m.height) );
 		}
 		public function getItem ( i : uint ) : MenuItem
@@ -298,7 +316,7 @@ package abe.com.ponents.menus
 		public function addMenuItem ( m : MenuItem ) : void
 		{
 			_menuList.model.addElement( m );
-			m.addWeakEventListener( MouseEvent.MOUSE_OVER, overMenuItem );
+			m.mouseEntered.add( overMenuItem );
 			m.menuContainer = this;
 			invalidatePreferredSizeCache();
 		}
@@ -357,9 +375,8 @@ package abe.com.ponents.menus
 			size = null;
 			invalidatePreferredSizeCache();
 		}
-		public function overMenuItem ( event : MouseEvent ) : void
+		public function overMenuItem ( mi : MenuItem ) : void
 		{
-			var mi : MenuItem = event.target as MenuItem;
 			if( mi.enabled )
 			{
 				_menuList.selectedIndex = -1;
@@ -436,7 +453,7 @@ package abe.com.ponents.menus
 
 		private function execute ( m : MenuItem ) : void
 		{
-			m.click();
+			m.click( new UserActionContext( m, UserActionContext.PROGRAM_ACTION ) );
 		}
 
 		protected function selectExecute ( m : MenuItem ) : void
@@ -453,7 +470,7 @@ package abe.com.ponents.menus
 			}
 			else
 			{
-				m.click();
+				m.click( new UserActionContext( m, UserActionContext.PROGRAM_ACTION ) );
 			}
 		}
 		

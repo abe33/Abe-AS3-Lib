@@ -30,7 +30,7 @@ package  abe.com.ponents.tables
 			
 			_header = new TableHeader();
 			_header.table = this;
-			_header.addEventListener(ComponentEvent.DATA_CHANGE, headerDataChanged );
+			_header.dataChanged.add( headerDataChanged );
 			
 			super();
 			view = _list;
@@ -64,7 +64,8 @@ package  abe.com.ponents.tables
 		/*-----------------------------------------------------------------------------------
 		 * GETTERS SETTERS
 		 *----------------------------------------------------------------------------------*/
-		public function get header () : TableHeader { return _header; }		
+		public function get header () : TableHeader { return _header; }
+		
 		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
 		public function get dragEnabled () : Boolean { return _list.dragEnabled }
 		public function set dragEnabled (dragEnabled : Boolean) : void
@@ -116,7 +117,8 @@ package  abe.com.ponents.tables
 		{
 			_list.selectedIndex = i;
 		}
-		public function get selectedValue() : * { return _list.selectedValue; }		
+		public function get selectedValue() : * { return _list.selectedValue; }
+		
 		public function get currentSortingField () : String { return _currentSortingField; }
 		public function get currentSortingOrder () : Boolean { return _currentSortingOrder; }
 		public function get currentSortingMethod () : Function { return _currentSortingMethod; }
@@ -132,14 +134,15 @@ package  abe.com.ponents.tables
 			_list.selectedIndices = a;
 		}
 		
-		public function get loseSelectionOnFocusOut () : Boolean { return _list.loseSelectionOnFocusOut; }		public function set loseSelectionOnFocusOut ( b : Boolean ) : void 
+		public function get loseSelectionOnFocusOut () : Boolean { return _list.loseSelectionOnFocusOut; }
+		public function set loseSelectionOnFocusOut ( b : Boolean ) : void 
 		{ 
 			_list.loseSelectionOnFocusOut = b; 
 		}
 
 		public function get selectedValues () : Array { return _list.selectedValues; }
 		
-		protected function headerDataChanged (event : ComponentEvent) : void
+		protected function headerDataChanged ( h : TableHeader, m : ListModel ) : void
 		{
 			_list.columns = _header.columns;
 

@@ -1,6 +1,5 @@
 package abe.com.ponents.factory 
 {
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mands.load.URLLoaderQueue;
 	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.Reflection;
@@ -368,7 +367,7 @@ package abe.com.ponents.factory
 					
 					_langLoader.addURLLoader( loader, request, langCallBack );
 				}
-				_langLoader.addEventListener( CommandEvent.COMMAND_END, langLoadingComplete );
+				_langLoader.commandEnded.add( langLoadingComplete );
 				_numLangFile = _langLoader.size;
 				_currentLangFile = 0;
 				_langLoader.execute();
@@ -424,12 +423,12 @@ package abe.com.ponents.factory
 			}
 		}
 
-		protected function langLoadingComplete ( event : Event ) : void
+		protected function langLoadingComplete ( ... args ) : void
 		{
 			CONFIG::DEBUG { 
 			Log.info( _("Languages loading completed.") );
 			} 
-			_langLoader.removeEventListener( CommandEvent.COMMAND_END, langLoadingComplete );
+			_langLoader.commandEnded.remove( langLoadingComplete );
 			initMain();
 		}
 		protected function getMessage ( messageId : String ) : String

@@ -24,12 +24,17 @@ package abe.com.ponents.dnd
 		
 		protected var tween : SingleTween;
 		
-		protected var _drawnShapes : Array;		
+		protected var _drawnShapes : Array;
+		
 		public function DnDDropRenderer ( manager : DnDManager )
 		{
-			manager.addEventListener( DnDEvent.DROP_TARGETS_CHANGE, dropTargetsChanged );					manager.addEventListener( DnDEvent.DRAG_ACCEPT, dragAccepted );					manager.addEventListener( DnDEvent.DRAG_START, dragStarted );					manager.addEventListener( DnDEvent.DRAG_EXIT, dragExited );		
+			manager.addEventListener( DnDEvent.DROP_TARGETS_CHANGE, dropTargetsChanged );		
+			manager.addEventListener( DnDEvent.DRAG_ACCEPT, dragAccepted );		
+			manager.addEventListener( DnDEvent.DRAG_START, dragStarted );		
+			manager.addEventListener( DnDEvent.DRAG_EXIT, dragExited );		
 			manager.addEventListener( DnDEvent.DRAG_STOP, dragStopped );		
-			manager.addEventListener( DnDEvent.DRAG, drag );			manager.addEventListener( DnDEvent.DROP, drop );
+			manager.addEventListener( DnDEvent.DRAG, drag );
+			manager.addEventListener( DnDEvent.DROP, drop );
 			
 			_manager = manager;
 			_shape = new Shape();
@@ -39,7 +44,7 @@ package abe.com.ponents.dnd
 		
 		protected function tweenEnd (event : TweenEvent) : void
 		{
-			tween.removeEventListener( TweenEvent.TWEEN_END, tweenEnd );
+			tween.commandEnded.remove( tweenEnd );
 			tween.reversed = false;
 			ToolKit.dndLevel.removeChild( _shape );
 		}
@@ -55,14 +60,15 @@ package abe.com.ponents.dnd
 		protected function dragStopped (event : DnDEvent) : void
 		{
 			tween.reversed = true;
-			tween.addEventListener(TweenEvent.TWEEN_END, tweenEnd );
+			tween.commandEnded.add( tweenEnd );
 			tween.execute();
 			//_shape.graphics.clear();
 			//ToolKit.dndLevel.removeChild( _shape );
 		}
 		
 		protected function dragStarted (event : DnDEvent) : void
-		{			ToolKit.dndLevel.addChildAt( _shape, 0 );
+		{
+			ToolKit.dndLevel.addChildAt( _shape, 0 );
 			tween.execute(); 
 		}
 
@@ -93,7 +99,7 @@ package abe.com.ponents.dnd
 			
 		}
 		
-		protected function dropTargetsRepaint (event : Event) : void
+		protected function dropTargetsRepainted ( c : Component ) : void
 		{
 			drawDropTargets();
 		}
@@ -101,13 +107,13 @@ package abe.com.ponents.dnd
 		protected function registerToTargetsEvent (currentTargets : Array) : void
 		{
 			for each( var c : Component in currentTargets )
-				c.addEventListener( ComponentEvent.REPAINT, dropTargetsRepaint );
+				c.componentRepainted.add( dropTargetsRepainted );
 		}
 
 		protected function unregisterFromTargetsEvent (currentTargets : Array) : void
 		{
 			for each( var c : Component in currentTargets )
-				c.removeEventListener( ComponentEvent.REPAINT, dropTargetsRepaint );
+				c.componentRepainted.remove( dropTargetsRepainted );
 		}
 		protected function hasAnAncestorInDropTargets ( o : DropTarget, targets : Array ) : Boolean
 		{
@@ -128,8 +134,10 @@ package abe.com.ponents.dnd
 			_drawnShapes = [];
 			
 			_shape.graphics.clear();
-			_shape.graphics.beginFill( 0 );			_shape.graphics.drawRect(0, 0, StageUtils.stage.stageWidth, StageUtils.stage.stageHeight );
-			//_shape.graphics.endFill();			
+			_shape.graphics.beginFill( 0 );
+			_shape.graphics.drawRect(0, 0, StageUtils.stage.stageWidth, StageUtils.stage.stageHeight );
+			//_shape.graphics.endFill();
+			
 			var bb : Rectangle; 
 			var o : DropTarget;
 			//_shape.graphics.endFill();
@@ -142,16 +150,18 @@ package abe.com.ponents.dnd
 				
 				var a: Array = checkDropShape( bb, _drawnShapes );
 				
-				_shape.graphics.drawRect(bb.x, bb.y, bb.width, bb.height );				_drawnShapes.push(bb);
+				_shape.graphics.drawRect(bb.x, bb.y, bb.width, bb.height );
+				_drawnShapes.push(bb);
 				if( a.length > 0 )
 				{
-					for( var i:uint=0;i<a.length;i++)
+					for( var i:uint=0;i< a.length;i++)
 					{
 						var r : Rectangle =a[i];
 						_shape.graphics.drawRect(r.x, r.y, r.width, r.height );
 					}
 				}
-			}			_shape.graphics.endFill();
+			}
+			_shape.graphics.endFill();
 			
 			for each ( o in _currentTargets )
 			{

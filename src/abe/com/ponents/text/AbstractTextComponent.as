@@ -42,14 +42,7 @@ package abe.com.ponents.text
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 
-	/**
-	 *
-	 */
 	[Style(name="embedFonts",type="Boolean",enumeration="true,false")]
-
-	/**
-	 *
-	 */
 	[Style(name="mispellWordsColor",type="abe.com.mon.colors.Color")]
 
 	[Skinable(skin="Text")]
@@ -64,6 +57,7 @@ package abe.com.ponents.text
 																			FormComponent
 	{
 		public var textContentChanged : Signal;
+		protected var _dataChanged : Signal;
 		
 		protected var _value : *;
 		protected var _label : ITextField;
@@ -79,6 +73,7 @@ package abe.com.ponents.text
 		{
 			super( );
 			textContentChanged = new Signal();
+			_dataChanged = new Signal();
 			_label = _label ? _label : new TextFieldImpl();
 			//_label = _label ? _label : new TLFTextFieldImpl();
 			_label.width = 100;
@@ -100,22 +95,22 @@ package abe.com.ponents.text
 
 			_disabledMode = 0;
 
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			_contextMenu = new ContextMenu( );
-			_contextMenu.addEventListener( ContextMenuEvent.MENU_SELECT, checkForContextMenu );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
+			    _contextMenu = new ContextMenu( );
+			    _contextMenu.addEventListener( ContextMenuEvent.MENU_SELECT, checkForContextMenu );
+			} 
 
-			/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
-				/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			(_label as InteractiveObject).contextMenu = _contextMenu;
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			_mispelledWordsShape = new Shape( );
-			addChildAt( _mispelledWordsShape, 1 );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::SPELLING { 
+				FEATURES::MENU_CONTEXT { 
+			        (_label as InteractiveObject).contextMenu = _contextMenu;
+				} 
+			    _mispelledWordsShape = new Shape( );
+			    addChildAt( _mispelledWordsShape, 1 );
+			} 
 
 			invalidatePreferredSizeCache( );
 		}
-		
+		public function get dataChanged() : Signal { return _dataChanged; }
 		public function get caretIndex () : int	 { return _label.caretIndex; }
 		public function get selectionBeginIndex () : int { return _label.selectionBeginIndex; }
 		public function get selectionEndIndex () : int { return _label.selectionEndIndex; }
@@ -513,9 +508,9 @@ package abe.com.ponents.text
 			{
 				_value = _label.htmlText;
 
-				/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
+				FEATURES::SPELLING { 
 				checkContent( );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 			}
 		}
 		override public function focusIn (e : FocusEvent) : void
@@ -536,24 +531,24 @@ package abe.com.ponents.text
 		/*-----------------------------------------------------------------
 		 * 	CONTEXT MENUS
 		 *----------------------------------------------------------------*/
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+		FEATURES::MENU_CONTEXT { 
 		protected var _contextMenu : ContextMenu;
 
 		protected function checkForContextMenu ( event : ContextMenuEvent ) : void
 		{
 			var a : Array = [];
 
-			/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
+			FEATURES::SPELLING { 
 			checkForSpellingContext( event, a );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
 			var b : Array = [];
 			
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 { var v : Array = menuContext; }
 			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = menuContext; }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			var v : Vector.<ContextMenuItem> = menuContext; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { 
+			var v : Vector.<ContextMenuItem> = menuContext; } 
 			
 			var l : uint = v.length;
 			var c : Array = StageUtils.root.contextMenu["customItems"];
@@ -571,23 +566,23 @@ package abe.com.ponents.text
 
 			_contextMenu.customItems = a.concat( b );
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 
 		/*-----------------------------------------------------------------
 		 * 	SPELL CHECK
 		 *----------------------------------------------------------------*/
-		/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
+		FEATURES::SPELLING { 
 		protected var _spellChecker : SpellChecker;
 		protected var _spellCheckerRules : String;
 		protected var _spellCheckerDict : String;
 		protected var _spellCheckEnabled : Boolean;
 		
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		protected var _lastMispelledWords : Array;
 		TARGET::FLASH_10
 		protected var _lastMispelledWords : Vector.<Range>;
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		protected var _lastMispelledWords : Vector.<Range>;
 		protected var _mispelledWordsShape : Shape;
 		protected var _lastMispelledWordSuggestions : Array;
@@ -737,11 +732,11 @@ package abe.com.ponents.text
 			_label.replaceText( r.min, r.max, s );
 			registerValue( );
 			invalidate( );
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
 			_contextMenu.customItems = [];
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			_label.scrollV = ls;
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 	}
 }

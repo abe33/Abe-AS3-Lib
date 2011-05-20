@@ -11,6 +11,8 @@ package abe.com.ponents.tools
     import flash.geom.*;
     import flash.display.*;
     import flash.events.*;
+    
+    import org.osflash.signals.Signal;
 
     [Skinable(skin="ColorWheel")]
     [Skin(define="ColorWheel",
@@ -39,11 +41,13 @@ package abe.com.ponents.tools
         protected var _draggingHue : Boolean;
         protected var _draggingSatVal : Boolean;
         
+        public var dataChanged : Signal;
+        
         public function ColorWheel( color : Color = null )
         {
             _childrenLayout = new DONoLayout();
             super();
-            
+            dataChanged = new Signal();
             _wheel = new Sprite();
             _colorCursor = new Sprite();
             _triangleBase = new Sprite();
@@ -63,8 +67,8 @@ package abe.com.ponents.tools
             this.color = color ? color : Color.Black.clone();
         }
         public function get target () : Color { return _color; }
-		public function set target (target : Color) : void { color = target; } 
-		
+        public function set target (target : Color) : void { color = target; } 
+        
         public function get color() : Color { return _color; }
         public function set color( c : Color ):void
         {
@@ -337,7 +341,7 @@ package abe.com.ponents.tools
                 _color.hsv = [ h, s, v ];
                 _colorHSV = [ h, s, v ];
                 
-                fireDataChangeEvent();
+                fireDataChangedSignal();
                 update();
             }
             else if( _draggingSatVal && _triangle.containsPoint( p ) )
@@ -355,13 +359,13 @@ package abe.com.ponents.tools
                 _color.hsv = [ h, s, v ];
                 _colorHSV = [ h, s, v ];
                 
-                fireDataChangeEvent();
+                fireDataChangedSignal();
                 update();
             }
         }
-        public function fireDataChangeEvent () : void
+        public function fireDataChangedSignal () : void
         {
-            dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+            dataChanged.dispatch( this, _color );
         }
     }
 

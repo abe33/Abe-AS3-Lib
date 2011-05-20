@@ -22,12 +22,6 @@ package abe.com.ponents.buttons
 	import flash.events.IEventDispatcher;
 
 	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
-	/**
 	 * Une propriété du style contenant l'icône de référence lorsque le composant
 	 * <code>CheckBox</code> est sélectionné.
 	 * <p>
@@ -121,7 +115,8 @@ package abe.com.ponents.buttons
 		/**
 		 * Une référence vers l'icône représentant l'état sélectionné du composant.
 		 */
-		protected var _checkedIcon : Icon;		/**
+		protected var _checkedIcon : Icon;
+		/**
 		 * Une référence vers l'icône représentant l'état désélectionné du composant.
 		 */
 		protected var _uncheckedIcon : Icon;
@@ -132,7 +127,8 @@ package abe.com.ponents.buttons
 		/**
 		 * Profondeur à laquelle l'icône représentant l'état de sélection du composant
 		 * doit être positionné dans la structure graphique. 
-		 */		protected var _tickIconIndex : int;
+		 */
+		protected var _tickIconIndex : int;
 		
 		/**
 		 * Constructeur de classe <code>CheckBox</code>.
@@ -167,8 +163,8 @@ package abe.com.ponents.buttons
 		 * Une valeur booléenne indiquant si cette <code>CheckBox</code> est
 		 * cochée ou non.
 		 */
-		public function get value () : Boolean { return selected; }
-		public function set value ( b : Boolean ) : void { selected = b; }
+		override public function get value () : * { return selected; }
+		override public function set value ( b : * ) : void { selected = b; }
 		/**
 		 * Une valeur booléenne indiquant si cette <code>CheckBox</code> est
 		 * cochée ou non.

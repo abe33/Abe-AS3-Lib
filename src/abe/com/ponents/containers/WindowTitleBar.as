@@ -2,7 +2,7 @@ package abe.com.ponents.containers
 {
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.core.AbstractContainer;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.events.WindowEvent;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.HBoxLayout;
@@ -44,8 +44,11 @@ package abe.com.ponents.containers
 		protected var _windowIcon : Icon;
 		protected var _windowTitle : Label;
 		protected var _windowButtons : Panel;
-		protected var _windowMenu : Button;		protected var _windowMinimize : Button;		protected var _windowMaximize : Button;
-		protected var _windowClose : Button;		protected var _pressedX : Number;
+		protected var _windowMenu : Button;
+		protected var _windowMinimize : Button;
+		protected var _windowMaximize : Button;
+		protected var _windowClose : Button;
+		protected var _pressedX : Number;
 		protected var _pressedY : Number;
 
 		public function WindowTitleBar ( windowTitle : String = "Window", windowIcon : Icon = null, buttons : uint = 0)
@@ -67,7 +70,8 @@ package abe.com.ponents.containers
 			{
 				( parentContainer as Window ).close();
 			},"r") : null;
-						_windowMaximize = buttons & MAXIMIZE_BUTTON ? new WindowTitleButton(function () :void
+			
+			_windowMaximize = buttons & MAXIMIZE_BUTTON ? new WindowTitleButton(function () :void
 			{
 				var w : Window = parentContainer as Window;
 				if( w.maximized )
@@ -75,7 +79,8 @@ package abe.com.ponents.containers
 				else
 					w.maximize();
 			},"1") : null;
-						_windowMinimize = buttons & MINIMIZE_BUTTON ? new WindowTitleButton(function () :void
+			
+			_windowMinimize = buttons & MINIMIZE_BUTTON ? new WindowTitleButton(function () :void
 			{
 				var w : Window = parentContainer as Window;
 				if( w.minimized )
@@ -101,9 +106,11 @@ package abe.com.ponents.containers
 			
 			l.boxes.push( new BoxSettings(0,"left","center", _windowTitle, true, false, true ) );
 			addComponent( _windowTitle );
-			_windowTitle.doubleClickEnabled = true;			
+			_windowTitle.doubleClickEnabled = true;
+			
 			if( _windowClose || _windowMaximize || _windowMinimize )
-			{							_windowButtons = new Panel();
+			{			
+				_windowButtons = new Panel();
 				_windowButtons.childrenLayout = new InlineLayout( _windowButtons, 2 );
 				
 				if( _windowMinimize )
@@ -130,13 +137,15 @@ package abe.com.ponents.containers
 					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 				}
 				
-				addComponent( _windowButtons );				l.boxes.push( new BoxSettings(0,"center","center", _windowButtons ) );
+				addComponent( _windowButtons );
+				l.boxes.push( new BoxSettings(0,"center","center", _windowButtons ) );
 			}
 			doubleClickEnabled = true;
 			addEventListener(MouseEvent.DOUBLE_CLICK, doubleClick );
 		}
 		
-		public function get windowTitle () : String { return _windowTitle.value; }		public function set windowTitle ( s : String ) : void
+		public function get windowTitle () : String { return _windowTitle.value; }
+		public function set windowTitle ( s : String ) : void
 		{ 
 			_windowTitle.value = s; 
 		}
@@ -148,9 +157,11 @@ package abe.com.ponents.containers
 				ToolKit.popupLevel.setChildIndex( parentContainer as DisplayObject, ToolKit.popupLevel.numChildren-1);
 			
 			super.mouseDown(e);
-			_pressedX = mouseX;			_pressedY = mouseY;
+			_pressedX = mouseX;
+			_pressedY = mouseY;
 			if( !( parentContainer as Window ).maximized )
-				stage.addEventListener(MouseEvent.MOUSE_MOVE, stageMouseMove);		}
+				stage.addEventListener(MouseEvent.MOUSE_MOVE, stageMouseMove);
+		}
 
 		override public function mouseUp (e : MouseEvent) : void
 		{
@@ -197,7 +208,9 @@ package abe.com.ponents.containers
 
 		protected function registerToWindowEvents (window : Window) : void
 		{
-			window.addEventListener(WindowEvent.MAXIMIZE, windowMaximize );			window.addEventListener(WindowEvent.MINIMIZE, windowMinimize );			window.addEventListener(WindowEvent.RESTORE, windowRestore );
+			window.addEventListener(WindowEvent.MAXIMIZE, windowMaximize );
+			window.addEventListener(WindowEvent.MINIMIZE, windowMinimize );
+			window.addEventListener(WindowEvent.RESTORE, windowRestore );
 		}
 		protected function unregisterFromWindowEvents (window : Window) : void
 		{
@@ -208,10 +221,12 @@ package abe.com.ponents.containers
 		
 		protected function windowRestore (event : WindowEvent) : void
 		{
-			updateButtons();		}
+			updateButtons();
+		}
 		protected function windowMinimize (event : WindowEvent) : void
 		{
-			updateButtons();		}
+			updateButtons();
+		}
 		protected function windowMaximize (event : WindowEvent) : void
 		{
 			updateButtons();
@@ -220,13 +235,14 @@ package abe.com.ponents.containers
 		{
 			if( _windowMaximize )
 				_windowMaximize.label = _window.maximized ? "2" : "1";
-			if( _windowMinimize )				_windowMinimize.label = _window.minimized ? "2" : "0";
+			if( _windowMinimize )
+				_windowMinimize.label = _window.minimized ? "2" : "0";
 		}
 	}
 }
 
 import abe.com.ponents.buttons.Button;
-import abe.com.ponents.core.Component;
+import abe.com.ponents.core.*;
 import abe.com.ponents.skinning.icons.Icon;
 import abe.com.ponents.text.Label;
 
@@ -248,7 +264,7 @@ internal class WindowTitleButton extends Button
 		this.fn = fn;
 	}
 
-	override public function click () : void
+	override public function click ( context : UserActionContext ) : void
 	{
 		fn( );
 	}

@@ -142,7 +142,7 @@ package abe.com.ponents.tables
 			
 			return increment; 
 		}
-		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+		FEATURES::DND { 
 		override public function get supportedFlavors () : Array
 		{
 			return super.supportedFlavors.concat( ComponentsFlavors.TABLE_ROW );
@@ -158,6 +158,6 @@ package abe.com.ponents.tables
 			else
 				super.dragEnter( e );
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 	}
 }

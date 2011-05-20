@@ -1,6 +1,7 @@
 package abe.com.ponents.models 
 {
 	import abe.com.mon.utils.DateUtils;
+	
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -11,7 +12,7 @@ package abe.com.ponents.models
 		protected var _endDate : Date;
 		protected var _formatFunction : Function;
 		protected var _calendarField : uint;
-
+		
 		public function SpinnerDateModel ( date : Date = null, start : Date = null, end : Date = null, calendarField : uint = 3 )
 		{
 			_value = date ? date : new Date();
@@ -20,10 +21,10 @@ package abe.com.ponents.models
 			_calendarField = calendarField;
 			_formatFunction = format;
 		}
-
 		override public function get displayValue () : String { return _formatFunction( _value ); }
 
-		override public function get value () : * { return _value; }		override public function set value (v : *) : void
+		override public function get value () : * { return _value; }
+		override public function set value (v : *) : void
 		{
 			if( v is Date )
 			{
@@ -32,7 +33,7 @@ package abe.com.ponents.models
 					( !_endDate   || !DateUtils.isFutureDate( d, _endDate ) ) )
 				{
 					_value = d;
-					fireDataChange();
+					fireDataChangedSignal();
 				}
 			}
 		}

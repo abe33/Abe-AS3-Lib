@@ -3,18 +3,13 @@
  */
 package abe.com.ponents.buttons 
 {
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.actions.Action;
 	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.tools.canvas.actions.SetToolAction;
 
 	import flash.events.Event;
 
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * Un objet <code>ToolButton</code> est un <code>ToggleButton</code> chargé 
 	 * de représenter la sélection d'outil d'un objet <code>ToolManager</code>.
@@ -50,7 +45,7 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
 			swapSelect(true);
 		}

@@ -3,9 +3,7 @@ package abe.com.ponents.monitors
 	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.containers.AbstractScrollContainer;
 	import abe.com.ponents.containers.Viewport;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.skinning.cursors.Cursor;
 	import abe.com.ponents.utils.Orientations;
 
@@ -116,9 +114,9 @@ package abe.com.ponents.monitors
 			}
 		}
 
-		override public function releaseOutside () : void
+		override public function releaseOutside ( context : UserActionContext ) : void
 		{
-			super.releaseOutside();
+			super.releaseOutside( context );
 			_dragging = false;
 			stage.removeEventListener( MouseEvent.MOUSE_MOVE, stageMouseMove );
 		}

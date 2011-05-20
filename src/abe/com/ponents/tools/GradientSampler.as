@@ -19,12 +19,12 @@ package abe.com.ponents.tools
 	import flash.events.ContextMenuEvent;
 	import flash.events.MouseEvent;
 	import flash.ui.ContextMenuItem;
-
+    
+    import org.osflash.signals.Signal;
+    
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="selectionChange", type="abe.com.ponents.events.ComponentEvent")]
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="GradientSampler")]
 	[Skin(define="GradientSampler",
 		  inherit="EmptyComponent"
@@ -61,10 +61,15 @@ package abe.com.ponents.tools
 		protected var _oldStartIndex : Number;
 		protected var _oldEndIndex : Number;
 
+        public var dataChanged : Signal;
+        public var selectionChanged : Signal;
+
 		public function GradientSampler ()
 		{
 			super( );
-
+            dataChanged = new Signal();
+            selectionChanged = new Signal();
+            
 			_allowMask = false;
 			style.setForAllStates("insets", new Insets(10,3,10,0));
 
@@ -145,7 +150,7 @@ package abe.com.ponents.tools
 				var ico : ColorIcon = new ColorIcon(c);
 				ico.preferredSize = new Dimension(8,8);
 				var bt : Button = new Button( "", ico );
-				bt.addWeakEventListener(MouseEvent.MOUSE_DOWN, buttonMouseDown );
+				bt.mousePressed.add( buttonPressed );
 				bt.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 				bt.styleKey = "GradientCursor";
 				bt.y = 2;
@@ -178,7 +183,7 @@ package abe.com.ponents.tools
 
 			updateCursors();
 
-			fireDataChange();
+			fireDataChangedSignal();
 
 			selectedButton = _cursorsPanel.getComponentAt(index) as Button;
 		}
@@ -192,13 +197,14 @@ package abe.com.ponents.tools
 
 			var bt : Button = event.mouseTarget as Button;
 			var index : int = _cursorsPanel.getComponentIndex(bt);
-
+            
+            bt.mousePressed.remove( buttonPressed );
 			_gradient.colors.splice(index,1);
 			_gradient.positions.splice(index,1);
 
 			updateCursors();
 
-			fireDataChange();
+			fireDataChangedSignal();
 
 			if( bt == _selectedButton )
 				selectedButton = _cursorsPanel.getComponentAt(0) as Button;
@@ -224,12 +230,12 @@ package abe.com.ponents.tools
 			if( _selectedButton && !_selectedButton.selected )
 				_selectedButton.selected = true;
 
-			fireComponentEvent( ComponentEvent.SELECTION_CHANGE );
+			selectionChanged.dispatch( this, _selectedButton );
 		}
 
-		protected function buttonMouseDown ( e : MouseEvent ) : void
+		protected function buttonPressed ( bt : Button ) : void
 		{
-			selectedButton = e.target as Button;
+			selectedButton = bt;
 
 			_dragging = true;
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, dragging);
@@ -256,9 +262,9 @@ package abe.com.ponents.tools
 				c.x = p * _cursorsPanel.width - c.width/2;
 			}
 		}
-		protected function fireDataChange () : void
+		protected function fireDataChangedSignal () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			dataChanged.dispatch( this, gradient );
 		}
 	}
 }

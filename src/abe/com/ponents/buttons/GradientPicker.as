@@ -20,6 +20,7 @@ package abe.com.ponents.buttons
 
 	import flash.events.IEventDispatcher;
 
+    import org.osflash.signals.Signal;
 	
 	/**
 	 * Le composant <code>GradientPicker</code> permet l'édition d'objets <code>Gradient</code>
@@ -33,23 +34,14 @@ package abe.com.ponents.buttons
 	 * @see	abe.com.ponents.actions.builtin.GradientPickerAction
 	 * @see abe.com.mon.utils.Gradient
 	 */
-	public class GradientPicker extends AbstractButton  implements IDisplayObject, 
+	public class GradientPicker extends AbstractFormButton  implements IDisplayObject, 
 																  IInteractiveObject, 
 																  IDisplayObjectContainer, 
 																  Component, 
 																  Focusable,
 														 		  LayeredSprite,
-														 		  IEventDispatcher,
 														 		  FormComponent
 	{
-		/**
-		 * Un entier représentant le mode de désactivation courant de ce composant.
-		 */
-		protected var _disabledMode : uint;
-		/**
-		 * La valeur de ce composant durant son mode de désactivation.
-		 */
-		protected var _disabledValue : *;
 		
 		/**
 		 * Constructeur de la classe <code>GradientPicker</code>.
@@ -65,99 +57,14 @@ package abe.com.ponents.buttons
 		    _dataChanged = new Signal();
 		}
 		
-		protected var _dataChanged : Signal;
-		public function get _dataChanged() : Signal { return _dataChanged; }
 		/**
 		 * Une référence vers l'objet <code>Gradient</code> de ce composant.
 		 */
-		public function get value () : * { return (action as GradientPickerAction).gradient; }		
-		public function set value (value : * ) : void
+		override public function get value () : * { return (action as GradientPickerAction).gradient; }		
+		override public function set value (value : * ) : void
 		{
 			(action as GradientPickerAction).gradient = value as Gradient;
 			invalidate();
-		}
-		/**
-		 * Un entier représentant le mode de désactivation courant de ce composant.
-		 */
-		public function get disabledMode () : uint { return _disabledMode; }
-		public function set disabledMode (b : uint) : void
-		{
-			_disabledMode = b;
-			
-			if( !_enabled )
-				checkDisableMode();
-		}
-		/**
-		 * La valeur de ce composant durant son mode de désactivation.
-		 */
-		public function get disabledValue () : * { return _disabledValue; }		
-		public function set disabledValue (v : *) : void 
-		{
-			_disabledValue = v;
-		}
-		/**
-		 * @inheritDoc
-		 */
-		override public function set enabled (b : Boolean) : void 
-		{
-			super.enabled = b;
-			checkDisableMode();
-			
-			if( _enabled && _buttonDisplayMode != ButtonDisplayModes.ICON_ONLY )
-				buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
-			
-		}
-		/**
-		 * Définie l'état du composant lorsque celuici est désactivé.
-		 */
-		protected function checkDisableMode() : void
-		{
-			switch( _disabledMode )
-			{
-				case FormComponentDisabledModes.DIFFERENT_ACROSS_MANY : 
-					disabledValue = _("different values across many");
-					affectLabelText();
-					buttonDisplayMode = ButtonDisplayModes.TEXT_ONLY;
-					break;
-					
-				case FormComponentDisabledModes.UNDEFINED : 
-					disabledValue = _("not defined");
-					affectLabelText();
-					buttonDisplayMode = ButtonDisplayModes.TEXT_ONLY;
-					break;
-				
-				case FormComponentDisabledModes.NORMAL :
-				case FormComponentDisabledModes.INHERITED : 
-				default : 
-					buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
-					break;
-			}
-		}
-		/**
-		 * @inheritDoc
-		 */
-		override protected function commandEnded (c:Command) : void
-		{
-			super.commandEnded( e );
-			fireDataChangedSignal();
-		}
-		/**
-		 * @inheritDoc
-		 */
-		override protected function affectLabelText () : void 
-		{
-			if( _enabled )
-				super.affectLabelText();
-			else
-				_labelTextField.htmlText = String( _disabledValue );
-		}
-		/**
-		 * Diffuse un évènement de type <code>ComponentEvent.DATA_CHANGE</code> aux écouteurs
-		 * de ce composant.
-		 */
-		protected function fireDataChangedSignal () : void 
-		{
-			_dataChanged.dispatch( this, value );
 		}
 	}
 }

@@ -5,6 +5,7 @@ package abe.com.ponents.tools
 	import abe.com.mon.geom.dm;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.Button;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ScrollPane;
@@ -18,6 +19,7 @@ package abe.com.ponents.tools
 	import abe.com.ponents.models.DefaultListModel;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
 
+    import org.osflash.signals.Signal;
 	/**
 	 * @author cedric
 	 */
@@ -38,9 +40,14 @@ package abe.com.ponents.tools
 		protected var _target : Color;
 		protected var _paletteList : List;
 		protected var _colorList : List;
+		
+		protected var _dataChanged : Signal;
+		public function get dataChanged () : Signal { return _dataChanged; }
 
 		public function PaletteColorEditor ()
 		{
+		    _dataChanged = new Signal();
+		    
 			var l : BorderLayout = new BorderLayout( this );
 			_childrenLayout = l;
 			super();
@@ -51,14 +58,14 @@ package abe.com.ponents.tools
 			_paletteList.editEnabled = false;
 			_paletteList.allowMultiSelection = false;
 			_paletteList.loseSelectionOnFocusOut = false;
-			_paletteList.addEventListener(ComponentEvent.SELECTION_CHANGE, paletteSelectionChange );
+			_paletteList.selectionChanged.add ( paletteSelectionChanged );
 			
 			_colorList = new List();
 			_colorList.dndEnabled = false;
 			_colorList.allowMultiSelection = false;
 			_colorList.editEnabled = false;
 			_colorList.listCellClass = ColorListCell;
-			_colorList.addEventListener(ComponentEvent.SELECTION_CHANGE, colorSelectionChange );
+			_colorList.selectionChanged.add( colorSelectionChanged );
 			
 			var scpPalette : ScrollPane = new ScrollPane();
 			scpPalette.view = _paletteList;
@@ -83,19 +90,19 @@ package abe.com.ponents.tools
 			
 			preferredSize = dm( 150, 200 );
 		}
-		protected function colorSelectionChange (event : ComponentEvent) : void 
+		protected function colorSelectionChanged ( c : Component, v : * ) : void 
 		{
-			var c : Color = _colorList.selectedValue as Color;
-			if( c )
+			var cl : Color = _colorList.selectedValue as Color;
+			if( cl )
 			{
-				_target.red = c.red;
-				_target.green = c.green;
-				_target.blue = c.blue;
-				_target.alpha = c.alpha;
-				fireDataChange();
+				_target.red = cl.red;
+				_target.green = cl.green;
+				_target.blue = cl.blue;
+				_target.alpha = cl.alpha;
+				fireDataChangedSignal();
 			}
 		}
-		protected function paletteSelectionChange (event : ComponentEvent) : void 
+		protected function paletteSelectionChanged ( c : Component, v : * ) : void 
 		{
 			if( _paletteList.selectedValue )
 				_colorList.model = new DefaultListModel( (_paletteList.selectedValue as Palette).colors );
@@ -107,9 +114,9 @@ package abe.com.ponents.tools
 			_target = target;
 		}
 		
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent(new ComponentEvent(ComponentEvent.DATA_CHANGE));
+			_dataChanged.dispatch(this, target );
 		}
 	}
 }
@@ -157,7 +164,7 @@ internal class OpenACOFile extends LoadFileAction
 		{
 			_list.model.addElement( palette );
 		}
-		fireCommandEnd();
+		commandEnded.dispatch( this );
 	}
 }
 internal var PaletteListModelInstance : DefaultListModel = new DefaultListModel();

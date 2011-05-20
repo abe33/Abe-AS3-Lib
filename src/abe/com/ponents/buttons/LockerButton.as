@@ -11,7 +11,6 @@ package abe.com.ponents.buttons
 	 * 
 	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="LockerButton")]
 	[Skin(define="LockerButton",
 		  inherit="ToolBar_Button",

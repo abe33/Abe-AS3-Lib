@@ -19,20 +19,25 @@ package abe.com.munication.services
 	 */
 	public class ServiceCall extends AbstractCommand
 	{
-		static public var anyServiceResponded : Signal = new Signal();		static public var anyServiceErrorOccured : Signal = new Signal();		static public var anyServiceCallStarted : Signal = new Signal();
+		static public var anyServiceResponded : Signal = new Signal();
+		static public var anyServiceErrorOccured : Signal = new Signal();
+		static public var anyServiceCallStarted : Signal = new Signal();
 		
 		static public var timeout : int = -1;
 		
 		public var serviceResponded : Signal;
-		public var serviceErrorOccured : Signal;		public var serviceCallStarted : Signal;
+		public var serviceErrorOccured : Signal;
+		public var serviceCallStarted : Signal;
 		
 		protected var _method : String;
-		protected var _service : Service;		protected var _serviceName : String;
+		protected var _service : Service;
+		protected var _serviceName : String;
 		protected var _connection : NetConnection;
 		protected var _args : Array;
 		protected var _timeout : int;
 		
-		protected var _resultListener : Function;		protected var _errorListener : Function;
+		protected var _resultListener : Function;
+		protected var _errorListener : Function;
 
 		public function ServiceCall ( method : String,
 									  serviceName : String,
@@ -80,35 +85,36 @@ package abe.com.munication.services
 		}
 		override public function execute( ... args ) : void
 		{
-			/*FDT_IGNORE*/ CONFIG::WITH_DISTANT_SERVER { /*FDT_IGNORE*/
+			CONFIG::WITH_DISTANT_SERVER { 
 				_service = ServiceFactory.get( _serviceName, _connection);
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
-			/*FDT_IGNORE*/ CONFIG::WITH_LOCAL_SERVER { /*FDT_IGNORE*/
+			CONFIG::WITH_LOCAL_SERVER { 
 				_service = ServiceFactory.get( _serviceName, _connection);
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
-			/*FDT_IGNORE*/ CONFIG::WITHOUT_SERVER { /*FDT_IGNORE*/
+			CONFIG::WITHOUT_SERVER { 
 				_service = ShadowServiceFactory.get( _serviceName );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
 			if( _service )
 			{
 				registerToServiceEvents();
 
-				/*FDT_IGNORE*/ CONFIG::WITH_DISTANT_SERVER { /*FDT_IGNORE*/
+				CONFIG::WITH_DISTANT_SERVER { 
 					(_service[_method] as Function).apply(null,_args);
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 
-				/*FDT_IGNORE*/ CONFIG::WITH_LOCAL_SERVER { /*FDT_IGNORE*/
+				CONFIG::WITH_LOCAL_SERVER { 
 					(_service[_method] as Function).apply(null,_args);
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 
-				/*FDT_IGNORE*/ CONFIG::WITHOUT_SERVER { /*FDT_IGNORE*/
+				CONFIG::WITHOUT_SERVER { 
 					setTimeout.apply(null, [_service[_method] as Function, RandomUtils.rangeAB(250, 750) ].concat( _args ) );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 
-				serviceCallStarted.dispatch( this );				anyServiceCallStarted.dispatch( this );
+				serviceCallStarted.dispatch( this );
+				anyServiceCallStarted.dispatch( this );
 
 				if( timeout != -1 )
 					_timeout = setTimeout( callTimeout, timeout );
@@ -125,7 +131,8 @@ package abe.com.munication.services
 				if( ServiceMiddlewares.length > 0 )
 					res = processMiddlewaresResults( res, ServiceMiddlewares );
 					
-				serviceResponded.dispatch( res );				anyServiceResponded.dispatch( res );
+				serviceResponded.dispatch( res );
+				anyServiceResponded.dispatch( res );
 				_commandEnded.dispatch( this );
 				unregisterFromServiceEvents();
 			}
@@ -144,7 +151,8 @@ package abe.com.munication.services
 					processMiddlewaresException( e, ServiceMiddlewares );
 				
 				var errorMsg : String = _$(_("$0\nError Code:$1"), e.description, e.code );
-				serviceErrorOccured.dispatch( errorMsg );				anyServiceErrorOccured.dispatch( errorMsg );
+				serviceErrorOccured.dispatch( errorMsg );
+				anyServiceErrorOccured.dispatch( errorMsg );
 				commandFailed.dispatch( errorMsg );
 				unregisterFromServiceEvents();
 			}

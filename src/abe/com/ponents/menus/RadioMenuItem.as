@@ -1,5 +1,6 @@
 package abe.com.ponents.menus 
 {
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.skinning.icons.RadioCheckedIcon;
 	import abe.com.ponents.skinning.icons.RadioUncheckedIcon;
 
@@ -25,7 +26,7 @@ package abe.com.ponents.menus
 			super( label, checked );
 		}
 		
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
 			swapSelect(true);
 		}

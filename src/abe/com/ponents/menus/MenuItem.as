@@ -4,6 +4,7 @@ package abe.com.ponents.menus
 	import abe.com.mon.utils.Keys;
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.ponents.actions.Action;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.layouts.display.DOBoxSettings;
 	import abe.com.ponents.layouts.display.DOHBoxLayout;
 	import abe.com.ponents.lists.DefaultListCell;
@@ -27,14 +28,14 @@ package abe.com.ponents.menus
 	)]
 	public class MenuItem extends DefaultListCell //DraggableButton
 	{
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		protected var _subItems : Array;
 		
 		TARGET::FLASH_10
 		protected var _subItems : Vector.<MenuItem>;
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		protected var _subItems : Vector.<MenuItem>;
 		
 		protected var _menuContainer : MenuContainer;
@@ -73,11 +74,10 @@ package abe.com.ponents.menus
 			//_allowDrag = false;
 			_allowPressed = false;
 			
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 { _subItems = []; }
 			TARGET::FLASH_10 { _subItems = new Vector.<MenuItem>(); }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			_subItems = new Vector.<MenuItem>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { _subItems = new Vector.<MenuItem>(); } 
 			
 			//(_labelTextField as TextField).border = true;
 			( _childrenLayout as DOHBoxLayout ).setObjectForBox( _labelTextField as DisplayObject, 1 );
@@ -143,28 +143,28 @@ package abe.com.ponents.menus
 			return _subItems && _subItems.length > 0;
 		}
 		
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9 {
-		public function get subItems () : Array { return _subItems; }
-		public function set subItems ( o : Array ) : void { _subItems = o; }
+		    public function get subItems () : Array { return _subItems; }
+		    public function set subItems ( o : Array ) : void { _subItems = o; }
 		}
 		TARGET::FLASH_10 {
-		public function get subItems () : Vector.<MenuItem> { return _subItems; }
-		public function set subItems ( o : Vector.<MenuItem> ) : void { _subItems = o; }
+		    public function get subItems () : Vector.<MenuItem> { return _subItems; }
+		    public function set subItems ( o : Vector.<MenuItem> ) : void { _subItems = o; }
 		}
-		TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-		public function get subItems () : Vector.<MenuItem> { return _subItems; }
-		public function set subItems ( o : Vector.<MenuItem> ) : void { _subItems = o; }
-		/*FDT_IGNORE*/}/*FDT_IGNORE*/
+		TARGET::FLASH_10_1 { 
+		    public function get subItems () : Vector.<MenuItem> { return _subItems; }
+		    public function set subItems ( o : Vector.<MenuItem> ) : void { _subItems = o; }
+		}
 
 		override public function mouseOver (e : MouseEvent) : void
 		{
 			super.mouseOver( e );
 		}
 
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
-			super.click();
+			super.click( context );
 			if( menuContainer )
 				menuContainer.done();
 		}
@@ -172,10 +172,10 @@ package abe.com.ponents.menus
 		override public function mouseOut (e : MouseEvent) : void
 		{
 			super.mouseOut( e );
-			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+			FEATURES::DND { 
 				if( _dragGesture && _dragGesture.isDragging && _menuContainer )
 					_menuContainer.done();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 		override public function repaint () : void
 		{
@@ -222,7 +222,8 @@ package abe.com.ponents.menus
 						hbox.boxes[1].size = 0;
 					super.actionPropertyChanged(propertyName, propertyValue);
 					if( _menuContainer )
-						_menuContainer.itemContentChange( this );					break;
+						_menuContainer.itemContentChange( this );
+					break;
 				default :
 					super.actionPropertyChanged(propertyName, propertyValue);
 					break;
@@ -231,20 +232,19 @@ package abe.com.ponents.menus
 		public function get columnsSizes ( ) : Array { return ( _childrenLayout as DOHBoxLayout ).columnsSizes; }
 		public function set columnsSizes ( a : Array ) : void
 		{
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 { var v : Array = ( _childrenLayout as DOHBoxLayout ).boxes; }
 			TARGET::FLASH_10 { var v : Vector.<DOBoxSettings> = ( _childrenLayout as DOHBoxLayout ).boxes; }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			var v : Vector.<DOBoxSettings> = ( _childrenLayout as DOHBoxLayout ).boxes; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { var v : Vector.<DOBoxSettings> = ( _childrenLayout as DOHBoxLayout ).boxes; } 
 			
 			var l : Number = a.length;
-			for( var i:Number = 0; i<l; i++ )
+			for( var i:Number = 0; i < l; i++ )
 				v[ i ].size = a[ i ];
 			
 			invalidatePreferredSizeCache();
 		}
 		
-		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+		FEATURES::DND { 
 		override public function get transferData () : Transferable
 		{
 			if( _action )
@@ -252,7 +252,7 @@ package abe.com.ponents.menus
 			else
 				return null;
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 
 		override public function toString () : String
 		{

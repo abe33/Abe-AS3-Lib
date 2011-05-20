@@ -26,7 +26,6 @@ package abe.com.ponents.buttons
 	 *
 	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="EmptyComponent")]
 	/**
 	 * La classe <code>IconPicker</code> permet la création et la modification

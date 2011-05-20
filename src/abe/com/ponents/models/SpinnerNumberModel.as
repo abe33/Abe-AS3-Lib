@@ -21,7 +21,9 @@ package abe.com.ponents.models
 		protected var _uintDisplayMode : uint;
 		
 		static public const DECIMAL : uint = 10;
-		static public const HEXADECIMAL : uint = 16;		static public const BINARY : uint = 2;		static public const OCTAL : uint = 8;
+		static public const HEXADECIMAL : uint = 16;
+		static public const BINARY : uint = 2;
+		static public const OCTAL : uint = 8;
 		
 		
 		public function SpinnerNumberModel ( value : Number, 
@@ -41,13 +43,13 @@ package abe.com.ponents.models
 			_formatFunction = format;
 			_uintDisplayMode = DECIMAL;
 			
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
 			if( _intOnly )
 				buildContextMenu();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 		
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+		FEATURES::MENU_CONTEXT { 
 		protected var _cmiBinary : ContextMenuItem;
 		protected var _cmiOctal : ContextMenuItem;
 		protected var _cmiHexa : ContextMenuItem;
@@ -88,7 +90,7 @@ package abe.com.ponents.models
 				_modelMenuContext.push(_cmiHexa);
 				_modelMenuContext.push(_cmiDecimal );
 				
-				firePropertyChange( "modelMenuContext", _modelMenuContext );
+				firePropertyChangedSignal( "modelMenuContext", _modelMenuContext );
 			}
 		}
 		
@@ -106,13 +108,12 @@ package abe.com.ponents.models
 				_cmiHexa = null;
 				_cmiOctal = null;
 				
-				/*FDT_IGNORE*/
+				
 				TARGET::FLASH_9 { _modelMenuContext = []; }
 				TARGET::FLASH_10 { _modelMenuContext = new Vector.<ContextMenuItem>(); }
-				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-				_modelMenuContext = new Vector.<ContextMenuItem>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				TARGET::FLASH_10_1 { _modelMenuContext = new Vector.<ContextMenuItem>(); } 
 				
-				firePropertyChange( "modelMenuContext", _modelMenuContext );
+				firePropertyChangedSignal( "modelMenuContext", _modelMenuContext );
 			}
 		}
 		
@@ -120,15 +121,15 @@ package abe.com.ponents.models
 		{
 			return _modelMenuContext.length > 0;		
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 		
 		public function get uintDisplayMode () : uint { return _uintDisplayMode; }	
 		public function set uintDisplayMode (uintDisplayMode : uint) : void
 		{
 			_uintDisplayMode = uintDisplayMode;
-			firePropertyChange("displayValue", displayValue);
+			firePropertyChangedSignal("displayValue", displayValue);
 			
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
 			if( _intOnly )
 			{
 				_cmiBinary.caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Display as binary"), 
@@ -143,7 +144,7 @@ package abe.com.ponents.models
 				_cmiDecimal.caption = ContextMenuItemUtils.getBooleanContextMenuItemCaption( _("Display as decimal"), 
 						uintDisplayMode == DECIMAL );
 			}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 		
 		override public function get displayValue () : String { return _formatFunction( _value ); }
@@ -165,33 +166,24 @@ package abe.com.ponents.models
 				
 				_value = v;
 			}
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 		public function get min () : Number	{ return _min; }		
-		public function set min (min : Number) : void
-		{
-			_min = min;
-		}
+		public function set min (min : Number) : void { _min = min; }
 		public function get max () : Number { return _max; }		
-		public function set max (max : Number) : void
-		{
-			_max = max;
-		}
-		public function get step () : Number { return _step; }		
-		public function set step (step : Number) : void
-		{
-			_step = step;
-		}
-		public function get intOnly () : Boolean { return _intOnly; }		
-		public function set intOnly (intOnly : Boolean) : void
-		{
-			_intOnly = intOnly;
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+		public function set max (max : Number) : void { _max = max; }
+		public function get step () : Number { return _step; }
+		public function set step (step : Number) : void { _step = step;}
+		public function get intOnly () : Boolean { return _intOnly; }
+		public function set intOnly (intOnly : Boolean) : void 
+	    { 
+	    	_intOnly = intOnly;
+			FEATURES::MENU_CONTEXT { 
 				if( _intOnly )
 					buildContextMenu();
 				else
 					clearContextMenu();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 		public function get decimals () : Number{ return _decimals; }		
 		public function set decimals (decimals : Number) : void
@@ -202,7 +194,7 @@ package abe.com.ponents.models
 		public function set formatFunction (formatFunction : Function) : void
 		{
 			_formatFunction = formatFunction;
-			firePropertyChange("displayValue", displayValue);
+			firePropertyChangedSignal("displayValue", displayValue);
 		}
 
 		override public function reset () : void 

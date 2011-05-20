@@ -8,20 +8,12 @@ package abe.com.ponents.buttons
 	import abe.com.mon.core.IInteractiveObject;
 	import abe.com.mon.core.LayeredSprite;
 	import abe.com.ponents.actions.BooleanAction;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.core.focus.Focusable;
 	import abe.com.ponents.events.ActionEvent;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.IEventDispatcher;
-
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * Un <code>ToggleButton</code> est un bouton dont l'état sélectionné permute
 	 * lorsque l'on clique dessus avec la souris.
@@ -29,13 +21,12 @@ package abe.com.ponents.buttons
 	 * @author Cédric Néhémie
 	 */
 	[Skinable(skin="Button")]
-	public class ToggleButton extends AbstractButton  implements IDisplayObject, 
+	public class ToggleButton extends AbstractFormButton  implements IDisplayObject, 
 																 IInteractiveObject, 
 																 IDisplayObjectContainer, 
 																 Component, 
 																 Focusable,
-														 		 LayeredSprite,
-														 		 IEventDispatcher	
+														 		 LayeredSprite
 	{	
 		/**
 		 * Constructeur de classe <code>ToggleButton</code>.
@@ -68,10 +59,10 @@ package abe.com.ponents.buttons
 		 * </p>
 		 * @inheritDoc
 		 */
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
 			if( _action && _action is BooleanAction )
-				_action.execute();
+				_action.execute( context );
 			else
 				swapSelect(!selected);
 		}
@@ -88,20 +79,9 @@ package abe.com.ponents.buttons
 		protected function swapSelect ( b : Boolean ) : void
 		{
 			 selected = b;
-			super.click();
-			fireDataChange();
+			super.click( new UserActionContext( this, UserActionContext.PROGRAM_ACTION ) );
+			fireDataChangedSignal();
 		}
-		/**
-		 * Diffuse un évènement de type <code>ComponentEvent.DATA_CHANGE</code> aux écouteurs
-		 * de ce bouton.
-		 */
-		protected function fireDataChange () : void 
-		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
-		}
-		/**
-		 * 
-		 */
 		override protected function actionPropertyChanged ( propertyName : String, propertyValue : * ) : void 
 		{
 			if( propertyName == "value" )

@@ -1,7 +1,7 @@
 package abe.com.ponents.scrollbars.annotations
 {
 	import abe.com.mon.geom.dm;
-	import abe.com.ponents.core.AbstractComponent;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.scrollbars.ScrollBar;
 
 	import flash.display.Graphics;
@@ -120,7 +120,7 @@ package abe.com.ponents.scrollbars.annotations
 			hideToolTip();
 			_tooltip = null;
 		}
-		override public function click () : void
+		override public function click ( context : UserActionContext ) : void
 		{
 			var canScroll : Boolean = _scrollBar.canScroll;
 			var h : Number;

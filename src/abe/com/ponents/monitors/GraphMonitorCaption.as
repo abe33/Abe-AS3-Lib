@@ -48,33 +48,33 @@ package abe.com.ponents.monitors
 		protected var _monitor : GraphMonitor;
 		protected var _playing : Boolean;
 		
-		/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+		FEATURES::SETTINGS_MEMORY { 
 		protected var _settingsLoaded : Boolean = false;
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 		
 		public function GraphMonitorCaption ( monitor : GraphMonitor, captionMode : uint = 0, layoutMode : uint = 0 )
 		{
 			super();
 			_monitor = monitor;
 			_captionMode = captionMode;
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 { var rcd : Array = _monitor.recorders; }
 			TARGET::FLASH_10 { var rcd : Vector.<Recorder> = _monitor.recorders; }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			var rcd : Vector.<Recorder> = _monitor.recorders; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { 
+			var rcd : Vector.<Recorder> = _monitor.recorders; } 
 			
 			var l : uint = rcd.length;
 
-			for( var i : uint = 0; i<l;i++ )
+			for( var i : uint = 0; i < l;i++ )
 			{
 				var rec : Recorder = rcd[i];
 				var cl : CaptionLabel = new CaptionLabel( formatLabel( rec ), new ColorIcon( rec.curveSettings.color ) ) ;
 				cl.tooltip = rec.curveSettings.name;
 				addComponent( cl );
 			}
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
 				createContextMenuItems();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
 			this.layoutMode = layoutMode;
 			mouseChildren = false;
@@ -87,14 +87,14 @@ package abe.com.ponents.monitors
 		{
 			_captionMode = captionMode;
 
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
 				setContextMenuItemCaption( "captionMode", getContextMenuItemCaption (_captionMode) );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			FEATURES::SETTINGS_MEMORY { 
 			if( id )
 				SettingsManagerInstance.set( this, "captionMode", _captionMode );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
 			invalidatePreferredSizeCache();
 		}
@@ -130,18 +130,18 @@ package abe.com.ponents.monitors
 				default :
 					childrenLayout = new FlowLayout( this, 3, 3 );
 			}
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
 				updateLayoutCaptions();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+			FEATURES::SETTINGS_MEMORY { 
 			if( id )
 				SettingsManagerInstance.set( this, "layoutMode", _layoutMode );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
 			invalidatePreferredSizeCache();
 		}
-		/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
+		FEATURES::SETTINGS_MEMORY { 
 		override public function set id (id : String) : void 
 		{
 			super.id = id;
@@ -163,15 +163,15 @@ package abe.com.ponents.monitors
 			}
 			super.repaint();
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 
 		protected function getGridLayout ( col : int) : ComponentLayout
 		{
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 { var rcd : Array = _monitor.recorders; }
 			TARGET::FLASH_10 { var rcd : Vector.<Recorder> = _monitor.recorders; }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			var rcd : Vector.<Recorder> = _monitor.recorders; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { 
+			var rcd : Vector.<Recorder> = _monitor.recorders; } 
 			
 			var l : uint = rcd.length;
 			var rest : uint = l%col;
@@ -183,7 +183,7 @@ package abe.com.ponents.monitors
 			return new GridLayout(this,r,col,3,3);
 		}
 
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+		FEATURES::MENU_CONTEXT { 
 		protected var _cmis : Array;
 
 		protected function switchCaptionMode (event : ContextMenuEvent) : void
@@ -255,7 +255,7 @@ package abe.com.ponents.monitors
 		{
 			return i == _layoutMode;
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 
 		public function isRunning () : Boolean { return _playing; }
 		public function start () : void
@@ -310,13 +310,13 @@ package abe.com.ponents.monitors
 			var index : uint = _monitor.recorders.indexOf( event.recorder );
 			removeComponentAt(index);
 		}
-		public function tick (e : ImpulseEvent) : void
+		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 { var rcd : Array = _monitor.recorders; }
 			TARGET::FLASH_10 { var rcd : Vector.<Recorder> = _monitor.recorders; }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			var rcd : Vector.<Recorder> = _monitor.recorders; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { 
+			var rcd : Vector.<Recorder> = _monitor.recorders; } 
 			
 			var l : uint = rcd.length;
 			for( var i : uint = 0; i< l;i++ )

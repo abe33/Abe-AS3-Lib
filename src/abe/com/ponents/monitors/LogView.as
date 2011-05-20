@@ -21,8 +21,9 @@ package abe.com.ponents.monitors
 	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
 	import flash.text.TextFieldType;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="notifyWarning",type="abe.com.ponents.events.DebugEvent")]	[Event(name="notifyError",type="abe.com.ponents.events.DebugEvent")]
 	[Skinable(skin="LogView")]
 	[Skin(define="LogView",
 		  inherit="Text",
@@ -34,7 +35,9 @@ package abe.com.ponents.monitors
 	 */
 	public class LogView extends TextArea
 	{
-		protected var _logs : Array;		protected var _logsLimit : uint;		protected var _logsLevel : LogLevel;
+		protected var _logs : Array;
+		protected var _logsLimit : uint;
+		protected var _logsLevel : LogLevel;
 
 		protected var _lineRuler : TextLineRuler;
 
@@ -43,18 +46,28 @@ package abe.com.ponents.monitors
 		protected var _annotateWarnings : Boolean;
 		protected var _annotateFatals : Boolean;
 
-		protected var _notifyWarnings : Boolean;		protected var _notifyErrors : Boolean;
+		protected var _notifyWarnings : Boolean;
+		protected var _notifyErrors : Boolean;
+		
+		public var warningOccured : Signal;
+		public var errorOccured : Signal;
 
 		public function LogView ()
 		{
 			super( );
+			
+			warningOccured = new Signal();
+			errorOccured = new Signal();
+			
 			_logsLimit = 100;
 			_logs = [];
 			_label.type = TextFieldType.DYNAMIC;
 			_logsLevel = LogLevel.DEBUG;
 
 			_allowHTML = true;
-			_annotateWarnings = true;			_annotateErrors = true;			_annotateFatals = true;
+			_annotateWarnings = true;
+			_annotateErrors = true;
+			_annotateFatals = true;
 
 			_notifyWarnings = true;
 			_notifyErrors = true;
@@ -69,13 +82,14 @@ package abe.com.ponents.monitors
 
 			invalidatePreferredSizeCache();
 
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
 				createContextMenu();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
-			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
-				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DELETE ) ] = new ProxyCommand( clear );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.BACKSPACE ) ] = new ProxyCommand( clear );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::KEYBOARD_CONTEXT { 
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DELETE ) ] = new ProxyCommand( clear );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.BACKSPACE ) ] = new ProxyCommand( clear );
+			} 
 		}
 
 		public function get annotations() : ScrollBarAnnotations{ return _annotations; }
@@ -83,9 +97,9 @@ package abe.com.ponents.monitors
 		public function set logsLevel (logsLevel : LogLevel) : void
 		{
 			_logsLevel = logsLevel;
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			updateFiltersMenuItemCaptions ();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
+			    updateFiltersMenuItemCaptions ();
+			} 
 			printLogs();
 		}
 		public function get logsLimit () : uint { return _logsLimit; }
@@ -112,155 +126,155 @@ package abe.com.ponents.monitors
 		public function set annotateErrors(annotateErrors : Boolean) : void
 		{
 			_annotateErrors=annotateErrors;
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			updateAnnotateMenuItemCaptions();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
+			    updateAnnotateMenuItemCaptions();
+			} 
 			printLogs();
 		}
 		public function get annotateWarnings() : Boolean { return _annotateWarnings; }
 		public function set annotateWarnings(annotateWarnings : Boolean) : void
 		{
 			_annotateWarnings=annotateWarnings;
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			updateAnnotateMenuItemCaptions();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
+			    updateAnnotateMenuItemCaptions();
+			} 
 			printLogs();
 		}
 		public function get annotateFatals() : Boolean { return _annotateFatals; }
 		public function set annotateFatals(annotateFatals : Boolean) : void
 		{
 			_annotateFatals=annotateFatals;
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			updateAnnotateMenuItemCaptions();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
+			    updateAnnotateMenuItemCaptions();
+			} 
 			printLogs();
 		}
 		public function get notifyWarnings() : Boolean { return _notifyWarnings; }
 		public function set notifyWarnings(notifyWarnings : Boolean) : void
 		{
 			_notifyWarnings=notifyWarnings;
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			updateNotifyMenuItemCaptions();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
+			    updateNotifyMenuItemCaptions();
+			} 
 		}
 		public function get notifyErrors() : Boolean { return _notifyErrors; }
 		public function set notifyErrors(notifyErrors : Boolean) : void
 		{
 			_notifyErrors=notifyErrors;
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			updateNotifyMenuItemCaptions();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
+			    updateNotifyMenuItemCaptions();
+			} 
 		}
 
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-		protected function createContextMenu () : void
-		{
-			// Clear logs
-			addNewContextMenuItemForGroup( _("Clear logs"), "clearLogs", clear, "logs" );
+		FEATURES::MENU_CONTEXT { 
+		    protected function createContextMenu () : void
+		    {
+			    // Clear logs
+			    addNewContextMenuItemForGroup( _("Clear logs"), "clearLogs", clear, "logs" );
 
-			// Filter logs
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Debug and above"),
-															_logsLevel == LogLevel.DEBUG ), "debugFilter", debugLevel, "filters" );
+			    // Filter logs
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Debug and above"),
+															    _logsLevel == LogLevel.DEBUG ), "debugFilter", debugLevel, "filters" );
 
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Info and above"),
-															_logsLevel == LogLevel.INFO ), "infoFilter", infoLevel, "filters" );
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Info and above"),
+															    _logsLevel == LogLevel.INFO ), "infoFilter", infoLevel, "filters" );
 
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Warn and above"),
-															_logsLevel == LogLevel.WARN ), "warnFilter", warnLevel, "filters" );
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Warn and above"),
+															    _logsLevel == LogLevel.WARN ), "warnFilter", warnLevel, "filters" );
 
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Error and above"),
-															_logsLevel == LogLevel.ERROR ), "errorFilter", errorLevel, "filters" );
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Error and above"),
+															    _logsLevel == LogLevel.ERROR ), "errorFilter", errorLevel, "filters" );
 
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Fatal"),
-															_logsLevel == LogLevel.FATAL ), "fatalFilter", fatalLevel, "filters" );
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Fatal"),
+															    _logsLevel == LogLevel.FATAL ), "fatalFilter", fatalLevel, "filters" );
 
-			// Annotations
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Warnings"),
-															_annotateWarnings ), "warnAnnotation", annotateWarnHandler, "annotation" );
+			    // Annotations
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Warnings"),
+															    _annotateWarnings ), "warnAnnotation", annotateWarnHandler, "annotation" );
 
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Errors"),
-															_annotateErrors ), "errorAnnotation", annotateErrorHandler, "annotation" );
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Errors"),
+															    _annotateErrors ), "errorAnnotation", annotateErrorHandler, "annotation" );
 
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Fatal Errors"),
-															_annotateFatals ), "fatalAnnotation", annotateFatalHandler, "annotation" );
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Fatal Errors"),
+															    _annotateFatals ), "fatalAnnotation", annotateFatalHandler, "annotation" );
 
-			// Notifications
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Notify Warnings"),
-															_notifyWarnings ), "notifyWarning", notifyWarnHandler, "notification" );
+			    // Notifications
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Notify Warnings"),
+															    _notifyWarnings ), "notifyWarning", notifyWarnHandler, "notification" );
 
-			addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Notify Errors"),
-															_notifyErrors ), "notifyError", notifyErrorHandler, "notification" );
-		}
-		protected function notifyWarnHandler(event : ContextMenuEvent) : void
-		{
-			notifyWarnings = !notifyWarnings;
-		}
-		protected function notifyErrorHandler(event : ContextMenuEvent) : void
-		{
-			notifyErrors = !notifyErrors;
-		}
-		protected function annotateWarnHandler(event : ContextMenuEvent) : void
-		{
-			annotateWarnings = !annotateWarnings;
-		}
-		protected function annotateErrorHandler(event : ContextMenuEvent) : void
-		{
-			annotateErrors = !annotateErrors;
-		}
-		protected function annotateFatalHandler(event : ContextMenuEvent) : void
-		{
-			annotateFatals = !annotateFatals;
-		}
-		protected function debugLevel (event : ContextMenuEvent) : void
-		{
-			logsLevel = LogLevel.DEBUG;
-		}
-		protected function infoLevel (event : ContextMenuEvent) : void
-		{
-			logsLevel = LogLevel.INFO;
-		}
-		protected function warnLevel (event : ContextMenuEvent) : void
-		{
-			logsLevel = LogLevel.WARN;
-		}
-		protected function errorLevel (event : ContextMenuEvent) : void
-		{
-			logsLevel = LogLevel.ERROR;
-		}
-		protected function fatalLevel (event : ContextMenuEvent) : void
-		{
-			logsLevel = LogLevel.FATAL;
-		}
-		protected function updateNotifyMenuItemCaptions() : void
-		{
-			setContextMenuItemCaption( "notifyWarning", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Notify Warnings"),
-															_notifyWarnings ) );
-			setContextMenuItemCaption( "notifyError", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Notify Errors"),
-															_notifyErrors ) );
-		}
-		protected function updateAnnotateMenuItemCaptions () : void
-		{
-			setContextMenuItemCaption( "warnAnnotation", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Warnings"),
-															_annotateWarnings ) );
-			setContextMenuItemCaption( "errorAnnotation", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Errors"),
-															_annotateErrors ) );
-			setContextMenuItemCaption( "fatalAnnotation", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Fatal Errors"),
-															_annotateFatals ) );
-		}
-		protected function updateFiltersMenuItemCaptions () : void
-		{
-			setContextMenuItemCaption( "debugFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Debug and above"),
-															_logsLevel == LogLevel.DEBUG ) );
-			setContextMenuItemCaption( "infoFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Info and above"),
-															_logsLevel == LogLevel.INFO ) );
-			setContextMenuItemCaption( "warnFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Warn and above"),
-															_logsLevel == LogLevel.WARN ) );
-			setContextMenuItemCaption( "errorFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Error and above"),
-															_logsLevel == LogLevel.ERROR ) );
-			setContextMenuItemCaption( "fatalFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Fatal"),
-															_logsLevel == LogLevel.FATAL ) );
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			    addNewContextMenuItemForGroup( ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Notify Errors"),
+															    _notifyErrors ), "notifyError", notifyErrorHandler, "notification" );
+		    }
+		    protected function notifyWarnHandler(event : ContextMenuEvent) : void
+		    {
+			    notifyWarnings = !notifyWarnings;
+		    }
+		    protected function notifyErrorHandler(event : ContextMenuEvent) : void
+		    {
+			    notifyErrors = !notifyErrors;
+		    }
+		    protected function annotateWarnHandler(event : ContextMenuEvent) : void
+		    {
+			    annotateWarnings = !annotateWarnings;
+		    }
+		    protected function annotateErrorHandler(event : ContextMenuEvent) : void
+		    {
+			    annotateErrors = !annotateErrors;
+		    }
+		    protected function annotateFatalHandler(event : ContextMenuEvent) : void
+		    {
+			    annotateFatals = !annotateFatals;
+		    }
+		    protected function debugLevel (event : ContextMenuEvent) : void
+		    {
+			    logsLevel = LogLevel.DEBUG;
+		    }
+		    protected function infoLevel (event : ContextMenuEvent) : void
+		    {
+			    logsLevel = LogLevel.INFO;
+		    }
+		    protected function warnLevel (event : ContextMenuEvent) : void
+		    {
+			    logsLevel = LogLevel.WARN;
+		    }
+		    protected function errorLevel (event : ContextMenuEvent) : void
+		    {
+			    logsLevel = LogLevel.ERROR;
+		    }
+		    protected function fatalLevel (event : ContextMenuEvent) : void
+		    {
+			    logsLevel = LogLevel.FATAL;
+		    }
+		    protected function updateNotifyMenuItemCaptions() : void
+		    {
+			    setContextMenuItemCaption( "notifyWarning", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Notify Warnings"),
+															    _notifyWarnings ) );
+			    setContextMenuItemCaption( "notifyError", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Notify Errors"),
+															    _notifyErrors ) );
+		    }
+		    protected function updateAnnotateMenuItemCaptions () : void
+		    {
+			    setContextMenuItemCaption( "warnAnnotation", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Warnings"),
+															    _annotateWarnings ) );
+			    setContextMenuItemCaption( "errorAnnotation", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Errors"),
+															    _annotateErrors ) );
+			    setContextMenuItemCaption( "fatalAnnotation", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Annotate Fatal Errors"),
+															    _annotateFatals ) );
+		    }
+		    protected function updateFiltersMenuItemCaptions () : void
+		    {
+			    setContextMenuItemCaption( "debugFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Debug and above"),
+															    _logsLevel == LogLevel.DEBUG ) );
+			    setContextMenuItemCaption( "infoFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Info and above"),
+															    _logsLevel == LogLevel.INFO ) );
+			    setContextMenuItemCaption( "warnFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Warn and above"),
+															    _logsLevel == LogLevel.WARN ) );
+			    setContextMenuItemCaption( "errorFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Error and above"),
+															    _logsLevel == LogLevel.ERROR ) );
+			    setContextMenuItemCaption( "fatalFilter", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Filter by Fatal"),
+															    _logsLevel == LogLevel.FATAL ) );
+		    }
+		} 
 
 		public function clear (... args) : void
 		{
@@ -287,10 +301,11 @@ package abe.com.ponents.monitors
 				if( _notifyWarnings &&
 					level.level == LogLevel.WARN.level &&
 					!isVisible )
-					dispatchEvent( new DebugEvent( DebugEvent.NOTIFY_WARNING ) );				else if( _notifyErrors &&
+					warningOccured.dispatch( this );
+				else if( _notifyErrors &&
 						level.level >= LogLevel.ERROR.level &&
 						!isVisible )
-					dispatchEvent( new DebugEvent( DebugEvent.NOTIFY_ERROR ) );
+					errorOccured.dispatch( this );
 			}
 		}
 		public function writeLine ( str : String ) : void
@@ -337,7 +352,7 @@ package abe.com.ponents.monitors
 		protected function updateAnnotations() : void
 		{
 			var a : Array = [];
-			for( var i:uint = 0; i<_label.numLines; i++ )
+			for( var i:uint = 0; i < _label.numLines; i++ )
 			{
 				var line : String =  _label.getLineText( i );
 				if( _annotateErrors  )

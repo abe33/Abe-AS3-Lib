@@ -11,7 +11,9 @@ package abe.com.ponents.utils
 	 */
 	public class PopupUtils 
 	{
-		static public const NONE : int = 0;		static public const MODAL : int = 1;		static public const HIDE_ON_BLUR : int = 2;
+		static public const NONE : int = 0;
+		static public const MODAL : int = 1;
+		static public const HIDE_ON_BLUR : int = 2;
 		
 		static public var animateModal : Boolean = true;
 		
@@ -69,7 +71,8 @@ package abe.com.ponents.utils
 			StageUtils.lockToStage( c as DisplayObject, StageUtils.X_ALIGN_CENTER + StageUtils.Y_ALIGN_CENTER );	
 
 			c.grabFocus();
-					}
+			
+		}
 		static public function showAsHideOnBlurPopup ( c : Component, invoker : Component = null ) : void
 		{
 			var level : PopupLevel;
@@ -101,7 +104,7 @@ package abe.com.ponents.utils
 		}
 		static protected function tweenEnded ( t : Tween ) : void
 		{
-			ToolKit.popupLevel.removeChild( tween as DisplayObject );
+			ToolKit.popupLevel.removeChild( tween.target as DisplayObject );
 			tween.tweenEnded.remove( tweenEnded );
 		}
 		static public function pop () : void

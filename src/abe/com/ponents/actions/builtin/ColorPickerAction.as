@@ -31,6 +31,7 @@ package abe.com.ponents.actions.builtin
 
 		public function ColorPickerAction ( color : Color = null, accelerator : KeyStroke = null)
 		{
+		    _commandCancelled = new Signal();
 			if( !color )
 				color = Color.Black;
 			
@@ -74,7 +75,7 @@ package abe.com.ponents.actions.builtin
 			ColorEditorInstance.target = _color;
 			
 			_dial = new Dialog( _("Edit Color"), 3, ColorEditorInstance );
-			_dial.addEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.add( dialogResponded );
 			_dial.open();
 		}
 		
@@ -85,36 +86,36 @@ package abe.com.ponents.actions.builtin
 			this.execute();
 		}
 				
-		private function dialogResult (event : DialogEvent) : void
+		private function dialogResponded ( d : Dialog, result : uint ) : void
 		{
-			switch( event.result )
+			switch( result )
 			{
 				case Dialog.RESULTS_OK : 
 					_color.red = ColorEditorInstance.target.red;
 					_color.alpha = ColorEditorInstance.target.alpha;
 					_color.blue = ColorEditorInstance.target.blue;
 					_color.green = ColorEditorInstance.target.green;
-					propertyChanged.dispatch( "icon", _icon );
-					commandEnded.dispatch( this );
+					_propertyChanged.dispatch( "icon", _icon );
+					_commandEnded.dispatch( this );
 					
 					if( _caller )
 						_caller.confirmEdit();
 					
 					break;
 				default : 
-					commandCancelled.dispatch( this );
+					_commandCancelled.dispatch( this );
 					break;
 			}
 			_isRunning = false;
-			_dial.close();
-			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
-			_dial = null;		
+			d.close();
+			d.dialogResponded.remove( dialogResponded );
+			_dial = null;
 		}
 		
 		public function cancel () : void
 		{
 			_dial.close();
-			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.remove( dialogResponded );
 			_dial = null;		
 			_cancelled = true;
 			_isRunning = false;
@@ -125,8 +126,7 @@ package abe.com.ponents.actions.builtin
 		}
 
 		public function isCancelled () : Boolean { return _cancelled; }
-		public function get commandCancelled () : Signal { return _commandCancelled; 
-		}
+		public function get commandCancelled () : Signal { return _commandCancelled; }
 	}
 }
 

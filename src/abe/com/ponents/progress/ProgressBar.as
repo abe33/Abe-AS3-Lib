@@ -19,6 +19,8 @@ package abe.com.ponents.progress
 
 	import flash.display.BlendMode;
 	import flash.display.DisplayObject;
+	
+	import org.osflash.signals.Signal;
 
 	[Skinable(skin="ProgressBar")]
 	[Skin(define="ProgressBar",
@@ -26,7 +28,8 @@ package abe.com.ponents.progress
 		  preview="abe.com.ponents.progress::ProgressBar.defaultProgressBarPreview",
 		  
 		  state__all__background="new deco::GradientFill(gradient([skin.progressBackgroundColor1,skin.progressBackgroundColor2],[0,1]),90)",
-		  state__disabled__background="new deco::GradientFill(gradient([skin.progressDisabledBackgroundColor1,skin.progressDisabledBackgroundColor2],[0,1]),90)"	)]
+		  state__disabled__background="new deco::GradientFill(gradient([skin.progressDisabledBackgroundColor1,skin.progressDisabledBackgroundColor2],[0,1]),90)"
+	)]
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -37,15 +40,16 @@ package abe.com.ponents.progress
 																  ImpulseListener,
 																  Suspendable
 	{
-		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
-		static public function defaultProgressBarPreview () : ProgressBar
-		{
-			return new ProgressBar(new DefaultBoundedRangeModel(33, 0, 100, 1 ));
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		FEATURES::BUILDER { 
+		    static public function defaultProgressBarPreview () : ProgressBar
+		    {
+			    return new ProgressBar(new DefaultBoundedRangeModel(33, 0, 100, 1 ));
+		    }
+		} 
 		
 		static private const SKIN_DEPENDENCIES : Array = [GradientFill];
 		
+		public var dataChanged : Signal;
 		
 		protected var _model : BoundedRangeModel;
 		protected var _determinate : Boolean;
@@ -63,6 +67,7 @@ package abe.com.ponents.progress
 		public function ProgressBar ( model : BoundedRangeModel = null, displayLabel : Boolean = true )
 		{
 			super();
+			dataChanged = new Signal();
 			_bar = new Bar();
 			_isRunning = false;
 			_determinate = true;
@@ -109,13 +114,13 @@ package abe.com.ponents.progress
 				return;
 			
 			if( _model )
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.remove( modelDataChanged );
 			
 			_model = model;
 			if( _model )
 			{
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
-				dataChanged(null);
+				_model.dataChanged.add( modelDataChanged );
+				modelDataChanged( _model, _model.value );
 			}
 		}
 		public function get labelPlacement () : String { return _labelPlacement; }		
@@ -192,11 +197,11 @@ package abe.com.ponents.progress
 			placeLabel (); 
 		}
 
-		protected function dataChanged (event : ComponentEvent) : void
+		protected function modelDataChanged ( b : BoundedRangeModel, v : * ) : void
 		{			
 			if( _determinate )
 				updateBar();
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 		
 		public function tick ( bias : Number, biasInSeconds : Number, currentTime : Number) : void
@@ -265,9 +270,9 @@ package abe.com.ponents.progress
 		{
 			_forcePercentageInLabel = forcePercentageInLabel;
 		}
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			dataChanged.dispatch( this, _model.value );
 		}
 		
 		public function get bar () : Bar {

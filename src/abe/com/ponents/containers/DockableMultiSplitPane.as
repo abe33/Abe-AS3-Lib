@@ -5,19 +5,22 @@ package abe.com.ponents.containers
 	import abe.com.ponents.core.DockableContainer;
 	import abe.com.ponents.dnd.DropEvent;
 	import abe.com.ponents.dnd.DropTargetDragEvent;
-	import abe.com.ponents.events.DockEvent;
+	import abe.com.ponents.events.*;
 	import abe.com.ponents.layouts.components.splits.Leaf;
 	import abe.com.ponents.tabs.ClosableTab;
 	import abe.com.ponents.tabs.SimpleTab;
 	import abe.com.ponents.tabs.Tab;
 	import abe.com.ponents.tabs.TabbedPane;
 	import abe.com.ponents.transfer.ComponentsFlavors;
-
+	
 	import flash.geom.Point;
+
+    import org.osflash.signals.events.IBubbleEventHandler;
+    import org.osflash.signals.events.IEvent;
 	/**
 	 * @author cedric
 	 */
-	public class DockableMultiSplitPane extends MultiSplitPane 
+	public class DockableMultiSplitPane extends MultiSplitPane implements IBubbleEventHandler 
 	{
 		protected var _closeable : Boolean;
 
@@ -34,8 +37,9 @@ package abe.com.ponents.containers
 		override public function addComponent (c : Component) : void 
 		{
 			super.addComponent( c );
+			/*
 			if( c is DockableContainer )
-				c.addWeakEventListener( DockEvent.DOCK_REMOVE, dockRemove );
+				c.addWeakEventListener( DockEvent.DOCK_REMOVE, dockRemove );*/
 		}
 		override public function dragOver (e : DropTargetDragEvent) : void 
 		{
@@ -70,7 +74,8 @@ package abe.com.ponents.containers
 				
 				if( _closeable )
 					tab = new ClosableTab(dock.label, dock.content, dock.icon.clone());
-				else					tab = new SimpleTab(dock.label, dock.content, dock.icon.clone());
+				else
+					tab = new SimpleTab(dock.label, dock.content, dock.icon.clone());
 				
 				tab.id = dock.id;
 				//var l : Leaf = multiSplitLayout.getLeafParent( c );
@@ -94,9 +99,8 @@ package abe.com.ponents.containers
 
 			return null;
 		}
-		public function dockRemove ( e : DockEvent ) : void
+		public function dockRemoved ( dpane : DockableContainer ) : void
 		{
-			var dpane : DockableContainer = e.target as DockableContainer;
 			if( dpane.numDocks() == 0 )
 			{
 				var l : Leaf = multiSplitLayout.getLeafParent(dpane);
@@ -104,5 +108,13 @@ package abe.com.ponents.containers
 				removeComponent(dpane);
 			}
 		}
+		public function onEventBubbled( e : IEvent ):Boolean
+        {
+            var evt : ComponentSignalEvent = e as ComponentSignalEvent;
+            if( evt.signalName == "dockRemoved" )
+                dockRemoved( evt.args[0] as DockableContainer );
+              
+            return false;
+        }
 	}
 }

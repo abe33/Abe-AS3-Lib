@@ -17,14 +17,8 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.IEventDispatcher;
+    import org.osflash.signals.Signal;
 
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * La classe <code>FiltersPicker</code> permet l'édition d'un tableau de filtres
 	 * tel utilisable dans le cadre de la propriété <code>filters</code> d'un <code>DisplayObject</code>.
@@ -40,120 +34,32 @@ package abe.com.ponents.buttons
 	 * @author	Cédric Néhémie
 	 * @see	abe.com.ponents.actions.builtin.EditFiltersAction
 	 */
-	public class FiltersPicker extends AbstractButton  implements IDisplayObject, 
+	public class FiltersPicker extends AbstractFormButton  implements IDisplayObject, 
 															  IInteractiveObject, 
 															  IDisplayObjectContainer, 
 															  Component, 
 															  Focusable,
 													 		  LayeredSprite,
-													 		  IEventDispatcher,
 													 		  FormComponent 
 	{
-		/**
-		 * Un entier représentant le mode de désactivation courant de ce composant.
-		 */
-		protected var _disabledMode : uint;
-		/**
-		 * La valeur de ce composant durant son mode de désactivation.
-		 */
-		protected var _disabledValue : *;
-		
 		/**
 		 * Constructeur de la classe <code>FiltersPicker</code>.
 		 * 
 		 * @param	filters	un tableau d'objet <code>BitmapFilter</code>
 		 * @param	icon	un icône représentant l'action du composant
 		 */
-		public function FiltersPicker (filters : Array = null, icon : Icon = null)
+		public function FiltersPicker ( filters : Array = null, icon : Icon = null)
 		{
 			super( new EditFiltersAction( filters ? filters : [], icon) );
 		}
 		/**
 		 * Une référence vers le tableau de filtres de cet objet <code>FiltersPicker</code>.
 		 */
-		public function get value () : * { return (_action as EditFiltersAction).filters; }		
-		public function set value (value : *) : void
+		override public function get value () : * { return (_action as EditFiltersAction).filters; }		
+		override public function set value (value : *) : void
 		{
 			(_action as EditFiltersAction).filters = value as Array;
 			invalidate();
-		}
-		/**
-		 * Un entier représentant le mode de désactivation courant de ce composant.
-		 */
-		public function get disabledMode () : uint { return _disabledMode; }
-		public function set disabledMode (b : uint) : void
-		{
-			_disabledMode = b;
-			
-			if( !_enabled )
-				checkDisableMode();
-		}
-		/**
-		 * La valeur de ce composant durant son mode de désactivation.
-		 */
-		public function get disabledValue () : * { return _disabledValue; }		
-		public function set disabledValue (v : *) : void 
-		{
-			_disabledValue = v;
-		}
-		/**
-		 * @inheritDoc
-		 */
-		override public function set enabled (b : Boolean) : void 
-		{
-			super.enabled = b;
-			checkDisableMode();
-		}
-		/**
-		 * Définie l'état du composant lorsque celuici est désactivé.
-		 */
-		protected function checkDisableMode() : void
-		{
-			switch( _disabledMode )
-			{
-				case FormComponentDisabledModes.DIFFERENT_ACROSS_MANY : 
-					disabledValue = _("different values across many");
-					affectLabelText();
-					break;
-					
-				case FormComponentDisabledModes.UNDEFINED : 
-					disabledValue = _("not defined");
-					affectLabelText();
-					break;
-				
-				case FormComponentDisabledModes.NORMAL :
-				case FormComponentDisabledModes.INHERITED : 
-				default : 
-				    disabledValue = _action.name;
-				    affectLabelText();
-					break;
-			}
-		}
-		/**
-		 * @inheritDoc
-		 */
-		override protected function affectLabelText () : void 
-		{
-			if( _enabled )
-				super.affectLabelText();
-			else
-				_labelTextField.htmlText = String( _disabledValue );
-		}
-		/**
-		 * @inheritDoc
-		 */
-		override protected function commandEnded (c:Command) : void
-		{
-			super.commandEnded( e );
-			fireDataChange();
-		}
-		/**
-		 * Diffuse un évènement de type <code>ComponentEvent.DATA_CHANGE</code> aux écouteurs
-		 * de ce composant.
-		 */
-		protected function fireDataChange () : void 
-		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
 		}
 	}
 }

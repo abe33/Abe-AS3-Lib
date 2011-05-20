@@ -3,7 +3,7 @@ package abe.com.ponents.tools
 	import abe.com.mon.colors.Color;
 	import abe.com.ponents.buttons.*;
 	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.Container;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.forms.FormObject;
@@ -15,10 +15,10 @@ package abe.com.ponents.tools
 
 	import flash.events.MouseEvent;
 
+    import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="RGBColorEditor")]
 	[Skin(define="RGBColorEditor",
 			  inherit="EmptyComponent",
@@ -35,9 +35,13 @@ package abe.com.ponents.tools
 		protected var _formPanel : Container;
 		protected var _modeGroup : ButtonGroup;
 		
+		public var dataChanged : Signal;
+		
 		public function RGBColorEditor ()
 		{
 			super( );
+			dataChanged = new Signal();
+			
 			_childrenLayout = new InlineLayout(this);
 			_target = new Color();
 			_colorIcon = new ColorIcon( _target );
@@ -48,9 +52,9 @@ package abe.com.ponents.tools
 			_formManager = new SimpleFormManager( _formObject );
 			_formPanel = FieldSetFormRenderer.instance.render( _formObject ) as Container;
 			
-			_formManager.addEventListener(PropertyEvent.PROPERTY_CHANGE, formPropertyChanged );
-			_grid.addEventListener(ComponentEvent.DATA_CHANGE, samplerDataChange );
-			_colorIconSave.addEventListener(MouseEvent.CLICK, iconSaveClick );
+			_formManager.propertyChanged.add( formPropertyChanged );
+			_grid.dataChanged.add( samplerDataChanged );
+			_colorIconSave.mouseReleased.add( iconSaveClicked );
 			
 			_colorIcon.init();
 			_colorIconSave.init();
@@ -72,7 +76,7 @@ package abe.com.ponents.tools
 			_modeGroup.add( modeH );
 			_modeGroup.add( modeS );
 			_modeGroup.add( modeV );
-			_modeGroup.addEventListener( ComponentEvent.SELECTION_CHANGE, modeSelectionChange );
+			_modeGroup.selectionChanged.add( modeSelectionChanged );
 
 			var p2 : Panel = new Panel();
 			p2.childrenLayout = new GridLayout( p2, 6, 1, 3, 3);
@@ -92,7 +96,7 @@ package abe.com.ponents.tools
 			invalidatePreferredSizeCache();
 		}
 		
-		public function modeSelectionChange( e : ComponentEvent ) : void
+		public function modeSelectionChanged( bg : ButtonGroup ) : void
 		{
 		    switch( _modeGroup.selectedButton.label )
 		    {
@@ -135,18 +139,18 @@ package abe.com.ponents.tools
 		
 		public function get formPanel () : Container { return _formPanel; }
 		
-		public function formPropertyChanged( e : PropertyEvent ) : void 
+		public function formPropertyChanged( propertyName : String, propertyValue : * ) : void 
 		{
 			_colorIcon.invalidate();
-			if( e.propertyName != "name" && 
-				e.propertyName != "alpha" )
+			if( propertyName != "name" && 
+				propertyName != "alpha" )
 			{
 				_grid.value = _target.clone();
 			}
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 
-		public function samplerDataChange ( e : ComponentEvent ) : void
+		public function samplerDataChanged ( c : Component, v : * ) : void
 		{
 			var c2 : Color = _grid.value;
 			_target.red = c2.red;
@@ -155,9 +159,9 @@ package abe.com.ponents.tools
 			//c.alpha = c2.alpha;
 			_colorIcon.invalidate();
 			_formManager.updateFieldsWithTarget();
-			fireDataChange();
+			fireDataChangedSignal();
 		}
-		protected function iconSaveClick (event : MouseEvent) : void
+		protected function iconSaveClicked ( c : Component ) : void
 		{
 			var c2 : Color = _colorIconSave.color;
 			_target.red = c2.red;
@@ -167,12 +171,12 @@ package abe.com.ponents.tools
 			_grid.value = _target;
 			_colorIcon.invalidate();
 			_formManager.updateFieldsWithTarget();
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 		
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent(new ComponentEvent(ComponentEvent.DATA_CHANGE));
+			dataChanged.dispatch( this, target );
 		}
 		
 		public function get formManager () : SimpleFormManager { return _formManager;}

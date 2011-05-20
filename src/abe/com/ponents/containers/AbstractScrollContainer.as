@@ -2,8 +2,7 @@ package abe.com.ponents.containers
 {
 	
 	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.models.BoundedRangeModel;
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
@@ -46,7 +45,10 @@ package abe.com.ponents.containers
 		public function set view ( v : Component ) : void 
 		{ 
 			if( _viewport.view )
+			{
 				_viewport.view.componentResized.remove( onComponentResized );
+				( _viewport.view as AbstractComponent ).mouseWheelRolled.add( viewportMouseWheelRolled );
+			}
 			
 			_viewport.view = v;
 			
@@ -54,8 +56,9 @@ package abe.com.ponents.containers
 				_viewport.view.componentResized.add( onComponentResized );
 			
 			invalidatePreferredSizeCache();
+			( v as AbstractComponent ).mouseWheelRolled.add( viewportMouseWheelRolled );
 		}
-
+        public function viewportMouseWheelRolled ( c : Component, d: Number ) : void {}
 		override public function ensureRectIsVisible (r : Rectangle) : Component
 		{
 			if( r.y < _vmodel.value )
@@ -150,7 +153,7 @@ package abe.com.ponents.containers
 			return _hmodel.maximum > _hmodel.minimum;
 		}
 		
-		protected function hscrollOccured ( model : BoundedRangeModel ) : void
+		protected function hscrollOccured ( model : BoundedRangeModel, v : * ) : void
 		{
 			if( _viewport.view )
 			{
@@ -158,7 +161,7 @@ package abe.com.ponents.containers
 				fireScrolledSignal ();
 			}
 		}
-		protected function vscrollOccured ( model : BoundedRangeModel ) : void
+		protected function vscrollOccured ( model : BoundedRangeModel, v : * ) : void
 		{
 			if( _viewport.view )
 			{
@@ -194,13 +197,13 @@ package abe.com.ponents.containers
 				if( !canScrollV )
 				{
 					_vmodel.value = _vmodel.minimum;
-					vscrollOccured(null);
+					vscrollOccured( _vmodel, _vmodel.value );
 				}
 			
 				if( !canScrollH )
 				{
 					_hmodel.value = _hmodel.minimum;
-					hscrollOccured(null);
+					hscrollOccured( _hmodel, _hmodel.value);
 				}
 			}
 			invalidate();
@@ -213,17 +216,14 @@ package abe.com.ponents.containers
 		{
 			return _isAlwaysValidateRoot || _validateRoot;
 		}
-
 		protected function fireScrolledSignal () : void
 		{
 			scrolled.dispatch( this );
 		}
-		
 		public function get isAlwaysValidateRoot () : Boolean
 		{
 			return _isAlwaysValidateRoot;
 		}
-		
 		public function set isAlwaysValidateRoot (isAlwaysValidateRoot : Boolean) : void
 		{
 			_isAlwaysValidateRoot = isAlwaysValidateRoot;

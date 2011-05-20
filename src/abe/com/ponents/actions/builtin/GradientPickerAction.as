@@ -28,6 +28,7 @@ package abe.com.ponents.actions.builtin
 
 		public function GradientPickerAction ( gradient : Gradient = null, accelerator : KeyStroke = null)
 		{
+		    _commandCancelled = new Signal();
 			_gradient = gradient ?  gradient : new Gradient([Color.Black, Color.White],[0,1],_("Unnamed Gradient") ) ;
 			super( _("GradientPicker"), new GradientIcon(_gradient), _("Edit current gradient"), accelerator );
 		}
@@ -43,12 +44,12 @@ package abe.com.ponents.actions.builtin
 			GradientEditorInstance.target = _gradient;
 			
 			_dial = new Dialog( _("Edit Gradient"), 3, GradientEditorInstance );
-			_dial.addEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.add( dialogResponded );
 			_dial.open();
 		}
-		private function dialogResult (event : DialogEvent) : void
+		private function dialogResponded ( d : Dialog, result : uint ) : void
 		{
-			switch( event.result )
+			switch( result )
 			{
 				case Dialog.RESULTS_OK : 
 					_gradient.colors = GradientEditorInstance.target.colors;
@@ -63,14 +64,14 @@ package abe.com.ponents.actions.builtin
 			}
 			_isRunning = false;
 			_dial.close();
-			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.remove( dialogResponded );
 			_dial = null;	
 		}
 		
 		public function cancel () : void
 		{
 			_dial.close();
-			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.remove( dialogResponded );
 			_dial = null;	
 			_cancelled = true;
 			_isRunning = false;

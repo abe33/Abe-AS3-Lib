@@ -5,7 +5,7 @@ package abe.com.ponents.text
 	import abe.com.ponents.buttons.ColorPicker;
 	import abe.com.ponents.buttons.ToggleButton;
 	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.core.AbstractContainer;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.core.edit.Editable;
 	import abe.com.ponents.core.edit.Editor;
 	import abe.com.ponents.events.ComponentEvent;
@@ -24,6 +24,7 @@ package abe.com.ponents.text
 	import flash.text.FontType;
 	import flash.text.TextFormat;
 
+    import org.osflash.signals.Signal;
 	/**
 	 * @author cedric
 	 */
@@ -41,19 +42,27 @@ package abe.com.ponents.text
 		
 		protected var _preview : PreviewLabel;
 		protected var _fontList : FontListComboBox;
-		protected var _boldButton : ToggleButton;		protected var _italicButton : ToggleButton;
-		protected var _colorPicker : ColorPicker;		protected var _underlineButton : ToggleButton;		protected var _sizeSpinner : Spinner;
+		protected var _boldButton : ToggleButton;
+		protected var _italicButton : ToggleButton;
+		protected var _colorPicker : ColorPicker;
+		protected var _underlineButton : ToggleButton;
+		protected var _sizeSpinner : Spinner;
+		
+		protected var _dataChanged : Signal;
+		public function get dataChanged () : Signal { return _dataChanged; }
 		
 		public function TextFormatEditor ( tf : TextFormat = null )
 		{
 			super();
-			
+			_dataChanged = new Signal();
 			_preview = new PreviewLabel();
 			_preview.style.setForAllStates("insets", new Insets( 4 ) );
 						
 			_boldButton = new ToggleButton(_("<b>B</b>") );
 			_italicButton = new ToggleButton(_("<i>I</i>") );
-			_underlineButton = new ToggleButton(_("<u>U</u>") );			_sizeSpinner = new Spinner( new SpinnerNumberModel( 12, 1, 500, 1, true ) );			_colorPicker = new ColorPicker( Color.Black );
+			_underlineButton = new ToggleButton(_("<u>U</u>") );
+			_sizeSpinner = new Spinner( new SpinnerNumberModel( 12, 1, 500, 1, true ) );
+			_colorPicker = new ColorPicker( Color.Black );
 			_fontList = new FontListComboBox();
 			
 			_fontList.isComponentIndependent = false;
@@ -62,7 +71,8 @@ package abe.com.ponents.text
 			_underlineButton.isComponentIndependent = false;
 			_sizeSpinner.isComponentIndependent = false;
 			_preview.isComponentIndependent = false;
-			_colorPicker.isComponentIndependent = false;			
+			_colorPicker.isComponentIndependent = false;
+			
 			_sizeSpinner.preferredWidth = 60;
 			
 			var p : ToolBar = new ToolBar(0,false,3);
@@ -73,9 +83,13 @@ package abe.com.ponents.text
 												 new BoxSettings(50, "left", "center", _preview, true, true, false )
 												 );
 			
-			p.addComponent( _boldButton );			p.addComponent( _italicButton );
-			p.addComponent( _underlineButton );			p.addSeparator();
-			p.addComponent( _colorPicker );			p.addComponent( _sizeSpinner );			p.addComponent( _fontList );
+			p.addComponent( _boldButton );
+			p.addComponent( _italicButton );
+			p.addComponent( _underlineButton );
+			p.addSeparator();
+			p.addComponent( _colorPicker );
+			p.addComponent( _sizeSpinner );
+			p.addComponent( _fontList );
 			
 			_boldButton.styleKey = _italicButton.styleKey = _underlineButton.styleKey = _colorPicker.styleKey = "ToolBar_Button";
 			
@@ -88,52 +102,46 @@ package abe.com.ponents.text
 				initEditState( null, tf );
 		}
 		
-		protected function colorDataChange (event : ComponentEvent) : void
+		protected function colorDataChanged ( c : Component, v : * ) : void
 		{
 			_format.color = _colorPicker.value.hexa;
 			updatePreviewFormat();
-			fireDataChange();
-			event.stopImmediatePropagation();
+			fireDataChangedSignal();
 		}
 
-		protected function boldDataChange (event : ComponentEvent) : void 
+		protected function boldDataChanged ( c : Component, v : * ) : void 
 		{
 			_format.bold = _boldButton.selected;
 			updatePreviewFormat();
-			fireDataChange();
-			event.stopImmediatePropagation();
+			fireDataChangedSignal();
 		}
 
-		protected function italicDataChange (event : ComponentEvent) : void 
+		protected function italicDataChanged ( c : Component, v : * ) : void 
 		{
 			_format.italic = _italicButton.selected;
 			updatePreviewFormat();
-			fireDataChange();
-			event.stopImmediatePropagation();
+			fireDataChangedSignal();
 		}
-		protected function underlineDataChange (event : ComponentEvent) : void 
+		protected function underlineDataChanged ( c : Component, v : * ) : void 
 		{
 			_format.underline = _underlineButton.selected;
 			updatePreviewFormat();
-			fireDataChange();
-			event.stopImmediatePropagation();
+			fireDataChangedSignal();
 		}
 
-		protected function sizeDataChange (event : ComponentEvent) : void 
+		protected function sizeDataChanged ( c : Component, v : * ) : void 
 		{
 			_format.size = _sizeSpinner.value;
 			updatePreviewFormat();
-			fireDataChange();
-			event.stopImmediatePropagation();
+			fireDataChangedSignal();
 		}
-		protected function fontDataChange (event : ComponentEvent) : void 
+		protected function fontDataChanged ( c : Component, v : * ) : void 
 		{
 			var f : Font = _fontList.value;
 			_format.font = f.fontName;
 			_preview.textField.embedFonts = f.fontType == FontType.EMBEDDED;
 			updatePreviewFormat();
-			fireDataChange();
-			event.stopImmediatePropagation();
+			fireDataChangedSignal();
 		}
 		public function initEditState (caller : Editable, value : *, overlayTarget : DisplayObject = null) : void
 		{
@@ -151,9 +159,12 @@ package abe.com.ponents.text
 		{
 			_format = v as TextFormat;
 			
-			unregisterFromSubComponentsEvents();			
+			unregisterFromSubComponentsEvents();
+			
 			_boldButton.selected = Boolean(_format.bold);
-			_italicButton.selected = Boolean(_format.italic);			_underlineButton.selected = Boolean(_format.underline );			_sizeSpinner.value = uint( _format.size );
+			_italicButton.selected = Boolean(_format.italic);
+			_underlineButton.selected = Boolean(_format.underline );
+			_sizeSpinner.value = uint( _format.size );
 			_fontList.value = _format.font;
 			_colorPicker.value = new Color( 0xff000000 + uint(_format.color) );
 			updatePreviewFormat();
@@ -163,22 +174,22 @@ package abe.com.ponents.text
 
 		protected function unregisterFromSubComponentsEvents () : void 
 		{
-			_fontList.removeEventListener(ComponentEvent.DATA_CHANGE, fontDataChange );
-			_sizeSpinner.removeEventListener(ComponentEvent.DATA_CHANGE, sizeDataChange );
-			_boldButton.removeEventListener(ComponentEvent.DATA_CHANGE, boldDataChange );
-			_italicButton.removeEventListener(ComponentEvent.DATA_CHANGE, italicDataChange );
-			_underlineButton.removeEventListener(ComponentEvent.DATA_CHANGE, underlineDataChange );
-			_colorPicker.removeEventListener(ComponentEvent.DATA_CHANGE, colorDataChange );
+			_fontList.dataChanged.add( fontDataChanged );
+			_sizeSpinner.dataChanged.add( sizeDataChanged );
+			_boldButton.dataChanged.add(  boldDataChanged );
+			_italicButton.dataChanged.add(italicDataChanged );
+			_underlineButton.dataChanged.add( underlineDataChanged );
+			_colorPicker.dataChanged.add( colorDataChanged );
 			
 		}
 		protected function registerToSubComponentsEvents () : void 
 		{
-			_fontList.addEventListener(ComponentEvent.DATA_CHANGE, fontDataChange );
-			_sizeSpinner.addEventListener(ComponentEvent.DATA_CHANGE, sizeDataChange );
-			_boldButton.addEventListener(ComponentEvent.DATA_CHANGE, boldDataChange );
-			_italicButton.addEventListener(ComponentEvent.DATA_CHANGE, italicDataChange );
-			_underlineButton.addEventListener(ComponentEvent.DATA_CHANGE, underlineDataChange );
-			_colorPicker.addEventListener(ComponentEvent.DATA_CHANGE, colorDataChange );
+			_fontList.dataChanged.remove( fontDataChanged );
+			_sizeSpinner.dataChanged.remove( sizeDataChanged );
+			_boldButton.dataChanged.remove(  boldDataChanged );
+			_italicButton.dataChanged.remove(italicDataChanged );
+			_underlineButton.dataChanged.remove( underlineDataChanged );
+			_colorPicker.dataChanged.remove( colorDataChanged );
 			
 		}
 
@@ -188,9 +199,9 @@ package abe.com.ponents.text
 			_preview.textField.text = _("The quick brown fox jumps over the lazy dog");
 			invalidatePreferredSizeCache();
 		}
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, value );
 		}
 		
 		public function get disabledMode () : uint { return _fontList.disabledMode;	}
