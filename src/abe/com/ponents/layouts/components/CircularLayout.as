@@ -42,14 +42,16 @@ package abe.com.ponents.layouts.components
 			var astart : Number;
 			
 			if( _counterClockWise )
-				astart = _angleStart - ( _angleInterval * ( n-1 ) / 2 );			else
+				astart = _angleStart - ( _angleInterval * ( n-1 ) / 2 );
+			else
 				astart = _angleStart + ( _angleInterval * ( n-1 ) / 2 );
 			
 			var d : Dimension;
 			var x : Number;
 			var y : Number;
 			var a : Number = astart;
-			var cx : Number = preferredSize.width / 2;			var cy : Number = preferredSize.height / 2;
+			var cx : Number = preferredSize.width / 2;
+			var cy : Number = preferredSize.height / 2;
 			var c : Component;
 			
 			for( var i : uint = 0; i<n; i++ )
@@ -60,16 +62,21 @@ package abe.com.ponents.layouts.components
 				y = Math.cos( a ) * _radius;
 				if( _forceLayoutAroundCenter )
 				{
-					c.x = x - d.width / 2;					c.y = y - d.height / 2;
+					c.x = x - d.width / 2;
+					c.y = y - d.height / 2;
 				}
 				else
-				{					c.x = cx + x - d.width / 2;					c.y = cy + y - d.height / 2;
+				{
+					c.x = cx + x - d.width / 2;
+					c.y = cy + y - d.height / 2;
 				}
 				if( _counterClockWise )
-					a += _angleInterval;				else
+					a += _angleInterval;
+				else
 					a -= _angleInterval;
 					
 			}
+			super.layout();
 		}
 
 		override public function get preferredSize () : Dimension { return computeSize( ); }
@@ -84,9 +91,11 @@ package abe.com.ponents.layouts.components
 			else
 				astart = _angleStart + ( _angleInterval * ( n-1 ) / 2 );
 				
-			var r : Rectangle = new Rectangle(0, 0, 0, 0);			var r2 : Rectangle;
+			var r : Rectangle = new Rectangle(0, 0, 0, 0);
+			var r2 : Rectangle;
 			var d : Dimension;
-			var x : Number;			var y : Number;
+			var x : Number;
+			var y : Number;
 			var a : Number = astart;
 			for( var i : uint = 0; i < n; i++ )
 			{

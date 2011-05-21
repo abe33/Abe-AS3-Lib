@@ -6,14 +6,11 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.containers.DropPanel;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.dnd.DnDManagerInstance;
-	import abe.com.ponents.dnd.DropEvent;
-	import abe.com.ponents.dnd.DropTargetDragEvent;
+	import abe.com.ponents.dnd.*;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.scrollbars.Scrollable;
-	import abe.com.ponents.transfer.ComponentsFlavors;
-	import abe.com.ponents.transfer.DataFlavor;
+	import abe.com.ponents.transfer.*;
 	import abe.com.ponents.utils.Alignments;
 	import abe.com.ponents.utils.CardinalPoints;
 	import abe.com.ponents.utils.ContextMenuItemUtils;
@@ -198,7 +195,8 @@ package abe.com.ponents.tabs
 
 		override public function addComponent (c : Component) : void 
 		{
-			(c as Tab).buttonDisplayMode = _buttonDisplayMode;			super.addComponent( c );
+			(c as Tab).buttonDisplayMode = _buttonDisplayMode;
+			super.addComponent( c );
 		}
 		override public function addComponentAt (c : Component, id : uint) : void 
 		{
@@ -260,9 +258,11 @@ package abe.com.ponents.tabs
 		{
 			switch( _placement )
 			{
-				case  CardinalPoints.EAST : 				case  CardinalPoints.WEST :
+				case  CardinalPoints.EAST : 
+				case  CardinalPoints.WEST :
 					return true;
-				case  CardinalPoints.NORTH : 				case  CardinalPoints.SOUTH : 
+				case  CardinalPoints.NORTH : 
+				case  CardinalPoints.SOUTH : 
 				default:
 					return preferredWidth < _tabbedPane.width;
 			}
@@ -307,20 +307,18 @@ package abe.com.ponents.tabs
 			}
 		}
 		
-		override public function dragEnter (e : DropTargetDragEvent) : void
+		override public function dragEnter ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		{
 			if( _enabled && 
 				supportedFlavors.some( function( item : DataFlavor, ...args ) : Boolean 
-				{ return item.isSupported( e.transferable.flavors ); } )  )
-				e.acceptDrag( this );
+				{ return item.isSupported( transferable.flavors ); } )  )
+				manager.acceptDrag( this );
 			else
-				e.rejectDrag( this );
-			
-			e = null;
+				manager.rejectDrag( this );
 		}
-		override public function dragOver (e : DropTargetDragEvent) : void
+		override public function dragOver ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		{
-			super.dragOver(e);
+			super.dragOver(manager, transferable, source );
 			
 			var c : Component = getComponentUnderPoint( new Point( stage.mouseX, stage.mouseY ) );
 			if( c )
@@ -380,16 +378,16 @@ package abe.com.ponents.tabs
 				}
 			}
 		}
-		override public function drop (e : DropEvent) : void
+		override public function drop (  manager : DnDManager, transferable : Transferable ) : void
 		{
-			super.drop(e);
-			if( ComponentsFlavors.TAB.isSupported( e.transferable.flavors ) )
+			super.drop( manager, transferable );
+			if( ComponentsFlavors.TAB.isSupported( transferable.flavors ) )
 			{
-				var tab : Tab = e.transferable.getData( ComponentsFlavors.TAB );
+				var tab : Tab = transferable.getData( ComponentsFlavors.TAB );
 				
 				var b : Boolean = tab.selected && tab.parentContainer == this;
 				
-				e.transferable.transferPerformed();
+				transferable.transferPerformed();
 				insertComponentAccordingToMousePosition( tab );
 				
 				tabbedPane.setUpTab(tab);

@@ -532,7 +532,7 @@ package abe.com.ponents.sliders
 			if( stage )
 				stage.removeEventListener( MouseEvent.MOUSE_MOVE, drag );
 		}
-		protected function drag ( c : Component ) : void
+		protected function drag ( ... args ) : void
 		{
 			if( _dragging )
 			{

@@ -53,10 +53,11 @@ package abe.com.ponents.containers
 			_viewport.view = v;
 			
 			if( _viewport.view )
+			{
 				_viewport.view.componentResized.add( onComponentResized );
-			
+			    ( _viewport.view as AbstractComponent ).mouseWheelRolled.add( viewportMouseWheelRolled );
+			}
 			invalidatePreferredSizeCache();
-			( v as AbstractComponent ).mouseWheelRolled.add( viewportMouseWheelRolled );
 		}
         public function viewportMouseWheelRolled ( c : Component, d: Number ) : void {}
 		override public function ensureRectIsVisible (r : Rectangle) : Component

@@ -40,7 +40,10 @@ package abe.com.ponents.actions.builtin
 
 		protected function updateName () : void
 		{
-			name = _$( _("Filters : $0"), filters.map( function( o:*, ... args ) : String { return Reflection.getClassName( o ); } ).join(", ") );
+			name = _$( _("Filters : $0"), 
+			            filters.length > 0 ? 
+			                filters.map( function( o:*, ... args ) : String { return Reflection.getClassName( o ); } ).join(", ") : 
+			                _("Empty") );
 		}
 
 		override public function execute( ... args ) : void
@@ -50,12 +53,12 @@ package abe.com.ponents.actions.builtin
 			FilterEditorPaneInstance.value = magicClone( _filters );
 
 			_dial = new Dialog( _("Edit Filters"), 3, FilterEditorPaneInstance );
-			_dial.addEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.add( dialogResponded );
 			_dial.open();
 		}
-		private function dialogResult (event : DialogEvent) : void
+		private function dialogResponded ( dialog : Dialog, result : int ) : void
 		{
-			switch( event.result )
+			switch( result )
 			{
 				case Dialog.RESULTS_OK :
 					_filters = FilterEditorPaneInstance.value;
@@ -69,13 +72,13 @@ package abe.com.ponents.actions.builtin
 			}
 			_isRunning = false;
 			_dial.close();
-			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.remove( dialogResponded );
 			_dial = null;
 		}
 		public function cancel () : void
 		{
 			_dial.close();
-			_dial.removeEventListener(DialogEvent.DIALOG_RESULT, dialogResult );
+			_dial.dialogResponded.remove( dialogResponded );
 			_dial = null;
 			_cancelled = true;
 			_isRunning = false;

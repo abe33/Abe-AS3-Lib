@@ -1,11 +1,8 @@
 package abe.com.ponents.containers 
 {
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.dnd.DnDManagerInstance;
-	import abe.com.ponents.dnd.DragSource;
-	import abe.com.ponents.dnd.DropEvent;
-	import abe.com.ponents.dnd.DropTarget;
-	import abe.com.ponents.dnd.DropTargetDragEvent;
+	import abe.com.ponents.dnd.*;
+	import abe.com.ponents.transfer.*;
 
 	import flash.display.Shape;
 
@@ -99,16 +96,16 @@ package abe.com.ponents.containers
 		}
 		public function get supportedFlavors () : Array { return null; }		
 		
-		public function dragEnter (e : DropTargetDragEvent) : void {}	
-		public function dragExit (e : DropTargetDragEvent) : void 
+		public function dragEnter (manager : DnDManager, transferable : Transferable, source : DragSource ) : void {}	
+		public function dragExit ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void 
 		{
 			clearStatusShape();
 		}		
-		public function dragOver (e : DropTargetDragEvent) : void 
+		public function dragOver ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void 
 		{
 			clearStatusShape();
 		}		
-		public function drop (e : DropEvent) : void 
+		public function drop ( manager : DnDManager, transferable : Transferable ) : void 
 		{
 			clearStatusShape();
 		}

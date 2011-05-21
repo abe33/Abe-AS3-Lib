@@ -13,7 +13,8 @@ package abe.com.ponents.tables
 		public var sortingMethod : Function;
 		public var formatFunction : Function;
 		public var cellClass : Class;
-		public var headerClass : Class;		public var editable : Boolean;
+		public var headerClass : Class;
+		public var editable : Boolean;
 		
 		public function TableColumn ( name : String, 
 									  field : String,
@@ -30,7 +31,8 @@ package abe.com.ponents.tables
 			this.field = field;
 			this.cellClass = cellClass ? cellClass : DefaultTableCell;
 			this.headerClass = headerClass ? headerClass : DefaultTableColumnHeader;
-			this.sortable = sortable;			this.sortingMethod = sortingMethod;
+			this.sortable = sortable;
+			this.sortingMethod = sortingMethod;
 			this.formatFunction = formatFunction;
 			this.editable = editable;
 		}

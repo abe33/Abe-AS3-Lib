@@ -8,14 +8,13 @@ package abe.com.ponents.tables
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Container;
-	import abe.com.ponents.dnd.DropEvent;
-	import abe.com.ponents.dnd.DropTargetDragEvent;
+	import abe.com.ponents.dnd.*;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.models.DefaultListModel;
 	import abe.com.ponents.models.ListModel;
 	import abe.com.ponents.skinning.decorations.GradientFill;
-	import abe.com.ponents.transfer.ComponentsFlavors;
+	import abe.com.ponents.transfer.*;
 
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -62,7 +61,7 @@ package abe.com.ponents.tables
 			_resizerContainer = new Sprite();
 			_headerResizers = [];
 			_model.dataChanged.add( modelDataChanged );
-			_childrenLayout.addEventListener( ComponentEvent.LAYOUT, headerLayout );
+			( _childrenLayout as HBoxLayout ).layoutDone.add( headerLayoutDone );
 			super();
 			addChildAt( _resizerContainer, numChildren-1 );
 		}
@@ -294,7 +293,7 @@ package abe.com.ponents.tables
 																	   enabled:_enabled } ) as TableColumnHeader;
 			return item;
 		}
-		protected function headerLayout (event : ComponentEvent) : void
+		protected function headerLayoutDone ( ... args ) : void
 		{
 			var l : Number = _headerResizers.length;
 			for(var i : Number = 0; i< l;i++)
@@ -330,15 +329,15 @@ package abe.com.ponents.tables
 		    {
 			    return [ ComponentsFlavors.TABLE_COLUMN ];
 		    }
-		    override public function dragEnter (e : DropTargetDragEvent) : void
+		    override public function dragEnter ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		    {
 			    _scrollDuringDragTimeout = setInterval( scrollDuringDrag, 250 );
-			    if( _enabled && ComponentsFlavors.TABLE_COLUMN.isSupported( e.flavors ) && containsComponent( e.source as Component ) )
-				    e.acceptDrag( this );
+			    if( _enabled && ComponentsFlavors.TABLE_COLUMN.isSupported( transferable.flavors ) && containsComponent( source as Component ) )
+				    manager.acceptDrag( this );
 			    else
-				    e.rejectDrag( this );
+				    manager.rejectDrag( this );
 		    }
-		    override public function dragOver ( e : DropTargetDragEvent ) : void
+		    override public function dragOver ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		    {
 			    _dropStatusShape.graphics.clear();
 			    var lc : Component = getComponentUnderPoint ( new Point( this.stage.mouseX,
@@ -351,18 +350,18 @@ package abe.com.ponents.tables
 					    drawDropLeft( lc );
 			    }
 		    }
-		    override public function dragExit (e : DropTargetDragEvent) : void
+		    override public function dragExit ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		    {
 			    clearInterval( _scrollDuringDragTimeout );
 			    _dropStatusShape.graphics.clear();
 		    }
 
-		    override public function drop (e : DropEvent) : void
+		    override public function drop ( manager : DnDManager, transferable : Transferable ) : void
 		    {
 			    clearInterval( _scrollDuringDragTimeout );
 			    _dropStatusShape.graphics.clear();
 
-			    var d : TableColumn = e.transferable.getData( ComponentsFlavors.TABLE_COLUMN ) as TableColumn;
+			    var d : TableColumn = transferable.getData( ComponentsFlavors.TABLE_COLUMN ) as TableColumn;
 			    var lc : Component = getComponentUnderPoint ( new Point( this.stage.mouseX,
 										       			 				this.stage.mouseY ) );
 			    if( lc )

@@ -10,9 +10,13 @@ package abe.com.ponents.layouts.components
 	{
 		/*FDT_IGNORE*/
 		TARGET::FLASH_9
-		protected var _columns : Array;		
-		TARGET::FLASH_10		protected var _columns : Vector.<ColumnSettings>;		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _columns : Vector.<ColumnSettings>;
+		protected var _columns : Array;
+		
+		TARGET::FLASH_10
+		protected var _columns : Vector.<ColumnSettings>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _columns : Vector.<ColumnSettings>;
 		
 		protected var _gap : Number;
 
@@ -22,7 +26,9 @@ package abe.com.ponents.layouts.components
 			this._gap = gap;
 			
 			/*FDT_IGNORE*/
-			TARGET::FLASH_9 {this._columns = []; }			TARGET::FLASH_10 {this._columns = new Vector.<ColumnSettings>();}			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			TARGET::FLASH_9 {this._columns = []; }
+			TARGET::FLASH_10 {this._columns = new Vector.<ColumnSettings>();}
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 			this._columns = new Vector.<ColumnSettings>(); /*FDT_IGNORE*/}/*FDT_IGNORE*/
 			
 			if( columns.length > 0 )
@@ -71,6 +77,7 @@ package abe.com.ponents.layouts.components
 				c.layout(x, y, s.width, s.height, prefDim.height );
 				x += s.width + _gap;
 			}
+			super.layout();
 		}
 		
 		protected function estimateSize () : Dimension 

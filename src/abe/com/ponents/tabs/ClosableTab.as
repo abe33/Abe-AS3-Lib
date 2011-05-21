@@ -9,6 +9,7 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.containers.DraggablePanel;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.core.*;
+	import abe.com.ponents.events.*;
 	import abe.com.ponents.dnd.DragSource;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.HBoxLayout;
@@ -20,6 +21,7 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.utils.Directions;
 
 	import org.osflash.signals.Signal;
+	import org.osflash.signals.DeluxeSignal;
 
 	/**
 	 * @author Cédric Néhémie
@@ -116,7 +118,7 @@ package abe.com.ponents.tabs
 		static public var CROSS : Class;	
 		
 		protected var _tabClicked : Signal;
-		public var tabClosed : Signal;
+		public var tabClosed : DeluxeSignal;
 		
 		protected var _closeButton : Button;
 		protected var _mainButton : Button;
@@ -127,7 +129,7 @@ package abe.com.ponents.tabs
 		public function ClosableTab ( name : String, content : Component = null, icon : Icon = null )
 		{
 			super();
-			tabClosed = new Signal( );
+			tabClosed = new DeluxeSignal( this );
 			_tabClicked = new Signal();
 			
 			_allowOver = true;
@@ -161,7 +163,7 @@ package abe.com.ponents.tabs
 		public function get tabClicked() : Signal { return _tabClicked; }
 		protected function onClose () : void 
 		{
-			tabClosed.dispatch( this );
+			tabClosed.dispatch( new ComponentSignalEvent( "tabClosed", true ) );
 		}
 		public function get buttonDisplayMode () : uint { return _mainButton.buttonDisplayMode; }
 		public function set buttonDisplayMode (m : uint) : void

@@ -19,11 +19,6 @@ package abe.com.ponents.tabs
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="tabChange",type="abe.com.ponents.events.TabEvent")]
-	[Event(name="tabAdd",type="abe.com.ponents.events.TabEvent")]
-	[Event(name="tabRemove",type="abe.com.ponents.events.TabEvent")]
-	[Event(name="dockAdd",type="abe.com.ponents.events.DockEvent")]
-	[Event(name="dockRemove",type="abe.com.ponents.events.DockEvent")]
 	[Skinable(skin="TabbedPane")]
 	[Skin(define="TabbedPane",
 		  inherit="DefaultComponent",

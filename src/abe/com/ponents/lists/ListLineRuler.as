@@ -19,7 +19,7 @@ package abe.com.ponents.lists
           previewAcceptStyleSetup="false",
           
           state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",
-          state__all__insets="new cutils::Insets(3,0,3,0)"
+          state__all__insets="new cutils::Insets(0)"
     )]
     public class ListLineRuler extends List 
     {

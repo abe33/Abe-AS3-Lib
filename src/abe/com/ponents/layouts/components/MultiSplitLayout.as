@@ -13,6 +13,8 @@ package abe.com.ponents.layouts.components
 	import abe.com.ponents.utils.Insets;
 
 	import flash.geom.Rectangle;
+	
+	import org.osflash.signals.Signal;
 
 	[Event(name="optimize", type="abe.com.ponents.events.SplitPaneEvent")]
 	/**
@@ -23,10 +25,13 @@ package abe.com.ponents.layouts.components
 		protected var _modelRoot : Node;
 		protected var _dividerSize : Number;
 		protected var _dividerFloating : Boolean;
+		
+		public var optimized : Signal;
 			
 		public function MultiSplitLayout (container : Container = null, model : Node = null)
 		{
 			super( container );
+			optimized = new Signal();
 			_modelRoot = model ? model : new Split();
 			_dividerSize = 5;
 			_dividerFloating = true;
@@ -111,10 +116,13 @@ package abe.com.ponents.layouts.components
 									d.location = nn + nd.width;
 								
 								difinc += dif * ( n.weight / totalWeight );
-								d.location += difinc;								lockLocation(d);								//d.location = size.width * r;
+								d.location += difinc;
+								lockLocation(d);
+								//d.location = size.width * r;
 								nn += d.location;
 							} 
-						}				}
+						}
+				}
 				else
 				{
 					dif = size.height - oldBounds.height;	
@@ -145,7 +153,8 @@ package abe.com.ponents.layouts.components
 			}
 			else if( l > 1 )
 			{
-				var w : Number = 0;				var h : Number = 0;
+				var w : Number = 0;
+				var h : Number = 0;
 				var nd : Dimension;
 				var d : Divider;
 				var i : Number;
@@ -163,7 +172,9 @@ package abe.com.ponents.layouts.components
 							{
 								nd = preferredNodeSize( n );
 								layoutNode(n, new Dimension( nd.width, size.height ), x, y );
-								d.bounds = new Rectangle( x + nd.width, y, _dividerSize, size.height );								x += nd.width + _dividerSize;								w += nd.width + _dividerSize;
+								d.bounds = new Rectangle( x + nd.width, y, _dividerSize, size.height );
+								x += nd.width + _dividerSize;
+								w += nd.width + _dividerSize;
 							}
 							else
 							{
@@ -192,7 +203,8 @@ package abe.com.ponents.layouts.components
 							{
 								nd = preferredNodeSize( n );
 								layoutNode(n, new Dimension( size.width, nd.height ), x, y );
-								d.bounds = new Rectangle( x, y + nd.height, size.width, _dividerSize );								y += nd.height + _dividerSize;
+								d.bounds = new Rectangle( x, y + nd.height, size.width, _dividerSize );
+								y += nd.height + _dividerSize;
 								h += nd.height + _dividerSize;
 							}
 							else
@@ -279,7 +291,8 @@ package abe.com.ponents.layouts.components
 			{
 				var n : Node;
 				var s : Split = node as Split;
-				var w : Number = 0;				var h : Number = 0;
+				var w : Number = 0;
+				var h : Number = 0;
 				var nd : Dimension;
 				if( s.rowLayout )
 				{
@@ -407,7 +420,8 @@ package abe.com.ponents.layouts.components
 				d.parent = parent;
 				if( before is Divider )
 					c.splice(index, 0, d, child );
-				else					c.splice(index, 0, child, d );
+				else
+					c.splice(index, 0, child, d );
 			}
 			child.parent = parent;
 			
@@ -503,7 +517,7 @@ package abe.com.ponents.layouts.components
 				var split : Split = root as Split;
 				_optimizeStructure(split, 0);
 			}
-			dispatchEvent( new SplitPaneEvent( SplitPaneEvent.OPTIMIZE ) );
+			optimized.dispatch( this );
 		}
 		protected function _optimizeStructure ( split : Split, d : Number = 0 ) : void
 		{
@@ -536,7 +550,8 @@ package abe.com.ponents.layouts.components
 				}
 				l = split.children.length;
 				
-				//Log.debug( s + "after optimize " + split + ", children = " + l );				
+				//Log.debug( s + "after optimize " + split + ", children = " + l );
+				
 				if( l == 1 )
 				{
 					replaceSplitChild( split.parent, split, split.children[0], false );

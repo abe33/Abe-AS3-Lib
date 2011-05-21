@@ -86,7 +86,8 @@ package abe.com.ponents.layouts.components
 			var l : Number = _container.childrenCount;
 			var i : Number = 0;
 			var c : Component;
-			var h : Number = 0;			var line : Array = [];
+			var h : Number = 0;
+			var line : Array = [];
 			
 			for( i = 0; i < l; i++ )
 			{
@@ -114,6 +115,8 @@ package abe.com.ponents.layouts.components
 			line = [];
 						
 			_tmpWidthRest = NaN;
+			
+			super.layout();
 		}
 
 		protected function alignLine (line : Array) : void 
@@ -145,12 +148,15 @@ package abe.com.ponents.layouts.components
 
 		protected function estimateSize ( d : Dimension = null ) : Dimension
 		{
-			var w : Number = 0;			var h : Number = 0;
+			var w : Number = 0;
+			var h : Number = 0;
 			var l : uint = _container.childrenCount;
 			var i : uint;
 			var c : Component;
-			var lh : Number = _gapAtExtremity ? _vgap*2 : 0;			var lw : Number = _gapAtExtremity ? _hgap*2 : 0;
-			var p : Container;			var sc : AbstractScrollContainer;
+			var lh : Number = _gapAtExtremity ? _vgap*2 : 0;
+			var lw : Number = _gapAtExtremity ? _hgap*2 : 0;
+			var p : Container;
+			var sc : AbstractScrollContainer;
 			var d2 : Dimension;
 			p = _container.parentContainer;
 			
@@ -175,10 +181,12 @@ package abe.com.ponents.layouts.components
 				c = _container.children[i];
 				if( c.visible )
 				{
-					//if( sc )					if( d2 )
+					//if( sc )
+					if( d2 )
 					{
 						//if( lw + c.preferredSize.width > sc.contentSize.width )
-						Log.debug( ( lw + c.preferredSize.width ) + " > "+ d2.width );						if( lw + c.preferredSize.width > d2.width )
+						Log.debug( ( lw + c.preferredSize.width ) + " > "+ d2.width );
+						if( lw + c.preferredSize.width > d2.width )
 						{
 							h += lh + _hgap;
 							w = Math.max(w, lw);

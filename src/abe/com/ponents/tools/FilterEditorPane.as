@@ -1,5 +1,6 @@
 package abe.com.ponents.tools
 {
+	import abe.com.mon.logs.*;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.utils.Reflection;
@@ -87,8 +88,8 @@ package abe.com.ponents.tools
 			_listEdit.list.loseSelectionOnFocusOut = false;
 			_listEdit.list.itemFormatingFunction = combo.itemFormatingFunction = Reflection.getClassName;
 
-			_listEdit.list.addEventListener(ComponentEvent.SELECTION_CHANGE, listSelectionChange );
-			_listEdit.list.addEventListener(Event.CHANGE, formChange);
+			_listEdit.list.selectionChanged.add( listSelectionChanged );
+			_listEdit.dataChanged.add( formChanged );
 
 
 			_scrollPane = new ScrollPane();
@@ -105,15 +106,18 @@ package abe.com.ponents.tools
 			_previewShape.preferredHeight = 120;
 
 			_previewShapeCombo =  new ComboBox( "Circle", "Square", "Text", "Bitmap" );
-			_previewShapeCombo.addEventListener(ComponentEvent.DATA_CHANGE, shapeComboDataChange );
+			_previewShapeCombo.dataChanged.add( shapeComboDataChanged );
 
 			_previewColor = new ColorPicker(Color.Red.clone() );
-			_previewColor.addEventListener(ComponentEvent.DATA_CHANGE, colorDataChange);
+			_previewColor.dataChanged.add( colorDataChanged );
 
 			_previewBgColor = new ColorPicker(Color.White.clone() );
-			_previewBgColor.addEventListener(ComponentEvent.DATA_CHANGE, bgcolorDataChange);
+			_previewBgColor.dataChanged.add( bgcolorDataChanged );
 
-			_previewToolBar.addComponent( new Label(_("Preview :")) );			_previewToolBar.addComponent( _previewShapeCombo );			_previewToolBar.addComponent( _previewColor );			_previewToolBar.addSeparator();
+			_previewToolBar.addComponent( new Label(_("Preview :")) );
+			_previewToolBar.addComponent( _previewShapeCombo );
+			_previewToolBar.addComponent( _previewColor );
+			_previewToolBar.addSeparator();
 			_previewToolBar.addComponent( new Label(_("Background :")) );
 			_previewToolBar.addComponent( _previewBgColor );
 			var prevPanel : Panel = new Panel();
@@ -135,21 +139,21 @@ package abe.com.ponents.tools
 			addComponent( _scrollPane );
 
 			_simpleManager = new SimpleFormManager();
-			_simpleManager.addEventListener(Event.CHANGE, formChange );
+			_simpleManager.formChanged.add( formChanged );
 
 			_previewShapeCombo.model.selectedElement = "Bitmap";
 		}
 
-		protected function bgcolorDataChange (event : ComponentEvent) : void
+		protected function bgcolorDataChanged ( ... args ) : void
 		{
 			_previewShape.style.setForAllStates("background", new SimpleFill( _previewBgColor.value as Color ) );
 		}
 
-		protected function colorDataChange (event : ComponentEvent) : void
+		protected function colorDataChanged ( ... args ) : void
 		{
 			updateShape();
 		}
-		protected function shapeComboDataChange (event : ComponentEvent) : void
+		protected function shapeComboDataChanged ( ... args ) : void
 		{
 			updateShape();
 		}
@@ -190,20 +194,23 @@ package abe.com.ponents.tools
 			}
 		}
 
-		public function get value () : Array { return _listEdit.value; }		public function set value ( a : Array ) : void
+		public function get value () : Array { return _listEdit.value; }
+		public function set value ( a : Array ) : void
 		{
 			if( _listEdit.list.selectedIndex != -1 )
 				_listEdit.list.clearSelection();
 
 			_listEdit.value = a;
+			if( _previewShape.shape )
+			    _previewShape.shape.filters = magicClone( a );
 		}
 
-		protected function formChange (event : Event) : void
+		protected function formChanged ( ... args ) : void
 		{
 			_previewShape.shape.filters = magicClone( _listEdit.value );
 		}
 
-		protected function listSelectionChange (event : ComponentEvent) : void
+		protected function listSelectionChanged ( ... args ) : void
 		{
 			if( _formPanel.hasChildren )
 			{
@@ -284,7 +291,8 @@ internal class FilterPreview extends AbstractComponent
 		_childrenLayout.layout( size, _style.insets );
 	}
 
-	public function get shape () : DisplayObject { return _shape;}	public function set shape ( d : DisplayObject ) : void
+	public function get shape () : DisplayObject { return _shape;}
+	public function set shape ( d : DisplayObject ) : void
 	{
 		var f : Array;
 		if( _shape )

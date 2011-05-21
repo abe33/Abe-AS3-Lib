@@ -1026,7 +1026,7 @@ package abe.com.ponents.core
             public function get menuContext () : Vector.<ContextMenuItem> { return prepareMenuContext() as Vector.<ContextMenuItem>; }
             
             TARGET::FLASH_10_1 
-            public function get menuContext () : Vector.<ContextMenuItem> {    return prepareMenuContext() as Vector.<ContextMenuItem>; }
+            public function get menuContext () : Vector.<ContextMenuItem> { return prepareMenuContext() as Vector.<ContextMenuItem>; }
             
             public function get menuContextEnabled () : Boolean { return _menuContextEnabled; }
             public function set menuContextEnabled ( b : Boolean ):void{ _menuContextEnabled = b; }

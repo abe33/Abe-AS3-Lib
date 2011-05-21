@@ -20,9 +20,13 @@ package abe.com.ponents.layouts.components
 		
 		/*FDT_IGNORE*/
 		TARGET::FLASH_9
-		protected var _estimatedLocations : Array;		
-		TARGET::FLASH_10		protected var _estimatedLocations : Vector.<Point>;		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _estimatedLocations : Vector.<Point>;
+		protected var _estimatedLocations : Array;
+		
+		TARGET::FLASH_10
+		protected var _estimatedLocations : Vector.<Point>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _estimatedLocations : Vector.<Point>;
 		
 		protected var _lastEstimatedSize : Dimension;
 		protected var _modelHasChanged : Boolean;
@@ -49,9 +53,11 @@ package abe.com.ponents.layouts.components
 		}
 		
 		override public function get preferredSize () : Dimension { return estimatedSize (); }
-		public function get fixedHeight () : Boolean { return _fixedHeight; }		public function set fixedHeight ( b : Boolean ) : void { _fixedHeight = b; }
+		public function get fixedHeight () : Boolean { return _fixedHeight; }
+		public function set fixedHeight ( b : Boolean ) : void { _fixedHeight = b; }
 		public function get lastEstimatedSize () : Dimension { return _lastEstimatedSize; }
-		public function get lastPreferredCellHeight () : Number { return _lastPreferredCellHeight; }		public function set lastPreferredCellHeight  ( n : Number ) : void 
+		public function get lastPreferredCellHeight () : Number { return _lastPreferredCellHeight; }
+		public function set lastPreferredCellHeight  ( n : Number ) : void 
 		{ 
 			_lastPreferredCellHeight = n;
 		}
@@ -73,8 +79,9 @@ package abe.com.ponents.layouts.components
 				else
 					item.size = new Dimension( prefDim.width, _lastPreferredCellHeight );
 				item.y = insets.top + p.y;
-				item.x = insets.left + p.x;			}
-			dispatchEvent( new ComponentEvent( ComponentEvent.LAYOUT ) );
+				item.x = insets.left + p.x;
+			}
+			super.layout();
 		}
 		
 		public function addComponent ( id : int ) : void
@@ -87,7 +94,8 @@ package abe.com.ponents.layouts.components
 			if( _fixedHeight )
 			{
 				_lastPreferredCellHeight = Math.max( d.height, _lastPreferredCellHeight ); 
-				_lastEstimatedSize.height += _lastPreferredCellHeight;				_lastEstimatedSize.width = Math.max( d.width, _lastEstimatedSize.width );
+				_lastEstimatedSize.height += _lastPreferredCellHeight;
+				_lastEstimatedSize.width = Math.max( d.width, _lastEstimatedSize.width );
 			}
 			else
 			{
@@ -174,7 +182,8 @@ package abe.com.ponents.layouts.components
 			var i : Number; 
 			var l : Number = _list.model.size;
 			
-			var w : Number = 0;			var h : Number = 0;
+			var w : Number = 0;
+			var h : Number = 0;
 			var d : Dimension;
 			
 			if( !_fixedHeight )

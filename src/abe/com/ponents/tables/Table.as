@@ -26,13 +26,14 @@ package  abe.com.ponents.tables
 			_columns = [];
 			
 			_list = new TableList( args );
-			_list.owner = this;
-			
 			_header = new TableHeader();
+			
+			super();
+			
+			_list.owner = this;
 			_header.table = this;
 			_header.dataChanged.add( headerDataChanged );
 			
-			super();
 			view = _list;
 			colHead = _header;
 		}
