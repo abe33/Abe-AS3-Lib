@@ -4,7 +4,6 @@ package abe.com.ponents.menus
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.PopupEvent;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.utils.ToolKit;
 
@@ -58,8 +57,8 @@ package abe.com.ponents.menus
 			styleKey = "DropDownMenu";
 			_popupMenu = new PopupMenu();
 			_popupMenu.invoker = this;
-			_popupMenu.addEventListener( PopupEvent.CLOSE_ON_CANCEL, closeOnCancel );
-			_popupMenu.addEventListener( PopupEvent.CLOSE_ON_ACTION, closeOnAction );
+			_popupMenu.popupClosedOnCancel.add( closedOnCancel );
+			_popupMenu.popupClosedOnAction.add( closedOnAction );
 			
 			_dropDownIcon = _style.dropDownIcon.clone();
 			_childrenContainer.addChild( _dropDownIcon );
@@ -82,12 +81,12 @@ package abe.com.ponents.menus
 			}
 		}
 
-		private function closeOnCancel (event : PopupEvent) : void
+		private function closedOnCancel ( m : PopupMenu ) : void
 		{
 			selected = false;
 		}
 
-		private function closeOnAction (event : PopupEvent) : void
+		private function closedOnAction (m : PopupMenu) : void
 		{
 			selected = false;
 		}

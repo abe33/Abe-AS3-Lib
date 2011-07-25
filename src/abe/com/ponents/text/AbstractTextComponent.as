@@ -44,7 +44,6 @@ package abe.com.ponents.text
 
 	[Style(name="embedFonts",type="Boolean",enumeration="true,false")]
 	[Style(name="mispellWordsColor",type="abe.com.mon.colors.Color")]
-
 	[Skinable(skin="Text")]
 	public class AbstractTextComponent extends AbstractComponent implements Component,
 																			IDisplayObject,

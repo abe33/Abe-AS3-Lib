@@ -11,7 +11,6 @@ package abe.com.ponents.buttons
     import abe.com.ponents.actions.*;
     import abe.com.ponents.core.*;
     import abe.com.ponents.core.focus.*;
-    import abe.com.ponents.events.ComponentEvent;
     import abe.com.ponents.layouts.display.DOInlineLayout;
     import abe.com.ponents.skinning.icons.Icon;
     import abe.com.ponents.text.TextFieldImpl;
@@ -19,7 +18,6 @@ package abe.com.ponents.buttons
    
     import flash.display.DisplayObject;
     import flash.events.Event;
-    import flash.events.IEventDispatcher;
     import flash.events.MouseEvent;
     import flash.geom.Rectangle;
     
@@ -49,8 +47,7 @@ package abe.com.ponents.buttons
                                                                      IDisplayObjectContainer,
                                                                      Component,
                                                                      Focusable,
-                                                                      LayeredSprite,
-                                                                      IEventDispatcher
+                                                                     LayeredSprite
     {
         FEATURES::BUILDER { 
             static public function defaultButtonPreview () : Component
@@ -129,7 +126,7 @@ package abe.com.ponents.buttons
         public function set action (action : Action) : void
         {
             if( _action )
-                unregisterToCommandEvents( _action );
+                unregisterToCommandSignals( _action );
 
             _action = action;
             firePropertyChangedSignal("action", action);
@@ -142,7 +139,7 @@ package abe.com.ponents.buttons
                 if( _action.icon != null )
                     icon = ( _action.icon as Icon ).clone();
 
-                registerToCommandEvents(_action);
+                registerToCommandSignals(_action);
             }
             actionChanged.dispatch( this, _action );
         }
@@ -454,7 +451,7 @@ package abe.com.ponents.buttons
             super.unregisterFromOnStageEvents( );
             removeEventListener( MouseEvent.DOUBLE_CLICK, doubleClick );
         }
-        protected function registerToCommandEvents (action : Action) : void
+        protected function registerToCommandSignals (action : Action) : void
         {
             try
             {
@@ -470,7 +467,7 @@ package abe.com.ponents.buttons
                 Log.debug( "It failed for " + action );
             }
         }
-        protected function unregisterToCommandEvents (action : Action) : void
+        protected function unregisterToCommandSignals (action : Action) : void
         {
             action.propertyChanged.remove( actionPropertyChanged );
             action.commandEnded.remove( commandEnded );

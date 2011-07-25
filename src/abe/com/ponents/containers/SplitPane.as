@@ -1,9 +1,6 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ButtonEvent;
-	import abe.com.ponents.events.ComponentEvent;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.layouts.components.SplitPaneLayout;
 	import abe.com.ponents.skinning.cursors.Cursor;
 	import abe.com.ponents.utils.CardinalPoints;
@@ -90,7 +87,9 @@ package abe.com.ponents.containers
 		}
 		public function get dividerLocation () : Number { return ( _childrenLayout as SplitPaneLayout ).dividerLocation; }		
 		public function set dividerLocation (dividerLocation : Number) : void
-		{
+		{   
+		    ( _firstComponent as AbstractComponent ).invalidatePreferredSizeCache();
+		    ( _secondComponent as AbstractComponent ).invalidatePreferredSizeCache();
 			( _childrenLayout as SplitPaneLayout ).dividerLocation = dividerLocation;
 		}
 		public function get oneTouchExpandable () : Boolean { return _oneTouchExpandable; }		
@@ -273,10 +272,14 @@ package abe.com.ponents.containers
 import abe.com.mon.geom.Dimension;
 import abe.com.ponents.buttons.Button;
 import abe.com.ponents.core.AbstractComponent;
-import abe.com.ponents.events.PropertyEvent;
 import abe.com.ponents.utils.CardinalPoints;
+import abe.com.ponents.skinning.decorations.*;
 
-[Skinable(skin="EmptyComponent")]
+[Skinable(skin="SplitPane_Divider")]
+[Skin(define="SplitPane_Divider",
+      inherit="EmptyComponent",
+      state__all__background="new deco::SimpleFill(skin.rulerBackgroundColor)"
+)]
 internal class Divider extends AbstractComponent
 {
 	public function Divider ()
@@ -301,7 +304,6 @@ internal class Divider extends AbstractComponent
 )]
 [Skin(define="SplitPane_Expander",
 		  inherit="DefaultComponent",
-		  
 		  custom_upIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_UP_ICON)",
 		  custom_downIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_DOWN_ICON)",
 		  custom_leftIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_LEFT_ICON)",

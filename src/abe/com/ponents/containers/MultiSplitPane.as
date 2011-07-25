@@ -2,7 +2,6 @@ package abe.com.ponents.containers
 {
     import abe.com.ponents.core.Component;
     import abe.com.ponents.dnd.*;
-    import abe.com.ponents.events.SplitPaneEvent;
     import abe.com.ponents.layouts.components.MultiSplitLayout;
     import abe.com.ponents.layouts.components.splits.Divider;
     import abe.com.ponents.layouts.components.splits.Leaf;
@@ -62,32 +61,32 @@ package abe.com.ponents.containers
         }
         
         FEATURES::CURSOR { 
-        override public function mouseOver (e : MouseEvent) : void
-        {
-            if( _allowResize )
+            override public function mouseOver (e : MouseEvent) : void
             {
-                var d : Divider = multiSplitLayout.dividerAt( multiSplitLayout.modelRoot , mouseX, mouseY );
-                
-                if( d )
-                    cursor = d.isVertical() ? Cursor.get( Cursor.DRAG_V ) : Cursor.get( Cursor.DRAG_H );
-                else
-                    cursor = null;
-            }
-            super.mouseOver( e );
-        }
-        override public function mouseMove (e : MouseEvent) : void
-        {
-            if( _allowResize )
-            {
-                var d : Divider = multiSplitLayout.dividerAt( multiSplitLayout.modelRoot , mouseX, mouseY );
+                if( _allowResize )
+                {
+                    var d : Divider = multiSplitLayout.dividerAt( multiSplitLayout.modelRoot , mouseX, mouseY );
                     
-                if( d )
-                    cursor = d.isVertical() ? Cursor.get( Cursor.DRAG_V ) : Cursor.get( Cursor.DRAG_H );
-                else
-                    cursor = null;
+                    if( d )
+                        cursor = d.isVertical() ? Cursor.get( Cursor.DRAG_V ) : Cursor.get( Cursor.DRAG_H );
+                    else
+                        cursor = null;
+                }
+                super.mouseOver( e );
             }
-            super.mouseMove( e );
-        }
+            override public function mouseMove (e : MouseEvent) : void
+            {
+                if( _allowResize )
+                {
+                    var d : Divider = multiSplitLayout.dividerAt( multiSplitLayout.modelRoot , mouseX, mouseY );
+                        
+                    if( d )
+                        cursor = d.isVertical() ? Cursor.get( Cursor.DRAG_V ) : Cursor.get( Cursor.DRAG_H );
+                    else
+                        cursor = null;
+                }
+                super.mouseMove( e );
+            }
         } 
         
         override public function mouseDown (e : MouseEvent) : void

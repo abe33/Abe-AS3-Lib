@@ -2,7 +2,6 @@ package abe.com.ponents.dnd
 {
     import abe.com.mon.utils.StageUtils;
     import abe.com.motion.SingleTween;
-    import abe.com.motion.TweenEvent;
     import abe.com.ponents.dnd.*;
     import abe.com.ponents.transfer.*;
     import abe.com.ponents.layouts.components.*;
@@ -111,7 +110,7 @@ package abe.com.ponents.dnd
                 else if( v is ComponentLayout ) 
                 {
                     var l : ComponentLayout = v as ComponentLayout;
-                    ( l.container as AbstractComponent ).componentRepainted.add( dropTargetsRepainted );
+                    l.container.componentRepainted.add( dropTargetsRepainted );
                 }
         }
 
@@ -126,7 +125,7 @@ package abe.com.ponents.dnd
                 else if( v is ComponentLayout ) 
                 {
                     var l : ComponentLayout = v as ComponentLayout;
-                    ( l.container as AbstractComponent ).componentRepainted.remove( dropTargetsRepainted );
+                    l.container.componentRepainted.remove( dropTargetsRepainted );
                 }
         }
         protected function hasAnAncestorInDropTargets ( o : DropTarget, targets : Array ) : Boolean

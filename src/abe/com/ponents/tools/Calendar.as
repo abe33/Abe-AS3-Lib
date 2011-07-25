@@ -17,14 +17,14 @@ package abe.com.ponents.tools
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="dateChange",type="abe.com.ponents.events.CalendarEvent")]	[Event(name="monthChange",type="abe.com.ponents.events.CalendarEvent")]	[Event(name="yearChange",type="abe.com.ponents.events.CalendarEvent")]
 	[Skinable(skin="Calendar")]
 	[Skin(define="Calendar",
 			  inherit="EmptyComponent"
 			  
 	)]
 	[Skin(define="Calendar_IncrementDecrementButtons",
-		  inherit="Button", 		  state__all__insets="new cutils::Insets(3)",
+		  inherit="Button", 
+		  state__all__insets="new cutils::Insets(3)",
 		  state__all__corners="new cutils::Corners(2)"
 	)]
 	[Skin(define="Calendar_DayCell",
@@ -69,20 +69,34 @@ package abe.com.ponents.tools
 			_daysWeekPanel = new Panel();
 			_yearMonthLabel = new Label( _( DateUtils.MONTHS_NAMES[ _date.month ] ) + " " + _date.fullYear );
 			
-			_decrementYear = new Button( new ProxyAction( decrementYear, _("Previous Year"), magicIconBuild(DEC_YEAR)) );			_incrementYear = new Button( new ProxyAction( incrementYear, _("Next Year"), magicIconBuild(INC_YEAR) ) );
+			_decrementYear = new Button( new ProxyAction( decrementYear, _("Previous Year"), magicIconBuild(DEC_YEAR)) );
+			_incrementYear = new Button( new ProxyAction( incrementYear, _("Next Year"), magicIconBuild(INC_YEAR) ) );
 			_decrementMonth = new Button( new ProxyAction( decrementMonth, _("Previous Month"), magicIconBuild(DEC_MONTH)) );
 			_incrementMonth = new Button( new ProxyAction( incrementMonth, _("Next Month"), magicIconBuild(INC_MONTH)) );
 			
-			_decrementYear.styleKey = "Calendar_IncrementDecrementButtons";			_incrementYear.styleKey = "Calendar_IncrementDecrementButtons";			_decrementMonth.styleKey = "Calendar_IncrementDecrementButtons";			_incrementMonth.styleKey = "Calendar_IncrementDecrementButtons";
+			_decrementYear.styleKey = "Calendar_IncrementDecrementButtons";
+			_incrementYear.styleKey = "Calendar_IncrementDecrementButtons";
+			_decrementMonth.styleKey = "Calendar_IncrementDecrementButtons";
+			_incrementMonth.styleKey = "Calendar_IncrementDecrementButtons";
 			
-			_decrementYear.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;			_incrementYear.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;			_decrementMonth.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;			_incrementMonth.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+			_decrementYear.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+			_incrementYear.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+			_decrementMonth.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+			_incrementMonth.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			
-			_decrementMonth.disableButtonDuringActionExecution = false;			_incrementMonth.disableButtonDuringActionExecution = false;			_decrementYear.disableButtonDuringActionExecution = false;			_incrementYear.disableButtonDuringActionExecution = false;
+			_decrementMonth.disableButtonDuringActionExecution = false;
+			_incrementMonth.disableButtonDuringActionExecution = false;
+			_decrementYear.disableButtonDuringActionExecution = false;
+			_incrementYear.disableButtonDuringActionExecution = false;
 			
 			_yearMonthHeader = new Panel();
 			_yearMonthHeader.addComponents( _decrementYear, _decrementMonth, _yearMonthLabel, _incrementMonth, _incrementYear );
 			_yearMonthHeader.childrenLayout = new HBoxLayout( _yearMonthHeader,1,
-												new BoxSettings(0,"left","center", _decrementYear ),												new BoxSettings(0,"left","center", _decrementMonth ),												new BoxSettings(0,"center","center", _yearMonthLabel, false, false, true ),												new BoxSettings(0,"right","center", _incrementMonth ),												new BoxSettings(0,"right","center", _incrementYear )
+												new BoxSettings(0,"left","center", _decrementYear ),
+												new BoxSettings(0,"left","center", _decrementMonth ),
+												new BoxSettings(0,"center","center", _yearMonthLabel, false, false, true ),
+												new BoxSettings(0,"right","center", _incrementMonth ),
+												new BoxSettings(0,"right","center", _incrementYear )
 											 );
 			
 			createGrid ();
@@ -162,7 +176,8 @@ package abe.com.ponents.tools
 		protected function releaseGrid () : void
 		{
 			_daysGrid.removeAllComponents();
-			removeComponent( _daysGrid );			_daysGrid = null;
+			removeComponent( _daysGrid );
+			_daysGrid = null;
 			_daysButtons = null;
 		}
 		protected function updateYearMonthLabel() : void
@@ -179,7 +194,9 @@ package abe.com.ponents.tools
 		}
 		protected function updateDaysGrid () : void
 		{
-			var month : uint = _date.month;			var date : uint = _date.date;			var fullYear : uint = _date.fullYear;
+			var month : uint = _date.month;
+			var date : uint = _date.date;
+			var fullYear : uint = _date.fullYear;
 			var startDay : Number = new Date( fullYear, month, 1).getDay() > 0 ? new Date( fullYear, month, 1).getDay() : 6;
 			
 			var monthLength : Number = DateUtils.getMonthLength(fullYear, month);

@@ -11,10 +11,6 @@ package abe.com.ponents.menus
     import abe.com.ponents.containers.ScrollPane;
     import abe.com.ponents.containers.SlidePane;
     import abe.com.ponents.core.*;
-    import abe.com.ponents.events.ActionEvent;
-    import abe.com.ponents.events.ComponentEvent;
-    import abe.com.ponents.events.ListEvent;
-    import abe.com.ponents.events.PopupEvent;
     import abe.com.ponents.layouts.components.GridLayout;
     import abe.com.ponents.layouts.components.MenuListLayout;
     import abe.com.ponents.models.DefaultListModel;
@@ -114,11 +110,11 @@ package abe.com.ponents.menus
             var m : MenuItem;
             switch( a )
             {
-                case ListEvent.ADD : 
+                case DefaultListModel.ADD : 
                     for each( m in v )
                         registerToMenuItemEvent( m );
                     break;
-                case ListEvent.REMOVE : 
+                case DefaultListModel.REMOVE : 
                     for each( m in v )
                         unregisterFromMenuItemEvent( m );
                     break;

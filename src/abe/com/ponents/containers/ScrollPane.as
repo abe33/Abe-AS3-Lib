@@ -1,15 +1,11 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.Component;
+	import abe.com.mon.geom.*;
+	import abe.com.ponents.core.*;
+	import abe.com.ponents.factory.*;
 	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.ScrollPaneLayout;
 	import abe.com.ponents.scrollbars.ScrollBar;
-
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -25,6 +21,27 @@ package abe.com.ponents.containers
 	)]
 	public class ScrollPane extends AbstractScrollContainer 
 	{
+	    FEATURES::BUILDER 
+	    {
+	        static public function buildPreview( factory : ComponentFactory,
+                                                 id : String,
+                                                 kwargs : Object = null ):void
+            {
+                ScrollablePanel.buildPreview( factory, id + "_panel" );
+                
+                factory.group("movables")
+                       .build( ScrollPane, 
+                               id, 
+                               null,
+                               kwargs, 
+                               function( sp : ScrollPane, o : Object ) : void
+                               {
+                                   sp.view = o[ id + "_panel" ];
+                                   sp.preferredSize = dm(100,100);
+                               } );
+            }
+	    }
+	
 		protected var _rowHeader : Viewport;
 		protected var _colHeader : Viewport;
 		protected var _vscrollbar : ScrollPane_ScrollBar;

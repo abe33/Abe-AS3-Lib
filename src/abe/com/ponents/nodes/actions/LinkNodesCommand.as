@@ -23,7 +23,7 @@ package abe.com.ponents.nodes.actions
 		{
 			UndoManagerInstance.add( new LinkNodesUndoable(a, b, link) );
 			a.addConnection(link);			b.addConnection(link);
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }

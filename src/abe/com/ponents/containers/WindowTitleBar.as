@@ -3,7 +3,6 @@ package abe.com.ponents.containers
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.WindowEvent;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.layouts.components.InlineLayout;
@@ -208,26 +207,26 @@ package abe.com.ponents.containers
 
 		protected function registerToWindowEvents (window : Window) : void
 		{
-			window.addEventListener(WindowEvent.MAXIMIZE, windowMaximize );
-			window.addEventListener(WindowEvent.MINIMIZE, windowMinimize );
-			window.addEventListener(WindowEvent.RESTORE, windowRestore );
+			window.windowMaximized.add( windowMaximized );
+			window.windowMinimized.add( windowMinimized );
+			window.windowRestored.add(  windowRestored );
 		}
 		protected function unregisterFromWindowEvents (window : Window) : void
 		{
-			window.addEventListener(WindowEvent.MAXIMIZE, windowMaximize );
-			window.addEventListener(WindowEvent.MINIMIZE, windowMinimize );
-			window.addEventListener(WindowEvent.RESTORE, windowRestore );
+			window.windowMaximized.remove( windowMaximized );
+			window.windowMinimized.remove( windowMinimized );
+			window.windowRestored.remove(  windowRestored );
 		}
 		
-		protected function windowRestore (event : WindowEvent) : void
+		protected function windowRestored ( v : Window ) : void
 		{
 			updateButtons();
 		}
-		protected function windowMinimize (event : WindowEvent) : void
+		protected function windowMinimized (v : Window ) : void
 		{
 			updateButtons();
 		}
-		protected function windowMaximize (event : WindowEvent) : void
+		protected function windowMaximized (v : Window ) : void
 		{
 			updateButtons();
 		}

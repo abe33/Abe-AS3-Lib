@@ -7,7 +7,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.history.UndoManager;
 	import abe.com.ponents.history.Undoable;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
@@ -54,15 +53,15 @@ package abe.com.ponents.actions.builtin
 			}
 			return _contextMenuItem;
 		}
-		protected function onPropertyChanged( e : PropertyEvent ) : void
+		protected function onPropertyChanged( propertyName:String, propertyValue:* ) : void
 		{
-			switch( e.propertyName ) 
+			switch( propertyName ) 
 			{
 				case "name" : 
-					_contextMenuItem.caption = e.propertyValue;
+					_contextMenuItem.caption = propertyValue;
 					break;
 				case "actionEnabled":
-					_contextMenuItem.enabled = e.propertyValue;
+					_contextMenuItem.enabled = propertyValue;
 					break;
 				default : break;
 			}

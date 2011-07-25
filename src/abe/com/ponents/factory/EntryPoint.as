@@ -1,12 +1,12 @@
 package abe.com.ponents.factory 
 {
-	import flash.events.IEventDispatcher;
-	/**
-	 * @author cedric
-	 */
-	public interface EntryPoint extends IEventDispatcher
-	{
-		function init( preload : ComponentFactoryPreload ) : void;
-		function fireProceedBuild() : void;
-	}
+    import org.osflash.signals.Signal;
+    /**
+     * @author cedric
+     */
+    public interface EntryPoint
+    {
+        function init( preload : ComponentFactoryPreload ) : void;
+        function get buildSetted () : Signal;
+    }
 }

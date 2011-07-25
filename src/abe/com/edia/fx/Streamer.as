@@ -13,7 +13,6 @@ package abe.com.edia.fx
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
 	import flash.display.Shape;
@@ -90,14 +89,14 @@ package abe.com.edia.fx
 			_isRunning = false;
 			Impulse.unregister( tick );
 		}
-		public function tick ( e : ImpulseEvent ) : void
+		public function tick ( bias : Number, biasInSeconds : Number, time : Number ) : void
 		{
 			
-			head = head.add( new Point( vel.x * e.biasInSeconds, vel.y * e.biasInSeconds ) );
+			head = head.add( new Point( vel.x * biasInSeconds, vel.y * biasInSeconds ) );
 			dots.push( head );
 			dotsVel.push( new Point( vel.x*.5, vel.y*.5 + _randomSource.random() * 5 ) );
 			dotsVelFactor.push( .9 + _randomSource.random()*.1 );
-			vel.y += gravity * e.biasInSeconds;
+			vel.y += gravity * biasInSeconds;
 			if( dots.length > length )
 			{
 				dots.shift();
@@ -115,12 +114,12 @@ package abe.com.edia.fx
 			for( n = 0; n < l; n++ )
 			{
 				var pt : Point = dots[n];
-				dotsVel[n].y += gravity * e.biasInSeconds;
+				dotsVel[n].y += gravity * biasInSeconds;
 				dotsVel[n].y *= FRICTION;
 				dotsVel[n].x *= FRICTION;
 				
-				pt.y += dotsVel[n].y * e.biasInSeconds;
-				pt.x += dotsVel[n].x * e.biasInSeconds;
+				pt.y += dotsVel[n].y * biasInSeconds;
+				pt.x += dotsVel[n].x * biasInSeconds;
 				
 				miny = Math.min( pt.y, miny );
 				

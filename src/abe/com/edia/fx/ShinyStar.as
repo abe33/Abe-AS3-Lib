@@ -9,7 +9,6 @@ package abe.com.edia.fx
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
 	import flash.display.BlendMode;
@@ -24,19 +23,22 @@ package abe.com.edia.fx
 	{
 		protected var _isRunning : Boolean;
 		
-		public var color1 : Color;		public var color2 : Color;
+		public var color1 : Color;
+		public var color2 : Color;
 		public var radius : Number;
 		public var velocity : Point;
 		public var life : Number;
 		public var t : Number;
 
 		public function ShinyStar ( 
-									color1 : Color = null,									color2 : Color = null,
+									color1 : Color = null,
+									color2 : Color = null,
 									radius : Number = 15,
 									velocity : Point = null,
 									life : Number = 500 )
 		{
-			this.color1 = color1;			this.color2 = color2;
+			this.color1 = color1;
+			this.color2 = color2;
 			this.radius = radius;
 			this.velocity = velocity;
 			this.life = life;
@@ -45,12 +47,16 @@ package abe.com.edia.fx
 
 		protected function draw () : void 
 		{
-			this.graphics.beginFill(color2.hexa, .5 );			this.graphics.drawCircle(0, 0, radius * .6 );
-			this.graphics.drawCircle(0, 0, radius * .53 );			this.graphics.endFill();			
+			this.graphics.beginFill(color2.hexa, .5 );
+			this.graphics.drawCircle(0, 0, radius * .6 );
+			this.graphics.drawCircle(0, 0, radius * .53 );
+			this.graphics.endFill();
+			
 			this.graphics.beginFill(color2.hexa, .5 );
 			this.graphics.drawEllipse(-1, -radius, 2, radius*2);
 			this.graphics.endFill();
-						this.graphics.beginFill(color2.hexa, .5 );
+			
+			this.graphics.beginFill(color2.hexa, .5 );
 			this.graphics.drawEllipse(-radius, -1, radius*2, 2);
 			this.graphics.endFill();
 			
@@ -67,11 +73,11 @@ package abe.com.edia.fx
 			this.graphics.endFill();
 		}
 
-		public function tick (e : ImpulseEvent) : void
+		public function tick (bias : Number, biasInSeconds : Number, time : Number) : void
 		{
-			x += velocity.x * e.biasInSeconds;
-			y += velocity.y * e.biasInSeconds;
-			t += e.bias;
+			x += velocity.x * biasInSeconds;
+			y += velocity.y * biasInSeconds;
+			t += bias;
 			
 			alpha = 1 - (t/life);
 			scaleX = scaleY = 1 + (t/life);

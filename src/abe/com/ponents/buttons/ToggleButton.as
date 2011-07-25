@@ -10,8 +10,6 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.actions.BooleanAction;
 	import abe.com.ponents.core.*;
 	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ActionEvent;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.skinning.icons.Icon;
 
 	/**
@@ -66,16 +64,6 @@ package abe.com.ponents.buttons
 			else
 				swapSelect(!selected);
 		}
-		/**
-		 * Définie la nouvelle valeur pour l'état <code>selected</code>
-		 * du composant et diffuse un évènement de type <code>ComponentEvent.DATA_CHANGE</code>.
-		 * <p>
-		 * Au même moment, si le composant possède un objet <code>Action</code>, celui-ci est éxécuté,
-		 * mais après que l'état ait été modifié, permettant à l'objet <code>Action</code> de le prendre
-		 * en compte.
-		 * </p>
-		 * @param	b	la nouvelle valeur de l'état sélectionné
-		 */
 		protected function swapSelect ( b : Boolean ) : void
 		{
 			 selected = b;

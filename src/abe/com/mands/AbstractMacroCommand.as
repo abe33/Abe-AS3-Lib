@@ -156,7 +156,7 @@ package  abe.com.mands
 				var c : Command = _aCommands[ i ];
 				if( c )
 				{
-					unregisterToCommandEvents( c );
+					unregisterToCommandSignals( c );
 				}
 			}
 			/*FDT_IGNORE*/
@@ -196,20 +196,9 @@ package  abe.com.mands
 		 * <p>
 		 * La fonction s'enregistre pour les évènements suivant : 
 		 * </p>
-		 * <ul>
-		 * <li><code>CommandEvent.COMMAND_END</code> : 
-		 * la fonction réceptrice est <code>commandEnd</code></li>
-		 * <li><code>CommandEvent.COMMAND_FAIL</code> : 
-		 * la fonction réceptrice est <code>commandFailed</code></li>
-		 * <li><code>CommandEvent.COMMAND_CANCEL</code> : 
-		 * la fonction réceptrice est <code>commandCancelled</code>.
-		 * <p>
-		 * Cet évènement est écouté uniquement si <code>c</code> implémente
-		 * l'interface <code>Cancelable</code>.</p>
-		 * </li></ul>
 		 * @param	c	commande à laquelle on souhaite s'enregistrer
 		 */
-		protected function registerToCommandEvents ( c : Command ) : void
+		protected function registerToCommandSignals ( c : Command ) : void
 		{
 			c.commandEnded.add( onCommandEnded );
 			c.commandFailed.add( onCommandFailed );
@@ -223,11 +212,11 @@ package  abe.com.mands
 		 * <code>c</code> passée en paramètre.
 		 * <p>
 		 * La fonction réalise la suppression des écouteurs enregistrés par la 
-		 * fonction <code>registerToCommandEvents</code>.
+		 * fonction <code>registerToCommandSignals</code>.
 		 * </p>
 		 * @param	c	commande à laquelle on souhaite se désinscrire
 		 */
-		protected function unregisterToCommandEvents ( c : Command ) : void
+		protected function unregisterToCommandSignals ( c : Command ) : void
 		{
 			c.commandEnded.remove( onCommandEnded );
 			c.commandFailed.remove( onCommandFailed );

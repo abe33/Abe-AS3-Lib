@@ -7,7 +7,6 @@ package abe.com.ponents.monitors
 	import abe.com.mon.utils.StringUtils;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
-	import abe.com.ponents.events.DebugEvent;
 	import abe.com.ponents.layouts.display.DOBoxSettings;
 	import abe.com.ponents.layouts.display.DOHBoxLayout;
 	import abe.com.ponents.scrollbars.annotations.Annotation;

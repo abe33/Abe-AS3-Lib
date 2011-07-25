@@ -2,7 +2,6 @@ package abe.com.ponents.models
 {
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.StringUtils;
-	import abe.com.ponents.events.ComponentEvent;
 
     import org.osflash.signals.Signal;
 	/**

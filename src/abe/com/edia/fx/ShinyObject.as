@@ -14,7 +14,6 @@ package abe.com.edia.fx
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.motion.easing.Cubic;
 	import abe.com.motion.easing.Quad;
@@ -48,7 +47,8 @@ package abe.com.edia.fx
 		public var raysAngularSizeMax : Number;
 
 		public var starRate : Number;
-		public var starColor1 : Color;				public var starColor2 : Color;		
+		public var starColor1 : Color;		
+		public var starColor2 : Color;		
 		public var starRadiusMin : Number;
 		public var starRadiusMax : Number;
 		public var starVelocityMin : Number;
@@ -60,17 +60,25 @@ package abe.com.edia.fx
 
 		public function ShinyObject ( target : LayeredSprite = null,
 		 
-									  glowColor : Color = null,									  glowSize : Number = 8,
+									  glowColor : Color = null,
+									  glowSize : Number = 8,
 									  glowBurstCycleDuration : Number = 1500,
 									  
-									  numRays : uint = 10,									  raysColor : Color = null,
+									  numRays : uint = 10,
+									  raysColor : Color = null,
 									  raysLength : Number = 60,
-									  raysAngularSizeMin : Number = .1,									  raysAngularSizeMax : Number = .4,									  raysAngularSpeedMin : Number = -40,									  raysAngularSpeedMax : Number = 40,
+									  raysAngularSizeMin : Number = .1,
+									  raysAngularSizeMax : Number = .4,
+									  raysAngularSpeedMin : Number = -40,
+									  raysAngularSpeedMax : Number = 40,
 									  
-									  starColor1 : Color = null,									  starColor2 : Color = null,
+									  starColor1 : Color = null,
+									  starColor2 : Color = null,
 									  starRate : Number = 500,
 									  starRadiusMin : Number = 10,
-									  starRadiusMax : Number = 13,									  starVelocityMin : Number = 5,									  starVelocityMax : Number = 10,
+									  starRadiusMax : Number = 13,
+									  starVelocityMin : Number = 5,
+									  starVelocityMax : Number = 10,
 									  starLifeMin : Number = 1000,
 									  starLifeMax : Number = 1500,
 									  
@@ -80,18 +88,25 @@ package abe.com.edia.fx
 		{
 			this.target = target;
 			
-			this.glowColor = glowColor ? glowColor : Color.White;			this.glowSize = glowSize;
+			this.glowColor = glowColor ? glowColor : Color.White;
+			this.glowSize = glowSize;
 			this.glowBurstCycleDuration = glowBurstCycleDuration;
 			
 			this.numRays = numRays;
 			this.raysColor = raysColor ? raysColor : Color.White;
 			this.raysLength = raysLength;
-			this.raysAngularSizeMin = raysAngularSizeMin;						this.raysAngularSizeMax = raysAngularSizeMax;						this.raysAngularSpeedMin = raysAngularSpeedMin;			this.raysAngularSpeedMax = raysAngularSpeedMax;
+			this.raysAngularSizeMin = raysAngularSizeMin;			
+			this.raysAngularSizeMax = raysAngularSizeMax;			
+			this.raysAngularSpeedMin = raysAngularSpeedMin;
+			this.raysAngularSpeedMax = raysAngularSpeedMax;
 
-			this.starColor1 = starColor1 ? starColor1 : Color.White;			this.starColor2 = starColor2 ? starColor2 : Color.Gold;
+			this.starColor1 = starColor1 ? starColor1 : Color.White;
+			this.starColor2 = starColor2 ? starColor2 : Color.Gold;
 			this.starRate = starRate;
-			this.starRadiusMin = starRadiusMin;			this.starRadiusMax = starRadiusMax;
-			this.starVelocityMin = starVelocityMin;			this.starVelocityMax = starVelocityMax;
+			this.starRadiusMin = starRadiusMin;
+			this.starRadiusMax = starRadiusMax;
+			this.starVelocityMin = starVelocityMin;
+			this.starVelocityMax = starVelocityMax;
 			this.starLifeMin = starLifeMin;
 			this.starLifeMax = starLifeMax;
 			
@@ -108,12 +123,12 @@ package abe.com.edia.fx
 			_randomSource = randomSource;
 		}
 
-		public function tick (e : ImpulseEvent) : void
+		public function tick (bias : Number, biasInSeconds : Number, time : Number) : void
 		{
-			glowBurst.scaleX = glowBurst.scaleY = .1+Cubic.easeIn( e.time % glowBurstCycleDuration, 0, 1, glowBurstCycleDuration );
-			glowBurst.alpha = Quad.easeIn( e.time % glowBurstCycleDuration, 1, -1, glowBurstCycleDuration );
+			glowBurst.scaleX = glowBurst.scaleY = .1+Cubic.easeIn( time % glowBurstCycleDuration, 0, 1, glowBurstCycleDuration );
+			glowBurst.alpha = Quad.easeIn( time % glowBurstCycleDuration, 1, -1, glowBurstCycleDuration );
 			
-			_time += e.bias;
+			_time += bias;
 			
 			if( _time > starRate )	
 			{
@@ -121,7 +136,8 @@ package abe.com.edia.fx
 				
 				var star : ShinyStar = AllocatorInstance.get( ShinyStar, 
 															 {
-															 	color1 : starColor1,															 	color2 : starColor2,
+															 	color1 : starColor1,
+															 	color2 : starColor2,
 																radius : _randomSource.rangeAB(starRadiusMin,starRadiusMax),
 																velocity : _randomSource.velocity(0, MathUtils.PI2, starVelocityMin, starVelocityMax ), 
 																life : _randomSource.rangeAB( starLifeMin, starLifeMax ),

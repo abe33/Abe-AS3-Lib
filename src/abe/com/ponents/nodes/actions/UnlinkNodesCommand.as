@@ -19,7 +19,7 @@ package abe.com.ponents.nodes.actions
 			UndoManagerInstance.add( new UnlinkNodesUndoable(link) );
 			link.a.removeConnection(link);
 			link.b.removeConnection(link);
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }

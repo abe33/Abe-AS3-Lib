@@ -72,9 +72,9 @@ package abe.com.ponents.containers
 				var tab : Tab;
 				
 				if( _closeable )
-					tab = new ClosableTab(dock.label, dock.content, dock.icon.clone());
+					tab = new ClosableTab(dock.label, dock.content, dock.icon ? dock.icon.clone() : null );
 				else
-					tab = new SimpleTab(dock.label, dock.content, dock.icon.clone());
+					tab = new SimpleTab(dock.label, dock.content, dock.icon ? dock.icon.clone() : null );
 				
 				tab.id = dock.id;
 				//var l : Leaf = multiSplitLayout.getLeafParent( c );

@@ -1,6 +1,6 @@
 package abe.com.ponents.models 
 {
-	import abe.com.ponents.events.ComponentEvent;
+    import org.osflash.signals.Signal;
 	/**
 	 * @author cedric
 	 */
@@ -8,9 +8,12 @@ package abe.com.ponents.models
 	{
 		protected var _selectedIndex : int;
 		protected var _labels : Array;
+		
+		public var selectionChanged : Signal;
 
 		public function LabelComboBoxModel ( initialData : Array = null, labels : Array = null )
 		{
+		    selectionChanged = new Signal();
 			super( initialData );
 			_selectedIndex = 0;
 			_labels = labels;
@@ -28,7 +31,7 @@ package abe.com.ponents.models
 
 		public function fireSelectionChange () : void
 		{
-			dispatchEvent( new ComponentEvent ( ComponentEvent.SELECTION_CHANGE ) );
+			selectionChanged.dispatch( _selectedIndex );
 		}
 		public function getLabel( i : * ) : String
 		{

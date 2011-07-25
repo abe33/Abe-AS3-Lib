@@ -145,9 +145,6 @@ package abe.com.ponents.tables
                                                             'enabled':_enabled,
                                                             'column':column,
                                                             'focusParent':this } ) as TableCell;
-           
-            ( item as AbstractComponent ).mouseWheelRolled.add( childrenMouseWheelRolled );
-            
             return item;
         }
         public function removeCell( c : TableCell ):void

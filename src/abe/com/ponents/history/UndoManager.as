@@ -3,23 +3,26 @@
  */
 package abe.com.ponents.history 
 {
-	import abe.com.ponents.events.UndoManagerEvent;
-
 	import org.osflash.signals.Signal;
 
-	[Event(name="redoDone",type="abe.com.ponents.events.UndoManagerEvent")]		[Event(name="undoDone",type="abe.com.ponents.events.UndoManagerEvent")]		[Event(name="undoAdd",type="abe.com.ponents.events.UndoManagerEvent")]		[Event(name="undoRemove",type="abe.com.ponents.events.UndoManagerEvent")]	
 	public class UndoManager
 	{
-		public var undoAdded : Signal;		public var undoRemoved : Signal;
-		public var undoDone : Signal;		public var redoDone : Signal;
+		public var undoAdded : Signal;
+		public var undoRemoved : Signal;
+		public var undoDone : Signal;
+		public var redoDone : Signal;
 		
 		protected var _undoLimit : Number;
 		
 		/*FDT_IGNORE*/
-		TARGET::FLASH_9		protected var _edits : Array;
-				TARGET::FLASH_10		protected var _edits : Vector.<Undoable>;
+		TARGET::FLASH_9
+		protected var _edits : Array;
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _edits : Vector.<Undoable>;
+		TARGET::FLASH_10
+		protected var _edits : Vector.<Undoable>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _edits : Vector.<Undoable>;
 		
 		protected var _undoCursor : Number;
 
@@ -27,7 +30,8 @@ package abe.com.ponents.history
 		{
 			undoAdded = new Signal( Undoable );
 			undoRemoved = new Signal();
-			undoDone = new Signal( Undoable );			redoDone = new Signal( Undoable );
+			undoDone = new Signal( Undoable );
+			redoDone = new Signal( Undoable );
 			
 			_undoLimit = limit == 0 ? Number.POSITIVE_INFINITY : limit;
 			removeAll ();
@@ -86,7 +90,9 @@ package abe.com.ponents.history
 		public function removeAll () : void 
 		{
 			/*FDT_IGNORE*/
-			TARGET::FLASH_9 { _edits = []; }			TARGET::FLASH_10 { _edits = new Vector.<Undoable>( ); }			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			TARGET::FLASH_9 { _edits = []; }
+			TARGET::FLASH_10 { _edits = new Vector.<Undoable>( ); }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
 			_edits = new Vector.<Undoable>();/*FDT_IGNORE*/ } /*FDT_IGNORE*/ 
 			
 			_undoCursor = 0;

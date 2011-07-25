@@ -1,6 +1,5 @@
 package abe.com.ponents.tools.canvas 
 {
-	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.skinning.cursors.Cursor;
 
 	import flash.utils.Dictionary;
@@ -9,14 +8,14 @@ package abe.com.ponents.tools.canvas
 	 */
 	public interface Tool 
 	{
-		function toolSelected ( e : ToolEvent ) : void;		function toolUnselected ( e : ToolEvent ) : void;
-		function actionStarted ( e : ToolEvent ) : void;
-		function actionFinished ( e : ToolEvent ) : void;
-		function actionPaused ( e : ToolEvent ) : void;
-		function actionResumed ( e : ToolEvent ) : void;
-		function actionAborted ( e : ToolEvent ) : void;
-		function mousePositionChanged ( e : ToolEvent ) : void;		function mouseMove ( e : ToolEvent ) : void;
-		function objectUnderTheMouseChanged ( e : ToolEvent ) : void;
+		function toolSelected ( e : ToolGestureData ) : void;		function toolUnselected ( e : ToolGestureData ) : void;
+		function actionStarted ( e : ToolGestureData ) : void;
+		function actionFinished ( e : ToolGestureData ) : void;
+		function actionPaused ( e : ToolGestureData ) : void;
+		function actionResumed ( e : ToolGestureData ) : void;
+		function actionAborted ( e : ToolGestureData ) : void;
+		function mousePositionChanged ( e : ToolGestureData ) : void;		function mouseMove ( e : ToolGestureData ) : void;
+		function objectUnderTheMouseChanged ( e : ToolGestureData ) : void;
 		function setAsAlternateTool ( b : Boolean ) : void;
 		function hasAlternateTools () : Boolean;
 		function get alterternateTools () : Dictionary;

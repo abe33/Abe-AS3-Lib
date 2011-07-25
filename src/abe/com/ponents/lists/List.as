@@ -697,7 +697,6 @@ package abe.com.ponents.lists
         protected function releaseCell (item : ListCell) : void
         {
             _childrenContainer.removeChild( item as DisplayObject );
-            ( item as AbstractComponent ).mouseWheelRolled.remove( childrenMouseWheelRolled );
             AllocatorInstance.release(item);
         }
         protected function getCell ( itemIndex : int = 0, childIndex : int = 0 ) : ListCell
@@ -717,7 +716,6 @@ package abe.com.ponents.lists
                 FEATURES::DND { 
                     cell.allowDrag = _allowDrag;
                 } 
-                ( cell as AbstractComponent ).mouseWheelRolled.add( childrenMouseWheelRolled );
                 if( !_childrenContainer.contains( cell as DisplayObject) )
                     _childrenContainer.addChild( cell as DisplayObject );
             }

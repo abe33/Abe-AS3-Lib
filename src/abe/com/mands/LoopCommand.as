@@ -12,32 +12,7 @@ package  abe.com.mands
 
 	import org.osflash.signals.Signal;
 
-	import flash.utils.getTimer;
-
-	/**
-	 * Diffusé au démarrage de la boucle suite à l'appel de la
-	 * méthode <code>start</code>.
-	 * 
-	 * @eventType	abe.com.mands.events.LoopEvent.LOOP_START
-	 */
-	[Event(name="loopStart", type="abe.com.mands.events.LoopEvent")]
-	
-	/**
-	 * Diffusé en cas d'arrêt de la boucle suite à l'appel de la
-	 * méthode <code>stop</code>.
-	 * 
-	 * @eventType	abe.com.mands.events.LoopEvent.LOOP_STOP
-	 */
-	[Event(name="loopStop", type="abe.com.mands.events.LoopEvent")]
-	
-	/**
-	 * Diffusé à chaque série d'itérations.
-	 * 
-	 * @eventType	abe.com.mands.events.LoopEvent.LOOP_PROGRESS
-	 */
-	[Event(name="loopProgress", type="abe.com.mands.events.LoopEvent")]
-	
-	
+	import flash.utils.getTimer;	
 	/**
 	 * Une commande <code>LoopCommand</code> encapsule une boucle au sein d'un objet 
 	 * et différe les itérations dans le temps.
@@ -66,8 +41,11 @@ package  abe.com.mands
 		protected var _isCancelled : Boolean;
 		protected var _isDone : Boolean;
 		
-		protected var _commandCancelled : Signal;		
-		public var loopStarted : Signal;		public var loopStopped : Signal;		public var loopProgressed : Signal;
+		protected var _commandCancelled : Signal;
+		
+		public var loopStarted : Signal;
+		public var loopStopped : Signal;
+		public var loopProgressed : Signal;
 
 		/**
 		 * Créer une nouvelle instance de la classe <code>LoopCommand</code>.
@@ -78,7 +56,10 @@ package  abe.com.mands
 		public function LoopCommand( iterationLimit : Number = DEFAULT_ITERATION_TIME_LIMIT )
 		{
 			super();
-			loopStarted = new Signal( int );			loopStopped = new Signal( int );			loopProgressed = new Signal( int );			_commandCancelled = new Signal( Command );
+			loopStarted = new Signal( int );
+			loopStopped = new Signal( int );
+			loopProgressed = new Signal( int );
+			_commandCancelled = new Signal( Command );
 			_iterationTimeLimit = iterationLimit;
 			_isCancelled = false;
 			_isDone = false;
@@ -228,11 +209,6 @@ package  abe.com.mands
 		}
 		
 		/**
-		 * Connecté cette méthode à l'évènement <code>CommandEvent.COMMAND_END</code> d'une
-		 * autre commande pour que cette instance démarre automatiquement à la fin de la
-		 * commande.
-		 * 
-		 * @param	e	évènement de fin diffusé par la commande
 		 */
 		public function onCommandEnded ( command : Command ): void
 		{

@@ -5,10 +5,7 @@ package abe.com.ponents.buttons
 {
 	import abe.com.ponents.core.*;
 	import abe.com.ponents.actions.Action;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.tools.canvas.actions.SetToolAction;
-
-	import flash.events.Event;
 
 	/**
 	 * Un objet <code>ToolButton</code> est un <code>ToggleButton</code> chargé 

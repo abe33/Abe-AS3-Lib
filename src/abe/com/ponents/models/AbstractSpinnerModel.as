@@ -1,19 +1,12 @@
 package abe.com.ponents.models 
 {
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
-
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.ui.ContextMenuItem;
     import org.osflash.signals.Signal;
 	 
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
-	[Event(name="propertyChange",type="abe.com.ponents.events.PropertyEvent")]
-	public class AbstractSpinnerModel extends EventDispatcher implements SpinnerModel
+	public class AbstractSpinnerModel implements SpinnerModel
 	{
 		
 		TARGET::FLASH_9

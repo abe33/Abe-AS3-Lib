@@ -51,18 +51,18 @@ package abe.com.ponents.ressources.actions
 				cls = _collectionsLoader.getAllAssets();
 			
 			_list.model = new DefaultListModel( cls );
-			_dialog.addEventListener(DialogEvent.DIALOG_RESULT, onResults );
+			_dialog.dialogResponded.addOnce( onResults );
 			_dialog.open( Dialog.CLOSE_ON_RESULT );
 				
 			super.execute( e );
 		}
-		protected function onResults (event : DialogEvent) : void 
+		protected function onResults ( d : Dialog, result : uint ) : void 
 		{
-			if( event.result == Dialog.RESULTS_OK )
+			if( result == Dialog.RESULTS_OK )
 			{
 				_ressource = _list.selectedValue;
 			}
-			fireCommandEnd();
+			_commandEnded.dispatch( this );
 		}
 		protected function buildDialog () : void 
 		{
@@ -73,7 +73,8 @@ package abe.com.ponents.ressources.actions
 			_list.editEnabled = false;
 			
 			var tb : ToolBar = new ToolBar(ButtonDisplayModes.TEXT_AND_ICON , false );
-			tb.addAction( new LoadExternalRessource( _collectionsLoader, _("Load")));			tb.addAction( new OpenRessourceManager( _collectionsLoader, _("Open Manager")));
+			tb.addAction( new LoadExternalRessource( _collectionsLoader, _("Load")));
+			tb.addAction( new OpenRessourceManager( _collectionsLoader, _("Open Manager")));
 			
 			var scp : ScrollPane = new ScrollPane();
 			scp.view = _list;

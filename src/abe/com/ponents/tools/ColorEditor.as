@@ -15,7 +15,6 @@ package abe.com.ponents.tools
 	/**
 	 * @author cedric
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	public class ColorEditor extends TabbedPane 
 	{
 		[Embed(source="../skinning/icons/palette.png")]

@@ -8,7 +8,6 @@ package abe.com.ponents.buttons
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
 	import abe.com.ponents.containers.Window;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.forms.FormObject;

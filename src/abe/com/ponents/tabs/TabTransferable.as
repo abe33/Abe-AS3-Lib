@@ -21,9 +21,10 @@ package abe.com.ponents.tabs
 
 		public function getData (flavor : DataFlavor) : *
 		{
-			if( flavor.equals( ComponentsFlavors.TAB ) )				return _tab;
+			if( flavor.equals( ComponentsFlavors.TAB ) )
+				return _tab;
 			else if( flavor.equals( ComponentsFlavors.DOCKABLE ) )
-				return new SimpleDockable( _tab.content, _tab.id, _tab.label, _tab.icon.clone() );
+				return new SimpleDockable( _tab.content, _tab.id, _tab.label, _tab.icon ? _tab.icon.clone() : null );
 			else if( flavor.equals( ComponentsFlavors.COMPONENT ) )
 				return _tab.content;
 		}

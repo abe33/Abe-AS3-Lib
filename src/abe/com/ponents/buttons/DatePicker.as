@@ -12,21 +12,13 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.actions.builtin.CalendarAction;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.IEventDispatcher;
 	
 	import org.osflash.signals.Signal;
 
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * Le composant <code>DatePicker</code> permet l'édition d'objet <code>Date</code>
 	 * à travers un calendrier.
@@ -44,7 +36,6 @@ package abe.com.ponents.buttons
 															  Component, 
 															  Focusable,
 													 		  LayeredSprite,
-													 		  IEventDispatcher,
 													 		  FormComponent
 	{
 		/**

@@ -196,7 +196,10 @@ package abe.com.motion
 										easing : Function = null )
 		{
 			super( );
-			tweenStarted = new Signal(Tween);			tweenStopped = new Signal(Tween);			tweenChanged = new Signal(Tween);			tweenEnded = new Signal(Tween);
+			tweenStarted = new Signal(Tween);
+			tweenStopped = new Signal(Tween);
+			tweenChanged = new Signal(Tween);
+			tweenEnded = new Signal(Tween);
 			_target = target;
 			_duration = duration;
 			this.easing = easing;
@@ -303,7 +306,6 @@ package abe.com.motion
 		/**
 		 * Remet à zéro et démarre l'instance courante.
 		 *
-		 * @param	e	un objet <code>Event</code> transmis à la méthode
 		 */
 		override public function execute( ... args ) : void
 		{

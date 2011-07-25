@@ -13,7 +13,6 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.builder.models.BuilderCollections;
 	import abe.com.ponents.containers.Window;
 	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.forms.FormObject;
@@ -26,11 +25,7 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
 
     import org.osflash.signals.Signal;
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 *
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
+
 	[Skinable(skin="EmptyComponent")]
 	/**
 	 * La classe <code>ComponentDecorationPicker</code> permet la création et la modification
@@ -164,13 +159,6 @@ package abe.com.ponents.buttons
 			super.enabled = b;
 			checkDisableMode();
 		}
-		/**
-		 * Recoit l'évènement <code>CommandEvent.COMMAND_END</code> de fin
-		 * d'édition des propriétés de l'objet <code>ComponentDecoration</code>
-		 * courant.
-		 *
-		 * @param	event	évènement de fin d'édition
-		 */
 		protected function editCommandEnded ( c : Command ) : void
 		{
 			fireDataChangedSignal();
@@ -222,8 +210,6 @@ package abe.com.ponents.buttons
 			}
 		}
 		/**
-		 * Diffuse un évènement de type <code>ComponentEvent.DATA_CHANGE</code> aux écouteurs
-		 * de ce composant.
 		 */
 		protected function fireDataChangedSignal () : void
 		{

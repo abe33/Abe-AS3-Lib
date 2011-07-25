@@ -13,16 +13,12 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.skinning.icons.RadioCheckedIcon;
 	import abe.com.ponents.skinning.icons.RadioUncheckedIcon;
 
-	import flash.events.Event;
-	import flash.events.IEventDispatcher;
-
 	public class RadioToggleButton extends ToggleButton  implements IDisplayObject, 
 														              IInteractiveObject, 
 														              IDisplayObjectContainer, 
 														              Component, 
 														              Focusable,
-												             		  LayeredSprite,
-												             		  IEventDispatcher
+												             		  LayeredSprite
 	{
 		public function RadioToggleButton (actionOrLabel : * = null, icon : Icon = null )
 		{

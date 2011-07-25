@@ -10,7 +10,6 @@ package abe.com.edia.fx
 	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
 	import flash.display.Shape;
@@ -67,13 +66,13 @@ package abe.com.edia.fx
 			_isRunning = false;
 			Impulse.unregister( tick );
 		}
-		public function tick ( e : ImpulseEvent ) : void
+		public function tick ( bias : Number, biasInSeconds : Number, current : Number ) : void
 		{
-			y += vel.y * e.biasInSeconds;
-			x += vel.x * e.biasInSeconds;
+			y += vel.y * biasInSeconds;
+			x += vel.x * biasInSeconds;
 			
 			vel.x *= FRICTION;
-			vel.y += GRAVITY * e.biasInSeconds;
+			vel.y += GRAVITY * biasInSeconds;
 			vel.y *= FRICTION;
 			
 			rotation += velrot;

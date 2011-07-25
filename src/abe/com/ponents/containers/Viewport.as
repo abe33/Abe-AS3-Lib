@@ -66,28 +66,32 @@ package abe.com.ponents.containers
 			if( _view && _view is Scrollable )
 				return ( _view as Scrollable ).getScrollableUnitIncrementV( getViewVisibleArea (), direction );
 			else
-				return _view.height * direction / 100; 
+				return 20 * direction; 
+				//return _view.height * direction / 100; 
 		}
 		public function getUnitIncrementH ( direction : Number = 1 ) : Number 
 		{ 
 			if( _view && _view is Scrollable )
 				return ( _view as Scrollable ).getScrollableUnitIncrementH( getViewVisibleArea (), direction );
 			else
-				return _view.width * direction / 100; 
+				return 20 * direction; 
+				//return _view.width * direction / 100; 
 		}
 		public function getBlockIncrementV ( direction : Number = 1 ) : Number 
 		{ 
 			if( _view && _view is Scrollable )
 				return ( _view as Scrollable ).getScrollableBlockIncrementV( getViewVisibleArea (), direction );
 			else
-				return _view.height * direction / 10; 
+				return 10 * direction; 
+				//return _view.height * direction / 10; 
 		}
 		public function getBlockIncrementH ( direction : Number = 1 ) : Number 
 		{ 
 			if( _view && _view is Scrollable )
 				return ( _view as Scrollable ).getScrollableBlockIncrementH( getViewVisibleArea (), direction );
 			else
-				return _view.width * direction / 10; 
+				return 20 * direction; 
+				//return _view.width * direction / 10; 
 		}
 		protected function getViewVisibleArea () : Rectangle
 		{

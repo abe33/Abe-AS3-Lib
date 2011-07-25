@@ -4,7 +4,6 @@ package abe.com.ponents.forms.renderers
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ScrollablePanel;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormCategory;
 	import abe.com.ponents.forms.FormField;
 	import abe.com.ponents.forms.FormObject;
@@ -39,7 +38,8 @@ package abe.com.ponents.forms.renderers
 			var p : ScrollablePanel = new ScrollablePanel();
 			p.childrenLayout = new InlineLayout(p, 5, "center", "top", "topToBottom", true );
 			
-			var l : int;			var i : int;
+			var l : int;
+			var i : int;
 			var c : Component;
 			
 			if( o.hasCategories )
@@ -78,13 +78,14 @@ package abe.com.ponents.forms.renderers
 			if( field.component )
 			{
 				l.enabled = field.component.enabled;
-				field.component.addEventListener(ComponentEvent.ENABLE_CHANGE, function( e : ComponentEvent) : void
+				field.component.componentEnableChanged.add( function( c : Component, b : Boolean ) : void
 				{
-					if( e.target == l.forComponent )
-						l.enabled = e.target.enabled;
+					if( c == l.forComponent )
+						l.enabled = b;
 				} );
 				
-				_tmpMaxCompSize = Math.max( field.component.preferredSize.width, _tmpMaxCompSize );			}
+				_tmpMaxCompSize = Math.max( field.component.preferredSize.width, _tmpMaxCompSize );
+			}
 			_tmpMaxLabelSize = Math.max( l.preferredSize.width, _tmpMaxLabelSize );
 			
 			var p : Panel = new Panel();

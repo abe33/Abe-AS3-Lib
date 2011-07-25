@@ -63,7 +63,7 @@ package  abe.com.edia.dialogues
 		public function speechEnd ( e : SpeechEvent ) : void
 		{
 			terminal.echo( "<font color='" + Color.DeepSkyBlue.html + "'>Fin du dialogue</font>"  );
-			fireCommandEnd();
+			_commandEnded.dispatch( this );
 		}
 		public function newSpeech ( e : SpeechEvent ) : void
 		{

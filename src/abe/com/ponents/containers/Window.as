@@ -13,8 +13,6 @@ package abe.com.ponents.containers
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Container;
 	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.WindowEvent;
 	import abe.com.ponents.layouts.components.BorderLayout;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.text.Label;
@@ -75,14 +73,6 @@ package abe.com.ponents.containers
 		protected var _safeX : Number;
 		protected var _safeY : Number;
 		
-		/*
-		
-	[Event(name="minimize",type="abe.com.ponents.events.WindowEvent")]
-	[Event(name="maximize",type="abe.com.ponents.events.WindowEvent")]
-	[Event(name="restore",type="abe.com.ponents.events.WindowEvent")]
-	[Event(name="open",type="abe.com.ponents.events.WindowEvent")]
-	[Event(name="close",type="abe.com.ponents.events.WindowEvent")]
-		*/
 		public var windowMinimized : Signal;
 		public var windowMaximized : Signal;
 		public var windowRestored : Signal;

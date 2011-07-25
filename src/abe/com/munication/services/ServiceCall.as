@@ -99,7 +99,7 @@ package abe.com.munication.services
 
 			if( _service )
 			{
-				registerToServiceEvents();
+				registerToServiceSignals();
 
 				CONFIG::WITH_DISTANT_SERVER { 
 					(_service[_method] as Function).apply(null,_args);
@@ -134,11 +134,11 @@ package abe.com.munication.services
 				serviceResponded.dispatch( res );
 				anyServiceResponded.dispatch( res );
 				_commandEnded.dispatch( this );
-				unregisterFromServiceEvents();
+				unregisterFromServiceSignals();
 			}
 			catch( e : Error )
 			{
-				unregisterFromServiceEvents();
+				unregisterFromServiceSignals();
 				throw e;
 			}
 		}
@@ -154,11 +154,11 @@ package abe.com.munication.services
 				serviceErrorOccured.dispatch( errorMsg );
 				anyServiceErrorOccured.dispatch( errorMsg );
 				commandFailed.dispatch( errorMsg );
-				unregisterFromServiceEvents();
+				unregisterFromServiceSignals();
 			}
 			catch( ee : Error )
 			{
-				unregisterFromServiceEvents();
+				unregisterFromServiceSignals();
 				throw ee;
 			}
 		}
@@ -174,7 +174,7 @@ package abe.com.munication.services
 			serviceErrorOccured.dispatch( errorMsg );
 			anyServiceErrorOccured.dispatch( errorMsg );
 			commandFailed.dispatch( errorMsg );
-			unregisterFromServiceEvents();
+			unregisterFromServiceSignals();
 		}
 		protected function processMiddlewaresResults( res : *, middlewares : Array ) : *
 		{
@@ -192,7 +192,7 @@ package abe.com.munication.services
 			for( var i : uint = 0; i <l ; i++)
 				( middlewares[i] as ServiceMiddleware ).processException(error);
 		}
-		protected function registerToServiceEvents () : void
+		protected function registerToServiceSignals () : void
 		{
 			if( _resultListener != null )
 				serviceResponded.add( _resultListener );
@@ -202,7 +202,7 @@ package abe.com.munication.services
 			_service.serviceResponded.add( serviceResult );
 			_service.serviceErrorOccured.add( serviceError );
 		}
-		protected function unregisterFromServiceEvents () : void
+		protected function unregisterFromServiceSignals () : void
 		{
 			if( _resultListener != null )
 				serviceResponded.remove( _resultListener );

@@ -55,7 +55,7 @@ package  abe.com.mands
 		 * </p><p>
 		 * Si la commande en cours d'éxécution est une commande classique, la
 		 * commande <code>Batch</code> attendra la fin d'éxécution de celle-ci
-		 * avant de diffusé l'évènement <code>CommandEvent.COMMAND_CANCEL</code>.
+		 * avant de diffusé l'évènement <code>commandCancelled</code>.
 		 * </p> 
 		 */
 		public function cancel () : void
@@ -107,25 +107,10 @@ package  abe.com.mands
 				_next().execute( _args );
 		}
 		/**
-		 * Intercepte l' évènement de fin d'éxécution de la sous-commande courante
-		 * et éxécute la suivante si :
-		 * <ul>
-		 * <li>La commande <code>Batch</code> n'a pas été annulé entre-temps. 
-		 * <p>
-		 * Si la commande a été annulé, un évènement <code>CommandEvent.COMMAND_CANCEL</code>
-		 * sera diffusé.
-		 * </p></li>
-		 * <li>Il reste des commandes à éxécuter.<p>
-		 * Si il ne reste aucune commande à éxécuter, un évènement 
-		 * <code>CommandEvent.COMMAND_END</code> sera diffusé.
-		 * </p></li>
-		 * </ul>
-		 * 
-		 * @param	e	évènement de fin diffusé par la sous-commande
 		 */
 		override protected function onCommandEnded ( command : Command ) : void
 		{
-			unregisterToCommandEvents( _oLastCommand );
+			unregisterToCommandSignals( _oLastCommand );
 			
 			if( _bCancelled )
 				commandCancelled.dispatch( this );
@@ -136,28 +121,18 @@ package  abe.com.mands
 		}
 		
 		/**
-		 * Intercepte l'évènement <code>CommandEvent.COMMAND_FAIL</code> de 
-		 * la sous-commande courante et déclenche à son tour la diffusion de cet
-		 * évènement.
-		 * 
-		 * @param	e	évènement diffusé par la sous-commande
 		 */
 		override protected function onCommandFailed ( command : Command, msg : String ) : void
 		{
-			unregisterToCommandEvents( _oLastCommand );
+			unregisterToCommandSignals( _oLastCommand );
 			commandFailed.dispatch( this, msg );
 		}
 		
 		/**
-		 * Intercepte l'évènement <code>CommandEvent.COMMAND_CANCEL</code> de 
-		 * la sous-commande courante et déclenche à son tour la diffusion de cet
-		 * évènement.
-		 * 
-		 * @param	e	évènement diffusé par la sous-commande
 		 */
 		override protected function onCommandCancelled ( command : Command ) : void 
 		{
-			unregisterToCommandEvents( _oLastCommand );
+			unregisterToCommandSignals( _oLastCommand );
 			commandCancelled.dispatch( this );
 		}	
 		 
@@ -170,7 +145,7 @@ package  abe.com.mands
 		{
 			_oLastCommand = _aCommands[ ++_nIndex ] as Command;
 			
-			registerToCommandEvents( _oLastCommand );
+			registerToCommandSignals( _oLastCommand );
 			
 			return _oLastCommand;
 		}		

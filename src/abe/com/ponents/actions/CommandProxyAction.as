@@ -25,17 +25,17 @@ package abe.com.ponents.actions
 		
 		override public function execute( ... args ) : void 
 		{
-			registerToCommandEvents(_command );
+			registerToCommandSignals(_command );
 			_command.execute();
 		}
-		protected function registerToCommandEvents (command : Command) : void 
+		protected function registerToCommandSignals (command : Command) : void 
 		{
 			command.commandEnded.add( onCommandEnded );
 			command.commandFailed.add( onCommandFailed );
 			if( command is Cancelable )
 			  ( command as Cancelable ).commandCancelled.add( onCommandCancelled );
 		}
-		protected function unregisterFromCommandEvents (command : Command) : void 
+		protected function unregisterFromCommandSignals (command : Command) : void 
 		{
 			command.commandEnded.remove( onCommandEnded );
 			command.commandFailed.remove( onCommandFailed );
@@ -44,17 +44,17 @@ package abe.com.ponents.actions
 		}
 		protected function onCommandEnded ( command : Command ) : void 
 		{
-			unregisterFromCommandEvents(_command);
+			unregisterFromCommandSignals(_command);
 			commandEnded.dispatch( this );
 		}
 		protected function onCommandCancelled ( command : Command ) : void 
 		{
-			unregisterFromCommandEvents(_command);
+			unregisterFromCommandSignals(_command);
 			commandEnded.dispatch( this );
 		}
 		protected function onCommandFailed ( command : Command, msg : String ) : void 
 		{		
-			unregisterFromCommandEvents(_command);	
+			unregisterFromCommandSignals(_command);	
 			commandFailed.dispatch( this, msg );
 		}
 	}

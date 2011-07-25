@@ -51,13 +51,16 @@ package abe.com.ponents.factory
         protected var _defaultMenuBarSettings : String = "*Edit(*undo,*redo),?(*about)";
         protected var _defaultDMSPSettings : String = "V()";
         protected var _defaultToolBarPosition : String = "north";
+        
+        protected var _buildSetted : Signal;
 
         public function ApplicationMain ( appName : String = "Unnamed Application", appVersion : String = "0.1.0" )
         {
+            _buildSetted = new Signal();
+            
             ToolKit.initializeToolKit( StageUtils.root, false );
             
             instance = this;
-            
             
             TARGET::FLASH_9 { _buildUnits = []; }
             TARGET::FLASH_10 { _buildUnits = new Vector.<ComponentBuildUnit>(); }
@@ -75,8 +78,9 @@ package abe.com.ponents.factory
                 StageUtils.versionMenuContext = new ContextMenuItem( _$(_("$0 $1"), _appName, _appVersion ) );
             } 
             
-            ComponentFactoryInstance.addEventListener( ComponentFactoryEvent.BUILD_COMPLETE, buildComplete );
+            ComponentFactoryInstance.buildCompleted.add( buildCompleted );
         }
+        public function get buildSetted () : Signal { return _buildSetted; }
         public function get appName () : String { return _appName; }
         public function set appName (appName : String) : void { _appName = appName; }
         public function get dockables () : Object { return _dockables; }
@@ -87,9 +91,9 @@ package abe.com.ponents.factory
                 for each( var unit : ComponentBuildUnit in _buildUnits )
                     unit.build( ComponentFactoryInstance );
         }
-        protected function buildComplete ( e : ComponentFactoryEvent ) : void 
+        protected function buildCompleted ( f : ComponentFactory, current : Number, total : Number ) : void 
         {
-            ComponentFactoryInstance.removeEventListener( ComponentFactoryEvent.BUILD_COMPLETE, buildComplete );
+            ComponentFactoryInstance.buildCompleted.remove( buildCompleted );
         }
         public function init ( preload : ComponentFactoryPreload ) : void 
         {
@@ -168,11 +172,7 @@ package abe.com.ponents.factory
                 dmsp.weightChanged.add( multiSplitWeightChanged );
                 
                 ( p.childrenLayout as ApplicationWindowLayout ).toolBarDropped.add( toolBarDropped );
-                
-                SkinManagerInstance.getStyle("DefaultSkin#TabbedPane"
-                                  ).setForAllStates( "corners", new Corners(3) 
-                                  ).setForAllStates( "insets", new Insets(0,3,0,3));
-                
+
                 mpane.view = menu;
                 
                 tpane.view = toolbar;
@@ -221,7 +221,7 @@ package abe.com.ponents.factory
         }
         public function fireProceedBuild () : void
         {
-            dispatchEvent( new ComponentFactoryEvent(ComponentFactoryEvent.PROCEED_BUILD ) );
+            _buildSetted.dispatch( this );
         }
         public function onEventBubbled( e : IEvent ):Boolean
         {

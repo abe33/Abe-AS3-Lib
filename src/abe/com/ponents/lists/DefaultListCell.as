@@ -11,7 +11,6 @@ package abe.com.ponents.lists
 	import abe.com.ponents.core.edit.Editor;
 	import abe.com.ponents.core.edit.EditorFactoryInstance;
 	import abe.com.ponents.dnd.DragSource;
-	import abe.com.ponents.events.EditEvent;
 	import abe.com.ponents.history.UndoManagerInstance;
 	import abe.com.ponents.layouts.display.DOInlineLayout;
 	import abe.com.ponents.models.DefaultListModel;

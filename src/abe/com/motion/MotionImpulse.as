@@ -13,7 +13,7 @@ package  abe.com.motion
 	 * Un <code>MotionImpulse</code> est un métronome réglant les animations
 	 * d'une séries d'objets afin de les synchroniser. Il agit comme un
 	 * diffuseur d'évènements, les objets s'enregistrant pour recevoir
-	 * l'évènement <code>ImpulseEvent.TICK</code> à chaque pas d'une animation.
+	 * l'évènement <code>tick</code> à chaque pas d'une animation.
 	 * <p>
 	 * Cet évènement fournit un certain nombre d'informations
 	 * permettant aux écouteurs de se synchroniser. La donnée la plus
@@ -120,16 +120,12 @@ package  abe.com.motion
 			tick = new Signal(Number,Number,Number);
 		}
 		/**
-		 * Nombre d'écouteurs actuellement enregistré pour l'évènement <code>ImpulseEvent.TICK</code>
-		 * sur cette instance de <code>MotionImpulse</code>.
 		 */
 		public function get listenersCount () : Number { return tick.numListeners; }
 		/**
 		 * Réalise la mesure de la durée de chaque frame et notifie
 		 * tout les écouteurs. Les transformations de l'écoulement du
 		 * temps se font également dans cette fonction.
-		 *
-		 * @param	e	objet <code>Event</code> reçu avec l'évènement
 		 */
 		public function enterFrame ( e : Event ) : void
 		{
@@ -164,7 +160,7 @@ package  abe.com.motion
 		 * <p>
 		 * Une instance n'est pas considérée comme en lecture si
 		 * elle ne possède aucun écouteur pour son évènement
-		 * <code>ImpulseEvent.TICK</code>.
+		 * <code>tick</code>.
 		 * </p>
 		 * @return	<code>true</code> si l'instance courante est
 		 * 			actuellement en train de diffuser ses évènements
@@ -175,7 +171,7 @@ package  abe.com.motion
 		}
 		/**
 		 * Enregistre directement un écouteur pour l'évènement
-		 * <code>ImpulseEvent.TICK</code> diffusé par l'instance.
+		 * <code>tick</code> diffusé par l'instance.
 		 *
 		 * @param	closure	fonction à enregistrer comme écouteur
 		 */
@@ -187,7 +183,7 @@ package  abe.com.motion
 		}
 		/**
 		 * Désabonne un écouteur pour l'évènement
-		 * <code>ImpulseEvent.TICK</code> diffusé par l'instance.
+		 * <code>tick</code> diffusé par l'instance.
 		 *
 		 * @param	closure	fonction à désabonner
 		 */

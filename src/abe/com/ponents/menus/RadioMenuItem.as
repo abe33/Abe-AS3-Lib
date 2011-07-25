@@ -4,7 +4,6 @@ package abe.com.ponents.menus
 	import abe.com.ponents.skinning.icons.RadioCheckedIcon;
 	import abe.com.ponents.skinning.icons.RadioUncheckedIcon;
 
-	import flash.events.Event;
 
 	/**
 	 * @author Cédric Néhémie

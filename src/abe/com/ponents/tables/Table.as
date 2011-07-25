@@ -8,7 +8,6 @@ package  abe.com.ponents.tables
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.models.ListModel;
 
-	[Event(name="selectionChange", type="abe.com.ponents.events.ComponentEvent")]
 	public class Table extends ScrollPane
 	{		
 		static public const SORT_CHANGE : String = "sortChange";

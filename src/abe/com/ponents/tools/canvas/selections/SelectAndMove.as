@@ -3,20 +3,21 @@ package abe.com.ponents.tools.canvas.selections
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.pt;
 	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.nodes.core.CanvasElement;
 	import abe.com.ponents.skinning.cursors.Cursor;
 	import abe.com.ponents.tools.ObjectSelection;
 	import abe.com.ponents.tools.canvas.Tool;
+	import abe.com.ponents.tools.canvas.ToolGestureData;
 	import abe.com.ponents.tools.canvas.core.AbstractTool;
 	import abe.com.ponents.utils.ToolKit;
-
+	
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.Dictionary;
+
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -46,7 +47,7 @@ package abe.com.ponents.tools.canvas.selections
 			selectionShape = new Shape();
 			mode = NONE;
 		}
-		override public function actionStarted (e : ToolEvent) : void
+		override public function actionStarted (e : ToolGestureData) : void
 		{
 			var o : DisplayObject = e.manager.canvasChildUnderTheMouse;
 			
@@ -73,7 +74,7 @@ package abe.com.ponents.tools.canvas.selections
 					_objectsOffset[obj] = pt( obj.x - pressPoint.x, obj.y - pressPoint.y );
 			}
 		}
-		override public function actionFinished (e : ToolEvent) : void
+		override public function actionFinished (e : ToolGestureData) : void
 		{
 			if( mode == SELECT )
 			{
@@ -85,7 +86,7 @@ package abe.com.ponents.tools.canvas.selections
 			}
 			mode = NONE;
 		}
-		protected function getObjectsInRectangle( e : ToolEvent ) : Array
+		protected function getObjectsInRectangle( e : ToolGestureData ) : Array
 		{
 			var a : Array = [];
 			var l : Number = e.canvas.layers.length;
@@ -113,7 +114,7 @@ package abe.com.ponents.tools.canvas.selections
 			}
 			return a;
 		}
-		override public function actionAborted (e : ToolEvent) : void
+		override public function actionAborted (e : ToolGestureData) : void
 		{
 			if( mode == SELECT )
 			{
@@ -122,7 +123,7 @@ package abe.com.ponents.tools.canvas.selections
 			}
 			mode = NONE;
 		}
-		override public function mousePositionChanged (e : ToolEvent) : void
+		override public function mousePositionChanged (e : ToolGestureData) : void
 		{
 			if( mode == SELECT )
 			{

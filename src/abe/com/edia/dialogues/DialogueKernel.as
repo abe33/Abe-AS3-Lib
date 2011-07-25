@@ -188,7 +188,7 @@ package  abe.com.edia.dialogues
 			if( s is EndSpeech || s.nextSpeech == null )
 			{
 				fireSpeechEnd( s );
-				fireCommandEnd();
+				_commandEnded.dispatch( this );
 				return true;
 			}
 			else return false;

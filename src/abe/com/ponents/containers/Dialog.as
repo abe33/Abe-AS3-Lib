@@ -11,7 +11,6 @@ package abe.com.ponents.containers
 	import abe.com.ponents.actions.ProxyAction;
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.DialogEvent;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.skinning.decorations.GradientFill;
 	import abe.com.ponents.text.Label;

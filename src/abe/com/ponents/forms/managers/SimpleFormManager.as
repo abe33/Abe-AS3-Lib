@@ -2,22 +2,17 @@ package abe.com.ponents.forms.managers
 {
 	import abe.com.mon.core.Allocable;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.forms.FormField;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormObject;
 	import abe.com.ponents.text.AbstractTextComponent;
 
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	
 	import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class SimpleFormManager extends EventDispatcher implements Allocable
+	public class SimpleFormManager implements Allocable
 	{
 	    public var formChanged : Signal;
 	    public var propertyChanged : Signal;

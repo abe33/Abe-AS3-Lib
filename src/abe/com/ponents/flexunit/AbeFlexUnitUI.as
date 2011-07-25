@@ -12,7 +12,6 @@ package abe.com.ponents.flexunit
 	import abe.com.ponents.containers.SplitPane;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Dockable;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.BorderLayout;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
@@ -45,9 +44,13 @@ package abe.com.ponents.flexunit
 		protected var _label : String;
 		protected var _icon : Icon;
 		
-		protected var _testCount : Number;		protected var _testPerformed : Number;		protected var _failureCount : Number;		protected var _ignoredCount : Number;
+		protected var _testCount : Number;
+		protected var _testPerformed : Number;
+		protected var _failureCount : Number;
+		protected var _ignoredCount : Number;
 		protected var _result : String;
-		protected var _currentTest : IDescription;		
+		protected var _currentTest : IDescription;
+		
 		protected var _testTree : TestTree;
 		protected var _progressBar : ProgressBar;
 		protected var _progressLabel : Label;
@@ -59,7 +62,8 @@ package abe.com.ponents.flexunit
 			_icon = icon;
 			
 			_testCount = 0;
-			_testPerformed = 0;			_failureCount = 0;
+			_testPerformed = 0;
+			_failureCount = 0;
 			_ignoredCount = 0;
 			_result = "";
 			
@@ -112,7 +116,8 @@ package abe.com.ponents.flexunit
 			_testTree.testsEnded();
 			
 			if( _failureCount > 0 )
-				_result = _$(_("<font color='$0'><b><i>Failed</i></b></font>"), Color.Tomato.html );			else
+				_result = _$(_("<font color='$0'><b><i>Failed</i></b></font>"), Color.Tomato.html );
+			else
 				_result = _$(_("<font color='$0'><b><i>Success</i></b></font>"), Color.ForestGreen.html );
 			
 			updateProgressDisplay();
@@ -171,7 +176,8 @@ package abe.com.ponents.flexunit
 			
 			r.sort( function ( a:TreeNode, b:TreeNode ):int 
 			{
-				var aa : IDescription = a.userObject;				var bb : IDescription = b.userObject;
+				var aa : IDescription = a.userObject;
+				var bb : IDescription = b.userObject;
 				if( !aa || !bb )
 					return 0;
 				else if( aa.displayName > bb.displayName )
@@ -200,10 +206,11 @@ package abe.com.ponents.flexunit
 		protected function createResultsPanel () : SplitPane 
 		{
 			_testTree = new TestTree();
-			_testTree.addEventListener(ComponentEvent.SELECTION_CHANGE, treeSelectionChange );
+			_testTree.selectionChanged( treeSelectionChanged );
 			_testTree.itemFormatingFunction = formatTreeNode;
 			var header : TreeHeader = new TreeHeader( _testTree, ButtonDisplayModes.ICON_ONLY, false );
-			var sp : ScrollPane = new ScrollPane();			_testDetails = new TextArea();
+			var sp : ScrollPane = new ScrollPane();
+			_testDetails = new TextArea();
 			_testDetails.allowHTML = true;
 			
 			sp.colHead = header;
@@ -214,7 +221,7 @@ package abe.com.ponents.flexunit
 			p.style.insets = new Insets(5);
 			return p;
 		}
-		protected function treeSelectionChange (event : ComponentEvent) : void 
+		protected function treeSelectionChanged ( i : uint ) : void 
 		{
 			var v : * = _testTree.selectedValue;
 			if( v && v.userObject is IDescription )
@@ -227,7 +234,8 @@ package abe.com.ponents.flexunit
 					_testDetails.value = _$( ERROR_LABEL,
 											formatTestHeader(d),
 											StringUtils.escapeTags(failure.message),
-											StringUtils.escapeTags(failure.exception.name),											StringUtils.escapeTags(failure.exception.message), 
+											StringUtils.escapeTags(failure.exception.name),
+											StringUtils.escapeTags(failure.exception.message), 
 											StringUtils.escapeTags(failure.stackTrace) );	
 				}
 				else
@@ -258,7 +266,8 @@ package abe.com.ponents.flexunit
 				switch( m.name )
 				{
 					case "Suite" : 
-					case "Test" : 					case "TestCase" : 
+					case "Test" : 
+					case "TestCase" : 
 						var l2 : uint = m.arguments.length;
 						for( var j:uint = 0;j<l2;j++)
 						{
@@ -266,8 +275,10 @@ package abe.com.ponents.flexunit
 							switch( ma.key )
 							{
 								case "description" : 
-								case "expects" : 								case "order" : 
-									b.push( _$("<i>$0 : </i>$1", capitalize( ma.key ), ma.value) );									break;
+								case "expects" : 
+								case "order" : 
+									b.push( _$("<i>$0 : </i>$1", capitalize( ma.key ), ma.value) );
+									break;
 								case "timeout" :
 									b.push( _$("<i>$0 : </i>$1ms", capitalize( ma.key ), ma.value) );
 									break;
@@ -303,7 +314,8 @@ package abe.com.ponents.flexunit
 		protected function createProgressPanel () : Panel 
 		{
 			var p : Panel = new Panel();
-			p.childrenLayout = new InlineLayout(p, 3, "left", "top", "topToBottom", true );			p.style.insets = new Insets(5);
+			p.childrenLayout = new InlineLayout(p, 3, "left", "top", "topToBottom", true );
+			p.style.insets = new Insets(5);
 			
 			_progressBar = new ProgressBar();
 			_progressBar.determinate = false;

@@ -23,7 +23,6 @@ package abe.com.ponents.tools
 	/**
 	 * @author cedric
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="PaletteColorEditor")]
 	[Skin(define="PaletteColorEditor",
 			  inherit="EmptyComponent",

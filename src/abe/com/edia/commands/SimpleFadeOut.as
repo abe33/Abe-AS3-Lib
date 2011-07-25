@@ -10,13 +10,11 @@ package abe.com.edia.commands
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.motion.easing.Linear;
 
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Shape;
-	import flash.events.Event;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -42,7 +40,7 @@ package abe.com.edia.commands
 			_easing = easing != null ? easing : Linear.easeNone;
 		}
 
-		override public function execute (e : Event = null) : void 
+		override public function execute (... args ) : void 
 		{
 			_shape = new Shape();
 			_shape.graphics.beginFill(_color.hexa, _color.alpha );
@@ -73,9 +71,9 @@ package abe.com.edia.commands
 				Impulse.unregister(tick);
 			}
 		}
-		public function tick (e : ImpulseEvent) : void
+		public function tick (bias : Number, biasInSeconds : Number, current : Number) : void
 		{
-			_t += e.bias;
+			_t += bias;
 			
 			_shape.alpha = _easing( _t, 0, 1, _fadeDuration );
 			
@@ -83,7 +81,7 @@ package abe.com.edia.commands
 			{
 				stop();
 				_level.removeChild(_shape);
-				fireCommandEnd();
+				_commandEnded.dispatch( this );
 			}
 		}
 	}

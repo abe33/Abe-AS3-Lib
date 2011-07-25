@@ -3,8 +3,6 @@
  */
 package abe.com.ponents.buttons 
 {
-	import abe.com.ponents.events.ComponentEvent;
-
 	import org.osflash.signals.Signal;
 
 	/**
@@ -63,10 +61,6 @@ package abe.com.ponents.buttons
 		 * <p>
 		 * La modification de cette propriété conduit à la désélection
 		 * du précédent bouton sélectionné si celui-ci est défini.
-		 * </p>
-		 * <p><strong>Note :</strong> La modification de cette propriété
-		 * conduit à la diffusion d'un évènement <code>ComponentEvent.SELECTION_CHANGE</code>.
-		 * </p>
 		 */
 		public function get selectedButton () : AbstractButton { return _selectedButton; }		
 		public function set selectedButton ( selectedButton : AbstractButton ) : void
@@ -122,7 +116,7 @@ package abe.com.ponents.buttons
 			if( bt == _selectedButton )
 			{
 				_selectedButton = null;
-				bt.removeEventListener( ComponentEvent.SELECTED_CHANGE, selectedChanged );
+				bt.componentSelectedChanged.remove( selectedChanged );
 			}
 		}
 		/**
@@ -159,7 +153,6 @@ package abe.com.ponents.buttons
 				selectedButton = null;
 		}
 		/**
-		 * Diffuse un évènement <code>ComponentEvent.SELECTION_CHANGE</code>.
 		 */
 		protected function fireSelectionChangedSignal () : void 
 		{

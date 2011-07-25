@@ -25,9 +25,10 @@ package abe.com.ponents.nodes.actions
 			if( node.selected )
 				node.selected = false;
 			
+			node.removeAllConnections();
 			canvas.removeComponent( node );
 			UndoManagerInstance.add( new DeleteNodeUndoable(canvas, layer, node));
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }

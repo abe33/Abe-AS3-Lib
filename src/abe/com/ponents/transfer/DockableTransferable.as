@@ -14,7 +14,8 @@ package abe.com.ponents.transfer
 		}
 		public function getData (flavor : DataFlavor) : *
 		{ 
-			if( ComponentsFlavors.DOCKABLE.equals(flavor) )				return _dockable;
+			if( ComponentsFlavors.DOCKABLE.equals(flavor) )
+				return _dockable;
 			else if( ComponentsFlavors.COMPONENT.equals(flavor) )
 				return _dockable.content;
 		}

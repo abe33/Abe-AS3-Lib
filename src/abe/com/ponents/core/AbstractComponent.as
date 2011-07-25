@@ -20,7 +20,6 @@ package abe.com.ponents.core
     import abe.com.ponents.core.paint.RepaintManagerInstance;
     import abe.com.ponents.dnd.DragSource;
     import abe.com.ponents.dnd.gestures.DragGesture;
-    import abe.com.ponents.events.ComponentEvent;
     import abe.com.ponents.skinning.ComponentStyle;
     import abe.com.ponents.skinning.SkinManagerInstance;
     import abe.com.ponents.skinning.StyleProperties;
@@ -69,7 +68,6 @@ package abe.com.ponents.core
                                                              IDisplayObjectContainer,
                                                              Focusable,
                                                              LayeredSprite,
-                                                             IEventDispatcher,
                                                              DragSource
 
     {
@@ -140,13 +138,13 @@ package abe.com.ponents.core
  * SIGNALS
  *-----------------------------------------------------------------------*/ 
  
-        public var mouseEntered : Signal;
-        public var mouseLeaved : Signal;
-        public var mouseMoved : Signal;
-        public var mousePressed : Signal;
-        public var mouseReleased : Signal;
-        public var mouseReleasedOutside : Signal;
-        public var mouseWheelRolled : Signal;
+        protected var _mouseEntered : Signal;
+        protected var _mouseLeaved : Signal;
+        protected var _mouseMoved : Signal;
+        protected var _mousePressed : Signal;
+        protected var _mouseReleased : Signal;
+        protected var _mouseReleasedOutside : Signal;
+        protected var _mouseWheelRolled : Signal;
          
         protected var _componentResized : Signal;
         protected var _componentChanged : Signal;
@@ -155,17 +153,16 @@ package abe.com.ponents.core
         protected var _componentEnableChanged : Signal;
         protected var _componentRepainted : Signal;
         protected var _propertyChanged : Signal;
-
-
+        
         public function AbstractComponent ()
         {
-            mouseMoved = new Signal();
-            mousePressed = new Signal();
-            mouseReleased = new Signal();
-            mouseReleasedOutside = new Signal();
-            mouseEntered = new Signal();
-            mouseLeaved = new Signal();
-            mouseWheelRolled = new Signal();
+            _mouseMoved = new Signal();
+            _mousePressed = new Signal();
+            _mouseReleased = new Signal();
+            _mouseReleasedOutside = new Signal();
+            _mouseEntered = new Signal();
+            _mouseLeaved = new Signal();
+            _mouseWheelRolled = new Signal();
             _componentChanged = new Signal( Component );
             _componentEnableChanged = new Signal( Component, Boolean );
             _componentPositionChanged = new Signal( Component, Point );
@@ -220,6 +217,7 @@ package abe.com.ponents.core
             buttonMode = true;
             useHandCursor = false;
             focusRect = false;
+			doubleClickEnabled = true;
             
             _childrenContainer.name= "childrenContainer";
             _background.name= "background";
@@ -244,6 +242,14 @@ package abe.com.ponents.core
         public function get componentEnableChanged () : Signal { return _componentEnableChanged; }
         public function get componentRepainted () : Signal { return _componentRepainted; }
         public function get propertyChanged () : Signal { return _propertyChanged; }
+        
+        public function get mouseEntered () : Signal { return _mouseEntered; }
+        public function get mouseLeaved () : Signal { return _mouseLeaved; }
+        public function get mouseMoved () : Signal { return _mouseMoved; }
+        public function get mousePressed () : Signal { return _mousePressed; }
+        public function get mouseReleased () : Signal { return _mouseReleased; }
+        public function get mouseReleasedOutside () : Signal { return _mouseReleasedOutside; }
+        public function get mouseWheelRolled () : Signal { return _mouseWheelRolled; }
 /*-----------------------------------------------------------------
  *     GETTERS / SETTERS
  *----------------------------------------------------------------*/
@@ -268,6 +274,9 @@ package abe.com.ponents.core
                 {
                     if( _pressed && !_over )
                         releaseOutside( new UserActionContext( this, UserActionContext.PROGRAM_ACTION ) );
+                    else if( !_pressed && _over )
+                        mouseLeaved.dispatch( this );
+                        
                     _over = _pressed = b;
                 }
                 else
@@ -277,7 +286,7 @@ package abe.com.ponents.core
                 }
 
                 buttonMode = tabEnabled = b;
-                fireComponentChangedSignal( );
+                fireComponentChangedSignal();
                 firePropertyChangedSignal( "enabled", b );
                 _componentEnableChanged.dispatch( this, _enabled );
                 invalidate( true );
@@ -729,7 +738,7 @@ package abe.com.ponents.core
         protected function checkState () : void
         {
             var s : uint = 0;
-            if( !_enabled )
+            if( !isEnabled() )
                 s += ComponentStates.DISABLED;
             else
             {
@@ -745,6 +754,11 @@ package abe.com.ponents.core
             if( _selected && _allowSelected )
                 s += ComponentStates.SELECTED;
             _style.currentState = s;
+        }
+        public function isEnabled():Boolean
+        {
+            var p : Container = parentContainer;
+            return _enabled && ( !p || p.isEnabled() );
         }
 /*-----------------------------------------------------------------
  *     FOCUSABLE METHODS
@@ -953,7 +967,7 @@ package abe.com.ponents.core
             public function set cursor (cursor : Cursor) : void
             {
                 _cursor = cursor;
-                if( _over && _enabled )
+                if( _over && isEnabled() )
                     Cursor.setCursor( _cursor );
 
                 fireComponentChangedSignal( );
@@ -1230,7 +1244,7 @@ package abe.com.ponents.core
 
         public function mouseDown ( e : MouseEvent ) : void
         {
-            if( _enabled )
+            if( isEnabled() )
             {
                 _pressed = true;
                 if( _allowPressed )
@@ -1244,7 +1258,7 @@ package abe.com.ponents.core
         }
         public function mouseUp ( e : MouseEvent ) : void
         {
-            if( _enabled )
+            if( isEnabled() )
             {
                 if( _pressed && _over )
                 {
@@ -1287,7 +1301,7 @@ package abe.com.ponents.core
         }
         public function mouseOut ( e : MouseEvent ) : void
         {
-            if( _enabled )
+            if( isEnabled() )
             {
                 _over = false;
                 if( _pressed )
@@ -1317,7 +1331,7 @@ package abe.com.ponents.core
         }
         public function mouseOver ( e : MouseEvent ) : void
         {
-            if( _enabled )
+            if( isEnabled() )
             {
                 _over = true;
                 if( this.stage )
@@ -1351,13 +1365,13 @@ package abe.com.ponents.core
         }
         public function mouseMove ( e : MouseEvent ) : void
         {
-            if( _enabled )
+            if( isEnabled() )
                 mouseMoved.dispatch( this );
         }
         public function mouseWheel (event : MouseEvent) : void 
         {
             event.stopPropagation();
-            if( _enabled )
+            if( isEnabled() )
                 mouseWheelRolled.dispatch( this, event.delta );
         }
         public function focusIn ( e : FocusEvent ) : void
@@ -1366,11 +1380,10 @@ package abe.com.ponents.core
         }
         protected function _focusIn ( e : FocusEvent ) : void
         {
-
             if( !_allowFocusTraversing )
                 e.stopPropagation();
 
-            if( !_enabled )
+            if( !isEnabled() )
             {
                 e.stopPropagation();
 
@@ -1415,7 +1428,7 @@ package abe.com.ponents.core
         {
             _displayed = true;
             _childrenContainer.visible = false;
-            componentRepainted.addOnce(wasAddedToStage );
+            componentRepainted.addOnce( wasAddedToStage );
             invalidatePreferredSizeCache();
         
             registerToOnStageEvents();
@@ -1423,6 +1436,7 @@ package abe.com.ponents.core
         protected function wasAddedToStage ( c : Component ) : void
         {
             _childrenContainer.visible = true;
+            invalidatePreferredSizeCache();
         }
         public function removeFromStage ( e : Event ) : void
         {

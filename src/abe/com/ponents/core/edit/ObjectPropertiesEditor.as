@@ -58,10 +58,6 @@ package abe.com.ponents.core.edit
 		}
 		
 		/**
-		 * Recoit l'évènement <code>CommandEvent.COMMAND_END</code> de la classe
-		 * <code>EditObjectPropertiesAction</code> à la fin de la séquence d'édition.
-		 * 
-		 * @param	event	évènement diffusé en fin d'édition
 		 */
 		protected function editEnded ( command : Command ) : void
 		{

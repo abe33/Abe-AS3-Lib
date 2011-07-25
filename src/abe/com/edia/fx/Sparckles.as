@@ -12,7 +12,6 @@ package abe.com.edia.fx
 	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
 	import flash.display.Shape;
@@ -96,7 +95,7 @@ package abe.com.edia.fx
 			this.graphics.lineTo( s.x, s.y );
 		}
 
-		public function tick ( e : ImpulseEvent ) : void
+		public function tick (bias : Number, biasInSeconds : Number, time : Number) : void
 		{
 			this.graphics.clear();
 			if( sparckles )
@@ -107,7 +106,7 @@ package abe.com.edia.fx
 					while ( l-- )
 					{
 						var s : Sparckle = sparckles[ l ];
-						s.life -= e.bias;
+						s.life -= bias;
 						
 						if( !s )
 						{
@@ -124,7 +123,7 @@ package abe.com.edia.fx
 						
 						s.x += s.x - s.lastX;
 						s.y += s.y - s.lastY;
-						s.y += 9 * e.biasInSeconds;
+						s.y += 9 * biasInSeconds;
 						
 						draw ( s );
 						

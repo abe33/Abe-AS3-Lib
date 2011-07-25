@@ -9,12 +9,11 @@ package abe.com.edia.fx
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.motion.easing.Linear;
 
 	import flash.display.Shape;
-	import flash.events.Event;
+	import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -29,6 +28,9 @@ package abe.com.edia.fx
 		protected var t : Number;
 		
 		protected var _isRunning : Boolean;
+		
+		protected var _removed : Signal;
+		public function get removed () : Signal { return _removed; }
 
 		public function Dust ( x : Number = 0, 
 							   y : Number = 0, 
@@ -38,6 +40,7 @@ package abe.com.edia.fx
 							   shadow : Boolean = true,
 							   easing : Function = null )
 		{
+		    _removed = new Signal();
 			this.x = x;
 			this.y = y;
 			this.size = size;
@@ -104,11 +107,11 @@ package abe.com.edia.fx
 			this.graphics.endFill();
 		}
 
-		public function tick ( e : ImpulseEvent ) : void
+		public function tick ( bias : Number, biasInSeconds : Number, current : Number ) : void
 		{
-			t += e.bias;
+			t += bias;
 			
-			this.x -= e.biasInSeconds;
+			this.x -= biasInSeconds;
 			this.draw();
 			
 			if( t > life )
@@ -120,7 +123,7 @@ package abe.com.edia.fx
 				}
 				stop();
 				this.graphics.clear();
-				dispatchEvent( new Event( Event.REMOVED ) );
+				_removed.dispatch( this );
 				AllocatorInstance.release( this );
 			}
 		}

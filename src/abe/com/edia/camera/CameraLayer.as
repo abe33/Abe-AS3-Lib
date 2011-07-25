@@ -63,8 +63,6 @@ package  abe.com.edia.camera
 		 * La position et la taille du calque
 		 * sont transformés dans cette fonction
 		 * en fonction des données de la caméra à laquelle ce calque est associé.
-		 *
-		 * @param	e	l'objet <code>CameraEvent</code> diffusé par la caméra
 		 */
 		public function cameraChanged( camera : Camera ) : void
 		{

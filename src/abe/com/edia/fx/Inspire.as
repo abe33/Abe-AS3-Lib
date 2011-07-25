@@ -12,11 +12,10 @@ package abe.com.edia.fx
 	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
 	import flash.display.Shape;
-	import flash.events.Event;
+	import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -37,6 +36,9 @@ package abe.com.edia.fx
 		public var raysSize : Number;
 		public var timed : Boolean;
 
+        protected var _removed : Signal;
+        public function get removed () : Signal { return _removed; }
+
 		public function Inspire ( color : Color = null, 
 								  timed : Boolean = true,
 								  numRays : Number = 12, 
@@ -45,6 +47,7 @@ package abe.com.edia.fx
 								  radius : Number = 40, 
 								  speed : Number = 4 ) 
 		{
+		    _removed = new Signal();
 			this.radius = radius;
 			this.speed = speed;
 			this.numRays = numRays;
@@ -62,7 +65,7 @@ package abe.com.edia.fx
 			_randomSource = randomSource;
 		}
 		
-		public function tick (e : ImpulseEvent) : void
+		public function tick (bias : Number, biasInSeconds : Number, current : Number) : void
 		{
 			this.graphics.clear();
 			//var l : Number = 1 - ( Math.abs( time - halfLife ) / halfLife );
@@ -93,7 +96,7 @@ package abe.com.edia.fx
 				this.graphics.lineTo( x * Math.min(1, r.time + 0.5 ), 
 									  y * Math.min(1, r.time + 0.5 ) );
 				
-				r.time -= e.biasInSeconds * speed;
+				r.time -= biasInSeconds * speed;
 				if( r.time < 0 )
 				{
 					r.angle = _randomSource.random() * Math.PI * 2;
@@ -101,7 +104,7 @@ package abe.com.edia.fx
 					r.time += 1;
 				}
 			}
-			time += e.bias;
+			time += bias;
 			
 			if( timed && time >= duration && rays.length == 0 )
 			{
@@ -111,7 +114,7 @@ package abe.com.edia.fx
 						parent.removeChild( this );
 				}
 				stop();
-				dispatchEvent( new Event( Event.REMOVED ) );
+				_removed.dispatch(this);
 				AllocatorInstance.release( this );
 			}
 		}

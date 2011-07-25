@@ -87,8 +87,6 @@ package  abe.com.edia.camera
 		/**
 		 * Fonction appelée lors d'un changement opéré sur la profondeur de champs 
 		 * de la caméra.
-		 * 
-		 * @param	e	l'objet <code>CameraEvent</code> diffusé par la caméra
 		 */
 		public function dofChanged( camera : DOFCamera ) : void
 		{

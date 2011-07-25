@@ -13,7 +13,6 @@ package abe.com.edia.bitmaps
 	import org.osflash.signals.Signal;
 
 	import flash.display.BitmapData;
-	import flash.events.EventDispatcher;
 	/**
 	 * Version animée de la classe <code>BitmapSprite</code>. La classe <code>BitmapSpriteSheet</code>
 	 * reprend les mêmes principe que sa classe mère et fournie en plus des contrôles d'animations rudimentaires.
@@ -38,11 +37,6 @@ package abe.com.edia.bitmaps
 	 */
 	public class BitmapSpriteSheet extends BitmapSprite implements Cloneable, ImpulseListener, Suspendable
 	{
-		/**
-		 * Un objet <code>EventDispatcher</code> composé par l'instance afin de diffuser ses évènements.
-		 */
-		protected var _dispatcher : EventDispatcher;
-
 		/**
 		 * L'image courante dans l'animation.
 		 *
@@ -223,8 +217,6 @@ package abe.com.edia.bitmaps
 		 * <p>
 		 * L'animation est réalisée dans cette fonction.
 		 * </p>
-		 *
-		 * @param	e	objet <code>ImpulseEvent</code> diffusé avec l'évènement
 		 */
 		public function tick(  bias : Number, biasInSeconds : Number, currentTime : Number ) : void
         {

@@ -2,14 +2,15 @@ package abe.com.ponents.tools.canvas.selections
 {
 	import abe.com.edia.camera.Camera;
 	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.skinning.cursors.Cursor;
 	import abe.com.ponents.tools.ObjectSelection;
+	import abe.com.ponents.tools.canvas.ToolGestureData;
 	import abe.com.ponents.utils.ToolKit;
-
+	
 	import flash.display.StageQuality;
 	import flash.geom.Point;
 	import flash.ui.MouseCursor;
+
 	/**
 	 * @author cedric
 	 */
@@ -34,7 +35,7 @@ package abe.com.ponents.tools.canvas.selections
 			this._changeQualityDuringPan = changeQualityDuringPan;
 		}
 
-		override public function mousePositionChanged (e : ToolEvent) : void
+		override public function mousePositionChanged (e : ToolGestureData) : void
 		{
 			var pt : Point = new Point( e.canvas.stage.mouseX, e.canvas.stage.mouseY );
 			var dif : Point = stagePressPoint.subtract( pt );
@@ -63,7 +64,7 @@ package abe.com.ponents.tools.canvas.selections
 			}
 		}
 
-		override public function actionFinished (e : ToolEvent) : void
+		override public function actionFinished (e : ToolGestureData) : void
 		{
 			if( mode == PAN )
 			{

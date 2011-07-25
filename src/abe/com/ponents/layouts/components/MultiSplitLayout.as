@@ -5,7 +5,6 @@ package abe.com.ponents.layouts.components
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Container;
-	import abe.com.ponents.events.SplitPaneEvent;
 	import abe.com.ponents.layouts.components.splits.Divider;
 	import abe.com.ponents.layouts.components.splits.Leaf;
 	import abe.com.ponents.layouts.components.splits.Node;
@@ -16,7 +15,6 @@ package abe.com.ponents.layouts.components
 	
 	import org.osflash.signals.Signal;
 
-	[Event(name="optimize", type="abe.com.ponents.events.SplitPaneEvent")]
 	/**
 	 * @author Cédric Néhémie
 	 */

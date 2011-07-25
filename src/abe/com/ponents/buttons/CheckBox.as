@@ -9,8 +9,6 @@ package abe.com.ponents.buttons
 	import abe.com.mon.core.LayeredSprite;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.layouts.display.DOInlineLayout;
 	import abe.com.ponents.skinning.icons.CheckBoxCheckedIcon;
 	import abe.com.ponents.skinning.icons.CheckBoxUncheckedIcon;
@@ -19,7 +17,6 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.utils.Directions;
 
 	import flash.display.DisplayObject;
-	import flash.events.IEventDispatcher;
 
 	/**
 	 * Une propriété du style contenant l'icône de référence lorsque le composant
@@ -84,8 +81,7 @@ package abe.com.ponents.buttons
 														  IDisplayObjectContainer, 
 														  Component, 
 														  Focusable,
-												 		  LayeredSprite,
-												 		  IEventDispatcher
+												 		  LayeredSprite
 	{
 		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
 		/**
@@ -189,7 +185,7 @@ package abe.com.ponents.buttons
 		{
 			if( _tickIcon && contains( _tickIcon ) )
 			{
-				_tickIcon.removeEventListener( ComponentEvent.COMPONENT_RESIZE, iconResized );
+				_tickIcon.componentResized.remove( iconResized );
 				_childrenContainer.removeChild( _tickIcon );
 			}
 			
@@ -202,7 +198,7 @@ package abe.com.ponents.buttons
 			{
 				_tickIcon.init();
 				_tickIcon.invalidate();
-				_tickIcon.addEventListener( ComponentEvent.COMPONENT_RESIZE, iconResized );
+				_tickIcon.componentResized.add( iconResized );
 				//_childrenContainer.addChild
 				if( _icon && containsComponentChild( _icon ) )
 					addComponentChildAfter( _tickIcon, _icon );

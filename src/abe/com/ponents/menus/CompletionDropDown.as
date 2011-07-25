@@ -10,8 +10,6 @@ package abe.com.ponents.menus
 	import abe.com.ponents.completion.AutoCompletion;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.events.AutoCompletionEvent;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.GridLayout;
 	import abe.com.ponents.lists.List;
 	import abe.com.ponents.models.DefaultListModel;
@@ -72,12 +70,12 @@ package abe.com.ponents.menus
 		public function set autoComplete (autoComplete : AutoCompletion) : void
 		{
 			if( _autoComplete )
-				_autoComplete.removeEventListener( AutoCompletionEvent.ENTRIES_FOUND, entriesFound );
+				_autoComplete.entriesFound.remove( entriesFound );
 			
 			_autoComplete = autoComplete;
 			
 			if( _autoComplete )
-				_autoComplete.addEventListener( AutoCompletionEvent.ENTRIES_FOUND, entriesFound );
+				_autoComplete.entriesFound.add( entriesFound );
 		}
 		
 		public function get targetText () : AbstractTextComponent { return _targetText;}	
@@ -94,12 +92,11 @@ package abe.com.ponents.menus
 		{
 			return _autoCompleteList.selectedIndex != -1;
 		}
-		protected function entriesFound ( e : AutoCompletionEvent ) : void
+		protected function entriesFound ( autoComplete : AutoCompletion, suggestions : Array ) : void
 		{
 			if( !_targetText.displayed || !_targetText.hasFocus() )
 				return;
 			
-			var autoComplete : AutoCompletion = (e.target as AutoCompletion);
 			var lastCount : Number = autoComplete.lastSuggestionsCount;
 			var lastSuggestions : Array = autoComplete.lastSuggestions;
 			

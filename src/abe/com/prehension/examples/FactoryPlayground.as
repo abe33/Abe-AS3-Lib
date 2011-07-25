@@ -29,7 +29,6 @@ package abe.com.prehension.examples
      */
     public class FactoryPlayground extends ApplicationMain 
     {
-        
         static private const DEPENDENCIES : Array = [ CookieBackend ];
         
         private var dragRenderer : DnDDragObjectRenderer;
@@ -58,7 +57,7 @@ package abe.com.prehension.examples
             } 
             
             _defaultMenuBarSettings = "*File(*New,*Open,|,*Recent Files(*A,*B,*C)),*Edit(*undo,*redo),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),*Custom(*colorPick,*gradientPick),?(*about)";
-            _defaultDMSPSettings = "V(buttons|spinners|text|sliders|combobox|progress|lists|trees|tables)";
+            _defaultDMSPSettings = "V(buttons|spinners|text|sliders|combobox|progress|canvas|lists|trees|tables|containers|extraContainers)";
             _defaultToolBarSettings = "undo,redo";
         }
         override public function init( preload : ComponentFactoryPreload ) : void
@@ -68,15 +67,30 @@ package abe.com.prehension.examples
                                                new ServiceTesterPanel(), 
                                                magicIconBuild("../res/icons/tools/server_go.png")));
             
-            _buildUnits.push( new ButtonDemoDockable(     "buttons",     _("Buttons"),      magicIconBuild("../res/icons/components/button.png") ) );
-            _buildUnits.push( new TextDemoDockable(     "text",     _("Text"),          magicIconBuild("../res/icons/components/textfield.png") ) );
-            _buildUnits.push( new SpinnerDemoDockable(     "spinners", _("Spinners"),      magicIconBuild("../res/icons/components/spinner.png") ) );
-            _buildUnits.push( new SliderDemoDockable(     "sliders",     _("Sliders"),      magicIconBuild("../res/icons/components/slider.png") ) );
-            _buildUnits.push( new ComboBoxDemoDockable( "combobox", _("ComboBoxes"), magicIconBuild("../res/icons/components/combobox.png") ) );
-            _buildUnits.push( new ProgressDemoDockable( "progress", _("Progress"),      magicIconBuild("../res/icons/components/progress.png") ) );
-            _buildUnits.push( new ListDemoDockable(     "lists",     _("Lists"),      magicIconBuild("../res/icons/components/list.png") ) );
-            _buildUnits.push( new TreeDemoDockable(     "trees",     _("Trees"),      magicIconBuild("../res/icons/components/tree.png") ) );
-            _buildUnits.push( new TableDemoDockable(     "tables",     _("Tables"),      magicIconBuild("../res/icons/components/table.png") ) );
+            _buildUnits.push( new ButtonDemoDockable(           "buttons", _("Buttons"), 
+                                                                magicIconBuild("../res/icons/components/button.png") ) );
+            _buildUnits.push( new TextDemoDockable(             "text", _("Text"), 
+                                                                magicIconBuild("../res/icons/components/textfield.png") ) );
+            _buildUnits.push( new SpinnerDemoDockable(          "spinners", _("Spinners"), 
+                                                                magicIconBuild("../res/icons/components/spinner.png") ) );
+            _buildUnits.push( new SliderDemoDockable(           "sliders", _("Sliders"), 
+                                                                magicIconBuild("../res/icons/components/slider.png") ) );
+            _buildUnits.push( new ComboBoxDemoDockable(         "combobox", _("ComboBoxes"), 
+                                                                magicIconBuild("../res/icons/components/combobox.png") ) );
+            _buildUnits.push( new ProgressDemoDockable(         "progress", _("Progress"), 
+                                                                magicIconBuild("../res/icons/components/progress.png") ) );
+            _buildUnits.push( new ListDemoDockable(             "lists", _("Lists"), 
+                                                                magicIconBuild("../res/icons/components/list.png") ) );
+            _buildUnits.push( new TreeDemoDockable(             "trees", _("Trees"), 
+                                                                magicIconBuild("../res/icons/components/tree.png") ) );
+            _buildUnits.push( new TableDemoDockable(            "tables",_("Tables"), 
+                                                                magicIconBuild("../res/icons/components/table.png") ) );
+            _buildUnits.push( new ContainersDemoDockable(       "containers", _("Containers"), 
+                                                                magicIconBuild("../res/icons/components/containers.png") ) );
+            _buildUnits.push( new ExtraContainersDemoDockable( "extraContainers", _("Extra Containers"), 
+                                                                magicIconBuild("../res/icons/components/containers.png") ) );
+            _buildUnits.push( new CanvasDemoDockable(           "canvas", _("Canvas"), 
+                                                                magicIconBuild("../res/icons/components/canvas.png") ) );                                                    
             
             for each ( var d : DemoDockable in _buildUnits )
                 _dockables[d.id] = d;

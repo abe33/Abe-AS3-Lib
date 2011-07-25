@@ -13,14 +13,6 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.skinning.icons.RadioCheckedIcon;
 	import abe.com.ponents.skinning.icons.RadioUncheckedIcon;
 
-	import flash.events.Event;
-	import flash.events.IEventDispatcher;
-
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
 	[Skinable(skin="Radio")]
 	[Skin(define="Radio",
 		  inherit="CheckBox",
@@ -43,8 +35,7 @@ package abe.com.ponents.buttons
 														  IDisplayObjectContainer, 
 														  Component, 
 														  Focusable,
-												 		  LayeredSprite,
-												 		  IEventDispatcher
+												 		  LayeredSprite
 	{
 		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
 		/**

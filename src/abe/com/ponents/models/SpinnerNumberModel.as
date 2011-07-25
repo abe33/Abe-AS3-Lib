@@ -243,7 +243,7 @@ package abe.com.ponents.models
 			}
 			return null;	
 		}
-		override public function toString () : String
+		public function toString () : String
 		{
 			return StringUtils.stringify(this, {'min':_min,'max':_max,'value':_value});
 		}

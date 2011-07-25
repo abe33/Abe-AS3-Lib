@@ -1,7 +1,5 @@
 package abe.com.ponents.models 
 {
-	import abe.com.ponents.events.ComponentEvent;
-	
 	import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie

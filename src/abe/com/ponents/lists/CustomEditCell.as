@@ -2,7 +2,6 @@ package abe.com.ponents.lists
 {
 	import abe.com.mon.utils.Reflection;
 	import abe.com.ponents.core.edit.EditorFactoryInstance;
-	import abe.com.ponents.events.EditEvent;
 
 	import flash.display.DisplayObject;
 	/**

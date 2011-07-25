@@ -50,7 +50,6 @@ package abe.com.edia.camera
 	 * </p><p>
 	 * La classe <code>CameraLayer</code> implémente de base tout ces comportements. Il suffit
 	 * d'étendre cette classe, et d'ajouter chaque instance comme écouteur de l'évènement
-	 * <code>CameraEvent.CAMERA_CHANGE</code> d'une caméra.
 	 * </p>
 	 */
 	public class Camera implements Runnable, Randomizable
@@ -376,10 +375,6 @@ package abe.com.edia.camera
 		 * Centre le champ de la caméra sur le point passé en paramètre. Si à l'issue
 		 * de cette transformation la caméra se retrouve en dehors du cadre de contrainte,
 		 * celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 * @param	p	nouvelles coordonnées du centre
 		 */
 		public function center ( p : Point ) : void
@@ -390,10 +385,6 @@ package abe.com.edia.camera
 		 * Centre le champ de la caméra sur les coordonnées passés en paramètre. Si à l'issue
 		 * de cette transformation la caméra se retrouve en dehors du cadre de contrainte,
 		 * celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 * @param	x	nouvelle coordonnée en x du centre de la caméra
 		 * @param	y	nouvelle coordonnée en y du centre de la caméra
 		 */
@@ -415,10 +406,6 @@ package abe.com.edia.camera
 		 * Centre le champ de la caméra en x sur la coordonnée passée en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	nouvelle coordonnée en x du centre de la caméra
 		 */
@@ -439,10 +426,6 @@ package abe.com.edia.camera
 		 * Centre le champ de la caméra en y sur la coordonnée passée en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	y	nouvelle coordonnée en y du centre de la caméra
 		 */
@@ -465,10 +448,6 @@ package abe.com.edia.camera
 		 * le centre étant le centre du rectangle retourné par la fonction.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	display	objet surlequel on souhaite centrer la caméra
 		 */
@@ -492,10 +471,6 @@ package abe.com.edia.camera
 		 * dans l'objet <code>Point</code> passé en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	p	nouvelles coordonnées pour le coin supérieur gauche du champ de la
 		 * 				caméra
@@ -508,10 +483,6 @@ package abe.com.edia.camera
 		 * Déplace le coin supérieur gauche du champ de la caméra aux coordonnées passées en
 		 * paramètres. Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	nouvelle coordonnée en x du coin supérieur gauche du champ de la
 		 * 				caméra
@@ -534,10 +505,6 @@ package abe.com.edia.camera
 		 * Déplace le coin supérieur gauche du champ de la caméra sur l'axe x à la coordonnée
 		 * passée en paramètre. Si à l'issue de cette transformation la caméra se retrouve en
 		 * dehors du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	nouvelle coordonnée en x du coin supérieur gauche du champ de la
 		 * 				caméra
@@ -556,10 +523,6 @@ package abe.com.edia.camera
 		 * Déplace le coin supérieur gauche du champ de la caméra sur l'axe y à la coordonnée
 		 * passée en paramètre. Si à l'issue de cette transformation la caméra se retrouve en
 		 * dehors du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	y	nouvelle coordonnée en y du coin supérieur gauche du champ de la
 		 * 				caméra
@@ -579,10 +542,6 @@ package abe.com.edia.camera
 		 * dans l'objet <code>Point</code> passé en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	p	valeur de translation de la caméra sur chaque axe
 		 */
@@ -595,10 +554,6 @@ package abe.com.edia.camera
 		 * que spécifié en paramètres.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	valeur de translation sur l'axe x
 		 * @param	y	valeur de translation sur l'axe y
@@ -619,10 +574,6 @@ package abe.com.edia.camera
 		 * que spécifié en paramètres.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	valeur de translation sur l'axe x
 		 */
@@ -641,10 +592,6 @@ package abe.com.edia.camera
 		 * que spécifié en paramètres.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	y	valeur de translation sur l'axe y
 		 */
@@ -670,9 +617,6 @@ package abe.com.edia.camera
 		 * Le redimensionnement d'une caméra en utilisant les méthodes <code>resizeTo&#42;</code>
 		 * n'affectent pas la position du champ de la caméra. Cela signifie que le centre de
 		 * la caméra aura été modifié après un appel à l'une des méthode de redimensionnement.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
 		 * </p>
 		 *
 		 * @param	d	nouvelle dimension du champ de la caméra.
@@ -689,11 +633,7 @@ package abe.com.edia.camera
 		 * Le redimensionnement d'une caméra en utilisant les méthodes <code>resizeTo&#42;</code>
 		 * n'affectent pas la position du champ de la caméra. Cela signifie que le centre de
 		 * la caméra aura été modifié après un appel à l'une des méthode de redimensionnement.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
 		 * </p>
-		 *
 		 * @param	w	nouvelle longueur du champ de la caméra
 		 * @param	h	nouvelle hauteur du champ de la caméra
 		 */
@@ -712,9 +652,6 @@ package abe.com.edia.camera
 		 * Le redimensionnement d'une caméra en utilisant les méthodes <code>resizeTo&#42;</code>
 		 * n'affectent pas la position du champ de la caméra. Cela signifie que le centre de
 		 * la caméra aura été modifié après un appel à l'une des méthode de redimensionnement.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
 		 * </p>
 		 *
 		 * @param	w	nouvelle longueur du champ de la caméra
@@ -733,9 +670,6 @@ package abe.com.edia.camera
 		 * Le redimensionnement d'une caméra en utilisant les méthodes <code>resizeTo&#42;</code>
 		 * n'affectent pas la position du champ de la caméra. Cela signifie que le centre de
 		 * la caméra aura été modifié après un appel à l'une des méthode de redimensionnement.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
 		 * </p>
 		 *
 		 * @param	h	nouvelle hauteur du champ de la caméra
@@ -754,9 +688,6 @@ package abe.com.edia.camera
 		 * <code>multiplyZoom</code> est à <code>true</code> ou à <code>false</code>.
 		 * <p>
 		 * Le zoom est incrémenté ou multiplier par la valeur de <code>_zoomIncrement</code>.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> est diffusé à la
-		 * fin de l'appel de la fonction.
 		 * </p>
 		 */
 		public function zoomIn() : void
@@ -787,9 +718,6 @@ package abe.com.edia.camera
 		 * <code>multiplyZoom</code> est à <code>true</code> ou à <code>false</code>.
 		 * <p>
 		 * Le zoom est décrémenté ou diviser par la valeur de <code>_zoomIncrement</code>.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> est diffusé à la
-		 * fin de l'appel de la fonction.
 		 * </p>
 		 */
 		public function zoomOut() : void
@@ -890,8 +818,6 @@ package abe.com.edia.camera
 		}
 		/**
 		 * Réalise le tremblement de la caméra.
-		 *
-		 * @param	e	objet <code>ImpulseEvent</code> diffusé par le métronome
 		 */
 		protected function tick (  bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
@@ -954,22 +880,10 @@ package abe.com.edia.camera
 /*--------------------------------------------------------------------
  *	EVENTS
  *-------------------------------------------------------------------*/
-		/**
-		 * Notifie les écouteurs à l'évènement <code>CameraEvent.CAMERA_CHANGE</code>
-		 * qu'une ou plusieurs propriétés de la caméra ont été modifiées.
-		 */
 		public function fireCameraChangedSignal () : void
 		{
 			cameraChanged.dispatch( this );
 		}
-		/**
-		 * Diffuse un évènement <code>CAMERA_CHANGE</code> si la caméra n'est pas
-		 * en mode silencieuse.
-		 * <p>
-		 * Cette fonction est utilisé en interne lors de chaque modification d'une
-		 * propriété de l'objet caméra.
-		 * </p>
-		 */
 		protected function fireSilentCameraChangedSignal () : void
 		{
 			if( !silentMode )

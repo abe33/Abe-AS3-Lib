@@ -8,12 +8,10 @@ package abe.com.edia.commands
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.motion.easing.Linear;
 
 	import flash.display.DisplayObject;
-	import flash.events.Event;
 	import flash.filters.BlurFilter;
 	/**
 	 * @author Cédric Néhémie
@@ -48,7 +46,7 @@ package abe.com.edia.commands
 			if( !_isRunning )
 			{
 				_isRunning = true;
-				Impulse.register(tick);
+				Impulse.register(ticked);
 			}
 		}
 		public function stop () : void
@@ -56,17 +54,17 @@ package abe.com.edia.commands
 			if( _isRunning )
 			{
 				_isRunning = false;
-				Impulse.unregister(tick);
+				Impulse.unregister(ticked);
 			}
 		}	
-		override public function execute (e : Event = null) : void
+		override public function execute (... args) : void
 		{
 			this.t = 0;			
 			start();
 		}
-		public function tick ( e : ImpulseEvent ) : void
+		public function ticked ( bias : Number, biasInSeconds : Number, current : Number ) : void
 		{
-			t += e.bias;
+			t += bias;
 			
 			var amount : Number = easing( t, _start, _end - _start, duration );
 			
@@ -75,7 +73,7 @@ package abe.com.edia.commands
 			if( t >= duration )
 			{
 				stop();
-				fireCommandEnd(); 				
+				_commandEnded.dispatch( this ); 				
 			}
 		}
 	}

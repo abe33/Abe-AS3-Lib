@@ -2,7 +2,7 @@ package abe.com.ponents.actions.builtin
 {
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.patibility.settings.SettingsManagerInstance;
-	import abe.com.patibility.settings.events.SettingsBackendEvent;
+	import abe.com.patibility.settings.backends.SettingsBackend;
 	import abe.com.ponents.actions.AbstractAction;
 	import abe.com.ponents.skinning.icons.Icon;
 	/**
@@ -18,15 +18,15 @@ package abe.com.ponents.actions.builtin
 		{
 			if( SettingsManagerInstance.backend )
 			{
-				SettingsManagerInstance.backend.addEventListener(SettingsBackendEvent.CLEAR, onClear );
+				SettingsManagerInstance.backend.cleared.addOnce( backendCleared );
 				SettingsManagerInstance.backend.clear();
 			}
 			else
 				super.execute.apply( this, args );
 		}
-		protected function onClear (event : SettingsBackendEvent) : void 
+		protected function backendCleared ( backend : SettingsBackend ) : void 
 		{
-			super.execute(event);
+			super.execute();
 		}
 	}
 }

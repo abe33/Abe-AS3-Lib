@@ -13,12 +13,9 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.actions.builtin.GradientPickerAction;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.layouts.display.DOStretchLayout;
-
-	import flash.events.IEventDispatcher;
 
     import org.osflash.signals.Signal;
 	

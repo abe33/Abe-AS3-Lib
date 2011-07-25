@@ -3,12 +3,14 @@ package abe.com.ponents.utils
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.ponents.core.*;
 	import abe.com.ponents.skinning.cursors.Cursor;
-
+	
+	import flash.display.DisplayObjectContainer;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.MouseEvent;
+	
+	import org.osflash.signals.Signal;
 
-    import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -51,6 +53,8 @@ package abe.com.ponents.utils
 		protected var _safeHeight : Number;
 		protected var _mouseX : Number;
 		protected var _mouseY : Number;
+		protected var _localOffsetY : Number;
+		protected var _localOffsetX : Number;
 		protected var _offsetY : Number;
 		protected var _offsetX : Number;
 		
@@ -183,18 +187,18 @@ package abe.com.ponents.utils
 		
 		protected function registerToComponentEvents (c : Component) : void 
 		{
-			( c as AbstractComponent ).mousePressed.add( mousePressed );
-			( c as AbstractComponent ).mouseEntered.add( mouseEntered );
-			( c as AbstractComponent ).mouseLeaved.add( mouseLeaved );
+			c.mousePressed.add( mousePressed );
+			c.mouseEntered.add( mouseEntered );
+			c.mouseLeaved.add( mouseLeaved );
 			
 			StageUtils.stage.addEventListener( MouseEvent.MOUSE_UP, mouseUp, false, 1 );
 			StageUtils.stage.addEventListener( MouseEvent.MOUSE_MOVE, mouseMove, false, 1 );
 		}
 		protected function unregisterFromComponentEvents (c : Component) : void 
 		{
-			( c as AbstractComponent ).mousePressed.remove( mousePressed );
-			( c as AbstractComponent ).mouseEntered.remove( mouseEntered );
-			( c as AbstractComponent ).mouseLeaved.remove( mouseLeaved );
+			c.mousePressed.remove( mousePressed );
+			c.mouseEntered.remove( mouseEntered );
+			c.mouseLeaved.remove( mouseLeaved );
 			
 			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
 			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
@@ -222,21 +226,33 @@ package abe.com.ponents.utils
 				if( _resizeMode )
 				{
 					_isResizing = true;
-					_safeX = _component.screenVisibleArea.x;
-					_safeY = _component.screenVisibleArea.y;
+//					_safeX = _component.screenVisibleArea.x;
+//					_safeY = _component.screenVisibleArea.y;
+					
+					_safeX = _component.x;
+					_safeY = _component.y;
+					
 					_safeWidth = _component.width;
 					_safeHeight = _component.height;
 					_offsetX = _component.mouseX;
 					_offsetY = _component.mouseY;
-					_mouseX = StageUtils.stage.mouseX;
-					_mouseY = StageUtils.stage.mouseY;
+//					_mouseX = StageUtils.stage.mouseX;
+//					_mouseY = StageUtils.stage.mouseY;
+					var p : DisplayObjectContainer = _component.parent;
+					_mouseX = p.mouseX;
+					_mouseY = p.mouseY;
+					
+					preventToolOperation = true;
 				}
 			}
 		}
 		protected function mouseUp (event : MouseEvent) : void 
 		{
 			if(_isResizing)
+			{
 				_isResizing = false;
+				preventToolOperation = false;
+			}
 		}
 
 		protected function mouseMove (event : MouseEvent) : void 
@@ -275,8 +291,11 @@ package abe.com.ponents.utils
 			if( _component.size )
 				_component.size = null;
 			
-			var mouseX : Number = StageUtils.stage.mouseX;
-			var mouseY : Number = StageUtils.stage.mouseY;
+			var p : DisplayObjectContainer = _component.parent;
+			var mouseX : Number = p.mouseX;
+			var mouseY : Number = p.mouseY;
+//			var mouseX : Number = StageUtils.stage.mouseX;
+//			var mouseY : Number = StageUtils.stage.mouseY;
 			var offsetX2 : Number = _safeWidth - _offsetX;
 			var offsetY2 : Number = _safeHeight - _offsetY;
 			

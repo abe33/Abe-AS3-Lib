@@ -4,7 +4,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.monitors.LogView;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

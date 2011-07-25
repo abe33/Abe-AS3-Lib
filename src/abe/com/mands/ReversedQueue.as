@@ -22,25 +22,10 @@ package  abe.com.mands
 		}
 		
 		/**
-		 * Intercepte l' évènement de fin d'éxécution de la sous-commande courante
-		 * et éxécute la suivante si :
-		 * <ul>
-		 * <li>La commande <code>ReversedQueue</code> n'a pas été annulé entre-temps. 
-		 * <p>
-		 * Si la commande a été annulé, un évènement <code>CommandEvent.COMMAND_CANCEL</code>
-		 * sera diffusé.
-		 * </p></li>
-		 * <li>Il reste des commandes à éxécuter.<p>
-		 * Si il ne reste aucune commande à éxécuter, un évènement 
-		 * <code>CommandEvent.COMMAND_END</code> sera diffusé.
-		 * </p></li>
-		 * </ul>
-		 * 
-		 * @param	e	évènement de fin diffusé par la sous-commande
 		 */
 		override protected function onCommandEnded ( command:Command ) : void
 		{
-			unregisterToCommandEvents( _oLastCommand );
+			unregisterToCommandSignals( _oLastCommand );
 			
 			if( _bCancelled )
 				commandCancelled.dispatch( this );

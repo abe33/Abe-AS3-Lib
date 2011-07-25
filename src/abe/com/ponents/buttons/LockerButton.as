@@ -6,11 +6,6 @@ package abe.com.ponents.buttons
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.core.Component;
 
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
 	[Skinable(skin="LockerButton")]
 	[Skin(define="LockerButton",
 		  inherit="ToolBar_Button",

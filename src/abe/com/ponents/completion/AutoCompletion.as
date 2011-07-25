@@ -1,17 +1,14 @@
 package abe.com.ponents.completion 
 {
-	import abe.com.ponents.events.AutoCompletionEvent;
 	import abe.com.ponents.text.AbstractTextComponent;
 
+	import org.osflash.signals.Signal;
+	
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
-
-	[Event(name="entriesFound", type="abe.com.ponents.events.AutoCompletionEvent")]
-	[Event(name="entriesLoaded", type="abe.com.ponents.events.AutoCompletionEvent")]
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class AutoCompletion extends EventDispatcher 
+	public class AutoCompletion
 	{
 		protected var _textField : AbstractTextComponent;
 		protected var _lastSuggestions : Array;
@@ -22,16 +19,20 @@ package abe.com.ponents.completion
 		protected var _checkWordAtCaret : Boolean;
 		
 		public var charactersCountBeforeSuggest : Number = 1;
+		public var entriesFound : Signal;
+		public var entriesLoaded : Signal;
 		
 		public function AutoCompletion ( textField : AbstractTextComponent ) 
 		{
 			super();
+			entriesFound = new Signal();
+			entriesLoaded = new Signal();
 			this._textField = textField;
 			this._collection = [];
 			this._enabled = true;
 			this._lastSuggestions = [];
 			_checkWordAtCaret = false;
-			textField.addEventListener( Event.CHANGE, changed );
+			textField.dataChanged.add( changed );
 		}
 		public function get last () : String { return _last; }
 		
@@ -43,7 +44,7 @@ package abe.com.ponents.completion
 		{
 			_collection = a;
 			_collection.sort();
-			dispatchEvent( new AutoCompletionEvent( AutoCompletionEvent.ENTRIES_LOADED ) );
+			entriesLoaded.dispatch( this );
 		}
 		
 		public function get checkWordAtCaret () : Boolean { return _checkWordAtCaret; }	
@@ -81,17 +82,17 @@ package abe.com.ponents.completion
 				{
 					_lastSuggestionsCount = l;
 					_lastSuggestions = propositions;
-					dispatchEvent( new AutoCompletionEvent( AutoCompletionEvent.ENTRIES_FOUND ) );
+					entriesFound.dispatch( this, _lastSuggestions );
 				}
 			}
 			else if( _lastSuggestions.length != 0 )
 			{
 				_lastSuggestions = [];
-				dispatchEvent( new AutoCompletionEvent( AutoCompletionEvent.ENTRIES_FOUND ) );
+				entriesFound.dispatch( this, _lastSuggestions );
 			}
 		}		
 
-		public function changed ( e : Event = null ) : void
+		public function changed ( input : AbstractTextComponent, value : String ) : void
 		{
 			if( _enabled )
 			{
@@ -126,25 +127,6 @@ package abe.com.ponents.completion
 					check(current);
 				}	
 			}
-		}
-		
-		
-		/**
-		 * Réécriture de la méthode <code>dispatchEvent</code> afin d'éviter la diffusion
-		 * d'évènement en l'absence d'écouteurs pour cet évènement.
-		 * 
-		 * @param	evt	objet évènement à diffuser
-		 * @return	<code>true</code> si l'évènement a bien été diffusé, <code>false</code>
-		 * 			en cas d'échec ou d'appel de la méthode <code>preventDefault</code>
-		 * 			sur cet objet évènement
-		 */
-		override public function dispatchEvent( evt : Event ) : Boolean 
-		{
-		 	if ( hasEventListener(evt.type) || evt.bubbles) 
-		 	{
-		  		return super.dispatchEvent(evt);
-		  	}
-		 	return true;
 		}
 	}
 }

@@ -7,7 +7,6 @@ package abe.com.ponents.menus
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.ponents.core.AbstractContainer;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.PopupEvent;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.scrollbars.Scrollable;
 	import abe.com.ponents.utils.Directions;
@@ -211,7 +210,7 @@ package abe.com.ponents.menus
 			return new Point( bb.left, bb.bottom ); 
 		}
 		
-		public function popupHiddenOnCancel (event : PopupEvent) : void
+		public function popupHiddenOnCancel (m : PopupMenu) : void
 		{
 			done();
 		}

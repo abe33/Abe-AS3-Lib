@@ -12,8 +12,6 @@ package abe.com.ponents.menus
 	import abe.com.ponents.core.*;
 	import abe.com.ponents.core.edit.Editable;
 	import abe.com.ponents.core.edit.Editor;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.layouts.display.DOBoxSettings;
@@ -31,7 +29,6 @@ package abe.com.ponents.menus
 
 	[Style(name="dropDownIcon",type="abe.com.ponents.skinning.icons.Icon")]
 	[Style(name="popupIcon",type="abe.com.ponents.skinning.icons.Icon")]
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="ComboBox")]
 	[Skin(define="ComboBox",
 		  inherit="Button",

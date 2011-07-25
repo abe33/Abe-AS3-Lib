@@ -10,7 +10,6 @@ package abe.com.edia.commands
 
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
-	import flash.events.Event;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -32,10 +31,10 @@ package abe.com.edia.commands
 			super( new BlurFade( target, 8, 300 ), t );
 		}
 
-		override public function execute (e : Event = null) : void
+		override public function execute ( ... args ) : void
 		{
 			ToolKit.mainLevel.addChild( msk );
-			super.execute( e );
+			super.execute.apply(this,args);
 		}
 
 		public function clean () : void

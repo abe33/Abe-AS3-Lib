@@ -38,11 +38,11 @@ package  abe.com.mands
 		override protected function _next () : Command
 		{
 			if( _oLastCommand )
-				unregisterToCommandEvents( _oLastCommand );
+				unregisterToCommandSignals( _oLastCommand );
 			
 			_oLastCommand = _aCommands[ --_nIndex ] as Command;
 			
-			registerToCommandEvents( _oLastCommand );
+			registerToCommandSignals( _oLastCommand );
 			
 			return _oLastCommand;
 		}

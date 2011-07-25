@@ -28,7 +28,6 @@ package abe.com.ponents.text
 	/**
 	 * @author cedric
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="TextFormatEditor")]
 	[Skin(define="TextFormatEditor",
 			  inherit="DefaultComponent",

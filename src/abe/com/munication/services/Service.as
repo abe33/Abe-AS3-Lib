@@ -9,7 +9,6 @@ package abe.com.munication.services
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 
-	[Event(name="serviceError", type="abe.com.munication.services.ServiceEvent")]
 	/**
 	 * La classe <code>Service</code> représente un proxy vers un service distant.
 	 * <p>
@@ -87,20 +86,12 @@ package abe.com.munication.services
 				_netConnection.close();
 		}
 		/**
-		 * Diffuse un évènement de type <code>ServiceEvent.SERVICE_RESULT</code> aux
-		 * écouteurs de ce service.
-		 *
-		 * @param	result	le résultat à transmettre
 		 */
 		protected function fireServiceRespondedSignal ( result : *) : void
 		{
 			serviceResponded.dispatch( result );
 		}		
 		/**
-		 * Diffuse un évènement de type <code>ServiceEvent.SERVICE_ERROR</code> aux
-		 * écouteurs de ce service.
-		 *
-		 * @param	error	l'erreur à transmettre
 		 */
 		protected function fireServiceErrorOcurredSignal ( error : *) : void
 		{

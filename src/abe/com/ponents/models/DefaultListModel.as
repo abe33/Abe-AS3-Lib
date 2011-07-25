@@ -2,10 +2,6 @@ package abe.com.ponents.models
 {
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.ListEvent;
-
-	import flash.events.Event;
 	import org.osflash.signals.Signal;
 
 	/**

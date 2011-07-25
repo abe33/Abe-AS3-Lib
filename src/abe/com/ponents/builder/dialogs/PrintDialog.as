@@ -8,7 +8,6 @@ package abe.com.ponents.builder.dialogs
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.Window;
 	import abe.com.ponents.containers.WindowTitleBar;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.layouts.display.DOBoxSettings;
 	import abe.com.ponents.layouts.display.DOHBoxLayout;
@@ -56,7 +55,7 @@ package abe.com.ponents.builder.dialogs
 			_lineRuler = new TextLineRuler( _textArea.textfield, _textArea );
 			_textArea.addComponentChild(_lineRuler );
 			( _textArea.childrenLayout as DOHBoxLayout ).boxes.unshift( new DOBoxSettings(0, "left", "center", _lineRuler, false, true, false ) );
-			_textArea.addEventListener(ComponentEvent.REPAINT, textRepaint );
+			_textArea.componentRepainted.add( textRepainted );
 			_textArea.invalidatePreferredSizeCache();
 		
 			preferredSize = new Dimension( StageUtils.stage.stageWidth - 400 , 
@@ -67,7 +66,8 @@ package abe.com.ponents.builder.dialogs
 			
 			var p : Panel = new Panel();
 			p.childrenLayout = new InlineLayout( p, 3, "right", "center", "leftToRight" );
-			p.addComponent( new Button(new ProxyAction(copyToClipboard, _("Copy To Clipboard") ) ) );			p.addComponent( new Button(new ProxyAction(close, _("Close") ) ) );
+			p.addComponent( new Button(new ProxyAction(copyToClipboard, _("Copy To Clipboard") ) ) );
+			p.addComponent( new Button(new ProxyAction(close, _("Close") ) ) );
 			p.style.setForAllStates("insets", new Insets(5));
 			windowStatus = p;
 			
@@ -76,14 +76,15 @@ package abe.com.ponents.builder.dialogs
 			var s: String = new GPrettify().prettyPrintOne( text, "default", true );	
 			_textArea.value = "<p>"+s+"</p>";
 		}
-		protected function textRepaint (event : ComponentEvent) : void 
+		protected function textRepainted ( c : TextArea ) : void 
 		{
 			_lineRuler.repaint();
 		}
 		override public function open (closePolicy : String = null) : void 
 		{
 			super.open( closePolicy );
-			x = ( StageUtils.stage.stageWidth - width ) / 2;			y = ( StageUtils.stage.stageHeight - height ) / 2;
+			x = ( StageUtils.stage.stageWidth - width ) / 2;
+			y = ( StageUtils.stage.stageHeight - height ) / 2;
 		}
 
 		public function copyToClipboard() : void

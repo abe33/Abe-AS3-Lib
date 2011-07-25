@@ -133,7 +133,7 @@ package  abe.com.ponents.monitors
 		private function commandEnd ( e : Event ) : void
 		{
 			unregisterToCommandEvents( proxy );
-			fireCommandEnd();
+			_commandEnded.dispatch( this );
 		}
 		/*
 		 *

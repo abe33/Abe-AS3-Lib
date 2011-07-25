@@ -17,7 +17,7 @@ package  abe.com.edia.camera
 	 * Le principe est on ne peut plus simple. Chaque objet soumis à la profondeur
 	 * de champs défini sa propre profondeur focale, un entier représentant sa distance
 	 * à l'objectif. Ensuite, après avoir souscrit à l'évènement
-	 * <code>CameraEvent.DOF_CHANGE</code>, celui-ci pourra calculer le taux de flou
+	 * <code>dofChanged</code>, celui-ci pourra calculer le taux de flou
 	 * à appliquer à l'aide de la méthode <code>Camera.getBlurRatio ( focalDepth )</code>
 	 * qui renvoi un nombre entre 0 et 1, où 0 marque la netteté maximum et où 1 représente
 	 * le flou maximum.
@@ -178,10 +178,6 @@ package  abe.com.edia.camera
 			fireDOFChange();
 		}
 
-		/**
-		 * Notifie les écouteurs à l'évènement <code>CameraEvent.DOF_CHANGE</code>
-		 * qu'une ou plusieurs propriété de la profondeur de champs ont été modifié.
-		 */
 		protected function fireDOFChange () : void
 		{
 			dofChanged.dispatch(this);

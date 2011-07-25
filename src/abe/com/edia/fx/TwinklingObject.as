@@ -9,7 +9,6 @@ package abe.com.edia.fx
 	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
 	import flash.display.DisplayObject;
@@ -43,7 +42,7 @@ package abe.com.edia.fx
 			_randomSource = randomSource;
 		}
 
-		public function tick (e : ImpulseEvent) : void
+		public function tick (bias : Number, biasInSeconds : Number, time : Number) : void
 		{
 			for each( var p : DisplayObject in particles )
 				if( _randomSource.boolean(.3) )

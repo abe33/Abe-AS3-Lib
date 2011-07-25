@@ -4,7 +4,6 @@
 package abe.com.ponents.layouts.components 
 {
 	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.lists.List;
 	import abe.com.ponents.lists.ListCell;
 	import abe.com.ponents.utils.Insets;

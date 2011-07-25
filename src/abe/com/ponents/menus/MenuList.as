@@ -2,7 +2,6 @@ package abe.com.ponents.menus
 {
 	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.MenuListLayout;
 	import abe.com.ponents.lists.List;
 	import abe.com.ponents.lists.ListCell;
