@@ -182,8 +182,8 @@ package abe.com.prehension.examples.dockables
                     canvas.camera.zoomOutAroundPoint( new Point( canvas.topLayer.mouseX, canvas.topLayer.mouseY ) );
             } );
 
-            var sam : SelectAndMove = new SelectAndMove( ObjectSelectionInstance, Cursor.get( MouseCursor.ARROW ) )
-            var sop : SelectAndPan = new SelectAndPan( canvas.camera, ObjectSelectionInstance, Cursor.get( MouseCursor.ARROW ), Cursor.get( MouseCursor.HAND ) );
+            var sam : SelectAndMove = new SelectAndMove( canvas, ObjectSelectionInstance, Cursor.get( MouseCursor.ARROW ) )
+            var sop : SelectAndPan = new SelectAndPan( canvas, ObjectSelectionInstance, Cursor.get( MouseCursor.ARROW ), Cursor.get( MouseCursor.HAND ) );
             var pan : Pan = new Pan( canvas.camera, Cursor.get( MouseCursor.HAND ) );
             var zi : ZoomIn = new ZoomIn( canvas.camera );
             var zo : ZoomOut = new ZoomOut( canvas.camera );
@@ -191,16 +191,6 @@ package abe.com.prehension.examples.dockables
 			var ln : LinkNodesTool = new LinkNodesTool();
 			var uln : UnlinkNodesTool = new UnlinkNodesTool();
 			var cn : CreateNoteTool = new CreateNoteTool( canvas );
-
-            ToolsList.registerTool( "pan", pan );
-            ToolsList.registerTool( "select", sam );
-            ToolsList.registerTool( "zoom", zd );
-            ToolsList.registerTool( "zoom_in", zi );
-            ToolsList.registerTool( "zoom_out", zo );
-            ToolsList.registerTool( "pan_select", sop );
-			ToolsList.registerTool( "link", ln );
-			ToolsList.registerTool( "unlink", uln );
-			ToolsList.registerTool( "note_create", cn );
 
             ActionManagerInstance.registerAction( 
                     new SetToolAction(   manager ,

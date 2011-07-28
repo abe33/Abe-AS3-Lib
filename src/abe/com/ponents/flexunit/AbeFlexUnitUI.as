@@ -206,7 +206,7 @@ package abe.com.ponents.flexunit
 		protected function createResultsPanel () : SplitPane 
 		{
 			_testTree = new TestTree();
-			_testTree.selectionChanged( treeSelectionChanged );
+			_testTree.selectionChanged.add( treeSelectionChanged );
 			_testTree.itemFormatingFunction = formatTreeNode;
 			var header : TreeHeader = new TreeHeader( _testTree, ButtonDisplayModes.ICON_ONLY, false );
 			var sp : ScrollPane = new ScrollPane();

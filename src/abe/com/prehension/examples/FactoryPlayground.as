@@ -18,7 +18,7 @@ package abe.com.prehension.examples
     import abe.com.ponents.tools.ServiceTesterPanel;
     import abe.com.ponents.utils.ToolKit;
     import abe.com.prehension.examples.dockables.*;
-
+    
     import flash.events.ContextMenuEvent;
 
     [SWF(width="800",height="600", backgroundColor="#3a545c")]
@@ -57,7 +57,7 @@ package abe.com.prehension.examples
             } 
             
             _defaultMenuBarSettings = "*File(*New,*Open,|,*Recent Files(*A,*B,*C)),*Edit(*undo,*redo),*Tools(*Logs(clearLogs,saveLogs),*Settings(clearSettings,showSettings)),*Custom(*colorPick,*gradientPick),?(*about)";
-            _defaultDMSPSettings = "V(buttons|spinners|text|sliders|combobox|progress|canvas|lists|trees|tables|containers|extraContainers)";
+            _defaultDMSPSettings = "V(buttons|spinners|text|sliders|combobox|progress|canvas|canvasGeom|lists|trees|tables|containers|extraContainers)";
             _defaultToolBarSettings = "undo,redo";
         }
         override public function init( preload : ComponentFactoryPreload ) : void
@@ -90,7 +90,9 @@ package abe.com.prehension.examples
             _buildUnits.push( new ExtraContainersDemoDockable( "extraContainers", _("Extra Containers"), 
                                                                 magicIconBuild("../res/icons/components/containers.png") ) );
             _buildUnits.push( new CanvasDemoDockable(           "canvas", _("Canvas"), 
-                                                                magicIconBuild("../res/icons/components/canvas.png") ) );                                                    
+                                                                magicIconBuild("../res/icons/components/canvas.png") ) );    
+			_buildUnits.push( new CanvasGeomDemoDockable(		"canvasGeom", _("Geometry"),
+																magicIconBuild("../res/icons/components/geom.png") ) );
             
             for each ( var d : DemoDockable in _buildUnits )
                 _dockables[d.id] = d;

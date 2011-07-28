@@ -5,9 +5,11 @@ package abe.com.ponents.tools.canvas.selections
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.ponents.nodes.core.CanvasElement;
 	import abe.com.ponents.skinning.cursors.Cursor;
+	import abe.com.ponents.tools.CameraCanvas;
 	import abe.com.ponents.tools.ObjectSelection;
 	import abe.com.ponents.tools.canvas.Tool;
 	import abe.com.ponents.tools.canvas.ToolGestureData;
+	import abe.com.ponents.tools.canvas.core.AbstractCanvasDragTool;
 	import abe.com.ponents.tools.canvas.core.AbstractTool;
 	import abe.com.ponents.utils.ToolKit;
 	
@@ -21,14 +23,11 @@ package abe.com.ponents.tools.canvas.selections
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class SelectAndMove extends AbstractTool implements Tool 
+	public class SelectAndMove extends AbstractCanvasDragTool implements Tool 
 	{
 		static public var SELECTION_COLOR : Color = new Color( "52aed3" );
 		
 		static protected const NONE : Number = 0;		static protected const SELECT : Number = 1;		static protected const MOVE : Number = 2;
-		
-		protected var pressPoint : Point;		protected var stagePressPoint : Point;
-		protected var selectionShape : Shape;
 		
 		protected var mode : Number;
 		protected var selection : ObjectSelection;
@@ -37,25 +36,23 @@ package abe.com.ponents.tools.canvas.selections
 		
 		protected var _objectsOffset : Dictionary;
 
-		public function SelectAndMove ( selection : ObjectSelection, 
+		public function SelectAndMove ( canvas : CameraCanvas,
+										selection : ObjectSelection, 
 										cursor : Cursor = null, 
 										allowMoves : Boolean = true )
 		{
-			super( cursor );
+			super( canvas, cursor );
 			this.selection = selection;
 			this.allowMoves = allowMoves;
-			selectionShape = new Shape();
 			mode = NONE;
 		}
 		override public function actionStarted (e : ToolGestureData) : void
 		{
 			var o : DisplayObject = e.manager.canvasChildUnderTheMouse;
 			
-			pressPoint = new Point( e.canvas.topLayer.mouseX, e.canvas.topLayer.mouseY );			stagePressPoint = new Point( StageUtils.stage.mouseX, StageUtils.stage.mouseY );
-			
 			if( o == null )
 			{
-				ToolKit.toolLevel.addChild( selectionShape );
+				initDragGesture();
 				mode = SELECT;
 			}
 			else if( allowMoves )
@@ -78,9 +75,7 @@ package abe.com.ponents.tools.canvas.selections
 		{
 			if( mode == SELECT )
 			{
-				ToolKit.toolLevel.removeChild( selectionShape );
-				selectionShape.graphics.clear();
-				
+				clearDrag();
 				selection.removeAll();
 				selection.addMany( getObjectsInRectangle(e) );
 			}
@@ -90,14 +85,8 @@ package abe.com.ponents.tools.canvas.selections
 		{
 			var a : Array = [];
 			var l : Number = e.canvas.layers.length;
-				
-			var xstart : Number = Math.min( pressPoint.x, e.canvas.topLayer.mouseX );
-			var ystart : Number = Math.min( pressPoint.y, e.canvas.topLayer.mouseY);
 			
-			var xend : Number = Math.max( pressPoint.x, e.canvas.topLayer.mouseX );
-			var yend : Number = Math.max( pressPoint.y, e.canvas.topLayer.mouseY);
-			
-			var area : Rectangle = new Rectangle ( xstart, ystart, xend - xstart, yend - ystart );
+			var area : Rectangle = getDragRectangle();
 			
 			for( var i : Number = 0; i < l; i++ )
 			{
@@ -118,8 +107,7 @@ package abe.com.ponents.tools.canvas.selections
 		{
 			if( mode == SELECT )
 			{
-				ToolKit.toolLevel.removeChild( selectionShape );
-				selectionShape.graphics.clear();
+				clearDrag();
 			}
 			mode = NONE;
 		}
@@ -127,16 +115,7 @@ package abe.com.ponents.tools.canvas.selections
 		{
 			if( mode == SELECT )
 			{
-				var xstart : Number = Math.min( stagePressPoint.x, ToolKit.toolLevel.mouseX );
-				var ystart : Number = Math.min( stagePressPoint.y, ToolKit.toolLevel.mouseY);
-				
-				var xend : Number = Math.max( stagePressPoint.x, ToolKit.toolLevel.mouseX );
-				var yend : Number = Math.max( stagePressPoint.y, ToolKit.toolLevel.mouseY);
-				
-				selectionShape.graphics.clear();
-				selectionShape.graphics.lineStyle( 0, SELECTION_COLOR.hexa );				selectionShape.graphics.beginFill( SELECTION_COLOR.hexa, .3 );
-				selectionShape.graphics.drawRect( xstart, ystart, xend - xstart, yend - ystart );
-				selectionShape.graphics.endFill();
+				super.mousePositionChanged(e);
 			}
 			else if( mode == MOVE )
 			{
