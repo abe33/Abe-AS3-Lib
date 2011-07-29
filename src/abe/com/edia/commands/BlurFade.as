@@ -46,7 +46,7 @@ package abe.com.edia.commands
 			if( !_isRunning )
 			{
 				_isRunning = true;
-				Impulse.register(ticked);
+				Impulse.register(tick);
 			}
 		}
 		public function stop () : void
@@ -54,7 +54,7 @@ package abe.com.edia.commands
 			if( _isRunning )
 			{
 				_isRunning = false;
-				Impulse.unregister(ticked);
+				Impulse.unregister(tick);
 			}
 		}	
 		override public function execute (... args) : void
@@ -62,7 +62,7 @@ package abe.com.edia.commands
 			this.t = 0;			
 			start();
 		}
-		public function ticked ( bias : Number, biasInSeconds : Number, current : Number ) : void
+		public function tick ( bias : Number, biasInSeconds : Number, current : Number ) : void
 		{
 			t += bias;
 			

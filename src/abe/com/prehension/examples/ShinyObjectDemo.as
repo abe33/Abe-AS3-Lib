@@ -1,4 +1,9 @@
 package abe.com.prehension.examples {
+	import abe.com.mon.colors.Gradient;
+	import abe.com.edia.commands.GradientTween;
+	import flash.geom.Matrix;
+	import flash.display.GradientType;
+	import abe.com.edia.commands.ColorFlash;
 	import abe.com.edia.fx.FireBall;
 	import abe.com.edia.fx.Inspire;
 	import abe.com.edia.fx.LightningBolt;
@@ -38,6 +43,8 @@ package abe.com.prehension.examples {
         protected var twirlRib : TwirlRibbons;
         protected var rocks : RocksLiftUp;
         protected var twinklingObj : TwinklingObject;
+        protected var colorFlash : ColorFlash;
+        protected var gradientTween : GradientTween;
 
         public function ShinyObjectDemo ()
         {
@@ -152,7 +159,24 @@ package abe.com.prehension.examples {
                 ToolKit.mainLevel.addChild( spr );
 				
 				///////////////////////////////////////////////////////////////////////
+				spr = getLayeredSprite( Color.Black );
+                spr.x = 360;
+                spr.y = 160;
 
+                colorFlash = new ColorFlash( spr, Color.Orange, 400, null, true );
+                colorFlash.execute();
+
+                ToolKit.mainLevel.addChild( spr );
+                
+                ///////////////////////////////////////////////////////////////////////
+				spr = getLayeredSprite( Color.Black );
+                spr.x = 460;
+                spr.y = 160;
+
+                gradientTween = new GradientTween( spr, Gradient.COLOR_SPECTRUM, 2000, true );
+				gradientTween.execute();
+
+                ToolKit.mainLevel.addChild( spr );
             }
             catch( e : Error )
             {
@@ -162,26 +186,17 @@ package abe.com.prehension.examples {
 
         protected function click (event : MouseEvent) : void
         {
-            /*
-            var r : Rock = new Rock();
-            r.x = stage.mouseX;
-            r.y = stage.mouseY;
-            r.init();
-            ToolKit.mainLevel.addChild(r);
-            */
-            /*
-            var pn : PerlinGlow = new PerlinGlow();
-            pn.x = stage.mouseX;
-            pn.y = stage.mouseY;
-            pn.init();
-
-            ToolKit.mainLevel.addChild(pn);*/
+            
         }
 
         protected function getLayeredSprite ( c : Color ) : LayeredSpriteImpl
         {
             var o : Shape = new Shape();
-            o.graphics.beginFill( c.hexa );
+            var m : Matrix = new Matrix();
+//	        o.graphics.beginFill( c.hexa );
+			m.createGradientBox(20, 20, 0, -10,-10);
+            
+			o.graphics.beginGradientFill( GradientType.RADIAL, [0x333333,0x000000], [1,1],[127,255], m );
             o.graphics.drawCircle(0, 0, 10);
             o.graphics.endFill();
 

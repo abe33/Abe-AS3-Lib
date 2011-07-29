@@ -1,11 +1,11 @@
 package abe.com.edia.keyboard
 {
-	import flash.events.EventDispatcher;
-	import flash.events.KeyboardEvent;
-	import flash.utils.getTimer;
+    import org.osflash.signals.Signal;
 
-	[Event(name="newKeysSequence", type="KeyCombinatorEvent")]	[Event(name="keyPress", type="KeyCombinatorEvent")]	[Event(name="keyRelease", type="KeyCombinatorEvent")]
-	public class KeyCombinator extends EventDispatcher
+    import flash.events.KeyboardEvent;
+    import flash.utils.getTimer;
+
+	public class KeyCombinator
 	{
 		static public const SIMULTANEOUS : Number = 60;
 		static public const CHAINED : Number = 300;
@@ -13,6 +13,10 @@ package abe.com.edia.keyboard
 		
 		static public const HOLD : String = "…";
 		static public const CHAIN : String = "+";
+        
+        public var keyPressed : Signal;
+        public var keyReleased : Signal;
+        public var keySequenceFound : Signal;
 		
 		protected var _enabled : Boolean;
 		protected var _filter : KeyCombinatorFilter;
@@ -41,6 +45,10 @@ package abe.com.edia.keyboard
 			_simultaneousKeysEnabled = simultaneousKeysEnabled;
 			_chainedKeysEnabled = chainedKeysEnabled;
 			_holdedKeysEnabled = holdedKeysEnabled;
+            
+            keyPressed = new Signal();
+            keyReleased = new Signal();
+            keySequenceFound = new Signal();
 		}
 /*-----------------------------------------------------------------------*
  * 	GETTER/SETTER
@@ -169,8 +177,8 @@ package abe.com.edia.keyboard
 			_lastTime = time;
 			
 			// firing events
-			fireKeyPressEvent( actionKey );
-			fireNewKeysSequenceEvent( _lastSequence, actionKey );
+			fireKeyPressedSignal( actionKey );
+			fireKeySequenceFoundSignal( _lastSequence, actionKey );
 		}	
 		public function keyUp ( e : KeyboardEvent ) : void
 		{
@@ -199,7 +207,7 @@ package abe.com.edia.keyboard
 				// a new sequence have bben find, so we clear time
 				_lastTime = time;
 				
-				fireNewKeysSequenceEvent( _lastSequence, actionKey );
+				fireKeySequenceFoundSignal( _lastSequence, actionKey );
 			}
 			
 			// updating controller states
@@ -210,24 +218,24 @@ package abe.com.edia.keyboard
 				_keysHolded = 0;
 			
 			// firing events
-			fireKeyReleaseEvent( actionKey );
+			fireKeyReleasedSignal( actionKey );
 		}
 		
 /*-----------------------------------------------------------------------*
  * 	EVENTS DISPATCHING
  *-----------------------------------------------------------------------*/
  		
-		protected function fireNewKeysSequenceEvent ( sequence : String, key : String ) : void
+		protected function fireKeySequenceFoundSignal ( sequence : String, key : String ) : void
 		{
-			dispatchEvent( new KeyCombinatorEvent( KeyCombinatorEvent.NEW_KEYS_SEQUENCE, sequence, key ) );
+			keySequenceFound.dispatch( this, sequence, key );
 		}
-		protected function fireKeyPressEvent ( sequence : String ) : void
+		protected function fireKeyPressedSignal ( sequence : String ) : void
 		{
-			dispatchEvent( new KeyCombinatorEvent( KeyCombinatorEvent.KEY_PRESS, sequence ) );
+			keyPressed.dispatch(this, sequence);
 		}	
-		protected function fireKeyReleaseEvent ( sequence : String ) : void
+		protected function fireKeyReleasedSignal ( sequence : String ) : void
 		{
-			dispatchEvent( new KeyCombinatorEvent( KeyCombinatorEvent.KEY_RELEASE, sequence ) );
+			keyReleased.dispatch(this, sequence);
 		}
 	}
 }

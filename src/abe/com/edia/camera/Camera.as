@@ -878,7 +878,7 @@ package abe.com.edia.camera
 			return _isRunning;
 		}
 /*--------------------------------------------------------------------
- *	EVENTS
+ *	SIGNALS
  *-------------------------------------------------------------------*/
 		public function fireCameraChangedSignal () : void
 		{
