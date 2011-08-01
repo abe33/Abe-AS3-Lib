@@ -1,11 +1,10 @@
 package abe.com.ponents.tools
 {
     import abe.com.mon.colors.*;
-    
     import abe.com.ponents.containers.*;
-    import abe.com.ponents.events.*;
+    import abe.com.ponents.core.Component;
     import abe.com.ponents.layouts.components.*;
-    
+
     import org.osflash.signals.Signal;
     
     public class ColorWheelEditor extends Panel 
@@ -23,7 +22,7 @@ package abe.com.ponents.tools
             _target = new Color();
             
             _wheel = new ColorWheel();
-            _wheel.addEventListener(ComponentEvent.DATA_CHANGE, colorWheelDataChange );
+            _wheel.dataChanged.add( colorWheelDataChanged );
             
             addComponent( _wheel );
         }
@@ -33,7 +32,7 @@ package abe.com.ponents.tools
             _target = target;
             _wheel.target = target;
         }
-        public function colorWheelDataChange( e : ComponentEvent ) : void
+        public function colorWheelDataChanged( c : Component, cl : Color ) : void
         {
             fireDataChangedSignal();
         }

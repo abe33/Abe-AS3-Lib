@@ -1,25 +1,23 @@
 package abe.com.ponents.tabs 
 {
     import abe.com.mon.geom.dm;
-    import abe.com.mon.colors.*;
-    import abe.com.mon.logs.*;
     import abe.com.ponents.containers.Panel;
     import abe.com.ponents.containers.SlidePane;
     import abe.com.ponents.core.AbstractContainer;
     import abe.com.ponents.core.Dockable;
     import abe.com.ponents.core.DockableContainer;
     import abe.com.ponents.dnd.DragSource;
-    import abe.com.ponents.factory.*;
-    import abe.com.ponents.skinning.decorations.*;
-    import abe.com.ponents.skinning.*;
     import abe.com.ponents.events.ComponentSignalEvent;
+    import abe.com.ponents.factory.*;
     import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.skinning.*;
+    import abe.com.ponents.skinning.decorations.*;
     import abe.com.ponents.utils.CardinalPoints;
 
-    import flash.geom.Rectangle;
-    
-    import org.osflash.signals.Signal;
     import org.osflash.signals.DeluxeSignal;
+    import org.osflash.signals.Signal;
+
+    import flash.geom.Rectangle;
 
     /**
      * @author Cédric Néhémie
@@ -31,13 +29,41 @@ package abe.com.ponents.tabs
           
           state__all__foreground="skin.noDecoration"
     )]
+    [Skin(define="TabBarViewport_North",
+          inherit="TabBarViewport",
+          preview="abe.com.ponents.tabs::TabbedPane.northTabbedPanePreview",
+          acceptStyleSetting="false",
+          
+          state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1]), 90 )"
+    )]
+    [Skin(define="TabBarViewport_South",
+          inherit="TabBarViewport",
+          preview="abe.com.ponents.tabs::TabbedPane.southTabbedPanePreview",
+          acceptStyleSetting="false",
+          
+          state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1] ), 270 )"
+    )]
+    [Skin(define="TabBarViewport_East",
+          inherit="TabBarViewport",
+          preview="abe.com.ponents.tabs::TabbedPane.eastTabbedPanePreview",
+          acceptStyleSetting="false",
+          
+          state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1]), 180 )"
+    )]
+    [Skin(define="TabBarViewport_West",
+          inherit="TabBarViewport",
+          preview="abe.com.ponents.tabs::TabbedPane.westTabbedPanePreview",
+          acceptStyleSetting="false",
+          
+          state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1]), 0 )"
+    )]
     [Skin(define="TabBarViewport",
           inherit="DefaultComponent",
           preview="abe.com.ponents.tabs::TabbedPane.defaultTabbedPanePreview",
           acceptStyleSetting="false",
           
           state__all__foreground="skin.noDecoration",
-          state__all__background="new deco::SimpleFill(skin.rulerBackgroundColor.brighterClone(20))"
+          state__all__background="skin.rulerBackgroundColor.brighterClone(20)"
     )]
     public class TabbedPane extends AbstractContainer implements DockableContainer
     {
@@ -103,6 +129,7 @@ package abe.com.ponents.tabs
         protected var _tabBar : TabBar;
         protected var _tabScroller : SlidePane;
         protected var _tabsPlacement : String;
+        protected var _tabPanel : Panel;
         
         protected var _selectedTab : Tab;
         
@@ -119,13 +146,27 @@ package abe.com.ponents.tabs
             _allowFocus = false;
 
             _tabBar = new TabBar();
+            _tabPanel = new Panel();
+            var l : BorderLayout = new BorderLayout();
+            _tabPanel.childrenLayout = l;
+            
             _tabBar.tabbedPane = this;
             _tabScroller = new SlidePane ();    
+            
+            l.center = _tabScroller;
+            _tabPanel.addComponent( _tabScroller );
+            
+            _tabPanel.styleKey = "TabBarViewport";
             _tabScroller.styleKey = "EmptyComponent";
-            _tabScroller.viewport.styleKey = "TabBarViewport";
+            _tabScroller.viewport.styleKey = "EmptyComponent";
             _tabScroller.view = _tabBar;
-            addComponent( _tabScroller );
+            
+            addComponent( _tabPanel );
             this.tabsPosition = tabsPosition;
+            
+            _tabBar.name = "tabBar";
+            _tabPanel.name = "tabPanel";
+            _tabScroller.name = "tabSlidePane";
         }
         public function get tabScroller () : SlidePane { return _tabScroller; }    
         public function get tabBar () : TabBar { return _tabBar; }
@@ -138,8 +179,24 @@ package abe.com.ponents.tabs
             
             _tabsPlacement = tabsPosition;
             
-            layout.addComponent( _tabScroller, _tabsPlacement );
+            layout.addComponent( _tabPanel, _tabsPlacement );
             _tabBar.placement = _tabsPlacement;
+            switch( _tabsPlacement )
+            {
+                case CardinalPoints.EAST :
+                	_tabPanel.styleKey = "TabBarViewport_East";
+                	break;
+                case CardinalPoints.WEST :
+                	_tabPanel.styleKey = "TabBarViewport_West";
+                	break;
+                case CardinalPoints.SOUTH :
+                	_tabPanel.styleKey = "TabBarViewport_South";
+                	break;
+                case CardinalPoints.NORTH :
+                default :
+                	_tabPanel.styleKey = "TabBarViewport_North";
+                	break;
+            }
         }
         override public function set enabled( b : Boolean ) : void
         {

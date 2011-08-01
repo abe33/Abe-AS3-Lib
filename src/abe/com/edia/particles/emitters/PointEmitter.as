@@ -1,12 +1,14 @@
 /**
  * @license
  */
-package abe.com.edia.fx.emitters
+package abe.com.edia.particles.emitters
 {
-	import abe.com.mon.randoms.Random;
-	import abe.com.mon.utils.RandomUtils;
+    import abe.com.mon.randoms.Random;
+    import abe.com.mon.utils.RandomUtils;
+    import abe.com.patibility.lang._$;
 
-	import flash.geom.Point;
+    import flash.geom.Point;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * La classe <code>PointEmitter</code> sert à la génération
 	 * d'objet à partir de coordonnées spécifiques.
@@ -47,7 +49,21 @@ package abe.com.edia.fx.emitters
 		 */
 		public function get ( n : Number = NaN ) : Point
 		{
-			return point;
-		}
+			return point.clone();
+        }
+
+        public function clone () : *
+        {
+        }
+
+        public function toSource () : String
+        {
+            return _$("new $0(new flash.geom.Point($1,$2))", getQualifiedClassName(this).replace("::","."), point.x, point.y );
+        }
+
+        public function toReflectionSource () : String
+        {
+            return _$("new $0(new flash.geom.Point($1,$2))", getQualifiedClassName(this), point.x, point.y );
+        }
 	}
 }

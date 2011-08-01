@@ -3,26 +3,29 @@
  */
 package abe.com.ponents.text
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.ponents.completion.AutoCompletion;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.display.DOBoxSettings;
-	import abe.com.ponents.layouts.display.DOHBoxLayout;
-	import abe.com.ponents.menus.CompletionDropDown;
-	import abe.com.ponents.scrollbars.ScrollBar;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.ponents.completion.AutoCompletion;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.layouts.display.DOBoxSettings;
+    import abe.com.ponents.layouts.display.DOHBoxLayout;
+    import abe.com.ponents.menus.CompletionDropDown;
+    import abe.com.ponents.scrollbars.ScrollBar;
 
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.FocusEvent;
-	import flash.events.MouseEvent;
+    import flash.display.DisplayObject;
+    import flash.events.Event;
+    import flash.events.FocusEvent;
+    import flash.events.MouseEvent;
 
 	[Skinable(skin="Text")]
 	public class TextArea extends AbstractTextComponent
 	{
 		protected var _scrollbar : ScrollBar;
+        protected var _leftGutter : Panel;
+        protected var _rightGutter : Panel;
 
 		public function TextArea ()
 		{
@@ -35,22 +38,38 @@ package abe.com.ponents.text
 			_allowHTML = false;
 			_allowMask = false;
 
+			_leftGutter = new Panel();
+			_rightGutter = new Panel();
+            
+            _leftGutter.childrenLayout = new InlineLayout(_leftGutter, 0, "left", "top", "leftToRight", true );
+            _rightGutter.childrenLayout = new InlineLayout(_leftGutter, 0, "left", "top", "leftToRight", true );
+
 			_scrollbar = new ScrollBar( 1, 1, 1, 1, 1 );
 			_scrollbar.isComponentIndependent = false;
+            
+            _rightGutter.addComponent( _scrollbar );
 
-			_childrenContainer.addChild( _scrollbar );
+			_childrenContainer.addChild( _leftGutter );
+			_childrenContainer.addChild( _rightGutter );
+//			_childrenContainer.addChild( _scrollbar );
 			//_scrollbar.height = _label.height;
 
 			_childrenLayout = new DOHBoxLayout( _childrenContainer,
 												0,
+												new DOBoxSettings(0, "left", "center", _leftGutter, false, true, false ),
 												new DOBoxSettings(0, "center", "center", _label as DisplayObject, true, true, true ),
-												new DOBoxSettings(0, "left", "center", _scrollbar, false, true, false ));
+												new DOBoxSettings(0, "left", "center", _rightGutter, false, true, false )
+                                               );
 
 			FEATURES::KEYBOARD_CONTEXT { 
 				//_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( comfirmInput );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
 			} 
+            
+            _leftGutter.name = "leftGutter";
+            _rightGutter.name = "rightGutter";
+            _scrollbar.name = "scrollbar";
 
 			invalidatePreferredSizeCache();
 		}
@@ -74,7 +93,8 @@ package abe.com.ponents.text
 			super.repaint();
 			updateTextFormat();
 			updateScrollBar();
-			_scrollbar.repaint();
+			_leftGutter.repaint();
+			_rightGutter.repaint();
 		}
 
 		override protected function calculateComponentSize () : Dimension

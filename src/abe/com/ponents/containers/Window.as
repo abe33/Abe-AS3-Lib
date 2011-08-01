@@ -33,7 +33,7 @@ package abe.com.ponents.containers
 		  
 		  state__all__corners="new cutils::Corners(5)",
 		  state__all__outerFilters="abe.com.ponents.containers::Window.windowShadow()",
-		  state__focus_focusandselected__foreground="new deco::SimpleBorders( skin.borderColor )"
+		  state__focus_focusandselected__foreground="skin.borderColor"
 	)]
 	/**
 	 * 

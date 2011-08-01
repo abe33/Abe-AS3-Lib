@@ -1,19 +1,17 @@
 package abe.com.ponents.tools
 {
     import abe.com.mon.colors.Color;
-    import abe.com.mon.utils.MathUtils;
     import abe.com.mon.geom.*;
+    import abe.com.mon.utils.MathUtils;
     import abe.com.ponents.core.*;
-    import abe.com.ponents.events.*;
     import abe.com.ponents.layouts.display.*;
     import abe.com.ponents.skinning.*;
 
+    import org.osflash.signals.Signal;
+
     import flash.display.Shape;
-    import flash.display.Sprite;
     import flash.events.*;
     import flash.geom.Matrix;
-    
-    import org.osflash.signals.Signal;
     
     [Skinable(skin="EmptyComponent")]
     public class ColorGrid extends SimpleDOContainer

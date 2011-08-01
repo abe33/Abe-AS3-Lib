@@ -1,19 +1,23 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.scrollbars.Scrollable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.AbstractContainer;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.events.ComponentSignalEvent;
+    import abe.com.ponents.scrollbars.Scrollable;
 
-	import flash.geom.Rectangle;
+    import org.osflash.signals.events.IBubbleEventHandler;
+    import org.osflash.signals.events.IEvent;
+
+    import flash.geom.Rectangle;
 
 	/**
 	 * @author Cédric Néhémie
 	 */
 	[Skinable(skin="EmptyComponent")]
-	public class Viewport extends AbstractContainer
+	public class Viewport extends AbstractContainer implements IBubbleEventHandler
 	{
 		protected var _view : Component;
 		
@@ -106,5 +110,17 @@ package abe.com.ponents.containers
 			else
 				return super.maximumSize;
 		}
+        public function onEventBubbled ( event : IEvent ) : Boolean
+        {
+            switch( ( event as ComponentSignalEvent ).signalName )
+            {
+                case "mouseWheelRolled":
+                	mouseWheelRolled.dispatch( this, ( event as ComponentSignalEvent ).args[1] );
+                	break;
+                default : 
+                	break;
+            }
+            return true;
+        }
 	}
 }

@@ -23,7 +23,7 @@ package abe.com.ponents.menus
 	[Skin(define="MenuItem",
 		  inherit="EmptyComponent",
 
-		  state__selected__background="new deco::SimpleFill( skin.menuSelectedBackgroundColor )",
+		  state__selected__background="skin.menuSelectedBackgroundColor",
 		  state__all__insets="new cutils::Insets(1,0,1,0)"
 	)]
 	public class MenuItem extends DefaultListCell //DraggableButton

@@ -1,9 +1,6 @@
 package abe.com.prehension.examples {
-	import abe.com.mon.colors.Gradient;
-	import abe.com.edia.commands.GradientTween;
-	import flash.geom.Matrix;
-	import flash.display.GradientType;
 	import abe.com.edia.commands.ColorFlash;
+	import abe.com.edia.commands.GradientTween;
 	import abe.com.edia.fx.FireBall;
 	import abe.com.edia.fx.Inspire;
 	import abe.com.edia.fx.LightningBolt;
@@ -14,8 +11,9 @@ package abe.com.prehension.examples {
 	import abe.com.edia.fx.TwinklingObject;
 	import abe.com.edia.fx.TwirlRibbons;
 	import abe.com.edia.fx.WaterBall;
-	import abe.com.edia.fx.emitters.PathEmitter;
+	import abe.com.edia.particles.emitters.PathEmitter;
 	import abe.com.mon.colors.Color;
+	import abe.com.mon.colors.Gradient;
 	import abe.com.mon.core.impl.LayeredSpriteImpl;
 	import abe.com.mon.geom.Circle;
 	import abe.com.mon.geom.LinearSpline;
@@ -23,11 +21,13 @@ package abe.com.prehension.examples {
 	import abe.com.mon.geom.pt;
 	import abe.com.mon.logs.Log;
 	import abe.com.ponents.utils.ToolKit;
-
+	import flash.display.GradientType;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.filters.GlowFilter;
+	import flash.geom.Matrix;
+
 
     /**
      * @author Cédric Néhémie

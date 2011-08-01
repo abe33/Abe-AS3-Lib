@@ -1,11 +1,14 @@
 /**
  * @license
  */
-package abe.com.edia.fx.emitters
+package abe.com.edia.particles.emitters
 {
-	import abe.com.mon.geom.Surface;
+    import abe.com.mon.utils.magicClone;
+    import abe.com.mon.geom.Surface;
+    import abe.com.patibility.lang._$;
 
-	import flash.geom.Point;
+    import flash.geom.Point;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * La classe <code>SurfaceEmitter</code> permet la génération
 	 * d'objets au sein d'un objet <code>Surface</code>.
@@ -39,6 +42,20 @@ package abe.com.edia.fx.emitters
 		public function get ( n : Number = NaN ) : Point
 		{
 			return surface.getRandomPointInSurface();
-		}
+        }
+
+        public function clone () : *
+        {
+            return new SurfaceEmitter( magicClone( surface ) );
+        }
+
+        public function toSource () : String
+        {
+            return _$("new $0($1)", getQualifiedClassName(this).replace("::", "."), surface.toSource() );
+        }
+        public function toReflectionSource () : String
+        {
+            return _$("new $0($1)", getQualifiedClassName(this), surface.toReflectionSource() );
+        }
 	}
 }

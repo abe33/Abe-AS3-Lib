@@ -17,8 +17,8 @@ package abe.com.ponents.nodes.core
 	[Skinable(skin="Note")]
 	[Skin(define="Note",
 		  inherit="DefaultComponent",
-		  state__all__background="new deco::SimpleFill(skin.tooltipBackgroundColor)",
-		  state__all__foreground="new deco::SimpleBorders(skin.tooltipBorderColor)",
+		  state__all__background="skin.tooltipBackgroundColor",
+		  state__all__foreground="skin.tooltipBorderColor",
 		  state__all__textColor="skin.tooltipTextColor")]
 	public class CanvasNote extends CanvasNode implements Editable
 	{

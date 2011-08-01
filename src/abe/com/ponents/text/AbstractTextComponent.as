@@ -508,8 +508,8 @@ package abe.com.ponents.text
 				_value = _label.htmlText;
 
 				FEATURES::SPELLING { 
-				checkContent( );
-				} 
+				checkContent();
+				}
 			}
 		}
 		override public function focusIn (e : FocusEvent) : void
@@ -523,7 +523,7 @@ package abe.com.ponents.text
 		}
 		override public function focusOut (e : FocusEvent) : void 
 		{
-			registerValue( );
+			registerValue();
 			super.focusOut( e );
 		}
 

@@ -33,7 +33,7 @@ package abe.com.ponents.containers
 		  state__all__insets="new cutils::Insets(4)",
 		  state__all__corners="new cutils::Corners(5,5,0,0)",
 		  state__all__borders="new cutils::Borders(1)",
-		  state__all__foreground="new deco::SimpleBorders(skin.borderColor)"
+		  state__all__foreground="skin.borderColor"
 	)]
 	[Skinable(skin="Dialog")]
 	[Skin(define="Dialog",

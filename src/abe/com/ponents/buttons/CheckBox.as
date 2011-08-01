@@ -61,7 +61,7 @@ package abe.com.ponents.buttons
 		  inherit="EmptyComponent",
 		  preview="abe.com.ponents.buttons::CheckBox.defaultCheckBoxPreview",
 		  state__all__insets="new cutils::Insets(4,2,4,2)",
-		  state__4_6_7_12_14_15__foreground="new deco::SimpleBorders( skin.focusBorderColor )",
+		  state__4_6_7_12_14_15__foreground="skin.focusBorderColor",
 		  
 		  custom_checkedIcon="icon(abe.com.ponents.skinning.icons::CheckBoxCheckedIcon)",
 		  custom_uncheckedIcon="icon(abe.com.ponents.skinning.icons::CheckBoxUncheckedIcon)"

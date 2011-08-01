@@ -3,6 +3,7 @@
  */
 package abe.com.ponents.core
 {
+    import abe.com.ponents.events.ComponentSignalEvent;
     import org.osflash.signals.DeluxeSignal;
     import abe.com.mon.core.IDisplayObject;
     import abe.com.mon.core.IDisplayObjectContainer;
@@ -145,6 +146,8 @@ package abe.com.ponents.core
         protected var _mouseReleased : Signal;
         protected var _mouseReleasedOutside : Signal;
         protected var _mouseWheelRolled : Signal;
+        
+        public var mouseWheelRolledBubble : DeluxeSignal;
          
         protected var _componentResized : Signal;
         protected var _componentChanged : Signal;
@@ -170,6 +173,8 @@ package abe.com.ponents.core
             _componentResized = new Signal( Component, Dimension );
             _componentScrollChanged = new Signal( Component );
             _propertyChanged = new Signal();
+            
+            mouseWheelRolledBubble = new DeluxeSignal(this);
             
             _enabled = true;
             _pressed = false;
@@ -1372,7 +1377,10 @@ package abe.com.ponents.core
         {
             event.stopPropagation();
             if( isEnabled() )
+            {
                 mouseWheelRolled.dispatch( this, event.delta );
+                mouseWheelRolledBubble.dispatch( new ComponentSignalEvent( "mouseWheelRolled", true, this, event.delta ) );
+            }
         }
         public function focusIn ( e : FocusEvent ) : void
         {

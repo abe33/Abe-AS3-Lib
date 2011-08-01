@@ -17,7 +17,7 @@ package abe.com.ponents.tools
     [Skinable(skin="ColorWheel")]
     [Skin(define="ColorWheel",
           inherit="EmptyComponent",
-          state__all__background="new deco::SimpleFill(color(0xff666666))"
+          state__all__background="color(0xff666666)"
     )]
     public class ColorWheel extends SimpleDOContainer
     {

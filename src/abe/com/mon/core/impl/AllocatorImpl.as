@@ -223,7 +223,7 @@ package abe.com.mon.core.impl
 		 */
 		public function release ( o : *, c : Class = null ) : void
 		{
-			var cl : Class = Reflection.getClass( o );
+			c = c ? c : Reflection.getClass( o );
 			
 			/*FDT_IGNORE*/ TARGET::FLASH_9 { /*FDT_IGNORE*/
 			var used : Array = usedObjects[ c ] as Array;
@@ -239,10 +239,12 @@ package abe.com.mon.core.impl
 			var used : Vector.<*> = usedObjects[ c ] as Vector.<*>;
 			var unused : Vector.<*>  = unusedObjects[ c ] as Vector.<*>;				
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			
+            
 			if( !used || !unused )
+            {
+                Log.warn( "can't retreive instance arrays " + used + ", " + unused );
 				return;
-			
+            }
 			if( used.indexOf( o ) == -1 )
 			{
 				Log.warn( "The instance " + o + " can't be released by this allocator" );

@@ -18,7 +18,7 @@ package abe.com.ponents.lists
           preview="abe.com.ponents.lists::ListLineRuler.defaultListLineRulerPreview",
           previewAcceptStyleSetup="false",
           
-          state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",
+          state__all__background="skin.rulerBackgroundColor",
           state__all__insets="new cutils::Insets(0)"
     )]
     public class ListLineRuler extends List 

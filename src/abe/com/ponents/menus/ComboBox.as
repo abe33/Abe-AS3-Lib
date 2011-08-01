@@ -1,31 +1,31 @@
 package abe.com.ponents.menus 
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.buttons.AbstractFormButton;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.core.edit.Editable;
-	import abe.com.ponents.core.edit.Editor;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.forms.FormComponentDisabledModes;
-	import abe.com.ponents.layouts.display.DOBoxSettings;
-	import abe.com.ponents.layouts.display.DOHBoxLayout;
-	import abe.com.ponents.models.ComboBoxModel;
-	import abe.com.ponents.models.DefaultComboBoxModel;
-	import abe.com.ponents.models.DefaultListModel;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.utils.ToolKit;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.logs.Log;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.buttons.AbstractFormButton;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.core.edit.Editable;
+    import abe.com.ponents.core.edit.Editor;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.layouts.display.DOBoxSettings;
+    import abe.com.ponents.layouts.display.DOHBoxLayout;
+    import abe.com.ponents.models.ComboBoxModel;
+    import abe.com.ponents.models.DefaultComboBoxModel;
+    import abe.com.ponents.models.DefaultListModel;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.utils.ToolKit;
 
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.KeyboardEvent;
-	import flash.geom.Rectangle;
+    import org.osflash.signals.Signal;
+
+    import flash.display.DisplayObject;
+    import flash.events.Event;
+    import flash.events.KeyboardEvent;
+    import flash.geom.Rectangle;
 
 	[Style(name="dropDownIcon",type="abe.com.ponents.skinning.icons.Icon")]
 	[Style(name="popupIcon",type="abe.com.ponents.skinning.icons.Icon")]
@@ -62,13 +62,24 @@ package abe.com.ponents.menus
 		protected var _caller : Editable;
 		protected var _itemFormatingFunction : Function;
 		protected var _itemDescriptionProvider : Function;
+        
+        public var popupAppeared : Signal;
+        public var popupHidden : Signal;
 		
 		public function ComboBox ( ... args )
 		{
 			super();
+            popupAppeared = new Signal();
+            popupHidden = new Signal();
+            
 			_popupMenu = new PopupMenu();
 			_popupMenu.menuList.itemFormatingFunction = formatLabel;
-			_menuItemClass = _menuItemClass ? _menuItemClass : MenuItem;
+			_popupMenu.popupClosedOnAction.add( popupClosed );
+			_popupMenu.popupClosedOnCancel.add( popupClosed );
+            
+            _menuItemClass = _menuItemClass ? _menuItemClass : MenuItem;
+            
+            
 				
 			var layout : DOHBoxLayout = new DOHBoxLayout( _childrenContainer, 0, 
 											new DOBoxSettings( _popupMenu.preferredWidth, "left", "center", null, true, true, true ), 
@@ -102,8 +113,8 @@ package abe.com.ponents.menus
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
 				addEventListener( KeyboardEvent.KEY_UP, listKeyUp );
 			} 
-		}
-		
+        }
+
 		public function get model () : ComboBoxModel { return _model; }	
 		public function set model (model : ComboBoxModel) : void
 		{
@@ -197,6 +208,7 @@ package abe.com.ponents.menus
 				_value = val;
 			else
 				_value = _model.getElementAt(0);
+            
 			label = formatLabel( _value );
 		}
 		public function get itemDescriptionProvider () : Function { return _itemDescriptionProvider; }
@@ -213,7 +225,7 @@ package abe.com.ponents.menus
 					for( var i : Number = 0; i< l; i++ )
 					{
 						item = _popupMenu.menuList.model.getElementAt(i);
-						(item.action as SelectAction).longDescription = _itemDescriptionProvider( _model.getElementAt(i) );
+						(item.action as SelectAction).longDescription = _itemDescriptionProvider.call( this, _model.getElementAt(i) );
 					}
 				}
 				catch( e : Error )
@@ -305,7 +317,7 @@ package abe.com.ponents.menus
 
 		protected function formatLabel (value : *) : String 
 		{
-			return hasFormatingFunction ? _itemFormatingFunction.call(null, value) : String( value );
+			return hasFormatingFunction ? _itemFormatingFunction.call( this, value) : String( value );
 		}
 		protected function buildChildren () : void
 		{
@@ -319,7 +331,7 @@ package abe.com.ponents.menus
 				var item : MenuItem; 
 				item = new _menuItemClass( new SelectAction( formatLabel(_model.getElementAt( i )), i, this ) );
 				if( _itemDescriptionProvider != null )
-					( item.action as SelectAction ).longDescription = _itemDescriptionProvider( _model.getElementAt( i ) );
+					( item.action as SelectAction ).longDescription = _itemDescriptionProvider.call( this, _model.getElementAt( i ) );
 				item.columnsSizes = [0,0,0,0];
 				FEATURES::DND { 
 				    item.allowDrag = false;
@@ -446,8 +458,14 @@ package abe.com.ponents.menus
 				ToolKit.popupLevel.addChild( _popupMenu );				
 				StageUtils.stage.focus = _popupMenu.menuList;
 				fitPopupToCombo();
+                
+                popupAppeared.dispatch( this );
 			}	
 		}
+        protected function popupClosed ( ... args ) : void
+        {
+            popupHidden.dispatch( this );
+        }
 		override public function removeFromStage (e : Event) : void 
 		{
 			super.removeFromStage( e );
@@ -498,7 +516,6 @@ package abe.com.ponents.menus
 		} 
 	}
 }
-
 import abe.com.ponents.actions.AbstractAction;
 import abe.com.ponents.menus.ComboBox;
 

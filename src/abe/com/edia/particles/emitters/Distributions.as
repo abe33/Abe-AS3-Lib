@@ -1,4 +1,4 @@
-package abe.com.edia.fx.emitters 
+package abe.com.edia.particles.emitters 
 {
 	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.Delegate;

@@ -32,11 +32,11 @@ package abe.com.ponents.lists
 		   previewAcceptStyleSetup="false",
 		   
 		   state__all__foreground="skin.noDecoration",
-		   state__0_1__background="new deco::SimpleFill( skin.listBackgroundColor )",
-		   state__2_3_4_6_7__background="new deco::SimpleFill( skin.listOverBackgroundColor )",
-		   state__8_12__background="new deco::SimpleFill( skin.listSelectedBackgroundColor )",
-		   state__9__background="new deco::SimpleFill( skin.listDisabledSelectedBackgroundColor )",
-		   state__10_11_14_15__background="new deco::SimpleFill( skin.listOverSelectedBackgroundColor )"
+		   state__0_1__background="skin.listBackgroundColor",
+		   state__2_3_4_6_7__background="skin.listOverBackgroundColor",
+		   state__8_12__background="skin.listSelectedBackgroundColor",
+		   state__9__background="skin.listDisabledSelectedBackgroundColor",
+		   state__10_11_14_15__background="skin.listOverSelectedBackgroundColor"
 	)]
 	public class DefaultListCell extends DraggableButton implements Component, 
 																	IDisplayObject, 
@@ -56,7 +56,7 @@ package abe.com.ponents.lists
 		
 		public var editStarted : Signal;
 		public var editCanceled : Signal;
-		public var editConfirmed : Signal
+		public var editConfirmed : Signal;
 		
 		public function DefaultListCell ()
 		{

@@ -1,5 +1,7 @@
 package abe.com.ponents.events
 {
+    import abe.com.mon.utils.StringUtils;
+
     import org.osflash.signals.events.GenericEvent;
     
     public class ComponentSignalEvent extends GenericEvent
@@ -12,6 +14,10 @@ package abe.com.ponents.events
             super( b );
             signalName = s;
             this.args = args;
+        }
+        
+        public function toString() : String {
+            return StringUtils.stringify( this, {'signalName':signalName} );
         }
     }
 }

@@ -3,16 +3,16 @@
  */
 package abe.com.motion
 {
-	import abe.com.mands.AbstractCommand;
-	import abe.com.mands.Command;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.logs.Log;
-	import abe.com.motion.properties.SpecialProperty;
+    import abe.com.mands.AbstractCommand;
+    import abe.com.mands.Command;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.logs.Log;
+    import abe.com.motion.properties.SpecialProperty;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
-	import flash.utils.Dictionary;
+    import flash.utils.Dictionary;
 
 	/**
 	 * La classe <code>AbstractTween</code> sert de classe de base au différentes
@@ -136,7 +136,7 @@ package abe.com.motion
 		 *
 		 * @default	function( t : Number,  b : Number,  c : Number, d : Number ) : Number { return c * t / d + b; }
 		 */
-		static public const noEasing : Function = function( t : Number,  b : Number,  c : Number, d : Number ) : Number
+		static public function noEasing ( t : Number,  b : Number,  c : Number, d : Number ) : Number
 		{
 			return c * t / d + b;
 		};

@@ -1,22 +1,20 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.geom.ColorMatrix;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.HBoxLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.models.DefaultBoundedRangeModel;
-	import abe.com.ponents.sliders.HSlider;
-	import abe.com.ponents.text.Label;
-
-	import flash.filters.ColorMatrixFilter;
+    import abe.com.mon.geom.ColorMatrix;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.HBoxLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.models.DefaultBoundedRangeModel;
+    import abe.com.ponents.sliders.HSlider;
+    import abe.com.ponents.text.Label;
 
     import org.osflash.signals.Signal;
+
+    import flash.filters.ColorMatrixFilter;
 	/**
 	 * @author cedric
 	 */

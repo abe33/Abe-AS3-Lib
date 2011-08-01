@@ -21,7 +21,7 @@ package abe.com.ponents.text
 	[Skin(define="TextEditor",
 		  inherit="Text",
 		  
-		  state__all_foreground="new deco::SimpleBorders( skin.selectedBorderColor )"
+		  state__all_foreground="skin.selectedBorderColor"
 	)]
 	public class TextEditor extends TextInput implements Editor
 	{

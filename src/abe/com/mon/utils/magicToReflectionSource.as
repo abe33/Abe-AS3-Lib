@@ -51,7 +51,15 @@ package abe.com.mon.utils
 
 		else if( o["toReflectionSource"] != null )
 			return o.toReflectionSource();
-
+		
+        else if ( Reflection.isObject( o ) )
+        {
+            var a : Array = [];
+            for(var i : String in o)
+            	a.push( StringUtils.tokenReplace("'$0':$1", i, magicToReflectionSource( o[i] ) ) );
+                
+        	return StringUtils.tokenReplace ( "{$0}" , a.join(", ")  );
+        }
 		else
 			return getConstructorCall( o );
 	}

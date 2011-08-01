@@ -31,7 +31,7 @@ package abe.com.ponents.text
 	[Skinable(skin="TextFormatEditor")]
 	[Skin(define="TextFormatEditor",
 			  inherit="DefaultComponent",
-			  state__all__background="new deco::SimpleFill(skin.containerBackgroundColor)"
+			  state__all__background="skin.containerBackgroundColor"
 			  
 	)]
 	public class TextFormatEditor extends AbstractContainer implements Editor, FormComponent

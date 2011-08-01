@@ -1,17 +1,20 @@
 /**
  * @license
  */
-package abe.com.edia.fx.emitters
+package abe.com.edia.particles.emitters
 {
-	import abe.com.mon.core.Randomizable;
-	import abe.com.mon.geom.Path;
-	import abe.com.mon.geom.pt;
-	import abe.com.mon.randoms.Random;
-	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.RandomUtils;
-	import abe.com.motion.easing.Constant;
+    import abe.com.mon.core.Randomizable;
+    import abe.com.mon.geom.Path;
+    import abe.com.mon.geom.pt;
+    import abe.com.mon.randoms.Random;
+    import abe.com.mon.utils.PointUtils;
+    import abe.com.mon.utils.RandomUtils;
+    import abe.com.mon.utils.magicClone;
+    import abe.com.motion.easing.Constant;
+    import abe.com.patibility.lang._$;
 
-	import flash.geom.Point;
+    import flash.geom.Point;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * La classe <code>PathEmitter</code> permet la génération d'objet
 	 * le long d'un objet <code>Path</code>.
@@ -73,13 +76,13 @@ package abe.com.edia.fx.emitters
 									  thickness : Number = 1, 
 									  thicknessEasing : Function = null,
 									  pathDistribution : Function = null,									  sizeDistribution : Function = null,
-									  minThicness : Number = 0 )
+									  minThickness : Number = 0 )
 		{
 			this.path = path;
 			this.thickness = thickness;
 			this.thicknessEasing = thicknessEasing != null ? thicknessEasing : Constant.easeOne;
 			this.pathDistribution = pathDistribution != null ? pathDistribution : Distributions.constant;			this.sizeDistribution = sizeDistribution != null ? sizeDistribution : Distributions.constant;
-			this.minThickness = minThicness;
+			this.minThickness = minThickness;
 			_randomSource = RandomUtils.RANDOM;
 		}
 		/**
@@ -106,6 +109,26 @@ package abe.com.edia.fx.emitters
 			p2 = PointUtils.rotate(p2, a);
 			p2.normalize( thicknessEasing( r, minThickness, thickness-minThickness, 1 ) * RandomUtils.sign() * s );
 			return p.add( p2 );
-		}
+        }
+
+        public function clone () : *
+        {
+            return PathEmitter( magicClone( path ) as Path, 
+            					thickness, 
+                                thicknessEasing, 
+                                pathDistribution, 
+                                sizeDistribution, 
+                                minThickness );
+        }
+
+        public function toSource () : String
+        {
+            return _$("new $0($1)", getQualifiedClassName(this).replace("::", "."), path.toSource() );
+        }
+
+        public function toReflectionSource () : String
+        {
+            return _$("new $0($1)", getQualifiedClassName(this), path.toReflectionSource() );
+        }
 	}
 }

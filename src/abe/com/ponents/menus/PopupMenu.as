@@ -94,15 +94,15 @@ package abe.com.ponents.menus
             _menuList.allowMultiSelection = false;
             
             scrollLayout = SLIDER_SCROLL_LAYOUT;
-             FEATURES::KEYBOARD_CONTEXT { 
-            _keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN     ) ] = new ProxyCommand( down             );
-            _keyboardContext[ KeyStroke.getKeyStroke( Keys.UP         ) ] = new ProxyCommand( up                 );
-            _keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT     ) ] = new ProxyCommand( navigateToLeft     );
-            _keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT     ) ] = new ProxyCommand( navigateToRight );
-            _keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER     ) ] = new ProxyCommand( enter             );
-            _keyboardContext[ KeyStroke.getKeyStroke( Keys.SPACE     ) ] = new ProxyCommand( enter             );
-            _keyboardContext[ KeyStroke.getKeyStroke( Keys.ESCAPE     ) ] = new ProxyCommand( escape             );
-             } 
+            FEATURES::KEYBOARD_CONTEXT { 
+	            _keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN   ) ] = new ProxyCommand( down            );
+	            _keyboardContext[ KeyStroke.getKeyStroke( Keys.UP     ) ] = new ProxyCommand( up              );
+	            _keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT   ) ] = new ProxyCommand( navigateToLeft  );
+	            _keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT  ) ] = new ProxyCommand( navigateToRight );
+	            _keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER  ) ] = new ProxyCommand( enter           );
+	            _keyboardContext[ KeyStroke.getKeyStroke( Keys.SPACE  ) ] = new ProxyCommand( enter           );
+	            _keyboardContext[ KeyStroke.getKeyStroke( Keys.ESCAPE ) ] = new ProxyCommand( escape          );
+            } 
         }
 
         protected function dataChanged ( a : int = 0, i : Array = null, v : Array = null ) : void 

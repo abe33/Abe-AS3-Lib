@@ -278,7 +278,7 @@ import abe.com.ponents.skinning.decorations.*;
 [Skinable(skin="SplitPane_Divider")]
 [Skin(define="SplitPane_Divider",
       inherit="EmptyComponent",
-      state__all__background="new deco::SimpleFill(skin.rulerBackgroundColor)"
+      state__all__background="skin.rulerBackgroundColor"
 )]
 internal class Divider extends AbstractComponent
 {

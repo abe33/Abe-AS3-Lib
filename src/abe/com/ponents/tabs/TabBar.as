@@ -1,7 +1,6 @@
 package abe.com.ponents.tabs 
 {
     import abe.com.mon.geom.Dimension;
-    import abe.com.mon.logs.*;
     import abe.com.patibility.lang._;
     import abe.com.patibility.settings.SettingsManagerInstance;
     import abe.com.ponents.buttons.ButtonDisplayModes;
@@ -31,7 +30,6 @@ package abe.com.ponents.tabs
           preview="abe.com.ponents.tabs::TabbedPane.northTabbedPanePreview",
           acceptStyleSetting="false",
           
-          state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1]), 90 )",
           state__all__insets="new cutils::Insets(0,3,0,0)",
           state__all__borders="new cutils::Borders(0,0,0,1)"
     )]
@@ -40,7 +38,6 @@ package abe.com.ponents.tabs
           preview="abe.com.ponents.tabs::TabbedPane.southTabbedPanePreview",
           acceptStyleSetting="false",
           
-          state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1] ), 270 )",
           state__all__insets="new cutils::Insets(0,0,0,3)",
           state__all__borders="new cutils::Borders(0,1,0,0)"
     )]
@@ -49,7 +46,6 @@ package abe.com.ponents.tabs
           preview="abe.com.ponents.tabs::TabbedPane.eastTabbedPanePreview",
           acceptStyleSetting="false",
           
-          state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1]), 180 )",
           state__all__insets="new cutils::Insets(0,0,3,0)",
           state__all__borders="new cutils::Borders(1,0,0,0)"
     )]
@@ -58,7 +54,6 @@ package abe.com.ponents.tabs
           preview="abe.com.ponents.tabs::TabbedPane.westTabbedPanePreview",
           acceptStyleSetting="false",
           
-          state__all__foreground="new deco::GradientFill( gradient([skin.borderColor.alphaClone(0),skin.borderColor],[.9,1]), 0 )",
           state__all__insets="new cutils::Insets(3,0,0,0)",
           state__all__borders="new cutils::Borders(0,0,1,0)"
     )]
@@ -67,7 +62,7 @@ package abe.com.ponents.tabs
           preview="abe.com.ponents.tabs::TabbedPane.defaultTabbedPanePreview",
           acceptStyleSetting="false",
           
-          state__all__foreground="new deco::SimpleBorders( skin.borderColor )",
+          state__all__foreground="skin.borderColor",
           
           custom_tabsSpacing="3"
     )]

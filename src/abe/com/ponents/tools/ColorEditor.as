@@ -1,16 +1,15 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.tabs.SimpleTab;
-	import abe.com.ponents.tabs.TabbedPane;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.tabs.SimpleTab;
+    import abe.com.ponents.tabs.TabbedPane;
 
-    import org.osflash.signals.Signal;    
+    import org.osflash.signals.Signal;
     
 	/**
 	 * @author cedric
@@ -38,7 +37,7 @@ package abe.com.ponents.tools
 		{
 			super( tabsPosition );
 			_dataChanged = new Signal();
-			preferredSize = new Dimension(290, 350);
+			preferredSize = new Dimension(290, 250);
 			
 			_tabBar.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			

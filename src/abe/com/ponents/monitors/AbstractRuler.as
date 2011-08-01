@@ -18,7 +18,7 @@ package abe.com.ponents.monitors
 		  
 		  state__all__format="new txt::TextFormat('Verdana',8)",
 		  state__all__textColor="skin.rulerTextColor",
-		  state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",
+		  state__all__background="skin.rulerBackgroundColor",
 		  state__all__foreground="skin.noDecoration"
 	)]
 	public class AbstractRuler extends AbstractContainer

@@ -74,7 +74,7 @@ package abe.com.ponents.spinners
 		  preview="abe.com.ponents.spinners::Spinner.defaultSpinnerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__background="new deco::SimpleFill( skin.textBackgroundColor )",
+		  state__all__background="skin.textBackgroundColor",
 		  state__all__insets="new cutils::Insets(5,0,0,0 )",
 		  state__all__corners="new cutils::Corners(6,0,6,0 )"
 	)]

@@ -15,7 +15,7 @@ package abe.com.ponents.text
 	[Skin(define="TextLineRuler",
 			  inherit="DefaultComponent",
 			  state__all__foreground="skin.noDecoration",
-			  state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",			  state__all__textColor="skin.textColor"
+			  state__all__background="skin.rulerBackgroundColor",			  state__all__textColor="skin.textColor"
 	)]
 	/**
 	 * @author Cédric Néhémie

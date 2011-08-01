@@ -28,7 +28,7 @@ package abe.com.ponents.menus
 		  inherit="DefaultComponent",
 		  
 		  state__all__foreground="skin.noDecoration",
-		  state__all__background="new deco::SimpleFill(skin.RulerBlue)"
+		  state__all__background="skin.RulerBlue"
 	)]
 	public class MenuBar extends AbstractContainer implements MenuContainer, Scrollable
 	{

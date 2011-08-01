@@ -1,5 +1,6 @@
 package abe.com.ponents.builder.dialogs 
 {
+	import abe.com.ponents.skinning.icons.magicIconBuild;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.patibility.lang._;
@@ -58,10 +59,10 @@ package abe.com.ponents.builder.dialogs
 			_textArea.componentRepainted.add( textRepainted );
 			_textArea.invalidatePreferredSizeCache();
 		
-			preferredSize = new Dimension( StageUtils.stage.stageWidth - 400 , 
-										   StageUtils.stage.stageHeight - 200 );
+			preferredSize = new Dimension( Math.min( StageUtils.stage.stageWidth - 100, 450 ), 
+										   Math.min( StageUtils.stage.stageHeight - 60, 300 ) );
 			
-			windowTitle = new WindowTitleBar(title);
+			windowTitle = new WindowTitleBar(title, null, WindowTitleBar.CLOSE_BUTTON + WindowTitleBar.MAXIMIZE_BUTTON + WindowTitleBar.MINIMIZE_BUTTON );
 			windowContent = _textArea;
 			
 			var p : Panel = new Panel();

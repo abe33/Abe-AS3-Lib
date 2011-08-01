@@ -27,7 +27,7 @@ package abe.com.ponents.menus
 	[Skin(define="CompletionDropDown",
 		  inherit="DefaultComponent",
 		  
-		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )"
+		  state__all__background="skin.containerBackgroundColor"
 	)]
 	public class CompletionDropDown extends Panel 
 	{

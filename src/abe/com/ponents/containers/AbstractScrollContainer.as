@@ -1,14 +1,13 @@
 package abe.com.ponents.containers 
 {
-    
     import abe.com.mon.geom.Dimension;
     import abe.com.ponents.core.*;
     import abe.com.ponents.models.BoundedRangeModel;
     import abe.com.ponents.models.DefaultBoundedRangeModel;
 
-    import flash.geom.Rectangle;
-
     import org.osflash.signals.Signal;
+
+    import flash.geom.Rectangle;
 
     /**
      * @author Cédric Néhémie

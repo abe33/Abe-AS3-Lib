@@ -3,6 +3,8 @@
  */
 package abe.com.ponents.skinning 
 {
+	import abe.com.ponents.skinning.decorations.SimpleFill;
+	import abe.com.ponents.skinning.decorations.SimpleBorders;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
@@ -63,10 +65,16 @@ package abe.com.ponents.skinning
 			  order="2", 
 			  label="Background",
 			  description="The background decoration field defines the render type for the background of a component. A component decoration could be either a verctor graphics or a bitmap graphics. The background decoration is drawn below the component's content.")]
-		public function get background () : ComponentDecoration { return _background; }		
-		public function set background (background : ComponentDecoration) : void
+		public function get background () : * { return _background; }		
+		public function set background (background : *) : void
 		{
-			_background = background;
+			if( background is Color )
+            	_background = new SimpleFill(background as Color);
+            else if( background is ComponentDecoration )
+				_background = background;
+            else
+            	return;
+                
 			fireChangeEvent ();
 			firePropertyChangedSignal("background", background );
 		}
@@ -76,10 +84,16 @@ package abe.com.ponents.skinning
 			  order="3", 
 			  label="Foreground",
 			  description="The foreground decoration field defines the render type for the foreground of a component. A component decoration could be either a verctor graphics or a bitmap graphics. The foreground decoration is drawn above the component's content.")]
-		public function get foreground () : ComponentDecoration { return _foreground; }		
-		public function set foreground (foreground : ComponentDecoration) : void
+		public function get foreground () : * { return _foreground; }		
+		public function set foreground (foreground : * ) : void
 		{
-			_foreground = foreground;
+            if( foreground is Color )
+            	_foreground = new SimpleBorders( foreground as Color )
+            else if( foreground is ComponentDecoration )
+				_foreground = foreground;
+            else
+            	return;
+            
 			fireChangeEvent ();
 			firePropertyChangedSignal("foreground", foreground );
 		}

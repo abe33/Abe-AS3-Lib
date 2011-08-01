@@ -3,21 +3,18 @@
  */
 package abe.com.ponents.text 
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.ponents.completion.AutoCompletion;
-	import abe.com.ponents.completion.InputMemory;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.forms.FormComponentDisabledModes;
-	import abe.com.ponents.menus.CompletionDropDown;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.ponents.completion.AutoCompletion;
+    import abe.com.ponents.completion.InputMemory;
+    import abe.com.ponents.forms.FormComponentDisabledModes;
+    import abe.com.ponents.menus.CompletionDropDown;
 
-	import flash.events.Event;
-	import flash.events.FocusEvent;
-	import flash.events.KeyboardEvent;
-	import flash.events.MouseEvent;
-	
-	import org.osflash.signals.Signal;
+    import flash.events.Event;
+    import flash.events.FocusEvent;
+    import flash.events.KeyboardEvent;
+    import flash.events.MouseEvent;
 
 	public class TextInput extends AbstractTextComponent 
 	{
@@ -138,6 +135,7 @@ package abe.com.ponents.text
 			FEATURES::SPELLING { 
 				checkContent();
 			} 
+//            fireDataChangedSignal();
 		}
 		public function comfirmInput ( ... args ) : void
 		{
@@ -263,7 +261,12 @@ package abe.com.ponents.text
 				    replaceSelectedText("");
 			    }
 		    }	
-		} 
+        } 
+        override public function focusOut ( e : FocusEvent ) : void
+        {
+            super.focusOut ( e );
+            fireDataChangedSignal();
+        }
 		protected function fireDataChangedSignal () : void 
 		{
 			_dataChanged.dispatch( this, value );

@@ -50,12 +50,12 @@ package abe.com.ponents.scrollbars
 	)]
 	[Skin(define="ScrollBar_TrackHorizontal",
 		  inherit="DefaultComponent",
-		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )",
+		  state__all__background="skin.containerBackgroundColor",
 		  state__all__borders="new cutils::Borders(0,1,0,1)"
 	)]
 	[Skin(define="ScrollBar_TrackVertical",
 		  inherit="DefaultComponent",
-		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )",
+		  state__all__background="skin.containerBackgroundColor",
 		  state__all__borders="new cutils::Borders(1,0,1,0)"
 	)]
 	public class ScrollBar extends AbstractContainer

@@ -1,23 +1,22 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Palette;
-	import abe.com.mon.geom.dm;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.containers.SplitPane;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.lists.ColorListCell;
-	import abe.com.ponents.lists.List;
-	import abe.com.ponents.lists.PaletteListCell;
-	import abe.com.ponents.models.DefaultListModel;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Palette;
+    import abe.com.mon.geom.dm;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.containers.SplitPane;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.lists.ColorListCell;
+    import abe.com.ponents.lists.List;
+    import abe.com.ponents.lists.PaletteListCell;
+    import abe.com.ponents.models.DefaultListModel;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
 
     import org.osflash.signals.Signal;
 	/**
@@ -101,7 +100,7 @@ package abe.com.ponents.tools
 				fireDataChangedSignal();
 			}
 		}
-		protected function paletteSelectionChanged ( c : Component, v : * ) : void 
+		protected function paletteSelectionChanged ( i : int = 0 ) : void 
 		{
 			if( _paletteList.selectedValue )
 				_colorList.model = new DefaultListModel( (_paletteList.selectedValue as Palette).colors );
@@ -119,7 +118,6 @@ package abe.com.ponents.tools
 		}
 	}
 }
-
 import abe.com.mon.colors.Color;
 import abe.com.mon.colors.Palette;
 import abe.com.mon.utils.KeyStroke;
@@ -129,6 +127,7 @@ import abe.com.patibility.lang._;
 import abe.com.ponents.actions.builtin.LoadFileAction;
 import abe.com.ponents.lists.List;
 import abe.com.ponents.models.DefaultListModel;
+import abe.com.ponents.skinning.DefaultSkin;
 import abe.com.ponents.skinning.icons.Icon;
 
 import flash.events.Event;
@@ -170,3 +169,4 @@ internal var PaletteListModelInstance : DefaultListModel = new DefaultListModel(
 
 PaletteListModelInstance.contentType = Palette;
 PaletteListModelInstance.addElement( Color.PALETTE_SVG );	
+PaletteListModelInstance.addElement( DefaultSkin.COMPONENTS_PALETTE );	

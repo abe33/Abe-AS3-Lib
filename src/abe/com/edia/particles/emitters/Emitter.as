@@ -1,9 +1,11 @@
 /**
  * @license
  */
-package abe.com.edia.fx.emitters 
+package abe.com.edia.particles.emitters 
 {
-	import flash.geom.Point;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.core.Cloneable;
+    import flash.geom.Point;
 	/**
 	 * L'interface <code>Emitter</code> définie la méthode <code>get</code>
 	 * laquelle renvoie des coordonnées utilisables dans le cadre de générations
@@ -11,7 +13,7 @@ package abe.com.edia.fx.emitters
 	 * 
 	 * @author Cédric Néhémie
 	 */
-	public interface Emitter 
+	public interface Emitter extends Cloneable, Serializable
 	{
 		/**
 		 * Renvoie des coordonnées déterminées aléatoirement ou non. Le choix

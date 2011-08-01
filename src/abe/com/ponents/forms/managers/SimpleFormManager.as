@@ -120,7 +120,6 @@ package abe.com.ponents.forms.managers
 		{
 			var field : FormField = getFieldByComponent( c );
 			fieldChanged( field.memberName, field.component["value"] );
-			fireFormChangedSignal ();
 		}
 
 		protected function firePropertyChangedSignal ( name : String, v : *) : void

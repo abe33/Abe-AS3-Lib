@@ -1,11 +1,11 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.*;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.factory.*;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.layouts.components.ScrollPaneLayout;
-	import abe.com.ponents.scrollbars.ScrollBar;
+    import abe.com.mon.geom.*;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.factory.*;
+    import abe.com.ponents.layouts.components.ScrollPaneLayout;
+    import abe.com.ponents.scrollbars.ScrollBar;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -16,8 +16,8 @@ package abe.com.ponents.containers
 	[Skin(define="Viewport",
 		  inherit="DefaultComponent",
 		  
-		  state__all__background="new deco::SimpleFill( skin.backgroundColor )",
-		  state__all__foreground="new deco::SimpleBorders( skin.borderColor )"
+		  state__all__background="skin.backgroundColor",
+		  state__all__foreground="skin.borderColor"
 	)]
 	public class ScrollPane extends AbstractScrollContainer 
 	{
@@ -205,7 +205,6 @@ package abe.com.ponents.containers
 		}
 	}
 }
-
 import abe.com.ponents.containers.Viewport;
 import abe.com.ponents.scrollbars.ScrollBar;
 

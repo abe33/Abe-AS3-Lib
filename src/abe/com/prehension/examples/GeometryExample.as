@@ -1,8 +1,8 @@
 package abe.com.prehension.examples
 {
-	import abe.com.edia.fx.emitters.Distributions;
-	import abe.com.edia.fx.emitters.Emitter;
-	import abe.com.edia.fx.emitters.PathEmitter;
+	import abe.com.edia.particles.emitters.Distributions;
+	import abe.com.edia.particles.emitters.Emitter;
+	import abe.com.edia.particles.emitters.PathEmitter;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.Circle;
 	import abe.com.mon.geom.CubicBezier;
@@ -29,12 +29,12 @@ package abe.com.prehension.examples
 	import abe.com.ponents.tools.DebugPanel;
 	import abe.com.ponents.utils.KeyboardControllerInstance;
 	import abe.com.ponents.utils.ToolKit;
-
 	import flash.display.Graphics;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+
 
 	[SWF(backgroundColor="#333333",width="650",height="400")]
 	/**

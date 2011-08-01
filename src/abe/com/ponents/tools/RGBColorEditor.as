@@ -1,19 +1,15 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.ponents.buttons.*;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.forms.FormUtils;
-	import abe.com.ponents.forms.managers.SimpleFormManager;
-	import abe.com.ponents.forms.renderers.FieldSetFormRenderer;
-	import abe.com.ponents.layouts.components.*;
-	import abe.com.ponents.skinning.icons.ColorIcon;
-
-	import flash.events.MouseEvent;
+    import abe.com.mon.colors.Color;
+    import abe.com.ponents.buttons.*;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.forms.FormUtils;
+    import abe.com.ponents.forms.managers.SimpleFormManager;
+    import abe.com.ponents.forms.renderers.FieldSetFormRenderer;
+    import abe.com.ponents.layouts.components.*;
+    import abe.com.ponents.skinning.icons.ColorIcon;
 
     import org.osflash.signals.Signal;
 	/**
@@ -42,7 +38,7 @@ package abe.com.ponents.tools
 			super( );
 			dataChanged = new Signal();
 			
-			_childrenLayout = new InlineLayout(this);
+			_childrenLayout = new InlineLayout(this, 0, "left", "top", "topToBottom", true );
 			_target = new Color();
 			_colorIcon = new ColorIcon( _target );
 			_colorIconSave = new ColorIcon( _target.clone() );
@@ -98,28 +94,29 @@ package abe.com.ponents.tools
 		
 		public function modeSelectionChanged( bg : ButtonGroup ) : void
 		{
-		    switch( _modeGroup.selectedButton.label )
-		    {
-		        case "R" : 
-        		    _grid.mode = ColorGrid.MODE_R;
-        		    break;
-        		case "G" : 
-        		    _grid.mode = ColorGrid.MODE_G;
-        		    break;
-        		case "B" : 
-        		    _grid.mode = ColorGrid.MODE_B;
-        		    break;
-        		case "S" : 
-        		    _grid.mode = ColorGrid.MODE_S;
-        		    break;
-		        case "V" : 
-        		    _grid.mode = ColorGrid.MODE_V;
-        		    break; 
-		        case "H" : 
-		        default : 
-        		    _grid.mode = ColorGrid.MODE_H;
-        		    break;  
-		    }
+            if( _modeGroup.selectedButton )
+			    switch( _modeGroup.selectedButton.label )
+			    {
+			        case "R" : 
+	        		    _grid.mode = ColorGrid.MODE_R;
+	        		    break;
+	        		case "G" : 
+	        		    _grid.mode = ColorGrid.MODE_G;
+	        		    break;
+	        		case "B" : 
+	        		    _grid.mode = ColorGrid.MODE_B;
+	        		    break;
+	        		case "S" : 
+	        		    _grid.mode = ColorGrid.MODE_S;
+	        		    break;
+			        case "V" : 
+	        		    _grid.mode = ColorGrid.MODE_V;
+	        		    break; 
+			        case "H" : 
+			        default : 
+	        		    _grid.mode = ColorGrid.MODE_H;
+	        		    break;  
+			    }
 		}
 
 		public function get target () : Color { return _target; }	
@@ -130,6 +127,8 @@ package abe.com.ponents.tools
 			_grid.value = _target.clone();
 			_formObject.target = _target;
 			_formManager.updateFieldsWithTarget();
+            
+            invalidate(true);
 		}
 		public function get safeTarget( ) : Color { return _colorIconSave.color; }
 		public function set safeTarget( target : Color ) : void

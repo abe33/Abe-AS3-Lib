@@ -25,7 +25,7 @@ package abe.com.ponents.monitors
           inherit="EmptyComponent",
 
           state__all__foreground="new deco::GraphMonitorBorder( skin.borderColor )",
-          state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )"
+          state__all__background="skin.containerBackgroundColor"
           )]
     /**
      * @author Cédric Néhémie

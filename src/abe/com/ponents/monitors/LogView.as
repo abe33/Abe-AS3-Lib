@@ -72,14 +72,19 @@ package abe.com.ponents.monitors
 			_notifyErrors = true;
 
 			_lineRuler = new TextLineRuler(_label, this);
-			addComponentChildBefore(_lineRuler, _label as DisplayObject);
+            _lineRuler.name = "lineRuler";
+			/*addComponentChildBefore(_lineRuler, _label as DisplayObject);
 			( _childrenLayout as DOHBoxLayout ).boxes.unshift( new DOBoxSettings(0, "left", "center", _lineRuler, false, true, false ) );
-
+*/
 			_annotations = new ScrollBarAnnotations( _scrollbar );
-			addComponentChildAfter(_annotations, _scrollbar);
+            _annotations.name = "annotations";
+			/*addComponentChildAfter(_annotations, _scrollbar);
 			( _childrenLayout as DOHBoxLayout ).boxes.push( new DOBoxSettings(0, "left", "center", _annotations, false, true, false ) );
-
-			invalidatePreferredSizeCache();
+*/
+			_leftGutter.addComponent( _lineRuler );
+            _rightGutter.addComponent(_annotations );
+            
+            invalidatePreferredSizeCache();
 
 			FEATURES::MENU_CONTEXT { 
 				createContextMenu();

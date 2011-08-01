@@ -53,7 +53,7 @@ package abe.com.ponents.lists
           inherit="DropPanel",
           preview="abe.com.ponents.lists::List.defaultListPreview",
           
-          state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )",
+          state__all__background="skin.containerBackgroundColor",
           state__all__foreground="skin.noDecoration"
     )]
     /**

@@ -15,13 +15,12 @@ package abe.com.ponents.buttons
     import abe.com.ponents.skinning.icons.Icon;
     import abe.com.ponents.text.TextFieldImpl;
     import abe.com.ponents.utils.KeyboardControllerInstance;
-   
+
+    import org.osflash.signals.Signal;
+
     import flash.display.DisplayObject;
-    import flash.events.Event;
     import flash.events.MouseEvent;
     import flash.geom.Rectangle;
-    
-    import org.osflash.signals.Signal;
 
     [Style(name="embedFonts",type="Boolean",enumeration="true,false")]
     [Skinable(skin="Button")]

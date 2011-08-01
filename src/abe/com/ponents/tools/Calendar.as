@@ -29,9 +29,9 @@ package abe.com.ponents.tools
 	)]
 	[Skin(define="Calendar_DayCell",
 		  inherit="EmptyComponent", 
-		  state__over__background="new deco::SimpleFill( skin.overBackgroundColor )",
-		  state__disabled__background="new deco::SimpleFill( skin.disabledBackgroundColor )",
-		  state__selected_focusandselected__background="new deco::SimpleFill( skin.focusSelectedBackgroundColor )"
+		  state__over__background="skin.overBackgroundColor",
+		  state__disabled__background="skin.disabledBackgroundColor",
+		  state__selected_focusandselected__background="skin.focusSelectedBackgroundColor"
 	)]
 	public class Calendar extends Panel 
 	{

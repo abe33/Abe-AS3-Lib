@@ -154,16 +154,16 @@ package abe.com.ponents.skinning
 		
 		public function get currentStateStyle () : ComponentStateStyle { return _states[_currentState] ? _states[_currentState] : defaultStyle.states[_currentState]; }
 			
-		public function get background () : ComponentDecoration { return retreiveStyleProperties( "background", _currentState ); } 																   
-		public function get foreground () : ComponentDecoration { return retreiveStyleProperties( "foreground", _currentState ); } 															   													   
+		public function get background () : * { return retreiveStyleProperties( "background", _currentState ); } 																   
+		public function get foreground () : * { return retreiveStyleProperties( "foreground", _currentState ); } 															   													   
 		public function get textColor () : Color { return retreiveStyleProperties( "textColor", _currentState );} 		
 		public function get format () : TextFormat { return retreiveStyleProperties( "format", _currentState ); } 		
 		public function get outerFilters () : Array { return retreiveStyleProperties( "outerFilters", _currentState ); } 														 		public function get innerFilters () : Array { return retreiveStyleProperties( "innerFilters", _currentState ); } 														 
 		public function get insets () : Insets { return retreiveStyleProperties( "insets", _currentState ); }		
 		public function get corners () : Corners {  return retreiveStyleProperties( "corners", _currentState ); }									   		public function get borders () : Borders {  return retreiveStyleProperties( "borders", _currentState ); }	
 		
-		public function set background ( o : ComponentDecoration ) : void { setForAllStates("background", o ); } 																   
-		public function set foreground (o : ComponentDecoration ) : void { setForAllStates("foreground", o ); } 		 															   													   
+		public function set background ( o : * ) : void { setForAllStates("background", o ); } 																   
+		public function set foreground (o : * ) : void { setForAllStates("foreground", o ); } 		 															   													   
 		public function set textColor ( o: Color ) : void{ setForAllStates("textColor", o ); } 		
 		public function set format ( o : TextFormat) : void { setForAllStates("format", o ); } 					
 		public function set outerFilters ( o : Array) : void { setForAllStates("outerFilters", o ); } 													 
