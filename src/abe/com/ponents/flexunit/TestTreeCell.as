@@ -21,7 +21,7 @@ package abe.com.ponents.flexunit
 			  custom_leafIcon="icon(abe.com.ponents.flexunit::TestTreeCell.TEST_ICON)",
 			  custom_nodeIcon="icon(abe.com.ponents.flexunit::TestTreeCell.SUITE_ICON)",
 			  
-			  state__selected__foreground="new deco::SimpleBorders(skin.overSelectedBorderColor)"
+			  state__selected__foreground="skin.overSelectedBorderColor"
 	)]
 	public class TestTreeCell extends DefaultTreeCell 
 	{

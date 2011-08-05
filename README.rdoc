@@ -1,28 +1,30 @@
-= AbeLib AS3 1.0
+= AbeLib AS3 2.0
 
-The AbeLib library is a general purpose actionscript library. This library contains four
-distinct parts : 
+The AbeLib library is a general purpose actionscript library. This library contains six distinct parts : 
 
 * The abe.com.mon and abe.com.patibility packages contains all the general utilities, interfaces and classes used by the rest of the library. In abe.com.patibility you can find all the codecs and the gettext implementation used by the rest of the library.
 * The abe.com.mands and the abe.com.munication packages contains all the command pattern's implementations and some concret implementations of commands dealing with server call and web services.
 * The abe.com.motion and the abe.com.media packages contains the classes in charge of making things move.
 * The abe.com.ponents package contains the complete sets of components I created, with their own interfaces, classes and utilities.
+* The abe.com.prehension package contains example and demos.
+* The abe.com.pile package contains the utilities to compile at runtime using {Eval Hurlant}[http://eval.hurlant.com/].
 
 == Library dependencies
 
-The AbeLib library components set have one dependence regarding the spell checking, and since conditionnal compilation can't be used with import statements, event if you don't use the spelling features you should link to the Adobe Spelling SDK when compiling.
+The AbeLib library components set have many dependencies regarding different set of features and since conditionnal compilation can't be used with import statements, even if you don't use the these features you should link these dependencies in your project to avoid missing dependencies at compile time.
 
-The only *.swc required from the Adobe Spelling SDK is the AdobeSpellingEngine.swc file.
-
-The Adobe Spelling SDK can be found at http://labs.adobe.com/downloads/squiggly.html
+* The whole lib use signals from the {AS3Signals}[http://github.com/robertpenner/as3-signals] library from RobertPenner.
+* The spell checking in text components is performed with the {Adobe Spelling SDK}[http://labs.adobe.com/downloads/squiggly.html], the only *.swc required from the Adobe Spelling SDK is the +AdobeSpellingEngine.swc+ file.
+* Classes related to ressources loading and management make usage of the {AS3SWF library}[http://code.google.com/p/as3swf/] to parse the bytecode of a *.swf file and extract its ressources.
+* The EasingFunctionPicker component use {Eval Hurlant}[http://eval.hurlant.com/] to compile the easing function at runtime.
+* The unit tests and the test runner are based on {Flex Unit}[http://opensource.adobe.com/wiki/display/flexunit/FlexUnit] and {Hamcrest AS3}[http://github.com/drewbourne/hamcrest-as3].
 
 == About the conditionnal compilation
 
-The AbeLib library make an heavy use of the actionscript's conditionnal compilation feature,
-conditionnal compilation is used to differenciate builds and to include or exclude functionnalities
+The AbeLib library make an heavy use of the actionscript's conditionnal compilation feature. Conditionnal compilation is used to differenciate builds and to include or exclude functionnalities
 from the components.
 
-The list and description of all the conditionnal compilation constant are available in the documentation annexes. See also the patch-flex-config.xml for a standard configuration.
+The list and description of all the conditionnal compilation constant are available in the github wiki of this project. See also the {patch-flex-config.xml}[https://github.com/abe33/Abe-AS3-Lib/blob/master/patch-flex-config.txt] for a standard configuration.
 
 == About the custom metadata tags
 
@@ -34,18 +36,15 @@ The AbeLib library use four custom metadatas tags :
 * +FormList+
 * +SettingsBackend+
 
-Those tags are mainly used by the components. The two first tags, +Skin+ and +Skinable+, are
-used to declare and link styles to components. The following two tags, +Form+ and +FormList+, are
-used to generate forms from objects by using the informations provided by these tags.
-The last one, +SettingsBackend+ is used in combination with the +ComponentFactoryPreload+ to specify
-the concret backend to use to handle the application settings management.
+Those tags are mainly used by the components. The two first tags, +Skin+ and +Skinable+, are used to declare and link styles to components. The following two tags, +Form+ and +FormList+, are used to generate forms from objects by using the informations provided by these tags.
+The last one, +SettingsBackend+ is used in combination with the +ComponentFactoryPreload+ to specify the concret backend to use to handle the application settings management.
 
 The list and description of all the custom metadata tags are available in the documentation annexes.
 See also the patch-flex-config.xml for a standard configuration.
 
 == About the class documentation
 
-The class documentation is currently written in French, I actually look for a way to translate the whole translation without having to change all the source code documentation but it doesn't seems as easy as it's sounds.
+The class documentation is mostly written in French, with some parts in English, I actually look for a way to translate the whole translation without having to change all the source code documentation but it doesn't seems as easy as it's sounds.
 
 When generating the documentation using the <tt>TARGET::FLASH_10_1</tt> or <tt>TARGET::FLASH_10</tt> constant to +true+, the generation fail silently, without any informations regarding the reason of the failure. It seems it's related to the +menuContext+ declaration in the +AbstractComponent+ class. But when I isolate that declaration, I can reproduce the ASDoc failure. In consequences, I recommend you to generate the documentation with the <tt>TARGET::FLASH_9</tt> constant to +true+.
 
@@ -76,78 +75,47 @@ Below is a little snippet I use as base in most of my projects.
 	package  
 	{
 		import abe.com.mon.logs.Log;
-		import abe.com.mon.utils.StageUtils;
-		
-		import abe.com.ponents.tools.DebugPanel;
-		import abe.com.ponents.utils.KeyboardControllerInstance;
 		import abe.com.ponents.utils.ToolKit;
 		
 		import flash.display.Sprite;
-		import flash.system.Capabilities;
 		
 		public class MyClass extends Sprite 
 		{
 			public function MyClass ()
 			{
 				// Register the root of the application to get a global access from anywhere
-				StageUtils.setup(this);
-				// Make the stage resizable and aligned on the top left corner
-				StageUtils.flexibleStage();
-				// Initialize levels related to the components, such as popup level, tooltip level, etc...
-				ToolKit.initializeToolKit();
-				// Register the object that will provide keyboard events to the whole components set.
-				KeyboardControllerInstance.eventProvider = stage;
-			
-				// Create the basic debugging tools, which contains the log view and the memory and framerate monitors
-				var debugPanel : DebugPanel = new DebugPanel();
-				ToolKit.popupLevel.addChild( debugPanel );
+				// and generates the debug tools if CONFIG::DEBUG is true
+				// The extra argument define the initial visibility of the debug tools
+				ToolKit.initializeToolKit(this, true);
 				
-				// By default the DebugPanel is visible, to hide it at start just uncomment the following line
-				// debugPanel.visible = false;
-						
 				try
 				{
 					// Your code here
 				}
 				catch( e : Error ) 
 				{
-					Log.error( Capabilities.isDebugger ? e.getStackTrace() : e.message );
+				    // Log.error automatically handle Error objects
+					Log.error( e );
 				}
 			}
 		}
 	}
 
-=== The example in detail
-
-	StageUtils.setup(this);
-
-The +StageUtils+ class is a core utility class which provide, when initialized properly, a global access to the stage. In addition to the global access to the stage, the +StageUtils+ class provides some static methods to setup the stage with some presets. The +setup+ method take the root as argument. The root can be retreived as well from the +StageUtils+ class.
-
-	ToolKit.initializeToolKit();
-
 The +ToolKit+ class is a component dedicated utility class. Its first role is to setup the stage in order to the component set to work properly. In detail, the <tt>ToolKit.initializeToolKit</tt> method will do the following : 
-* Creating six sprites and place them as children of the display list root. These sprites are : 
+* Setup the +StageUtils+ class. The +StageUtils+ class is a core utility class which provide, when initialized properly, a global access to the stage. In addition to the global access to the stage, the +StageUtils+ class provides some static methods to setup the stage with some presets. The +ToolKit+ class will set the stage as flexible (no scaling and aligned to top-left).
+* Setup the KeyboardControllerInstance event provider to allow keyboard controls.
+* Creating seven sprites and place them as children of the display list root. These sprites are : 
   1. +mainLevel+ : This is where you should add your application content. Its the lowest layer of the toolkit.
-  2. +popupLevel+ : This is where the +PopupUtils+ class will add the +Dialog+ or +Window+ when added to the display list. It ensure that all the popups and windows are displayed above the application content.
-  3. +dndLevel+ : This is where the Drag and Drop renderers will display the drag process.
-  4. +toolLevel+ : You can use this level to display some stuff that should be displayed above the content and popups but below the cursors and the tooltips (such as the selection rectangle of a select tool).
-  5. +tooltipLevel+ : This is where the +ToolTip+ instance reside.
-  6. +cursorLevel+ : This is where the custom cursors display object are added.
+  2. +mouseCatcherLevel+ : This is where mouse catcher of the PopupUtils are placed.
+  3. +toolLevel+ : You can use this level to display some stuff that should be displayed above the content and popups but below the cursors and the tooltips (such as the selection rectangle of a select tool).
+  4. +popupLevel+ : This is where the +PopupUtils+ class will add the +Dialog+ or +Window+ when added to the display list. It ensure that all the popups and windows are displayed above the application content.
+  5. +dndLevel+ : This is where the Drag and Drop renderers will display the drag process.
+  6. +tooltipLevel+ : This is where the +ToolTip+ instance reside.
+  7. +cursorLevel+ : This is where the custom cursors display object are added.
 * Initialize the +Cursor+ class with the corresponding level if the compilation constant <tt>FEATURES::CURSOR</tt> is enabled.
 
 You'll encounter errors with some components if you try to instanciate them before the toolkit initialization.
 
-	KeyboardControllerInstance.eventProvider = stage;
-
-The +KeyboardControllerInstance+ is a package level instance of the +KeyboardController+ class. That instance serves two purpose : 
-1. Catch keyboard events from its +eventProvider+ and trigger the corresponding command when the keys combination is found in the current keyboard context.
-2. Catch the focus events within the whole application in order to build the keyboard context. This context is a +Dictionary+ with +KeyStroke+ objects as keys and +Command+ objects as values. The context is created by going through the display list from the current focused object until the root. For each level that is a component, the context is filled with the component keyboard context according to the component context rules (see the <tt>AbstractContainer.childrenContextEnabled</tt> documentation).
-
-As for the +ToolKit+ it's recommended to initialize the +KeyboardControllerInstance+ before creating any components.
-
-	var debugPanel : DebugPanel = new DebugPanel();
-
-This code will create the basic tools we need to work properly. The +DebugPanel+ class is itself a component. It's basically a +TabbedPane+ with two tabs, one for the logging tools and one for the monitoring tools.
 
 === Compiling the example
 
@@ -157,6 +125,8 @@ There's two approach :
 2. Using a custom <tt>flex-config.xml</tt> file and the <tt>-load-config=FILE</tt> compiler option.
 
 The first one is more convenient when you have a really specific features configuration for your file, the second is more convenient in the daily work. My way of doing it is to create a bunch of predefined flex config file for some general configuration (debug, release, with server, etc...), and use the first approach if I need to change some settings towards the default ones.
+
+Since Flex 4.5, the compiler allow to override a constant defined in a flex-config file, then it's now possible to modify only the constants which differ for each file.
 
 Let's take a look to the first one. Below, an example of a compilation command line with all the conditionnal compilation constants defined as command line arguments : 
 
@@ -193,8 +163,6 @@ Then, if you launch the compiled *.swf file in the Flash Player you can have a t
 === Compiling the FactoryPlayground example
 
 The +FactoryPlayground+ file demonstrates a more complex usage of the component set. The +FactoryPlayground+ inherit from the +ApplicationMain+ class, use the +ComponentFactoryPreload+ class as the factory frame, and use a +CookieSettingsBackend+ to store the ui settings in a local shared object.
-
-
 
 The compilation of the +FactoryPlayground+ file will require that you set the +MAIN_CLASS+ constant in the compilation command. That constant will tell the +ComponentFactoryPreload+ which class is the main class to instanciate at startup. Note that the path to the main class must be in the +getQualifiedClassName+ syntax.
 

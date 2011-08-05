@@ -1,61 +1,41 @@
 package abe.com.ponents.tools
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.geom.Range;
-	import abe.com.mon.geom.dm;
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.logs.LogEvent;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.motion.Impulse;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.patibility.settings.SettingsManagerInstance;
-	import abe.com.ponents.actions.ActionManagerInstance;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.actions.builtin.BuiltInActionsList;
-	import abe.com.ponents.actions.builtin.ClearSettingsBackendAction;
-	import abe.com.ponents.actions.builtin.ForceGC;
-	import abe.com.ponents.actions.builtin.LocateWithMouse;
-	import abe.com.ponents.actions.builtin.SaveLogs;
-	import abe.com.ponents.actions.builtin.ShowSettingsBackendAction;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.DebugEvent;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.components.GridLayout;
-	import abe.com.ponents.models.SpinnerNumberModel;
-	import abe.com.ponents.monitors.GraphMonitor;
-	import abe.com.ponents.monitors.GraphMonitorCaption;
-	import abe.com.ponents.monitors.GraphMonitorRuler;
-	import abe.com.ponents.monitors.LogView;
-	import abe.com.ponents.monitors.recorders.FPSRecorder;
-	import abe.com.ponents.monitors.recorders.ImpulseListenerRecorder;
-	import abe.com.ponents.monitors.recorders.MemRecorder;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.spinners.Spinner;
-	import abe.com.ponents.tabs.SimpleTab;
-	import abe.com.ponents.tabs.TabbedPane;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.text.TextFieldImpl;
-	import abe.com.ponents.text.TextInput;
-	import abe.com.ponents.tools.prettify.GPrettify;
-	import abe.com.ponents.utils.CardinalPoints;
-	import abe.com.ponents.utils.ComponentResizer;
-	import abe.com.ponents.utils.Insets;
-	import abe.com.ponents.utils.Inspect;
-	import abe.com.ponents.utils.KeyboardControllerInstance;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.geom.Range;
+    import abe.com.mon.geom.dm;
+    import abe.com.mon.logs.Log;
+    import abe.com.mon.utils.*;
+    import abe.com.motion.Impulse;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.patibility.settings.SettingsManagerInstance;
+    import abe.com.ponents.actions.*;
+    import abe.com.ponents.actions.builtin.*;
+    import abe.com.ponents.buttons.*;
+    import abe.com.ponents.containers.*;
+    import abe.com.ponents.layouts.components.*;
+    import abe.com.ponents.layouts.display.DOInlineLayout;
+    import abe.com.ponents.models.SpinnerNumberModel;
+    import abe.com.ponents.monitors.*;
+    import abe.com.ponents.monitors.recorders.*;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.spinners.Spinner;
+    import abe.com.ponents.tabs.SimpleTab;
+    import abe.com.ponents.tabs.TabbedPane;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.text.TextFieldImpl;
+    import abe.com.ponents.text.TextInput;
+    import abe.com.ponents.tools.prettify.GPrettify;
+    import abe.com.ponents.utils.CardinalPoints;
+    import abe.com.ponents.utils.ComponentResizer;
+    import abe.com.ponents.utils.Insets;
+    import abe.com.ponents.utils.Inspect;
+    import abe.com.ponents.utils.KeyboardControllerInstance;
 
-	import flash.display.DisplayObjectContainer;
-	import flash.events.Event;
-	import flash.system.Capabilities;
-	import flash.text.StyleSheet;
-	import flash.utils.setTimeout;
+    import flash.display.DisplayObjectContainer;
+    import flash.system.Capabilities;
+    import flash.text.StyleSheet;
+    import flash.utils.setTimeout;
 	/**
 	 * @author cedric
 	 */
@@ -84,11 +64,16 @@ package abe.com.ponents.tools
 		protected var _monitor1 : GraphMonitor;
 		protected var _monitor2 : GraphMonitor;
 		protected var _logView : LogView;
-		protected var _commandInput : TextInput;		protected var _monitorsToolbar : ToolBar;		protected var _logsToolbar : ToolBar;
-		protected var _monitorsPanel : Panel;
+		protected var _commandInput : TextInput;
+		protected var _monitor1Toolbar : ToolBar;
+		protected var _monitor2Toolbar : ToolBar;
+		protected var _logsToolbar : ToolBar;
+		protected var _monitor1Panel : Panel;
+		protected var _monitor2Panel : Panel;
 		protected var _notifier : Notifier;
 		
-		protected var _commandsList : Object;
+        protected var _commandsList : Object;
+        protected var _buttonsPanel : Panel;
 		
 		protected function help( res : Array ) : void
 		{
@@ -244,11 +229,13 @@ package abe.com.ponents.tools
 							  																 _("While the process encounter a Component, only the component structure is listed."),
 							  																 "-c"),						
 							  									],
-							  									list ),							  'locate':new DebugCommandDescriptor("locate", 
+							  									list ),
+							  'locate':new DebugCommandDescriptor("locate", 
 							  									  _("<p>Returns the path to the first object in the display list which name match the passed-in value.</p><p>If there is no objects with this name, the command returns an empty string.</p>"), 
 							  									  "locate NAME", 
 							  									  null, 
-							  									  locate ),							  'inspect':new DebugCommandDescriptor("inspect", 
+							  									  locate ),
+							  'inspect':new DebugCommandDescriptor("inspect", 
 							  									   _("<p>Inspects the object at <code>PATH</code> in the display list and print the details of its properties in the logs.</p>"), 
 							  									   "inspect PATH", 
 							  									   null, 
@@ -273,12 +260,14 @@ package abe.com.ponents.tools
 			KeyboardControllerInstance.addGlobalKeyStroke(KeyStroke.getKeyStroke( Keys.F4 ), new ProxyCommand(swapVisibility ) );
 			_logView.writeLine( _$( _("<p>Press the <code>F4</code> key to show/hide the debug tools.\nPlayer Version : <code>$0 $1$2</code>\nOperating System : <code>$3</code>\nSandbox type : <code>$4</code>\n$5</p>"),
 						Capabilities.version,
-						Capabilities.playerType,						Capabilities.isDebugger ? _(" Debug") : "",
+						Capabilities.playerType,
+						Capabilities.isDebugger ? _(" Debug") : "",
 						Capabilities.os,
 						Capabilities.localFileReadDisable ? _("Local with file access") : _("Network only"),
 						Capabilities.localFileReadDisable ? "" : _("If you experience errors such as <code>SecurityError</code> while loading a file, it's probably due to the sandbox restrictions, please allow the directory where this file is stored in the <font color='#0000ff'><u><a href='http://www.macromedia.com/support/documentation/en/flashplayer/help/settings_manager04.html'>Global Security Settings panel</a></u></font>.")
 					  ) );
-			Log.getInstance().addEventListener( LogEvent.LOG_ADD, _logView.logAdded );
+			
+			Log.getInstance().logAdded.add( _logView.logAdded );
 
 			switch( dock )
 			{
@@ -292,16 +281,18 @@ package abe.com.ponents.tools
 					StageUtils.lockToStage( this,StageUtils.Y_ALIGN_BOTTOM + StageUtils.WIDTH );
 					break;
 			}
-			_resizer.addEventListener(Event.RESIZE, resize );
+			_resizer.componentResized.add( resized );
 
 			invalidate(true );
 		}
-		public function get monitorsPanel () : Panel { return _monitorsPanel; }
+		public function get monitor1Panel () : Panel { return _monitor1Panel; }
+		public function get monitor2Panel () : Panel { return _monitor2Panel; }
 		public function get monitor1 () : GraphMonitor { return _monitor1; }
 		public function get monitor2 () : GraphMonitor { return _monitor2; }
 		public function get logView () : LogView { return _logView; }
 		public function get resizer () : ComponentResizer { return _resizer; }
-		public function get monitorsToolbar () : ToolBar { return _monitorsToolbar; }
+		public function get monitor1Toolbar () : ToolBar { return _monitor1Toolbar; }
+		public function get monitor2Toolbar () : ToolBar { return _monitor2Toolbar; }
 		public function get logsToolbar () : ToolBar { return _logsToolbar; }
 		
 		public function get commandsList () : Object { return _commandsList; }
@@ -309,7 +300,7 @@ package abe.com.ponents.tools
 		{
 			_commandsList = commandsList;
 		}
-		protected function resize ( event : Event ) : void
+		protected function resized ( ... args ) : void
 		{
 			StageUtils.stageResize(null);
 		}
@@ -318,7 +309,10 @@ package abe.com.ponents.tools
 		{
 			var css : StyleSheet = new StyleSheet();
 			css.parseCSS("p { color:#000000; font-family:Monospace; font-size:10px; } " +
-						 "h1 { font-weight:bold; font-style:italic; } " +						 "h2 { font-weight:bold; text-decoration:underline; } " +						 "code { color:#660066; display:inline; } " +						 ".str { color:#008800; } " +
+						 "h1 { font-weight:bold; font-style:italic; } " +
+						 "h2 { font-weight:bold; text-decoration:underline; } " +
+						 "code { color:#660066; display:inline; } " +
+						 ".str { color:#008800; } " +
 						 ".kwd { color:#000088; } " +
 						 ".com { color:#880000; } " +
 						 ".typ { color:#660066; } " +
@@ -336,36 +330,89 @@ package abe.com.ponents.tools
 			_logView = new LogView();
 			_logView.logsLimit = 500;
 			(_logView.textfield as TextFieldImpl).styleSheet = css;
-			_logView.addEventListener(DebugEvent.NOTIFY_WARNING, notifyWarning );
-			_logView.addEventListener(DebugEvent.NOTIFY_ERROR, notifyError );			_logsToolbar = new ToolBar( ButtonDisplayModes.ICON_ONLY, false, 1, false );
+			_logView.warningOccured.add( notifyWarning );
+			_logView.errorOccured.add( notifyError );
+			_logsToolbar = new ToolBar( ButtonDisplayModes.ICON_ONLY, false, 1, false );
 			_notifier = new Notifier ( new ProxyAction ( notifierClick, _( "Error" ), magicIconBuild ( Notifier.errorIcon ) ) );
+			
 						
 			_commandInput = new TextInput( 0, false, "commandInput", false );
 			_commandInput.preferredWidth = 250;
-			_commandInput.addEventListener(ComponentEvent.DATA_CHANGE, commandInputDataChange );
+			_commandInput.dataChanged.add( commandInputDataChanged );
+            
 			_logsToolbar.addComponents( new Label(_("Input :" ), _commandInput ), _commandInput );
 			_logsToolbar.addSeparator();
+            
+            _buttonsPanel = new Panel();
+            _buttonsPanel.childrenLayout = new InlineLayout(null,2,"center", "center");
+            _buttonsPanel.style.insets = new Insets(4);
+
+            _logsToolbar.name = "logToolbar";
+			_logView.name = "logView";
+            _commandInput.name = "commandInput";
+           
+            var bltp : BorderLayout = _tabPanel.childrenLayout as BorderLayout;
+            var maxBt : Button = new Button( new ProxyAction(function(... args):void{
+                height = StageUtils.stage.stageHeight;
+                StageUtils.stageResize(null);
+            }, "▅", null, _("Full Screen")) );
+            var midBt : Button = new Button( new ProxyAction(function(... args):void{
+                height = StageUtils.stage.stageHeight / 2;
+                StageUtils.stageResize(null);
+            }, "▃", null, _("Half Screen")) );
+            var minBt : Button = new Button( new ProxyAction(function(... args):void{
+                height = 150;
+                StageUtils.stageResize(null);
+            }, "▁", null, _("Original Size")) );
+            var closeBt : Button = new Button( new ProxyAction(function(... args):void{
+                visible = false;
+            }, "✖", null, _("Hide Debug")) );
+            
+            closeBt.preferredHeight = minBt.preferredHeight = maxBt.preferredHeight = midBt.preferredHeight = 20;
+            closeBt.preferredWidth = minBt.preferredWidth = maxBt.preferredWidth = midBt.preferredWidth = 20;
+            
+//            ( closeBt.childrenLayout as DOInlineLayout ).verticalAlign = "bottom";
+            ( minBt.childrenLayout as DOInlineLayout ).verticalAlign = "bottom";
+            ( maxBt.childrenLayout as DOInlineLayout ).verticalAlign = "bottom";
+            ( midBt.childrenLayout as DOInlineLayout ).verticalAlign = "bottom";
+            
+            minBt.name = "minBt"; 
+            midBt.name = "midBt"; 
+            maxBt.name = "maxBt"; 
+            closeBt.name = "closeBt"; 
+            _buttonsPanel.name = "buttonsPanel";
+           
+            _buttonsPanel.addComponent( minBt );
+            _buttonsPanel.addComponent( midBt );
+            _buttonsPanel.addComponent( maxBt );
+            _buttonsPanel.addComponent( closeBt );
+            _tabPanel.addComponent(_buttonsPanel);
+            bltp.east = _buttonsPanel;
 			
 			ActionManagerInstance.registerAction(new ProxyAction( _logView.clear, _("Clear Logs"), null,null, KeyStroke.getKeyStroke( Keys.L, KeyStroke.getModifiers(true,true) ) ), 
 												 BuiltInActionsList.CLEAR_LOGS );
 			ActionManagerInstance.registerAction(new SaveLogs( _logView, "logs.txt", null, _("Save logs"), magicIconBuild(saveLogsIcon),_("Save the logs in a file.")), 
 												 BuiltInActionsList.SAVE_LOGS );
 			ActionManagerInstance.registerAction(new LocateWithMouse(_("Inspect"), magicIconBuild(inspectIcon), _("Move the mouse above the scene and click to print in the logs the path to the object under the mouse.")), 
-												 BuiltInActionsList.LOCATE_WITH_MOUSE);			ActionManagerInstance.registerAction(new ForceGC(_("GC"),null,_("Force the garbage collector\nto perform a memory check.\n<b>Debug Player only</b>.")), 
+												 BuiltInActionsList.LOCATE_WITH_MOUSE);
+			ActionManagerInstance.registerAction(new ForceGC(_("GC"),null,_("Force the garbage collector\nto perform a memory check.\n<b>Debug Player only</b>.")), 
 												 BuiltInActionsList.FORCE_GC );
 			
-			_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.SAVE_LOGS ) );			_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.LOCATE_WITH_MOUSE ) );
+			_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.SAVE_LOGS ) );
+			_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.LOCATE_WITH_MOUSE ) );
 			
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-			if( SettingsManagerInstance.backend )
-			{
-				ActionManagerInstance.registerAction( new ShowSettingsBackendAction(_("Show Settings") ), 
-													  BuiltInActionsList.SHOW_SETTINGS );				ActionManagerInstance.registerAction( new ClearSettingsBackendAction(_("Clear Settings"), magicIconBuild( clearSettingsIcon ), _( "Delete all the data recorded by the settings backend of this application.\nSettings includes datas such as the textinputs history or the layout settings of many components.") ), 
-													  BuiltInActionsList.CLEAR_SETTINGS );
+			FEATURES::SETTINGS_MEMORY { 
+			    if( SettingsManagerInstance.backend )
+			    {
+				    ActionManagerInstance.registerAction( new ShowSettingsBackendAction(_("Show Settings") ), 
+													      BuiltInActionsList.SHOW_SETTINGS );
+				    ActionManagerInstance.registerAction( new ClearSettingsBackendAction(_("Clear Settings"), magicIconBuild( clearSettingsIcon ), _( "Delete all the data recorded by the settings backend of this application.\nSettings includes datas such as the textinputs history or the layout settings of many components.") ), 
+													      BuiltInActionsList.CLEAR_SETTINGS );
 			
-				_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.CLEAR_SETTINGS ) );				_logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.SHOW_SETTINGS ) );
-			}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				    _logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.CLEAR_SETTINGS ) );
+				    _logsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.SHOW_SETTINGS ) );
+			    }
+			} 
 			
 			
 			l0.center = _logView;
@@ -376,33 +423,35 @@ package abe.com.ponents.tools
 			var p1 : Panel = new Panel();
 			var l1 : BorderLayout = new BorderLayout();
 			p1.childrenLayout = l1;
+           
 			_monitor1 = new GraphMonitor();
 			_monitor1.addRecorder( new MemRecorder( new Range( 0,60 ) ) );
 			
-			/*FDT_IGNORE*/ TARGET::FLASH_10_1 { /*FDT_IGNORE*/				
-			_monitor1.addRecorder( new MemRecorder( new Range( 0,60 ), null, 1 ) );			_monitor1.addRecorder( new MemRecorder( new Range( 0,60 ), null, 0 ) );			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { 
+			    _monitor1.addRecorder( new MemRecorder( new Range( 0,60 ), null, 1 ) );
+			    _monitor1.addRecorder( new MemRecorder( new Range( 0,60 ), null, 0 ) );
+			} 
 
 			var r1 : GraphMonitorRuler = new GraphMonitorRuler( _monitor1, _monitor1.recorders[0] );
 			var c1 : GraphMonitorCaption = new GraphMonitorCaption(_monitor1);
 			c1.captionMode = GraphMonitorCaption.LONG_LABEL_MODE;
 			c1.layoutMode = GraphMonitorCaption.COLUMN_2_LAYOUT_MODE;
 
-			_monitorsToolbar = new ToolBar( ButtonDisplayModes.TEXT_ONLY, false, 1, false );
+			_monitor1Toolbar = new ToolBar( ButtonDisplayModes.TEXT_ONLY, false, 1, false );
+			_monitor2Toolbar = new ToolBar( ButtonDisplayModes.TEXT_ONLY, false, 1, false );
 
 			var lfps : Label = new Label( _("FPS :") );
 
 			var fps : Spinner = new Spinner(new SpinnerNumberModel(StageUtils.stage.frameRate, 12, 120, 1, true));
-			fps.addEventListener(ComponentEvent.DATA_CHANGE, changeFramerate );
+			fps.dataChanged.add( changeFramerate );
 			fps.preferredWidth = 60;
 
 			lfps.tooltip = _("Change the current framerate\nof this animation.");
 
-			_monitorsToolbar.addComponent( lfps );
-			_monitorsToolbar.addComponent( fps );
-
-			_monitorsToolbar.addSeparator();
-			_monitorsToolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.FORCE_GC ) );
-			
+			_monitor1Toolbar.addAction( ActionManagerInstance.getAction( BuiltInActionsList.FORCE_GC ) );
+			_monitor2Toolbar.addComponent( lfps );
+			_monitor2Toolbar.addComponent( fps );
+            
 			l1.west = r1;
 			l1.center = _monitor1;
 			l1.south = c1;
@@ -430,47 +479,59 @@ package abe.com.ponents.tools
 			p2.addComponent(_monitor2);
 			p2.addComponent(c2);
 
-			var pmon : Panel = new Panel();
-			var lmon : BorderLayout = new BorderLayout(pmon, true);
-			pmon.childrenLayout = lmon;
+
+			_monitor1Panel = new Panel();
+			var lmon1 : BorderLayout = new BorderLayout(_monitor1Panel, true);
+			_monitor1Panel.childrenLayout = lmon1;
 			
-			_monitorsPanel = new Panel();
-			_monitorsPanel.childrenLayout = new GridLayout(_monitorsPanel, 1 );
-			_monitorsPanel.style.setForAllStates("insets", new Insets(0, 0, 4, 0));
-			_monitorsPanel.addComponent(p1);
-			_monitorsPanel.addComponent(p2);
+            _monitor2Panel = new Panel();
+			var lmon2 : BorderLayout = new BorderLayout(_monitor2Panel, true);
+			_monitor2Panel.childrenLayout = lmon2;
 			
 			p0.name = "logsPanel";
 			p1.name = "memoryMonitorsPanel";
 			p2.name = "fpsMonitorsPanel";
-			pmon.name = "monitorsPanel";
+			_monitor1Panel.name = "monitor1Panel";
+			_monitor2Panel.name = "monitor2Panel";
 			_commandInput.name = "commandInput";
 			_logView.name = "logView";
 			_logsToolbar.name = "logsToolBar";
-			_monitorsToolbar.name = "monitorsToolBar";
+			_monitor1Toolbar.name = "monitorsToolBar";
 			_monitor1.name = "memoryMonitor";
-			_monitor2.name = "fpsMonitor";			_monitorsPanel.name = "monitorsGrid";
+			_monitor2.name = "fpsMonitor";
+			_monitor1Panel.name = "monitorsGrid";
 			
 			c1.name = c1.id = "monitor1Caption";
 			c2.name = c2.id = "monitor2Caption";
 
-			lmon.north = _monitorsToolbar;
-			lmon.center = _monitorsPanel;
+			lmon1.north = _monitor1Toolbar;
+			lmon1.center = p1;
 
-			pmon.addComponent(_monitorsToolbar);
-			pmon.addComponent(_monitorsPanel);
-			pmon.styleKey = "DefaultComponent";
+			_monitor1Panel.addComponent(_monitor1Toolbar);
+			_monitor1Panel.addComponent(p1);
+			_monitor1Panel.styleKey = "DefaultComponent";
+            
+            lmon2.north = _monitor2Toolbar;
+			lmon2.center = p2;
+
+			_monitor2Panel.addComponent(_monitor2Toolbar);
+			_monitor2Panel.addComponent(p2);
+			_monitor2Panel.styleKey = "DefaultComponent";
 
 			//var split : SplitPane = new SplitPane( SplitPane.HORIZONTAL_SPLIT, _logView, pmon );
-			//split.styleKey = "DefaultComponent";			//split.dividerLocation = 200;
+			//split.styleKey = "DefaultComponent";
+			//split.dividerLocation = 200;
 			styleKey = "DefaultComponent";
 
-			//addTab( new SimpleTab( _("Misc"), split ) );			addTab( new SimpleTab( _("Logs"), p0, magicIconBuild( logsIcon ) ) );			addTab( new SimpleTab( _("Monitoring"), pmon, magicIconBuild( monitorIcon ) ) );
+			//addTab( new SimpleTab( _("Misc"), split ) );
+			addTab( new SimpleTab( _("Logs"), p0, magicIconBuild( logsIcon ) ) );
+			addTab( new SimpleTab( _("FPS"), _monitor2Panel, magicIconBuild( monitorIcon ) ) );
+			addTab( new SimpleTab( _("Memory"), _monitor1Panel, magicIconBuild( monitorIcon ) ) );
 		}
 
-		protected function commandInputDataChange (event : ComponentEvent) : void 
+		protected function commandInputDataChanged ( t : TextInput, v : String ) : void 
 		{
-			var s : String = StringUtils.trim(_commandInput.value ).replace(/[\t\n\r\s]+/g, " ");
+			var s : String = StringUtils.trim( v ).replace(/[\t\n\r\s]+/g, " ");
 			if( s != "" )
 			{
 				var key : String = s.split(/\s+/g)[0];
@@ -492,19 +553,19 @@ package abe.com.ponents.tools
 		{
 			visible = true;
 		}
-		protected function notifyError ( event : DebugEvent ) : void
+		protected function notifyError ( ... args ) : void
 		{
 			_notifier.errors++;
 			_notifier.show();
 		}
-		protected function notifyWarning ( event : DebugEvent ) : void
+		protected function notifyWarning ( ... args ) : void
 		{
 			_notifier.warnings++;
 			_notifier.show();
 		}
-		protected function changeFramerate (event : ComponentEvent) : void
+		protected function changeFramerate ( s : Spinner, v : Number ) : void
 		{
-			StageUtils.stage.frameRate = (event.target as Spinner).value;
+			StageUtils.stage.frameRate = v;
 		}
 		protected function swapVisibility () : void
 		{
@@ -514,21 +575,20 @@ package abe.com.ponents.tools
 		}
 	}
 }
-
 import abe.com.motion.SingleTween;
 import abe.com.patibility.lang._;
 import abe.com.patibility.lang._$;
 import abe.com.ponents.buttons.Button;
+import abe.com.ponents.core.*;
 import abe.com.ponents.layouts.display.DOInlineLayout;
 import abe.com.ponents.skinning.icons.Icon;
 import abe.com.ponents.utils.ToolKit;
 
-import flash.events.Event;
-
 [Skinable(skin="ErrorNotifier")]
 [Skin(define="ErrorNotifier",
  	  inherit="DefaultComponent",
-	  state__all__background="new abe.com.ponents.skinning.decorations::SimpleFill(color(Gold))",	  state__all__foreground="new abe.com.ponents.skinning.decorations::SimpleBorders(color(Orange))",
+	  state__all__background="new abe.com.ponents.skinning.decorations::SimpleFill(color(Gold))",
+	  state__all__foreground="new abe.com.ponents.skinning.decorations::SimpleBorders(color(Orange))",
 	  state__all__insets="new abe.com.ponents.utils::Insets(2)",
 	  state__all__corners="new abe.com.ponents.utils::Corners(2)"
 )]
@@ -537,16 +597,22 @@ internal class Notifier extends Button
 	[Embed(source="../skinning/icons/error.png")]
 	static public var errorIcon : Class;
 
-	public var errors : uint;	public var warnings : uint;
+	public var errors : uint;
+	public var warnings : uint;
 
 	public function Notifier ( actionOrLabel : * = null, icon : Icon = null )
 	{
 		super( actionOrLabel, icon );
-		_allowOver = false;		_allowPressed = false;		_allowFocus = false;		_allowSelected = false;
-		errors = 0;		warnings = 0;
+		_allowOver = false;
+		_allowPressed = false;
+		_allowFocus = false;
+		_allowSelected = false;
+		errors = 0;
+		warnings = 0;
 		visible = false;
 		(_childrenLayout as DOInlineLayout).direction = "rightToLeft";
-		x = 5;		y = 5;
+		x = 5;
+		y = 5;
 	}
 
 	public function blink() : void
@@ -594,9 +660,9 @@ internal class Notifier extends Button
 								 start:1
 							   });
 	}
-	override public function click ( e : Event = null ) : void
+	override public function click ( context : UserActionContext ) : void
 	{
-		super.click ( e );
+		super.click( context );
 		hide();
 	}
 }

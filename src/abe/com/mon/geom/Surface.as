@@ -1,7 +1,8 @@
 package abe.com.mon.geom
 {
-	import flash.geom.Point;
+    import abe.com.mon.core.Serializable;
 
+    import flash.geom.Point;
 	/**
 	 * The interface <code>size</code> defines the properties 
 	 * and methods that an object with a surface must implement.
@@ -12,7 +13,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
-	public interface Surface
+	public interface Surface extends Serializable
 	{
 		/**
 		 * The size of this object in <code>px²</code>.

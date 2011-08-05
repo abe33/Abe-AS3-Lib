@@ -11,8 +11,6 @@ package abe.com.ponents.core
 	import abe.com.ponents.dnd.DragSource;
 	import abe.com.ponents.dnd.gestures.PressAndMoveGesture;
 
-	import flash.events.IEventDispatcher;
-	
 	/**
 	 * Implémentation standard d'un composant activant la fonctionalité de glisser/déposer.
 	 * <p>
@@ -27,8 +25,7 @@ package abe.com.ponents.core
 																		 IInteractiveObject, 
 																		 IDisplayObjectContainer, 
 																		 Focusable,
-																		 LayeredSprite, 
-																		 IEventDispatcher
+																		 LayeredSprite 
 	{
 		/**
 		 * Constructeur de la classe <code>DraggableComponent</code>.

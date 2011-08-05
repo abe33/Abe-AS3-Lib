@@ -10,7 +10,10 @@ package abe.com.ponents.layouts.components
 	 */
 	public class GridLayout extends AbstractComponentLayout 
 	{
-		protected var _rows : Number;		protected var _cols : Number;		protected var _hgap : Number;		protected var _vgap : Number;
+		protected var _rows : Number;
+		protected var _cols : Number;
+		protected var _hgap : Number;
+		protected var _vgap : Number;
 		
 		public function GridLayout ( 	container : Container = null, 
 										rows : Number = 1, 
@@ -33,13 +36,15 @@ package abe.com.ponents.layouts.components
 			var innerPref : Dimension = estimatedSize();
 			var prefDim : Dimension = preferredSize ? preferredSize : innerPref.grow( insets.horizontal, insets.vertical );
 			
-			var cols : Number = _cols;			var rows : Number = _rows;
+			var cols : Number = _cols;
+			var rows : Number = _rows;
 			if( isNaN( rows ) )
 				rows = Math.ceil( _container.childrenCount / _cols );
 			else if( _container.childrenCount > _cols * _rows )
 				cols = Math.ceil( _container.childrenCount / _rows );
 			
-			var cellWidth : Number = ( prefDim.width - ( _hgap * ( cols-1 ) ) - insets.horizontal ) / cols;			var cellHeight : Number = ( prefDim.height - ( _vgap * ( rows-1 ) ) - insets.vertical ) / rows;
+			var cellWidth : Number = ( prefDim.width - ( _hgap * ( cols-1 ) ) - insets.horizontal ) / cols;
+			var cellHeight : Number = ( prefDim.height - ( _vgap * ( rows-1 ) ) - insets.vertical ) / rows;
 			
 			_lastMaximumContentSize = dm( cellWidth, cellHeight );
 			
@@ -73,7 +78,8 @@ package abe.com.ponents.layouts.components
 					y += cellHeight + _vgap;
 				}
 			}
-			super.layout( preferredSize, insets );		}
+			super.layout( preferredSize, insets );
+		}
 
 		public function estimatedSize () : Dimension
 		{
@@ -81,7 +87,8 @@ package abe.com.ponents.layouts.components
 			var height : Number;
 			var maxSize : Dimension = maxComponentSize();
 			
-			var cols : Number = _cols;			var rows : Number = _rows;
+			var cols : Number = _cols;
+			var rows : Number = _rows;
 			if( isNaN( rows ) )
 				rows = Math.ceil( _container.childrenCount / _cols );
 			else 
@@ -90,7 +97,8 @@ package abe.com.ponents.layouts.components
 			
 			_lastMaximumContentSize = dm( maxSize.width, maxSize.height );
 			
-			width = maxSize.width * cols + _hgap * (cols-1);			height = maxSize.height * rows + _vgap * (rows-1);
+			width = maxSize.width * cols + _hgap * (cols-1);
+			height = maxSize.height * rows + _vgap * (rows-1);
 			
 			return new Dimension( width, height );
 		}

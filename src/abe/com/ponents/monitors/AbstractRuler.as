@@ -3,9 +3,7 @@ package abe.com.ponents.monitors
 	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.containers.AbstractScrollContainer;
 	import abe.com.ponents.containers.Viewport;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.skinning.cursors.Cursor;
 	import abe.com.ponents.utils.Orientations;
 
@@ -20,7 +18,7 @@ package abe.com.ponents.monitors
 		  
 		  state__all__format="new txt::TextFormat('Verdana',8)",
 		  state__all__textColor="skin.rulerTextColor",
-		  state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",
+		  state__all__background="skin.rulerBackgroundColor",
 		  state__all__foreground="skin.noDecoration"
 	)]
 	public class AbstractRuler extends AbstractContainer
@@ -41,8 +39,10 @@ package abe.com.ponents.monitors
 			this.direction = direction;
 			addEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
 		}
-		protected function mouseWheel ( e : MouseEvent ) : void
+		override public function mouseWheel ( e : MouseEvent ) : void
 		{
+		    super.mouseWheel( e );
+		    
 			var p : Container = parentContainer;
 			if( p && p is Viewport )
 			{
@@ -114,9 +114,9 @@ package abe.com.ponents.monitors
 			}
 		}
 
-		override public function releaseOutside (e : MouseEvent = null) : void
+		override public function releaseOutside ( context : UserActionContext ) : void
 		{
-			super.releaseOutside( e );
+			super.releaseOutside( context );
 			_dragging = false;
 			stage.removeEventListener( MouseEvent.MOUSE_MOVE, stageMouseMove );
 		}

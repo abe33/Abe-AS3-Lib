@@ -8,8 +8,8 @@ package abe.com.ponents.containers
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.dnd.DropEvent;
-	import abe.com.ponents.dnd.DropTargetDragEvent;
+	import abe.com.ponents.dnd.*;
+	import abe.com.ponents.transfer.*;
 	import abe.com.ponents.dnd.gestures.PressAndMoveGesture;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.menus.DropDownMenu;
@@ -36,7 +36,8 @@ package abe.com.ponents.containers
 	 * @author Cédric Néhémie
 	 */
 	[Style(name="spacing",type="Number")]
-	[Skinable(skin="ToolBar")]	[Skin(define="ToolBar",
+	[Skinable(skin="ToolBar")]
+	[Skin(define="ToolBar",
 		  inherit="DropPanel",
 
 		  state__all__insets="new cutils::Insets(2)",
@@ -80,7 +81,9 @@ package abe.com.ponents.containers
 		}
 		protected function updateContextMenuItemCaption () : void
 		{
-			setContextMenuItemCaption( "textAndIcon", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Text and icon"), isDisplayModeSelected (0) ) );			setContextMenuItemCaption( "textOnly", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Text only"), isDisplayModeSelected (1) ) );			setContextMenuItemCaption( "iconOnly", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Icon only"), isDisplayModeSelected (2) ) );
+			setContextMenuItemCaption( "textAndIcon", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Text and icon"), isDisplayModeSelected (0) ) );
+			setContextMenuItemCaption( "textOnly", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Text only"), isDisplayModeSelected (1) ) );
+			setContextMenuItemCaption( "iconOnly", ContextMenuItemUtils.getBooleanContextMenuItemCaption(_("Icon only"), isDisplayModeSelected (2) ) );
 		}
 		protected function iconOnly (event : ContextMenuEvent) : void
 		{
@@ -145,13 +148,17 @@ package abe.com.ponents.containers
 			{
 				case Directions.TOP_TO_BOTTOM :
 					l.verticalAlign = Alignments.TOP;
-					break;				case Directions.BOTTOM_TO_TOP :
+					break;
+				case Directions.BOTTOM_TO_TOP :
 					l.verticalAlign = Alignments.BOTTOM;
-					break;				case Directions.LEFT_TO_RIGHT :
+					break;
+				case Directions.LEFT_TO_RIGHT :
 					l.verticalAlign = Alignments.CENTER;
 					l.horizontalAlign = Alignments.LEFT;
 					break;
-				case Directions.RIGHT_TO_LEFT :					l.verticalAlign = Alignments.CENTER;					l.horizontalAlign = Alignments.RIGHT;
+				case Directions.RIGHT_TO_LEFT :
+					l.verticalAlign = Alignments.CENTER;
+					l.horizontalAlign = Alignments.RIGHT;
 					break;
 			}
 			invalidatePreferredSizeCache();
@@ -320,17 +327,17 @@ package abe.com.ponents.containers
 																			ComponentsFlavors.MENU,
 																			ComponentsFlavors.COMPONENT ]; }
 
-		override public function dragEnter (e : DropTargetDragEvent) : void
+		override public function dragEnter ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		{
 			if( _enabled &&
-				supportedFlavors.some( function( item : DataFlavor, ...args ) : Boolean { return item.isSupported( e.transferable.flavors ); } )  )
-				e.acceptDrag( this );
+				supportedFlavors.some( function( item : DataFlavor, ...args ) : Boolean { return item.isSupported( transferable.flavors ); } )  )
+				manager.acceptDrag( this );
 			else
-				e.rejectDrag( this );
+				manager.rejectDrag( this );
 		}
-		override public function dragOver (e : DropTargetDragEvent) : void
+		override public function dragOver ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		{
-			super.dragOver(e);
+			super.dragOver( manager, transferable, source );
 
 			var c : Component = getComponentUnderPoint( new Point( stage.mouseX, stage.mouseY ) );
 			if( c )
@@ -390,39 +397,39 @@ package abe.com.ponents.containers
 				}
 			}
 		}
-		override public function drop (e : DropEvent) : void
+		override public function drop ( manager : DnDManager, transferable : Transferable ) : void
 		{
-			super.drop(e);
+			super.drop(manager, transferable );
 			var reorder : Boolean = false;
-			if( ComponentsFlavors.ACTION.isSupported( e.transferable.flavors ) )
+			if( ComponentsFlavors.ACTION.isSupported( transferable.flavors ) )
 			{
-				var act : Action = e.transferable.getData( ComponentsFlavors.ACTION );
+				var act : Action = transferable.getData( ComponentsFlavors.ACTION );
 				var bt : Button = new Button( act );
 
-				e.transferable.transferPerformed();
+				transferable.transferPerformed();
 				insertComponentAccordingToMousePosition( bt );
 			}
-			else if( ComponentsFlavors.MENU.isSupported( e.transferable.flavors ) )
+			else if( ComponentsFlavors.MENU.isSupported( transferable.flavors ) )
 			{
-				var menu : Menu = e.transferable.getData( ComponentsFlavors.MENU ) as Menu;
+				var menu : Menu = transferable.getData( ComponentsFlavors.MENU ) as Menu;
 				var dropDown : DropDownMenu = new DropDownMenu();
 				dropDown.label = menu.label;
 				dropDown.icon = menu.icon;
 
-				e.transferable.transferPerformed();
+				transferable.transferPerformed();
 
 				for each ( var mi : MenuItem in menu.subItems )
 					dropDown.addMenuItem( mi );
 
 				insertComponentAccordingToMousePosition( dropDown );
 			}
-			else if( ComponentsFlavors.COMPONENT.isSupported( e.transferable.flavors ) )
+			else if( ComponentsFlavors.COMPONENT.isSupported( transferable.flavors ) )
 			{
-				var c : Component = e.transferable.getData( ComponentsFlavors.COMPONENT ) as Component;
+				var c : Component = transferable.getData( ComponentsFlavors.COMPONENT ) as Component;
 				if( isDescendant( c ) )
 					reorder = true;
 
-				e.transferable.transferPerformed();
+				transferable.transferPerformed();
 				c.size = null;
 				insertComponentAccordingToMousePosition( c );
 

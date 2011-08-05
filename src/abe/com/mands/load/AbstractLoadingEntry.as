@@ -1,15 +1,10 @@
 package abe.com.mands.load 
 {
 	import abe.com.mands.AbstractCommand;
-	import abe.com.mands.load.Estimator;
-	import abe.com.mands.load.LoadEntry;
 
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.ProgressEvent;
-	import flash.events.SecurityErrorEvent;
+	import org.osflash.signals.Signal;
+
 	import flash.net.URLRequest;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -18,66 +13,63 @@ package abe.com.mands.load
 		protected var _estimator : Estimator;
 		protected var _callback : Function;
 		
+		protected var _ioErrorOccured : Signal; 
+		protected var _securityErrorOccured : Signal; 
+		protected var _loadOpened : Signal; 
+		protected var _loadProgressed : Signal; 
+		protected var _loadCompleted : Signal; 
+		
 		public function AbstractLoadingEntry ( callback : Function = null )
 		{
+			_ioErrorOccured = new Signal(String);
+			_securityErrorOccured = new Signal(String);
+			_loadOpened = new Signal(LoadEntry);
+			_loadProgressed = new Signal(LoadEntry, Number, Number);
+			_loadCompleted = new Signal(LoadEntry);
 			_callback = callback;
 		}
-
-		public function get estimator () : Estimator { return _estimator; }
 		
 		public function get callback () : Function { return _callback; }
-		public function set callback ( f : Function ) : void
-		{
-			_callback = f;
-		}
+		public function set callback ( f : Function ) : void { _callback = f; }
+		
+		public function get estimator () : Estimator { return _estimator; }
+		public function get request() : URLRequest { return null; }
+		public function get ioErrorOccured () : Signal { return _ioErrorOccured; }
+		public function get securityErrorOccured () : Signal { return _securityErrorOccured; }
+		public function get loadOpened () : Signal { return _loadOpened; }
+		public function get loadProgressed () : Signal { return _loadProgressed; }
+		public function get loadCompleted () : Signal {	return _loadCompleted; }
 
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			load();
 		}
 
-		public function load () : void
-		{
-		}
+		public function load () : void {}		
 		
-		public function get request() : URLRequest
+		public function fireIOErrorOccuredSignal ( msg : String ) : void
 		{
-			return null;
+			_ioErrorOccured.dispatch(msg);
+			_commandFailed.dispatch( this, msg );
 		}
-		
-		public function fireIOErrorEvent ( msg : String ) : void
+		public function fireSecurityErrorOccuredSignal ( msg : String ) : void
 		{
-			dispatchEvent( new IOErrorEvent( IOErrorEvent.IO_ERROR, true, false, msg ) );
+			_securityErrorOccured.dispatch(msg);
+			_commandFailed.dispatch( this, msg );
 		}
-		
-		public function fireSecurityErrorEvent ( msg : String ) : void
+		public function fireLoadOpenedSignal () : void
 		{
-			dispatchEvent( new SecurityErrorEvent( SecurityErrorEvent.SECURITY_ERROR, true, false, msg ) );
-		}
-		
-		public function fireOpenEvent () : void
-		{
-			dispatchEvent( new Event( Event.OPEN ) );
+			_loadOpened.dispatch(this);
 		}			
-		public function fireCompleteEvent () : void
+		public function fireLoadCompletedSignal () : void
 		{
-			dispatchEvent( new Event( Event.COMPLETE ) );
 			_callback( this );
-			fireCommandEnd();
+			_loadCompleted.dispatch(this);
+			_commandEnded.dispatch(this);
 		}
-
-		public function fireProgressEvent ( loaded : Number, total : Number ) : void
+		public function fireLoadProgressedSignal ( loaded : Number, total : Number ) : void
 		{
-			dispatchEvent( new ProgressEvent( ProgressEvent.PROGRESS, true, false, loaded, total ) );
-		}
-			
-		override public function dispatchEvent ( event : Event ) : Boolean
-		{
-			if( hasEventListener ( event.type ) || event.bubbles )
-			{
-				return super.dispatchEvent( event );
-			} 
-			return false;
+			_loadProgressed.dispatch( this, loaded, total );
 		}
 	}
 }

@@ -1,12 +1,9 @@
 package abe.com.ponents.actions 
 {
 	import abe.com.mands.Command;
-	import abe.com.mands.events.CommandEvent;
+	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.ponents.skinning.icons.Icon;
-
-	import flash.events.ErrorEvent;
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */
@@ -26,37 +23,39 @@ package abe.com.ponents.actions
 		public function get command () : Command { return _command; }
 		public function set command (command : Command) : void { _command = command; }
 		
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
-			registerToCommandEvents(_command );
+			registerToCommandSignals(_command );
 			_command.execute();
 		}
-		protected function registerToCommandEvents (command : Command) : void 
+		protected function registerToCommandSignals (command : Command) : void 
 		{
-			command.addEventListener( CommandEvent.COMMAND_END, commandEnd );
-			command.addEventListener( CommandEvent.COMMAND_FAIL, commandFailed );
-			command.addEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+			command.commandEnded.add( onCommandEnded );
+			command.commandFailed.add( onCommandFailed );
+			if( command is Cancelable )
+			  ( command as Cancelable ).commandCancelled.add( onCommandCancelled );
 		}
-		protected function unregisterFromCommandEvents (command : Command) : void 
+		protected function unregisterFromCommandSignals (command : Command) : void 
 		{
-			command.removeEventListener( CommandEvent.COMMAND_END, commandEnd );
-			command.removeEventListener( CommandEvent.COMMAND_FAIL, commandFailed );
-			command.removeEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+			command.commandEnded.remove( onCommandEnded );
+			command.commandFailed.remove( onCommandFailed );
+			if( command is Cancelable )
+			  ( command as Cancelable ).commandCancelled.remove( onCommandCancelled );
 		}
-		protected function commandEnd (event : CommandEvent) : void 
+		protected function onCommandEnded ( command : Command ) : void 
 		{
-			unregisterFromCommandEvents(_command);
-			fireCommandEnd();
+			unregisterFromCommandSignals(_command);
+			commandEnded.dispatch( this );
 		}
-		protected function commandCancelled (event : CommandEvent) : void 
+		protected function onCommandCancelled ( command : Command ) : void 
 		{
-			unregisterFromCommandEvents(_command);
-			fireCommandEnd();
+			unregisterFromCommandSignals(_command);
+			commandEnded.dispatch( this );
 		}
-		protected function commandFailed (event : ErrorEvent) : void 
+		protected function onCommandFailed ( command : Command, msg : String ) : void 
 		{		
-			unregisterFromCommandEvents(_command);	
-			fireCommandFailed( event.text );
+			unregisterFromCommandSignals(_command);	
+			commandFailed.dispatch( this, msg );
 		}
 	}
 }

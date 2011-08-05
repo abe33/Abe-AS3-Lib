@@ -8,7 +8,6 @@ package abe.com.ponents.menus
 
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

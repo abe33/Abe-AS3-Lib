@@ -35,7 +35,10 @@ package abe.com.mon.utils
 	 */
 	public function magicToSource ( o : Object ) : String
 	{
-		if( o is Serializable )
+        if( o == null )
+        	return "null";
+        
+		else if( o is Serializable )
 			return (o as Serializable).toSource();
 
 		else if ( o is String )
@@ -46,7 +49,15 @@ package abe.com.mon.utils
 
 		else if( o["toSource"] != null )
 			return o.toSource();
-
+        
+        else if ( Reflection.isObject( o ) )
+        {
+            var a : Array = [];
+            for(var i : String in o)
+            	a.push( StringUtils.tokenReplace("'$0':$1", i, magicToSource( o[i] ) ) );
+                
+        	return StringUtils.tokenReplace ( "{$0}" , a.join(", ")  );
+        }
 		else
 			return getConstructorCall( o );
 	}
@@ -55,6 +66,7 @@ package abe.com.mon.utils
 import abe.com.mon.utils.magicToSource;
 
 import flash.utils.getQualifiedClassName;
+
 
 internal function getConstructorCall( o : * ) : String
 {

@@ -1,6 +1,5 @@
 package abe.com.ponents.lists 
 {
-	import abe.com.ponents.menus.ComboBox;
 	import abe.com.mands.ProxyCommand;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.utils.KeyStroke;
@@ -13,16 +12,17 @@ package abe.com.ponents.lists
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.edit.Editable;
 	import abe.com.ponents.core.edit.Editor;
-	import abe.com.ponents.events.ButtonEvent;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormComponent;
+	import abe.com.ponents.menus.ComboBox;
 	import abe.com.ponents.models.DefaultListModel;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
+	import abe.com.ponents.text.TextInput;
 
 	import flash.display.DisplayObject;
 	import flash.events.Event;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="ListEditor")]
 	[Skin(define="ListEditor",
 		  inherit="ScrollPane",
@@ -35,13 +35,12 @@ package abe.com.ponents.lists
 	 */
 	public class ListEditor extends ScrollPane implements FormComponent, Editor
 	{
-		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
+		FEATURES::BUILDER
 		static public function defaultListEditorPreview () : ListEditor
 		{
 			var li : ListEditor = new ListEditor([_("Sample Item 1"),_("Sample Item 2"),_("Sample Item 3")] );
 			return li;
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		
 		[Embed(source="../skinning/icons/minus.png")]
 		static public var REMOVE_ICON : Class;
@@ -50,7 +49,8 @@ package abe.com.ponents.lists
 		static public var ADD_ICON : Class;	
 		
 		protected var _list : List;
-		protected var _caller : Editable;		
+		protected var _caller : Editable;
+		
 		protected var _addButton : Button;
 		protected var _removeButton : Button;
 		protected var _toolBar : ToolBar;
@@ -61,6 +61,8 @@ package abe.com.ponents.lists
 		protected var _newValueProvider : Component;
 		protected var _contentType : Class;
 		
+		protected var _dataChanged : Signal;
+		public function get dataChanged () : Signal { return _dataChanged; }
 
 		public function ListEditor ( initialData : Array = null, 
 									 newValueProvider : Component = null, 
@@ -68,36 +70,44 @@ package abe.com.ponents.lists
 									 formatFunction : Function = null )
 		{
 			super();
-			
+			_dataChanged = new Signal();
 			_value =  initialData ? initialData : [];
 			_list = new List( _value );
 			_list.allowMultiSelection = true;
 			_list.model.contentType = contentType;
-			_list.model.addEventListener( ComponentEvent.DATA_CHANGE, dataChange, false, 0, true );			
+			_list.model.dataChanged.add( modelDataChanged );
+			
 			view = _list;
 			rowHead = new ListLineRuler(_list, true );
 			_contentType = contentType;
 			
-			_addButton = new Button("", magicIconBuild( ADD_ICON ) );			_removeButton = new Button("", magicIconBuild( REMOVE_ICON ) );
+			_addButton = new Button("", magicIconBuild( ADD_ICON ) );
+			_removeButton = new Button("", magicIconBuild( REMOVE_ICON ) );
 			
-			/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
-				_addButton.tooltip = _("Add to the list");				_removeButton.tooltip = _("Remove selection from the list");
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::TOOLTIP { 
+				_addButton.tooltip = _("Add to the list");
+				_removeButton.tooltip = _("Remove selection from the list");
+			} 
 			
-			_addButton.addEventListener(ButtonEvent.BUTTON_CLICK, clickAdd );			_removeButton.addEventListener(ButtonEvent.BUTTON_CLICK, clickRemove );
+			_addButton.buttonClicked.add( addClicked );
+			_removeButton.buttonClicked.add( removeClicked );
 			
 			_toolBar = new ToolBar( );
-			/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+			FEATURES::DND { 
 				_toolBar.dndEnabled = false;
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			_toolBar.addComponent( _removeButton );			_toolBar.addComponent( _addButton );
+			} 
+			_toolBar.addComponent( _removeButton );
+			_toolBar.addComponent( _addButton );
 			
-			_addButton.isComponentIndependent = false;			_removeButton.isComponentIndependent = false;			_list.isComponentIndependent = false;			_viewport.isComponentIndependent = false;
+			_addButton.isComponentIndependent = false;
+			_removeButton.isComponentIndependent = false;
+			_list.isComponentIndependent = false;
+			_viewport.isComponentIndependent = false;
 			_toolBar.isComponentIndependent = false;
 
 			colHead = _toolBar;
 			
-			this.newValueProvider = newValueProvider;
+			this.newValueProvider = newValueProvider ? newValueProvider : new TextInput();
 			
 			if( formatFunction != null )
 			{
@@ -106,9 +116,9 @@ package abe.com.ponents.lists
 				  ( _newValueProvider as ComboBox ).itemFormatingFunction = formatFunction;
 			}
 			
-			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
-				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DELETE ) ] = new ProxyCommand( clickRemove );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::KEYBOARD_CONTEXT { 
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DELETE ) ] = new ProxyCommand( removeClicked );
+			} 
 		}
 		public function get toolBar () : ToolBar { return _toolBar; }	
 		public function get addButton () : Button { return _addButton; }
@@ -132,10 +142,12 @@ package abe.com.ponents.lists
 		public function get value () : * { return _value; }		
 		public function set value (value : *) : void
 		{
+		    if( _list && _list.model )
+		        _list.model.dataChanged.remove( modelDataChanged );
 			_value = value as Array;
 			_list.model = new DefaultListModel(_value);
 			_list.model.contentType = _contentType;
-			_list.model.addEventListener( ComponentEvent.DATA_CHANGE, dataChange, false, 0, true );
+			_list.model.dataChanged.add( modelDataChanged );
 		}
 
 		public function get disabledMode () : uint { return _disabledMode; }
@@ -178,7 +190,7 @@ package abe.com.ponents.lists
 				_newValueProvider["reset"]();
 		}
 		
-		protected function clickRemove ( event : Event = null ) : void 
+		protected function removeClicked ( ...args ) : void 
 		{
 			if( _list.allowMultiSelection )
 			{
@@ -202,7 +214,7 @@ package abe.com.ponents.lists
 			}
 		}
 
-		protected function clickAdd ( event : Event = null ) : void 
+		protected function addClicked ( ...args ) : void 
 		{
 			if( _newValueProvider )
 			{
@@ -221,10 +233,10 @@ package abe.com.ponents.lists
 			this.value = value as Array;
 		}
 		
-		protected function dataChange (event : ComponentEvent) : void 
+		protected function modelDataChanged ( a : uint = 0, i : Array = null, v : Array = null ) : void 
 		{
 			_value = _list.model.toArray();
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, _value );
 		}
 	}
 }

@@ -3,9 +3,9 @@
  */
 package abe.com.mon.geom
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.GeometryUtils;
 	import abe.com.mon.utils.StringUtils;
 

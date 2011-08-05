@@ -49,19 +49,22 @@ package abe.com.ponents.actions.builtin
 		protected function checkIntegrity () : void
 		{
 			if( !_loader.content || !(_loader.content as Bitmap).bitmapData )
-				fireCommandFailed(_("Le Bitmap est trop grand pour être affiché, la taille maximum est de 16 Millions de pixels sans qu'aucun côté ne fasse plus de 8191 pixels."));
+			{
+				_isRunning = false;
+				commandFailed.dispatch(this, _("The bitmap is too large to be displayed, the maximum size is 16 million pixels without any side does most of 8191 pixels."));
+			}
 		}
 
 		protected function loaderComplete ( event : Event ) : void
 		{
 			clearTimeout ( _integrityTimeout );
-			_bitmap = ( _loader.content as Bitmap ).bitmapData;
-			fireCommandEnd();
+			_bitmap = ( _loader.content as Bitmap ).bitmapData;			_isRunning = false;
+			commandEnded.dispatch( this );
 		}
 
 		protected function error ( event : IOErrorEvent ) : void
-		{
-			fireCommandFailed( event.text );
+		{			_isRunning = false;
+			commandFailed.dispatch( this, event.text );
 		}
 	}
 }

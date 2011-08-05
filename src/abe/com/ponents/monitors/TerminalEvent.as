@@ -4,7 +4,6 @@
 package  abe.com.ponents.monitors
 {
 	import abe.com.ponents.events.ComponentEvent;
-
 	/**
 	 * Évènement diffusé par un objet <code>Terminal</code>
 	 * à une commande lors de l'éxécution de celle-ci.

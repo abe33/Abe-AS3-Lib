@@ -4,7 +4,6 @@ package abe.com.ponents.containers
 	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.ponents.buttons.CheckBox;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.InlineLayout;
 	/**
 	 * @author cedric
@@ -20,7 +19,7 @@ package abe.com.ponents.containers
 			
 			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
 			_rememberCheckBox = new CheckBox(_("Don't warn me again") );
-			_rememberCheckBox.addEventListener(ComponentEvent.DATA_CHANGE, rememberDataChange );		
+			_rememberCheckBox.dataChanged.add( rememberDataChanged );		
 			p.addComponent( _rememberCheckBox );	
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			
@@ -30,7 +29,7 @@ package abe.com.ponents.containers
 		/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
 		protected var _rememberCheckBox : CheckBox;
 		
-		protected function rememberDataChange (event : ComponentEvent) : void
+		protected function rememberDataChanged ( c : CheckBox, v : * ) : void
 		{
 			SettingsManagerInstance.set( this, "ignoreWarning", _rememberCheckBox.value );
 		}			

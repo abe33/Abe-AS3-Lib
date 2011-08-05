@@ -1,8 +1,5 @@
 package abe.com.ponents.builder.styles 
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.ponents.skinning.SkinManagerInstance;
-	import abe.com.ponents.skinning.ComponentStyle;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.Delegate;
 	import abe.com.mon.utils.Reflection;
@@ -30,6 +27,8 @@ package abe.com.ponents.builder.styles
 	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.layouts.components.VBoxLayout;
 	import abe.com.ponents.menus.ComboBox;
+	import abe.com.ponents.skinning.ComponentStyle;
+	import abe.com.ponents.skinning.SkinManagerInstance;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.skinning.icons.magicIconBuild;
 	import abe.com.ponents.text.Label;

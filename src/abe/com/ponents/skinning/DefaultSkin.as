@@ -1,16 +1,18 @@
 package abe.com.ponents.skinning 
 {
-	import flash.filters.DropShadowFilter;
-	import flash.filters.BevelFilter;
-	import abe.com.ponents.skinning.decorations.GradientBorders;
-	import abe.com.ponents.skinning.decorations.GradientFill;
-	import abe.com.mon.colors.Gradient;
-	import abe.com.mon.geom.ColorMatrix;
-	import abe.com.mon.colors.Color;
-	import abe.com.ponents.skinning.decorations.EmptyFill;
-	import abe.com.ponents.skinning.decorations.NoDecoration;
+    import abe.com.mon.colors.Palette;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Gradient;
+    import abe.com.mon.geom.ColorMatrix;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.skinning.decorations.EmptyFill;
+    import abe.com.ponents.skinning.decorations.GradientBorders;
+    import abe.com.ponents.skinning.decorations.GradientFill;
+    import abe.com.ponents.skinning.decorations.NoDecoration;
 
-	import flash.filters.ColorMatrixFilter;
+    import flash.filters.BevelFilter;
+    import flash.filters.ColorMatrixFilter;
+    import flash.filters.DropShadowFilter;
 
 	[Skin(define="EmptyComponent",
 		  inherit="DefaultComponent",
@@ -27,7 +29,7 @@ package abe.com.ponents.skinning
 	[Skin(define="Text",
 		  inherit="DefaultComponent",
 		  
-		  state__all__background="new deco::SimpleFill( skin.textBackgroundColor )",
+		  state__all__background="skin.textBackgroundColor ",
 
 		  custom_mispellWordsColor="skin.textMispellWordsColor",
 		  custom_embedFonts="false"
@@ -42,16 +44,16 @@ package abe.com.ponents.skinning
 		  state__2_6__background="skin.OverGradient",
 		  state__3_7__background="skin.NormalGradient",
 		  state__8_12__background="skin.SelectedGradient",
-		  state__9_13__background="new deco::SimpleFill(skin.disabledSelectedBackgroundColor)",
+		  state__9_13__background="skin.disabledSelectedBackgroundColor",
 		  state__10_14__background="skin.OverSelectedGradient",
 		  state__11_15__background="skin.PressedSelectedGradient",
 
-		  state__0_3__foreground="new deco::SimpleBorders(skin.borderColor)",
-		  state__2__foreground="new deco::SimpleBorders(skin.overBorderColor)",
-		  state__focus_focusandselected__foreground="new deco::SimpleBorders(skin.focusBorderColor)",
-		  state__selected__foreground="new deco::SimpleBorders(skin.selectedBorderColor)",
-		  state__disabled__foreground="new deco::SimpleBorders(skin.disabledBorderColor)",
-		  state_disabled_selected__foreground="new deco::SimpleBorders(skin.disabledSelectedBorderColor)"
+		  state__0_3__foreground="skin.borderColor",
+		  state__2__foreground="skin.overBorderColor",
+		  state__focus_focusandselected__foreground="skin.focusBorderColor",
+		  state__selected__foreground="skin.selectedBorderColor",
+		  state__disabled__foreground="skin.disabledBorderColor",
+		  state_disabled_selected__foreground="skin.disabledSelectedBorderColor"
 	)]
 	[Skin(define="DefaultComponent",
 		  inherit="",
@@ -66,19 +68,19 @@ package abe.com.ponents.skinning
 		  state__disabled__textColor="skin.disabledTextColor",
 		  state__disabled__innerFilters="skin.createDisabledInnerFilters()",
 
-		  state__0_4__background="new deco::SimpleFill(skin.backgroundColor)",
-		  state__1_5__background="new deco::SimpleFill(skin.disabledBackgroundColor)",		  state__2_6__background="new deco::SimpleFill(skin.overBackgroundColor)",		  state__3_7__background="new deco::SimpleFill(skin.pressedBackgroundColor)",
-		  state__8_12__background="new deco::SimpleFill(skin.selectedBackgroundColor)",
-		  state__9_13__background="new deco::SimpleFill(skin.disabledSelectedBackgroundColor)",
-		  state__10_14__background="new deco::SimpleFill(skin.overSelectedBackgroundColor)",
-		  state__11_15__background="new deco::SimpleFill(skin.pressedSelectedBackgroundColor)",
+		  state__0_4__background="skin.backgroundColor",
+		  state__1_5__background="skin.disabledBackgroundColor",		  state__2_6__background="skin.overBackgroundColor",		  state__3_7__background="skin.pressedBackgroundColor",
+		  state__8_12__background="skin.selectedBackgroundColor",
+		  state__9_13__background="skin.disabledSelectedBackgroundColor",
+		  state__10_14__background="skin.overSelectedBackgroundColor",
+		  state__11_15__background="skin.pressedSelectedBackgroundColor",
 
-		  state__0_3__foreground="new deco::SimpleBorders(skin.borderColor)",
-		  state__2__foreground="new deco::SimpleBorders(skin.overBorderColor)",
-		  state__focus_focusandselected__foreground="new deco::SimpleBorders(skin.focusBorderColor)",
-		  state__selected__foreground="new deco::SimpleBorders(skin.selectedBorderColor)",
-		  state__disabled__foreground="new deco::SimpleBorders(skin.disabledBorderColor)",
-		  state_disabled_selected__foreground="new deco::SimpleBorders(skin.disabledSelectedBorderColor)"
+		  state__0_3__foreground="skin.borderColor",
+		  state__2__foreground="skin.overBorderColor",
+		  state__focus_focusandselected__foreground="skin.focusBorderColor",
+		  state__selected__foreground="skin.selectedBorderColor",
+		  state__disabled__foreground="skin.disabledBorderColor",
+		  state_disabled_selected__foreground="skin.disabledSelectedBorderColor"
 	)]
 	/**
 	 * @author cedric
@@ -87,9 +89,26 @@ package abe.com.ponents.skinning
 	{
 		static public const DEPENDENCIES : Array = [ GradientFill, GradientBorders ];
 		
-		static public const PastelYellow : Color = new Color("#fff7f5ef");		static public const OverYellow : Color = new Color("#ffdde0d9");
-		static public const FocusGreen : Color = new Color("#ff9eb923");		static public const SelectionLightCyan : Color = new Color("#ffb7d8cc");		static public const SelectionBlue : Color = new Color("#ff8abac8");		static public const SelectionGreen : Color = new Color("#ffd7e2c0");		static public const SelectionYellow : Color = new Color("#ffeeebcb");
-		static public const BorderBlue : Color = new Color("#ff8ea5ac");		static public const ListColor : Color = new Color("#ffffffff");		static public const RulerBlue : Color = new Color("#ffa9bfc6");		static public const DarkBlue : Color = new Color("#ff3a545c");
+		static public const PastelYellow 		: Color = new Color("#fff7f5ef", "PastelYellow" );		static public const OverYellow 			: Color = new Color("#ffdde0d9", "OverYellow");
+		static public const FocusGreen 			: Color = new Color("#ff9eb923", "FocusGreen");		static public const SelectionLightCyan 	: Color = new Color("#ffb7d8cc", "SelectionLightCyan");		static public const SelectionBlue 		: Color = new Color("#ff8abac8", "SelectionBlue");		static public const SelectionGreen 		: Color = new Color("#ffd7e2c0", "SelectionGreen");		static public const SelectionYellow 	: Color = new Color("#ffeeebcb", "SelectionYellow");
+		static public const BorderBlue 			: Color = new Color("#ff8ea5ac", "BorderBlue");		static public const ListColor 			: Color = new Color("#ffffffff", "ListColor");		static public const RulerBlue 			: Color = new Color("#ffa9bfc6", "RulerBlue");		static public const DarkBlue 			: Color = new Color("#ff3a545c", "DarkBlue" );
+        
+        static public const COMPONENTS_PALETTE : Palette = new Palette(
+        	"Components Colors Palette", 
+            Color.LightGoldenrodYellow,
+            Color.Gold,
+            PastelYellow,
+            OverYellow,
+            FocusGreen,
+            SelectionLightCyan,
+            SelectionBlue,
+            SelectionGreen,
+            SelectionYellow,
+            BorderBlue,
+            ListColor,
+            RulerBlue,
+            DarkBlue            
+        );
 
 		/*
 		 * Constant Decoration

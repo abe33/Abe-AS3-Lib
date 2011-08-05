@@ -3,8 +3,6 @@
  */
 package  abe.com.mon.core
 {
-	import abe.com.mon.core.Runnable;
-
 	/**
 	 * A <code>Suspendable</code> object is a <code>Runnable</code>
 	 * whose execution can be paused and resumed.

@@ -3,26 +3,17 @@
  */
 package  abe.com.motion
 {
-	import flash.utils.Dictionary;
+	import org.osflash.signals.Signal;
+
 	import flash.display.Shape;
 	import flash.events.Event;
-	import flash.events.IEventDispatcher;
+	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
-
-	/**
-	 * Évènement diffusé à chaque image de l'animation. L'instance
-	 * de <code>ImpulseEvent</code> diffusant l'évènement contient
-	 * le <code>bias</code> courant en millisecondes et en secondes,
-	 * ainsi que le temps écoulé depuis le lancement du fichier SWF.
-	 *
-	 * @eventType abe.com.motion.ImpulseEvent.TICK
-	 */
-	[Event(name="tick", type="abe.com.motion.ImpulseEvent")]
 	/**
 	 * Un <code>MotionImpulse</code> est un métronome réglant les animations
 	 * d'une séries d'objets afin de les synchroniser. Il agit comme un
 	 * diffuseur d'évènements, les objets s'enregistrant pour recevoir
-	 * l'évènement <code>ImpulseEvent.TICK</code> à chaque pas d'une animation.
+	 * l'évènement <code>tick</code> à chaque pas d'une animation.
 	 * <p>
 	 * Cet évènement fournit un certain nombre d'informations
 	 * permettant aux écouteurs de se synchroniser. La donnée la plus
@@ -40,10 +31,12 @@ package  abe.com.motion
 	 * diffusées par l'instance.</p>
 	 *
 	 * @author Cédric Néhémie
-	 * @see ImpulseListener	 * @see ImpulseEvent
+	 * @see ImpulseListener
+	 * @see ImpulseEvent
 	 */
-	public class MotionImpulse extends Shape implements IEventDispatcher
+	public class MotionImpulse extends Shape
 	{
+		public var tick : Signal;
 		/**
 		 * Facteur d'altération de la vitesse d'écoulement du temps.
 		 * Cette valeur est utilisée afin de multiplier le bias avant sa
@@ -124,18 +117,15 @@ package  abe.com.motion
 			this._pastValuesSum = 0;
 			this._listenersCount = 0;
 			this._listernersDict = new Dictionary(true);
+			tick = new Signal();
 		}
 		/**
-		 * Nombre d'écouteurs actuellement enregistré pour l'évènement <code>ImpulseEvent.TICK</code>
-		 * sur cette instance de <code>MotionImpulse</code>.
 		 */
-		public function get listenersCount () : Number { return _listenersCount; }
+		public function get listenersCount () : Number { return tick.numListeners; }
 		/**
 		 * Réalise la mesure de la durée de chaque frame et notifie
 		 * tout les écouteurs. Les transformations de l'écoulement du
 		 * temps se font également dans cette fonction.
-		 *
-		 * @param	e	objet <code>Event</code> reçu avec l'évènement
 		 */
 		public function enterFrame ( e : Event ) : void
 		{
@@ -145,7 +135,7 @@ package  abe.com.motion
 			if( maxBias > 0 ) bias = restrict( bias );
 			if( smoothFactor > 0 ) bias = smooth ( bias );
 
-			dispatchEvent( new ImpulseEvent( ImpulseEvent.TICK, bias, currentTime ) );
+			tick.dispatch( bias, bias / 1000, currentTime );
 
 			_lastTime = currentTime;
 		}
@@ -155,14 +145,14 @@ package  abe.com.motion
 		public function start() : void
 		{
 			this._lastTime = getTimer();
-			super.addEventListener( Event.ENTER_FRAME, enterFrame );
+			addEventListener( Event.ENTER_FRAME, enterFrame );
 		}
 		/**
 		 * Stoppe l'instance.
 		 */
 		public function stop() : void
 		{
-			super.removeEventListener( Event.ENTER_FRAME, enterFrame );
+			removeEventListener( Event.ENTER_FRAME, enterFrame );
 		}
 		/**
 		 * Renvoie <code>true</code> si l'instance courante est
@@ -170,7 +160,7 @@ package  abe.com.motion
 		 * <p>
 		 * Une instance n'est pas considérée comme en lecture si
 		 * elle ne possède aucun écouteur pour son évènement
-		 * <code>ImpulseEvent.TICK</code>.
+		 * <code>tick</code>.
 		 * </p>
 		 * @return	<code>true</code> si l'instance courante est
 		 * 			actuellement en train de diffuser ses évènements
@@ -181,110 +171,27 @@ package  abe.com.motion
 		}
 		/**
 		 * Enregistre directement un écouteur pour l'évènement
-		 * <code>ImpulseEvent.TICK</code> diffusé par l'instance.
+		 * <code>tick</code> diffusé par l'instance.
 		 *
 		 * @param	closure	fonction à enregistrer comme écouteur
 		 */
 		public function register ( closure : Function ) : void
 		{
-			addEventListener( ImpulseEvent.TICK, closure );
+			tick.add( closure );
+			if( tick.numListeners == 1 )
+				start();
 		}
 		/**
 		 * Désabonne un écouteur pour l'évènement
-		 * <code>ImpulseEvent.TICK</code> diffusé par l'instance.
+		 * <code>tick</code> diffusé par l'instance.
 		 *
 		 * @param	closure	fonction à désabonner
 		 */
 		public function unregister ( closure : Function ) : void
 		{
-			removeEventListener( ImpulseEvent.TICK, closure );
-		}
-		/**
-		 * Ajoute un écouteur à l'instance.
-		 * <p>
-		 * Si le type de l'évènement est égale à <code>ImpulseEvent.TICK</code>
-		 * et que l'écouteur est le premier écouteur enregistré pour cet évènement,
-		 * l'instance démarre automatiquement.
-		 * </p>
-		 * @param	type				le type de l'évènement auquel l'écouteur souhaite
-		 * 								souscrire
-		 * @param	listener			l'écouteur à enregistrer
-		 * @param	useCapture			place l'écouteur en écoute pendant la phase de capture
-		 * @param	priority			définit la priorité de l'écouteur pour la réception de
-		 * 								cet évènement
-		 * @param	useWeakReference	enregistre l'écouteur en tant de <i>weak reference</i>,
-		 * 								autrement dit, si les seules références restantes à
-		 * 								l'écouteur sont des <i>weak references</i> l'écouteur
-		 * 								sera elligible à la collecte par le <code>GarbageCollector</code>
-		 */
-		override public function addEventListener ( type : String,
-													listener : Function,
-													useCapture : Boolean = false,
-													priority : int = 0,
-													useWeakReference : Boolean = false) : void
-		{
-			if( type == ImpulseEvent.TICK )
-			{
-				if( !_listernersDict[ listener ] )
-				{
-					this._listenersCount++;
-					_listernersDict[ listener ] = true;
-				}
-
-				if(!hasEventListener( ImpulseEvent.TICK ) )
-					start();
-			}
-
-
-			super.addEventListener( type, listener, useCapture, priority, useWeakReference );
-		}
-		/**
-		 * Supprime un écouteur de l'instance.
-		 * <p>
-		 * Si le type de l'évènement est égale à <code>ImpulseEvent.TICK</code>
-		 * et que l'écouteur est le dernier écouteur enregistré pour cet évènement,
-		 * l'instance se stoppe automatiquement.
-		 * </p>
-		 * @param	type		le type de l'évènement auquel l'écouteur souhaite
-		 * 						se désabonner
-		 * @param	listener	l'écouteur à désabonner
-		 * @param	useCapture	l'écouteur est-il actif pendant la phase de capture
-		 */
-		override public function removeEventListener ( type : String,
-													   listener : Function,
-													   useCapture : Boolean = false) : void
-		{
-
-			super.removeEventListener( type, listener, useCapture );
-
-			if( type == ImpulseEvent.TICK )
-			{
-				if( _listernersDict[ listener ] )
-				{
-					this._listenersCount--;
-					delete _listernersDict[ listener ];
-				}
-
-				if( !hasEventListener( ImpulseEvent.TICK ) )
-					stop();
-			}
-		}
-		/**
-		 * Réécriture de la méthode <code>dispatchEvent</code> afin d'éviter la diffusion
-		 * d'évènement en l'absence d'écouteurs pour cet évènement.
-		 *
-		 * @param	evt	objet évènement à diffuser
-		 * @return	<code>true</code> si l'évènement a bien été diffusé, <code>false</code>
-		 * 			en cas d'échec ou d'appel de la méthode <code>preventDefault</code>
-		 * 			sur cet objet évènement
-		 */
-		override public function dispatchEvent( evt : Event ) : Boolean
-		{
-		 	if (hasEventListener(evt.type) || evt.bubbles)
-		 	{
-		  		return super.dispatchEvent(evt);
-		  	}
-		 	return true;
+			tick.remove( closure );
+			if( tick.numListeners == 0 )
+				stop();
 		}
 		/**
 		 * Renvoie une valeur lissée à partir de la valeur passée

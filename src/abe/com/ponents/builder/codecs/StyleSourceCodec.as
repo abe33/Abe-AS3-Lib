@@ -8,7 +8,6 @@ package abe.com.ponents.builder.codecs
 
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author cedric
 	 */

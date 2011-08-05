@@ -1,18 +1,17 @@
 package abe.com.ponents.menus 
 {
-	import abe.com.ponents.events.ActionEvent;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.skinning.icons.CheckBoxCheckedIcon;
 	import abe.com.ponents.skinning.icons.CheckBoxUncheckedIcon;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.Event;
+	import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Style(name="checkedIcon",type="abe.com.ponents.skinning.icons.Icon")]	[Style(name="uncheckedIcon",type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="checkedIcon",type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="uncheckedIcon",type="abe.com.ponents.skinning.icons.Icon")]
 	[Skinable(skin="CheckBoxMenuItem")]
 	[Skin(define="CheckBoxMenuItem",
 		  inherit="MenuItem",
@@ -27,6 +26,9 @@ package abe.com.ponents.menus
 		protected var _checked : Boolean;
 		protected var _checkedIcon : Icon;
 		protected var _uncheckedIcon : Icon;
+		
+		public var selectedChanged : Signal;
+		public var valueChanged : Signal;
 		
 		public function CheckBoxMenuItem ( label : String, checked : Boolean = false )
 		{
@@ -73,37 +75,36 @@ package abe.com.ponents.menus
 			{
 				_checked = b; 
 				invalidate();
-				fireChangeEvent();
-				fireComponentEvent( ComponentEvent.SELECTED_CHANGE );
-				fireComponentEvent( ComponentEvent.VALUE_CHANGE );
+				fireComponentChangedSignal();
+				selectedChanged.dispatch( this, _checked );
+				valueChanged.dispatch( this, _checked );
 			}
 			super.icon = _checked ? _checkedIcon : _uncheckedIcon;
 		}
 		
-		override public function click ( e : Event = null ) : void
+		override public function click (context : UserActionContext ) : void
 		{
 			swapSelect( !selected );
 		}
 
 		protected function swapSelect ( b : Boolean ) : void
 		{
-			selected
-			 = b;
-			super.click( new ActionEvent( ActionEvent.ACTION ) );
+			selected = b;
+			super.click( new UserActionContext( this, UserActionContext.PROGRAM_ACTION ) );
 		}
 		
-		override protected function stylePropertyChanged ( event : PropertyEvent ) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "checkedIcon" :
-				 	checkedIcon = event.propertyValue.clone();
+				 	checkedIcon = propertyValue.clone();
 					break	
 				case "uncheckedIcon" :
-				 	uncheckedIcon = event.propertyValue.clone();
+				 	uncheckedIcon = propertyValue.clone();
 					break	
 				default : 
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

@@ -9,7 +9,6 @@ package abe.com.patibility.codecs
 	import flash.display.BitmapData;
 	import flash.geom.Point;
 	import flash.utils.ByteArray;
-
 	/**
 	 * La classe <code>SPRCodec</code> permet d'encoder et de décoder des objets
 	 * de type <code>BitmapSprite</code> sauvegardé dans des fichiers de type

@@ -1,20 +1,22 @@
 package abe.com.ponents.monitors.recorders 
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.impl.AllocatorImpl;
 	import abe.com.mon.geom.Range;
-	import abe.com.mon.colors.Color;
+	import abe.com.mon.utils.Reflection;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
 	import abe.com.ponents.monitors.GraphCurveSettings;
 
 	import flash.utils.setInterval;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class AllocatorRecorder implements Recorder 
 	{
-		static public const ALL_INSTANCES : uint = 0;		static public const UNUSED_INSTANCES : uint = 1;		static public const USED_INSTANCES : uint = 2;
+		static public const ALL_INSTANCES : uint = 0;
+		static public const UNUSED_INSTANCES : uint = 1;
+		static public const USED_INSTANCES : uint = 2;
 		
 		protected var _valuesRange : Range;
 		protected var _curveSettings : GraphCurveSettings;
@@ -45,25 +47,25 @@ package abe.com.ponents.monitors.recorders
 			{
 				case UNUSED_INSTANCES : 
 					s = _class != null ?
-						_$(_("All unused $0"), _class):
+						_$(_("All unused $0"), Reflection.getClassName( _class )):
 						_("All unused objects");
 					break;
 				case USED_INSTANCES : 
 					s = _class != null ?
-						_$(_("All used $0"), _class):
+						_$(_("All used $0"), Reflection.getClassName( _class )):
 						_("All used objects");
 					break;
 				case ALL_INSTANCES : 
 				default : 
 					s = _class != null ?
-						_$(_("All allocated $0"), _class):
+						_$(_("All allocated $0"), Reflection.getClassName( _class )):
 						_("All allocated objects");
 					break;
 			}
 			_curveSettings = new GraphCurveSettings( s,
 													 curveColor, 
 													 0 );
-			_values = new Array( );
+			_values = new Array();
 		}
 		
 		protected function rec () : void

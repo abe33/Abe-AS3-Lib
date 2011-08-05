@@ -4,7 +4,6 @@
 package  abe.com.mon.utils 
 {
 	import abe.com.mon.core.Iterator;
-
 	/**
 	 * Classe utilitaire de manipulation des objets <code>Date</code>. Cette classe comprend des
 	 * fonctions de formatages, de comparaisons et de manipulations des dates.

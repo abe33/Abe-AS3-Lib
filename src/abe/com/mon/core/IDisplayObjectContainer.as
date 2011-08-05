@@ -4,7 +4,6 @@
 package abe.com.mon.core 
 {
 	import flash.display.DisplayObject;
-
 	/**
 	 * An interface that mimic the structure of the <code>DisplayObjectContainer</code>
 	 * class in order to allow an access to its members from an interface which

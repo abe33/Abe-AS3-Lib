@@ -21,7 +21,7 @@ package abe.com.ponents.text
 	[Skin(define="TextEditor",
 		  inherit="Text",
 		  
-		  state__all_foreground="new deco::SimpleBorders( skin.selectedBorderColor )"
+		  state__all_foreground="skin.selectedBorderColor"
 	)]
 	public class TextEditor extends TextInput implements Editor
 	{
@@ -59,23 +59,23 @@ package abe.com.ponents.text
 		{
 			_caller = e;
 		}
-		override public function comfirmInput ( e : Event = null ) : void
+		override public function comfirmInput ( ... args ) : void
 		{			
-			/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
-			if( _autoCompleteDropDown && _autoCompleteDropDown.displayed )
-			{
-				_autoCompleteDropDown.validateCompletion();
-				return;
-			}
-			/*FDT_IGNORE*/ FEATURES::SETTINGS_MEMORY { /*FDT_IGNORE*/
-				if( _autoComplete is InputMemory )
-				  ( _autoComplete as InputMemory ).registerCurrent();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::AUTOCOMPLETION { 
+			    if( _autoCompleteDropDown && _autoCompleteDropDown.displayed )
+			    {
+				    _autoCompleteDropDown.validateCompletion();
+				    return;
+			    }
+			    FEATURES::SETTINGS_MEMORY { 
+				    if( _autoComplete is InputMemory )
+				      ( _autoComplete as InputMemory ).registerCurrent();
+			    } 
+			} 
 				
 			registerValue();
 			//StageUtils.stage.focus = null;
-			fireDataChange();
+			fireDataChangedSignal();
 			_caller.confirmEdit();			
 		}
 		override public function cancelInput () : void
@@ -101,12 +101,11 @@ package abe.com.ponents.text
 			_preferredSizeCache = new Dimension( Math.max( _minWidth, _label.textWidth + 4 + _style.insets.horizontal ), _preferredSizeCache.height );
 			invalidate(true);
 		}
-		/*FDT_IGNORE*/ FEATURES::AUTOCOMPLETION { /*FDT_IGNORE*/
+		FEATURES::AUTOCOMPLETION
 		override protected function keyUp (event : KeyboardEvent) : void
 		{
 			super.keyUp( event );
 			invalidatePreferredSizeCache();
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 	}
 }

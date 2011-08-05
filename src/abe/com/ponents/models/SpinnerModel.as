@@ -1,30 +1,36 @@
 package abe.com.ponents.models 
 {
 	import flash.ui.ContextMenuItem;
-	import flash.events.IEventDispatcher;
-
+	
+	import org.osflash.signals.Signal;
+	
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public interface SpinnerModel extends IEventDispatcher
+	public interface SpinnerModel
 	{
 		function get displayValue () : String;
-		function get value () : *;		function set value ( v : * ) : void;
+		function get value () : *;
+		function set value ( v : * ) : void;
 		function hasNextValue () : Boolean;
 		function getNextValue () : *;
-		function hasPreviousValue () : Boolean;		function getPreviousValue () : *;
+		function hasPreviousValue () : Boolean;
+		function getPreviousValue () : *;
+		
+		function get dataChanged ():Signal;
+		function get propertyChanged ():Signal;
 		
 		function reset() : void;
 		
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { 
-		TARGET::FLASH_9
-		function get modelMenuContext () : Array;
+		FEATURES::MENU_CONTEXT { 
+		    TARGET::FLASH_9
+		    function get modelMenuContext () : Array;
 		
-		TARGET::FLASH_10
-		function get modelMenuContext () : Vector.<ContextMenuItem>;
+		    TARGET::FLASH_10
+		    function get modelMenuContext () : Vector.<ContextMenuItem>;
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
-		function get modelMenuContext () : Vector.<ContextMenuItem>;
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		    TARGET::FLASH_10_1 
+		    function get modelMenuContext () : Vector.<ContextMenuItem>;
+		} 
 	}
 }

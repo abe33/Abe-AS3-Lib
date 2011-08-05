@@ -1,11 +1,12 @@
 package abe.com.ponents.tools.canvas.navigations 
 {
 	import abe.com.edia.camera.Camera;
-	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.skinning.cursors.Cursor;
+	import abe.com.ponents.tools.canvas.ToolGestureData;
 	import abe.com.ponents.tools.canvas.core.AbstractTool;
-
+	
 	import flash.geom.Point;
+
 	/**
 	 * @author cedric
 	 */
@@ -20,12 +21,12 @@ package abe.com.ponents.tools.canvas.navigations
 			this._camera = camera;
 		}
 		
-		override public function actionStarted (e : ToolEvent) : void
+		override public function actionStarted (e : ToolGestureData) : void
 		{
 			_startPoint = new Point( e.canvas.stage.mouseX, e.canvas.stage.mouseY );
 		}
 
-		override public function mousePositionChanged (e : ToolEvent) : void
+		override public function mousePositionChanged (e : ToolGestureData) : void
 		{
 			var pt : Point = new Point( e.canvas.stage.mouseX, e.canvas.stage.mouseY );
 			

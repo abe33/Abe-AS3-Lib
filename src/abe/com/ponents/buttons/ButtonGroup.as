@@ -3,15 +3,8 @@
  */
 package abe.com.ponents.buttons 
 {
-	import flash.events.EventDispatcher;
-	import abe.com.ponents.events.ComponentEvent;
-	
-	/**
-	 * Évènement diffusé par l'instance lorsque le bouton sélectionné a changé.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.SELECTION_CHANGE
-	 */
-	[Event(name="selectionChange",type="abe.com.ponents.events.ComponentEvent")]
+	import org.osflash.signals.Signal;
+
 	/**
 	 * La classe <code>ButtonGroup</code> permet de définir un groupe de bouton
 	 * dans lequel un seul bouton peut être sélectionné à un instant précis.
@@ -23,16 +16,20 @@ package abe.com.ponents.buttons
 	 * 
 	 * @author Cédric Néhémie
 	 */
-	public class ButtonGroup extends EventDispatcher
+	public class ButtonGroup
 	{
 		/**
 		 * Un vecteur contenant les boutons gérés par ce <code>ButtonGroup</code>.
 		 */
 		/*FDT_IGNORE*/
 		TARGET::FLASH_9
-		protected var _buttons : Array;		
-		TARGET::FLASH_10		protected var _buttons : Vector.<AbstractButton>;		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _buttons : Vector.<AbstractButton>;
+		protected var _buttons : Array;
+		
+		TARGET::FLASH_10
+		protected var _buttons : Vector.<AbstractButton>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _buttons : Vector.<AbstractButton>;
 		/**
 		 * Une référence vers le bouton actuellement sélectionné
 		 * dans ce <code>ButtonGroup</code>.
@@ -46,20 +43,17 @@ package abe.com.ponents.buttons
 		 */
 		private var _selectionSetProgrammatically : Boolean;
 		
+		public var selectionChanged : Signal;
+		
 		/**
 		 * Constructeur de la classe <code>ButtonGroup</code>.
 		 */
 		public function ButtonGroup ()
 		{
-			/*FDT_IGNORE*/
-			TARGET::FLASH_9 {
-				_buttons = [];
-			}
-			TARGET::FLASH_10 {
-				_buttons = new Vector.<AbstractButton>();
-			}
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			_buttons = new Vector.<AbstractButton>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			selectionChanged = new Signal();
+			TARGET::FLASH_9 { _buttons = []; }
+			TARGET::FLASH_10 { _buttons = new Vector.<AbstractButton>(); }
+			TARGET::FLASH_10_1 { _buttons = new Vector.<AbstractButton>(); } 
 		}
 		/**
 		 * Une référence vers le bouton actuellement sélectionné
@@ -67,10 +61,6 @@ package abe.com.ponents.buttons
 		 * <p>
 		 * La modification de cette propriété conduit à la désélection
 		 * du précédent bouton sélectionné si celui-ci est défini.
-		 * </p>
-		 * <p><strong>Note :</strong> La modification de cette propriété
-		 * conduit à la diffusion d'un évènement <code>ComponentEvent.SELECTION_CHANGE</code>.
-		 * </p>
 		 */
 		public function get selectedButton () : AbstractButton { return _selectedButton; }		
 		public function set selectedButton ( selectedButton : AbstractButton ) : void
@@ -87,7 +77,7 @@ package abe.com.ponents.buttons
 				_selectionSetProgrammatically = false;
 			}
 			
-			fireSelectionChange();
+			fireSelectionChangedSignal();
 		}
 		/**
 		 * Ajoute un objet <code>AbstractButton</code> à ce <code>ButtonGroup</code>.
@@ -103,7 +93,7 @@ package abe.com.ponents.buttons
 			if( _buttons.indexOf( bt ) == -1 )
 			{
 				_buttons.push( bt );
-				bt.addWeakEventListener( ComponentEvent.SELECTED_CHANGE, selectedChange );
+				bt.componentSelectedChanged.add( selectedChanged );
 				
 				if( bt.selected )				
 					selectedButton = bt;
@@ -126,7 +116,7 @@ package abe.com.ponents.buttons
 			if( bt == _selectedButton )
 			{
 				_selectedButton = null;
-				bt.removeEventListener( ComponentEvent.SELECTED_CHANGE, selectedChange );
+				bt.componentSelectedChanged.remove( selectedChanged );
 			}
 		}
 		/**
@@ -152,23 +142,21 @@ package abe.com.ponents.buttons
 		 * 
 		 * @param	e	évènement diffusé par le bouton lors de son changement d'état
 		 */
-		public function selectedChange ( e : ComponentEvent ) : void
+		public function selectedChanged ( bt : AbstractButton, v : Boolean ) : void
 		{
 			if( _selectionSetProgrammatically )
 				return;
 			
-			var bt : AbstractButton = e.target as AbstractButton;
-			if( bt.selected )
+			if( v )
 				selectedButton = bt;
 			else
 				selectedButton = null;
 		}
 		/**
-		 * Diffuse un évènement <code>ComponentEvent.SELECTION_CHANGE</code>.
 		 */
-		protected function fireSelectionChange () : void 
+		protected function fireSelectionChangedSignal () : void 
 		{
-			dispatchEvent(new ComponentEvent(ComponentEvent.SELECTION_CHANGE));
+			selectionChanged.dispatch( this );
 		}
 	}
 }

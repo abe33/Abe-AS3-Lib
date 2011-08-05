@@ -3,13 +3,11 @@
  */
 package abe.com.patibility.codecs
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.patibility.codecs.Codec;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.colors.Palette;
+	import abe.com.mon.logs.Log;
 
 	import flash.utils.ByteArray;
-
 	/**
 	 * La classe <code>ACOCodec</code> permet d'encoder et de décoder
 	 * des objets <code>Palette</code> au format <code>ACO</code>.

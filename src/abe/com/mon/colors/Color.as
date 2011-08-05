@@ -2125,6 +2125,77 @@ package  abe.com.mon.colors
 			}	
 			return str.toLowerCase();
 		}
+		public function get hsv () : Array
+		{
+		    var r : Number = red / 255; 
+		    var g : Number = green / 255;
+		    var b : Number = blue / 255;
+		    var h : Number;
+		    var s : Number;
+		    var v : Number;            
+	        var minVal : Number = Math.min(r, g, b);
+	        var maxVal : Number  = Math.max(r, g, b);
+	        var delta : Number = maxVal - minVal;
+
+	         v = maxVal;
+
+	        if (delta == 0) {
+		        h = 0;
+		        s = 0;
+	        } else {
+		        s = delta / maxVal;
+		        var del_R : Number = (((maxVal - r) / 6) + (delta / 2)) / delta;
+		        var del_G : Number = (((maxVal - g) / 6) + (delta / 2)) / delta;
+		        var del_B : Number = (((maxVal - b) / 6) + (delta / 2)) / delta;
+
+		        if (r == maxVal) { h = del_B - del_G;}
+		        else if (g == maxVal) {h = (1 / 3) + del_R - del_B;}
+		        else if (b == maxVal) {h = (2 / 3) + del_G - del_R;}
+		
+		        if (h < 0) {h += 1;}
+		        if (h > 1) {h -= 1;}
+	        }
+	        h *= 360;
+	        s *= 100;
+	        v *= 100;
+	        return [h,s,v];
+		}
+		public function set hsv ( hsv : Array ) : void
+		{
+		    var h : Number = hsv[0] / 360; 
+		    var s : Number = hsv[1] / 100; 
+		    var v : Number = hsv[2] / 100;
+		    var r : Number; 
+		    var g : Number;
+		    var b : Number;
+		    
+	        if (s == 0)
+	        {
+		        red = v * 255;
+		        green = v * 255;
+		        blue = v * 255;
+	        } 
+	        else 
+	        {
+		        var var_h : Number = h * 6;
+		        var var_i : Number = Math.floor(var_h);
+		        var var_1 : Number = v * (1 - s);
+		        var var_2 : Number = v * (1 - s * (var_h - var_i));
+		        var var_3 : Number = v * (1 - s * (1 - (var_h - var_i)));
+		    
+		        if (var_i == 0)      {r = v;        g = var_3;      b = var_1}
+		        else if (var_i == 1) {r = var_2;    g = v;          b = var_1}
+		        else if (var_i == 2) {r = var_1;    g = v;          b = var_3}
+		        else if (var_i == 3) {r = var_1;    g = var_2;      b = v}
+		        else if (var_i == 4) {r = var_3;    g   = var_1;    b = v}
+		        else                 {r = v;        g = var_1;      b = var_2};
+		
+		        red = r * 255;
+		        green = g * 255;
+		        blue = b * 255;
+	        }
+		}
+		
 		/**
 		 * Renvoie une chaîne héxadécimale sous la forme <code>#RRGGBB</code>.
 		 * 
@@ -2207,7 +2278,9 @@ package  abe.com.mon.colors
 		public function blend ( color : Color, method : Function ) : Color
 		{
 			var r : uint = method( red, color.red );
-			var g : uint = method( green, color.green ); 			var b : uint = method( blue, color.blue ); 			var a : uint = method( alpha, color.alpha ); 
+			var g : uint = method( green, color.green ); 
+			var b : uint = method( blue, color.blue ); 
+			var a : uint = method( alpha, color.alpha ); 
 			
 			return new Color(r,g,b,a);
 		}
@@ -2365,13 +2438,20 @@ package  abe.com.mon.colors
 		}
 		public function copyTo (o : Object) : void
 		{
-			o["red"] = red;			o["green"] = green;			o["blue"] = blue;			o["alpha"] = alpha;
+			o["red"] = red;
+			o["green"] = green;
+			o["blue"] = blue;
+			o["alpha"] = alpha;
 			
-			if( _name && _name != "" )				o["name"] = _name;
+			if( _name && _name != "" )
+				o["name"] = _name;
 		}
 		public function copyFrom (o : Object) : void
 		{
-			safePropertyCopy( o , "red", this, "red" );			safePropertyCopy( o , "green", this, "green" );			safePropertyCopy( o , "blue", this, "blue" );			safePropertyCopy( o , "alpha", this, "alpha" );
+			safePropertyCopy( o , "red", this, "red" );
+			safePropertyCopy( o , "green", this, "green" );
+			safePropertyCopy( o , "blue", this, "blue" );
+			safePropertyCopy( o , "alpha", this, "alpha" );
 		}
 	}
 }

@@ -1,30 +1,43 @@
 package abe.com.ponents.utils 
 {
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import flash.events.MouseEvent;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.skinning.cursors.Cursor;
 
-	[Event(name="resize",type="flash.events.Event")]
+    import org.osflash.signals.Signal;
+
+    import flash.display.DisplayObjectContainer;
+    import flash.events.EventDispatcher;
+    import flash.events.MouseEvent;
+
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class ComponentResizer extends EventDispatcher
 	{
-		static public const TOP_RESIZE_POLICY : uint = 0;		static public const BOTTOM_RESIZE_POLICY : uint = 1;		static public const LEFT_RESIZE_POLICY : uint = 2;		static public const RIGHT_RESIZE_POLICY : uint = 3;		static public const HORIZONTAL_RESIZE_POLICY : uint = 4;		static public const VERTICAL_RESIZE_POLICY : uint = 5;		static public const BOTH_RESIZE_POLICY : uint = 6;
+		static public const TOP_RESIZE_POLICY : uint = 0;
+		static public const BOTTOM_RESIZE_POLICY : uint = 1;
+		static public const LEFT_RESIZE_POLICY : uint = 2;
+		static public const RIGHT_RESIZE_POLICY : uint = 3;
+		static public const HORIZONTAL_RESIZE_POLICY : uint = 4;
+		static public const VERTICAL_RESIZE_POLICY : uint = 5;
+		static public const BOTH_RESIZE_POLICY : uint = 6;
 		
 		static public var RESIZER_SIZE : Number = 5;
 		static public var RESIZER_PAD_SIZE : Number = 12;
 		
-		/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
+		FEATURES::CURSOR { 
 			static public var CURSOR_MAPPING : Object = {
 															'north':Cursor.RESIZE_N,
-															'south':Cursor.RESIZE_S,															'west':Cursor.RESIZE_W,															'east':Cursor.RESIZE_E,															'north-west':Cursor.RESIZE_NW,															'north-east':Cursor.RESIZE_NE,															'south-west':Cursor.RESIZE_SW,
+															'south':Cursor.RESIZE_S,
+															'west':Cursor.RESIZE_W,
+															'east':Cursor.RESIZE_E,
+															'north-west':Cursor.RESIZE_NW,
+															'north-east':Cursor.RESIZE_NE,
+															'south-west':Cursor.RESIZE_SW,
 															'south-east':Cursor.RESIZE_SE
 														};
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 		
 		protected var _component : Component;
 		protected var _policy : uint;
@@ -39,11 +52,16 @@ package abe.com.ponents.utils
 		protected var _safeHeight : Number;
 		protected var _mouseX : Number;
 		protected var _mouseY : Number;
+		protected var _localOffsetY : Number;
+		protected var _localOffsetX : Number;
 		protected var _offsetY : Number;
 		protected var _offsetX : Number;
+		
+		public var componentResized : Signal;
 
 		public function ComponentResizer ( c : Component, policy : uint = 6 ) 
 		{
+		    componentResized = new Signal();
 			_component = c;
 			_policy = policy;
 			
@@ -77,22 +95,29 @@ package abe.com.ponents.utils
 					if( _component.mouseY < RESIZER_SIZE )
 						return CardinalPoints.NORTH;	
 					else
-						return null;					break;
-									case BOTTOM_RESIZE_POLICY : 
+						return null;
+					break;
+					
+				case BOTTOM_RESIZE_POLICY : 
 					if( _component.mouseY > _component.height - RESIZER_SIZE )
 						return CardinalPoints.SOUTH;
 					else
-						return null;					break;
-									case LEFT_RESIZE_POLICY : 
+						return null;
+					break;
+					
+				case LEFT_RESIZE_POLICY : 
 					if( _component.mouseX < RESIZER_SIZE )
 						return CardinalPoints.WEST;
 					else
-						return null;					break;
-									case RIGHT_RESIZE_POLICY : 	
+						return null;
+					break;
+					
+				case RIGHT_RESIZE_POLICY : 	
 					if( _component.mouseX > _component.width - RESIZER_SIZE )
 						return CardinalPoints.EAST;	
 					else
-						return null;								break;
+						return null;			
+					break;
 					
 				case HORIZONTAL_RESIZE_POLICY : 
 					if( _component.mouseX < RESIZER_SIZE )
@@ -161,38 +186,36 @@ package abe.com.ponents.utils
 		
 		protected function registerToComponentEvents (c : Component) : void 
 		{
-			c.addEventListener( MouseEvent.MOUSE_DOWN, mouseDown, false, 1 );
-			c.addEventListener( MouseEvent.MOUSE_OVER, mouseOver, false, 1 );
-			c.addEventListener( MouseEvent.MOUSE_OUT, mouseOut, false, 1 );
+			c.mousePressed.add( mousePressed );
+			c.mouseEntered.add( mouseEntered );
+			c.mouseLeaved.add( mouseLeaved );
 			
 			StageUtils.stage.addEventListener( MouseEvent.MOUSE_UP, mouseUp, false, 1 );
 			StageUtils.stage.addEventListener( MouseEvent.MOUSE_MOVE, mouseMove, false, 1 );
 		}
 		protected function unregisterFromComponentEvents (c : Component) : void 
 		{
-			c.removeEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
-			c.removeEventListener( MouseEvent.MOUSE_OVER, mouseOver );
-			c.removeEventListener( MouseEvent.MOUSE_OUT, mouseOut );
+			c.mousePressed.remove( mousePressed );
+			c.mouseEntered.remove( mouseEntered );
+			c.mouseLeaved.remove( mouseLeaved );
 			
 			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
 			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
 		}
 		
-		protected function mouseOver (event : MouseEvent) : void
+		protected function mouseEntered ( c : Component ) : void
 		{
 		}
-		protected function mouseOut (event : MouseEvent) : void
+		protected function mouseLeaved ( c : Component ) : void
 		{
 			if( !_isResizing )
 			{
-				/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
+				FEATURES::CURSOR { 
 					Cursor.restoreCursor();
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 			}
-			else
-				event.stopImmediatePropagation();
 		}
-		protected function mouseDown ( event : MouseEvent) : void 
+		protected function mousePressed ( c : Component ) : void 
 		{
 			if( isAboveComponent() )
 			{
@@ -202,18 +225,33 @@ package abe.com.ponents.utils
 				if( _resizeMode )
 				{
 					_isResizing = true;
-					_safeX = _component.screenVisibleArea.x;					_safeY = _component.screenVisibleArea.y;
+//					_safeX = _component.screenVisibleArea.x;
+//					_safeY = _component.screenVisibleArea.y;
+					
+					_safeX = _component.x;
+					_safeY = _component.y;
+					
 					_safeWidth = _component.width;
 					_safeHeight = _component.height;
-					_offsetX = _component.mouseX;					_offsetY = _component.mouseY;
-					_mouseX = StageUtils.stage.mouseX;					_mouseY = StageUtils.stage.mouseY;					event.stopImmediatePropagation();
+					_offsetX = _component.mouseX;
+					_offsetY = _component.mouseY;
+//					_mouseX = StageUtils.stage.mouseX;
+//					_mouseY = StageUtils.stage.mouseY;
+					var p : DisplayObjectContainer = _component.parent;
+					_mouseX = p.mouseX;
+					_mouseY = p.mouseY;
+					
+					preventToolOperation = true;
 				}
 			}
 		}
 		protected function mouseUp (event : MouseEvent) : void 
 		{
 			if(_isResizing)
+			{
 				_isResizing = false;
+				preventToolOperation = false;
+			}
 		}
 
 		protected function mouseMove (event : MouseEvent) : void 
@@ -221,26 +259,27 @@ package abe.com.ponents.utils
 			if( _isResizing )
 			{
 				resizeComponent( _resizeMode );
-				/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
+				FEATURES::CURSOR { 
 					Cursor.setCursorWithLabel( CURSOR_MAPPING[ _resizeMode ] );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 			}
 			else if( isAboveComponent() )
 			{
 				var resizer : String = isAboveResizer();
 				if( resizer )
 				{
-					/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
+					FEATURES::CURSOR { 
 						Cursor.setCursorWithLabel( CURSOR_MAPPING[ resizer ] );
-					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+					} 
 					_component.mouseChildren = false;
-				}				else
+				}
+				else
 				{
 					_component.mouseChildren = true;
-					/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
+					FEATURES::CURSOR { 
 						//Cursor.setCursor( _component.cursor );
 						return;
-					/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+					} 
 				}
 			}
 		}
@@ -251,34 +290,39 @@ package abe.com.ponents.utils
 			if( _component.size )
 				_component.size = null;
 			
-			var mouseX : Number = StageUtils.stage.mouseX;
-			var mouseY : Number = StageUtils.stage.mouseY;			var offsetX2 : Number = _safeWidth - _offsetX;
-			var offsetY2 : Number = _safeHeight - _offsetY;			
+			var p : DisplayObjectContainer = _component.parent;
+			var mouseX : Number = p.mouseX;
+			var mouseY : Number = p.mouseY;
+//			var mouseX : Number = StageUtils.stage.mouseX;
+//			var mouseY : Number = StageUtils.stage.mouseY;
+			var offsetX2 : Number = _safeWidth - _offsetX;
+			var offsetY2 : Number = _safeHeight - _offsetY;
+			
 			if( resizeMode == CardinalPoints.NORTH || 
 				resizeMode == CardinalPoints.NORTH_EAST ||
 				resizeMode == CardinalPoints.NORTH_WEST )
 			{ 
 					_component.y = mouseY - _offsetY;
-					_component.preferredHeight = ( _safeY + _safeHeight ) - mouseY - _offsetY;
+					_component.preferredHeight = Math.max( ( _safeY + _safeHeight ) - mouseY - _offsetY, 10 );
 			}
 			else if( resizeMode == CardinalPoints.SOUTH || 
 					 resizeMode == CardinalPoints.SOUTH_EAST ||
 					 resizeMode == CardinalPoints.SOUTH_WEST )
-					_component.preferredHeight = mouseY - _safeY + offsetY2;
+					_component.preferredHeight = Math.max( mouseY - _safeY + offsetY2, 10 );
 			
 			if( resizeMode == CardinalPoints.WEST || 
 				resizeMode == CardinalPoints.SOUTH_WEST ||
 				resizeMode == CardinalPoints.NORTH_WEST )
 			{ 
 					_component.x = mouseX - _offsetX;
-					_component.preferredWidth = ( _safeX + _safeWidth ) - mouseX - _offsetX;
+					_component.preferredWidth = Math.max( ( _safeX + _safeWidth ) - mouseX - _offsetX, 10 );
 			}
 			else if( resizeMode == CardinalPoints.EAST || 
 					 resizeMode == CardinalPoints.SOUTH_EAST ||
 					 resizeMode == CardinalPoints.NORTH_EAST ) 
-					_component.preferredWidth = mouseX - _safeX + offsetX2;
+					_component.preferredWidth = Math.max( mouseX - _safeX + offsetX2, 10 );
 
-			dispatchEvent(new Event(Event.RESIZE ));
+			componentResized.dispatch( this );
 		}
 	}
 }

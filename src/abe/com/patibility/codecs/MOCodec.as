@@ -38,6 +38,8 @@ package abe.com.patibility.codecs
 			if( o is ByteArray )
 			{
 				var byte : ByteArray = o as ByteArray;
+				// only little endian are handled
+				byte.endian = Endian.LITTLE_ENDIAN;
 				
 				var __object__:Object = new Object();
 	            var __info__:Object = new Object();

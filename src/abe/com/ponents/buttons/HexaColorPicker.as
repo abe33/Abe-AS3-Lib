@@ -5,12 +5,7 @@ package abe.com.ponents.buttons
 {
 	import abe.com.mon.colors.Color;
 
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
+
 	/**
 	 * La classe <code>HexaColorPicker</code> est utilisé afin d'éditer des couleurs
 	 * sous la forme d'entiers héxadécimaux.

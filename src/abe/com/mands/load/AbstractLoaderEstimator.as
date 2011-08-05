@@ -1,15 +1,11 @@
 package abe.com.mands.load 
 {
-	import abe.com.mands.events.LoadingEstimationEvent;
+	import org.osflash.signals.Signal;
 
 	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.events.ProgressEvent;
 	import flash.utils.getTimer;
-
-	[Event(name="estimationsAvailable", type="abe.com.mands.events.LoadingEstimationEvent")]
-	[Event(name="newEstimation", type="abe.com.mands.events.LoadingEstimationEvent")]
-	public class AbstractLoaderEstimator extends EventDispatcher implements Estimator
+	public class AbstractLoaderEstimator implements Estimator
 	{
 		protected var _time : Number;
 		protected var _rate : Number;
@@ -25,13 +21,19 @@ package abe.com.mands.load
 		protected var _available : Boolean;
 		protected var _startTime : Number;
 		
+		protected var _estimationsAvailable : Signal;		protected var _estimationsProgressed : Signal;
+		
 		public function AbstractLoaderEstimator (  rateSmoothness : Number = 10,
 									 	  			remainSmoothness : Number = 1 )
 		{
 			_rateSmoothness = rateSmoothness;
 			_remainSmoothness = remainSmoothness;
+			_estimationsAvailable = new Signal(Number, Number);			_estimationsProgressed = new Signal(Number, Number);
 			reset();
 		}
+		public function get estimationsAvailable () : Signal { return _estimationsAvailable; }
+		public function get estimationsProgressed () : Signal { return _estimationsProgressed; }
+		
 		public function reset() : void
 		{
 			_ratesSum = 0;
@@ -94,41 +96,15 @@ package abe.com.mands.load
 			if( !_available )
 			{
 				_available = true;
-				fireEstimationAvailable( _rate, _remain );
+				_estimationsAvailable.dispatch( _rate, _remain );
 			}
 			
 			if( _available )
-				fireNewEstimation( _rate, _remain );
+				_estimationsProgressed.dispatch( _rate, _remain );
 		}
 		protected function complete ( e : Event ) : void
 		{
 			reset();
-		}
-		public function fireEstimationAvailable ( rate : Number, remain : Number ) : void
-		{
-			dispatchEvent( new LoadingEstimationEvent( LoadingEstimationEvent.ESTIMATIONS_AVAILABLE, rate, remain ) );
-		}
-		public function fireNewEstimation ( rate : Number, remain : Number ) : void
-		{
-			dispatchEvent( new LoadingEstimationEvent( LoadingEstimationEvent.NEW_ESTIMATION, rate, remain ) );
-		}
-		
-		/**
-		 * Réécriture de la méthode <code>dispatchEvent</code> afin d'éviter la diffusion
-		 * d'évènement en l'absence d'écouteurs pour cet évènement.
-		 * 
-		 * @param	evt	objet évènement à diffuser
-		 * @return	<code>true</code> si l'évènement a bien été diffusé, <code>false</code>
-		 * 			en cas d'échec ou d'appel de la méthode <code>preventDefault</code>
-		 * 			sur cet objet évènement
-		 */
-		override public function dispatchEvent( evt : Event ) : Boolean 
-		{
-		 	if (hasEventListener(evt.type) || evt.bubbles) 
-		 	{
-		  		return super.dispatchEvent(evt);
-		  	}
-		 	return true;
 		}
 	}
 }

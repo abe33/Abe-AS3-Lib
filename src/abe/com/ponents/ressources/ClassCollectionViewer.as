@@ -1,5 +1,6 @@
 package abe.com.ponents.ressources 
 {
+	import abe.com.ponents.ressources.handlers.HandlerUtils;
 	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.logs.Log;
@@ -29,7 +30,6 @@ package abe.com.ponents.ressources
 	 */
 	public class ClassCollectionViewer extends MultiSplitPane 
 	{
-		static private var ASSET_DETAILS : String = _( "${name}\n<font size='9'><font color='#666666'><i>${path}</i></font>\n\n<font color='#666666'>Extends :</font> ${extends}\n<font color='#666666'>Implements :</font> ${implements}\n${handlerDescription}</font>" );
 		static public const DEFAULT_HANDLER : DefaultHandler = new DefaultHandler();
 		static public const TYPE_HANDLERS : Object = {
 			'flash.display::DisplayObject':new DisplayObjectHandler(),
@@ -87,7 +87,7 @@ package abe.com.ponents.ressources
 			_assetPreviewResizer = new ComponentResizer( _assetPreview, ComponentResizer.BOTTOM_RESIZE_POLICY );
 			_assetDetails = new Label(_("No Selection"));
 			//_assetDetails.preferredSize = dm(150,300);
-			_assetPreview.preferredSize = dm(150,150);
+			_assetPreview.preferredSize = dm(150,200);
 			_assetDetails.wordWrap = true;
 			
 			var detailsPanel : ScrollablePanel = new ScrollablePanel();
@@ -147,23 +147,23 @@ package abe.com.ponents.ressources
 				var s : String = String(o);
 				if( s.indexOf("::") != -1 )
 					s = s.split("::")[1];
-				return _$("<font color='#333333'>$0</font>", s );
+				return s;
 			};
 			var asset : LibraryAsset = _classesList.selectedValue as LibraryAsset;
 			_assetPreview.removeAllComponents();
 			if( asset )
 			{
-				var handler : TypeHandler = getTypeHandler( asset );
+				var handlers : Array = getTypeHandlers( asset );				var handler : TypeHandler = handlers[0];
 				
-				var description : String = _$( ASSET_DETAILS,
-									  {
-										  'name':asset.name, 
-										  'path':asset.packagePath,
-										  'extends': _$( "$0 &gt; $1", 
-										  				 asset.name, asset.extendsClasses.map(map).join(" &gt; ") ),
-										  'implements': asset.implementsInterfaces.map(map).join(", "),
-										  'handlerDescription':handler.getDescription( asset.type )
-									  } );
+				var description : String = _$( "<font size='16'>$0</font>\n<font size='9' color='#666666'>$1</font>\n\n$2\n\n$3", 
+												asset.name,
+												asset.packagePath,
+												HandlerUtils.getFields( {
+													  'Extends': _$( "$0 &gt; $1", 
+													  				 asset.name, asset.extendsClasses.map(map).join(" &gt; ") ),
+													  'Implements': asset.implementsInterfaces.map(map).join(", ")
+												}),
+												getAssetDescription( asset, handlers ) );
 				_assetPreview.addComponent( handler.getPreview( asset.type ) );
 				_assetDetails.value = description;
 			}
@@ -172,32 +172,43 @@ package abe.com.ponents.ressources
 				_assetDetails.value = _("No Selection");
 			}
 		}
-		static public function getTypeHandler (asset : LibraryAsset) : TypeHandler 
+		protected function getAssetDescription ( asset : LibraryAsset, handlers : Array ) : String 
+		{
+			var s : String = "";
+			
+			if( handlers.length == 1 && handlers[0] == DEFAULT_HANDLER )
+				return s;
+			
+			for each( var handler : TypeHandler in handlers )
+				s += getHandlerDescription( asset, handler );
+			
+			return s;
+		}
+		protected function getHandlerDescription (asset : LibraryAsset, handler : TypeHandler) : String 
+		{
+			return _$( "<font size='12'>$0</font>\n$1\n\n", handler.title, handler.getDescription(asset.type) );
+		}
+		static public function getTypeHandlers (asset : LibraryAsset) : Array 
 		{
 			var cls : String;
 			var handlerFound : Boolean = false;
-			var handler : TypeHandler;
-			
+			var a: Array = [];
 			for each ( cls in asset.extendsClasses )
 				if( TYPE_HANDLERS.hasOwnProperty( cls ) )
 				{
-					handler = ( TYPE_HANDLERS[ cls ] as TypeHandler );
-					handlerFound = true;
-					break;
+					a.push( TYPE_HANDLERS[ cls ] );
 				}
 			if( !handlerFound )
 				for each ( cls in asset.implementsInterfaces )
 					if( TYPE_HANDLERS.hasOwnProperty( cls ) )
 					{
-						handler = ( TYPE_HANDLERS[ cls ] as TypeHandler );
-						handlerFound = true;
-						break;
+						a.push( TYPE_HANDLERS[ cls ] );
 					}
 			
-			if( !handlerFound )			
-				handler =  DEFAULT_HANDLER;
+			if( a.length == 0 )			
+				a = [DEFAULT_HANDLER];
 			
-			return handler;
+			return a;
 		}
 		protected function collectionsSelectionChange (event : ComponentEvent) : void 
 		{

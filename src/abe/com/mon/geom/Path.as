@@ -3,8 +3,9 @@
  */
 package abe.com.mon.geom 
 {
-	import flash.geom.Point;
+    import abe.com.mon.core.Serializable;
 
+    import flash.geom.Point;
 	/**
 	 * The interface <code>Path</code> defined a method to retrieve
 	 * the coordinates in the path with a position value.
@@ -15,7 +16,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
-	public interface Path
+	public interface Path extends Serializable
 	{
 		/**
 		 * Returns the coordinates in the path to position

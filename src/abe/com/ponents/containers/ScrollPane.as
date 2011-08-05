@@ -1,15 +1,11 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.ScrollPaneLayout;
-	import abe.com.ponents.scrollbars.ScrollBar;
-
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-
+    import abe.com.mon.geom.*;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.factory.*;
+    import abe.com.ponents.layouts.components.ScrollPaneLayout;
+    import abe.com.ponents.scrollbars.ScrollBar;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -20,11 +16,32 @@ package abe.com.ponents.containers
 	[Skin(define="Viewport",
 		  inherit="DefaultComponent",
 		  
-		  state__all__background="new deco::SimpleFill( skin.backgroundColor )",
-		  state__all__foreground="new deco::SimpleBorders( skin.borderColor )"
+		  state__all__background="skin.backgroundColor",
+		  state__all__foreground="skin.borderColor"
 	)]
 	public class ScrollPane extends AbstractScrollContainer 
 	{
+	    FEATURES::BUILDER 
+	    {
+	        static public function buildPreview( factory : ComponentFactory,
+                                                 id : String,
+                                                 kwargs : Object = null ):void
+            {
+                ScrollablePanel.buildPreview( factory, id + "_panel" );
+                
+                factory.group("movables")
+                       .build( ScrollPane, 
+                               id, 
+                               null,
+                               kwargs, 
+                               function( sp : ScrollPane, o : Object ) : void
+                               {
+                                   sp.view = o[ id + "_panel" ];
+                                   sp.preferredSize = dm(100,100);
+                               } );
+            }
+	    }
+	
 		protected var _rowHeader : Viewport;
 		protected var _colHeader : Viewport;
 		protected var _vscrollbar : ScrollPane_ScrollBar;
@@ -41,7 +58,6 @@ package abe.com.ponents.containers
 			
 			layout.viewport = _viewport;
 			_viewport.styleKey = "Viewport";
-			_viewport.addEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
 			
 			_rowHeader = new Viewport();
 			addComponent( _rowHeader );
@@ -55,26 +71,24 @@ package abe.com.ponents.containers
 			_vscrollbar.model = _vmodel;
 			addComponent( _vscrollbar );
 			layout.vscrollbar = _vscrollbar;
-			_vscrollbar.addWeakEventListener( ComponentEvent.SCROLL, vscrollOccured );
-						_hscrollbar = new ScrollPane_ScrollBar( viewport, 0, 0, 1, 0, 10 );
+			_vscrollbar.scrolled.add( vScrolled );
+			
+			_hscrollbar = new ScrollPane_ScrollBar( viewport, 0, 0, 1, 0, 10 );
 			_hscrollbar.model = _hmodel;
 			addComponent( _hscrollbar );
 			layout.hscrollbar = _hscrollbar;
-			_hscrollbar.addWeakEventListener( ComponentEvent.SCROLL, hscrollOccured );
+			_hscrollbar.scrolled.add( hScrolled );
 		}
 		
-		protected function mouseWheel (event : MouseEvent) : void
+		override public function viewportMouseWheelRolled ( c : Component, d: Number ) : void
 		{
 			var willScroll : Boolean = layout.vscrollbar.canScroll && 
-									   event.delta < 0 ? 
+									   d < 0 ? 
 									   	   layout.vscrollbar.scroll < layout.vscrollbar.maxScroll : 
 									   	   layout.vscrollbar.scroll > layout.vscrollbar.minScroll;
 			
 			if( willScroll )
-			{
-				event.stopPropagation();
-				layout.vscrollbar.mouseWheel( event );
-			}
+				layout.vscrollbar.buttonMouseWheelRolled( c, d );
 		}
 		
 		override public function get contentSize () : Dimension
@@ -98,7 +112,8 @@ package abe.com.ponents.containers
 		
 		public function get layout () : ScrollPaneLayout { return childrenLayout as ScrollPaneLayout; }
 		
-		override public function get scrollPolicy () : String { return layout.scrollPolicy; }		override public function set scrollPolicy ( s : String ) : void { layout.scrollPolicy = s; }
+		override public function get scrollPolicy () : String { return layout.scrollPolicy; }
+		override public function set scrollPolicy ( s : String ) : void { layout.scrollPolicy = s; }
 		
 		public function get vscrollbar () : ScrollBar { return _vscrollbar; }		
 		public function get hscrollbar () : ScrollBar { return _hscrollbar; }		
@@ -174,23 +189,22 @@ package abe.com.ponents.containers
 			layout.viewport.focusFirstChild();
 		}
 
-		override protected function hscrollOccured ( e : Event ) : void
+		protected function hScrolled ( c : Component ) : void
 		{
 			if( layout.colHead.view )
 				layout.colHead.view.x = -_hmodel.value;
 				
-			super.hscrollOccured(e);
+			hscrollOccured( _hscrollbar.model, _hscrollbar.model.value );
 		}
-		override protected function vscrollOccured ( e : Event ) : void
+		protected function vScrolled ( c : Component ) : void
 		{
 			if( layout.rowHead.view )
 				layout.rowHead.view.y = -_vmodel.value;
 				
-			super.vscrollOccured(e);
+			vscrollOccured( _vscrollbar.model, _vscrollbar.model.value );
 		}
 	}
 }
-
 import abe.com.ponents.containers.Viewport;
 import abe.com.ponents.scrollbars.ScrollBar;
 
@@ -208,7 +222,8 @@ internal class ScrollPane_ScrollBar extends ScrollBar
 	override public function getUnitIncrement ( direction : Number = 1 ) : Number
 	{
 		return isVertical ?
-					_viewport.getUnitIncrementV ( direction ) : 					_viewport.getUnitIncrementH ( direction );
+					_viewport.getUnitIncrementV ( direction ) : 
+					_viewport.getUnitIncrementH ( direction );
 	}
 
 	override public function getBlockIncrement ( direction : Number = 1 ) : Number

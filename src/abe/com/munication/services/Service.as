@@ -3,28 +3,13 @@
  */
 package abe.com.munication.services
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.munication.services.middleware.ServiceMiddleware;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.IEventDispatcher;
+	import org.osflash.signals.Signal;
 	import flash.net.NetConnection;
 	import flash.net.Responder;
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 
 	/**
-	 * Diffusé par l'instance en cas de succès de la communication avec le service.s
-	 *
-	 * @eventType abe.com.munication.services.ServiceEvent.SERVICE_RESULT
-	 */
-	[Event(name="serviceResult", type="abe.com.munication.services.ServiceEvent")]
-	/**
-	 * Diffusé par l'instance en cas d'échec de la communication avec le service
-	 *
-	 * @eventType abe.com.munication.services.ServiceEvent.SERVICE_ERROR
-	 */
-	[Event(name="serviceError", type="abe.com.munication.services.ServiceEvent")]	/**
 	 * La classe <code>Service</code> représente un proxy vers un service distant.
 	 * <p>
 	 * Il suffit d'appeler une méthode sur cette objet pour provoquer une communication
@@ -34,7 +19,7 @@ package abe.com.munication.services
 	 *
 	 * @author Cédric Néhémie
 	 */
-	dynamic public class Service extends Proxy implements IEventDispatcher
+	dynamic public class Service extends Proxy
 	{
 		/**
 		 * Le nom du service.
@@ -48,11 +33,9 @@ package abe.com.munication.services
 		 * L'objet utilisé pour réaliser l'appel.
 		 */
 		protected var _responder : Responder;
-		/**
-		 * Composition d'un <code>EventDispatcher</code> utilisé pour
-		 * la diffusion des évènements.
-		 */
-		protected var _eD : EventDispatcher;
+		
+		public var serviceResponded : Signal;
+		public var serviceErrorOccured : Signal;
 		/**
 		 * Constructeur de la classe <code>Service</code>.
 		 *
@@ -64,7 +47,8 @@ package abe.com.munication.services
 			_serviceName = name;
 			_netConnection = connection;
 			_responder = new Responder( handleResult, handleStatus );
-			_eD = new EventDispatcher(this);
+			serviceResponded = new Signal();
+			serviceErrorOccured = new Signal();
 		}
 		/**
 		 * Le nom du service.
@@ -102,53 +86,24 @@ package abe.com.munication.services
 				_netConnection.close();
 		}
 		/**
-		 * Diffuse un évènement de type <code>ServiceEvent.SERVICE_RESULT</code> aux
-		 * écouteurs de ce service.
-		 *
-		 * @param	result	le résultat à transmettre
 		 */
-		protected function fireServiceResultEvent ( result : *) : void
+		protected function fireServiceRespondedSignal ( result : *) : void
 		{
-			dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_RESULT, result ) );
+			serviceResponded.dispatch( result );
 		}		
 		/**
-		 * Diffuse un évènement de type <code>ServiceEvent.SERVICE_ERROR</code> aux
-		 * écouteurs de ce service.
-		 *
-		 * @param	error	l'erreur à transmettre
 		 */
-		protected function fireServiceErrorEvent ( error : *) : void
+		protected function fireServiceErrorOcurredSignal ( error : *) : void
 		{
-			dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_ERROR, error ) );
-		}
-
-		public function dispatchEvent (event : Event) : Boolean
-		{
-			return _eD.dispatchEvent( event );
-		}
-		public function hasEventListener (type : String) : Boolean
-		{
-			return _eD.hasEventListener(type);
-		}
-		public function willTrigger (type : String) : Boolean
-		{
-			return _eD.willTrigger(type);
-		}
-		public function removeEventListener (type : String, listener : Function, useCapture : Boolean = false) : void
-		{
-			_eD.removeEventListener(type, listener, useCapture );
-		}
-		public function addEventListener (type : String, listener : Function, useCapture : Boolean = false, priority : int = 0, useWeakReference : Boolean = false) : void
-		{
-			_eD.addEventListener(type, listener, useCapture, priority, useWeakReference );
+			serviceErrorOccured.dispatch( error );
 		}
 		private function handleResult(... args):void
 		{
-			fireServiceResultEvent( args[0] );
+			fireServiceRespondedSignal( args[0] );
 		}
 		private function handleStatus(... args):void
 		{
-			fireServiceErrorEvent( args[0] );
+			fireServiceErrorOcurredSignal( args[0] );
 		}
 	}
 }

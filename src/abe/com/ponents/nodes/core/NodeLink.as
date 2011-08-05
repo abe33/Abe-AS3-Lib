@@ -1,27 +1,30 @@
 package abe.com.ponents.nodes.core 
 {
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.mon.utils.Reflection;
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Copyable;
 	import abe.com.mon.core.FormMetaProvider;
+	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.PointUtils;
+	import abe.com.mon.utils.Reflection;
 	import abe.com.mon.utils.StageUtils;
+	import abe.com.mon.utils.StringUtils;
 	import abe.com.mon.utils.magicCopy;
 	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
 	import abe.com.ponents.containers.Window;
+	import abe.com.ponents.core.Component;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.forms.FormObject;
 	import abe.com.ponents.forms.managers.SimpleFormManager;
 	import abe.com.ponents.history.UndoManagerInstance;
 	import abe.com.ponents.nodes.renderers.links.LinkRendererFactoryInstance;
-
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+
 	/**
 	 * @author cedric
 	 */
@@ -72,6 +75,7 @@ package abe.com.ponents.nodes.core
 								  relationshipDirection : String = "none" ) 
 		{
 			doubleClickEnabled = true;
+			_allowEdit = true;
 			
 			this.a = a;
 			this.b = b;
@@ -158,7 +162,7 @@ package abe.com.ponents.nodes.core
 			if( _displayAnchorBLabel )
 				setupTextField( anchorTfB );
 			
-			a.addEventListener( ComponentEvent.POSITION_CHANGE, positionChange );			b.addEventListener( ComponentEvent.POSITION_CHANGE, positionChange );
+			a.componentPositionChanged.add( positionChanged );			b.componentPositionChanged.add( positionChanged );
 			addEventListener(MouseEvent.DOUBLE_CLICK, editProperties);			repaint();
 		}
 		protected function removedFromStage (event : Event) : void 
@@ -171,8 +175,8 @@ package abe.com.ponents.nodes.core
 			
 			tf = null;			anchorTfA = null;			anchorTfB = null;
 			
-			a.removeEventListener( ComponentEvent.POSITION_CHANGE, positionChange );
-			b.removeEventListener( ComponentEvent.POSITION_CHANGE, positionChange );
+			a.componentPositionChanged.remove( positionChanged );
+			b.componentPositionChanged.remove( positionChanged );
 			removeEventListener(MouseEvent.DOUBLE_CLICK, editProperties );
 		}
 		protected function unsetTextField (tf : TextField) : void 
@@ -197,7 +201,7 @@ package abe.com.ponents.nodes.core
 			}
 			addChild( tf );
 		}
-		protected function positionChange (event : ComponentEvent) : void 
+		protected function positionChanged ( c : Component, p : Point ) : void 
 		{
 			repaint();
 		}

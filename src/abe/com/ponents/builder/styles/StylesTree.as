@@ -1,9 +1,9 @@
 package abe.com.ponents.builder.styles
 {
-	import abe.com.ponents.actions.ActionManagerInstance;
 	import abe.com.mon.colors.Color;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.actions.Action;
+	import abe.com.ponents.actions.ActionManagerInstance;
 	import abe.com.ponents.actions.ProxyAction;
 	import abe.com.ponents.containers.Dialog;
 	import abe.com.ponents.events.ComponentEvent;

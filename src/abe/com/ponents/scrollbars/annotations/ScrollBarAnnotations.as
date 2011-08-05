@@ -1,7 +1,8 @@
 package abe.com.ponents.scrollbars.annotations
 {
+	import abe.com.mon.logs.Log;
 	import abe.com.mon.geom.dm;
-	import abe.com.ponents.core.AbstractComponent;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.scrollbars.ScrollBar;
 
 	import flash.display.Graphics;
@@ -99,46 +100,48 @@ package abe.com.ponents.scrollbars.annotations
 		}
 		override public function mouseMove ( e : MouseEvent ) : void
 		{
-			var canScroll : Boolean = _scrollBar.canScroll;
-			var h : Number;
-
-			if( canScroll )
-				h = _scrollBar.maxScroll + _scrollBar.extent;
-			else
-				h = _scrollBar.extent;
-
-			for each( var a : Annotation in _annotations )
-			{
-				var y : Number = a.position / h * ( _scrollBar.height-4 );
-				if( mouseY > y && mouseY < y + 4 )
-				{
-					_tooltip = a.label;
-					showToolTip();
-					return;
-				}
-			}
-			hideToolTip();
-			_tooltip = null;
+//			var canScroll : Boolean = _scrollBar.canScroll;
+//			var h : Number;
+//
+//			if( canScroll )
+//				h = _scrollBar.maxScroll + _scrollBar.extent;
+//			else
+//				h = _scrollBar.extent;
+//
+//			for each( var a : Annotation in _annotations )
+//			{
+//				var y : Number = a.position / h * ( _scrollBar.height-4 );
+//				if( mouseY > y && mouseY < y + 4 )
+//				{
+//					_tooltip = a.label;
+//					showToolTip();
+//					return;
+//				}
+//			}
+//			hideToolTip();
+//			_tooltip = null;
 		}
-		override public function click ( e : Event = null ) : void
+		override public function click ( context : UserActionContext ) : void
 		{
-			var canScroll : Boolean = _scrollBar.canScroll;
-			var h : Number;
-
-			if( canScroll )
-				h = _scrollBar.maxScroll + _scrollBar.extent;
-			else
-				h = _scrollBar.extent;
-
-			for each( var a : Annotation in _annotations )
-			{
-				var y : Number = a.position / h * ( _scrollBar.height-4 );
-				if( mouseY > y && mouseY < y + 4 )
-				{
-					_scrollBar.scrollTo( a.position + 1 );
-					return;
-				}
-			}
+//			var canScroll : Boolean = _scrollBar.canScroll;
+//			var h : Number;
+//			
+//
+//			if( canScroll )
+//				h = _scrollBar.maxScroll + _scrollBar.extent;
+//			else
+//				h = _scrollBar.extent;
+//			
+//			for each( var a : Annotation in _annotations )
+//			{
+//				var y : Number = a.position / h * ( _scrollBar.height-4 );
+//				if( mouseY > y && mouseY < y + 4 )
+//				{
+//                    Log.debug("clicked on " + a);
+//					_scrollBar.scrollTo( a.position + 1 );
+//					return;
+//				}
+//			}
 		}
 	}
 }

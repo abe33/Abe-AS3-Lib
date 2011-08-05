@@ -3,12 +3,13 @@
  */
 package abe.com.edia.bitmaps
 {
-	import abe.com.mon.utils.RandomUtils;
 	import abe.com.mon.core.Randomizable;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.pt;
 	import abe.com.mon.geom.rect;
-	import abe.com.mon.utils.Random;
+
+	import abe.com.mon.randoms.Random;
+	import abe.com.mon.utils.RandomUtils;
 
 	import flash.display.BitmapData;
 	import flash.geom.Point;
@@ -22,7 +23,8 @@ package abe.com.edia.bitmaps
 		
 		protected var _grid : BitmapData;
 		protected var _cellSize : Dimension;
-		protected var _rows : uint;		protected var _cols : uint;
+		protected var _rows : uint;
+		protected var _cols : uint;
 		
 		public var cellCenter : Point;
 		protected var _randomSource : Random;
@@ -32,11 +34,12 @@ package abe.com.edia.bitmaps
 			_grid = grid;
 			_cellSize = cellSize;
 			_cellCache = {};
-			_cols = Math.floor( _grid.width / _cellSize.width );			_rows = Math.floor( _grid.height / _cellSize.height );
+			_cols = Math.floor( _grid.width / _cellSize.width );
+			_rows = Math.floor( _grid.height / _cellSize.height );
 			cellCenter = new Point( );
-			_randomSource = RandomUtils.RANDOM;
-		}
-		public function get rows () : uint { return _rows; }
+			_randomSource = RandomUtils;
+        }
+        public function get rows () : uint { return _rows; }
 		public function get cols () : uint { return _cols; }
 		
 		public function get cellSize () : Dimension { return _cellSize; }

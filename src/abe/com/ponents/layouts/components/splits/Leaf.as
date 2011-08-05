@@ -4,7 +4,6 @@ package abe.com.ponents.layouts.components.splits
 	import abe.com.ponents.core.Component;
 
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

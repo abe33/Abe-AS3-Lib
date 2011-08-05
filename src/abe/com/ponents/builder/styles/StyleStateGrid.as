@@ -1,8 +1,8 @@
 package abe.com.ponents.builder.styles 
 {
-	import abe.com.ponents.builder.events.StyleSelectionEvent;
 	import abe.com.mon.utils.Delegate;
 	import abe.com.patibility.lang._;
+	import abe.com.ponents.builder.events.StyleSelectionEvent;
 	import abe.com.ponents.builder.models.StyleSelectionModel;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.core.AbstractContainer;

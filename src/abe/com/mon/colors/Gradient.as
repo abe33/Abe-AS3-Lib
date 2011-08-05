@@ -3,14 +3,13 @@
  */
 package  abe.com.mon.colors 
 {
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Equatable;
 	import abe.com.mon.core.Serializable;
+	import abe.com.mon.utils.MathUtils;
+	import abe.com.mon.utils.StringUtils;
 
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * Un objet <code>Gradient</code> représente une rampe de dégradé coloré
 	 * à l'aide d'objet <code>Color</code>.
@@ -24,7 +23,12 @@ package  abe.com.mon.colors
 	 * @see	Color
 	 */
 	public class Gradient implements Serializable, Cloneable, Equatable
-	{
+    {
+        static public const COLOR_SPECTRUM : Gradient = new Gradient([	Color.Red, Color.Yellow, Color.Green, 
+        																Color.Cyan, Color.Blue, Color.Fuchsia, 
+                                                                        Color.Red ], 
+                                                                     [ 0 , 0.12, 0.30, 0.5, 0.70, 0.88, 1 ],
+                                                                     "Color Spectrum" );
 		/**
 		 * Le tableau de couleurs constituant le dégradé.
 		 */

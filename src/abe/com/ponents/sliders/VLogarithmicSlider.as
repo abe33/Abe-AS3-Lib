@@ -1,6 +1,5 @@
 package abe.com.ponents.sliders 
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.models.BoundedRangeModel;
@@ -35,7 +34,7 @@ package abe.com.ponents.sliders
 			_knob.y = _track.y + MathUtils.map( valOut , minOut, maxOut, _track.height - _knob.height, 0 );
 			_knob.x = Alignments.alignHorizontal( _knob.width , width, _style.insets, "center" );
 		}
-		override protected function drag ( e : MouseEvent ) : void
+		override protected function drag ( ... args ) : void
 		{
 			if( _dragging )
 			{

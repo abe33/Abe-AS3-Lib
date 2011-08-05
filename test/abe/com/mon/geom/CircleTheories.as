@@ -31,7 +31,7 @@ package abe.com.mon.geom
 
 		[DataPoints]
 		[ArrayElementType("Number")]
-		public static var angles : Array = RandomUtils.RANDOM.floatArray(20,0,180);
+		public static var angles : Array = RandomUtils.floatArray(20,0,180);
 
 		[Theory(description="This theory verify that the getPointAtAngle of the Circle class returns the valid coordinates for a wide range of values.",
 				details="There's 4 circles with different settings and they are tested over 20 different random angles.")]

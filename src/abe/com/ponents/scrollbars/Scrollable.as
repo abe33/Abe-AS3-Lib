@@ -4,7 +4,6 @@ package abe.com.ponents.scrollbars
 
 	import flash.events.IEventDispatcher;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

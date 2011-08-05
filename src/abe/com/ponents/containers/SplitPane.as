@@ -1,9 +1,6 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ButtonEvent;
-	import abe.com.ponents.events.ComponentEvent;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.layouts.components.SplitPaneLayout;
 	import abe.com.ponents.skinning.cursors.Cursor;
 	import abe.com.ponents.utils.CardinalPoints;
@@ -26,9 +23,11 @@ package abe.com.ponents.containers
 		[Embed(source="../skinning/icons/scrollright.png")]
 		static public var EXPAND_RIGHT_ICON : Class;		
 		
-		static public const HORIZONTAL_SPLIT : uint = 0;		static public const VERTICAL_SPLIT : uint = 1;
+		static public const HORIZONTAL_SPLIT : uint = 0;
+		static public const VERTICAL_SPLIT : uint = 1;
 		
-		protected var _divider : Component;		protected var _firstComponent : Component;
+		protected var _divider : Divider;
+		protected var _firstComponent : Component;
 		protected var _secondComponent : Component;
 		protected var _allowResize : Boolean;
 		protected var _dragging : Boolean;
@@ -49,14 +48,15 @@ package abe.com.ponents.containers
 			_allowResize = true;
 			_expanded = false;
 			_divider = new Divider();
-			_divider.addWeakEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_divider.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_divider.addWeakEventListener( ComponentEvent.RELEASE_OUTSIDE, dragEnd );
+			_divider.mousePressed.add( dragStart );
+			_divider.mouseReleased.add( dragEnd );
+			_divider.mouseReleasedOutside.add( dragEnd );
 			addComponent( _divider );
 			
 			
 			( _childrenLayout as SplitPaneLayout ).divider = _divider;
-			this.resizeWeight = .5;			this.direction = direction;
+			this.resizeWeight = .5;
+			this.direction = direction;
 			this.firstComponent = first;
 			this.secondComponent = second;
 	
@@ -71,23 +71,25 @@ package abe.com.ponents.containers
 		public function set direction (direction : uint) : void
 		{
 			( _childrenLayout as SplitPaneLayout ).direction = direction;
-			/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
-			switch ( direction )
-			{
-				case HORIZONTAL_SPLIT : 
-					_divider.cursor = Cursor.get( Cursor.DRAG_H );
-					break;
-				case VERTICAL_SPLIT :
-				default :  
-					_divider.cursor = Cursor.get( Cursor.DRAG_V );
-					break;
-			}
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::CURSOR { 
+			    switch ( direction )
+			    {
+				    case HORIZONTAL_SPLIT : 
+					    _divider.cursor = Cursor.get( Cursor.DRAG_H );
+					    break;
+				    case VERTICAL_SPLIT :
+				    default :  
+					    _divider.cursor = Cursor.get( Cursor.DRAG_V );
+					    break;
+			    }
+			} 
 			checkExpanderOrientation();
 		}
 		public function get dividerLocation () : Number { return ( _childrenLayout as SplitPaneLayout ).dividerLocation; }		
 		public function set dividerLocation (dividerLocation : Number) : void
-		{
+		{   
+		    ( _firstComponent as AbstractComponent ).invalidatePreferredSizeCache();
+		    ( _secondComponent as AbstractComponent ).invalidatePreferredSizeCache();
 			( _childrenLayout as SplitPaneLayout ).dividerLocation = dividerLocation;
 		}
 		public function get oneTouchExpandable () : Boolean { return _oneTouchExpandable; }		
@@ -103,14 +105,14 @@ package abe.com.ponents.containers
 				_expander = new Expander();
 				checkExpanderOrientation();
 				addComponent( _expander );
-				_expander.addEventListener(ButtonEvent.BUTTON_CLICK, expanderClick );
+				_expander.buttonClicked.add( expanderClicked );
 				
 				( _childrenLayout as SplitPaneLayout ).expander = _expander;
 			}
 			else
 			{
 				removeComponent( _expander );
-				_expander.removeEventListener(ButtonEvent.BUTTON_CLICK, expanderClick );
+				_expander.buttonClicked.remove ( expanderClicked );
 				( _childrenLayout as SplitPaneLayout ).expander = _expander = null;
 			}
 		}
@@ -124,7 +126,8 @@ package abe.com.ponents.containers
 		public function get firstComponent () : Component { return _firstComponent; }		
 		public function set firstComponent ( firstComponent : Component ) : void
 		{
-			if( _firstComponent )				removeComponent( _firstComponent );
+			if( _firstComponent )
+				removeComponent( _firstComponent );
 			
 			( _childrenLayout as SplitPaneLayout ).firstComponent = _firstComponent = firstComponent;
 			
@@ -203,7 +206,7 @@ package abe.com.ponents.containers
 			}
 		}
 
-		protected function expanderClick (event : ButtonEvent) : void 
+		protected function expanderClicked ( b : Component ) : void 
 		{
 			_expanded = !_expanded;
 			
@@ -231,7 +234,7 @@ package abe.com.ponents.containers
 			checkExpanderOrientation();
 		}
 		
-		protected function dragStart ( e : MouseEvent ) : void
+		protected function dragStart ( c : Component ) : void
 		{
 			if( _enabled && _allowResize )
 			{
@@ -242,7 +245,7 @@ package abe.com.ponents.containers
 				stage.addEventListener( MouseEvent.MOUSE_MOVE, drag );
 			}
 		}
-		protected function dragEnd ( e : Event ) : void
+		protected function dragEnd ( c : Component ) : void
 		{
 			if( _enabled && _allowResize && _dragging )
 			{
@@ -269,10 +272,14 @@ package abe.com.ponents.containers
 import abe.com.mon.geom.Dimension;
 import abe.com.ponents.buttons.Button;
 import abe.com.ponents.core.AbstractComponent;
-import abe.com.ponents.events.PropertyEvent;
 import abe.com.ponents.utils.CardinalPoints;
+import abe.com.ponents.skinning.decorations.*;
 
-[Skinable(skin="EmptyComponent")]
+[Skinable(skin="SplitPane_Divider")]
+[Skin(define="SplitPane_Divider",
+      inherit="EmptyComponent",
+      state__all__background="skin.rulerBackgroundColor"
+)]
 internal class Divider extends AbstractComponent
 {
 	public function Divider ()
@@ -297,8 +304,10 @@ internal class Divider extends AbstractComponent
 )]
 [Skin(define="SplitPane_Expander",
 		  inherit="DefaultComponent",
-		  
-		  custom_upIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_UP_ICON)",		  custom_downIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_DOWN_ICON)",		  custom_leftIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_LEFT_ICON)",		  custom_rightIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_RIGHT_ICON)"
+		  custom_upIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_UP_ICON)",
+		  custom_downIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_DOWN_ICON)",
+		  custom_leftIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_LEFT_ICON)",
+		  custom_rightIcon="icon(abe.com.ponents.containers::SplitPane.EXPAND_RIGHT_ICON)"
 )]
 internal class Expander extends Button
 {
@@ -321,13 +330,19 @@ internal class Expander extends Button
 			case CardinalPoints.NORTH :
 				icon = _style.upIcon.clone();
 				preferredSize = new Dimension( 25 , 5 );
-				styleKey = "SplitPane_Expander_Vertical";				break;			case CardinalPoints.SOUTH :
+				styleKey = "SplitPane_Expander_Vertical";
+				break;
+			case CardinalPoints.SOUTH :
 				icon = _style.downIcon.clone();
 				preferredSize = new Dimension( 25 , 5 );
-				styleKey = "SplitPane_Expander_Vertical";				break;			case CardinalPoints.EAST :
+				styleKey = "SplitPane_Expander_Vertical";
+				break;
+			case CardinalPoints.EAST :
 				icon = _style.rightIcon.clone();
 				preferredSize = new Dimension( 5, 25 );
-				styleKey = "SplitPane_Expander_Horizontal";				break;			case CardinalPoints.WEST :
+				styleKey = "SplitPane_Expander_Horizontal";
+				break;
+			case CardinalPoints.WEST :
 			default : 
 				icon = _style.leftIcon.clone();
 				preferredSize = new Dimension( 5, 25 );
@@ -336,9 +351,9 @@ internal class Expander extends Button
 		}
 	}
 
-	override protected function stylePropertyChanged (event : PropertyEvent) : void
+	override protected function stylePropertyChanged ( propertyName :String, propertyValue : * ) : void
 	{
-		switch(event.propertyName)
+		switch(propertyName)
 		{
 			case "upIcon" : 
 			case "downIcon" : 
@@ -347,7 +362,7 @@ internal class Expander extends Button
 				orientation = orientation;
 				break;
 			default : 
-				super.stylePropertyChanged( event );
+				super.stylePropertyChanged( propertyName, propertyValue );
 				break;
 		}
 	}

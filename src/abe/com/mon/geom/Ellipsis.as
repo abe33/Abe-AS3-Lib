@@ -3,17 +3,18 @@
  */
 package  abe.com.mon.geom
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Copyable;
 	import abe.com.mon.core.Equatable;
 	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.core.Randomizable;
 	import abe.com.mon.core.Serializable;
-	import abe.com.mon.colors.Color;
+
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.GeometryUtils;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.Random;
 	import abe.com.mon.utils.RandomUtils;
 	import abe.com.mon.utils.StringUtils;
 
@@ -67,7 +68,8 @@ package  abe.com.mon.geom
 		/**
 		 * Y position of the ellipse center.
 		 * <fr>Position en y du centre de l'ellipse.</fr>
-		 */		public var y : Number;
+		 */
+		public var y : Number;
 
 		[Form(type="floatSpinner",
 			  label="Radius 1",
@@ -88,7 +90,8 @@ package  abe.com.mon.geom
 		/**
 		 * Second radius for this ellipse.
 		 * <fr>Le second rayon de cette ellipse.</fr>
-		 */		public var radius2 : Number;
+		 */
+		public var radius2 : Number;
 
 		[Form(type="floatSpinner",
 			  label="Rotation",
@@ -98,7 +101,8 @@ package  abe.com.mon.geom
 		/**
 		 * Rotation of this ellipse.
 		 * <fr>L'orientation de cette ellipse.</fr>
-		 */		public var rotation : Number;
+		 */
+		public var rotation : Number;
 
 		[Form(type="boolean",
 			  label="Clockwise Path",
@@ -159,9 +163,9 @@ package  abe.com.mon.geom
 
 			clockWisePath = true;
 			pathOffset = 0;
-			_randomSource = RandomUtils.RANDOM;
-		}
-		/**
+			_randomSource = RandomUtils;
+        }
+        /**
 		 * Reference to the internal <code>Random</code> object used in random based methods.
 		 */
 		protected var _randomSource : Random;
@@ -222,7 +226,8 @@ package  abe.com.mon.geom
 		 */
 		public function getPathOrientation (path : Number) : Number
 		{
-			var p1 : Point = getPathPoint( path-.01 );			var p2 : Point = getPathPoint( path+.01 );
+			var p1 : Point = getPathPoint( path-.01 );
+			var p2 : Point = getPathPoint( path+.01 );
 			var d : Point = p2.subtract(p1);
 
 			return Math.atan2( d.y, d.x );
@@ -305,7 +310,11 @@ package  abe.com.mon.geom
 		 */
 		public function copyTo (o : Object) : void
 		{
-			o["x"] = x;			o["y"] = y;			o["radius1"] = radius1;			o["radius2"] = radius2;			o["rotation"] = rotation;
+			o["x"] = x;
+			o["y"] = y;
+			o["radius1"] = radius1;
+			o["radius2"] = radius2;
+			o["rotation"] = rotation;
 		}
 		/**
 		 * @inheritDoc

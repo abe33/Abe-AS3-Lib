@@ -1,14 +1,9 @@
 package abe.com.ponents.layouts.components 
 {
 	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.containers.Viewport;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Container;
-	import abe.com.ponents.scrollbars.ScrollBar;
-	import abe.com.ponents.scrollbars.Scrollable;
 	import abe.com.ponents.utils.Insets;
-	import abe.com.ponents.utils.ScrollPolicies;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -154,7 +149,8 @@ package abe.com.ponents.layouts.components
 
 		protected function estimatedContentSize () : Dimension
 		{
-			var w : Number = 0;			var h : Number = 0;
+			var w : Number = 0;
+			var h : Number = 0;
 			
 			if( _upper )
 				h += _upper.preferredHeight;

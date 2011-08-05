@@ -23,7 +23,6 @@ package abe.com.ponents.ressources.actions
 
 	import com.kode80.swf.SWF;
 
-	import flash.events.Event;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.utils.ByteArray;
@@ -49,17 +48,18 @@ package abe.com.ponents.ressources.actions
 			super( name, icon, longDescription, accelerator );
 			_collectionsLoader = collectionsLoader;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			if( !_window )
 				buildComponents();
 			
 			_viewer.collectionsLoader = _collectionsLoader;
 			
-			StageUtils.centerX( _window, _window.width );			StageUtils.centerY( _window, _window.height );
+			StageUtils.centerX( _window, _window.width );
+			StageUtils.centerY( _window, _window.height );
 			_window.open();
 			
-			fireCommandEnd();
+			_commandEnded.dispatch( this );
 		}
 		protected function loadMe() : void
 		{
@@ -73,7 +73,7 @@ package abe.com.ponents.ressources.actions
 				
 				var col : ClassCollection = CollectionsLoader.getCollectionFromSWF( swf, request.url, StageUtils.root.loaderInfo.loader );
 				_collectionsLoader.collections.push( col );
-				_collectionsLoader.fireCommandEnd();
+				_collectionsLoader.commandEnded.dispatch( _collectionsLoader );
 			});
 			entry.loader.dataFormat = URLLoaderDataFormat.BINARY;
 			entry.execute();
@@ -89,7 +89,8 @@ package abe.com.ponents.ressources.actions
 			p2.childrenLayout = bl;
 			
 			var tb : ToolBar = new ToolBar();
-			tb.addComponent( new Button( new LoadExternalRessource( _collectionsLoader, _("Add collection"), magicIconBuild(packageIcon) ) ) );			tb.addComponent( new Button( new ProxyAction( loadMe, "Dump root" ) ) );
+			tb.addComponent( new Button( new LoadExternalRessource( _collectionsLoader, _("Add collection"), magicIconBuild(packageIcon) ) ) );
+			tb.addComponent( new Button( new ProxyAction( loadMe, "Dump root" ) ) );
 						
 			_viewer = new ClassCollectionViewer();
 			_window = new Window();

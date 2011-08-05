@@ -1,8 +1,8 @@
 package abe.com.ponents.actions.builtin 
 {
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.pt;
 	import abe.com.mon.logs.Log;
-	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.ponents.actions.AbstractAction;
@@ -12,7 +12,6 @@ package abe.com.ponents.actions.builtin
 
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
-	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	/**
@@ -31,8 +30,9 @@ package abe.com.ponents.actions.builtin
 		private var lastObject : DisplayObject;
 		private var shape : Shape = new Shape();
 		
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
+			_isRunning = true;
 			ToolKit.toolLevel.addChild( shape );
 			StageUtils.stage.addEventListener( MouseEvent.MOUSE_MOVE, stageMouseMove );			StageUtils.root.addEventListener( MouseEvent.MOUSE_UP, mouseUp, true );			StageUtils.root.addEventListener( MouseEvent.MOUSE_DOWN, mouseDown, true );
 		}
@@ -46,8 +46,8 @@ package abe.com.ponents.actions.builtin
 			ToolKit.toolLevel.removeChild( shape );
 			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_MOVE, stageMouseMove );
 			StageUtils.root.removeEventListener( MouseEvent.MOUSE_UP, mouseUp, true );			StageUtils.root.removeEventListener( MouseEvent.MOUSE_DOWN, mouseDown, true );
-			
-			fireCommandEnd();
+			_isRunning = false;
+			commandEnded.dispatch( this );
 		}
 		protected function mouseDown (event : MouseEvent) : void 
 		{

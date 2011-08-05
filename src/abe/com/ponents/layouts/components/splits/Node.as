@@ -1,7 +1,6 @@
 package abe.com.ponents.layouts.components.splits 
 {
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -42,7 +42,7 @@ package abe.com.ponents.models
 			if( a.length > 0 )
 				_index = _values.indexOf(a[0]);
 			
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 
 		override public function getNextValue () : *

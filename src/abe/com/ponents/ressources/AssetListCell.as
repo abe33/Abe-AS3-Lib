@@ -32,7 +32,7 @@ package abe.com.ponents.ressources
 			{
 				if( a )
 				{
-					var f : Function = ClassCollectionViewer.getTypeHandler( a ).getIconHandler();
+					var f : Function = ClassCollectionViewer.getTypeHandlers( a )[0].getIconHandler();
 					var i  : Icon;
 					
 					if( f != null )

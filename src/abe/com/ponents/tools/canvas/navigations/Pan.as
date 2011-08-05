@@ -2,13 +2,14 @@ package abe.com.ponents.tools.canvas.navigations
 {
 	import abe.com.edia.camera.Camera;
 	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.tools.canvas.core.AbstractTool;
 	import abe.com.ponents.tools.canvas.Tool;
-
+	import abe.com.ponents.tools.canvas.ToolGestureData;
+	import abe.com.ponents.tools.canvas.core.AbstractTool;
+	
 	import flash.display.StageQuality;
 	import flash.geom.Point;
+
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -26,7 +27,7 @@ package abe.com.ponents.tools.canvas.navigations
 			this._changeQualityDuringPan = changeQualityDuringPan;
 		}
 
-		override public function actionStarted (e : ToolEvent) : void
+		override public function actionStarted (e : ToolGestureData) : void
 		{
 			_startPoint = new Point( e.canvas.stage.mouseX, e.canvas.stage.mouseY );
 			
@@ -34,7 +35,7 @@ package abe.com.ponents.tools.canvas.navigations
 				StageUtils.stage.quality = StageQuality.LOW;
 		}
 
-		override public function mousePositionChanged (e : ToolEvent) : void
+		override public function mousePositionChanged (e : ToolGestureData) : void
 		{
 			var pt : Point = new Point( e.canvas.stage.mouseX, e.canvas.stage.mouseY );
 			
@@ -45,7 +46,7 @@ package abe.com.ponents.tools.canvas.navigations
 			_startPoint = pt;
 		}
 
-		override public function actionFinished (e : ToolEvent) : void
+		override public function actionFinished (e : ToolGestureData) : void
 		{
 			super.actionFinished( e );
 			

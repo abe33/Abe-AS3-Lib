@@ -12,7 +12,6 @@ package abe.com.ponents.tools
 	import abe.com.ponents.utils.Insets;
 
 	import flash.events.Event;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -36,7 +35,7 @@ package abe.com.ponents.tools
 			
 			_gradientSampler = new GradientSampler();
 			_colorEditor = new ColorEditor();
-			_colorEditor.addEventListener( ComponentEvent.DATA_CHANGE, colorDataChanged);
+			_colorEditor.dataChanged.add( colorDataChanged );
 			
 			var fs : FieldSet = new FieldSet(_("Edit Selected Color"));
 			fs.childrenLayout = new InlineLayout(this, 0, "left","top","topToBottom", true );
@@ -46,17 +45,18 @@ package abe.com.ponents.tools
 			target = new Gradient([Color.Black.clone(),Color.White.clone()],
 								  [0,1]);
 								  
-			_gradientSampler.addEventListener( ComponentEvent.SELECTION_CHANGE, samplerSelectionChange );			_gradientSampler.addEventListener( ComponentEvent.DATA_CHANGE, samplerDataChange );
+			_gradientSampler.selectionChanged.add( samplerSelectionChanged );
+			_gradientSampler.dataChanged.add( samplerDataChanged );
 			
 			addComponents(_gradientSampler, fs );
 			currentSelectedColor = _target.colors[0];
 		}
 		
-		protected function samplerDataChange (event : ComponentEvent) : void
+		protected function samplerDataChanged ( ... args ) : void
 		{
 			currentSelectedColor = _gradientSampler.selectedColor;
 		}
-		protected function samplerSelectionChange (event : ComponentEvent) : void
+		protected function samplerSelectionChanged ( ... args ) : void
 		{
 			currentSelectedColor = _gradientSampler.selectedColor;
 		}
@@ -78,9 +78,12 @@ package abe.com.ponents.tools
 			_colorEditor.target = _currentSelectedColor;
 		}
 
-		protected function colorDataChanged (event : Event) : void
+		protected function colorDataChanged ( ... args ) : void
 		{
-			_currentSelectedColor.red = _colorEditor.target.red;			_currentSelectedColor.green = _colorEditor.target.green;			_currentSelectedColor.blue = _colorEditor.target.blue;			_currentSelectedColor.alpha = _colorEditor.target.alpha;
+			_currentSelectedColor.red = _colorEditor.target.red;
+			_currentSelectedColor.green = _colorEditor.target.green;
+			_currentSelectedColor.blue = _colorEditor.target.blue;
+			_currentSelectedColor.alpha = _colorEditor.target.alpha;
 			_gradientSampler.updateCursorsIcons();
 			invalidate();
 		}

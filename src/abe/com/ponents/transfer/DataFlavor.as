@@ -3,12 +3,9 @@
  */
 package  abe.com.ponents.transfer 
 {
-	import abe.com.mon.utils.StringUtils;
 	import abe.com.mon.core.Cloneable;
 	import abe.com.mon.core.Serializable;
-
-	import flash.utils.getQualifiedClassName;
-
+	import abe.com.mon.utils.StringUtils;
 	/**
 	 * Un objet <code>DataFlavor</code> représente un type de saveur 
 	 * pour un objet <code>Transferable</code>.

@@ -4,13 +4,16 @@ package abe.com.ponents.layouts.components
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Container;
 	import abe.com.ponents.utils.Insets;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class BorderLayout extends AbstractComponentLayout 
 	{
-		protected var _north : Component;		protected var _south : Component;		protected var _east : Component;		protected var _west : Component;		protected var _center : Component;
+		protected var _north : Component;
+		protected var _south : Component;
+		protected var _east : Component;
+		protected var _west : Component;
+		protected var _center : Component;
 		protected var _forceStretch : Boolean;
 		protected var _gap : uint;
 
@@ -122,7 +125,8 @@ package abe.com.ponents.layouts.components
 			{
 				if( _forceStretch )
 					_north.size = new Dimension( prefDim.width, _north.preferredSize.height );
-				_north.x = centerX;				_north.y = centerY;
+				_north.x = centerX;
+				_north.y = centerY;
 
 				centerHeight -= _north.preferredHeight + _gap;
 				centerY += _north.preferredHeight + _gap;
@@ -151,7 +155,8 @@ package abe.com.ponents.layouts.components
 				if( _forceStretch )
 					_east.size = new Dimension( _east.preferredSize.width, centerHeight );
 				_east.x = insets.left + prefDim.width - _east.width;
-				_east.y = centerY;				
+				_east.y = centerY;
+				
 				centerWidth -= _east.preferredWidth+_gap;
 			}
 			if( _center && _center.visible )

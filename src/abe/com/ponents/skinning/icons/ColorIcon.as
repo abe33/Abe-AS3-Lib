@@ -1,8 +1,7 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.colors.Color;
-	import abe.com.ponents.events.PropertyEvent;
+	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.utils.Insets;
 
 	import flash.display.BitmapData;
@@ -12,8 +11,9 @@ package abe.com.ponents.skinning.icons
 	[Skinable(skin="ColorIcon")]
 	[Skin(define="ColorIcon",
 			  inherit="EmptyComponent",
-			  custom_checkerColor1="color(0xffffffff)",			  custom_checkerColor2="color(0xcccccccc)",
-			  state__all__foreground="new abe.com.ponents.skinning.decorations::SimpleBorders(color(DimGray))"
+			  custom_checkerColor1="color(0xffffffff)",
+			  custom_checkerColor2="color(0xcccccccc)",
+			  state__all__foreground="new abe.com.ponents.skinning.decorations::SimpleBorders(skin.borderColor)"
 	)]
 	public class ColorIcon extends Icon
 	{
@@ -32,7 +32,8 @@ package abe.com.ponents.skinning.icons
 			_allowFocus = false;
 			_allowFocusTraversing = false;
 			_color = color;
-			_checkerColor1 = _style.checkerColor1;			_checkerColor2 = _style.checkerColor2;
+			_checkerColor1 = _style.checkerColor1;
+			_checkerColor2 = _style.checkerColor2;
 			
 			if( !_checkerBitmapData )
 			{
@@ -64,7 +65,10 @@ package abe.com.ponents.skinning.icons
 
 		protected function drawBitmapData () : void
 		{
-			_checkerBitmapData.fillRect(new Rectangle(0,0,_checkerSize,_checkerSize), _checkerColor1.hexa );			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,_checkerSize,_checkerSize,_checkerSize), _checkerColor1.hexa );			_checkerBitmapData.fillRect(new Rectangle(0,_checkerSize,_checkerSize,_checkerSize), _checkerColor2.hexa );			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,0,_checkerSize,_checkerSize), _checkerColor2.hexa );
+			_checkerBitmapData.fillRect(new Rectangle(0,0,_checkerSize,_checkerSize), _checkerColor1.hexa );
+			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,_checkerSize,_checkerSize,_checkerSize), _checkerColor1.hexa );
+			_checkerBitmapData.fillRect(new Rectangle(0,_checkerSize,_checkerSize,_checkerSize), _checkerColor2.hexa );
+			_checkerBitmapData.fillRect(new Rectangle(_checkerSize,0,_checkerSize,_checkerSize), _checkerColor2.hexa );
 			
 		}
 		override protected function _repaint (size : Dimension, forceClear : Boolean = true ) : void
@@ -105,22 +109,22 @@ package abe.com.ponents.skinning.icons
 			_preferredSizeCache = new Dimension(16,16);
 			invalidate( false );
 		}
-		override protected function stylePropertyChanged ( e : PropertyEvent ) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( e.propertyName )
+			switch( propertyName )
 			{
 				case "checkerColor1" : 
-					_checkerColor1 = e.propertyValue;
+					_checkerColor1 = propertyValue;
 					dispose();
 					init();
 					break;
 				case "checkerColor2" : 
-					_checkerColor2 = e.propertyValue;
+					_checkerColor2 = propertyValue;
 					dispose();
 					init();
 					break;
 				default : 
-					super.propertyChange( e );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

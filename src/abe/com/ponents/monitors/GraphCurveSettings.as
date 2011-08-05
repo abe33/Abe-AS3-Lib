@@ -1,7 +1,6 @@
 package abe.com.ponents.monitors 
 {
 	import abe.com.mon.colors.Color;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

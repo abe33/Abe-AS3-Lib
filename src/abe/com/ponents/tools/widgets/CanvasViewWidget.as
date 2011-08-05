@@ -1,6 +1,5 @@
 package abe.com.ponents.tools.widgets 
 {
-	import flash.events.ContextMenuEvent;
 	import abe.com.edia.camera.CameraEvent;
 	import abe.com.edia.camera.CameraLayer;
 	import abe.com.patibility.lang._;
@@ -18,6 +17,7 @@ package abe.com.ponents.tools.widgets
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Shape;
+	import flash.events.ContextMenuEvent;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Matrix;
@@ -31,7 +31,7 @@ package abe.com.ponents.tools.widgets
 	)]
 	[Skin(define="CanvasViewWidget_SnapShot",
 		  inherit="EmptyComponent",
-	      state__all__background="new deco::SimpleFill(skin.rulerBackgroundColor)"
+	      state__all__background="skin.rulerBackgroundColor"
 	)]
 	/**
 	 * @author cedric

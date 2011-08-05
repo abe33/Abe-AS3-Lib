@@ -2,17 +2,18 @@ package abe.com.ponents.utils
 {
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.motion.SingleTween;
-	import abe.com.motion.TweenEvent;
+	import abe.com.motion.Tween;
 	import abe.com.ponents.core.Component;
 
 	import flash.display.DisplayObject;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class PopupUtils 
 	{
-		static public const NONE : int = 0;		static public const MODAL : int = 1;		static public const HIDE_ON_BLUR : int = 2;
+		static public const NONE : int = 0;
+		static public const MODAL : int = 1;
+		static public const HIDE_ON_BLUR : int = 2;
 		
 		static public var animateModal : Boolean = true;
 		
@@ -33,7 +34,7 @@ package abe.com.ponents.utils
 			level.init();
 			_levels.push( level );
 			
-			ToolKit.popupLevel.addChild( level.mouseCatcher );
+			ToolKit.mouseCatcherLevel.addChild( level.mouseCatcher );
 			StageUtils.lockToStage( level.mouseCatcher );
 			if( animateModal )
 			{
@@ -45,6 +46,32 @@ package abe.com.ponents.utils
 			StageUtils.lockToStage( c as DisplayObject, StageUtils.X_ALIGN_CENTER + StageUtils.Y_ALIGN_CENTER );	
 
 			c.grabFocus();
+		}
+		static public function showAsNormalPopup ( c : Component, invoker : Component = null ) : void
+		{
+			_lastMode = NONE;
+			/*FDT_IGNORE*/
+			TARGET::FLASH_9 { var level : PopupLevel = new PopupLevel( [c], invoker, NONE );  }
+			TARGET::FLASH_10 { var level : PopupLevel = new PopupLevel( Vector.<Component>([c]), invoker, NONE );  }
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			var level : PopupLevel = new PopupLevel( Vector.<Component>([c]), invoker, NONE ) ; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			level.init();
+			_levels.push( level );
+			/*
+			ToolKit.popupLevel.addChild( level.mouseCatcher );
+			StageUtils.lockToStage( level.mouseCatcher );
+			if( animateModal )
+			{
+				tween.target = level.mouseCatcher;
+				tween.reversed = false;
+				tween.execute();
+			}*/
+			ToolKit.popupLevel.addChild( c as DisplayObject );
+			StageUtils.lockToStage( c as DisplayObject, StageUtils.X_ALIGN_CENTER + StageUtils.Y_ALIGN_CENTER );	
+
+			c.grabFocus();
+			
 		}
 		static public function showAsHideOnBlurPopup ( c : Component, invoker : Component = null ) : void
 		{
@@ -75,13 +102,16 @@ package abe.com.ponents.utils
 				c.grabFocus();
 			}
 		}
-		static protected function tweenEnd (event : TweenEvent) : void
+		static protected function tweenEnded ( t : Tween ) : void
 		{
-			ToolKit.popupLevel.removeChild( tween.target as DisplayObject );
-			tween.removeEventListener( TweenEvent.TWEEN_END, tweenEnd );
+			ToolKit.mouseCatcherLevel.removeChild( tween.target as DisplayObject );
+			tween.tweenEnded.remove( tweenEnded );
 		}
 		static public function pop () : void
 		{
+			if( _levels.length == 0 )
+				return;
+			
 			var level : PopupLevel = _levels.pop();
 		
 			if( level.mode == PopupUtils.MODAL)
@@ -89,16 +119,16 @@ package abe.com.ponents.utils
 				if( animateModal )
 				{
 					tween.target = level.mouseCatcher;
-					tween.addEventListener( TweenEvent.TWEEN_END, tweenEnd );
+					tween.tweenEnded.add( tweenEnded );
 					tween.reversed = true;
 					tween.execute();
 				}
-				else
-					ToolKit.popupLevel.removeChild( level.mouseCatcher );
+				else if( ToolKit.mouseCatcherLevel.contains( level.mouseCatcher ) )
+					ToolKit.mouseCatcherLevel.removeChild( level.mouseCatcher );
 			}			
-			else
-			{				ToolKit.popupLevel.removeChild( level.mouseCatcher );
-			}
+			else if( ToolKit.mouseCatcherLevel.contains( level.mouseCatcher ) )
+				ToolKit.mouseCatcherLevel.removeChild( level.mouseCatcher );
+			
 			StageUtils.unlockFromStage( level.mouseCatcher );
 			for each(var c : DisplayObject in level.components)
 			{

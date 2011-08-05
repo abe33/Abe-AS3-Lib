@@ -3,7 +3,6 @@ package abe.com.ponents.menus
 	import abe.com.ponents.skinning.icons.Icon;
 
 	import flash.text.TextFormat;
-
 	/**
 	 * @author cedric
 	 */

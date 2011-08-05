@@ -1,37 +1,38 @@
 package abe.com.ponents.models 
 {
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
-
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
 	import flash.ui.ContextMenuItem;
-
+    import org.osflash.signals.Signal;
+	 
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]	[Event(name="propertyChange",type="abe.com.ponents.events.PropertyEvent")]
-	public class AbstractSpinnerModel extends EventDispatcher implements SpinnerModel
+	public class AbstractSpinnerModel implements SpinnerModel
 	{
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		protected var _modelMenuContext : Array;
 		
 		TARGET::FLASH_10
 		protected var _modelMenuContext : Vector.<ContextMenuItem>;
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		protected var _modelMenuContext : Vector.<ContextMenuItem>;
 		
+		protected var _dataChanged : Signal;
+		protected var _propertyChanged : Signal;
+		    
 		public function AbstractSpinnerModel ()
 		{
 			super();
-			/*FDT_IGNORE*/
+			_dataChanged = new Signal();
+			_propertyChanged = new Signal();
+        
 			TARGET::FLASH_9 { _modelMenuContext = []; }
 			TARGET::FLASH_10 { _modelMenuContext = new Vector.<ContextMenuItem>(); }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			_modelMenuContext = new Vector.<ContextMenuItem>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { _modelMenuContext = new Vector.<ContextMenuItem>(); } 
 		}
+		public function get dataChanged () : Signal { return _dataChanged; } 
+		public function get propertyChanged () : Signal { return _propertyChanged; } 
 		
 		public function hasNextValue () : Boolean { return false; }		
 		public function getNextValue () : *	{ return null; }		
@@ -40,38 +41,27 @@ package abe.com.ponents.models
 		public function getPreviousValue () : * { return null; }
 		
 		public function get displayValue () : String { return null; }
-		public function get value () : * { return null;	}		
-		public function set value (v : *) : void
-		{
-		}
+		public function get value () : * { return null;	}
+		public function set value (v : *) : void {}
 
-		protected function fireDataChange () : void
+		protected function fireDataChangedSignal () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, value );
 		}
-		protected function firePropertyChange ( pname : String, pvalue : * ) : void
+		protected function firePropertyChangedSignal ( pname : String, pvalue : * ) : void
 		{
-			dispatchEvent( new PropertyEvent( PropertyEvent.PROPERTY_CHANGE, pname, pvalue ) );
-		}
-		override public function dispatchEvent( evt : Event) : Boolean 
-		{
-		 	if (hasEventListener(evt.type) || evt.bubbles) 
-		  		return super.dispatchEvent(evt);
-		 	return true;
+			_propertyChanged.dispatch( pname, pvalue );
 		}
 		
-		/*FDT_IGNORE*/
 		TARGET::FLASH_9
 		public function get modelMenuContext () : Array { return _modelMenuContext; }
 		
 		TARGET::FLASH_10
 		public function get modelMenuContext () : Vector.<ContextMenuItem> { return _modelMenuContext; }
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		public function get modelMenuContext () : Vector.<ContextMenuItem> { return _modelMenuContext; }
 		
-		public function reset () : void
-		{
-		}
+		public function reset () : void {}
 	}
 }

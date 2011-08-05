@@ -3,26 +3,11 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mands.AbstractMacroCommand;
-	import abe.com.mands.Command;
-	import abe.com.mands.MacroCommand;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Runnable;
-
-	import flash.events.ErrorEvent;
-	import flash.events.Event;
+	import abe.com.mon.core.Suspendable;
 
 	/**
-	 * Macro-Commande permettant d'éxécuter plusieurs autres commandes 
-	 * simultanément et de ne renvoyer un évènement <code>CommandEvent.COMMAND_END</code> 
-	 * qu'une fois toutes les commandes terminées.
-	 * <p>
-	 * On pourrait dire qu'il s'agit là d'un <code>Batch</code>, mais l'implémentation
-	 * du <code>Batch</code> prend en compte la nature asynchrone des commandes, 
-	 * ici le principe est d'éxécuter les commandes en parallèle 
-	 * (alors que le <code>Batch</code> les éxécute en série).
-	 * </p>
 	 */	
 	public class ParallelCommand extends AbstractMacroCommand implements Command, MacroCommand, Runnable, Suspendable
 	{
@@ -50,7 +35,7 @@ package  abe.com.mands
 		{
 			if( super.addCommand( command ) )
 			{
-				registerToCommandEvents( command );
+				registerToCommandSignals( command );
 				return true;
 			}
 			else return false;
@@ -62,7 +47,7 @@ package  abe.com.mands
 		{
 			if( super.removeCommand( command ) )
 			{
-				unregisterToCommandEvents( command );
+				unregisterToCommandSignals( command );
 				return true;
 			}
 			else return false;
@@ -73,7 +58,7 @@ package  abe.com.mands
 		 * 
 		 * @param	e	évènement reçue par la commande
 		 */		
-		override public function execute(e:Event=null):void
+		override public function execute( ... args ):void
 		{
 			var l : Number = _aCommands.length;
 			for( var i : Number = 0; i < l; i++ )
@@ -90,41 +75,32 @@ package  abe.com.mands
 		}
 		
 		/**
-		 * Recoit les évènements de fin d'éxécution des sous-commandes et diffuse un
-		 * évènement <code>CommandEvent.COMMAND_FAIL</code>
-		 * 
-		 * @param	e	évènement diffusé par la sous commande
 		 */
-		override protected function commandEnd ( e : Event ) : void
+		protected function onCommandEnded ( command : Command ) : void
 		{
 			_nCallbackCount++;
 			if( _nCallbackCount == _aCommands.length )
 			{
-				fireCommandEnd();
+				commandEnded.dispatch();
 				reset();
 			}
 		}	
 		
 		/**
-		 * Rediffuse un évènement <code>CommandEvent.COMMAND_FAIL</code> lorsqu'une
-		 * commande à échouée.
-		 * 
-		 * @param	e	évènement diffusé par la sous commande
 		 */	
-		override protected function commandFailed ( e : Event ) : void
+		override protected function onCommandFailed ( command : Command, msg : String ) : void
 		{
-			var evt : ErrorEvent = e as ErrorEvent;
 			
-			fireCommandFailed( evt.text );
+			commandFailed.dispatch( msg );
 			
 			for each ( var c : Command in _aCommands )
 			{
-				if( e.target != c && !c.isRunning() && c is Cancelable )
+				if( command != c && !c.isRunning() && c is Cancelable )
 				{
 					( c as Cancelable ).cancel();
 				}
 			}
-			reset( );
+			reset();
 		}
 		
 		public function start () : void

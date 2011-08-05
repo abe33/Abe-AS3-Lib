@@ -7,7 +7,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.actions.AbstractAction;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.Event;
 	import flash.net.LocalConnection;
 	import flash.system.Capabilities;
 	import flash.system.System;
@@ -21,7 +20,7 @@ package abe.com.ponents.actions.builtin
 			super( name, icon, longDescription, accelerator );
 		}
 
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			if( Capabilities.isDebugger )
 			{
@@ -36,7 +35,7 @@ package abe.com.ponents.actions.builtin
 				} 
 				catch (e:*){}
 			}
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }

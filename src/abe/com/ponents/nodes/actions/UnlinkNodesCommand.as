@@ -3,8 +3,6 @@ package abe.com.ponents.nodes.actions
 	import abe.com.mands.AbstractCommand;
 	import abe.com.ponents.history.UndoManagerInstance;
 	import abe.com.ponents.nodes.core.NodeLink;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */
@@ -16,12 +14,12 @@ package abe.com.ponents.nodes.actions
 		{
 			this.link = link;		
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			UndoManagerInstance.add( new UnlinkNodesUndoable(link) );
 			link.a.removeConnection(link);
 			link.b.removeConnection(link);
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }

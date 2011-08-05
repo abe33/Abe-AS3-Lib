@@ -3,7 +3,6 @@ package abe.com.mon.iterators
 	import abe.com.mon.core.Iterator;
 
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

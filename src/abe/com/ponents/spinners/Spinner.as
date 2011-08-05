@@ -18,9 +18,6 @@ package abe.com.ponents.spinners
 	import abe.com.ponents.core.edit.Editor;
 	import abe.com.ponents.core.focus.Focusable;
 	import abe.com.ponents.dnd.DragSource;
-	import abe.com.ponents.events.ButtonEvent;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.layouts.components.BorderLayout;
@@ -37,12 +34,14 @@ package abe.com.ponents.spinners
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	import flash.text.TextField;
-	import flash.utils.IExternalizable;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
+	
+	import org.osflash.signals.Signal;
 
-	[Style(name="inputWidth", type="Number")]	[Style(name="upIcon", type="abe.com.ponents.skinning.icons.Icon")]	[Style(name="downIcon", type="abe.com.ponents.skinning.icons.Icon")]
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
+	[Style(name="inputWidth", type="Number")]
+	[Style(name="upIcon", type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="downIcon", type="abe.com.ponents.skinning.icons.Icon")]
 	[Skinable(skin="Spinner")]
 	[Skin(define="Spinner",
 		  inherit="NoDecorationComponent",
@@ -57,7 +56,9 @@ package abe.com.ponents.spinners
 		  preview="abe.com.ponents.spinners::Spinner.defaultSpinnerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__insets="new cutils::Insets( 4, 0, 4, 0 )",		  state__all__borders="new cutils::Borders( 0,1,1,1 )",		  state__all__corners="new cutils::Corners( 0, 6, 0, 0 )"
+		  state__all__insets="new cutils::Insets( 4, 0, 4, 0 )",
+		  state__all__borders="new cutils::Borders( 0,1,1,1 )",
+		  state__all__corners="new cutils::Corners( 0, 6, 0, 0 )"
 	)]
 	[Skin(define="SpinnerDownButton",
 		  inherit="Button",
@@ -73,7 +74,7 @@ package abe.com.ponents.spinners
 		  preview="abe.com.ponents.spinners::Spinner.defaultSpinnerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__background="new deco::SimpleFill( skin.textBackgroundColor )",
+		  state__all__background="skin.textBackgroundColor",
 		  state__all__insets="new cutils::Insets(5,0,0,0 )",
 		  state__all__corners="new cutils::Corners(6,0,6,0 )"
 	)]
@@ -88,12 +89,12 @@ package abe.com.ponents.spinners
 															  FormComponent,
 															  Editor
 	{
-		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
-		static public function defaultSpinnerPreview () : Spinner
-		{
-			return new Spinner(new SpinnerNumberModel(10, 0, 100, 1, false, 2));
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		FEATURES::BUILDER { 
+		    static public function defaultSpinnerPreview () : Spinner
+		    {
+			    return new Spinner(new SpinnerNumberModel(10, 0, 100, 1, false, 2));
+		    }
+		} 
 		
 		[Embed(source="../skinning/icons/scrollup.png")]
 		static public var SPINNER_UP_ICON : Class;
@@ -109,14 +110,17 @@ package abe.com.ponents.spinners
 		protected var _downButton : Button;
 		protected var _interval : Number;
 		protected var _caller : Editable;
+		protected var _dataChanged : Signal;
 
 		public function Spinner ( model : SpinnerModel = null )
 		{
 			super( );
+			_dataChanged = new Signal();
 			_childrenContextEnabled = false;
 			_input = new TextInput();
 			_buttonContainer = new Panel();
-			_upButton = new Button("");			_downButton = new Button("");
+			_upButton = new Button("");
+			_downButton = new Button("");
 			
 			_input.isComponentIndependent = false;
 			_upButton.isComponentIndependent = false;
@@ -128,9 +132,12 @@ package abe.com.ponents.spinners
 			
 			_upButton.icon = _style.upIcon.clone();
 			_upButton.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
-			_upButton.styleKey = "SpinnerUpButton";			
+			_upButton.styleKey = "SpinnerUpButton";
+			
 			_downButton.icon = _style.downIcon.clone();
-			_downButton.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;			_downButton.styleKey = "SpinnerDownButton";			
+			_downButton.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
+			_downButton.styleKey = "SpinnerDownButton";
+			
 			addComponent( _input );
 			addComponent( _buttonContainer );
 			
@@ -145,32 +152,34 @@ package abe.com.ponents.spinners
 			
 			childrenLayout = layout;
 			
-			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
-				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( validateInput );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::KEYBOARD_CONTEXT { 
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] = new ProxyCommand( up );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] = new ProxyCommand( down );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( validateInput );
+			} 
 				
 			this.model = model;
 		}
 
-		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "upIcon" :
-					_upButton.icon = event.propertyValue.clone();
+					_upButton.icon = propertyValue.clone();
 					break;
 				case "downIcon" :
-					_downButton.icon = event.propertyValue.clone();
+					_downButton.icon = propertyValue.clone();
 					break;
 				case "inputWidth" :
-					_input.preferredWidth = event.propertyValue;
+					_input.preferredWidth = propertyValue;
 					break;
 				default : 
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}
-
+        public function get dataChanged() : Signal { return _dataChanged; }
 		public function get disabledMode () : uint { return _input.disabledMode; }
 		public function set disabledMode (b : uint) : void { _input.disabledMode = b; }
 
@@ -189,7 +198,8 @@ package abe.com.ponents.spinners
 			var hadModel : Boolean = false;
 			if( _model )
 			{
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );				_model.removeEventListener( PropertyEvent.PROPERTY_CHANGE, modelPropertyChange );
+				_model.dataChanged.remove( modelDataChanged );
+				_model.propertyChanged.remove( modelPropertyChanged );
 				hadModel = true;
 				
 			}
@@ -197,20 +207,21 @@ package abe.com.ponents.spinners
 			
 			if( _model )
 			{
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );				_model.addEventListener( PropertyEvent.PROPERTY_CHANGE, modelPropertyChange );
-				dataChanged(null);
+				_model.dataChanged.add( modelDataChanged );
+				_model.propertyChanged.add( modelPropertyChanged );
+				modelDataChanged( _model, _model.value );
 				
 				if(!hadModel)
 				{
 					disabledMode = 0;
 					enabled = true;
 				}
-				/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+				FEATURES::MENU_CONTEXT { 
 					_input.cleanContextMenuItemGroup("format");
 					var l:int=_model.modelMenuContext.length;
-					for (var i:uint = 0;i<l;i++) 
+					for (var i:uint = 0;i < l;i++) 
 					    _input.addContextMenuItemForGroup( _model.modelMenuContext[i], "spinnerModelMenu" + i, "format" );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 			}
 			else
 			{
@@ -223,21 +234,21 @@ package abe.com.ponents.spinners
 			_model.reset();
 		}
 
-		protected function modelPropertyChange (event : PropertyEvent) : void
+		protected function modelPropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "displayValue" : 
-					_input.value = event.propertyValue;
+					_input.value = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "modelMenuContext" : 
-				/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+				FEATURES::MENU_CONTEXT { 
 					_input.cleanContextMenuItemGroup("format");
 					var l:int=_model.modelMenuContext.length;
-					for (var i:uint = 0;i<l;i++) 
+					for (var i:uint = 0;i < l;i++) 
 					    _input.addContextMenuItemForGroup( _model.modelMenuContext[i], "spinnerModelMenu" + i, "format" );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 					break;
 				default : 
 					break;
@@ -256,7 +267,8 @@ package abe.com.ponents.spinners
 			_preferredSizeCache = new Dimension( bb.width, bb.height );
 			
 			StageUtils.stage.addEventListener(MouseEvent.MOUSE_UP, stageMouseUp );
-			grabFocus( );		}
+			grabFocus( );
+		}
 
 		public function get caller () : Editable { return _caller; }
 		public function set caller (e : Editable) : void
@@ -297,18 +309,17 @@ package abe.com.ponents.spinners
 			if( _caller )
 				_caller.confirmEdit();
 		}
-		protected function mouseWheel ( e : MouseEvent ) : void
+		public function childrenMouseWheelRolled ( c : Component, d : Number ) : void
 		{
-			e.stopPropagation();
 			if( _enabled )
 			{
-				if( e.delta > 0 )
+				if( d > 0 )
 					up();
 				else
 					down();
 			}
 		}
-		protected function upMouseDown ( e : Event ) : void
+		protected function upMouseDown ( c : Component ) : void
 		{
 			if( _enabled )
 			{
@@ -316,11 +327,11 @@ package abe.com.ponents.spinners
 				up();
 			}
 		}
-		protected function upMouseUp ( e : Event ) : void
+		protected function upMouseUp ( c : Component ) : void
 		{
 			clearInterval( _interval );
 		}
-		protected function downMouseDown ( e : Event ) : void
+		protected function downMouseDown ( c : Component ) : void
 		{
 			if( _enabled )
 			{
@@ -328,12 +339,12 @@ package abe.com.ponents.spinners
 				down();
 			}
 		}
-		protected function downMouseUp ( e : Event ) : void
+		protected function downMouseUp ( c : Component ) : void
 		{
 			clearInterval( _interval );
 		}
 
-		protected function dataChanged ( e : Event ) : void
+		protected function modelDataChanged ( m : SpinnerModel, v : * ) : void
 		{
 			if( !_model )
 				return;
@@ -343,7 +354,7 @@ package abe.com.ponents.spinners
 			_downButton.enabled = _model.hasPreviousValue() && _enabled;
 			_input.selectAll();
 			
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 		override public function keyFocusChange (e : FocusEvent) : void
 		{
@@ -361,7 +372,8 @@ package abe.com.ponents.spinners
 				super.keyFocusChange(e);
 		}
 		override public function focusIn (e : FocusEvent) : void
-		{			_focusIn( e );
+		{
+			_focusIn( e );
 			
 			if( !( e.target is TextField ) && e.target != _input )
 			{
@@ -396,34 +408,34 @@ package abe.com.ponents.spinners
 		{
 			super.registerToOnStageEvents();
 			
-			_upButton.addWeakEventListener( MouseEvent.MOUSE_DOWN, upMouseDown );
-			_upButton.addWeakEventListener( MouseEvent.MOUSE_UP, upMouseUp );
-			_upButton.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, upMouseUp );
+			_input.mouseWheelRolled.add( childrenMouseWheelRolled )
 			
-			_downButton.addWeakEventListener( MouseEvent.MOUSE_DOWN, downMouseDown );
-			_downButton.addWeakEventListener( MouseEvent.MOUSE_UP, downMouseUp );
-			_downButton.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, downMouseUp );
+			_upButton.mousePressed.add( upMouseDown );
+			_upButton.mouseReleased.add( upMouseUp );
+			_upButton.mouseReleasedOutside.add( upMouseUp );
+			_upButton.mouseWheelRolled.add( childrenMouseWheelRolled );
 			
-			addWeakEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			_downButton.mousePressed.add( downMouseDown );
+			_downButton.mouseReleased.add( downMouseUp );
+			_downButton.mouseReleasedOutside.add( downMouseUp );
+			_downButton.mouseWheelRolled.add( childrenMouseWheelRolled );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void 
 		{
 			super.unregisterFromOnStageEvents();
 			
-			_upButton.removeEventListener( MouseEvent.MOUSE_DOWN, upMouseDown );
-			_upButton.removeEventListener( MouseEvent.MOUSE_UP, upMouseUp );
-			_upButton.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, upMouseUp );
+			_upButton.mousePressed.remove( upMouseDown );
+			_upButton.mouseReleased.remove( upMouseUp );
+			_upButton.mouseReleasedOutside.remove( upMouseUp );
 			
-			_downButton.removeEventListener( MouseEvent.MOUSE_DOWN, downMouseDown );
-			_downButton.removeEventListener( MouseEvent.MOUSE_UP, downMouseUp );
-			_downButton.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, downMouseUp );
-			
-			removeEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			_downButton.mousePressed.remove( downMouseDown );
+			_downButton.mouseReleased.remove( downMouseUp );
+			_downButton.mouseReleasedOutside.remove( downMouseUp );
 		}
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, value );
 		}
 	}
 }

@@ -113,6 +113,7 @@ package abe.com.ponents.skinning.icons
 		return ( _dict[ o ] as Icon ).clone();
 	}
 }
+
 import flash.utils.Dictionary;
 
 internal var _dict : Dictionary = new Dictionary();

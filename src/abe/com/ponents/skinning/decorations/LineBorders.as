@@ -8,7 +8,6 @@ package abe.com.ponents.skinning.decorations
 	import flash.display.Graphics;
 	import flash.geom.Rectangle;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

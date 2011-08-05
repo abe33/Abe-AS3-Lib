@@ -1,11 +1,11 @@
 package abe.com.ponents.tools
 {
 	import abe.com.mands.ProxyCommand;
+	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Rectangle2;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.geom.pt;
-	import abe.com.mon.colors.Color;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Keys;
 	import abe.com.mon.utils.PointUtils;
@@ -14,6 +14,7 @@ package abe.com.ponents.tools
 	import abe.com.ponents.layouts.display.DOStretchLayout;
 	import abe.com.ponents.skinning.cursors.Cursor;
 	import abe.com.ponents.utils.Insets;
+
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Graphics;
@@ -28,8 +29,8 @@ package abe.com.ponents.tools
 	[Skinable(skin="BitmapCrop")]
 	[Skin(define="BitmapCrop",
 			  inherit="DefaultComponent",
-			  state__all__background="new deco::SimpleFill(color(0xff333333))",
-			  state__all__foreground="new deco::SimpleBorders(color(0xff000000))"
+			  state__all__background="color(0xff333333)",
+			  state__all__foreground="color(0xff000000)"
 			  
 	)]
 	/**

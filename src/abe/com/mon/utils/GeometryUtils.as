@@ -59,22 +59,28 @@ package abe.com.mon.utils
 			var l1 : uint = a1.length;
 			var l2 : uint = a2.length;
 
-			var sv1 : Point;			var bv1 : Point;
+			var sv1 : Point;
+			var bv1 : Point;
 			var ev1 : Point;
 
-			var sv2 : Point;			var ev2 : Point;			var bv2 : Point;
+			var sv2 : Point;
+			var ev2 : Point;
+			var bv2 : Point;
 
 			var cross : Point;
 
-			var d1 : Point;			var d2 : Point;			var d3 : Point;			var d4 : Point;
+			var d1 : Point;
+			var d2 : Point;
+			var d3 : Point;
+			var d4 : Point;
 
-			for( var i : int = 0; i<l1-1; i++ )
+			for( var i : int = 0; i < l1-1; i++ )
 			{
 				sv1 = a1[i];
 				ev1 = a1[i+1];
 				bv1 = ev1.subtract(sv1);
 
-				for( var j : int = 0; j<l2-1; j++ )
+				for( var j : int = 0; j < l2-1; j++ )
 				{
 					sv2 = a2[j];
 					ev2 = a2[j+1];
@@ -128,15 +134,17 @@ package abe.com.mon.utils
 			var cross : Point;
 
 			var d1 : Point;
-			var d2 : Point;			var d3 : Point;			var d4 : Point;
+			var d2 : Point;
+			var d3 : Point;
+			var d4 : Point;
 
-			for( var i : int = 0; i<l1-1; i++ )
+			for( var i : int = 0; i < l1-1; i++ )
 			{
 				sv1 = a1[i];
 				ev1 = a1[i+1];
 				bv1 = ev1.subtract(sv1);
 
-				for( var j : int = 0; j<l2-1; j++ )
+				for( var j : int = 0; j < l2-1; j++ )
 				{
 					sv2 = a2[j];
 					ev2 = a2[j+1];
@@ -193,7 +201,7 @@ package abe.com.mon.utils
 			var d3 : Point;
 			var d4 : Point;
 
-			for( var i : int = 0; i<l1-1; i++ )
+			for( var i : int = 0; i < l1-1; i++ )
 			{
 				sv1 = a1[i];
 				ev1 = a1[i+1];
@@ -240,7 +248,7 @@ package abe.com.mon.utils
 
             var cx:Number = ( b2 - b1 )/( m1 - m2 );
             var cy:Number = m1 * cx + b1;
-
+            
             return new Point( cx , cy );
         }
         /**

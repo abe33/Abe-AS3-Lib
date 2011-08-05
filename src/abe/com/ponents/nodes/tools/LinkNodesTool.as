@@ -1,18 +1,20 @@
 package abe.com.ponents.nodes.tools 
 {
-	import abe.com.ponents.nodes.actions.LinkNodesCommand;
-	import abe.com.ponents.nodes.core.NodeLink;
 	import abe.com.mon.colors.Color;
-	import abe.com.ponents.events.ToolEvent;
+	import abe.com.mon.logs.Log;
+	import abe.com.ponents.nodes.actions.LinkNodesCommand;
 	import abe.com.ponents.nodes.core.CanvasNode;
+	import abe.com.ponents.nodes.core.NodeLink;
 	import abe.com.ponents.skinning.cursors.Cursor;
 	import abe.com.ponents.tools.canvas.Tool;
+	import abe.com.ponents.tools.canvas.ToolGestureData;
 	import abe.com.ponents.tools.canvas.core.AbstractTool;
-
+	
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -42,7 +44,7 @@ package abe.com.ponents.nodes.tools
 			this.relationshipDirection = relationshipDirection;
 			this.defaultLabel = defaultLabel;
 		}
-		override public function actionStarted (e : ToolEvent) : void
+		override public function actionStarted (e : ToolGestureData) : void
 		{
 			var o : DisplayObject = e.manager.canvasChildUnderTheMouse;
 			
@@ -59,7 +61,7 @@ package abe.com.ponents.nodes.tools
 			}
 		}
 	
-		override public function actionFinished (e : ToolEvent) : void
+		override public function actionFinished (e : ToolGestureData) : void
 		{
 			if( _startObject )
 			{
@@ -83,7 +85,7 @@ package abe.com.ponents.nodes.tools
 			_startObject = null;
 		}
 	
-		override public function mousePositionChanged (e : ToolEvent) : void
+		override public function mousePositionChanged (e : ToolGestureData) : void
 		{
 			if( _startObject != null )
 			{
@@ -98,7 +100,7 @@ package abe.com.ponents.nodes.tools
 				_linkShape.graphics.lineTo( mx + offx, my + offy );
 			}
 		}
-		override public function actionAborted (e : ToolEvent) : void
+		override public function actionAborted (e : ToolGestureData) : void
 		{
 			if( _startObject )
 			{

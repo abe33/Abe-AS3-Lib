@@ -5,9 +5,10 @@ package  abe.com.ponents.utils
 {
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.ponents.skinning.cursors.Cursor;
+	import abe.com.ponents.tools.DebugPanel;
 
 	import flash.display.Sprite;
-
+	import flash.display.DisplayObjectContainer;
 	/**
 	 * La classe utilitaire <code>Toolkit</code> fournit quelques méthodes
 	 * bien pratique pour la configuration rapide d'une scène Flash.
@@ -42,7 +43,8 @@ package  abe.com.ponents.utils
 		 * toujours situé sous le niveau des outils, du curseur et des
 		 * infos bulles.
 		 */
-		static public var popupLevel : Sprite;		/**
+		static public var popupLevel : Sprite;
+		/**
 		 * Une référence vers un niveau situé au dessus de <code>popupLevel</code>.
 		 * Cependant ce niveau est toujours situé sous le niveau du curseur et des
 		 * infos bulles.
@@ -58,6 +60,12 @@ package  abe.com.ponents.utils
 		 * <code>Cursor</code> pour l'affichage des curseurs.
 		 */
 		static public var cursorLevel : Sprite;
+		static public var mouseCatcherLevel : Sprite;
+		
+		CONFIG::DEBUG
+		static public var debugLevel : Sprite;
+		CONFIG::DEBUG
+		static public var debugPanel : DebugPanel;
 		/**
 		 * Une valeur booléenne indiquant si la classe à été initialisée.
 		 */
@@ -68,21 +76,28 @@ package  abe.com.ponents.utils
 		 * 
 		 * @param	r	la véritable racine d'origine de l'animation
 		 */		 
-		static public function initializeToolKit () : void
+		static public function initializeToolKit ( root : DisplayObjectContainer, visibleDebug : Boolean = true ) : void
 		{
 			if( _initialized )
 				return;
 			
+			StageUtils.setup( root );
+			StageUtils.flexibleStage();
+			KeyboardControllerInstance.eventProvider = root.stage;
+				
 			mainLevel = new Sprite();
 			mainLevel.name = "mainLevel";
-			
-			popupLevel = new Sprite( );
-			popupLevel.name = "popupLevel";
+            
+            mouseCatcherLevel = new Sprite();
+			mouseCatcherLevel.name = "mouseCatcherLevel";
 			
 			toolLevel = new Sprite();		
 			toolLevel.name = "toolLevel";	
 			toolLevel.mouseEnabled = false;
 			toolLevel.mouseChildren = false;
+
+			popupLevel = new Sprite( );
+			popupLevel.name = "popupLevel";
 			
 			dndLevel = new Sprite( );
 			dndLevel.name = "dndLevel";
@@ -100,14 +115,27 @@ package  abe.com.ponents.utils
 			tooltipLevel.mouseChildren = false;
 			
 			StageUtils.root.addChild( mainLevel );
-			StageUtils.root.addChild( popupLevel );			StageUtils.root.addChild( dndLevel );
+			StageUtils.root.addChild( mouseCatcherLevel );
+			StageUtils.root.addChild( popupLevel );
+			StageUtils.root.addChild( dndLevel );
 			StageUtils.root.addChild( toolLevel );
 			StageUtils.root.addChild( tooltipLevel );
 			StageUtils.root.addChild( cursorLevel );
 			
-			/*FDT_IGNORE*/ FEATURES::CURSOR { /*FDT_IGNORE*/
+			FEATURES::CURSOR { 
 				Cursor.init( ToolKit.cursorLevel );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			}
+			CONFIG::DEBUG {
+			    debugLevel = new Sprite();
+			    debugLevel.name = "debugLevel";
+                debugPanel = new DebugPanel();
+                debugPanel.name = "debugPanel";
+                debugPanel.visible = visibleDebug;
+                
+                debugLevel.addChild( debugPanel );
+			    StageUtils.root.addChildAt( debugLevel, 2 );
+            }			
+			
 			_initialized = true;
 		}
 		/**

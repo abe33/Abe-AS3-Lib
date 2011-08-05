@@ -1,7 +1,7 @@
 package abe.com.motion.easing 
 {
+	import abe.com.mon.randoms.Random;
 	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.Random;
 	import abe.com.mon.utils.RandomUtils;
 	/**
 	 * @author cedric
@@ -18,8 +18,9 @@ package abe.com.motion.easing
 		static public function randomize ( f : Function, amplitude : Number = 0, randomSource : Random = null, restrict : Boolean = false ) : Function 
 		{
 			if( !randomSource )
-				randomSource = RandomUtils.RANDOM;
-			return function(t:Number, b:Number, c:Number, d:Number):Number
+				randomSource = RandomUtils;
+            
+            return function(t:Number, b:Number, c:Number, d:Number):Number
 			{
 				return f( restrict ? 
 							 MathUtils.restrict( t + randomSource.balance( amplitude ), 0, d ) :

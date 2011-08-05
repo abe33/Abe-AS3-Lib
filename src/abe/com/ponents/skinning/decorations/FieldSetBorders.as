@@ -1,7 +1,7 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.colors.Color;
+	import abe.com.mon.geom.Dimension;
 	import abe.com.ponents.containers.FieldSet;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.utils.Borders;
@@ -10,7 +10,6 @@ package abe.com.ponents.skinning.decorations
 	import flash.display.Graphics;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
-
 	/**
 	 * @author Cédric Néhémie
 	 */

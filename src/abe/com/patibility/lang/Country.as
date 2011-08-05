@@ -3,9 +3,9 @@
  */
 package  abe.com.patibility.lang 
 {
+	import abe.com.mon.core.Serializable;
+
 	import flash.utils.getQualifiedClassName;
-	import  abe.com.mon.core.Serializable;	
-	
 	/**
 	 * Enumération de tout les codes de pays tel que définit
 	 * par la norme ISO 3166-1. Chaque objet <code>Country</code>

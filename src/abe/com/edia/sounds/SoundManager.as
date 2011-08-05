@@ -12,7 +12,6 @@ package abe.com.edia.sounds
 	import flash.net.URLRequest;
 	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
-
 	public class SoundManager
 	{
 		/*-----------------------------------------------------------------------------*
@@ -481,8 +480,10 @@ package abe.com.edia.sounds
 		}
 	}
 }
+
 import flash.media.Sound;
 import flash.media.SoundChannel;
+
 internal class SoundObject
 {
 	public var name : String;

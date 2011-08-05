@@ -7,21 +7,12 @@ package abe.com.ponents.buttons
 	import abe.com.mon.core.IDisplayObjectContainer;
 	import abe.com.mon.core.IInteractiveObject;
 	import abe.com.mon.core.LayeredSprite;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.core.focus.Focusable;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.skinning.icons.RadioCheckedIcon;
 	import abe.com.ponents.skinning.icons.RadioUncheckedIcon;
 
-	import flash.events.Event;
-	import flash.events.IEventDispatcher;
-
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="Radio")]
 	[Skin(define="Radio",
 		  inherit="CheckBox",
@@ -44,8 +35,7 @@ package abe.com.ponents.buttons
 														  IDisplayObjectContainer, 
 														  Component, 
 														  Focusable,
-												 		  LayeredSprite,
-												 		  IEventDispatcher
+												 		  LayeredSprite
 	{
 		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
 		/**
@@ -93,7 +83,7 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override public function click (e : Event = null) : void
+		override public function click ( context : UserActionContext ) : void
 		{
 			swapSelect(true);
 		}

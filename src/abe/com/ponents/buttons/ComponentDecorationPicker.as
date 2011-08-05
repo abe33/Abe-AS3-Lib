@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.buttons
 {
-	import abe.com.mands.events.CommandEvent;
+	import abe.com.mands.*;
 	import abe.com.mon.utils.Reflection;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.utils.magicCopy;
@@ -12,8 +12,7 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
 	import abe.com.ponents.builder.models.BuilderCollections;
 	import abe.com.ponents.containers.Window;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.events.ComponentEvent;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.forms.FormObject;
@@ -25,12 +24,7 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.models.DefaultListModel;
 	import abe.com.ponents.skinning.decorations.ComponentDecoration;
 
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 *
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
+    import org.osflash.signals.Signal;
 
 	[Skinable(skin="EmptyComponent")]
 	/**
@@ -67,15 +61,19 @@ package abe.com.ponents.buttons
 		 * La valeur de ce composant durant son mode de désactivation.
 		 */
 		protected var _disabledValue : *;
+		
+		protected var _dataChanged : Signal;
 
 		/**
 		 * Constructeur de la classe <code>ComponentDecorationPicker</code>.
 		 */
 		public function ComponentDecorationPicker ()
 		{
+		    _dataChanged = new Signal();
 			super();
 			buildChildren();
 		}
+		public function get dataChanged () : Signal { return _dataChanged; }
 		/**
 		 * Construit les sous composants nécessaires au fonctionnement
 		 * du <code>ComponentDecorationPicker</code>.
@@ -83,10 +81,10 @@ package abe.com.ponents.buttons
 		protected function buildChildren () : void
 		{
 			_editDecoration = new Button( new EditObjectPropertiesAction( null, editObjectCallBack, _("No Object"), null, null, null, true ) );
-			_editDecoration.action.addEventListener(CommandEvent.COMMAND_END, editCommandEnd);
+			_editDecoration.action.commandEnded.add( editCommandEnded );
 			_editDecoration.isComponentIndependent = false;
 			
-			BuilderCollections.addEventListener(CommandEvent.COMMAND_END, collectionsLoaded );
+			BuilderCollections.commandEnded.add ( collectionsLoaded );
 			
 			_newDecoration = new DropDownMenu("New", 
 											  null, 
@@ -103,9 +101,10 @@ package abe.com.ponents.buttons
 					new BoxSettings(50, "left", "left", _newDecoration, true, true, false )
 			 );
 			childrenLayout = l;
-			 addComponent( _editDecoration );			 addComponent( _newDecoration );
+			 addComponent( _editDecoration );
+			 addComponent( _newDecoration );
 		}
-		protected function collectionsLoaded (event : CommandEvent) : void 
+		protected function collectionsLoaded ( c : Component ) : void 
 		{
 			_newDecoration.popupMenu.menuList.model = new DefaultListModel( 
 															BuilderCollections.getClassesByType("abe.com.ponents.skinning.decorations::ComponentDecoration").map( 
@@ -160,16 +159,9 @@ package abe.com.ponents.buttons
 			super.enabled = b;
 			checkDisableMode();
 		}
-		/**
-		 * Recoit l'évènement <code>CommandEvent.COMMAND_END</code> de fin
-		 * d'édition des propriétés de l'objet <code>ComponentDecoration</code>
-		 * courant.
-		 *
-		 * @param	event	évènement de fin d'édition
-		 */
-		protected function editCommandEnd (event : CommandEvent) : void
+		protected function editCommandEnded ( c : Command ) : void
 		{
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 		/**
 		 * Renvoie un objet <code>MenuItem</code> chargé de construire un objet
@@ -191,7 +183,7 @@ package abe.com.ponents.buttons
 		protected function createNewDecoration( cl : Class ) : void
 		{
 			value = new cl();
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 		/**
 		 * Définie l'état du composant lorsque celuici est désactivé.
@@ -218,12 +210,10 @@ package abe.com.ponents.buttons
 			}
 		}
 		/**
-		 * Diffuse un évènement de type <code>ComponentEvent.DATA_CHANGE</code> aux écouteurs
-		 * de ce composant.
 		 */
-		protected function fireDataChange () : void
+		protected function fireDataChangedSignal () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, value );
 		}
 	}
 }

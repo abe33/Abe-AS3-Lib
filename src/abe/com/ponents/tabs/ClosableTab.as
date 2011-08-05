@@ -1,7 +1,6 @@
 package abe.com.ponents.tabs 
 {
 	import abe.com.mon.geom.dm;
-	import abe.com.mon.logs.Log;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.actions.AbstractAction;
 	import abe.com.ponents.actions.ProxyAction;
@@ -9,11 +8,9 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.containers.DraggablePanel;
 	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.Component;
+	import abe.com.ponents.core.*;
+	import abe.com.ponents.events.*;
 	import abe.com.ponents.dnd.DragSource;
-	import abe.com.ponents.events.ActionEvent;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.layouts.display.DOInlineLayout;
@@ -23,7 +20,8 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.utils.CardinalPoints;
 	import abe.com.ponents.utils.Directions;
 
-	import flash.events.Event;
+	import org.osflash.signals.Signal;
+	import org.osflash.signals.DeluxeSignal;
 
 	/**
 	 * @author Cédric Néhémie
@@ -74,12 +72,14 @@ package abe.com.ponents.tabs
 	[Skin(define="ClosableTab_CloseButton",
 		  inherit="DefaultComponent",
 		  
-		  state__0_1_4_5_8_9_12_13__background="skin.emptyDecoration",		  state__0_1_4_5_8_9_12_13__foreground="skin.noDecoration",
-		  state__all__corners="new cutils::Corners(4)",		  state__all__insets="new cutils::Insets(0)"
+		  state__0_1_4_5_8_9_12_13__background="skin.emptyDecoration",
+		  state__0_1_4_5_8_9_12_13__foreground="skin.noDecoration",
+		  state__all__corners="new cutils::Corners(4)",
+		  state__all__insets="new cutils::Insets(0)"
 	)]
 	public class ClosableTab extends DraggablePanel implements Tab, DragSource
 	{
-		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
+		FEATURES::BUILDER { 
 		static public function defaultTabbedPanePreview () : TabbedPane
 		{
 			var tp : TabbedPane = new TabbedPane();
@@ -112,12 +112,16 @@ package abe.com.ponents.tabs
 			tp.tabsPosition = CardinalPoints.WEST;
 			return tp;		
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		 } 
 		
 		[Embed(source="../skinning/icons/control_close_blue.png")]
 		static public var CROSS : Class;	
 		
-		protected var _closeButton : Button;		protected var _mainButton : Button;
+		protected var _tabClicked : Signal;
+		public var tabClosed : DeluxeSignal;
+		
+		protected var _closeButton : Button;
+		protected var _mainButton : Button;
 		protected var _content : Component;
 		protected var _placement : String;
 		protected var _parentTabbedPane : TabbedPane;
@@ -125,7 +129,11 @@ package abe.com.ponents.tabs
 		public function ClosableTab ( name : String, content : Component = null, icon : Icon = null )
 		{
 			super();
-			_allowOver = true;			_allowPressed = true;
+			tabClosed = new DeluxeSignal( this );
+			_tabClicked = new Signal();
+			
+			_allowOver = true;
+			_allowPressed = true;
 			
 			var layout : HBoxLayout = new HBoxLayout( this, 3, 
 							new BoxSettings(0), 
@@ -146,13 +154,16 @@ package abe.com.ponents.tabs
 			_closeButton.styleKey = "ClosableTab_CloseButton";
 			_closeButton.isComponentIndependent = false;
 			
-			layout.setObjectForBox( _mainButton, 0 );			layout.setObjectForBox( _closeButton, 1 );
+			layout.setObjectForBox( _mainButton, 0 );
+			layout.setObjectForBox( _closeButton, 1 );
 			
-			addComponent( _mainButton );			addComponent( _closeButton );
+			addComponent( _mainButton );
+			addComponent( _closeButton );
 		}
+		public function get tabClicked() : Signal { return _tabClicked; }
 		protected function onClose () : void 
 		{
-			fireComponentEvent( ComponentEvent.CLOSE );
+			tabClosed.dispatch( new ComponentSignalEvent( "tabClosed", true ) );
 		}
 		public function get buttonDisplayMode () : uint { return _mainButton.buttonDisplayMode; }
 		public function set buttonDisplayMode (m : uint) : void
@@ -249,31 +260,30 @@ package abe.com.ponents.tabs
 			invalidate(true);
 		}
 
-		override public function click (e : Event = null) : void
+		override public function click ( context : UserActionContext ) : void
 		{
-			Log.debug( e.target);
-			
-			if( e.target != _closeButton )
-				dispatchEvent( new ActionEvent( ActionEvent.ACTION, true ) );			else
-				fireComponentEvent( ComponentEvent.CLOSE );
+			if( !_closeButton.hitTestPoint( stage.mouseX, stage.mouseY ) )
+				_tabClicked.dispatch( this );
+			else
+				tabClosed.dispatch( this );
 				
 		}
-		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+		 FEATURES::DND { 
 		override public function get transferData () : Transferable
 		{
 			return new TabTransferable( this, _parentTabbedPane );
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		 } 
 		
-		override protected function stylePropertyChanged ( e : PropertyEvent ) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( e.propertyName )
+			switch( propertyName )
 			{
 				case "closeIcon" : 
-					_closeButton.icon = e.propertyValue.clone();
+					_closeButton.icon = propertyValue.clone();
 					break;
 				default : 
-					super.stylePropertyChanged( e );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

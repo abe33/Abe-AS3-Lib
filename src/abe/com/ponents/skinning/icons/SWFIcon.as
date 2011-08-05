@@ -6,7 +6,6 @@ package abe.com.ponents.skinning.icons
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
 	import flash.net.URLRequest;
-
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -69,21 +68,21 @@ package abe.com.ponents.skinning.icons
 			_childrenContainer.removeChild( _loadingIcon );
 			_childrenContainer.addChild( _failureIcon );
 			init();
-			fireResizeEvent();
+			fireComponentResizedSignal();
 		}
 		protected function ioError (event : IOErrorEvent) : void
 		{
 			_childrenContainer.removeChild( _loadingIcon );
 			_childrenContainer.addChild( _failureIcon );
 			init();
-			fireResizeEvent();
+			fireComponentResizedSignal();
 		}
 		protected function complete (event : Event) : void
 		{
 			_childrenContainer.removeChild( _loadingIcon );
 			_childrenContainer.addChild( _loader );
 			init();
-			fireResizeEvent();
+			fireComponentResizedSignal();
 		}
 
 		override public function clone () : *

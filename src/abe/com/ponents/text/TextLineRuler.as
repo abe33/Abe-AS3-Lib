@@ -1,6 +1,5 @@
 package abe.com.ponents.text
 {
-	import flash.display.DisplayObject;
 	import abe.com.mon.core.ITextField;
 	import abe.com.mon.geom.dm;
 	import abe.com.mon.utils.StringUtils;
@@ -8,6 +7,7 @@ package abe.com.ponents.text
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.display.DOStretchLayout;
 
+	import flash.display.DisplayObject;
 	import flash.events.Event;
 	import flash.text.TextField;
 
@@ -15,7 +15,7 @@ package abe.com.ponents.text
 	[Skin(define="TextLineRuler",
 			  inherit="DefaultComponent",
 			  state__all__foreground="skin.noDecoration",
-			  state__all__background="new deco::SimpleFill( skin.rulerBackgroundColor )",			  state__all__textColor="skin.textColor"
+			  state__all__background="skin.rulerBackgroundColor",			  state__all__textColor="skin.textColor"
 	)]
 	/**
 	 * @author Cédric Néhémie
@@ -40,7 +40,7 @@ package abe.com.ponents.text
 			_allowFocus = false;
 			_allowPressed = false;
 
-			_textComp.addEventListener ( ComponentEvent.TEXT_CONTENT_CHANGE, textChange );
+			_textComp.textContentChanged.add ( textContentChanged );
 			_target.addEventListener ( Event.SCROLL, textScroll );
 
 			addComponentChild( _innerText as DisplayObject );
@@ -52,7 +52,7 @@ package abe.com.ponents.text
 		{
 			_innerText.scrollV = _target.scrollV;
 		}
-		protected function textChange ( event : Event ) : void
+		protected function textContentChanged ( t : AbstractTextComponent, s : String ) : void
 		{
 			var s : String = "";
 			var i : uint;

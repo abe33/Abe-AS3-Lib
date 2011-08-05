@@ -10,7 +10,6 @@ package abe.com.mon.geom
 
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
-
 	/**
 	 * A quadratic Bezier curve is a curve where each segment
 	 * has an additionnal control vertex. Each segment is composed

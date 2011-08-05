@@ -1,5 +1,6 @@
 package abe.com.ponents.lists 
 {
+	import abe.com.mon.logs.*;
 	import abe.com.mon.utils.StringUtils;
 
 	/**
@@ -26,14 +27,19 @@ package abe.com.ponents.lists
 		override public function set index (id : uint) : void
 		{
 			super.index = id;
-			indexStartAt0 = indexStartAt0;
+            if( _owner )
+				indexStartAt0 = indexStartAt0;
 		}
 
 		override public function invalidatePreferredSizeCache () : void
 		{
 			super.invalidatePreferredSizeCache( );
+			var h : Number = _preferredSizeCache.height;
 			if( _owner )
 				_preferredSizeCache.height = (_owner as ListLineRuler).list.listLayout.lastPreferredCellHeight;
+			
+			if( isNaN( _preferredSizeCache.height ) )
+                _preferredSizeCache.height = h; 
 		}
 
 		public function get indexStartAt0 () : Boolean { return _indexStartAt0; }		

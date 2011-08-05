@@ -3,6 +3,8 @@
  */
 package  abe.com.edia.camera
 {
+	import abe.com.mon.geom.Range;
+
 	import flash.filters.BlurFilter;
 	/**
 	 * Une implémentation standard d'un écouteur de la classe <code>DOFCamera</code>.
@@ -85,14 +87,10 @@ package  abe.com.edia.camera
 		/**
 		 * Fonction appelée lors d'un changement opéré sur la profondeur de champs 
 		 * de la caméra.
-		 * 
-		 * @param	e	l'objet <code>CameraEvent</code> diffusé par la caméra
 		 */
-		public function dofChanged( e : CameraEvent ) : void
+		public function dofChanged( camera : DOFCamera ) : void
 		{
-			var dofCam : DOFCamera = e.camera as DOFCamera;
-
-			_nBlurCoeficient = dofCam.getBlurRatio( _nFocalDepth );
+			_nBlurCoeficient = camera.getBlurRatio( _nFocalDepth );
 						
 			applyBlur();
 		}

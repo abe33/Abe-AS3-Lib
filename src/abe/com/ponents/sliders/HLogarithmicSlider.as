@@ -1,6 +1,5 @@
 package abe.com.ponents.sliders 
 {
-	import abe.com.mon.logs.Log;
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.models.BoundedRangeModel;
@@ -35,7 +34,7 @@ package abe.com.ponents.sliders
 			_knob.x = _track.x + MathUtils.map( valOut , minOut, maxOut, 0, _track.width - _knob.width );
 			_knob.y = Alignments.alignHorizontal( _knob.height , height, _style.insets, "center" );
 		}
-		override protected function drag ( e : MouseEvent ) : void
+		override protected function drag ( ... args ) : void
 		{
 			if( _dragging )
 			{
@@ -73,7 +72,8 @@ package abe.com.ponents.sliders
 				var minOut : Number = Math.log( _model.minimum );
 				var maxOut : Number = Math.log( _model.maximum );
 				
-				var v : Number = MathUtils.map( _knob.x - _model.extent + _knob.width/2, minIn, maxIn, minOut, maxOut );				_model.value = getTransformedValue( Math.exp( v ) );
+				var v : Number = MathUtils.map( _knob.x - _model.extent + _knob.width/2, minIn, maxIn, minOut, maxOut );
+				_model.value = getTransformedValue( Math.exp( v ) );
 			}
 		}
 		override protected function paintTicks () : void

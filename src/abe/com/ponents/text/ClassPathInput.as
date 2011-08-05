@@ -1,9 +1,7 @@
 package abe.com.ponents.text 
 {
-	import flash.utils.getQualifiedClassName;
 	import flash.utils.getDefinitionByName;
-	import abe.com.ponents.text.TextInput;
-	
+	import flash.utils.getQualifiedClassName;
 	/**
 	 * @author cedric
 	 */

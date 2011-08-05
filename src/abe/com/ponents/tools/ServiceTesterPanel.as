@@ -1,29 +1,28 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.ponents.tools.prettify.GPrettify;
-	import abe.com.mon.geom.dm;
-	import abe.com.mon.geom.pt;
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.munication.remoting.NetConnectionFactory;
-	import abe.com.munication.services.ServiceCall;
-	import abe.com.munication.services.ServiceEvent;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.completion.InputMemory;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.components.GridLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.lists.CustomEditCell;
-	import abe.com.ponents.lists.ListEditor;
-	import abe.com.ponents.menus.ComboBox;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.text.TextInput;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.dm;
+    import abe.com.mon.geom.pt;
+    import abe.com.mon.logs.Log;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.munication.remoting.NetConnectionFactory;
+    import abe.com.munication.services.ServiceCall;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.actions.ProxyAction;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.completion.InputMemory;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.layouts.components.GridLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.lists.CustomEditCell;
+    import abe.com.ponents.lists.ListEditor;
+    import abe.com.ponents.menus.ComboBox;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.text.TextInput;
+    import abe.com.ponents.tools.prettify.GPrettify;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric
 	 */
@@ -117,16 +116,15 @@ package abe.com.ponents.tools
 			}
 		}
 
-		protected function handleResult ( e : ServiceEvent ) : void
+		protected function handleResult ( res :* ) : void
 		{
-			var res : * = e.results;
 			Log.debug( res );
 			Log.debug( "Result:\n" + new GPrettify().prettyPrintOne( recursivePrint( res ), "default", true ), true );			
 		}
 
-		protected function handleError ( e : ServiceEvent ) : void
+		protected function handleError ( msg : String ) : void
 		{
-			Log.error( "Error!\n" + e.results );
+			Log.error( "Error!\n" + msg );
 		}
 		protected function recursivePrint( o:*, indent:String = ""):String
 		{
