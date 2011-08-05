@@ -31,7 +31,7 @@ package abe.com.ponents.tools.widgets
 	)]
 	[Skin(define="CanvasViewWidget_SnapShot",
 		  inherit="EmptyComponent",
-	      state__all__background="new deco::SimpleFill(skin.rulerBackgroundColor)"
+	      state__all__background="skin.rulerBackgroundColor"
 	)]
 	/**
 	 * @author cedric

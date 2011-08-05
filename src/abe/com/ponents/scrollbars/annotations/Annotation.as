@@ -1,6 +1,7 @@
 package abe.com.ponents.scrollbars.annotations
 {
-	import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.utils.StringUtils;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -18,5 +19,9 @@ package abe.com.ponents.scrollbars.annotations
 			this.type = type;
 			this.color = color ? color : Color.Yellow;
 		}
+        public function toString() : String 
+        {
+            return StringUtils.stringify(this,{'type':type,'position':position});
+        }
 	}
 }

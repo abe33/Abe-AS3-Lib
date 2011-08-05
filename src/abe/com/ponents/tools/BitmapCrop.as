@@ -29,8 +29,8 @@ package abe.com.ponents.tools
 	[Skinable(skin="BitmapCrop")]
 	[Skin(define="BitmapCrop",
 			  inherit="DefaultComponent",
-			  state__all__background="new deco::SimpleFill(color(0xff333333))",
-			  state__all__foreground="new deco::SimpleBorders(color(0xff000000))"
+			  state__all__background="color(0xff333333)",
+			  state__all__foreground="color(0xff000000)"
 			  
 	)]
 	/**

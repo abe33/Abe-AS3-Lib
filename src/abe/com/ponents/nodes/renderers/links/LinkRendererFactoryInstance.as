@@ -10,6 +10,7 @@ package abe.com.ponents.nodes.renderers.links
 								 "aggregate"	:new ComplexLine( new SimpleLine(), new DiamondFill(1, null, Color.White ) ),
 								 "compose"		:new ComplexLine( new SimpleLine(), new DiamondFill() ),
 								 "generalize"	:new ComplexLine( new SimpleLine(), null, 			   new TriangleFill()),
-								 "implements"	:new ComplexLine( new DashedLine(), null, 			   new TriangleFill( 1, null, Color.White ))
+								 "implements"	:new ComplexLine( new DashedLine(), null, 			   new TriangleFill( 1, null, Color.White )),
+								 "annotate"		:new DashedLine()
 							   } );
 }

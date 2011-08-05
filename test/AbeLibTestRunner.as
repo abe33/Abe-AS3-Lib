@@ -9,8 +9,8 @@ package
 	import abe.com.ponents.dnd.DnDDragObjectRenderer;
 	import abe.com.ponents.dnd.DnDDropRenderer;
 	import abe.com.ponents.dnd.DnDManagerInstance;
-	import abe.com.ponents.events.ComponentFactoryEvent;
 	import abe.com.ponents.factory.ApplicationMain;
+	import abe.com.ponents.factory.ComponentFactory;
 	import abe.com.ponents.factory.ComponentFactoryInstance;
 	import abe.com.ponents.factory.ComponentFactoryPreload;
 	import abe.com.ponents.flexunit.AbeFlexUnitUI;
@@ -73,9 +73,9 @@ package
 															  });
 			fireProceedBuild();
 		}
-		override protected function buildComplete (e : ComponentFactoryEvent) : void 
+		override protected function buildCompleted ( f : ComponentFactory, current : Number, total : Number ) : void 
 		{
-			super.buildComplete( e );
+			super.buildCompleted( f, current, total );
 			
 			var core : FlexUnitCore = new FlexUnitCore();
 			core.addListener( _uiListener );

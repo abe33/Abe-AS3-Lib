@@ -3,40 +3,14 @@
  */
 package  abe.com.edia.dialogues
 {
+	import org.osflash.signals.Signal;
 	import abe.com.mands.AbstractCommand;
 	import abe.com.mands.Command;
 	import abe.com.mon.core.Runnable;
 
 	import flash.events.Event;
 
-	/**
-	 * Diffusé par la classe <code>DialogueKernel</code> lors
-	 * du démarrage d'une séquence de dialogue.
-	 * 
-	 * @eventType	abe.com.edia.dialogues.SpeechEvent.SPEECH_START
-	 */
-	[Event(name="speechStart", 	type="abe.com.edia.dialogues.SpeechEvent")]
-	/**
-	 * Diffusé par la classe <code>DialogueKernel</code> à la fin
-	 * d'une séquence de dialogue.
-	 * 
-	 * @eventType	abe.com.edia.dialogues.SpeechEvent.SPEECH_END
-	 */
-	[Event(name="speechEnd", 	type="abe.com.edia.dialogues.SpeechEvent")]
-	/**
-	 * Diffusé par la classe <code>DialogueKernel</code> lorsqu'une
-	 * nouvelle parole est prononcée.
-	 * 
-	 * @eventType	abe.com.edia.dialogues.SpeechEvent.NEW_SPEECH
-	 */
-	[Event(name="newSpeech", 	type="abe.com.edia.dialogues.SpeechEvent")]
-	/**
-	 * Diffusé par la classe <code>DialogueKernel</code> lorsqu'une
-	 * nouvelle question est posée à l'utilisateur.
-	 * 
-	 * @eventType	abe.com.edia.dialogues.SpeechEvent.NEW_QUESTION
-	 */
-	[Event(name="newQuestion", 	type="abe.com.edia.dialogues.SpeechEvent")]
+	
 	/**
 	 * La classe <code>DialogueKernel</code> permet de lire une structure 
 	 * de dialogue et de diffuser des évènements à d'éventuels écouteurs
@@ -87,7 +61,21 @@ package  abe.com.edia.dialogues
 	{
 		private var _currentSpeech : Speech;
 		private var _waitingForAnAnswer : Boolean;
-		
+        
+        public var speechStarted : Signal;
+        public var speechEnded : Signal;
+        public var speechOccured : Signal;
+        public var questionRaised : Signal;
+
+        public function DialogueKernel ()
+        {
+            speechStarted = new Signal();
+            speechEnded = new Signal();
+            speechOccured = new Signal();
+            questionRaised = new Signal();
+        }
+
+        
 		/**
 		 * Un appel à la méthode <code>execute</code> démarre la séquence de dialogue
 		 * de cette instance.
@@ -188,7 +176,7 @@ package  abe.com.edia.dialogues
 			if( s is EndSpeech || s.nextSpeech == null )
 			{
 				fireSpeechEnd( s );
-				fireCommandEnd();
+				_commandEnded.dispatch( this );
 				return true;
 			}
 			else return false;
@@ -229,7 +217,7 @@ package  abe.com.edia.dialogues
 		 */
 		protected function fireSpeechStart () : void
 		{
-			dispatchEvent( new SpeechEvent( SpeechEvent.SPEECH_START ) );
+			speechStarted.dispatch(this);
 		}
 		/**
 		 * Notifie les éventuels écouteurs qu'un dialogue vient de se terminer.
@@ -241,7 +229,7 @@ package  abe.com.edia.dialogues
 		 */
 		protected function fireSpeechEnd ( s : Speech ) : void
 		{
-			dispatchEvent( new SpeechEvent( SpeechEvent.SPEECH_END, s ) );			
+            speechEnded.dispatch(this,s);
 		}
 		/**
 		 * Notifie les éventuels écouteurs qu'une nouvelle parole vient d'être
@@ -253,7 +241,7 @@ package  abe.com.edia.dialogues
 		 */
 		protected function fireNewSpeech( s : Speech ) : void
 		{
-			dispatchEvent( new SpeechEvent( SpeechEvent.NEW_SPEECH, s ) );	
+			speechOccured.dispatch(this,s);
 		}
 		/**
 		 * Notifie les éventuels écouteurs qu'une nouvelle question vient d'être
@@ -265,7 +253,7 @@ package  abe.com.edia.dialogues
 		 */
 		protected function fireNewQuestion ( s : Question ) : void
 		{
-			dispatchEvent( new SpeechEvent( SpeechEvent.NEW_QUESTION, s ) );
+			questionRaised.dispatch(this,s);
 		}
 	}
 }

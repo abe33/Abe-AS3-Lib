@@ -3,7 +3,6 @@ package abe.com.ponents.monitors.recorders
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.Range;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.patibility.lang._;
 	import abe.com.ponents.monitors.GraphCurveSettings;
@@ -30,9 +29,9 @@ package abe.com.ponents.monitors.recorders
 										curveSettings : 
 										new GraphCurveSettings( _("FPS"), Color.DarkOrange, 0 );
 		}
-		public function tick( e : ImpulseEvent ) : void
+		public function tick( bias : Number, biasInSeconds : Number, currentTime : Number) : void
 		{
-			var t : Number = e.bias;
+			var t : Number = bias;
 				
 			_values.push( Math.round( 1000 / t ) );
 			

@@ -9,6 +9,8 @@ package abe.com.ponents.core
 	import abe.com.ponents.core.focus.FocusGroup;
 	import abe.com.ponents.core.focus.Focusable;
 	import abe.com.ponents.layouts.components.ComponentLayout;
+
+	import org.osflash.signals.Signal;
 	/**
 	 * Un objet <code>Container</code> est un <code>Component</code> pouvant contenir
 	 * d'autre <code>Component</code> en tant que sous-composants. Un <code>Container</code>
@@ -46,9 +48,13 @@ package abe.com.ponents.core
 		 */
 		/*FDT_IGNORE*/
 		TARGET::FLASH_9
-		function get children(): Array;		
-		TARGET::FLASH_10		function get children(): Vector.<Component>;		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/		function get children(): Vector.<Component>;
+		function get children(): Array;
+		
+		TARGET::FLASH_10
+		function get children(): Vector.<Component>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		function get children(): Vector.<Component>;
 		/**
 		 * Le nombre de sous-composants actuellement dans ce <code>Container</code>.
 		 */
@@ -110,5 +116,9 @@ package abe.com.ponents.core
 		 * 			de ce <code>Container</code>
 		 */
 		function isDescendant ( c : Component ) : Boolean;
+		
+		function get childAdded():Signal;
+		function get childRemoved():Signal;
+		function get childResized():Signal;
 	}
 }

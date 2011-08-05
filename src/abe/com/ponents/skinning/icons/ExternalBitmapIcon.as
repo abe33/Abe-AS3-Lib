@@ -54,7 +54,7 @@ package abe.com.ponents.skinning.icons
 				_childrenContainer.removeChild( _loadingIcon );
 			_bitmap = bmp;
 			super.init();
-			fireResizeEvent();
+			fireComponentResizedSignal();
 		}
 		
 		protected function onBitmapLoadingFailure () : void
@@ -63,7 +63,7 @@ package abe.com.ponents.skinning.icons
 				_childrenContainer.removeChild( _loadingIcon );
 			_childrenContainer.addChild( _failureIcon );
 			super.init();
-			fireResizeEvent();
+			fireComponentResizedSignal();
 		}
 		override public function init () : void {}
 		override public function clone () : *

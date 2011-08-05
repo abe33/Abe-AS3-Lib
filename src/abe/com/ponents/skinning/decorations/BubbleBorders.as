@@ -1,20 +1,19 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.pt;
-	import abe.com.mon.utils.GeometryUtils;
-	import abe.com.mon.utils.PointUtils;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.CardinalPoints;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.pt;
+    import abe.com.mon.utils.GeometryUtils;
+    import abe.com.mon.utils.PointUtils;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.CardinalPoints;
+    import abe.com.ponents.utils.Corners;
 
-	import avmplus.getQualifiedClassName;
-
-	import flash.display.Graphics;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.display.Graphics;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * @author cedric
 	 */

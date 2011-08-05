@@ -149,7 +149,8 @@ package abe.com.ponents.layouts.components
 
 		protected function estimatedContentSize () : Dimension
 		{
-			var w : Number = 0;			var h : Number = 0;
+			var w : Number = 0;
+			var h : Number = 0;
 			
 			if( _upper )
 				h += _upper.preferredHeight;

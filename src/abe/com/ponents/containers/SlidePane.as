@@ -1,13 +1,12 @@
 package abe.com.ponents.containers 
 {
+	import abe.com.mon.geom.*;
 	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.PropertyEvent;
+	import abe.com.ponents.core.*;
+	import abe.com.ponents.factory.*;
 	import abe.com.ponents.layouts.components.SlidePaneLayout;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.Event;
-	import flash.events.MouseEvent;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
 
@@ -15,7 +14,10 @@ package abe.com.ponents.containers
 	 * @author Cédric Néhémie
 	 */
 	
-	[Style(name="upIcon",type="abe.com.ponents.skinning.icons.Icon")]	[Style(name="downIcon",type="abe.com.ponents.skinning.icons.Icon")]	[Style(name="leftIcon",type="abe.com.ponents.skinning.icons.Icon")]	[Style(name="rightIcon",type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="upIcon",type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="downIcon",type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="leftIcon",type="abe.com.ponents.skinning.icons.Icon")]
+	[Style(name="rightIcon",type="abe.com.ponents.skinning.icons.Icon")]
 	
 	[Skinable(skin="SlidePane")]
 	[Skin(define="SlidePane",
@@ -24,7 +26,8 @@ package abe.com.ponents.containers
 	[Skin(define="SlidePaneButton",
 		  inherit="DefaultComponent",
 		  
-		  state__all__corners="new cutils::Corners()",		  state__all__insets="new cutils::Insets(2)",
+		  state__all__corners="new cutils::Corners()",
+		  state__all__insets="new cutils::Insets(2)",
 		  
 		  custom_upIcon="icon(abe.com.ponents.containers::SlidePane.SCROLL_UP_ICON)", 
 		  custom_downIcon="icon(abe.com.ponents.containers::SlidePane.SCROLL_DOWN_ICON)", 
@@ -33,6 +36,27 @@ package abe.com.ponents.containers
 	)]
 	public class SlidePane extends AbstractScrollContainer
 	{
+	    FEATURES::BUILDER 
+	    {
+	        static public function buildPreview( factory : ComponentFactory,
+                                                 id : String,
+                                                 kwargs : Object = null ):void
+            {
+                ScrollablePanel.buildPreview( factory, id + "_panel" );
+                
+                factory.group("movables")
+                       .build( SlidePane, 
+                               id, 
+                               null,
+                               kwargs, 
+                               function( sp : SlidePane, o : Object ) : void
+                               {
+                                   sp.view = o[ id + "_panel" ];
+                                   sp.preferredSize = dm(100,100);
+                               } );
+            }
+	    }
+	
 		[Embed(source="../skinning/icons/scrollup.png")]
 		static public var SCROLL_UP_ICON : Class;		
 		[Embed(source="../skinning/icons/scrolldown.png")]
@@ -102,32 +126,33 @@ package abe.com.ponents.containers
 			
 			bt.styleKey = style;
 			bt.icon = bt.style[ icon ].clone();
-			bt.addWeakEventListener( MouseEvent.MOUSE_OVER, over );
-			bt.addWeakEventListener( MouseEvent.MOUSE_OUT, clearScroll );
+			bt.mouseEntered.add( over );
+			bt.mouseLeaved.add( clearScroll );
 			addComponent( bt );
 			return bt;
 		}
 		
-		protected function overScrollUp ( e : Event ) : void
+		protected function overScrollUp ( c : Component ) : void
 		{
 			if( _scrollUpButton.enabled )
 				_scrollInterval = setInterval( scrollUp , _scrollDelay );
 		}
-		protected function overScrollDown ( e : Event ) : void
+		protected function overScrollDown ( c : Component ) : void
 		{
 			if( _scrollDownButton.enabled )
 				_scrollInterval = setInterval( scrollDown , _scrollDelay );
 		}
-		protected function overScrollLeft ( e : Event ) : void
+		protected function overScrollLeft ( c : Component ) : void
 		{
 			if( _scrollLeftButton.enabled )
 				_scrollInterval = setInterval( scrollLeft , _scrollDelay );
 		}
-		protected function overScrollRight ( e : Event ) : void
-		{			if( _scrollRightButton.enabled )
+		protected function overScrollRight ( c : Component ) : void
+		{
+			if( _scrollRightButton.enabled )
 				_scrollInterval = setInterval( scrollRight , _scrollDelay );
 		}
-		protected function clearScroll ( e : Event = null ) : void
+		protected function clearScroll ( c : Component ) : void
 		{
 			clearInterval( _scrollInterval );
 		}
@@ -149,38 +174,39 @@ package abe.com.ponents.containers
 			if( !_hmodel || !_vmodel || !_scrollLeftButton || !_scrollRightButton || !_scrollDownButton || !_scrollUpButton  )
 				return;
 			
-			_scrollLeftButton.enabled = _enabled && _hmodel.value > _hmodel.minimum;			_scrollRightButton.enabled = _enabled && _hmodel.value < _hmodel.maximum;
+			_scrollLeftButton.enabled = _enabled && _hmodel.value > _hmodel.minimum;
+			_scrollRightButton.enabled = _enabled && _hmodel.value < _hmodel.maximum;
 				
 			_scrollUpButton.enabled = _enabled && _vmodel.value > _vmodel.minimum;
 			_scrollDownButton.enabled = _enabled && _vmodel.value < _vmodel.maximum;
 		}
 
-		override protected function stylePropertyChanged ( e : PropertyEvent ) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : *) : void
 		{
-			switch( e.propertyName )
+			switch( propertyName )
 			{
 				case "upIcon" : 
-					_scrollUpButton.icon = ( e.propertyValue as Icon ).clone();
+					_scrollUpButton.icon = ( propertyValue as Icon ).clone();
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
 				case "downIcon" : 
-					_scrollDownButton.icon = ( e.propertyValue as Icon ).clone();
+					_scrollDownButton.icon = ( propertyValue as Icon ).clone();
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
 				case "leftIcon" : 
-					_scrollLeftButton.icon = ( e.propertyValue as Icon ).clone();
+					_scrollLeftButton.icon = ( propertyValue as Icon ).clone();
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
 				case "rightIcon" : 
-					_scrollRightButton.icon = ( e.propertyValue as Icon ).clone();
+					_scrollRightButton.icon = ( propertyValue as Icon ).clone();
 					invalidatePreferredSizeCache();
 					size = null;
 					break;
 				default : 
-					super.stylePropertyChanged( e );
+					super.stylePropertyChanged(propertyName, propertyValue);
 					break;
 			}
 		}

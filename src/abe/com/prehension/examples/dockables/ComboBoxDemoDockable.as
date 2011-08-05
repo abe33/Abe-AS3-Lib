@@ -45,7 +45,7 @@ package abe.com.prehension.examples.dockables
 						null
 			);
 			
-			factory.group("movables").build(FontListComboBox, "fontListComboBox");
+			factory.group("movables").build(FontListComboBox, "fontListComboBox", [true] );
 			
 			fillBatch( factory, ScrollablePanel, 
 			   		   "comboBoxesDemoPanel",

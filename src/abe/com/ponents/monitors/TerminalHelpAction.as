@@ -10,8 +10,6 @@ package  abe.com.ponents.monitors
 	import abe.com.ponents.actions.AbstractTerminalAction;
 	import abe.com.ponents.actions.TerminalAction;
 	import abe.com.ponents.actions.TerminalActionOption;
-
-	import flash.events.Event;
 	/**
 	 * La commande <code>HelpAction</code> affiche la liste des commandes disponibles
 	 * dans un objet <code>Terminal</code> et permet d'afficher l'aide détaillée d'une
@@ -59,7 +57,7 @@ package  abe.com.ponents.monitors
 		 * @param	e	objet <code>TerminalEvent</code> fournit par le <code>Terminal</code> dans
 		 * 				lequel la commande a été appelé
 		 */
-		override public function execute( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			var te : TerminalEvent = e as TerminalEvent;
 			
@@ -75,12 +73,12 @@ package  abe.com.ponents.monitors
 				}
 				a.sort();
 				te.terminal.echo( a.join("\n") );
-				fireCommandEnd();
+				commandEnded.dispatch( this );
 			}
 			else if ( o.hasOwnProperty( "--help" ) || o.hasOwnProperty( "-h" ) )
 			{
 				te.terminal.echo( this.formatCommandInfoDetails( this ) );
-				fireCommandEnd();
+				commandEnded.dispatch( this );
 			}
 			else if ( o.value != null )
 			{
@@ -89,16 +87,16 @@ package  abe.com.ponents.monitors
 				if( command != null )
 				{
 					te.terminal.echo( formatCommandInfoDetails( command ) );
-					fireCommandEnd();
+					commandEnded.dispatch( this );
 				}
 				else
 				{
-					fireCommandFailed( _( "Unknown command '$0'." ).replace("$0", o.value ) );
+					commandFailed.dispatch( this, _( "Unknown command '$0'." ).replace("$0", o.value ) );
 				}
 			}
 			else
 			{
-				fireCommandFailed( _("Unknown parameters in '$0', type 'help --help' to display the full command's informations.").replace("$0", te.options ) );
+				commandFailed.dispatch( this, _("Unknown parameters in '$0', type 'help --help' to display the full command's informations.").replace("$0", te.options ) );
 			}
 		}
 	}

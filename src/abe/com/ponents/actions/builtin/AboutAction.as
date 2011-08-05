@@ -9,8 +9,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.text.Label;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */
@@ -24,7 +22,8 @@ package abe.com.ponents.actions.builtin
 		public function AboutAction ( 
 										appName : String,
 										appVersion : String,
-										appAbout : String,										appCopyright : String,
+										appAbout : String,
+										appCopyright : String,
 										
 										actionName : String = "", 
 										actionIcon : Icon = null, 
@@ -35,21 +34,25 @@ package abe.com.ponents.actions.builtin
 		{
 			super( actionName, actionIcon, actionDescription, actionAccelerator );
 			_appName = appName;
-			_appVersion = appVersion;			_appAbout = appAbout;
+			_appVersion = appVersion;
+			_appAbout = appAbout;
 			_appCopyright = appCopyright;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
+			_isRunning = true;
 			var p : Panel = new Panel();
 			p.childrenLayout = new InlineLayout(p, 3, "left", "top", "topToBottom", true );
 			
 			p.addComponent( new Label( _$( "$0 v$1", _appName, _appVersion ) ) );
-			p.addComponent( new Label( _appAbout ) );			p.addComponent( new Label( _appCopyright ) );
+			p.addComponent( new Label( _appAbout ) );
+			p.addComponent( new Label( _appCopyright ) );
 			
 			var d : Dialog = new Dialog( _("About"), Dialog.CLOSE_BUTTON, p );
 			d.open( Dialog.CLOSE_ON_RESULT );
 			
-			super.execute( e );
+			super.execute.apply( this, args );
+			_isRunning = false;
 		}
 	}
 }

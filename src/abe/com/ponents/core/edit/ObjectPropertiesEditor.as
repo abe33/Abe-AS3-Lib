@@ -1,6 +1,6 @@
 package abe.com.ponents.core.edit 
 {
-	import abe.com.mands.events.CommandEvent;
+	import abe.com.mands.Command;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.utils.magicCopy;
 	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
@@ -42,7 +42,7 @@ package abe.com.ponents.core.edit
 			this.value = value;
 			
 			_action = new EditObjectPropertiesAction( _value, editObjectCallback, null, null, null, null, true );
-			_action.addEventListener(CommandEvent.COMMAND_END, editEnd);
+			_action.commandEnded.add( editEnded );
 			_action.execute();
 		}
 		protected function editObjectCallback ( o : Object, 
@@ -58,14 +58,10 @@ package abe.com.ponents.core.edit
 		}
 		
 		/**
-		 * Recoit l'évènement <code>CommandEvent.COMMAND_END</code> de la classe
-		 * <code>EditObjectPropertiesAction</code> à la fin de la séquence d'édition.
-		 * 
-		 * @param	event	évènement diffusé en fin d'édition
 		 */
-		protected function editEnd (event : CommandEvent) : void
+		protected function editEnded ( command : Command ) : void
 		{
-			_action.removeEventListener( CommandEvent.COMMAND_END, editEnd );
+			_action.commandEnded.remove( editEnded );
 			_caller.confirmEdit();
 			
 			_action = null;

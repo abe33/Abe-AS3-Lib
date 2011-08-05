@@ -7,15 +7,15 @@ package abe.com.edia.fx
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.utils.AllocatorInstance;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.motion.easing.Linear;
 
 	import flash.display.GradientType;
 	import flash.display.Shape;
 	import flash.display.SpreadMethod;
-	import flash.events.Event;
 	import flash.geom.Matrix;
+	
+	import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -31,6 +31,9 @@ package abe.com.edia.fx
 		protected var t : Number;
 		
 		public var gradient : Gradient;
+		
+		protected var _removed : Signal;
+		public function get removed () : Signal { return _removed; }
 
 		public function WaterSplash ( x : Number = 0, 
 									  y : Number = 0, 
@@ -41,6 +44,7 @@ package abe.com.edia.fx
 									  shadow : Boolean = true,
 									  easing : Function = null )
 		{
+		    _removed = new Signal();
 			this.x = x;
 			this.y = y;
 			this.gradient = gradient ? gradient : new Gradient( [ Color.CadetBlue, Color.CadetBlue ], [ 0,1 ] );
@@ -82,10 +86,10 @@ package abe.com.edia.fx
 				Impulse.unregister( tick );
 			}
 		}
-		public function tick ( e : ImpulseEvent ) : void
+		public function tick ( bias : Number, biasInSeconds : Number, time : Number ) : void
 		{
-			t += e.bias;
-			this.x -= e.biasInSeconds;
+			t += bias;
+			this.x -= biasInSeconds;
 			this.draw();
 			
 			if( t > life )
@@ -98,7 +102,7 @@ package abe.com.edia.fx
 				}
 				stop();
 				this.graphics.clear();
-				dispatchEvent( new Event( Event.REMOVED ) );
+				_removed.dispatch( this );
 				AllocatorInstance.release( this, WaterSplash );
 			}
 		}

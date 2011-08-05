@@ -1,8 +1,7 @@
 package abe.com.ponents.containers
 {
 	import abe.com.ponents.buttons.DraggableButton;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Dockable;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.layouts.display.DOInlineLayout;
 	import abe.com.ponents.skinning.decorations.GradientFill;
 	import abe.com.ponents.skinning.icons.Icon;
@@ -13,8 +12,7 @@ package abe.com.ponents.containers
 	[Skin(define="AccordionTab",
 			  inherit="Button",
 			  state__all__corners="new cutils::Corners(0)",
-			  state__all__borders="new cutils::Borders(0,0,0,1)",
-			  state__all__background="new deco::GradientFill(gradient([skin.overSelectedBackgroundColor,skin.selectedBackgroundColor,skin.overSelectedBackgroundColor],[.5,.5,1]),90)"
+			  state__all__borders="new cutils::Borders(0,0,0,1)"
 	)]
 	/**
 	 * @author Cédric Néhémie
@@ -29,9 +27,11 @@ package abe.com.ponents.containers
 		public function AccordionTab ( name : String, content : Component = null, icon : Icon = null )
 		{
 			super ( name, icon );
-			( _childrenLayout as DOInlineLayout ).horizontalAlign = "left";			( _childrenLayout as DOInlineLayout ).direction = "rightToLeft";
+			( _childrenLayout as DOInlineLayout ).horizontalAlign = "left";
+			( _childrenLayout as DOInlineLayout ).direction = "rightToLeft";
 			_allowFocus = false;
 			_allowSelected = false;
+			_selected = true;
 			_content = content;
 		}
 		public function get content () : Component { return _content; }
@@ -44,6 +44,9 @@ package abe.com.ponents.containers
 		{
 			_accordion = accordion;
 		}
-		override public function get transferData () : Transferable { return new DockableTransferable( this ); }
+		override public function get transferData () : Transferable 
+		{ 
+		    return new AccordionTabTransferable( this ); 
+		}
 	}
 }

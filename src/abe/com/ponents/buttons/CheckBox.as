@@ -9,8 +9,6 @@ package abe.com.ponents.buttons
 	import abe.com.mon.core.LayeredSprite;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.layouts.display.DOInlineLayout;
 	import abe.com.ponents.skinning.icons.CheckBoxCheckedIcon;
 	import abe.com.ponents.skinning.icons.CheckBoxUncheckedIcon;
@@ -19,14 +17,7 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.utils.Directions;
 
 	import flash.display.DisplayObject;
-	import flash.events.IEventDispatcher;
 
-	/**
-	 * Évènement diffusé par l'instance au moment d'un changement de sa valeur.
-	 * 
-	 * @eventType abe.com.ponents.events.ComponentEvent.DATA_CHANGE
-	 */
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	/**
 	 * Une propriété du style contenant l'icône de référence lorsque le composant
 	 * <code>CheckBox</code> est sélectionné.
@@ -70,7 +61,7 @@ package abe.com.ponents.buttons
 		  inherit="EmptyComponent",
 		  preview="abe.com.ponents.buttons::CheckBox.defaultCheckBoxPreview",
 		  state__all__insets="new cutils::Insets(4,2,4,2)",
-		  state__4_6_7_12_14_15__foreground="new deco::SimpleBorders( skin.focusBorderColor )",
+		  state__4_6_7_12_14_15__foreground="skin.focusBorderColor",
 		  
 		  custom_checkedIcon="icon(abe.com.ponents.skinning.icons::CheckBoxCheckedIcon)",
 		  custom_uncheckedIcon="icon(abe.com.ponents.skinning.icons::CheckBoxUncheckedIcon)"
@@ -90,8 +81,7 @@ package abe.com.ponents.buttons
 														  IDisplayObjectContainer, 
 														  Component, 
 														  Focusable,
-												 		  LayeredSprite,
-												 		  IEventDispatcher
+												 		  LayeredSprite
 	{
 		/*FDT_IGNORE*/ FEATURES::BUILDER { /*FDT_IGNORE*/
 		/**
@@ -121,7 +111,8 @@ package abe.com.ponents.buttons
 		/**
 		 * Une référence vers l'icône représentant l'état sélectionné du composant.
 		 */
-		protected var _checkedIcon : Icon;		/**
+		protected var _checkedIcon : Icon;
+		/**
 		 * Une référence vers l'icône représentant l'état désélectionné du composant.
 		 */
 		protected var _uncheckedIcon : Icon;
@@ -132,7 +123,8 @@ package abe.com.ponents.buttons
 		/**
 		 * Profondeur à laquelle l'icône représentant l'état de sélection du composant
 		 * doit être positionné dans la structure graphique. 
-		 */		protected var _tickIconIndex : int;
+		 */
+		protected var _tickIconIndex : int;
 		
 		/**
 		 * Constructeur de classe <code>CheckBox</code>.
@@ -167,8 +159,8 @@ package abe.com.ponents.buttons
 		 * Une valeur booléenne indiquant si cette <code>CheckBox</code> est
 		 * cochée ou non.
 		 */
-		public function get value () : Boolean { return selected; }
-		public function set value ( b : Boolean ) : void { selected = b; }
+		override public function get value () : * { return selected; }
+		override public function set value ( b : * ) : void { selected = b; }
 		/**
 		 * Une valeur booléenne indiquant si cette <code>CheckBox</code> est
 		 * cochée ou non.
@@ -193,7 +185,7 @@ package abe.com.ponents.buttons
 		{
 			if( _tickIcon && contains( _tickIcon ) )
 			{
-				_tickIcon.removeEventListener( ComponentEvent.COMPONENT_RESIZE, iconResized );
+				_tickIcon.componentResized.remove( iconResized );
 				_childrenContainer.removeChild( _tickIcon );
 			}
 			
@@ -206,7 +198,7 @@ package abe.com.ponents.buttons
 			{
 				_tickIcon.init();
 				_tickIcon.invalidate();
-				_tickIcon.addEventListener( ComponentEvent.COMPONENT_RESIZE, iconResized );
+				_tickIcon.componentResized.add( iconResized );
 				//_childrenContainer.addChild
 				if( _icon && containsComponentChild( _icon ) )
 					addComponentChildAfter( _tickIcon, _icon );
@@ -225,20 +217,20 @@ package abe.com.ponents.buttons
 		/**
 		 * @inheritDoc
 		 */
-		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "checkedIcon" :
-					_checkedIcon = magicIconBuild( event.propertyValue );
+					_checkedIcon = magicIconBuild( propertyValue );
 					tickIcon = _selected ? _checkedIcon : _uncheckedIcon;
 					break;
 				case "uncheckedIcon" :
-					_uncheckedIcon = magicIconBuild( event.propertyValue );
+					_uncheckedIcon = magicIconBuild( propertyValue );
 					tickIcon = _selected ? _checkedIcon : _uncheckedIcon;
 					break;
 				default : 
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

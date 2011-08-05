@@ -8,7 +8,6 @@ package abe.com.edia.fx
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 
 	import flash.display.GradientType;
@@ -49,7 +48,8 @@ package abe.com.edia.fx
 			var m : Matrix = new Matrix();
 			m.createGradientBox( length, length, Math.PI/2, 0, 0 );
 			
-			var a1 : Number = angularSize / 2 * -1;			var a2 : Number = angularSize / 2;
+			var a1 : Number = angularSize / 2 * -1;
+			var a2 : Number = angularSize / 2;
 						
 			this.graphics.beginGradientFill( GradientType.LINEAR, 
 													[ color.hexa, color.hexa ],
@@ -58,17 +58,19 @@ package abe.com.edia.fx
 													m,
 													SpreadMethod.PAD );
 			this.graphics.moveTo(0, 0);
-						this.graphics.lineTo( Math.sin(a1) * length, 
+			
+			this.graphics.lineTo( Math.sin(a1) * length, 
 								  Math.cos(a1) * length );
 			this.graphics.lineTo( Math.sin(a2) * length, 
-								  Math.cos(a2) * length );			this.graphics.lineTo(0, 0);
+								  Math.cos(a2) * length );
+			this.graphics.lineTo(0, 0);
 			
 			this.graphics.endFill();
 		}
 
-		public function tick (e : ImpulseEvent) : void
+		public function tick ( bias : Number, biasInSeconds : Number, current : Number ) : void
 		{
-			rotation += angularSpeed * e.biasInSeconds;
+			rotation += angularSpeed * biasInSeconds;
 		}
 
 		public function init () : void

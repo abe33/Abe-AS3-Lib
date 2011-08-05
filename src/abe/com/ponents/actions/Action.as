@@ -7,6 +7,8 @@ package abe.com.ponents.actions
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.skinning.icons.Icon;
+
+	import org.osflash.signals.Signal;
 	/**
 	 * Un objet <code>Action</code> est une commande vouée à être utilisé
 	 * dans le cadre d'une interface graphique. Une même commande peut 
@@ -49,5 +51,7 @@ package abe.com.ponents.actions
 		 * Un composant utilisable pour déclencher/configurer l'action.
 		 */
 		function get component() : Component;
+		
+		function get propertyChanged () : Signal;
 	}
 }

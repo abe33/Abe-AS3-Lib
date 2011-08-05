@@ -4,14 +4,13 @@ package abe.com.ponents.trees
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.mon.utils.Keys;
 	import abe.com.patibility.lang._;
-	import abe.com.ponents.dnd.DropEvent;
-	import abe.com.ponents.dnd.DropTargetDragEvent;
+	import abe.com.ponents.dnd.*;
 	import abe.com.ponents.lists.List;
 	import abe.com.ponents.lists.ListCell;
 	import abe.com.ponents.models.TreeModel;
 	import abe.com.ponents.models.TreeNode;
 	import abe.com.ponents.models.TreePath;
-	import abe.com.ponents.transfer.ComponentsFlavors;
+	import abe.com.ponents.transfer.*;
 
 	import flash.events.ContextMenuEvent;
 	import flash.geom.Point;
@@ -59,15 +58,20 @@ package abe.com.ponents.trees
 
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
 				_keyboardContext[ KeyStroke.getKeyStroke( Keys.LEFT ) ] = new ProxyCommand( left );
-				_keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT ) ] = new ProxyCommand( right );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.NUMPAD_DIVIDE ) ] = new ProxyCommand( collapseAll );				_keyboardContext[ KeyStroke.getKeyStroke( Keys.SLASH ) ] = new ProxyCommand( collapseAll );
-				_keyboardContext[ KeyStroke.getKeyStroke( Keys.NUMPAD_MULTIPLY ) ] = new ProxyCommand( expandAll );			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.RIGHT ) ] = new ProxyCommand( right );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.NUMPAD_DIVIDE ) ] = new ProxyCommand( collapseAll );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.SLASH ) ] = new ProxyCommand( collapseAll );
+				_keyboardContext[ KeyStroke.getKeyStroke( Keys.NUMPAD_MULTIPLY ) ] = new ProxyCommand( expandAll );
+			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 
 			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-				addNewContextMenuItemForGroup(_("Expand All"), "expandAll", expandAllSelected, "tree" );				addNewContextMenuItemForGroup(_("Collapse All"), "collapseAll", collapseAllSelected, "tree" );
+				addNewContextMenuItemForGroup(_("Expand All"), "expandAll", expandAllSelected, "tree" );
+				addNewContextMenuItemForGroup(_("Collapse All"), "collapseAll", collapseAllSelected, "tree" );
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-		protected function expandAllSelected ( e : ContextMenuEvent ) : void { expandAll(); }		protected function collapseAllSelected ( e : ContextMenuEvent ) : void { collapseAll(); }
+		protected function expandAllSelected ( e : ContextMenuEvent ) : void { expandAll(); }
+		protected function collapseAllSelected ( e : ContextMenuEvent ) : void { collapseAll(); }
 		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		public function get treeModel () : TreeModel { return _model as TreeModel; }
 
@@ -186,21 +190,21 @@ package abe.com.ponents.trees
  * 	DND HANDLING
  *---------------------------------------------------------------------*/
 		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
-		override public function dragEnter (e : DropTargetDragEvent ) : void
+		override public function dragEnter ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		{
 			_scrollDuringDragTimeout = setInterval( scrollDuringDrag, 250 );
 			if( _enabled &&
-				( ComponentsFlavors.TREE_ITEM.isSupported ( e.flavors ) ||
-				  ComponentsFlavors.LIST_ITEM.isSupported ( e.flavors ) ) )
-				e.acceptDrag( this );
+				( ComponentsFlavors.TREE_ITEM.isSupported ( transferable.flavors ) ||
+				  ComponentsFlavors.LIST_ITEM.isSupported ( transferable.flavors ) ) )
+				manager.acceptDrag( this );
 			else
-				e.rejectDrag( this );
+				manager.rejectDrag( this );
 		}
 
-		override public function dragOver ( e : DropTargetDragEvent ) : void
+		override public function dragOver (manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		{
 			_dropStatusShape.graphics.clear();
-			var treeItem : Boolean = ComponentsFlavors.TREE_ITEM.isSupported ( e.flavors );
+			var treeItem : Boolean = ComponentsFlavors.TREE_ITEM.isSupported ( transferable.flavors );
 
 			var lc : ListCell = getListCellUnderPoint ( new Point( 	this.stage.mouseX,
 									   			 					this.stage.mouseY ) );
@@ -211,7 +215,7 @@ package abe.com.ponents.trees
 			{
 				if( treeItem )
 				{
-					var d : TreeNode = e.transferable.getData( ComponentsFlavors.TREE_ITEM ) as TreeNode;
+					var d : TreeNode = transferable.getData( ComponentsFlavors.TREE_ITEM ) as TreeNode;
 					if( n == d || d.isNodeDescendant( n ) )
 						return;
 				}
@@ -235,12 +239,12 @@ package abe.com.ponents.trees
 			}
 		}
 
-		override public function drop (e : DropEvent) : void
+		override public function drop ( manager : DnDManager, transferable : Transferable ) : void
 		{
 			_dropStatusShape.graphics.clear();
 			clearInterval( _scrollDuringDragTimeout );
-			var treeItem : Boolean = ComponentsFlavors.TREE_ITEM.isSupported( e.transferable.flavors );
-			var listItem : Boolean = ComponentsFlavors.LIST_ITEM.isSupported ( e.transferable.flavors );
+			var treeItem : Boolean = ComponentsFlavors.TREE_ITEM.isSupported( transferable.flavors );
+			var listItem : Boolean = ComponentsFlavors.LIST_ITEM.isSupported ( transferable.flavors );
 			var wasChildBeforeDrop : Boolean = false;
 			var d : TreeNode;
 			var oldP : TreeNode;
@@ -257,7 +261,7 @@ package abe.com.ponents.trees
 				// si le transferable supporte la saveur TREE_ITEM
 				if( treeItem )
 				{
-					d = e.transferable.getData( ComponentsFlavors.TREE_ITEM ) as TreeNode;
+					d = transferable.getData( ComponentsFlavors.TREE_ITEM ) as TreeNode;
 					wasChildBeforeDrop = d.root == n.root;
 
 					// si il s'agit du meme noeud
@@ -268,7 +272,7 @@ package abe.com.ponents.trees
 				}
 				else if( listItem )
 				{
-					d = new TreeNode( e.transferable.getData( ComponentsFlavors.LIST_ITEM ) );
+					d = new TreeNode( transferable.getData( ComponentsFlavors.LIST_ITEM ) );
 				}
 				oldP = d.parent;
 				oldI = d.index;
@@ -292,7 +296,7 @@ package abe.com.ponents.trees
 				}
 				_undoManager.add( new TreeDnDInsertUndoadleEdit ( d, oldP, oldI, d.parent, d.index ) );
 				if( !wasChildBeforeDrop )
-					e.transferable.transferPerformed();
+					transferable.transferPerformed();
 
 				if( d.parent == null )
 				{
@@ -304,19 +308,19 @@ package abe.com.ponents.trees
 			{
 				if( treeItem )
 				{
-					d = e.transferable.getData( ComponentsFlavors.TREE_ITEM ) as TreeNode;
+					d = transferable.getData( ComponentsFlavors.TREE_ITEM ) as TreeNode;
 					wasChildBeforeDrop = d.root == treeModel.root;
 				}
 				else if( listItem )
 				{
-					d = new TreeNode( e.transferable.getData( ComponentsFlavors.LIST_ITEM ) );
+					d = new TreeNode( transferable.getData( ComponentsFlavors.LIST_ITEM ) );
 				}
 				oldP = d.parent;
 				oldI = d.index;
 				treeModel.root.add( d );
 				_undoManager.add( new TreeDnDInsertUndoadleEdit ( d, oldP, oldI, treeModel.root, d.index ) );
 				if( !wasChildBeforeDrop )
-					e.transferable.transferPerformed();
+					transferable.transferPerformed();
 
 				invalidatePreferredSizeCache();
 

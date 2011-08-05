@@ -13,9 +13,7 @@ package abe.com.motion
 		/**
 		 * Fonction appelée à chaque interval temporel par une instance
 		 * de la classe <code>MotionImpulse</code>.
-		 *
-		 * @param	e	objet <code>ImpulseEvent</code> diffusé avec l'évènement
 		 */
-		function tick( e : ImpulseEvent ) : void;
+		function tick( bias : Number, biasInSeconds : Number, currentTime : Number ) : void;
 	}
 }

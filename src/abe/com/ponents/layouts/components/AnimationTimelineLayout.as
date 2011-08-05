@@ -18,7 +18,8 @@ package abe.com.ponents.layouts.components
 		public function AnimationTimelineLayout ( container : AnimationTimeline = null, framesWidth : uint = 6, framesHeight : uint = 12 )
 		{
 			super ( container );
-			_framesWidth = framesWidth;			_framesHeight = framesHeight;
+			_framesWidth = framesWidth;
+			_framesHeight = framesHeight;
 		}
 		override public function set container ( o : Container ) : void
 		{
@@ -32,9 +33,11 @@ package abe.com.ponents.layouts.components
 
 			var l : uint = _timeline.layersLength;
 			var m : uint;
-			var i:uint;			var j:uint;
+			var i:uint;
+			var j:uint;
 			var layer : TimelineLayer;
-			var frame : KeyFrame;			var nextFrame : KeyFrame;
+			var frame : KeyFrame;
+			var nextFrame : KeyFrame;
 			var y : uint = 0;
 			var w : uint;
 			for(i=0;i<l;i++)
@@ -44,23 +47,28 @@ package abe.com.ponents.layouts.components
 				for(j=0;j<m;j++)
 				{
 					frame = layer.frames[j];
-					if( j+1 < m )						nextFrame = layer.frames[j+1];
+					if( j+1 < m )
+						nextFrame = layer.frames[j+1];
 					else
 						nextFrame = null;
 
-					frame.x = 1 + frame.frame * _framesWidth;					frame.y = 1 + y;
+					frame.x = 1 + frame.frame * _framesWidth;
+					frame.y = 1 + y;
 
 					if( nextFrame )
 						w = ( nextFrame.frame - frame.frame ) * _framesWidth;
 					else
 						w = _framesWidth;
-					frame.nextFrame = nextFrame;					frame.previousFrame = j-1 > 0 ? layer.frames[j-1] : null;
+
+					frame.nextFrame = nextFrame;
+					frame.previousFrame = j-1 > 0 ? layer.frames[j-1] : null;
 
 					frame.size = dm ( w, _framesHeight );
 					frame.frameWidth = _framesWidth;
 				}
 				y += _framesHeight;
 			}
+			super.layout();
 		}
 		override public function get preferredSize () : Dimension
 		{

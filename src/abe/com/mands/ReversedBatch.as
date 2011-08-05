@@ -5,7 +5,6 @@ package  abe.com.mands
 {
 	import abe.com.mon.core.Runnable;
 
-	import flash.events.Event;
 	/**
 	 * Une commande <code>Batch</code> éxécute un lot de commandes les unes à la suites des autres
 	 * dans l'ordre inverse de leur ajour avec les mêmes paramètres d'entrée que la commande 
@@ -23,15 +22,15 @@ package  abe.com.mands
 		/**
 		 * @inheritDoc 
 		 */
-		override public function execute ( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
-			_eEvent = e;
+			_args = args;
 			_nIndex = _aCommands.length;
 			_isRunning = true;
 			_bCancelled = false;
 			
 			if( _hasNext() )
-				_next().execute( _eEvent );
+				_next().execute( _args );
 		}
 		/**
 		 * @inheritDoc
@@ -39,11 +38,11 @@ package  abe.com.mands
 		override protected function _next () : Command
 		{
 			if( _oLastCommand )
-				unregisterToCommandEvents( _oLastCommand );
+				unregisterToCommandSignals( _oLastCommand );
 			
 			_oLastCommand = _aCommands[ --_nIndex ] as Command;
 			
-			registerToCommandEvents( _oLastCommand );
+			registerToCommandSignals( _oLastCommand );
 			
 			return _oLastCommand;
 		}

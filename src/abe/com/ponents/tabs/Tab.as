@@ -2,6 +2,8 @@ package abe.com.ponents.tabs
 {
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Dockable;
+	
+	import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -17,8 +19,12 @@ package abe.com.ponents.tabs
 		function get placement () : String;		
 		function set placement (placement : String) : void;
 		
-		function get selected () : Boolean;		function set selected ( b : Boolean ) : void;
+		function get selected () : Boolean;
+		function set selected ( b : Boolean ) : void;
 		
-		function get buttonDisplayMode () : uint;		function set buttonDisplayMode ( m : uint ) : void;
+		function get buttonDisplayMode () : uint;
+		function set buttonDisplayMode ( m : uint ) : void;
+		
+		function get tabClicked () : Signal;
 	}
 }

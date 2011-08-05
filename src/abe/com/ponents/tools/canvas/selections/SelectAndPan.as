@@ -2,14 +2,16 @@ package abe.com.ponents.tools.canvas.selections
 {
 	import abe.com.edia.camera.Camera;
 	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.skinning.cursors.Cursor;
+	import abe.com.ponents.tools.CameraCanvas;
 	import abe.com.ponents.tools.ObjectSelection;
+	import abe.com.ponents.tools.canvas.ToolGestureData;
 	import abe.com.ponents.utils.ToolKit;
-
+	
 	import flash.display.StageQuality;
 	import flash.geom.Point;
 	import flash.ui.MouseCursor;
+
 	/**
 	 * @author cedric
 	 */
@@ -21,20 +23,20 @@ package abe.com.ponents.tools.canvas.selections
 		protected var _changeQualityDuringPan : Boolean;
 		protected var _panCursor : Cursor;
 
-		public function SelectAndPan ( camera : Camera, 
+		public function SelectAndPan ( canvas : CameraCanvas, 
 									  selection : ObjectSelection, 
 									  cursor : Cursor = null, 
 									  panCursor : Cursor = null, 
 									  changeQualityDuringPan : Boolean = false, 
 									  allowMoves : Boolean = true )
 		{
-			super( selection, cursor, allowMoves );
+			super( canvas, selection, cursor, allowMoves );
 			_panCursor = panCursor ? panCursor : Cursor.get(MouseCursor.HAND );
-			this._camera = camera;
+			this._camera = canvas.camera;
 			this._changeQualityDuringPan = changeQualityDuringPan;
 		}
 
-		override public function mousePositionChanged (e : ToolEvent) : void
+		override public function mousePositionChanged (e : ToolGestureData) : void
 		{
 			var pt : Point = new Point( e.canvas.stage.mouseX, e.canvas.stage.mouseY );
 			var dif : Point = stagePressPoint.subtract( pt );
@@ -43,8 +45,7 @@ package abe.com.ponents.tools.canvas.selections
 			{
 				mode = PAN;
 				
-				ToolKit.toolLevel.removeChild( selectionShape );
-				selectionShape.graphics.clear();
+				clearDrag();
 				
 				if( _changeQualityDuringPan )
 					StageUtils.stage.quality = StageQuality.LOW;
@@ -63,7 +64,7 @@ package abe.com.ponents.tools.canvas.selections
 			}
 		}
 
-		override public function actionFinished (e : ToolEvent) : void
+		override public function actionFinished (e : ToolGestureData) : void
 		{
 			if( mode == PAN )
 			{

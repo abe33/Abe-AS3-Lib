@@ -1,19 +1,23 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.scrollbars.Scrollable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.AbstractContainer;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.events.ComponentSignalEvent;
+    import abe.com.ponents.scrollbars.Scrollable;
 
-	import flash.geom.Rectangle;
+    import org.osflash.signals.events.IBubbleEventHandler;
+    import org.osflash.signals.events.IEvent;
+
+    import flash.geom.Rectangle;
 
 	/**
 	 * @author Cédric Néhémie
 	 */
 	[Skinable(skin="EmptyComponent")]
-	public class Viewport extends AbstractContainer
+	public class Viewport extends AbstractContainer implements IBubbleEventHandler
 	{
 		protected var _view : Component;
 		
@@ -66,28 +70,32 @@ package abe.com.ponents.containers
 			if( _view && _view is Scrollable )
 				return ( _view as Scrollable ).getScrollableUnitIncrementV( getViewVisibleArea (), direction );
 			else
-				return _view.height * direction / 100; 
+				return 20 * direction; 
+				//return _view.height * direction / 100; 
 		}
 		public function getUnitIncrementH ( direction : Number = 1 ) : Number 
 		{ 
 			if( _view && _view is Scrollable )
 				return ( _view as Scrollable ).getScrollableUnitIncrementH( getViewVisibleArea (), direction );
 			else
-				return _view.width * direction / 100; 
+				return 20 * direction; 
+				//return _view.width * direction / 100; 
 		}
 		public function getBlockIncrementV ( direction : Number = 1 ) : Number 
 		{ 
 			if( _view && _view is Scrollable )
 				return ( _view as Scrollable ).getScrollableBlockIncrementV( getViewVisibleArea (), direction );
 			else
-				return _view.height * direction / 10; 
+				return 10 * direction; 
+				//return _view.height * direction / 10; 
 		}
 		public function getBlockIncrementH ( direction : Number = 1 ) : Number 
 		{ 
 			if( _view && _view is Scrollable )
 				return ( _view as Scrollable ).getScrollableBlockIncrementH( getViewVisibleArea (), direction );
 			else
-				return _view.width * direction / 10; 
+				return 20 * direction; 
+				//return _view.width * direction / 10; 
 		}
 		protected function getViewVisibleArea () : Rectangle
 		{
@@ -102,5 +110,17 @@ package abe.com.ponents.containers
 			else
 				return super.maximumSize;
 		}
+        public function onEventBubbled ( event : IEvent ) : Boolean
+        {
+            switch( ( event as ComponentSignalEvent ).signalName )
+            {
+                case "mouseWheelRolled":
+                	mouseWheelRolled.dispatch( this, ( event as ComponentSignalEvent ).args[1] );
+                	break;
+                default : 
+                	break;
+            }
+            return true;
+        }
 	}
 }

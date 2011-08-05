@@ -8,7 +8,6 @@ package abe.com.ponents.monitors
 	import abe.com.mon.randoms.RandomGenerator;
 	import abe.com.mon.utils.Reflection;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.ImpulseListener;
 	import abe.com.patibility.humanize.spaceOut;
 	import abe.com.patibility.lang._$;
@@ -44,7 +43,8 @@ package abe.com.ponents.monitors
 		private var _bitmapGraph : SimpleDOContainer;
 		private var _bitmap : BitmapData;
 		private var _graphColor : Color;
-		private var _bench : int;		
+		private var _bench : int;
+		
 		static private const BITMAP_SIZE : uint = 64;
 		static private const BITMAP_WIDTH : uint = 165;
 		static private const BENCHMARK_ITERATIONS : uint = 10000;
@@ -73,7 +73,8 @@ package abe.com.ponents.monitors
 			childrenLayout = new VBoxLayout(this, 3, 
 									new BoxSettings(0,"left","center",_typeLabel,true),
 									new BoxSettings(0,"left","center", _barGraph, true, true, true ),
-									new BoxSettings(0, "left", "center", _countLabel, true ),									new BoxSettings(64, "left", "center", _bitmapGraph, true, true )
+									new BoxSettings(0, "left", "center", _countLabel, true ),
+									new BoxSettings(64, "left", "center", _bitmapGraph, true, true )
 							 );
 			
 			addComponent( _typeLabel );
@@ -97,9 +98,10 @@ package abe.com.ponents.monitors
 				_generator.random();
 			_bench = getTimer() - ms;
 		}
-		public function tick (e : ImpulseEvent) : void
+		public function tick ( bias : Number, biasInSecond : Number, time : Number ) : void
 		{
-			var n1 : Number = _generator.random();			var n2 : Number = _generator.random();
+			var n1 : Number = _generator.random();
+			var n2 : Number = _generator.random();
 			
 			
 			_counter += 2;
@@ -113,7 +115,11 @@ package abe.com.ponents.monitors
 			
 			_bitmap.fillRect( rect( BITMAP_WIDTH-2, 0, 2, BITMAP_SIZE ), 
 							  0 );
-						_bitmap.setPixel( Math.floor( BITMAP_WIDTH - 2 ), BITMAP_SIZE - Math.floor( n1 * BITMAP_SIZE ), _graphColor.hexa );			_bitmap.setPixel( Math.floor( BITMAP_WIDTH - 1 ), BITMAP_SIZE - Math.floor( n2 * BITMAP_SIZE ), _graphColor.hexa );						_bitmap.setPixel( Math.floor( n1 * BITMAP_SIZE ), 
+			
+			_bitmap.setPixel( Math.floor( BITMAP_WIDTH - 2 ), BITMAP_SIZE - Math.floor( n1 * BITMAP_SIZE ), _graphColor.hexa );
+			_bitmap.setPixel( Math.floor( BITMAP_WIDTH - 1 ), BITMAP_SIZE - Math.floor( n2 * BITMAP_SIZE ), _graphColor.hexa );
+			
+			_bitmap.setPixel( Math.floor( n1 * BITMAP_SIZE ), 
 							  Math.floor( n2 * BITMAP_SIZE ), 
 							  _graphColor.hexa );
 			

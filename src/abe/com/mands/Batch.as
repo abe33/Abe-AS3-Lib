@@ -3,21 +3,11 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 
-	import flash.events.ErrorEvent;
-	import flash.events.Event;
-
-	/**
-	 * Diffusé lorsqu'un appel à <code>cancel</code> conduit à l'arrêt de la commande.
-	 * 
-	 * @eventType abe.com.mands.events.CommandEvent.COMMAND_CANCEL
-	 */
-	[Event(name="commandCancel", type="abe.com.mands.events.CommandEvent")]
-	
+	import org.osflash.signals.Signal;
 	/**
 	 * Une commande <code>Batch</code> éxécute un lot de commandes les unes à la suites des autres
 	 * avec les mêmes paramètres d'entrée que la commande <code>Batch</code> elle-même. 
@@ -29,13 +19,10 @@ package  abe.com.mands
 		 */
 		protected var _nIndex : Number;
 		/**
-		 * Évènement reçu dans un appel d'<code>execute</code> et diffusé à toutes les sous-commandes.
-		 */
-		protected var _eEvent : Event;
-		/**
 		 * Référence à la dernière commande éxécutée.
 		 */
 		protected var _oLastCommand : Command;
+		protected var _args : Array;
 		/**
 		 * Un booléen indiquant si la dernière éxécution a été annulé.
 		 * <p>
@@ -44,15 +31,20 @@ package  abe.com.mands
 		 * </p>
 		 */
 		protected var _bCancelled : Boolean;
+		
+		protected var _commandCancelled : Signal;
 
 		/**
 		 * Créer une nouvelle instance de la classe <code>Batch</code>.
 		 */
 		public function Batch ( ... commands )
 		{
-			super();
+			super( );
+			_commandCancelled = new Signal( Command );
 			addCommands.apply( this, commands );
 		}
+		
+		public function get commandCancelled () : Signal { return _commandCancelled; }
 		
 		/**
 		 * Annule l'éxécution de la commande <code>Batch</code> courante.
@@ -63,7 +55,7 @@ package  abe.com.mands
 		 * </p><p>
 		 * Si la commande en cours d'éxécution est une commande classique, la
 		 * commande <code>Batch</code> attendra la fin d'éxécution de celle-ci
-		 * avant de diffusé l'évènement <code>CommandEvent.COMMAND_CANCEL</code>.
+		 * avant de diffusé l'évènement <code>commandCancelled</code>.
 		 * </p> 
 		 */
 		public function cancel () : void
@@ -104,76 +96,44 @@ package  abe.com.mands
 		 * @param	e	évènement qui sera transmis à toutes les sous-commandes
 		 * 				de cette instance
 		 */
-		override public function execute ( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
-			_eEvent = e;
+			_args = args;
 			_nIndex = -1;
 			_bCancelled = false;
 			_isRunning = true;
 			
 			if( _hasNext() )
-				_next().execute( _eEvent );
+				_next().execute( _args );
 		}
 		/**
-		 * Intercepte l' évènement de fin d'éxécution de la sous-commande courante
-		 * et éxécute la suivante si :
-		 * <ul>
-		 * <li>La commande <code>Batch</code> n'a pas été annulé entre-temps. 
-		 * <p>
-		 * Si la commande a été annulé, un évènement <code>CommandEvent.COMMAND_CANCEL</code>
-		 * sera diffusé.
-		 * </p></li>
-		 * <li>Il reste des commandes à éxécuter.<p>
-		 * Si il ne reste aucune commande à éxécuter, un évènement 
-		 * <code>CommandEvent.COMMAND_END</code> sera diffusé.
-		 * </p></li>
-		 * </ul>
-		 * 
-		 * @param	e	évènement de fin diffusé par la sous-commande
 		 */
-		override protected function commandEnd ( e : Event ) : void
+		override protected function onCommandEnded ( command : Command ) : void
 		{
-			unregisterToCommandEvents( _oLastCommand );
+			unregisterToCommandSignals( _oLastCommand );
 			
 			if( _bCancelled )
-			{
-				fireCommandCancelled();
-			}
+				commandCancelled.dispatch( this );
 			else if( _hasNext() )
-			{
-				_next().execute( _eEvent );
-			}			
+				_next().execute( _args );
 			else
-			{
-				fireCommandEnd();
-			}
+				commandEnded.dispatch( this );
 		}
 		
 		/**
-		 * Intercepte l'évènement <code>CommandEvent.COMMAND_FAIL</code> de 
-		 * la sous-commande courante et déclenche à son tour la diffusion de cet
-		 * évènement.
-		 * 
-		 * @param	e	évènement diffusé par la sous-commande
 		 */
-		override protected function commandFailed ( e : Event ) : void
+		override protected function onCommandFailed ( command : Command, msg : String ) : void
 		{
-			unregisterToCommandEvents( _oLastCommand );
-			var evt : ErrorEvent = e as ErrorEvent;
-			fireCommandFailed( evt.text );
+			unregisterToCommandSignals( _oLastCommand );
+			commandFailed.dispatch( this, msg );
 		}
 		
 		/**
-		 * Intercepte l'évènement <code>CommandEvent.COMMAND_CANCEL</code> de 
-		 * la sous-commande courante et déclenche à son tour la diffusion de cet
-		 * évènement.
-		 * 
-		 * @param	e	évènement diffusé par la sous-commande
 		 */
-		override protected function commandCancelled ( e : Event ) : void 
+		override protected function onCommandCancelled ( command : Command ) : void 
 		{
-			unregisterToCommandEvents( _oLastCommand );
-			fireCommandCancelled();
+			unregisterToCommandSignals( _oLastCommand );
+			commandCancelled.dispatch( this );
 		}	
 		 
 		/**
@@ -185,7 +145,7 @@ package  abe.com.mands
 		{
 			_oLastCommand = _aCommands[ ++_nIndex ] as Command;
 			
-			registerToCommandEvents( _oLastCommand );
+			registerToCommandSignals( _oLastCommand );
 			
 			return _oLastCommand;
 		}		
@@ -200,21 +160,5 @@ package  abe.com.mands
 		{
 			return _nIndex + 1 < _aCommands.length;
 		}	
-		
-		/**
-		 * Notifie les éventuels écouteurs de la commande que son opération 
-		 * a été annulé par un appel à la méthode <code>cancel</code>. 
-		 * Un évènement de type <code>CommandEvent.COMMAND_CANCEL</code>
-		 * est alors diffusé par la classe. 
-		 * <p>
-		 * A la fin de l'appel, la commande n'est plus considérée comme 
-		 * en cours d'exécution.
-		 * </p>
-		 */
-		protected function fireCommandCancelled () : void
-		{
-			_isRunning = false;
-			dispatchEvent( new CommandEvent( CommandEvent.COMMAND_CANCEL ) );
-		}
 	}
 }

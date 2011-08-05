@@ -1,10 +1,10 @@
 package abe.com.ponents.tables 
 {
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.dnd.DropTargetDragEvent;
+	import abe.com.ponents.dnd.*;
 	import abe.com.ponents.lists.List;
 	import abe.com.ponents.lists.ListCell;
-	import abe.com.ponents.transfer.ComponentsFlavors;
+	import abe.com.ponents.transfer.*;
 
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
@@ -142,22 +142,22 @@ package abe.com.ponents.tables
 			
 			return increment; 
 		}
-		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
+		FEATURES::DND { 
 		override public function get supportedFlavors () : Array
 		{
 			return super.supportedFlavors.concat( ComponentsFlavors.TABLE_ROW );
 		}
 		
-		override public function dragEnter (e : DropTargetDragEvent) : void
+		override public function dragEnter ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
 		{
-			if( ComponentsFlavors.TABLE_ROW.isSupported( e.flavors ) )
+			if( ComponentsFlavors.TABLE_ROW.isSupported( transferable.flavors ) )
 			{
 				startScrollDuringDragInterval();
-				e.acceptDrag(this);
+				manager.acceptDrag(this);
 			}
 			else
-				super.dragEnter( e );
+				super.dragEnter( manager, transferable, source );
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 	}
 }

@@ -1,18 +1,19 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.tabs.SimpleTab;
-	import abe.com.ponents.tabs.TabbedPane;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.tabs.SimpleTab;
+    import abe.com.ponents.tabs.TabbedPane;
 
+    import org.osflash.signals.Signal;
+    
 	/**
 	 * @author cedric
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
 	public class ColorEditor extends TabbedPane 
 	{
 		[Embed(source="../skinning/icons/palette.png")]
@@ -24,16 +25,19 @@ package abe.com.ponents.tools
 		[Embed(source="../skinning/icons/color_wheel.png")]
 		static public var COLOR_WHEEL_ICON : Class;
 		
-		
 		protected var _target : Color;
 		protected var _rgbEditor : RGBColorEditor;
 		protected var _paletteEditor : PaletteColorEditor;
 		protected var _colorWheelEditor : ColorWheelEditor;
-
+		
+        protected var _dataChanged : Signal;
+        public function get dataChanged () : Signal { return _dataChanged; }
+        
 		public function ColorEditor (tabsPosition : String = "north")
 		{
 			super( tabsPosition );
-			preferredSize = new Dimension(290, 350);
+			_dataChanged = new Signal();
+			preferredSize = new Dimension(290, 250);
 			
 			_tabBar.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			
@@ -48,25 +52,25 @@ package abe.com.ponents.tools
 			
 			this.target = new Color();
 		}
-		protected function colorDataChange (event : ComponentEvent) : void 
+		protected function colorDataChanged ( c : Component, cl : Color ) : void 
 		{
-			if( event.target == _paletteEditor )
+			if( c == _paletteEditor )
 			{
 				_rgbEditor.target = _target;
 				_colorWheelEditor.target = _target;
 			}
-			else if( event.target == _rgbEditor )
+			else if( c == _rgbEditor )
 		    {
 		        _paletteEditor.target = _target;
 		        _colorWheelEditor.target = _target;
 		    }				
-			else if( event.target == _colorWheelEditor )
+			else if( c == _colorWheelEditor )
 			{
 				_paletteEditor.target = _target;
 				_rgbEditor.target = _target;
 			}
 				
-			fireDataChange();
+			fireDataChangedSignal();
 		}
 		public function get target () : Color { return _target; }	
 		public function set target (target : Color) : void
@@ -78,24 +82,24 @@ package abe.com.ponents.tools
 			_paletteEditor.target = _target;
 			_colorWheelEditor.target = _target;
 		}
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent(new ComponentEvent(ComponentEvent.DATA_CHANGE));
+			_dataChanged.dispatch( this, _target );
 		}
 		override protected function registerToOnStageEvents () : void 
 		{
 			super.registerToOnStageEvents( );
-			_rgbEditor.addEventListener(ComponentEvent.DATA_CHANGE, colorDataChange );
-			_paletteEditor.addEventListener(ComponentEvent.DATA_CHANGE, colorDataChange );
-			_colorWheelEditor.addEventListener(ComponentEvent.DATA_CHANGE, colorDataChange );
+			_rgbEditor.dataChanged.add ( colorDataChanged );
+			_paletteEditor.dataChanged.add( colorDataChanged );
+			_colorWheelEditor.dataChanged.add( colorDataChanged );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void 
 		{
 			super.unregisterFromOnStageEvents( );
-			_rgbEditor.removeEventListener(ComponentEvent.DATA_CHANGE, colorDataChange );
-			_paletteEditor.removeEventListener(ComponentEvent.DATA_CHANGE, colorDataChange );
-			_colorWheelEditor.removeEventListener(ComponentEvent.DATA_CHANGE, colorDataChange );
+			_rgbEditor.dataChanged.remove ( colorDataChanged );
+			_paletteEditor.dataChanged.remove( colorDataChanged );
+			_colorWheelEditor.dataChanged.remove( colorDataChanged );
 		}
 	}
 }

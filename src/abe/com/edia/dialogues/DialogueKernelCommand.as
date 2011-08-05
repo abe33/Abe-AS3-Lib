@@ -3,17 +3,18 @@
  */
 package  abe.com.edia.dialogues
 {
-	import abe.com.mands.Command;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.Runnable;
-	import abe.com.ponents.actions.AbstractTerminalAction;
-	import abe.com.ponents.actions.TerminalAction;
-	import abe.com.ponents.monitors.Terminal;
-	import abe.com.ponents.monitors.TerminalEvent;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.mands.Command;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.Runnable;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.AbstractTerminalAction;
+    import abe.com.ponents.actions.TerminalAction;
+    import abe.com.ponents.monitors.Terminal;
+    import abe.com.ponents.monitors.TerminalEvent;
+    import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.Event;
-	import flash.utils.Dictionary;
+    import flash.events.Event;
+    import flash.utils.Dictionary;
 	/**
 	 * Permet de tester le moteur de dialogue dans le terminal
 	 */
@@ -30,21 +31,19 @@ package  abe.com.edia.dialogues
 			super( name, icon, longDescription, command, usage, description);
 			this.startSpeech = startSpeech;
 			this.kernel = new DialogueKernel();
-			this.kernel.addEventListener( SpeechEvent.NEW_QUESTION, newQuestion );
-			this.kernel.addEventListener( SpeechEvent.NEW_SPEECH, newSpeech );
-			this.kernel.addEventListener( SpeechEvent.SPEECH_END, speechEnd );
-			this.kernel.addEventListener( SpeechEvent.SPEECH_START, speechStart );
+			this.kernel.questionRaised.add( newQuestion );
+			this.kernel.speechOccured.add( newSpeech );
+			this.kernel.speechEnded.add( speechEnd );
+			this.kernel.speechStarted.add( speechStart );
 		}
 		
-		override public function execute( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			var te : TerminalEvent = e as TerminalEvent;
 			terminal = te.terminal;
 			
 			if( startSpeech == null )
-			{
-				fireCommandFailed( "Il n'existe aucun message de départ de dialogue pour la commande." );
-			}	
+				commandFailed.dispatch(this,_("No start speech defined for this "));
 			else if( checkSpeechStructure ( startSpeech ) )
 			{
 				kernel.execute( new SpeechEvent ( "", startSpeech ) );
@@ -63,7 +62,7 @@ package  abe.com.edia.dialogues
 		public function speechEnd ( e : SpeechEvent ) : void
 		{
 			terminal.echo( "<font color='" + Color.DeepSkyBlue.html + "'>Fin du dialogue</font>"  );
-			fireCommandEnd();
+			_commandEnded.dispatch( this );
 		}
 		public function newSpeech ( e : SpeechEvent ) : void
 		{

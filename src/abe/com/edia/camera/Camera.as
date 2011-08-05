@@ -3,34 +3,24 @@
  */
 package abe.com.edia.camera
 {
-	import abe.com.mon.core.Randomizable;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.Range;
-	import abe.com.mon.geom.Rectangle2;
-	import abe.com.mon.geom.pt;
-	import abe.com.mon.randoms.Random;
-	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.RandomUtils;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
+    import abe.com.mon.core.Randomizable;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.Range;
+    import abe.com.mon.geom.Rectangle2;
+    import abe.com.mon.geom.pt;
+    import abe.com.mon.randoms.Random;
+    import abe.com.mon.utils.PointUtils;
+    import abe.com.mon.utils.RandomUtils;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.motion.Impulse;
 
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import org.osflash.signals.Signal;
 
-	/**
-	 * Diffusé dès que le champ de la caméra est modifié.
-	 * Il suffit qu'une des propriétés du champ ait été
-	 * modifié pour que l'évènement soit diffusé.
-	 *
-	 * @eventType abe.com.edia.camera.CameraEvent.CAMERA_CHANGE
-	 */
-	[Event(name="cameraChange", type="abe.com.edia.camera.CameraEvent")]
+    import flash.display.DisplayObject;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 	/**
 	 * Un objet <code>Camera</code> permet de créer des effets de scrolling,
 	 * de zoom et de parallax sur toute une scène flash de façon naturelle.
@@ -60,10 +50,9 @@ package abe.com.edia.camera
 	 * </p><p>
 	 * La classe <code>CameraLayer</code> implémente de base tout ces comportements. Il suffit
 	 * d'étendre cette classe, et d'ajouter chaque instance comme écouteur de l'évènement
-	 * <code>CameraEvent.CAMERA_CHANGE</code> d'une caméra.
 	 * </p>
 	 */
-	public class Camera extends EventDispatcher implements Runnable, Randomizable
+	public class Camera implements Runnable, Randomizable
 	{
 /*--------------------------------------------------------------------
  *	PROTECTED PROPERTIES
@@ -129,14 +118,16 @@ package abe.com.edia.camera
 		 * La force du tremblement de la caméra en pixel. Le tremblement produit un décalage
 		 * allant de <code>-_shakingStrength</code> à <code>_shakingStrength</code> sur les axes
 		 * <code>x</code> et <code>y</code>.
-		 */		protected var _shakingStrength : Number;
+		 */
+		protected var _shakingStrength : Number;
 		/**
 		 * Un nombre représentant le temps écoulé depuis le lancement du tremblement de la caméra.
 		 */
 		protected var _shakingTime : Number;
 		/**
 		 * La durée courante du tremblement de la caméra.
-		 */		protected var _shakingDuration : Number;
+		 */
+		protected var _shakingDuration : Number;
 		/**
 		 * <code>Rectangle2</code> représentant le champ de la caméra.
 		 */
@@ -147,7 +138,7 @@ package abe.com.edia.camera
 		 * <p>
 		 * Si <code>silentMode</code> vaut <code>true</code> aucun évènement n'est
 		 * diffusé. La diffusion devra se faire de manière manuelle en utilisant
-		 * la méthode <code>fireCameraChange</code>.
+		 * la méthode <code>fireCameraChangedSignal</code>.
 		 * </p>
 		 * @default false
 		 */
@@ -168,6 +159,9 @@ package abe.com.edia.camera
 		 * 
 		 */
 		protected var _randomSource : Random;
+		
+		public var cameraChanged : Signal;
+		
 		/**
 		 * Créer une nouvelle instance de la classe <code>Camera</code>. Si aucun paramètre n'est
 		 * renseigné, la caméra est initialisé aux dimensions du fichier SWF tel que renvoyer par
@@ -183,11 +177,12 @@ package abe.com.edia.camera
 		 * 							et <code>zoomOut</code>
 		 * @param	silent			si <code>true</code> les modifications de la caméra ne diffusent
 		 * 							aucun évènements. La diffusion devra être faite manuellement
-		 * 							en appelant la méthode <code>fireCameraChange</code>
+		 * 							en appelant la méthode <code>fireCameraChangedSignal</code>
 		 * @example On construit une nouvelle instance de la classe <code>Camera</code> :
 		 * <listing>var camera : Camera = new Camera();</listing>
 		 * On construit une nouvelle instance de la classe <code>Camera</code> avec des contraintes sur
-		 * ses déplacements :		 * <listing>var camera : Camera = new Camera( new Rectangle2( 100,100,480,320 ),
+		 * ses déplacements :
+		 * <listing>var camera : Camera = new Camera( new Rectangle2( 100,100,480,320 ),
 		 * 					new Rectangle2 (0,0,1000,1000) );</listing>
 		 */
 		public function Camera ( screen : Rectangle2 = null,
@@ -196,8 +191,10 @@ package abe.com.edia.camera
 								 zoomIncrement : Number = 0.1,
 								 silent : Boolean = false )
 		{
-			_randomSource = RandomUtils.RANDOM;
-			_screen = screen ? screen : new Rectangle2( 0, 0, StageUtils.stage.stageWidth, StageUtils.stage.stageHeight );
+			cameraChanged = new Signal(Camera);
+			_randomSource = RandomUtils;
+            
+        	_screen = screen ? screen : new Rectangle2( 0, 0, StageUtils.stage.stageWidth, StageUtils.stage.stageHeight );
 
 			_safeWidth = _screen.width;
 			_safeHeight = _screen.height;
@@ -261,7 +258,7 @@ package abe.com.edia.camera
 		{
 			_screen.rotateAroundCenter ( rotation - _screen.rotation );
 			_rotation = _screen.rotation;
-			fireSilentCameraChange();
+			fireSilentCameraChangedSignal();
 		}
 		/**
 		 * Accès en lecture et en écriture au facteur de zoom de la caméra courante.
@@ -301,7 +298,8 @@ package abe.com.edia.camera
 		 * Cette valeur sert de référence lors des calculs de zoom.
 		 * </p>
 		 */
-		public function get safeWidth () : Number { return _safeWidth; }		public function set safeWidth ( n : Number ) : void 
+		public function get safeWidth () : Number { return _safeWidth; }
+		public function set safeWidth ( n : Number ) : void 
 		{ 
 			var z : Number = zoom;
 			var c : Point = screenCenter;
@@ -317,7 +315,8 @@ package abe.com.edia.camera
 		 * Cette valeur sert de référence lors des calculs de zoom.
 		 * </p>
 		 */
-		public function get safeHeight () : Number { return _safeHeight; }		public function set safeHeight ( n : Number ): void
+		public function get safeHeight () : Number { return _safeHeight; }
+		public function set safeHeight ( n : Number ): void
 		{ 
 			var z : Number = zoom;
 			var c : Point = screenCenter;
@@ -377,10 +376,6 @@ package abe.com.edia.camera
 		 * Centre le champ de la caméra sur le point passé en paramètre. Si à l'issue
 		 * de cette transformation la caméra se retrouve en dehors du cadre de contrainte,
 		 * celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 * @param	p	nouvelles coordonnées du centre
 		 */
 		public function center ( p : Point ) : void
@@ -391,10 +386,6 @@ package abe.com.edia.camera
 		 * Centre le champ de la caméra sur les coordonnées passés en paramètre. Si à l'issue
 		 * de cette transformation la caméra se retrouve en dehors du cadre de contrainte,
 		 * celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 * @param	x	nouvelle coordonnée en x du centre de la caméra
 		 * @param	y	nouvelle coordonnée en y du centre de la caméra
 		 */
@@ -405,9 +396,10 @@ package abe.com.edia.camera
 				_safeCenter.x = x;
 				_safeCenter.y = y;
 
-				if( !_shaking )				{
+				if( !_shaking )
+				{
 					_screen.center = pt(x,y);
-					fireSilentCameraChange ();
+					fireSilentCameraChangedSignal ();
 				}
 			}
 		}
@@ -415,10 +407,6 @@ package abe.com.edia.camera
 		 * Centre le champ de la caméra en x sur la coordonnée passée en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	nouvelle coordonnée en x du centre de la caméra
 		 */
@@ -431,7 +419,7 @@ package abe.com.edia.camera
 				if( !_shaking )
 				{
 					_screen.center = pt ( x, _safeCenter.y ) ;
-					fireSilentCameraChange ();
+					fireSilentCameraChangedSignal ();
 				}
 			}
 		}
@@ -439,10 +427,6 @@ package abe.com.edia.camera
 		 * Centre le champ de la caméra en y sur la coordonnée passée en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	y	nouvelle coordonnée en y du centre de la caméra
 		 */
@@ -455,7 +439,7 @@ package abe.com.edia.camera
 				if( !_shaking )
 				{
 					_screen.center = pt ( _safeCenter.x, y ) ;
-					fireSilentCameraChange ();
+					fireSilentCameraChangedSignal ();
 				}
 			}
 		}
@@ -465,10 +449,6 @@ package abe.com.edia.camera
 		 * le centre étant le centre du rectangle retourné par la fonction.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	display	objet surlequel on souhaite centrer la caméra
 		 */
@@ -492,10 +472,6 @@ package abe.com.edia.camera
 		 * dans l'objet <code>Point</code> passé en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	p	nouvelles coordonnées pour le coin supérieur gauche du champ de la
 		 * 				caméra
@@ -508,10 +484,6 @@ package abe.com.edia.camera
 		 * Déplace le coin supérieur gauche du champ de la caméra aux coordonnées passées en
 		 * paramètres. Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	nouvelle coordonnée en x du coin supérieur gauche du champ de la
 		 * 				caméra
@@ -520,23 +492,20 @@ package abe.com.edia.camera
 		 */
 		public function moveToXY ( x : Number, y : Number ) : void
 		{
-			_safeCenter.x = x + _screen.width/2;			_safeCenter.y = y + _screen.height/2;
+			_safeCenter.x = x + _screen.width/2;
+			_safeCenter.y = y + _screen.height/2;
 
 			if( !_shaking )
 			{
 				_screen.x = x;
 				_screen.y = y;
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
 		 * Déplace le coin supérieur gauche du champ de la caméra sur l'axe x à la coordonnée
 		 * passée en paramètre. Si à l'issue de cette transformation la caméra se retrouve en
 		 * dehors du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	nouvelle coordonnée en x du coin supérieur gauche du champ de la
 		 * 				caméra
@@ -548,17 +517,13 @@ package abe.com.edia.camera
 			if( !_shaking )
 			{
 				_screen.x = x;
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
 		 * Déplace le coin supérieur gauche du champ de la caméra sur l'axe y à la coordonnée
 		 * passée en paramètre. Si à l'issue de cette transformation la caméra se retrouve en
 		 * dehors du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	y	nouvelle coordonnée en y du coin supérieur gauche du champ de la
 		 * 				caméra
@@ -570,7 +535,7 @@ package abe.com.edia.camera
 			if( !_shaking )
 			{
 				_screen.y = y;
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
@@ -578,10 +543,6 @@ package abe.com.edia.camera
 		 * dans l'objet <code>Point</code> passé en paramètre.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	p	valeur de translation de la caméra sur chaque axe
 		 */
@@ -594,22 +555,19 @@ package abe.com.edia.camera
 		 * que spécifié en paramètres.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	valeur de translation sur l'axe x
 		 * @param	y	valeur de translation sur l'axe y
 		 */
 		public function translateXY ( x : Number, y : Number ) : void
 		{
-			_safeCenter.x += x;			_safeCenter.y += y;
+			_safeCenter.x += x;
+			_safeCenter.y += y;
 
 			if( !_shaking )
 			{
 				_screen.offset( x, y );
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
@@ -617,10 +575,6 @@ package abe.com.edia.camera
 		 * que spécifié en paramètres.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	x	valeur de translation sur l'axe x
 		 */
@@ -631,7 +585,7 @@ package abe.com.edia.camera
 			if( !_shaking )
 			{
 				_screen.offset( x, 0 );
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 		/**
@@ -639,10 +593,6 @@ package abe.com.edia.camera
 		 * que spécifié en paramètres.
 		 * Si à l'issue de cette transformation la caméra se retrouve en dehors
 		 * du cadre de contrainte, celle-ci sera déplacée afin de respecter les contraintes.
-		 * <p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
-		 * </p>
 		 *
 		 * @param	y	valeur de translation sur l'axe y
 		 */
@@ -653,7 +603,7 @@ package abe.com.edia.camera
 			if( !_shaking )
 			{
 				_screen.offset( 0, y );
-				fireSilentCameraChange ();
+				fireSilentCameraChangedSignal ();
 			}
 		}
 /*--------------------------------------------------------------------
@@ -668,9 +618,6 @@ package abe.com.edia.camera
 		 * Le redimensionnement d'une caméra en utilisant les méthodes <code>resizeTo&#42;</code>
 		 * n'affectent pas la position du champ de la caméra. Cela signifie que le centre de
 		 * la caméra aura été modifié après un appel à l'une des méthode de redimensionnement.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
 		 * </p>
 		 *
 		 * @param	d	nouvelle dimension du champ de la caméra.
@@ -687,11 +634,7 @@ package abe.com.edia.camera
 		 * Le redimensionnement d'une caméra en utilisant les méthodes <code>resizeTo&#42;</code>
 		 * n'affectent pas la position du champ de la caméra. Cela signifie que le centre de
 		 * la caméra aura été modifié après un appel à l'une des méthode de redimensionnement.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
 		 * </p>
-		 *
 		 * @param	w	nouvelle longueur du champ de la caméra
 		 * @param	h	nouvelle hauteur du champ de la caméra
 		 */
@@ -710,9 +653,6 @@ package abe.com.edia.camera
 		 * Le redimensionnement d'une caméra en utilisant les méthodes <code>resizeTo&#42;</code>
 		 * n'affectent pas la position du champ de la caméra. Cela signifie que le centre de
 		 * la caméra aura été modifié après un appel à l'une des méthode de redimensionnement.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
 		 * </p>
 		 *
 		 * @param	w	nouvelle longueur du champ de la caméra
@@ -731,9 +671,6 @@ package abe.com.edia.camera
 		 * Le redimensionnement d'une caméra en utilisant les méthodes <code>resizeTo&#42;</code>
 		 * n'affectent pas la position du champ de la caméra. Cela signifie que le centre de
 		 * la caméra aura été modifié après un appel à l'une des méthode de redimensionnement.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> sera diffusé en cas
-		 * de modification du champ de la caméra.
 		 * </p>
 		 *
 		 * @param	h	nouvelle hauteur du champ de la caméra
@@ -752,9 +689,6 @@ package abe.com.edia.camera
 		 * <code>multiplyZoom</code> est à <code>true</code> ou à <code>false</code>.
 		 * <p>
 		 * Le zoom est incrémenté ou multiplier par la valeur de <code>_zoomIncrement</code>.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> est diffusé à la
-		 * fin de l'appel de la fonction.
 		 * </p>
 		 */
 		public function zoomIn() : void
@@ -785,9 +719,6 @@ package abe.com.edia.camera
 		 * <code>multiplyZoom</code> est à <code>true</code> ou à <code>false</code>.
 		 * <p>
 		 * Le zoom est décrémenté ou diviser par la valeur de <code>_zoomIncrement</code>.
-		 * </p><p>
-		 * Un évènement <code>CameraEvent.CAMERA_CHANGE</code> est diffusé à la
-		 * fin de l'appel de la fonction.
 		 * </p>
 		 */
 		public function zoomOut() : void
@@ -845,7 +776,7 @@ package abe.com.edia.camera
 			var oldRatio : Number = _screen.width / _safeWidth;
 			_screen.scaleAroundCenter ( _zoom / oldRatio );
 
-			fireCameraChange();
+			fireCameraChangedSignal();
 			//var width : Number = _safeWidth / _zoom;
 			//var height : Number = _safeHeight / _zoom;
 
@@ -888,20 +819,19 @@ package abe.com.edia.camera
 		}
 		/**
 		 * Réalise le tremblement de la caméra.
-		 *
-		 * @param	e	objet <code>ImpulseEvent</code> diffusé par le métronome
 		 */
-		protected function tick ( e : ImpulseEvent ) : void
+		protected function tick (  bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
 			var nx : Number = _safeCenter.x - _screen.width / 2 + _randomSource.balance( _shakingStrength ) ;
 			var ny : Number = _safeCenter.y - _screen.height / 2 + _randomSource.balance( _shakingStrength );
 
 			if( nx !=  _screen.x || ny != _screen.y )
 			{
-				_screen.x = nx;				_screen.y = ny;
-				fireSilentCameraChange ();
+				_screen.x = nx;
+				_screen.y = ny;
+				fireSilentCameraChangedSignal ();
 			}
-			if( ( _shakingTime += e.bias ) > _shakingDuration )
+			if( ( _shakingTime += bias ) > _shakingDuration )
 				endShake();
 		}
 		/**
@@ -935,9 +865,9 @@ package abe.com.edia.camera
 		 *
 		 * @return	la représentation sous forme de chaîne de l'instance courante
 		 */
-		override public function toString() : String
+		public function toString() : String
 		{
-			return getQualifiedClassName( this ) + "(screen : " + _screen + ", zoom : " + _zoom + ")";
+			return StringUtils.stringify(this, {'screen':screen, 'zoom':zoom})
 		}
 		/**
 		 * Renvoie <code>true</code> si la caméra est actuellement en cours d'animation.
@@ -949,66 +879,16 @@ package abe.com.edia.camera
 			return _isRunning;
 		}
 /*--------------------------------------------------------------------
- *	EVENTS
+ *	SIGNALS
  *-------------------------------------------------------------------*/
-		/**
-		 * Notifie les écouteurs à l'évènement <code>CameraEvent.CAMERA_CHANGE</code>
-		 * qu'une ou plusieurs propriétés de la caméra ont été modifiées.
-		 */
-		public function fireCameraChange () : void
+		public function fireCameraChangedSignal () : void
 		{
-			var event : CameraEvent = new CameraEvent ( CameraEvent.CAMERA_CHANGE );
-			dispatchEvent( event );
+			cameraChanged.dispatch( this );
 		}
-		/**
-		 * Diffuse un évènement <code>CAMERA_CHANGE</code> si la caméra n'est pas
-		 * en mode silencieuse.
-		 * <p>
-		 * Cette fonction est utilisé en interne lors de chaque modification d'une
-		 * propriété de l'objet caméra.
-		 * </p>
-		 */
-		protected function fireSilentCameraChange () : void
+		protected function fireSilentCameraChangedSignal () : void
 		{
 			if( !silentMode )
-				fireCameraChange();
-		}
-		/**
-		 * Enregistre une fonction comme écouteur de l'évènement <code>CAMERA_CHANGE</code>
-		 * diffusé par cette caméra.
-		 *
-		 * @param	f	la fonction à enregistrer en tant qu'écouteur pour l'évènement de cette
-		 * 				caméra
-		 */
-		public function register ( f : Function ) : void
-		{
-			addEventListener( CameraEvent.CAMERA_CHANGE, f );
-		}
-		/**
-		 * Désabonne une fonction comme écouteur de l'évènement <code>CAMERA_CHANGE</code>
-		 * diffusé par cette caméra.
-		 *
-		 * @param	f	la fonction à désabonner en tant qu'écouteur pour l'évènement de cette
-		 * 				caméra
-		 */
-		public function unregister ( f : Function ) : void
-		{
-			removeEventListener( CameraEvent.CAMERA_CHANGE, f );
-		}
-		/**
-		 * Réécriture de la méthode <code>dispatchEvent</code> afin d'éviter la diffusion
-		 * d'évènement en l'absence d'écouteurs pour cet évènement.
-		 *
-		 * @param	evt	objet évènement à diffuser
-		 * @return	<code>true</code> si l'évènement a bien été diffusé, <code>false</code>
-		 * 			en cas d'échec ou d'appel de la méthode <code>preventDefault</code>
-		 * 			sur cet objet évènement
-		 */
-		override public function dispatchEvent( evt : Event ) : Boolean
-		{
-		 	if (hasEventListener(evt.type) || evt.bubbles)
-		  		return super.dispatchEvent(evt);
-			return true;
+				fireCameraChangedSignal();
 		}
 	}
 }

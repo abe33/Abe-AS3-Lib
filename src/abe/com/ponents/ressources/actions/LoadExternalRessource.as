@@ -1,6 +1,6 @@
 package abe.com.ponents.ressources.actions 
 {
-	import abe.com.mands.events.CommandEvent;
+	import abe.com.mands.Command;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.settings.SettingsManagerInstance;
@@ -46,7 +46,7 @@ package abe.com.ponents.ressources.actions
 			super( name, icon, longDescription, accelerator );
 			_collectionsLoader = collectionsLoader;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			inputRessource();
 		}
@@ -65,23 +65,23 @@ package abe.com.ponents.ressources.actions
 			}
 			_tmpInput.value = "";
 			
-			_dialog.addEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );
+			_dialog.dialogResponded.add( inputRessourceResult );
 			_dialog.open( Dialog.CLOSE_ON_RESULT );
 		}
 		protected function loadTmpFile () : void 
 		{
 			_dialog.close();
-			_dialog.removeEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );
+			_dialog.dialogResponded.remove( inputRessourceResult );
 			
 			_lastAction = new OpenSWFFileAction("");
-			_lastAction.addEventListener( CommandEvent.COMMAND_END, openTmpComplete );
-			_lastAction.addEventListener( CommandEvent.COMMAND_FAIL, openTmpFail );
+			_lastAction.commandEnded.add( openTmpCompleted );
+			_lastAction.commandFailed.add( openTmpFailed );
 			_lastAction.execute();
 		}
-		protected function openTmpComplete ( e : CommandEvent ) : void 
+		protected function openTmpCompleted ( c : Command ) : void 
 		{
-			_lastAction.removeEventListener( CommandEvent.COMMAND_END, openTmpComplete );
-			_lastAction.removeEventListener( CommandEvent.COMMAND_FAIL, openTmpFail );
+			_lastAction.commandEnded.remove( openTmpCompleted );
+			_lastAction.commandFailed.remove( openTmpFailed );
 			
 			_loader = new Loader();
 			_loader.contentLoaderInfo.addEventListener(Event.INIT, loaderInit );
@@ -91,19 +91,19 @@ package abe.com.ponents.ressources.actions
 		{
 			var col : ClassCollection = CollectionsLoader.getCollectionFromSWF( _lastAction.swf, _lastAction.fileReference.name, ( event.target as LoaderInfo ).loader );
 			_collectionsLoader.collections.push( col );
-			_collectionsLoader.fireCommandEnd();
+			_collectionsLoader.commandEnded.dispatch( _collectionsLoader );
 			
-			fireCommandEnd();
+			_commandEnded.dispatch( this );
 		}
-		protected function openTmpFail ( e : CommandEvent ) : void 
+		protected function openTmpFailed ( c : Command ) : void 
 		{
-			_lastAction.removeEventListener( CommandEvent.COMMAND_END, openTmpComplete );
-			_lastAction.removeEventListener( CommandEvent.COMMAND_FAIL, openTmpFail );
+			_lastAction.commandEnded.remove( openTmpCompleted );
+			_lastAction.commandFailed.remove( openTmpFailed );
 		}
-		protected function inputRessourceResult (event : DialogEvent) : void 
+		protected function inputRessourceResult ( d : Dialog, result : uint ) : void 
 		{
-			_dialog.removeEventListener( DialogEvent.DIALOG_RESULT, inputRessourceResult );
-			switch(event.result)
+			_dialog.dialogResponded.remove( inputRessourceResult );
+			switch(result)
 			{
 				case Dialog.RESULTS_OK :
 

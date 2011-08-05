@@ -2,7 +2,7 @@ package abe.com.ponents.utils
 {
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.motion.SingleTween;
-	import abe.com.motion.TweenEvent;
+	import abe.com.motion.Tween;
 	import abe.com.ponents.core.Component;
 
 	import flash.display.DisplayObject;
@@ -11,7 +11,9 @@ package abe.com.ponents.utils
 	 */
 	public class PopupUtils 
 	{
-		static public const NONE : int = 0;		static public const MODAL : int = 1;		static public const HIDE_ON_BLUR : int = 2;
+		static public const NONE : int = 0;
+		static public const MODAL : int = 1;
+		static public const HIDE_ON_BLUR : int = 2;
 		
 		static public var animateModal : Boolean = true;
 		
@@ -32,7 +34,7 @@ package abe.com.ponents.utils
 			level.init();
 			_levels.push( level );
 			
-			ToolKit.popupLevel.addChild( level.mouseCatcher );
+			ToolKit.mouseCatcherLevel.addChild( level.mouseCatcher );
 			StageUtils.lockToStage( level.mouseCatcher );
 			if( animateModal )
 			{
@@ -69,7 +71,8 @@ package abe.com.ponents.utils
 			StageUtils.lockToStage( c as DisplayObject, StageUtils.X_ALIGN_CENTER + StageUtils.Y_ALIGN_CENTER );	
 
 			c.grabFocus();
-					}
+			
+		}
 		static public function showAsHideOnBlurPopup ( c : Component, invoker : Component = null ) : void
 		{
 			var level : PopupLevel;
@@ -99,10 +102,10 @@ package abe.com.ponents.utils
 				c.grabFocus();
 			}
 		}
-		static protected function tweenEnd (event : TweenEvent) : void
+		static protected function tweenEnded ( t : Tween ) : void
 		{
-			ToolKit.popupLevel.removeChild( tween.target as DisplayObject );
-			tween.removeEventListener( TweenEvent.TWEEN_END, tweenEnd );
+			ToolKit.mouseCatcherLevel.removeChild( tween.target as DisplayObject );
+			tween.tweenEnded.remove( tweenEnded );
 		}
 		static public function pop () : void
 		{
@@ -116,15 +119,15 @@ package abe.com.ponents.utils
 				if( animateModal )
 				{
 					tween.target = level.mouseCatcher;
-					tween.addEventListener( TweenEvent.TWEEN_END, tweenEnd );
+					tween.tweenEnded.add( tweenEnded );
 					tween.reversed = true;
 					tween.execute();
 				}
-				else if( ToolKit.popupLevel.contains( level.mouseCatcher ) )
-					ToolKit.popupLevel.removeChild( level.mouseCatcher );
+				else if( ToolKit.mouseCatcherLevel.contains( level.mouseCatcher ) )
+					ToolKit.mouseCatcherLevel.removeChild( level.mouseCatcher );
 			}			
-			else if( ToolKit.popupLevel.contains( level.mouseCatcher ) )
-				ToolKit.popupLevel.removeChild( level.mouseCatcher );
+			else if( ToolKit.mouseCatcherLevel.contains( level.mouseCatcher ) )
+				ToolKit.mouseCatcherLevel.removeChild( level.mouseCatcher );
 			
 			StageUtils.unlockFromStage( level.mouseCatcher );
 			for each(var c : DisplayObject in level.components)

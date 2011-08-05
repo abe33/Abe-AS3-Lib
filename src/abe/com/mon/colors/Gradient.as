@@ -23,7 +23,12 @@ package  abe.com.mon.colors
 	 * @see	Color
 	 */
 	public class Gradient implements Serializable, Cloneable, Equatable
-	{
+    {
+        static public const COLOR_SPECTRUM : Gradient = new Gradient([	Color.Red, Color.Yellow, Color.Green, 
+        																Color.Cyan, Color.Blue, Color.Fuchsia, 
+                                                                        Color.Red ], 
+                                                                     [ 0 , 0.12, 0.30, 0.5, 0.70, 0.88, 1 ],
+                                                                     "Color Spectrum" );
 		/**
 		 * Le tableau de couleurs constituant le dégradé.
 		 */

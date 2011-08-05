@@ -4,12 +4,9 @@
 package  abe.com.motion
 {
 	import abe.com.mands.Command;
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.logs.Log;
-
-	import flash.events.IEventDispatcher;
 	/**
 	 * La classe <code>MultiTween</code> permet de réaliser une interpolation
 	 * sur plusieurs propriété d'un même objet dans le temps.
@@ -20,8 +17,7 @@ package  abe.com.motion
 															 Command,
 															 Runnable,
 															 Suspendable,
-															 ImpulseListener,
-															 IEventDispatcher
+															 ImpulseListener
 	{
 		/**
 		 * Ajoute une instance de la classe dans le dictionnaire global.
@@ -54,7 +50,8 @@ package  abe.com.motion
 			var duration : Number = params["duration"];
 			var easing : Function = params["easing"];
 
-			delete params["duration"];			delete params["easing"];
+			delete params["duration"];
+			delete params["easing"];
 
 			var setters : Array = [];
 			var ends : Array = [];
@@ -69,7 +66,7 @@ package  abe.com.motion
 			{
 				var tw : MultiTween = new MultiTween ( target, setters, ends, duration, null, easing );
 				_tweenInstances[tw] = tw;
-				tw.addEventListener(CommandEvent.COMMAND_END, tweenComplete );
+				tw.commandEnded.add( tweenCompleted );
 
 				if( autoPlay )
 					tw.execute();
@@ -147,7 +144,11 @@ package  abe.com.motion
 		public function set properties( p : Array ) : void
 		{
 			if ( isRunning() )
+			{
+				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
 				Log.warn( this + ".properties is not writable while playing." );
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			}
 			else
 				_properties = p;
 		}
@@ -185,7 +186,11 @@ package  abe.com.motion
 		override public function start() : void
 		{
 			if ( _nStartValues == null )
+			{
+				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
 				Log.warn( this + " has no start values." );
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			}
 			else
 				super.start();
 		}

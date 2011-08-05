@@ -13,7 +13,6 @@ package abe.com.edia.commands
 	import abe.com.ponents.utils.ToolKit;
 
 	import flash.display.Sprite;
-	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Rectangle;
 	/**
@@ -29,7 +28,8 @@ package abe.com.edia.commands
 		protected var _clickCatcher : Sprite;
 		protected var _autoHideLaunch : Boolean;
 		
-		static public const SHOW_EFFECT_ID : String = "show";		static public const HIDE_EFFECT_ID : String = "hide";
+		static public const SHOW_EFFECT_ID : String = "show";
+		static public const HIDE_EFFECT_ID : String = "hide";
 		
 		public var isActive : Boolean;
 
@@ -45,7 +45,7 @@ package abe.com.edia.commands
 				_timeout = new Timeout( clearSpeech, _commandEndTimeout );
 		}
 
-		override public function execute (e : Event = null) : void
+		override public function execute ( ... args ) : void
 		{
 			showMessage();
 		}
@@ -100,7 +100,8 @@ package abe.com.edia.commands
 				
 				if( _autoHideLaunch )
 					_txt.build.effects[SHOW_EFFECT_ID].addEventListener ( Event.COMPLETE, launchHide );
-			}			else
+			}
+			else
 				StageUtils.stage.addEventListener(MouseEvent.CLICK, clickHide);
 			
 			if( _timeout )
@@ -129,7 +130,7 @@ package abe.com.edia.commands
 			_txt = null;
 			_args = null;
 			
-			fireCommandEnd();
+			_commandEnded.dispatch( this );
 		}
 		
 		protected function launchHide (event : Event) : void

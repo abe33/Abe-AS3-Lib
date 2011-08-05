@@ -13,8 +13,6 @@ package abe.com.ponents.containers
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Container;
 	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.WindowEvent;
 	import abe.com.ponents.layouts.components.BorderLayout;
 	import abe.com.ponents.skinning.icons.Icon;
 	import abe.com.ponents.text.Label;
@@ -25,8 +23,9 @@ package abe.com.ponents.containers
 
 	import flash.events.Event;
 	import flash.filters.DropShadowFilter;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="minimize",type="abe.com.ponents.events.WindowEvent")]	[Event(name="maximize",type="abe.com.ponents.events.WindowEvent")]	[Event(name="restore",type="abe.com.ponents.events.WindowEvent")]	[Event(name="open",type="abe.com.ponents.events.WindowEvent")]	[Event(name="close",type="abe.com.ponents.events.WindowEvent")]
 	[Skinable(skin="Window")]
 	[Skin(define="Window",
 		  inherit="DefaultComponent",
@@ -34,7 +33,7 @@ package abe.com.ponents.containers
 		  
 		  state__all__corners="new cutils::Corners(5)",
 		  state__all__outerFilters="abe.com.ponents.containers::Window.windowShadow()",
-		  state__focus_focusandselected__foreground="new deco::SimpleBorders( skin.borderColor )"
+		  state__focus_focusandselected__foreground="skin.borderColor"
 	)]
 	/**
 	 * 
@@ -61,18 +60,32 @@ package abe.com.ponents.containers
 		protected var _windowContent : Component;
 		protected var _windowTitle : Component;
 		protected var _windowStatus : Component;
-		protected var _modal : Boolean;		protected var _resizable : Boolean;
+		protected var _modal : Boolean;
+		protected var _resizable : Boolean;
 		protected var _resizer : ComponentResizer;
 		protected var _safePreferredSize : Dimension;
 		protected var _maximized : Boolean;
-		protected var _minimized : Boolean;		protected var _minimizedContainer : Container;
+		protected var _minimized : Boolean;
+		protected var _minimizedContainer : Container;
 		protected var _minimizedButton : Button;
 		protected var _closePolicy : String;
 		
-		protected var _safeX : Number;		protected var _safeY : Number;
+		protected var _safeX : Number;
+		protected var _safeY : Number;
+		
+		public var windowMinimized : Signal;
+		public var windowMaximized : Signal;
+		public var windowRestored : Signal;
+		public var windowOpened : Signal;
+		public var windowClosed : Signal;
 		
 		public function Window ()
 		{
+		    windowClosed = new Signal();
+		    windowMaximized = new Signal();
+		    windowMinimized = new Signal();
+		    windowOpened = new Signal();
+		    windowRestored = new Signal();
 			_childrenLayout = new BorderLayout( this );
 			super();
 			_allowFocusLoop = true;
@@ -89,7 +102,7 @@ package abe.com.ponents.containers
 				_resizer.release();
 				_resizer = null;
 			}
-			firePropertyEvent("resizable", _resizable );
+			firePropertyChangedSignal("resizable", _resizable );
 		}
 
 		public function get modal () : Boolean { return _modal; }	
@@ -98,7 +111,7 @@ package abe.com.ponents.containers
 			if(!displayed)
 			{
 				_modal = modal;
-				firePropertyEvent("modal", _modal);
+				firePropertyChangedSignal("modal", _modal);
 			}
 		}
 		public function get windowContent () : Component { return _windowContent; }		
@@ -110,7 +123,7 @@ package abe.com.ponents.containers
 				removeComponent( _windowContent );			
 				
 				if( _displayed )
-					_windowContent.removeEventListener(ComponentEvent.COMPONENT_RESIZE, contentResize );			
+					_windowContent.componentResized.remove( contentResized );			
 			}
 			
 			_windowContent = windowContent;
@@ -122,30 +135,31 @@ package abe.com.ponents.containers
 					_windowContent.style.setForAllStates("insets", new Insets(5));
 				
 				( _childrenLayout as BorderLayout).center = _windowContent;
-				addComponentAt( _windowContent, 1 );				
+				addComponentAt( _windowContent, 1 );
+				
 				if( _displayed )
-					_windowContent.addWeakEventListener(ComponentEvent.COMPONENT_RESIZE, contentResize );			
+					_windowContent.componentResized.add( contentResized );			
 			}
 			
 			invalidatePreferredSizeCache();
-			firePropertyEvent("windowContent", _windowContent );
+			firePropertyChangedSignal("windowContent", _windowContent );
 		}
 
 		override protected function registerToOnStageEvents () : void
 		{
 			super.registerToOnStageEvents();
 			if( _windowContent )
-				_windowContent.addWeakEventListener( ComponentEvent.COMPONENT_RESIZE, contentResize );	
+				_windowContent.componentResized.add( contentResized );	
 		}
 
 		override protected function unregisterFromOnStageEvents () : void
 		{
 			super.unregisterFromOnStageEvents();
 			if( _windowContent )
-				_windowContent.removeEventListener( ComponentEvent.COMPONENT_RESIZE, contentResize );
+				_windowContent.componentResized.remove( contentResized );
 		}
 
-		protected function contentResize ( event : Event ) : void
+		protected function contentResized ( c : Component, d : Dimension ) : void
 		{
 			invalidatePreferredSizeCache();
 		}		
@@ -167,7 +181,7 @@ package abe.com.ponents.containers
 				addComponent( _windowTitle );			
 			}
 			invalidatePreferredSizeCache();
-			firePropertyEvent("windowTitle", _windowTitle );
+			firePropertyChangedSignal("windowTitle", _windowTitle );
 		}
 
 		public function get windowStatus () : Component { return _windowStatus; }		
@@ -187,7 +201,7 @@ package abe.com.ponents.containers
 				addComponentAt( _windowStatus, 2 );			
 			}
 			invalidatePreferredSizeCache();
-			firePropertyEvent("windowStatus", _windowStatus );
+			firePropertyChangedSignal("windowStatus", _windowStatus );
 		}
 		public function get maximized () : Boolean { return _maximized; }		
 		public function get minimized () : Boolean { return _minimized; }
@@ -208,7 +222,7 @@ package abe.com.ponents.containers
 				else
 					ToolKit.popupLevel.addChild(this);
 				
-				fireWindowEvent( WindowEvent.OPEN );
+				windowOpened.dispatch( this );
 			}
 		}
 		public function close () : void
@@ -220,7 +234,7 @@ package abe.com.ponents.containers
 				else
 					ToolKit.popupLevel.removeChild(this);
 				
-				fireWindowEvent( WindowEvent.CLOSE );
+				windowClosed.dispatch( this );
 			}
 		}
 		public function maximize () : void
@@ -241,7 +255,7 @@ package abe.com.ponents.containers
 				if( _resizer )
 					_resizer.enabled = false;
 				
-				fireWindowEvent( WindowEvent.MAXIMIZE );
+				windowMaximized.dispatch( this );
 			}
 		}
 		public function restore() : void
@@ -254,6 +268,7 @@ package abe.com.ponents.containers
 					visible = true;
 					_minimizedContainer.removeComponent( _minimizedButton );
 					_minimizedButton = null;
+					
 				}
 				else
 				{
@@ -273,7 +288,7 @@ package abe.com.ponents.containers
 					invalidatePreferredSizeCache();		
 					
 				}
-				fireWindowEvent( WindowEvent.RESTORE );
+				windowRestored.dispatch( this );
 			}
 			else if( _maximized )
 			{
@@ -286,7 +301,7 @@ package abe.com.ponents.containers
 				if( _resizer )
 					_resizer.enabled = true;
 				
-				fireWindowEvent( WindowEvent.RESTORE );
+				windowRestored.dispatch( this );
 			}
 			
 		}
@@ -302,7 +317,8 @@ package abe.com.ponents.containers
 					var i : Icon;
 					if( _windowTitle && _windowTitle is WindowTitleBar )
 					{
-						s = (_windowTitle as WindowTitleBar).windowTitle;						i = (_windowTitle as WindowTitleBar).windowIcon;
+						s = (_windowTitle as WindowTitleBar).windowTitle;
+						i = (_windowTitle as WindowTitleBar).windowIcon;
 					}
 					else
 					{
@@ -315,7 +331,8 @@ package abe.com.ponents.containers
 				{
 					if( _windowContent )
 						_windowContent.visible = false;
-					if( _windowStatus )										_windowStatus.visible = false;
+					if( _windowStatus )				
+						_windowStatus.visible = false;
 						
 					if( _preferredSize )
 					{
@@ -327,7 +344,7 @@ package abe.com.ponents.containers
 					
 					invalidatePreferredSizeCache();		
 				}
-				fireWindowEvent( WindowEvent.MINIMIZE );
+				windowMinimized.dispatch( this );
 			}
 		}
 		override public function focusNextChild (child : Focusable) : void 
@@ -349,11 +366,6 @@ package abe.com.ponents.containers
 			
 			if( _resizer )
 				_resizer.enabled = false;
-		}
-
-		protected function fireWindowEvent ( t : String ) : void
-		{
-			dispatchEvent( new WindowEvent( t ) );
 		}
 	}
 }

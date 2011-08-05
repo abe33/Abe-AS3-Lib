@@ -37,24 +37,27 @@ package abe.com.ponents.actions.builtin
 			{
 				if( size <= _preventLargeFile )
 					_fileReference.load();
-				else fireCommandFailed( _$(_("The selected file exceeds the limit, $0MB instead of $1MB."),
-										Math.floor( size / ( 1024*1024 ) ), Math.floor( _preventLargeFile / ( 1024*1024 ) ) ) );
+				else commandFailed.dispatch( this, _$(_("The selected file exceeds the limit, $0MB instead of $1MB."),
+											Math.floor( size / ( 1024*1024 ) ), Math.floor( _preventLargeFile / ( 1024*1024 ) ) ) );
 
 			}
 			else				_fileReference.load();
 		}
 		protected function complete (event : Event) : void
 		{
-			fireCommandEnd();
+			_isRunning = false;
+			commandEnded.dispatch( this );
 		}
 		protected function ioError (event : IOErrorEvent) : void
 		{
-			fireCommandFailed( event.text );
+			_isRunning = false;
+			commandFailed.dispatch( this, event.text );
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
 		protected function securityError ( event : SecurityErrorEvent ) : void
 		{
-			fireCommandFailed( event.text );
+			_isRunning = false;
+			commandFailed.dispatch( this, event.text );
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
 		protected function httpStatus ( event : HTTPStatusEvent ) : void

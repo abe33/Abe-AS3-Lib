@@ -4,7 +4,6 @@ package abe.com.ponents.actions.builtin
 	import abe.com.ponents.monitors.LogView;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */
@@ -23,10 +22,10 @@ package abe.com.ponents.actions.builtin
 			super( fileName, data, name, icon, longDescription, accelerator );
 			_logView = logView;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			this.data = _logView.textfield.text;
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }

@@ -6,11 +6,10 @@ package abe.com.ponents.menus
 	import abe.com.mon.utils.Keys;
 	import abe.com.mon.utils.StageUtils;
 	import abe.com.mon.utils.StringUtils;
+	import abe.com.ponents.core.Component;
 	import abe.com.ponents.completion.AutoCompletion;
 	import abe.com.ponents.containers.Panel;
 	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.events.AutoCompletionEvent;
-	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.layouts.components.GridLayout;
 	import abe.com.ponents.lists.List;
 	import abe.com.ponents.models.DefaultListModel;
@@ -28,12 +27,13 @@ package abe.com.ponents.menus
 	[Skin(define="CompletionDropDown",
 		  inherit="DefaultComponent",
 		  
-		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )"
+		  state__all__background="skin.containerBackgroundColor"
 	)]
 	public class CompletionDropDown extends Panel 
 	{
 		protected var _targetText : AbstractTextComponent;
-		protected var _autoComplete : AutoCompletion;		protected var _autoCompletePopup : ScrollPane;
+		protected var _autoComplete : AutoCompletion;
+		protected var _autoCompletePopup : ScrollPane;
 		protected var _autoCompleteList : List;
 		protected var _maxVisibleItems : Number;
 		
@@ -45,7 +45,9 @@ package abe.com.ponents.menus
 			this.autoComplete = autoComplete;
 			
 			_autoCompleteList = new List();
-			_autoCompleteList.dragEnabled = false;			_autoCompleteList.dropEnabled = false;			_autoCompleteList.editEnabled = false;
+			_autoCompleteList.dragEnabled = false;
+			_autoCompleteList.dropEnabled = false;
+			_autoCompleteList.editEnabled = false;
 			_autoCompleteList.loseSelectionOnFocusOut = false;
 			
 			_autoCompletePopup = new ScrollPane();
@@ -58,19 +60,22 @@ package abe.com.ponents.menus
 			
 			/*FDT_IGNORE*/ FEATURES::KEYBOARD_CONTEXT { /*FDT_IGNORE*/
 			childrenContextEnabled = false;
-			_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] =  new ProxyCommand(down);			_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] =  new ProxyCommand(up);			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] =  new ProxyCommand(validateCompletion);			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ESCAPE ) ] = new ProxyCommand(hide);
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.DOWN ) ] =  new ProxyCommand(down);
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.UP ) ] =  new ProxyCommand(up);
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] =  new ProxyCommand(validateCompletion);
+			_keyboardContext[ KeyStroke.getKeyStroke( Keys.ESCAPE ) ] = new ProxyCommand(hide);
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		public function get autoComplete () : AutoCompletion { return _autoComplete; }		
 		public function set autoComplete (autoComplete : AutoCompletion) : void
 		{
 			if( _autoComplete )
-				_autoComplete.removeEventListener( AutoCompletionEvent.ENTRIES_FOUND, entriesFound );
+				_autoComplete.entriesFound.remove( entriesFound );
 			
 			_autoComplete = autoComplete;
 			
 			if( _autoComplete )
-				_autoComplete.addEventListener( AutoCompletionEvent.ENTRIES_FOUND, entriesFound );
+				_autoComplete.entriesFound.add( entriesFound );
 		}
 		
 		public function get targetText () : AbstractTextComponent { return _targetText;}	
@@ -87,12 +92,11 @@ package abe.com.ponents.menus
 		{
 			return _autoCompleteList.selectedIndex != -1;
 		}
-		protected function entriesFound ( e : AutoCompletionEvent ) : void
+		protected function entriesFound ( autoComplete : AutoCompletion, suggestions : Array ) : void
 		{
 			if( !_targetText.displayed || !_targetText.hasFocus() )
 				return;
 			
-			var autoComplete : AutoCompletion = (e.target as AutoCompletion);
 			var lastCount : Number = autoComplete.lastSuggestionsCount;
 			var lastSuggestions : Array = autoComplete.lastSuggestions;
 			
@@ -112,7 +116,8 @@ package abe.com.ponents.menus
 						a[ i ] = (a[i] as String).replace( new RegExp( "^("+ autoComplete.last+")", "i" ), "<font color='#888888'>$1</font>" );
 					}
 					
-					( _autoCompleteList.model as DefaultListModel ).removeAllElements();					( _autoCompleteList.model as DefaultListModel ).addMany(0, a);
+					( _autoCompleteList.model as DefaultListModel ).removeAllElements();
+					( _autoCompleteList.model as DefaultListModel ).addMany(0, a);
 					
 					show();
 				}
@@ -130,14 +135,16 @@ package abe.com.ponents.menus
 		protected function updateSize () : void
 		{
 			var h : Number = Math.min( _autoCompleteList.preferredHeight, 
-									   _autoCompleteList.getItemPreferredSize(0).height * _maxVisibleItems );			
+									   _autoCompleteList.getItemPreferredSize(0).height * _maxVisibleItems );
+			
 			var bb : Rectangle = _targetText.getBounds( ToolKit.popupLevel );
 						
 			x = bb.x;
 			
 			if( bb.y + bb.height + h > StageUtils.stage.stageHeight )
 				y = bb.y - h;				
-			else				y = bb.y + bb.height;
+			else
+				y = bb.y + bb.height;
 			size = new Dimension( bb.width, h );
 		}
 
@@ -146,8 +153,8 @@ package abe.com.ponents.menus
 			updateSize();
 			_autoCompleteList.selectedIndex = -1;
 			ToolKit.popupLevel.addChild( this );
-			_autoCompleteList.addWeakEventListener( ComponentEvent.SELECTION_CHANGE, selectionChange );
-			_autoCompleteList.addWeakEventListener( MouseEvent.CLICK, validateCompletion );
+			_autoCompleteList.selectionChanged.add( selectionChanged );
+			_autoCompleteList.mouseReleased.add( validateCompletion );
 		}
 
 		public function hide () : void
@@ -155,8 +162,8 @@ package abe.com.ponents.menus
 			if( ToolKit.popupLevel.contains( this ) )
 				ToolKit.popupLevel.removeChild( this );
 			
-			_autoCompleteList.removeEventListener( ComponentEvent.SELECTION_CHANGE, selectionChange );
-			_autoCompleteList.removeEventListener( MouseEvent.CLICK, validateCompletion );
+			_autoCompleteList.selectionChanged.remove( selectionChanged );
+			_autoCompleteList.mouseReleased.remove( validateCompletion );
 			_autoCompleteList.selectedIndex = -1;
 		}
 		override protected function registerToOnStageEvents () : void 
@@ -174,10 +181,10 @@ package abe.com.ponents.menus
 			if( !this.hitTestPoint( event.stageX , event.stageY ) )
 				hide();
 		}
-		public function selectionChange ( e : Event ) : void
+		public function selectionChanged ( sel : * ) : void
 		{	
 		}
-		public function validateCompletion ( e : Event = null ) : void
+		public function validateCompletion ( c : Component = null ) : void
 		{
 			if( _autoCompletePopup )
 			{

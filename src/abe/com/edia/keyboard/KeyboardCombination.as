@@ -19,9 +19,7 @@ package abe.com.edia.keyboard
 		
 		public function KeyboardCombination ()
 		{
-			StageUtils.setup(this);
-			StageUtils.flexibleStage();
-			ToolKit.initializeToolKit();
+			ToolKit.initializeToolKit( this );
 			
 			var lv : LogView;			
 			lv = new LogView();
@@ -39,7 +37,7 @@ package abe.com.edia.keyboard
 																		 } )*/ );
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, controller.keyDown);				stage.addEventListener(KeyboardEvent.KEY_UP, controller.keyUp);
 				
-				controller.addEventListener(KeyCombinatorEvent.NEW_KEYS_SEQUENCE,newKeySequence);				controller.addEventListener(KeyCombinatorEvent.KEY_RELEASE, keyRelease );
+				controller.keySequenceFound.add(newKeySequence);				controller.keyReleased.add( keyRelease );
 			}
 			catch( e : Error ) 
 			{
@@ -47,14 +45,14 @@ package abe.com.edia.keyboard
 			}
 		}
 		
-		protected function keyRelease (event : KeyCombinatorEvent) : void
+		protected function keyRelease ( controller : KeyCombinator, sequence : String, key : String ) : void
 		{
-			Log.debug( event.sequence );
+			Log.debug( sequence );
 		}
 
-		protected function newKeySequence (event : KeyCombinatorEvent) : void
+		protected function newKeySequence ( controller : KeyCombinator, sequence : String, key : String ) : void
 		{
-			Log.info( event.sequence );
+			Log.info( sequence );
 		}
 	}
 }

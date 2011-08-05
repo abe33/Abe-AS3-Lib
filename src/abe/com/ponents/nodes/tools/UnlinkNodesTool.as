@@ -1,14 +1,15 @@
 package abe.com.ponents.nodes.tools 
 {
 	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.events.ToolEvent;
 	import abe.com.ponents.nodes.actions.UnlinkNodesCommand;
 	import abe.com.ponents.nodes.core.NodeLink;
 	import abe.com.ponents.skinning.cursors.Cursor;
 	import abe.com.ponents.tools.canvas.Tool;
+	import abe.com.ponents.tools.canvas.ToolGestureData;
 	import abe.com.ponents.tools.canvas.core.AbstractTool;
-
+	
 	import flash.display.DisplayObject;
+
 	/**
 	 * @author cedric
 	 */
@@ -18,7 +19,7 @@ package abe.com.ponents.nodes.tools
 		{
 			super( cursor );
 		}
-		override public function actionFinished (e : ToolEvent) : void 
+		override public function actionFinished (e : ToolGestureData) : void 
 		{
 			var o : DisplayObject = e.canvas.getObjectUnderTheMouse();
 			

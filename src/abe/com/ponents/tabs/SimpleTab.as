@@ -9,6 +9,7 @@ package abe.com.ponents.tabs
 	import abe.com.ponents.utils.CardinalPoints;
 	import abe.com.ponents.utils.Directions;
 
+    import org.osflash.signals.Signal; 
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -58,7 +59,7 @@ package abe.com.ponents.tabs
 		protected var _placement : String;
 		protected var _parentTabbedPane : TabbedPane;
 		protected var _styleNamePrefix : String = "Tab";
-
+		
 		public function SimpleTab ( name : String, content : Component = null, icon : Icon = null )
 		{
 			super();
@@ -68,6 +69,8 @@ package abe.com.ponents.tabs
 
 			_content = content;
 		}
+		
+		public function get tabClicked() : Signal { return buttonClicked; }
 
 		public function get content () : Component { return _content; }
 		public function set content (content : Component) : void
@@ -98,7 +101,8 @@ package abe.com.ponents.tabs
 				case CardinalPoints.NORTH :
 					styleKey = _styleNamePrefix + "_North";
 					ilayout.horizontalAlign = Alignments.CENTER;
-					ilayout.direction = Directions.RIGHT_TO_LEFT;					break;
+					ilayout.direction = Directions.RIGHT_TO_LEFT;
+					break;
 				case CardinalPoints.SOUTH :
 					styleKey = _styleNamePrefix + "_South";
 					ilayout.horizontalAlign = Alignments.CENTER;
@@ -111,7 +115,8 @@ package abe.com.ponents.tabs
 					break;
 				case CardinalPoints.WEST :
 					styleKey = _styleNamePrefix + "_West";
-					ilayout.horizontalAlign = Alignments.RIGHT;					ilayout.direction = Directions.RIGHT_TO_LEFT;
+					ilayout.horizontalAlign = Alignments.RIGHT;
+					ilayout.direction = Directions.RIGHT_TO_LEFT;
 					break;
 			}
 		}

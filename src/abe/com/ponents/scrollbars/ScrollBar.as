@@ -4,7 +4,7 @@ package abe.com.ponents.scrollbars
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.ponents.buttons.Button;
 	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.core.AbstractContainer;
+	import abe.com.ponents.core.*;
 	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.models.BoundedRangeModel;
 	import abe.com.ponents.models.DefaultBoundedRangeModel;
@@ -12,6 +12,8 @@ package abe.com.ponents.scrollbars
 
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	
+	import org.osflash.signals.Signal;
 
 	[Skinable(skin="ScrollBar")]
 	[Skin(define="ScrollBar",
@@ -35,23 +37,25 @@ package abe.com.ponents.scrollbars
 	)]
 	[Skin(define="ScrollBar_HorizontalKnob",
 		  inherit="ScrollBar_Button",
-		  custom_icon="icon(abe.com.ponents.scrollbars::ScrollBar.HORIZONTAL_GRIP)"	)]
+		  custom_icon="icon(abe.com.ponents.scrollbars::ScrollBar.HORIZONTAL_GRIP)"
+	)]
 	[Skin(define="ScrollBar_VerticalKnob",
 		  inherit="ScrollBar_Button",
 		  custom_icon="icon(abe.com.ponents.scrollbars::ScrollBar.VERTICAL_GRIP)"
 	)]
 	[Skin(define="ScrollBar_Button",
-		  inherit="DefaultComponent",		  state__all__insets="new cutils::Insets(0)",
+		  inherit="DefaultComponent",
+		  state__all__insets="new cutils::Insets(0)",
 		  state__all__corners="new cutils::Corners(2)"
 	)]
 	[Skin(define="ScrollBar_TrackHorizontal",
 		  inherit="DefaultComponent",
-		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )",
+		  state__all__background="skin.containerBackgroundColor",
 		  state__all__borders="new cutils::Borders(0,1,0,1)"
 	)]
 	[Skin(define="ScrollBar_TrackVertical",
 		  inherit="DefaultComponent",
-		  state__all__background="new deco::SimpleFill( skin.containerBackgroundColor )",
+		  state__all__background="skin.containerBackgroundColor",
 		  state__all__borders="new cutils::Borders(1,0,1,0)"
 	)]
 	public class ScrollBar extends AbstractContainer
@@ -70,6 +74,8 @@ package abe.com.ponents.scrollbars
 		static public var VERTICAL_GRIP : Class;
 		static public var additionnalButton : Boolean = false;
 
+		public var scrolled : Signal;
+
 		public var scrollUpButton : Button;
 		public var scrollDownButton : Button;
 		public var scrollTrack : Button;
@@ -82,12 +88,12 @@ package abe.com.ponents.scrollbars
 		protected var scrollKnobController : KnobController;
 		protected var additionnalScrollUpButtonController : ButtonController;
 
-		protected var _unitIncrement : Number;		protected var _blockIncrement : Number;
+		protected var _unitIncrement : Number;
+		protected var _blockIncrement : Number;
 
 		protected var _model : BoundedRangeModel;
 
 		protected var _orientation : uint;
-
 
 		public function ScrollBar ( orientation : uint = 1, value : Number = 0, extent : Number = 10, min : Number = 0, max : Number = 100 )
 		{
@@ -99,6 +105,7 @@ package abe.com.ponents.scrollbars
 			_blockIncrement = 10;
 			draw();
 			this.orientation = orientation;
+			scrolled = new Signal();
 		}
 
 		override public function set styleKey (s : String) : void
@@ -111,12 +118,12 @@ package abe.com.ponents.scrollbars
 		public function set model ( m : BoundedRangeModel ) : void
 		{
 			if( _model )
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.remove( dataChanged );
 
 			_model = m;
 
 			if( _model )
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.add( dataChanged );
 		}
 		public function get scroll () : Number { return _model.value; }
 		public function set scroll ( scroll : Number ) : void
@@ -124,7 +131,7 @@ package abe.com.ponents.scrollbars
 			_model.value = scroll;
 			if( !canScroll )
 				_model.value = _model.minimum;
-			fireScrollChange();
+			fireScrolledSignal();
 		}
 		public function get extent () : Number { return _model.extent; }
 		public function get maxScroll () : Number { return _model.maximum; }
@@ -168,14 +175,15 @@ package abe.com.ponents.scrollbars
 			}
 		}
 
-		public function getUnitIncrement ( direction : Number = 1 ) : Number { return _unitIncrement * direction; }		public function getBlockIncrement ( direction : Number = 1 ) : Number { return _blockIncrement * direction; }
+		public function getUnitIncrement ( direction : Number = 1 ) : Number { return _unitIncrement * direction; }
+		public function getBlockIncrement ( direction : Number = 1 ) : Number { return _blockIncrement * direction; }
 
 		public function get canScroll () : Boolean { return _model.maximum > _model.minimum; }
 
 		public function scrollIncrement ( increment : Number ) : void
 		{
 			_model.value += increment;
-			fireScrollChange();
+			fireScrolledSignal();
 		}
 		public function scrollTo ( n : Number ) : void
 		{
@@ -185,10 +193,15 @@ package abe.com.ponents.scrollbars
 		 * Lorsque l'utilisateur utilise la molette de la souris
 		 * au dessus de la scrollbar.
 		 */
-		public function mouseWheel ( e : MouseEvent ) : void
+		override public function mouseWheel ( e : MouseEvent ) : void
 		{
 			if( canScroll && _enabled )
 				scroll += getUnitIncrement( -e.delta / Math.abs(e.delta) ) * Math.abs( e.delta );
+		}
+		public function buttonMouseWheelRolled( c : Component, d : Number ) : void
+		{
+		    if( canScroll && _enabled )
+				scroll += getUnitIncrement( -d / Math.abs(d) ) * Math.abs(d);
 		}
 		/*---------------------------------------------------------------
 		 * DRAW AND UPDATE
@@ -200,7 +213,7 @@ package abe.com.ponents.scrollbars
 			 bt.label = "";
 			 bt.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			 bt.preferredSize = new Dimension( 16, 16 );
-			 bt.addWeakEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			 bt.mouseWheelRolled.add( buttonMouseWheelRolled );
 		}
 
 		private function draw () : void
@@ -210,7 +223,10 @@ package abe.com.ponents.scrollbars
 			scrollTrack 	 = new ScrollBarButton( styleKey + "_TrackVertical" );
 			scrollKnob	 = new ScrollBarButton( styleKey + "_VerticalKnob" );
 
-			setupButton( scrollUpButton );			setupButton( scrollDownButton );			setupButton( scrollTrack );			setupButton( scrollKnob );
+			setupButton( scrollUpButton );
+			setupButton( scrollDownButton );
+			setupButton( scrollTrack );
+			setupButton( scrollKnob );
 
 			// setup listeners for all entities
 			scrollDownButtonController = new ButtonController( scrollDownButton,
@@ -257,13 +273,16 @@ package abe.com.ponents.scrollbars
 
 
 					scrollTrack.width = scrollTrackWidth;
-					scrollTrack.height = scrollTrack.preferredHeight;					scrollTrack.x = scrollUpButton.width;
+					scrollTrack.height = scrollTrack.preferredHeight;
+					scrollTrack.x = scrollUpButton.width;
 					scrollTrack.y = 0;
 					if( additionnalButton )
 					{
 						additionnalScrollUpButton.x = scrollUpButton.width + scrollTrackWidth;
-						additionnalScrollUpButton.y = 0;						scrollDownButton.x = scrollUpButton.width * 2 + scrollTrackWidth;
-					}
+						additionnalScrollUpButton.y = 0;
+						scrollDownButton.x = scrollUpButton.width * 2 + scrollTrackWidth;
+
+					}
 					else
 						scrollDownButton.x = scrollUpButton.width + scrollTrackWidth;
 
@@ -278,7 +297,8 @@ package abe.com.ponents.scrollbars
 
 					scrollTrack.height = scrollTrackHeight;
 					scrollTrack.width = scrollTrack.preferredWidth;
-					scrollTrack.y = scrollUpButton.height;					scrollTrack.x = 0;
+					scrollTrack.y = scrollUpButton.height;
+					scrollTrack.x = 0;
 
 					if( additionnalButton )
 					{
@@ -368,7 +388,7 @@ package abe.com.ponents.scrollbars
 														0, scrollTrack.width - w );
 
 					if( scrollKnob.width != oldw || scrollKnob.x != oldx )
-						fireComponentEvent( ComponentEvent.SCROLL );
+						fireScrolledSignal();
 					break;
 				case Orientations.VERTICAL :
 				default :
@@ -384,7 +404,7 @@ package abe.com.ponents.scrollbars
 														0, scrollTrack.height - h );
 
 					if( scrollKnob.height != oldh || scrollKnob.y != oldy )
-						fireComponentEvent( ComponentEvent.SCROLL );
+						fireScrolledSignal();
 					break;
 			}
 		}
@@ -409,20 +429,13 @@ package abe.com.ponents.scrollbars
 		/*--------------------------------------------------------------
 		 * 	EVENT DISPATCHING
 		 *-------------------------------------------------------------*/
-		protected function dataChanged ( event : ComponentEvent ) : void
+		protected function dataChanged ( model : BoundedRangeModel, v : * ) : void
 		{
 			invalidate();
 		}
-		protected function fireScrollChange () : void
+		protected function fireScrolledSignal () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.SCROLL ) );
-		}
-
-		override public function dispatchEvent( evt : Event ) : Boolean
-		{
-		 	if (hasEventListener(evt.type) || evt.bubbles)
-		  		return super.dispatchEvent(evt);
-		 	return true;
+			scrolled.dispatch( this );
 		}
 	}
 }
@@ -463,12 +476,12 @@ internal class ButtonController
 		this.scrollBar = scrollBar;
 		this.pressed = false;
 		this.direction = direction;
-		this.button.addWeakEventListener( MouseEvent.MOUSE_DOWN, this.mouseDown );
-		this.button.addWeakEventListener( MouseEvent.MOUSE_UP, this.mouseUp );
-		this.button.addWeakEventListener( MouseEvent.MOUSE_OUT, this.mouseOut );
-		this.button.addWeakEventListener( MouseEvent.MOUSE_OVER, this.mouseOver );
+		this.button.mousePressed.add( mousePressed );
+		this.button.mouseReleased.add( mouseReleased );
+		this.button.mouseLeaved.add( mouseLeaved );
+		this.button.mouseEntered.add( mouseEntered );
 	}
-	public function mouseDown ( e : MouseEvent ) : void
+	public function mousePressed ( btn : Button ) : void
 	{
 		if( button.enabled )
 		{
@@ -477,8 +490,7 @@ internal class ButtonController
 			pressed = true;
 		}
 	}
-
-	public function mouseUp ( e : MouseEvent ) : void
+	public function mouseReleased ( btn : Button ) : void
 	{
 		if( button.enabled )
 		{
@@ -486,14 +498,18 @@ internal class ButtonController
 			clearTimeout( timeout );
 		}
 	}
-	public function mouseOut ( e : MouseEvent ) : void
+	public function mouseUp( e : Event ): void
+	{
+	    mouseReleased(null);
+	}
+	public function mouseLeaved ( btn : Button ) : void
 	{
 		if( pressed )
 		{
 			button.stage.addEventListener( MouseEvent.MOUSE_UP, mouseUp );
 		}
 	}
-	public function mouseOver ( e : MouseEvent ) : void
+	public function mouseEntered ( btn : Button ) : void
 	{
 		if( pressed )
 		{
@@ -536,13 +552,12 @@ internal class TrackController
 		this.callback = callback;
 		this.scrollBar = scrollBar;
 		this.pressed = false;
-		this.button.addWeakEventListener( MouseEvent.MOUSE_DOWN, this.mouseDown );
-		this.button.addWeakEventListener( MouseEvent.MOUSE_UP, this.mouseUp );
-		this.button.addWeakEventListener( MouseEvent.MOUSE_OUT, this.mouseOut );
-		this.button.addWeakEventListener( MouseEvent.MOUSE_OVER, this.mouseOver );
-		this.slider.addWeakEventListener( MouseEvent.MOUSE_UP, this.mouseUp );
+		this.button.mousePressed.add( mousePressed );
+		this.button.mouseReleased.add( mouseReleased );
+		this.button.mouseLeaved.add( mouseLeaved );
+		this.button.mouseEntered.add( mouseEntered );
 	}
-	public function mouseDown ( e : MouseEvent ) : void
+	public function mousePressed ( btn : Button ) : void
 	{
 		if( button.enabled )
 		{
@@ -567,7 +582,7 @@ internal class TrackController
 		}
 	}
 
-	public function mouseUp ( e : MouseEvent ) : void
+	public function mouseReleased ( btn : Button ) : void
 	{
 		if( button.enabled )
 		{
@@ -575,14 +590,18 @@ internal class TrackController
 			clearTimeout( timeout );
 		}
 	}
-	public function mouseOut ( e : MouseEvent ) : void
+	public function mouseUp( e : Event ): void
+	{
+	    mouseReleased(null);
+	}
+	public function mouseLeaved ( btn : Button ) : void
 	{
 		if( pressed )
 		{
 			button.stage.addEventListener( MouseEvent.MOUSE_UP, mouseUp );
 		}
 	}
-	public function mouseOver ( e : MouseEvent ) : void
+	public function mouseEntered ( btn : Button ) : void
 	{
 		if( pressed )
 		{
@@ -618,24 +637,25 @@ internal class KnobController
 		this.callback = callback;
 		this.pressed = false;
 		this.scrollbar = scrollbar;
-		this.button.addWeakEventListener( MouseEvent.MOUSE_DOWN, this.mouseDown );
-		this.button.addWeakEventListener( MouseEvent.MOUSE_UP, this.mouseUp );
-		this.button.addWeakEventListener( MouseEvent.MOUSE_OUT, this.mouseOut );
-		this.button.addWeakEventListener( MouseEvent.MOUSE_OVER, this.mouseOver );
+		this.button.mousePressed.add( mousePressed );
+		this.button.mouseReleased.add( mouseReleased );
+		this.button.mouseLeaved.add( mouseLeaved );
+		this.button.mouseEntered.add( mouseEntered );
 	}
-	public function mouseDown ( e : MouseEvent ) : void
+	public function mousePressed ( btn : Button ) : void
 	{
 		if( button.enabled )
 		{
 			pressed = true;
 
 			offset = scrollbar.isVertical ?
-						this.button.parent.mouseY - this.button.y :						this.button.parent.mouseX - this.button.x;
+						this.button.parent.mouseY - this.button.y :
+						this.button.parent.mouseX - this.button.x;
 
-			button.addWeakEventListener( Event.ENTER_FRAME, enterFrame );
+			button.addEventListener( Event.ENTER_FRAME, enterFrame );
 		}
 	}
-	public function mouseUp ( e : MouseEvent ) : void
+	public function mouseReleased ( btn : Button ) : void
 	{
 		if( button.enabled )
 		{
@@ -643,14 +663,18 @@ internal class KnobController
 			button.stage.removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
 		}
 	}
-	public function mouseOut ( e : MouseEvent ) : void
+	public function mouseUp( e : Event ): void
+	{
+	    mouseReleased(null);
+	}
+	public function mouseLeaved ( btn : Button ) : void
 	{
 		if( pressed )
 		{
 			button.stage.addEventListener( MouseEvent.MOUSE_UP, mouseUp );
 		}
 	}
-	public function mouseOver ( e : MouseEvent ) : void
+	public function mouseEntered ( btn : Button ) : void
 	{
 		if( pressed )
 		{
@@ -663,7 +687,8 @@ internal class KnobController
 		if( pressed )
 		{
 			scrollbar.isVertical ?
-				this.button.y = this.button.parent.mouseY - offset :				this.button.x = this.button.parent.mouseX - offset;
+				this.button.y = this.button.parent.mouseY - offset :
+				this.button.x = this.button.parent.mouseX - offset;
 
 			callback();
 		}
@@ -695,21 +720,20 @@ internal class ScrollBarButton extends Button
 			this.icon = _style.icon.clone();
 	}
 
-	override protected function stylePropertyChanged (event : PropertyEvent) : void
+	override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 	{
-		switch( event.propertyName )
+		switch( propertyName )
 		{
 			case "icon" :
-				icon = event.propertyValue.clone();
+				icon = propertyValue.clone();
 				break;
 			default :
-				super.stylePropertyChanged( event );
+				super.stylePropertyChanged( propertyName, propertyValue );
 				break;
 		}
 	}
 
-	/*FDT_IGNORE*/ FEATURES::TOOLTIP { /*FDT_IGNORE*/
-	override public function showToolTip (overlay : Boolean = false) : void
-	{}
-	/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+	FEATURES::TOOLTIP { 
+	override public function showToolTip (overlay : Boolean = false) : void	{}
+	} 
 }

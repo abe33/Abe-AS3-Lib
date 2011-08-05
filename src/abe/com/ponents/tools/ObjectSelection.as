@@ -11,7 +11,6 @@ package abe.com.ponents.tools
 	/**
 	 * 
 	 */
-	[Event(name="selectionChange",type="abe.com.ponents.events.ComponentEvent")]
 	public class ObjectSelection extends EventDispatcher
 	{
 		public var objects : Array;

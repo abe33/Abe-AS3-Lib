@@ -17,7 +17,6 @@ package abe.com.ponents.tools
 	 * @author Cédric Néhémie
 	 */
 	[Style(name="sampleIcon", type="abe.com.ponents.skinning.icons.Icon")]
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Skinable(skin="ColorSampler")]
 	[Skin(define="ColorSampler",
 			  inherit="DefaultComponent",
@@ -29,11 +28,14 @@ package abe.com.ponents.tools
 		[Embed(source="../skinning/icons/colorpicker.png")]
 		static public var DEFAULT_SAMPLE : Class;
 		
-		static public const X_AXIS : uint = 0;		static public const Y_AXIS : uint = 1;		static public const BOTH_AXIS : uint = 2;
+		static public const X_AXIS : uint = 0;
+		static public const Y_AXIS : uint = 1;
+		static public const BOTH_AXIS : uint = 2;
 		
 		protected var _markerShape : Shape;
 		protected var _markerAxis : uint;
-		protected var _colorX : Number;		protected var _colorY : Number;
+		protected var _colorX : Number;
+		protected var _colorY : Number;
 		protected var _value : Color;
 		
 		public function ColorSampler ()
@@ -55,7 +57,8 @@ package abe.com.ponents.tools
 		{
 			_value = value; 
 			var pt : Point = findColorPoint( _value );
-			//_colorX = pt.x;			//_colorY = pt.y;
+			//_colorX = pt.x;
+			//_colorY = pt.y;
 			paintMarkers( pt.x, pt.y );
 			fireDataChange();
 		}
@@ -79,7 +82,8 @@ package abe.com.ponents.tools
 		{
 			var ic : BitmapIcon = _icon as BitmapIcon;
 			
-			_colorX = ic.bitmap.mouseX;			_colorY = ic.bitmap.mouseY;
+			_colorX = ic.bitmap.mouseX;
+			_colorY = ic.bitmap.mouseY;
 			
 			var col : uint = ic.bitmap.bitmapData.getPixel32(_colorX, _colorY);
 			value = new Color( col );
@@ -96,12 +100,17 @@ package abe.com.ponents.tools
 		{
 			var ic : BitmapIcon = _icon as BitmapIcon;
 			
-			var r : uint = color.red;			var g : uint = color.green;			var b : uint = color.blue;
-			var w : Number = ic.bitmap.bitmapData.width;			var h : Number = ic.bitmap.bitmapData.height;
-			var x : Number;					var y : Number;					
+			var r : uint = color.red;
+			var g : uint = color.green;
+			var b : uint = color.blue;
+			var w : Number = ic.bitmap.bitmapData.width;
+			var h : Number = ic.bitmap.bitmapData.height;
+			var x : Number;		
+			var y : Number;					
 			var col : Number = w / 6;
 			
-			// cas du noir			if( r == g && r == b && r == 0 )
+			// cas du noir
+			if( r == g && r == b && r == 0 )
 				return new Point( 0, h );
 			// cas du blanc			
 			else if( r == g && r == b && r == 0 )
@@ -191,7 +200,8 @@ package abe.com.ponents.tools
 				x = col*3;
 				y = getY( b, g, r, h );
 			}
-			//_colorX = x;			//_colorY = y;
+			//_colorX = x;
+			//_colorY = y;
 			return new Point(x,y);
 		}
 		public function clearMarkers () : void
@@ -204,12 +214,14 @@ package abe.com.ponents.tools
 			_markerShape.graphics.lineStyle( 0, 0 );
 			
 			var ic : BitmapIcon = _icon as BitmapIcon;
-			var bsx : Number = ic.bitmap.scaleX;			var bsy : Number = ic.bitmap.scaleY;
+			var bsx : Number = ic.bitmap.scaleX;
+			var bsy : Number = ic.bitmap.scaleY;
 			
 			if( _markerAxis == X_AXIS || 
 				_markerAxis == BOTH_AXIS )	
 			{
-				_markerShape.graphics.moveTo( _icon.x, _icon.y + y*bsy );					_markerShape.graphics.lineTo( _icon.x + _icon.width, _icon.y + y*bsy );	
+				_markerShape.graphics.moveTo( _icon.x, _icon.y + y*bsy );	
+				_markerShape.graphics.lineTo( _icon.x + _icon.width, _icon.y + y*bsy );	
 			}
 			
 			if( _markerAxis == Y_AXIS || 

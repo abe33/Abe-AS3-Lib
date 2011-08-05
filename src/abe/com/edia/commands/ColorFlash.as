@@ -9,11 +9,9 @@ package abe.com.edia.commands
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
 	import abe.com.motion.easing.Linear;
 
 	import flash.display.DisplayObject;
-	import flash.events.Event;
 	import flash.geom.ColorTransform;
 	/**
 	 * @author Cédric Néhémie
@@ -35,7 +33,7 @@ package abe.com.edia.commands
 			this.easing = easing != null ? easing : Linear.easeNone;
 			this.looping = looping;
 		}
-		override public function execute (e : Event = null) : void
+		override public function execute ( ... args ) : void
 		{
 			this.t = 0;
 			start();
@@ -60,9 +58,9 @@ package abe.com.edia.commands
 				Impulse.unregister(tick);
 			}
 		}
-		public function tick ( e : ImpulseEvent ) : void
+		public function tick ( bias : Number, biasInSeconds : Number, current : Number ) : void
 		{
-			t += e.bias;
+			t += bias;
 			
 			var a : Number = Math.abs( 1 - ( t / duration ) * 2 );
 			var amount : Number = easing( a, 0, 1, 1 );
@@ -84,7 +82,7 @@ package abe.com.edia.commands
 				{
 					reset();
 					stop();				
-					fireCommandEnd();				
+					_commandEnded.dispatch( this );				
 				}
 			}
 		}

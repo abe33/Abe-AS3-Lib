@@ -18,13 +18,14 @@ package abe.com.ponents.text
 	import abe.com.ponents.core.focus.Focusable;
 	import abe.com.ponents.dnd.DragSource;
 	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.forms.FormComponentDisabledModes;
 	import abe.com.ponents.layouts.display.DOStretchLayout;
 	import abe.com.ponents.layouts.display.DisplayObjectLayout;
 
 	import com.adobe.linguistics.spelling.SpellChecker;
+
+	import org.osflash.signals.Signal;
 
 	import flash.display.DisplayObject;
 	import flash.display.InteractiveObject;
@@ -41,19 +42,9 @@ package abe.com.ponents.text
 	import flash.ui.ContextMenu;
 	import flash.ui.ContextMenuItem;
 
-	/**
-	 *
-	 */
 	[Style(name="embedFonts",type="Boolean",enumeration="true,false")]
-
-	/**
-	 *
-	 */
 	[Style(name="mispellWordsColor",type="abe.com.mon.colors.Color")]
-
 	[Skinable(skin="Text")]
-
-	[Event(name="textContentChange", type="abe.com.ponents.events.ComponentEvent")]
 	public class AbstractTextComponent extends AbstractComponent implements Component,
 																			IDisplayObject,
 																			IInteractiveObject,
@@ -64,6 +55,9 @@ package abe.com.ponents.text
 																			DragSource,
 																			FormComponent
 	{
+		public var textContentChanged : Signal;
+		protected var _dataChanged : Signal;
+		
 		protected var _value : *;
 		protected var _label : ITextField;
 		protected var _childrenLayout : DisplayObjectLayout;
@@ -77,7 +71,10 @@ package abe.com.ponents.text
 		public function AbstractTextComponent ()
 		{
 			super( );
-			_label = _label ? _label : new TextFieldImpl();			//_label = _label ? _label : new TLFTextFieldImpl();
+			textContentChanged = new Signal();
+			_dataChanged = new Signal();
+			_label = _label ? _label : new TextFieldImpl();
+			//_label = _label ? _label : new TLFTextFieldImpl();
 			_label.width = 100;
 			_label.height = 20;
 			_label.type = TextFieldType.INPUT;
@@ -87,7 +84,8 @@ package abe.com.ponents.text
 			_childrenContainer.addChild( _label as DisplayObject );
 			_childrenContainer.mouseEnabled = true;
 			_childrenContainer.mouseChildren = true;
-			//_childrenLayout = _childrenLayout ? _childrenLayout : new TextLayout( _childrenContainer, _label );			_childrenLayout = _childrenLayout ? _childrenLayout : new DOStretchLayout( _childrenContainer, _label );
+			//_childrenLayout = _childrenLayout ? _childrenLayout : new TextLayout( _childrenContainer, _label );
+			_childrenLayout = _childrenLayout ? _childrenLayout : new DOStretchLayout( _childrenContainer, _label );
 			_allowPressed = false;
 			_allowOver = false;
 			_allowInput = true;
@@ -96,84 +94,58 @@ package abe.com.ponents.text
 
 			_disabledMode = 0;
 
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			_contextMenu = new ContextMenu( );
-			_contextMenu.addEventListener( ContextMenuEvent.MENU_SELECT, checkForContextMenu );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
+			    _contextMenu = new ContextMenu( );
+			    _contextMenu.addEventListener( ContextMenuEvent.MENU_SELECT, checkForContextMenu );
+			} 
 
-			/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
-				/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
-			(_label as InteractiveObject).contextMenu = _contextMenu;
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
-			_mispelledWordsShape = new Shape( );
-			addChildAt( _mispelledWordsShape, 1 );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			FEATURES::SPELLING { 
+				FEATURES::MENU_CONTEXT { 
+			        (_label as InteractiveObject).contextMenu = _contextMenu;
+				} 
+			    _mispelledWordsShape = new Shape( );
+			    addChildAt( _mispelledWordsShape, 1 );
+			} 
 
 			invalidatePreferredSizeCache( );
 		}
-		public function get caretIndex () : int	
-		{ 
-			return _label.caretIndex; 
-		}
-		public function get selectionBeginIndex () : int 
-		{ 
-			return _label.selectionBeginIndex; 
-		}		public function get selectionEndIndex () : int 
-		{ 
-			return _label.selectionEndIndex; 
-		}
-		public function get childrenLayout () : DisplayObjectLayout	
-		{ 
-			return _childrenLayout; 
-		}
-		public function set childrenLayout (childrenLayout : DisplayObjectLayout) : void
-		{
-			_childrenLayout = childrenLayout;
-		}
-		public function get textfield () : ITextField
-		{
-			return _label;
-		}
-		public function get multiline () : Boolean 
-		{ 
-			return _label.multiline; 
-		}		public function set multiline ( b : Boolean ) : void
+		public function get dataChanged() : Signal { return _dataChanged; }
+		public function get caretIndex () : int	 { return _label.caretIndex; }
+		public function get selectionBeginIndex () : int { return _label.selectionBeginIndex; }
+		public function get selectionEndIndex () : int { return _label.selectionEndIndex; }
+		
+		public function get childrenLayout () : DisplayObjectLayout	{ return _childrenLayout; }
+		public function set childrenLayout (childrenLayout : DisplayObjectLayout) : void { _childrenLayout = childrenLayout; }
+		
+		public function get textfield () : ITextField { return _label; }
+		
+		public function get multiline () : Boolean	{ 	return _label.multiline;}
+		public function set multiline ( b : Boolean ) : void
 		{
 			_label.multiline = b;
 			updateTextFormat();
 			invalidatePreferredSizeCache();
 		}
-		public function get wordWrap () : Boolean 
-		{ 
-			return _label.wordWrap; 
-		}
+		public function get wordWrap () : Boolean { return _label.wordWrap; }
 		public function set wordWrap ( b : Boolean ) : void
 		{
 			_label.wordWrap = b;
 			updateTextFormat();
 			invalidatePreferredSizeCache();
 		}
-		public function get autoSize () : String 
-		{ 
-			return _label.autoSize; 
-		}
+		public function get autoSize () : String { return _label.autoSize; }
 		public function set autoSize ( s : String ) : void
 		{
 			_label.autoSize = s;
 			updateTextFormat();
 			invalidatePreferredSizeCache();
 		}
-		public function get text () : String 
-		{ 
-			return _label.text; 
-		}		public function get htmlText () : String 
+		public function get text () : String { return _label.text; }
+		public function get htmlText () : String 
 		{ 
 			return _label.htmlText; 
 		}
-		public function get value () : * 
-		{ 
-			return _value; 
-		}
+		public function get value () : * { return _value; }
 		public function set value ( val : * ) : void
 		{
 			// avoid the text to scroll while clicking on a text component (will be buggy on style changes)
@@ -221,7 +193,8 @@ package abe.com.ponents.text
 		}
 		public function set disabledMode (b : uint) : void
 		{
-			_disabledMode = b;			checkDisableMode( );
+			_disabledMode = b;
+			checkDisableMode( );
 		}
 		public function get disabledValue () : * 
 		{ 
@@ -250,7 +223,8 @@ package abe.com.ponents.text
 				case FormComponentDisabledModes.DIFFERENT_ACROSS_MANY :
 					disabledValue = _( "different values across many" );
 					break;
-				case FormComponentDisabledModes.UNDEFINED :					disabledValue = _( "not defined" );
+				case FormComponentDisabledModes.UNDEFINED :
+					disabledValue = _( "not defined" );
 					break;
 				case FormComponentDisabledModes.NORMAL :
 				case FormComponentDisabledModes.INHERITED :
@@ -408,7 +382,8 @@ package abe.com.ponents.text
 		public function get textWidth () : Number 
 		{ 
 			return _label.textWidth; 
-		}		public function get textHeight () : Number 
+		}
+		public function get textHeight () : Number 
 		{ 
 			return _label.textHeight; 
 		}
@@ -426,8 +401,10 @@ package abe.com.ponents.text
 		}
 		override public function repaint () : void
 		{
-			_background.graphics.clear( );			_foreground.graphics.clear( );
-			var ls : Number = _label.scrollV;			var lh : Number = _label.scrollH;
+			_background.graphics.clear( );
+			_foreground.graphics.clear( );
+			var ls : Number = _label.scrollV;
+			var lh : Number = _label.scrollH;
 
 			updateTextFormat( );
 
@@ -436,18 +413,20 @@ package abe.com.ponents.text
 			_childrenLayout.layout( size, _style.insets );
 			super.repaint( );
 
-			_label.scrollV = ls;			_label.scrollH = lh;
+			_label.scrollV = ls;
+			_label.scrollH = lh;
 		}
 		protected function updateTextFormat () : void
 		{
-			var lastScrollV : Number = _label.scrollV;			var lastScrollH : Number = _label.scrollH;
+			var lastScrollV : Number = _label.scrollV;
+			var lastScrollH : Number = _label.scrollH;
 			_label.defaultTextFormat = _style.format;
 			_label.textColor = _style.textColor.hexa;
-			affectTextValue( );
+			affectTextValue();
 			
 			_label.scrollH = lastScrollH;
 			_label.scrollV = lastScrollV;
-			fireComponentEvent( ComponentEvent.TEXT_CONTENT_CHANGE );
+			textContentChanged.dispatch( this, _value );
 		}
 		protected function affectTextValue () : void
 		{
@@ -488,7 +467,8 @@ package abe.com.ponents.text
 
 			_label.addEventListener( FocusEvent.FOCUS_OUT, registerValue );
 			_label.addEventListener( Event.CHANGE, registerValue );
-			_label.addEventListener( TextEvent.TEXT_INPUT, textInput );		}
+			_label.addEventListener( TextEvent.TEXT_INPUT, textInput );
+		}
 		override protected function unregisterFromOnStageEvents () : void
 		{
 			super.unregisterFromOnStageEvents( );
@@ -499,13 +479,13 @@ package abe.com.ponents.text
 		}
 		protected function textInput (event : TextEvent) : void 
 		{
-			//FIXME:Scrolling issue was typing
-			var c : int = _label.caretIndex;
-			var l : int = _label.getLineIndexOfChar( c );
+			//FIXME:Scrolling issue when typing
+			//var c : int = _label.caretIndex;
+			//var l : int = _label.getLineIndexOfChar( c );
 		}
-		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		override protected function stylePropertyChanged (  propertyName : String, propertyValue : *  ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "embedFonts" :
 					_label.embedFonts = _style.embedFonts;
@@ -517,7 +497,7 @@ package abe.com.ponents.text
 					invalidatePreferredSizeCache( );
 					break;
 				default :
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}
@@ -527,9 +507,9 @@ package abe.com.ponents.text
 			{
 				_value = _label.htmlText;
 
-				/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
-				checkContent( );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				FEATURES::SPELLING { 
+				checkContent();
+				}
 			}
 		}
 		override public function focusIn (e : FocusEvent) : void
@@ -543,31 +523,31 @@ package abe.com.ponents.text
 		}
 		override public function focusOut (e : FocusEvent) : void 
 		{
-			registerValue( );
+			registerValue();
 			super.focusOut( e );
 		}
 
 		/*-----------------------------------------------------------------
 		 * 	CONTEXT MENUS
 		 *----------------------------------------------------------------*/
-		/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+		FEATURES::MENU_CONTEXT { 
 		protected var _contextMenu : ContextMenu;
 
 		protected function checkForContextMenu ( event : ContextMenuEvent ) : void
 		{
 			var a : Array = [];
 
-			/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
+			FEATURES::SPELLING { 
 			checkForSpellingContext( event, a );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
 			var b : Array = [];
 			
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 { var v : Array = menuContext; }
 			TARGET::FLASH_10 { var v : Vector.<ContextMenuItem> = menuContext; }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			var v : Vector.<ContextMenuItem> = menuContext; /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { 
+			var v : Vector.<ContextMenuItem> = menuContext; } 
 			
 			var l : uint = v.length;
 			var c : Array = StageUtils.root.contextMenu["customItems"];
@@ -585,22 +565,23 @@ package abe.com.ponents.text
 
 			_contextMenu.customItems = a.concat( b );
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 
 		/*-----------------------------------------------------------------
 		 * 	SPELL CHECK
 		 *----------------------------------------------------------------*/
-		/*FDT_IGNORE*/ FEATURES::SPELLING { /*FDT_IGNORE*/
+		FEATURES::SPELLING { 
 		protected var _spellChecker : SpellChecker;
-		protected var _spellCheckerRules : String;		protected var _spellCheckerDict : String;
+		protected var _spellCheckerRules : String;
+		protected var _spellCheckerDict : String;
 		protected var _spellCheckEnabled : Boolean;
 		
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		protected var _lastMispelledWords : Array;
 		TARGET::FLASH_10
 		protected var _lastMispelledWords : Vector.<Range>;
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		protected var _lastMispelledWords : Vector.<Range>;
 		protected var _mispelledWordsShape : Shape;
 		protected var _lastMispelledWordSuggestions : Array;
@@ -616,7 +597,8 @@ package abe.com.ponents.text
 		
 		public function setSpellCheckerDictionnary ( spellCheckerRules : String, spellCheckerDict : String ) : void
 		{
-			_spellCheckerRules = spellCheckerRules;			_spellCheckerDict = spellCheckerDict;
+			_spellCheckerRules = spellCheckerRules;
+			_spellCheckerDict = spellCheckerDict;
 			SpellCheckManagerInstance.loadDictionary( _spellCheckerRules, _spellCheckerDict, spellCheckLoadingCallback );
 		}
 		
@@ -749,11 +731,11 @@ package abe.com.ponents.text
 			_label.replaceText( r.min, r.max, s );
 			registerValue( );
 			invalidate( );
-			/*FDT_IGNORE*/ FEATURES::MENU_CONTEXT { /*FDT_IGNORE*/
+			FEATURES::MENU_CONTEXT { 
 			_contextMenu.customItems = [];
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 			_label.scrollV = ls;
 		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+		} 
 	}
 }

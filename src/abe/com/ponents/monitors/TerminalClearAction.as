@@ -11,7 +11,6 @@ package  abe.com.ponents.monitors
 	import abe.com.ponents.actions.TerminalAction;
 	import abe.com.ponents.actions.TerminalActionOption;
 
-	import flash.events.Event;
 	/**
 	 * 
 	 */
@@ -39,21 +38,23 @@ package  abe.com.ponents.monitors
 				  	accelerator
 				 );
 		}
-		override public function execute( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			var te : TerminalEvent = e as TerminalEvent;
 			var o : Object = parseOptions( te.options );
 			if( o.length == 0 )
 			{
 				te.terminal.clear();
+				commandEnded.dispatch( this );
 			}
 			else if( o.hasOwnProperty( "--help" ) || o.hasOwnProperty( "-h" ) )
 			{
 				te.terminal.echo( this.formatCommandInfoDetails( this ) );
+				commandEnded.dispatch( this );
 			}
 			else
 			{
-				fireCommandFailed( 	_("Unknown parameters in '$0', type 'clear --help' to display the full command's informations.").replace("$0", te.options ) );
+				commandFailed.dispatch(	this, _("Unknown parameters in '$0', type 'clear --help' to display the full command's informations.").replace("$0", te.options ) );
 			}
 		}
 	}

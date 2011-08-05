@@ -6,7 +6,6 @@ package abe.com.ponents.layouts.components
 	import abe.com.ponents.core.Container;
 	import abe.com.ponents.layouts.Layout;
 
-	import flash.events.IEventDispatcher;
 	/**
 	 * L'interface <code>ComponentLayout</code> définie le type de container
 	 * contenant les éléments à mettre en page.
@@ -17,7 +16,7 @@ package abe.com.ponents.layouts.components
 	 * </p>
 	 * @author Cédric Néhémie
 	 */
-	public interface ComponentLayout extends Layout, IEventDispatcher
+	public interface ComponentLayout extends Layout
 	{
 		/**
 		 * Une référence vers un objet <code>Container</code> contenant 

@@ -60,6 +60,7 @@ package  abe.com.ponents.utils
 		 * <code>Cursor</code> pour l'affichage des curseurs.
 		 */
 		static public var cursorLevel : Sprite;
+		static public var mouseCatcherLevel : Sprite;
 		
 		CONFIG::DEBUG
 		static public var debugLevel : Sprite;
@@ -86,14 +87,17 @@ package  abe.com.ponents.utils
 				
 			mainLevel = new Sprite();
 			mainLevel.name = "mainLevel";
-			
-			popupLevel = new Sprite( );
-			popupLevel.name = "popupLevel";
+            
+            mouseCatcherLevel = new Sprite();
+			mouseCatcherLevel.name = "mouseCatcherLevel";
 			
 			toolLevel = new Sprite();		
 			toolLevel.name = "toolLevel";	
 			toolLevel.mouseEnabled = false;
 			toolLevel.mouseChildren = false;
+
+			popupLevel = new Sprite( );
+			popupLevel.name = "popupLevel";
 			
 			dndLevel = new Sprite( );
 			dndLevel.name = "dndLevel";
@@ -111,6 +115,7 @@ package  abe.com.ponents.utils
 			tooltipLevel.mouseChildren = false;
 			
 			StageUtils.root.addChild( mainLevel );
+			StageUtils.root.addChild( mouseCatcherLevel );
 			StageUtils.root.addChild( popupLevel );
 			StageUtils.root.addChild( dndLevel );
 			StageUtils.root.addChild( toolLevel );
@@ -128,7 +133,7 @@ package  abe.com.ponents.utils
                 debugPanel.visible = visibleDebug;
                 
                 debugLevel.addChild( debugPanel );
-			    StageUtils.root.addChildAt( debugLevel, 3 );
+			    StageUtils.root.addChildAt( debugLevel, 2 );
             }			
 			
 			_initialized = true;

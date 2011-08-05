@@ -5,8 +5,8 @@ package  abe.com.mands
 {
 	import abe.com.mon.core.Runnable;
 
-	import flash.events.Event;
-	import flash.events.IEventDispatcher;
+	import org.osflash.signals.Signal;
+
 	/**
 	 * Encapsule une opération au sein d'un objet. Par simplicité
 	 * on considère toute les commandes comme étant des processus
@@ -19,28 +19,16 @@ package  abe.com.mands
 	 * <code>execute</code>.
 	 * </p>
 	 */
-	public interface Command extends Runnable, IEventDispatcher
+	public interface Command extends Runnable
 	{
 		/**
 		 * Exécute la commande. Le paramètre optionnel peut
 		 * et doit être utilisé en tant que source de donnée
 		 * pour les commandes <i>stateless</i>.
-		 *
-		 * @param	e	un objet <code>Event</code> utilisé
-		 * 				comme source de donnée pour la commande
 		 */
-		function execute ( e : Event = null ) : void;
-		/**
-		 * Notifie les éventuels écouteurs de la commande que
-		 * son opération est terminée.
-		 */
-		function fireCommandEnd() : void;
-		/**
-		 * Notifie les éventuels écouteurs de la commande que
-		 * l'opération à échouée ou a été interrompue.
-		 *
-		 * @param	message	un message permettant d'identifier l'erreur
-		 */
-		function fireCommandFailed( message : String = "" ) : void;
+		function execute( ... args ) : void;
+		
+		function get commandEnded () : Signal;
+		function get commandFailed () : Signal;
 	}
 }

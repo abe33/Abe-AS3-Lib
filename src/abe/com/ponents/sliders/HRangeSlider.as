@@ -7,9 +7,6 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.buttons.ButtonDisplayModes;
 	import abe.com.ponents.core.AbstractContainer;
 	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ButtonEvent;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.forms.FormComponent;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.HBoxLayout;
@@ -19,10 +16,10 @@ package abe.com.ponents.sliders
 	import abe.com.ponents.text.TextInput;
 	import abe.com.ponents.utils.Alignments;
 
-	import flash.events.Event;
-	import flash.events.MouseEvent;
+	import flash.events.*;
+	
+	import org.osflash.signals.Signal;
 
-	[Event(name="dataChange", type="abe.com.ponents.events.ComponentEvent")]
 	[Style(name="inputWidth", type="Number")]
 	[Style(name="buttonSize", type="Number")]
 	[Style(name="trackSize", type="Number")]
@@ -110,6 +107,8 @@ package abe.com.ponents.sliders
 		protected var _pressedX : Number;
 		protected var _pressedY : Number;
 		
+		protected var _dataChanged : Signal;
+		
 		public function HRangeSlider ( model : BoundedRangeModel, 
 									   majorTickSpacing : Number = 10, 
 									   minorTickSpacing : Number = 5, 
@@ -120,6 +119,7 @@ package abe.com.ponents.sliders
 									   postComp : Component = null )
 		{
 			super();
+			_dataChanged = new Signal();
 			_childrenContextEnabled = false;
 			_minorTickSpacing = minorTickSpacing;
 			_majorTickSpacing = majorTickSpacing;
@@ -135,6 +135,7 @@ package abe.com.ponents.sliders
 			
 			this.model = model; 
 		}
+		public function get dataChanged() : Signal { return _dataChanged; }
 /*----------------------------------------------------------------------------------*
  * 	GETTER/SETTERS
  *----------------------------------------------------------------------------------*/
@@ -145,13 +146,13 @@ package abe.com.ponents.sliders
 				return;
 			
 			if( _model )
-				_model.removeEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
+				_model.dataChanged.remove( modelDataChanged );
 			
 			_model = model;
 			if( _model )
 			{
-				_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
-				dataChanged(null);
+				_model.dataChanged.add( modelDataChanged );
+				modelDataChanged( _model, _model.value );
 			}
 		}
 		public function get inputLeft () : TextInput { return _inputLeft; }
@@ -443,9 +444,9 @@ package abe.com.ponents.sliders
 /*----------------------------------------------------------------------------------*
  * 	EVENTS
  *----------------------------------------------------------------------------------*/		
-		override protected function stylePropertyChanged (event : PropertyEvent) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( event.propertyName )
+			switch( propertyName )
 			{
 				case "icon" :
 					_knobLeft.icon = _style.icon.clone();
@@ -453,13 +454,13 @@ package abe.com.ponents.sliders
 					invalidatePreferredSizeCache();
 					break;
 				case "buttonSize" :
-					_knobLeft.preferredWidth = event.propertyValue;
-					_knobRight.preferredWidth = event.propertyValue;
+					_knobLeft.preferredWidth = propertyValue;
+					_knobRight.preferredWidth = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "inputWidth" :
-					_inputLeft.preferredWidth = event.propertyValue;
-					_inputRight.preferredWidth = event.propertyValue;
+					_inputLeft.preferredWidth = propertyValue;
+					_inputRight.preferredWidth = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "tickSize" : 
@@ -467,15 +468,15 @@ package abe.com.ponents.sliders
 					invalidate();
 					break;
 				case "tickColor" : 
-					_tickColor = event.propertyValue;
+					_tickColor = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				case "trackSize" : 
-					(_childrenLayout as HBoxLayout).boxes[2].size = event.propertyValue;
+					(_childrenLayout as HBoxLayout).boxes[2].size = propertyValue;
 					invalidatePreferredSizeCache();
 					break;
 				default : 
-					super.stylePropertyChanged( event );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}
@@ -483,49 +484,38 @@ package abe.com.ponents.sliders
 		{
 			super.registerToOnStageEvents( );
 			
-			_knobLeft.addWeakEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knobLeft.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knobLeft.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_knobLeft.mousePressed.add( dragStart );
+			_knobLeft.mouseReleased.add( dragEnd );
+			_knobLeft.mouseReleasedOutside.add( dragEnd );
 			
-			_knobRight.addWeakEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knobRight.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knobRight.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
-			/*
-			_track.addWeakEventListener( MouseEvent.MOUSE_DOWN, trackDragStart );
-			_track.addWeakEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_track.addWeakEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );	*/
+			_knobRight.mousePressed.add( dragStart );
+			_knobRight.mouseReleased.add( dragEnd );
+			_knobRight.mouseReleasedOutside.add( dragEnd );
 			
-			_inputLeft.addWeakEventListener( MouseEvent.MOUSE_WHEEL, leftMouseWheel );
-			_inputRight.addWeakEventListener( MouseEvent.MOUSE_WHEEL, rightMouseWheel );
+			_inputLeft.mouseWheelRolled.add( leftMouseWheel );
+			_inputRight.mouseWheelRolled.add( rightMouseWheel );
 		}
 
 		override protected function unregisterFromOnStageEvents () : void 
 		{
 			super.unregisterFromOnStageEvents( );
 			
-			_knobLeft.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knobLeft.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knobLeft.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_knobLeft.mousePressed.remove( dragStart );
+			_knobLeft.mouseReleased.remove( dragEnd );
+			_knobLeft.mouseReleasedOutside.remove( dragEnd );
 			
-			_knobRight.removeEventListener( MouseEvent.MOUSE_DOWN, dragStart );
-			_knobRight.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_knobRight.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );
+			_knobRight.mousePressed.remove( dragStart );
+			_knobRight.mouseReleased.remove( dragEnd );
+			_knobRight.mouseReleasedOutside.remove( dragEnd );
 			
-			/*
-			_track.removeEventListener( MouseEvent.MOUSE_DOWN, trackDragStart );
-			_track.removeEventListener( MouseEvent.MOUSE_UP, dragEnd );
-			_track.removeEventListener( ButtonEvent.BUTTON_RELEASE_OUTSIDE, dragEnd );*/	
-			
-			_inputLeft.removeEventListener( MouseEvent.MOUSE_WHEEL, leftMouseWheel );
-			_inputRight.removeEventListener( MouseEvent.MOUSE_WHEEL, rightMouseWheel );
-			
-			//removeEventListener( MouseEvent.MOUSE_WHEEL, mouseWheel );
+			_inputLeft.mouseWheelRolled.remove( leftMouseWheel );
+			_inputRight.mouseWheelRolled.remove( rightMouseWheel );
 		}
-		protected function dragStart ( e : MouseEvent ) : void
+		protected function dragStart ( c : Component ) : void
 		{
 			if( _enabled )
 			{
-				_dragTarget = e.target as Button;
+				_dragTarget = c as Button;
 				_dragging = true;
 				_pressedX = 0;
 				_pressedY = 0;
@@ -534,14 +524,14 @@ package abe.com.ponents.sliders
 					stage.addEventListener( MouseEvent.MOUSE_MOVE, drag );
 			}
 		}
-		protected function dragEnd ( e : Event ) : void
+		protected function dragEnd (  c : Component ) : void
 		{
 			drag ( null );
 			_dragging = false;
 			if( stage )
 				stage.removeEventListener( MouseEvent.MOUSE_MOVE, drag );
 		}
-		protected function drag ( e : MouseEvent ) : void
+		protected function drag ( e : Event  ) : void
 		{
 			if( _dragging )
 			{
@@ -552,40 +542,37 @@ package abe.com.ponents.sliders
 					updateExtent( v );
 			}
 		}
-		protected function leftMouseWheel ( e : MouseEvent ) : void
+		protected function leftMouseWheel ( c : Component, delta : Number ) : void
 		{
-			e.stopPropagation();
 			if( _enabled )
 			{
-				if( e.delta > 0 )
+				if( delta > 0 )
 					upLeft();
 				else
 					downLeft();
 			}
-			
 		}
-		protected function rightMouseWheel ( e : MouseEvent ) : void
+		protected function rightMouseWheel ( c : Component, delta : Number ) : void
 		{
-			e.stopPropagation();
 			if( _enabled )
 			{
-				if( e.delta > 0 )
+				if( delta > 0 )
 					upRight();
 				else
 					downRight();
 			}
 		}
-		protected function dataChanged (event : ComponentEvent) : void 
+		protected function modelDataChanged ( model : BoundedRangeModel, v : * ) : void 
 		{
 			_inputLeft.value = _model.displayValue;
 			_inputRight.value = ( _model as RangeBoundedRangeModel ).displayRangeMax;
 			invalidate( true );
 			
-			fireDataChange();
+			fireDataChangedSignal();
 		}
-		protected function fireDataChange () : void 
+		protected function fireDataChangedSignal () : void 
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, value );
 		}
 	}
 }

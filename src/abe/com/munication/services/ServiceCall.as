@@ -9,30 +9,35 @@ package abe.com.munication.services
 	import abe.com.patibility.lang._;
 	import abe.com.patibility.lang._$;
 
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
+	import org.osflash.signals.Signal;
+
 	import flash.net.NetConnection;
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
-
-	[Event(name="serviceResult", type="abe.com.munication.services.ServiceEvent")]
-	[Event(name="serviceError", type="abe.com.munication.services.ServiceEvent")]	[Event(name="serviceCallStart", type="abe.com.munication.services.ServiceEvent")]
 	/**
 	 * @author Cédric Néhémie
 	 */
 	public class ServiceCall extends AbstractCommand
 	{
-		static public const globalDispatcher : EventDispatcher = new EventDispatcher();
-
+		static public var anyServiceResponded : Signal = new Signal();
+		static public var anyServiceErrorOccured : Signal = new Signal();
+		static public var anyServiceCallStarted : Signal = new Signal();
+		
 		static public var timeout : int = -1;
-
+		
+		public var serviceResponded : Signal;
+		public var serviceErrorOccured : Signal;
+		public var serviceCallStarted : Signal;
+		
 		protected var _method : String;
-		protected var _service : Service;		protected var _serviceName : String;
+		protected var _service : Service;
+		protected var _serviceName : String;
 		protected var _connection : NetConnection;
 		protected var _args : Array;
 		protected var _timeout : int;
 		
-		protected var _resultListener : Function;		protected var _errorListener : Function;
+		protected var _resultListener : Function;
+		protected var _errorListener : Function;
 
 		public function ServiceCall ( method : String,
 									  serviceName : String,
@@ -46,10 +51,14 @@ package abe.com.munication.services
 			_connection = connection;
 			_serviceName = serviceName;
 
-			_resultListener = resultListener
+			_resultListener = resultListener;
 			_errorListener = errorListener;
 
 			_args = args;
+			
+			serviceResponded = new Signal();
+			serviceErrorOccured = new Signal();
+			serviceCallStarted = new Signal();
 		}
 		public function get args () : Array { return _args; }
 		public function set args (args : Array) : void
@@ -74,82 +83,83 @@ package abe.com.munication.services
 		{
 			_method = method;
 		}
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
-			/*FDT_IGNORE*/ CONFIG::WITH_DISTANT_SERVER { /*FDT_IGNORE*/
+			CONFIG::WITH_DISTANT_SERVER { 
 				_service = ServiceFactory.get( _serviceName, _connection);
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
-			/*FDT_IGNORE*/ CONFIG::WITH_LOCAL_SERVER { /*FDT_IGNORE*/
+			CONFIG::WITH_LOCAL_SERVER { 
 				_service = ServiceFactory.get( _serviceName, _connection);
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
-			/*FDT_IGNORE*/ CONFIG::WITHOUT_SERVER { /*FDT_IGNORE*/
+			CONFIG::WITHOUT_SERVER { 
 				_service = ShadowServiceFactory.get( _serviceName );
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 
 			if( _service )
 			{
-				registerToServiceEvents();
+				registerToServiceSignals();
 
-				/*FDT_IGNORE*/ CONFIG::WITH_DISTANT_SERVER { /*FDT_IGNORE*/
+				CONFIG::WITH_DISTANT_SERVER { 
 					(_service[_method] as Function).apply(null,_args);
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 
-				/*FDT_IGNORE*/ CONFIG::WITH_LOCAL_SERVER { /*FDT_IGNORE*/
+				CONFIG::WITH_LOCAL_SERVER { 
 					(_service[_method] as Function).apply(null,_args);
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 
-				/*FDT_IGNORE*/ CONFIG::WITHOUT_SERVER { /*FDT_IGNORE*/
+				CONFIG::WITHOUT_SERVER { 
 					setTimeout.apply(null, [_service[_method] as Function, RandomUtils.rangeAB(250, 750) ].concat( _args ) );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				} 
 
-				dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_CALL_START, null ) );				globalDispatcher.dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_CALL_START, null ) );
+				serviceCallStarted.dispatch( this );
+				anyServiceCallStarted.dispatch( this );
 
 				if( timeout != -1 )
 					_timeout = setTimeout( callTimeout, timeout );
 			}
 			else
-				fireCommandFailed(_("Can't realize the call cause the service don't exist or can't be retreived." ) );
+				_commandFailed.dispatch( this, _( "Can't realize the call cause the service don't exist or can't be retreived." ) );
 		}
 
-		protected function serviceResult( e : ServiceEvent ):void
+		protected function serviceResult( res : * ):void
 		{
 			clearTimeout(_timeout);
-			var res : * = e.results;
-			
 			try
 			{
 				if( ServiceMiddlewares.length > 0 )
 					res = processMiddlewaresResults( res, ServiceMiddlewares );
 					
-				dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_RESULT, res ) );				globalDispatcher.dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_RESULT, res ) );
-				fireCommandEnd();
-				unregisterFromServiceEvents();
+				serviceResponded.dispatch( res );
+				anyServiceResponded.dispatch( res );
+				_commandEnded.dispatch( this );
+				unregisterFromServiceSignals();
 			}
 			catch( e : Error )
 			{
-				unregisterFromServiceEvents();
+				unregisterFromServiceSignals();
 				throw e;
 			}
 		}
-		protected function serviceError(e : ServiceEvent):void
+		protected function serviceError( e : * ):void
 		{
 			clearTimeout(_timeout);
 			try
 			{
 				if( ServiceMiddlewares.length > 0 )
-					processMiddlewaresException( e.results, ServiceMiddlewares );
+					processMiddlewaresException( e, ServiceMiddlewares );
 				
-				var errorMsg : String = _$(_("$0\nError Code:$1"), e.results.description, e.results.code );
-				dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_ERROR, errorMsg ) );				globalDispatcher.dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_ERROR, errorMsg ) );
-				fireCommandEnd();
-				unregisterFromServiceEvents();
+				var errorMsg : String = _$(_("$0\nError Code:$1"), e.description, e.code );
+				serviceErrorOccured.dispatch( errorMsg );
+				anyServiceErrorOccured.dispatch( errorMsg );
+				commandFailed.dispatch( errorMsg );
+				unregisterFromServiceSignals();
 			}
-			catch( e : Error )
+			catch( ee : Error )
 			{
-				unregisterFromServiceEvents();
-				throw e;
+				unregisterFromServiceSignals();
+				throw ee;
 			}
 		}
 		protected function callTimeout () : void
@@ -161,10 +171,10 @@ package abe.com.munication.services
 										_args.join(","),
 										timeout );
 
-			dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_ERROR, errorMsg ) );
-			globalDispatcher.dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_ERROR, errorMsg ) );
-			fireCommandEnd();
-			unregisterFromServiceEvents();
+			serviceErrorOccured.dispatch( errorMsg );
+			anyServiceErrorOccured.dispatch( errorMsg );
+			commandFailed.dispatch( errorMsg );
+			unregisterFromServiceSignals();
 		}
 		protected function processMiddlewaresResults( res : *, middlewares : Array ) : *
 		{
@@ -182,25 +192,25 @@ package abe.com.munication.services
 			for( var i : uint = 0; i <l ; i++)
 				( middlewares[i] as ServiceMiddleware ).processException(error);
 		}
-		protected function registerToServiceEvents () : void
+		protected function registerToServiceSignals () : void
 		{
 			if( _resultListener != null )
-				addEventListener( ServiceEvent.SERVICE_RESULT, _resultListener );
+				serviceResponded.add( _resultListener );
 			if( _errorListener != null )
-				addEventListener( ServiceEvent.SERVICE_ERROR, _errorListener );	
+				serviceResponded.add( _errorListener );	
 			
-			_service.addEventListener(ServiceEvent.SERVICE_RESULT, serviceResult, false, 0, true );
-			_service.addEventListener(ServiceEvent.SERVICE_ERROR, serviceError, false, 0, true );
+			_service.serviceResponded.add( serviceResult );
+			_service.serviceErrorOccured.add( serviceError );
 		}
-		protected function unregisterFromServiceEvents () : void
+		protected function unregisterFromServiceSignals () : void
 		{
 			if( _resultListener != null )
-				removeEventListener( ServiceEvent.SERVICE_RESULT, _resultListener );
+				serviceResponded.remove( _resultListener );
 			if( _errorListener != null )
-				removeEventListener( ServiceEvent.SERVICE_ERROR, _errorListener );	
+				serviceResponded.remove( _errorListener );	
 				
-			_service.removeEventListener(ServiceEvent.SERVICE_RESULT, serviceResult );
-			_service.removeEventListener(ServiceEvent.SERVICE_ERROR, serviceError );
+			_service.serviceResponded.remove( serviceResult );
+			_service.serviceErrorOccured.remove( serviceError );
 		}
 	}
 }

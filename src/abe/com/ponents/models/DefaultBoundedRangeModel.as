@@ -2,29 +2,32 @@ package abe.com.ponents.models
 {
 	import abe.com.mon.utils.MathUtils;
 	import abe.com.mon.utils.StringUtils;
-	import abe.com.ponents.events.ComponentEvent;
 
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-
+    import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
-	[Event(name="dataChange",type="abe.com.ponents.events.ComponentEvent")]
-	public class DefaultBoundedRangeModel extends EventDispatcher implements BoundedRangeModel 
+	public class DefaultBoundedRangeModel implements BoundedRangeModel 
 	{
-		protected var _value : Number;		protected var _minimum : Number;		protected var _maximum : Number;		protected var _extent : Number;
+		protected var _value : Number;
+		protected var _minimum : Number;
+		protected var _maximum : Number;
+		protected var _extent : Number;
 		protected var _formatFunction : Function;
+		
+		protected var _dataChanged : Signal;
 
 		public function DefaultBoundedRangeModel ( value : Number = 0, min : Number = 0, max : Number = 100, extent : Number = 1 )
 		{
+			_dataChanged = new Signal();
+			
 			_minimum = !isNaN(min) ? min : 0;
 			_maximum = !isNaN(max) ? max : 100;
 			_extent = !isNaN(extent) ? extent : 1;
 			_formatFunction = format;
 			this.value = !isNaN(value) ? value : 0;
 		}
-
+        public function get dataChanged() : Signal { return _dataChanged; }
 		public function get displayValue () : String { return _formatFunction( _value ); }
 		public function get value () : Number { return _value; }		
 		public function set value (value : Number) : void
@@ -33,10 +36,9 @@ package abe.com.ponents.models
 			if( v != _value )
 			{
 				_value = v;
-				fireDataChange();
+				fireDataChangedSignal();
 			}
 		}
-		
 		public function get minimum () : Number { return _minimum; }		
 		public function set minimum (minimum : Number) : void
 		{
@@ -46,7 +48,6 @@ package abe.com.ponents.models
 				value = value;
 			}
 		}
-		
 		public function get maximum () : Number { return _maximum; }		
 		public function set maximum (maximum : Number) : void
 		{
@@ -56,33 +57,23 @@ package abe.com.ponents.models
 				value = value;
 			}
 		}
-		
 		public function get extent () : Number { return _extent; }		
 		public function set extent (extent : Number) : void
 		{
 			if( _extent != extent )
 			{
 				_extent = extent;
-				fireDataChange();
+				fireDataChangedSignal();
 			}
 		}
-		
 		public function get formatFunction () : Function { return _formatFunction; }		
 		public function set formatFunction (formatFunction : Function) : void
 		{
 			_formatFunction = formatFunction;
 		}
-		
-		protected function fireDataChange () : void
+		protected function fireDataChangedSignal () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
-		}
-		
-		override public function dispatchEvent( evt : Event) : Boolean 
-		{
-		 	if (hasEventListener(evt.type) || evt.bubbles) 
-		  		return super.dispatchEvent(evt);
-		 	return true;
+			_dataChanged.dispatch( this, value );
 		}
 		protected function format( v : Number ) : String
 		{
@@ -104,14 +95,12 @@ package abe.com.ponents.models
 				return sv + "." + StringUtils.fill( "", 2 );
 			}
 
-			return null;	
+			return null;
 		}
-
-		override public function toString () : String
+		public function toString () : String
 		{
 			return StringUtils.stringify(this, {'min':_minimum,'max':_maximum,'value':_value});
 		}
-		
 		public function get valuePositionInRange () : Number
 		{
 			return MathUtils.map(_value, _minimum, _maximum, 0, 1);

@@ -15,7 +15,7 @@ package abe.com.edia.text.fx.show
 		}
 		override public function init () : void
 		{
-			chars.sort( RandomUtils.randomSort );
+			chars.sort( RandomUtils.randomSort);
 			super.init( );
 		}
 	}

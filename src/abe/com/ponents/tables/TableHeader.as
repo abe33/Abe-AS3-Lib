@@ -5,23 +5,24 @@ package abe.com.ponents.tables
 	import abe.com.ponents.containers.DropPanel;
 	import abe.com.ponents.containers.ScrollPane;
 	import abe.com.ponents.containers.Viewport;
+	import abe.com.ponents.events.ComponentEvent;
 	import abe.com.ponents.core.Component;
 	import abe.com.ponents.core.Container;
-	import abe.com.ponents.dnd.DropEvent;
-	import abe.com.ponents.dnd.DropTargetDragEvent;
-	import abe.com.ponents.events.ComponentEvent;
+	import abe.com.ponents.dnd.*;
 	import abe.com.ponents.layouts.components.BoxSettings;
 	import abe.com.ponents.layouts.components.HBoxLayout;
 	import abe.com.ponents.models.DefaultListModel;
 	import abe.com.ponents.models.ListModel;
 	import abe.com.ponents.skinning.decorations.GradientFill;
-	import abe.com.ponents.transfer.ComponentsFlavors;
+	import abe.com.ponents.transfer.*;
 
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.utils.clearInterval;
 	import flash.utils.setInterval;
+
+    import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie
@@ -36,7 +37,8 @@ package abe.com.ponents.tables
 	{
 		static private var SKIN_DEPENDENCIES : Array = [GradientFill];
 
-		static public const COLUMN_RESIZE : String = "columnResize";		static public const COLUMN_SORT : String = "columnSort";
+		static public const COLUMN_RESIZE : String = "columnResize";
+		static public const COLUMN_SORT : String = "columnSort";
 
 		protected var _table : Table;
 		protected var _headerResizers : Array;
@@ -47,19 +49,24 @@ package abe.com.ponents.tables
 
 		protected var _resizerContainer : Sprite;
 		protected var _oldSize : Number;
+		
+		protected var _dataChanged : Signal;
 
 		public function TableHeader ()
 		{
+		    _dataChanged = new Signal();
 			_childrenLayout = new HBoxLayout( this, 0 );
 			_allowFocus = false;
 			_model = new DefaultListModel();
 			_resizerContainer = new Sprite();
 			_headerResizers = [];
-			_model.addEventListener( ComponentEvent.DATA_CHANGE, dataChanged );
-			_childrenLayout.addEventListener( ComponentEvent.LAYOUT, headerLayout );
+			_model.dataChanged.add( modelDataChanged );
+			( _childrenLayout as HBoxLayout ).layoutDone.add( headerLayoutDone );
 			super();
 			addChildAt( _resizerContainer, numChildren-1 );
 		}
+		
+		public function get dataChanged () : Signal { return _dataChanged; }
 
 		public function get table () : Table { return _table; }
 
@@ -83,13 +90,13 @@ package abe.com.ponents.tables
 
 		protected function registerToTableListEvents (table : Table) : void
 		{
-			table.addEventListener( ComponentEvent.COMPONENT_RESIZE, resize );
+			table.componentResized.add( tableResized );
 		}
 		protected function unregisterFromTableListEvents (table : Table) : void
 		{
-			table.removeEventListener( ComponentEvent.COMPONENT_RESIZE, resize );
+			table.componentResized.remove( tableResized );
 		}
-		protected function resize (event : Event) : void
+		protected function tableResized ( t : Table, d : Dimension ) : void
 		{
 			invalidatePreferredSizeCache();
 		}
@@ -114,7 +121,7 @@ package abe.com.ponents.tables
 			for each( var c : TableColumn in columns )
 				_model.addElement( c );
 			_locked = false;
-			dataChanged(null);
+			modelDataChanged();
 		}
 
 		public function getColumnIndex( column : TableColumn ) : Number
@@ -138,7 +145,7 @@ package abe.com.ponents.tables
 		{
 			_oldSize = _model.size;
 			column.column.finalSize = max;
-			dataChanged(null);
+			modelDataChanged();
 		}
 
 		public function removeColumn ( col : TableColumn ) : void
@@ -158,7 +165,7 @@ package abe.com.ponents.tables
 			for each( var column : TableColumn in columns )
 				_model.removeElement(column );
 			_locked = false;
-			dataChanged(null);
+			modelDataChanged();
 		}
 
 		override public function invalidatePreferredSizeCache () : void
@@ -182,11 +189,11 @@ package abe.com.ponents.tables
 				var l : Number = Math.max( l1, l2 );
 				var i : Number;
 				
-				/*FDT_IGNORE*/
+				
 				TARGET::FLASH_9 { var a : Array = []; }
 				TARGET::FLASH_10 { var a : Vector.<Component> = new Vector.<Component>(); }
-				TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-				var a : Vector.<Component> = new Vector.<Component>(); /*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				TARGET::FLASH_10_1 { 
+				var a : Vector.<Component> = new Vector.<Component>(); } 
 				
 				var b : Array = [];
 				var item : TableColumnHeader;
@@ -229,7 +236,8 @@ package abe.com.ponents.tables
 					{
 						removeComponent( item );
 						_resizerContainer.removeChild( resizer );
-						AllocatorInstance.release( item );						AllocatorInstance.release( resizer );
+						AllocatorInstance.release( item );
+						AllocatorInstance.release( resizer );
 					}
 				}
 				_children = a;
@@ -243,7 +251,7 @@ package abe.com.ponents.tables
 			var column : TableColumn;
 			var item : TableColumnHeader;
 
-			for(i=0;i<l;i++)
+			for(i=0;i< l;i++)
 			{
 				item = _children[i] as TableColumnHeader;
 				column = _model.getElementAt( i ) as TableColumn;
@@ -260,13 +268,13 @@ package abe.com.ponents.tables
 			var item : TableColumnHeader;
 			var cl : HBoxLayout = _childrenLayout as HBoxLayout;
 			
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 { cl.boxes = []; }
 			TARGET::FLASH_10 { cl.boxes = new Vector.<BoxSettings>(); }
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			cl.boxes = new Vector.<BoxSettings>();	/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { 
+			cl.boxes = new Vector.<BoxSettings>();	} 
 
-			for(i=0;i<l;i++)
+			for(i=0;i< l;i++)
 			{
 				column = _model.getElementAt(i) as TableColumn;
 				item = _children[i] as TableColumnHeader;
@@ -285,10 +293,10 @@ package abe.com.ponents.tables
 																	   enabled:_enabled } ) as TableColumnHeader;
 			return item;
 		}
-		protected function headerLayout (event : ComponentEvent) : void
+		protected function headerLayoutDone ( ... args ) : void
 		{
 			var l : Number = _headerResizers.length;
-			for(var i : Number = 0; i<l;i++)
+			for(var i : Number = 0; i< l;i++)
 			{
 				var column : TableColumnHeader = _children[i] as TableColumnHeader;
 				var resizer : ColumnHeaderResizer = _headerResizers[i] as ColumnHeaderResizer;
@@ -300,7 +308,7 @@ package abe.com.ponents.tables
 			}
 		}
 
-		protected function dataChanged (event : ComponentEvent) : void
+		protected function modelDataChanged ( action : uint=0, indices :Array = null, values : Array = null) : void
 		{
 			if( !_locked )
 			{
@@ -309,80 +317,80 @@ package abe.com.ponents.tables
 
 				updateColumns();
 				invalidatePreferredSizeCache();
-				fireDataChange();
+				fireDataChangedSignal();
 			}
 		}
-		protected function fireDataChange () : void
+		protected function fireDataChangedSignal () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE ) );
+			_dataChanged.dispatch( this, _model );
 		}
-		/*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/
-		override public function get supportedFlavors () : Array
-		{
-			return [ ComponentsFlavors.TABLE_COLUMN ];
-		}
-		override public function dragEnter (e : DropTargetDragEvent) : void
-		{
-			_scrollDuringDragTimeout = setInterval( scrollDuringDrag, 250 );
-			if( _enabled && ComponentsFlavors.TABLE_COLUMN.isSupported( e.flavors ) && containsComponent( e.source as Component ) )
-				e.acceptDrag( this );
-			else
-				e.rejectDrag( this );
-		}
-		override public function dragOver ( e : DropTargetDragEvent ) : void
-		{
-			_dropStatusShape.graphics.clear();
-			var lc : Component = getComponentUnderPoint ( new Point( this.stage.mouseX,
-										   			 				this.stage.mouseY ) );
-			if( lc )
-			{
-				if( lc.mouseX > lc.width / 2 )
-					drawDropRight( lc );
-				else
-					drawDropLeft( lc );
-			}
-		}
-		override public function dragExit (e : DropTargetDragEvent) : void
-		{
-			clearInterval( _scrollDuringDragTimeout );
-			_dropStatusShape.graphics.clear();
-		}
+		FEATURES::DND { 
+		    override public function get supportedFlavors () : Array
+		    {
+			    return [ ComponentsFlavors.TABLE_COLUMN ];
+		    }
+		    override public function dragEnter ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
+		    {
+			    _scrollDuringDragTimeout = setInterval( scrollDuringDrag, 250 );
+			    if( _enabled && ComponentsFlavors.TABLE_COLUMN.isSupported( transferable.flavors ) && containsComponent( source as Component ) )
+				    manager.acceptDrag( this );
+			    else
+				    manager.rejectDrag( this );
+		    }
+		    override public function dragOver ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
+		    {
+			    _dropStatusShape.graphics.clear();
+			    var lc : Component = getComponentUnderPoint ( new Point( this.stage.mouseX,
+										       			 				this.stage.mouseY ) );
+			    if( lc )
+			    {
+				    if( lc.mouseX > lc.width / 2 )
+					    drawDropRight( lc );
+				    else
+					    drawDropLeft( lc );
+			    }
+		    }
+		    override public function dragExit ( manager : DnDManager, transferable : Transferable, source : DragSource ) : void
+		    {
+			    clearInterval( _scrollDuringDragTimeout );
+			    _dropStatusShape.graphics.clear();
+		    }
 
-		override public function drop (e : DropEvent) : void
-		{
-			clearInterval( _scrollDuringDragTimeout );
-			_dropStatusShape.graphics.clear();
+		    override public function drop ( manager : DnDManager, transferable : Transferable ) : void
+		    {
+			    clearInterval( _scrollDuringDragTimeout );
+			    _dropStatusShape.graphics.clear();
 
-			var d : TableColumn = e.transferable.getData( ComponentsFlavors.TABLE_COLUMN ) as TableColumn;
-			var lc : Component = getComponentUnderPoint ( new Point( this.stage.mouseX,
-										   			 				this.stage.mouseY ) );
-			if( lc )
-			{
-				var index : int = _children.indexOf( lc );
+			    var d : TableColumn = transferable.getData( ComponentsFlavors.TABLE_COLUMN ) as TableColumn;
+			    var lc : Component = getComponentUnderPoint ( new Point( this.stage.mouseX,
+										       			 				this.stage.mouseY ) );
+			    if( lc )
+			    {
+				    var index : int = _children.indexOf( lc );
 
-				if( mouseX > lc.x + lc.width / 2)
-					index++;
+				    if( mouseX > lc.x + lc.width / 2)
+					    index++;
 
-				setColumnIndex( d, index );
-			}
-		}
-		protected function scrollDuringDrag () : void
-		{
-			var c : Container = parentContainer;
-			if( c is Viewport )
-			{
-				var vp : Viewport = c as Viewport;
-				var scb : ScrollPane = vp.parentContainer as ScrollPane;
+				    setColumnIndex( d, index );
+			    }
+		    }
+		    protected function scrollDuringDrag () : void
+		    {
+			    var c : Container = parentContainer;
+			    if( c is Viewport )
+			    {
+				    var vp : Viewport = c as Viewport;
+				    var scb : ScrollPane = vp.parentContainer as ScrollPane;
 
-				if( scb.vscrollbar.canScroll )
-				{
-					if( mouseX < scb.hscrollbar.scroll + 16 )
-						scb.scrollLeft();
-					else if( mouseX > scb.hscrollbar.scroll + vp.width - 16 )
-						scb.scrollRight();
-				}
-			}
-		}
-		/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				    if( scb.vscrollbar.canScroll )
+				    {
+					    if( mouseX < scb.hscrollbar.scroll + 16 )
+						    scb.scrollLeft();
+					    else if( mouseX > scb.hscrollbar.scroll + vp.width - 16 )
+						    scb.scrollRight();
+				    }
+			    }
+		    }
+		} 
 	}
 }

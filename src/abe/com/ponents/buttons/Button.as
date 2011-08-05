@@ -11,20 +11,19 @@ package abe.com.ponents.buttons
 	import abe.com.ponents.core.focus.Focusable;
 	import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.events.IEventDispatcher;
 	/**
 	 * La classe <code>Button</code> étend <code>AbstractButton</code> afin de fournir une
 	 * implémentation concrète de base d'un bouton.
 	 * 
 	 * @author Cédric Néhémie
 	 */
+	[Skinable(skin="Button")]
 	public class Button extends AbstractButton  implements IDisplayObject, 
 															 IInteractiveObject, 
 															 IDisplayObjectContainer, 
 															 Component, 
 															 Focusable,
-													 		 LayeredSprite, 
-													 		 IEventDispatcher
+													 		 LayeredSprite
 	{
 		/**
 		 * Constructeur de la classe <code>Button</code>.

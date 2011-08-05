@@ -3,11 +3,10 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mands.events.CommandEvent;
+
 	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.core.Runnable;
 
-	import flash.events.Event;
 	/**
 	 * Implémentation de base de l'interface <code>MacroCommand</code>. En règle
 	 * générale, il suffit d'étendre <code>AbstractMacroCommand</code> et de réécrire
@@ -25,9 +24,13 @@ package  abe.com.mands
 		 */
 		/*FDT_IGNORE*/
 		TARGET::FLASH_9
-		protected var _aCommands : Array;		
-		TARGET::FLASH_10		protected var _aCommands : Vector.<Command>;		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/		protected var _aCommands : Vector.<Command>;
+		protected var _aCommands : Array;
+		
+		TARGET::FLASH_10
+		protected var _aCommands : Vector.<Command>;
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		protected var _aCommands : Vector.<Command>;
 		
 		/**
 		 * Instancier une <code>AbstractCommand</code> est possible mais
@@ -43,9 +46,11 @@ package  abe.com.mands
 				_aCommands = [];
 			}
 			
-			TARGET::FLASH_10 {				_aCommands = new Vector.<Command>();
+			TARGET::FLASH_10 {
+				_aCommands = new Vector.<Command>();
 			}
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/			_aCommands = new Vector.<Command>();
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_aCommands = new Vector.<Command>();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		
@@ -88,7 +93,8 @@ package  abe.com.mands
 				b = addCommand( c ) || b;
 			
 			return b;
-		}		TARGET::FLASH_10
+		}
+		TARGET::FLASH_10
 		public function addCommandsVector ( commands : Vector.<Command> ) : Boolean
 		{
 			var b : Boolean = false;
@@ -97,7 +103,8 @@ package  abe.com.mands
 			
 			return b;
 		}
-				TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		
+		TARGET::FLASH_10_1 /*FDT_IGNORE*/
 		public function addCommandsVector ( commands : Vector.<Command> ) : Boolean
 		{
 			var b : Boolean = false;
@@ -149,14 +156,18 @@ package  abe.com.mands
 				var c : Command = _aCommands[ i ];
 				if( c )
 				{
-					unregisterToCommandEvents( c );
+					unregisterToCommandSignals( c );
 				}
 			}
 			/*FDT_IGNORE*/
 			TARGET::FLASH_9 {
-			_aCommands = [];			}
-			TARGET::FLASH_10 {			_aCommands = new Vector.<Command>();			}
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/			_aCommands = new Vector.<Command>();
+			_aCommands = [];
+			}
+			TARGET::FLASH_10 {
+			_aCommands = new Vector.<Command>();
+			}
+			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			_aCommands = new Vector.<Command>();
 			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 		}
 		
@@ -164,20 +175,20 @@ package  abe.com.mands
 		 * Réécrivez cette méthode pour définir le comportement de votre 
 		 * classe lors de la fin d'éxécution d'une sous-commande. 
 		 */
-		protected function commandEnd ( e : Event ) : void	{}
+		protected function onCommandEnded ( command : Command ) : void	{}
 		
 		/**
 		 * Réécrivez cette méthode pour définir le comportement de votre 
 		 * classe lors d'un échec d'éxécution d'une sous-commande. 
 		 */
-		protected function commandFailed ( e : Event ) : void {}
+		protected function onCommandFailed ( command : Command, s : String ) : void {}
 		
 		/**
 		 * Réécrivez cette méthode pour définir le comportement de votre 
 		 * classe lors d'une annulation d'éxécution d'une commande implémentant
 		 * <code>Cancelable</code>. 
 		 */
-		protected function commandCancelled ( e : Event ) : void {}
+		protected function onCommandCancelled ( command : Command ) : void {}
 		
 		/**
 		 * Enregistre l'instance courante comme écouteur pour les évènements
@@ -185,26 +196,15 @@ package  abe.com.mands
 		 * <p>
 		 * La fonction s'enregistre pour les évènements suivant : 
 		 * </p>
-		 * <ul>
-		 * <li><code>CommandEvent.COMMAND_END</code> : 
-		 * la fonction réceptrice est <code>commandEnd</code></li>
-		 * <li><code>CommandEvent.COMMAND_FAIL</code> : 
-		 * la fonction réceptrice est <code>commandFailed</code></li>
-		 * <li><code>CommandEvent.COMMAND_CANCEL</code> : 
-		 * la fonction réceptrice est <code>commandCancelled</code>.
-		 * <p>
-		 * Cet évènement est écouté uniquement si <code>c</code> implémente
-		 * l'interface <code>Cancelable</code>.</p>
-		 * </li></ul>
 		 * @param	c	commande à laquelle on souhaite s'enregistrer
 		 */
-		protected function registerToCommandEvents ( c : Command ) : void
+		protected function registerToCommandSignals ( c : Command ) : void
 		{
-			c.addEventListener( CommandEvent.COMMAND_END, commandEnd );
-			c.addEventListener( CommandEvent.COMMAND_FAIL, commandFailed );
+			c.commandEnded.add( onCommandEnded );
+			c.commandFailed.add( onCommandFailed );
 			
 			if( c is Cancelable )
-				c.addEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+				( c as Cancelable).commandCancelled.add( onCommandCancelled );
 		}
 		
 		/**
@@ -212,17 +212,17 @@ package  abe.com.mands
 		 * <code>c</code> passée en paramètre.
 		 * <p>
 		 * La fonction réalise la suppression des écouteurs enregistrés par la 
-		 * fonction <code>registerToCommandEvents</code>.
+		 * fonction <code>registerToCommandSignals</code>.
 		 * </p>
 		 * @param	c	commande à laquelle on souhaite se désinscrire
 		 */
-		protected function unregisterToCommandEvents ( c : Command ) : void
+		protected function unregisterToCommandSignals ( c : Command ) : void
 		{
-			c.removeEventListener( CommandEvent.COMMAND_END, commandEnd );
-			c.removeEventListener( CommandEvent.COMMAND_FAIL, commandFailed );
+			c.commandEnded.remove( onCommandEnded );
+			c.commandFailed.remove( onCommandFailed );
 			
 			if( c is Cancelable )
-				c.removeEventListener( CommandEvent.COMMAND_CANCEL, commandCancelled );
+				( c as Cancelable).commandCancelled.remove( onCommandCancelled );
 		}
 		/**
 		 * Nombre de commandes actuellement enregistrées dans cette macro commande. 

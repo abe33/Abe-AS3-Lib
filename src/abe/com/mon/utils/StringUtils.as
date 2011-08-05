@@ -610,13 +610,13 @@ package abe.com.mon.utils
 		 */
 		public static function quote ( string : String ) : String
 		{
-			var regx : RegExp = /[\\"\r\n]/g;
+			var regx : RegExp = /[\\"\\'\r\n]/g;
 			return '"' + string.replace ( regx, _quote ) + '"';
 			// "
 		}
 		public static function escape ( string : String ) : String
 		{
-			var regx : RegExp = /[\\"\r\n]/g;
+			var regx : RegExp = /[\\"\\'\r\n]/g;
 			return string.replace ( regx, _quote );
 			// "
 		}
@@ -1076,6 +1076,8 @@ package abe.com.mon.utils
 					return "\\n";
 				case '"':
 					return '\\"';
+                case "'":
+					return "\\'";    
 				default:
 					return '';
 			}

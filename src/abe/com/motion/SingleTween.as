@@ -4,12 +4,9 @@
 package  abe.com.motion
 {
 	import abe.com.mands.Command;
-	import abe.com.mands.events.CommandEvent;
 	import abe.com.mon.core.Runnable;
 	import abe.com.mon.core.Suspendable;
 	import abe.com.mon.logs.Log;
-
-	import flash.events.IEventDispatcher;
 	/**
 	 * La classe <code>SingleTween</code> réalise une interpolation de la valeur d'une propriété
 	 * d'un objet cible dans le temps.
@@ -22,8 +19,7 @@ package  abe.com.motion
 																Command,
 																Runnable,
 																Suspendable,
-																ImpulseListener,
-																IEventDispatcher
+																ImpulseListener
 	{
 		/**
 		 * Ajoute une instance de la classe dans le dictionnaire global.
@@ -61,7 +57,7 @@ package  abe.com.motion
 			{
 				var tw : SingleTween = new SingleTween ( target, setter, end, duration, start, easing );
 				_tweenInstances[tw] = tw;
-				tw.addEventListener ( CommandEvent.COMMAND_END, tweenComplete );
+				tw.commandEnded.add( tweenCompleted );
 
 				if( autoPlay )
 					tw.execute();
@@ -132,7 +128,9 @@ package  abe.com.motion
 		{
 			if ( isRunning() )
 			{
+				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
 				Log.warn( this + ".property is not writeable while playing." );
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			}
 			else
 			{
@@ -176,7 +174,11 @@ package  abe.com.motion
 		override public function start () : void
 		{
 			if ( isNaN( _startValue ) )
+			{
+				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
 				Log.warn( this + " has no start value." );
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			}
 			else
 				super.start ();
 		}

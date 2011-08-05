@@ -3,42 +3,17 @@
  */
 package abe.com.motion
 {
-	import abe.com.mands.AbstractCommand;
-	import abe.com.mands.Command;
-	import abe.com.mands.events.CommandEvent;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.logs.Log;
-	import abe.com.motion.properties.SpecialProperty;
+    import abe.com.mands.AbstractCommand;
+    import abe.com.mands.Command;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.logs.Log;
+    import abe.com.motion.properties.SpecialProperty;
 
-	import flash.events.Event;
-	import flash.events.IEventDispatcher;
-	import flash.utils.Dictionary;
+    import org.osflash.signals.Signal;
 
-	/**
-	 * Évènement diffusé lors du démarrage de l'interpolation.
-	 *
-	 * @eventType abe.com.motion.TweenEvent.TWEEN_START
-	 */
-	[Event(name="tweenStart", type="abe.com.motion.TweenEvent")]
-	/**
-	 * Évènement diffusé lors de l'arrêt de l'interpolation.
-	 *
-	 * @eventType abe.com.motion.TweenEvent.TWEEN_STOP
-	 */
-	[Event(name="tweenStop", type="abe.com.motion.TweenEvent")]
-	/**
-	 * Évènement diffusé à chaque étape de l'interpolation .
-	 *
-	 * @eventType abe.com.motion.TweenEvent.TWEEN_CHANGE
-	 */
-	[Event(name="tweenChange", type="abe.com.motion.TweenEvent")]
-	/**
-	 * Évènement diffusé lors de la fin de l'interpolation.
-	 *
-	 * @eventType abe.com.motion.TweenEvent.TWEEN_START
-	 */
-	[Event(name="tweenEnd", type="abe.com.motion.TweenEvent")]
+    import flash.utils.Dictionary;
+
 	/**
 	 * La classe <code>AbstractTween</code> sert de classe de base au différentes
 	 * implémentations de l'interface <code>Tween</code>. Elle fournie les contrôles
@@ -56,7 +31,6 @@ package abe.com.motion
 																  Runnable,
 																  Suspendable,
 																  ImpulseListener,
-																  IEventDispatcher,
 																  Tween
 	{
 		/*---------------------------------------------------------------*
@@ -120,10 +94,10 @@ package abe.com.motion
 		 *
 		 * @param	event	évènement diffusé par l'instance
 		 */
-		static protected function tweenComplete ( event : CommandEvent ) : void
+		static protected function tweenCompleted ( command : Command ) : void
 		{
-			event.target.removeEventListener(CommandEvent.COMMAND_END, tweenComplete );
-			delete _tweenInstances[event.target];
+			command.commandEnded.remove( tweenCompleted );
+			delete _tweenInstances[command];
 		}
 		/**
 		 * Le nombre d'instances globales actuellement stockées dans le dictionnaire.
@@ -162,13 +136,17 @@ package abe.com.motion
 		 *
 		 * @default	function( t : Number,  b : Number,  c : Number, d : Number ) : Number { return c * t / d + b; }
 		 */
-		static public const noEasing : Function = function( t : Number,  b : Number,  c : Number, d : Number ) : Number
+		static public function noEasing ( t : Number,  b : Number,  c : Number, d : Number ) : Number
 		{
 			return c * t / d + b;
 		};
 		/*---------------------------------------------------------------*
 		 * 	INSTANCES MEMBERS
 		 *---------------------------------------------------------------*/
+		public var tweenStarted : Signal;
+		public var tweenStopped : Signal;
+		public var tweenChanged : Signal;
+		public var tweenEnded : Signal;
 		/**
 		 * La durée de cette interpolation.
 		 *
@@ -217,8 +195,11 @@ package abe.com.motion
 										duration : Number = 1000,
 										easing : Function = null )
 		{
-			super();
-
+			super( );
+			tweenStarted = new Signal(Tween);
+			tweenStopped = new Signal(Tween);
+			tweenChanged = new Signal(Tween);
+			tweenEnded = new Signal(Tween);
 			_target = target;
 			_duration = duration;
 			this.easing = easing;
@@ -268,7 +249,9 @@ package abe.com.motion
 		{
 			if ( isRunning() )
 			{
+				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
 				Log.warn( this + ".target is not writable while playing." );
+				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
 			}
 			else
 			{
@@ -302,7 +285,7 @@ package abe.com.motion
 				_isRunning = true;
 				onUpdate();
 				Impulse.register( tick );
-				dispatchEvent( new TweenEvent( TweenEvent.TWEEN_START ) );
+				tweenStarted.dispatch( this );
 			}
 		}
 		/**
@@ -314,7 +297,7 @@ package abe.com.motion
 			{
 				_isRunning = false;
 				Impulse.unregister( tick );
-				dispatchEvent( new TweenEvent( TweenEvent.TWEEN_STOP ) );
+				tweenStopped.dispatch( this );
 			}
 		}
 		/*-----------------------------------------------
@@ -323,9 +306,8 @@ package abe.com.motion
 		/**
 		 * Remet à zéro et démarre l'instance courante.
 		 *
-		 * @param	e	un objet <code>Event</code> transmis à la méthode
 		 */
-		override public function execute( e : Event = null ) : void
+		override public function execute( ... args ) : void
 		{
 			reset();
 			start();
@@ -364,17 +346,15 @@ package abe.com.motion
 		 */
 		protected function onUpdate () : void
 		{
-			updateProperties();
-			dispatchEvent( new TweenEvent( TweenEvent.TWEEN_CHANGE ) );
+			updateProperties( );
+			tweenChanged.dispatch( this );
 		}
 		/**
 		 * Fonction réalisant la mise à jour des propriétés de la cible
 		 * sur la base de la position de la tête de lecture de cette
 		 * instance.
 		 */
-		protected function updateProperties () : void
-		{
-		}
+		protected function updateProperties () : void {}
 		/**
 		 * Fonction appelée lors de la fin de l'interpolation.
 		 */
@@ -383,10 +363,9 @@ package abe.com.motion
 			_playHead = _reversedMotion ? 0 : _duration;
 			onUpdate();
 
-			stop();
-			fireCommandEnd();
-
-			dispatchEvent( new TweenEvent( TweenEvent.TWEEN_END ) );
+			stop( );
+			_commandEnded.dispatch( this );
+			tweenEnded.dispatch( this );
 		}
 		/**
 		 * Accède et renvoie la valeur de la propriété <code>name</code>
@@ -427,18 +406,14 @@ package abe.com.motion
 		 *
 		 * @param	e	évènement diffusé par l'objet <code>MotionImpulse</code>
 		 */
-		public function tick( e : ImpulseEvent ) : void
+		public function tick(  bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
-			 _playHead += e.bias * ( _reversedMotion ? -1 : 1 );
+			 _playHead += bias * ( _reversedMotion ? -1 : 1 );
 
 			if ( _reversedMotion ? isReversedMotionFinished() : isMotionFinished() )
-			{
 				onMotionEnd();
-			}
 			else
-			{
 				onUpdate();
-			}
 		}
 	}
 }

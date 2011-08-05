@@ -14,7 +14,9 @@ package abe.com.ponents.monitors.recorders
 	 */
 	public class AllocatorRecorder implements Recorder 
 	{
-		static public const ALL_INSTANCES : uint = 0;		static public const UNUSED_INSTANCES : uint = 1;		static public const USED_INSTANCES : uint = 2;
+		static public const ALL_INSTANCES : uint = 0;
+		static public const UNUSED_INSTANCES : uint = 1;
+		static public const USED_INSTANCES : uint = 2;
 		
 		protected var _valuesRange : Range;
 		protected var _curveSettings : GraphCurveSettings;

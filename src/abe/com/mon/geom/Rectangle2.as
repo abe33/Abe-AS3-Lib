@@ -155,7 +155,8 @@ package abe.com.mon.geom
 				this.y = xOrRect.y;
 				this.width = xOrRect.width;
 				this.height = xOrRect.height;
-				this.rotation = yOrRotation;			}
+				this.rotation = yOrRotation;
+			}
 			else
 			{
 				this.x = xOrRect;
@@ -165,9 +166,9 @@ package abe.com.mon.geom
 				this.rotation = rotation;
 			}
 			this.pathBasedOnLength = pathBasedOnLength;
-			_randomSource = RandomUtils.RANDOM;
-		}
-		/**
+			_randomSource = RandomUtils;
+        }
+        /**
 		 * An object representing the vector of the upper edge.
 		 * <fr>
 		 * Un objet représentant le vecteur de l'arête supérieur.
@@ -245,7 +246,8 @@ package abe.com.mon.geom
 		 * Un objet <code>Point</code> représentant les coordonnées
 		 * du coin inférieur gauche de ce <code>Rectangle2</code>.
 		 * </fr>
-		 */		public function get bottomLeft () : Point { return pt(x,y).add( leftEdge ); }
+		 */
+		public function get bottomLeft () : Point { return pt(x,y).add( leftEdge ); }
 		/**
 		 * The coordinate on the y-axis of the highest point
 		 * of this <code>Rectangle2</code>.
@@ -362,19 +364,22 @@ package abe.com.mon.geom
 		 * <fr>
 		 * Un objet <code>Point</code> représentant le centre de l'arrête inférieure.
 		 * </fr>
-		 */		public function get bottomEdgeCenter () : Point { return bottomLeft.add( PointUtils.scaleNew( bottomEdge, .5 ) ); }
+		 */
+		public function get bottomEdgeCenter () : Point { return bottomLeft.add( PointUtils.scaleNew( bottomEdge, .5 ) ); }
 		/**
 		 * A <code>Point</code> representing the center of the left edge.
 		 * <fr>
 		 * Un objet <code>Point</code> représentant le centre de l'arrête de gauche.
 		 * </fr>
-		 */		public function get leftEdgeCenter () : Point { return topLeft.add( PointUtils.scaleNew( leftEdge, .5 ) ); }
+		 */
+		public function get leftEdgeCenter () : Point { return topLeft.add( PointUtils.scaleNew( leftEdge, .5 ) ); }
 		/**
 		 * A <code>Point</code> representing the center of the right edge.
 		 * <fr>
 		 * Un objet <code>Point</code> représentant le centre de l'arrête de droite.
 		 * </fr>
-		 */		public function get rightEdgeCenter () : Point { return topRight.add( PointUtils.scaleNew( rightEdge, .5 ) ); }
+		 */
+		public function get rightEdgeCenter () : Point { return topRight.add( PointUtils.scaleNew( rightEdge, .5 ) ); }
 		/**
 		 * @inheritDoc
 		 */
@@ -410,8 +415,10 @@ package abe.com.mon.geom
 				p3 = .75;
 			}
 			if( path < p1 )
-				return pt( x, y ).add( PointUtils.scaleNew( topEdge, MathUtils.map( path, 0, p1, 0, 1 ) ) );			else if( path < p2 )
-				return topRight.add( PointUtils.scaleNew( rightEdge, MathUtils.map( path, p1, p2, 0, 1 ) ) );			else if( path < p3 )
+				return pt( x, y ).add( PointUtils.scaleNew( topEdge, MathUtils.map( path, 0, p1, 0, 1 ) ) );
+			else if( path < p2 )
+				return topRight.add( PointUtils.scaleNew( rightEdge, MathUtils.map( path, p1, p2, 0, 1 ) ) );
+			else if( path < p3 )
 				return bottomRight.add( PointUtils.scaleNew( bottomEdge, MathUtils.map( path, p2, p3, 0, 1 ) * -1 ) );
 			else
 				return bottomLeft.add( PointUtils.scaleNew( leftEdge, MathUtils.map( path, p3, 1, 0, 1 ) * -1 ) );
@@ -518,7 +525,8 @@ package abe.com.mon.geom
 		 * de ce dernier.
 		 * </fr>
 		 * @param	dx	increment on the X axis
-		 * 				<fr>incrément sur l'axe X</fr>		 * @param	dy	increment on the Y axis
+		 * 				<fr>incrément sur l'axe X</fr>
+		 * @param	dy	increment on the Y axis
 		 * 				<fr>incrément sur l'axe Y</fr>
 		 */
 		public function inflateAroundCenter ( dx : Number, dy : Number ) : void
@@ -608,7 +616,8 @@ package abe.com.mon.geom
 		 * Increases the size of this rectangle on the top left corner
 		 * by the values of <code>dx</code> and <code>dy</code>
 		 * 
-		 * @param	dx	increment value on the x-axis		 * @param	dy	increment value on the y-axis
+		 * @param	dx	increment value on the x-axis
+		 * @param	dy	increment value on the y-axis
 		 */
 		public function inflateTopLeft( dx : Number, dy : Number ):void
 		{
@@ -768,24 +777,40 @@ package abe.com.mon.geom
 		 */
 		public function copyTo (o : Object) : void
 		{
-			o["x"] = x;			o["y"] = y;			o["width"] = width;			o["height"] = height;			o["rotation"] = rotation;
+			o["x"] = x;
+			o["y"] = y;
+			o["width"] = width;
+			o["height"] = height;
+			o["rotation"] = rotation;
 		}
 		/**
 		 * @inheritDoc
 		 */
 		public function copyFrom (o : Object) : void
 		{
-			x = o["x"];			y = o["y"];			width = o["width"];			height = o["height"];			rotation = o["rotation"];
+			x = o["x"];
+			y = o["y"];
+			width = o["width"];
+			height = o["height"];
+			rotation = o["rotation"];
 		}
 		/**
 		 * @inheritDoc
 		 */
 		public function draw (g : Graphics, c : Color) : void
 		{
-			var p1 : Point = topLeft;			var p2 : Point = topRight;			var p3 : Point = bottomRight;			var p4 : Point = bottomLeft;
+			var p1 : Point = topLeft;
+			var p2 : Point = topRight;
+			var p3 : Point = bottomRight;
+			var p4 : Point = bottomLeft;
 
 			g.lineStyle(0, c.hexa, c.alpha/255 );
-			g.moveTo(p1.x, p1.y);			g.lineTo(p2.x, p2.y);			g.lineTo(p3.x, p3.y);			g.lineTo(p4.x, p4.y);			g.lineTo(p1.x, p1.y);			g.lineStyle();
+			g.moveTo(p1.x, p1.y);
+			g.lineTo(p2.x, p2.y);
+			g.lineTo(p3.x, p3.y);
+			g.lineTo(p4.x, p4.y);
+			g.lineTo(p1.x, p1.y);
+			g.lineStyle();
 		}
 		/**
 		 * @inheritDoc

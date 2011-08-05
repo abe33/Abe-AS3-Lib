@@ -2,7 +2,6 @@ package abe.com.ponents.skinning.icons
 {
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.events.PropertyEvent;
 	import abe.com.ponents.utils.Insets;
 
 	import flash.display.BitmapData;
@@ -110,22 +109,22 @@ package abe.com.ponents.skinning.icons
 			_preferredSizeCache = new Dimension(16,16);
 			invalidate( false );
 		}
-		override protected function stylePropertyChanged ( e : PropertyEvent ) : void
+		override protected function stylePropertyChanged ( propertyName : String, propertyValue : * ) : void
 		{
-			switch( e.propertyName )
+			switch( propertyName )
 			{
 				case "checkerColor1" : 
-					_checkerColor1 = e.propertyValue;
+					_checkerColor1 = propertyValue;
 					dispose();
 					init();
 					break;
 				case "checkerColor2" : 
-					_checkerColor2 = e.propertyValue;
+					_checkerColor2 = propertyValue;
 					dispose();
 					init();
 					break;
 				default : 
-					super.propertyChange( e );
+					super.stylePropertyChanged( propertyName, propertyValue );
 					break;
 			}
 		}

@@ -7,15 +7,7 @@ package  abe.com.edia.camera
 	import abe.com.mon.geom.Rectangle2;
 	import abe.com.mon.utils.MathUtils;
 
-	/**
-	 * Diffusé dès que l'un des paramètres de focale de la caméra est modifié.
-	 * Il suffit qu'une des propriétés focale du champs ait été
-	 * modifié pour que l'évènement soit diffusé.
-	 *
-	 * @eventType abe.com.edia.camera.CameraEvent.DOF_CHANGE
-	 */
-	[Event(name="dofChange", type="abe.com.edia.camera.CameraEvent")]
-
+	import org.osflash.signals.Signal;
 	/**
 	 * Une sous classe de <code>Camera</code> offrant le support pour la profondeur
 	 * de champs dans un espace 2D. La profondeur de champs est un effet optique qui
@@ -25,7 +17,7 @@ package  abe.com.edia.camera
 	 * Le principe est on ne peut plus simple. Chaque objet soumis à la profondeur
 	 * de champs défini sa propre profondeur focale, un entier représentant sa distance
 	 * à l'objectif. Ensuite, après avoir souscrit à l'évènement
-	 * <code>CameraEvent.DOF_CHANGE</code>, celui-ci pourra calculer le taux de flou
+	 * <code>dofChanged</code>, celui-ci pourra calculer le taux de flou
 	 * à appliquer à l'aide de la méthode <code>Camera.getBlurRatio ( focalDepth )</code>
 	 * qui renvoi un nombre entre 0 et 1, où 0 marque la netteté maximum et où 1 représente
 	 * le flou maximum.
@@ -46,6 +38,7 @@ package  abe.com.edia.camera
 	 */
 	public class DOFCamera extends Camera
 	{
+		public var dofChanged : Signal;
 		private var _nFocalDepth : Number;
 		private var _nFocalRangeSize : Number;
 		private var _oDepthRange : Range;
@@ -82,6 +75,7 @@ package  abe.com.edia.camera
 								   depthRange 		: Range = null )
 		{
 			super( screen, initialZoom, zoomRange, zoomIncrement );
+			dofChanged = new Signal(DOFCamera);
 			_nFocalRangeSize = focalRangeSize;
 			_nFocalDepth = focalDepth;
 			_oDepthRange = depthRange ? depthRange : new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY );
@@ -184,15 +178,10 @@ package  abe.com.edia.camera
 			fireDOFChange();
 		}
 
-		/**
-		 * Notifie les écouteurs à l'évènement <code>CameraEvent.DOF_CHANGE</code>
-		 * qu'une ou plusieurs propriété de la profondeur de champs ont été modifié.
-		 */
 		protected function fireDOFChange () : void
 		{
-			dispatchEvent( new CameraEvent( CameraEvent.DOF_CHANGE ) );
+			dofChanged.dispatch(this);
 		}
-
 		/**
 		 * Renvoie le cohéficient de flou à appliquer en fonction
 		 * d'une profondeur donnée.

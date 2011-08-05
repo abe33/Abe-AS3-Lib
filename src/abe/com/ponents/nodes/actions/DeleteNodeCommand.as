@@ -4,8 +4,6 @@ package abe.com.ponents.nodes.actions
 	import abe.com.ponents.history.UndoManagerInstance;
 	import abe.com.ponents.nodes.core.CanvasNode;
 	import abe.com.ponents.tools.CameraCanvas;
-
-	import flash.events.Event;
 	/**
 	 * @author cedric
 	 */
@@ -22,14 +20,15 @@ package abe.com.ponents.nodes.actions
 			this.node = node;
 			this.layer = layer;
 		}
-		override public function execute (e : Event = null) : void 
+		override public function execute( ... args ) : void 
 		{
 			if( node.selected )
 				node.selected = false;
 			
+			node.removeAllConnections();
 			canvas.removeComponent( node );
 			UndoManagerInstance.add( new DeleteNodeUndoable(canvas, layer, node));
-			super.execute( e );
+			super.execute.apply( this, args );
 		}
 	}
 }

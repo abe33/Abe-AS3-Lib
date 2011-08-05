@@ -30,7 +30,8 @@ package abe.com.ponents.menus
 
 			super( m );
 			_popupMenu.scrollLayout = PopupMenu.SCROLLBAR_SCROLL_LAYOUT;
-			
+			_popupMenu.maximumVisibleItems = 12;
+            
 			var tf : TextFormat = new TextFormat();
 			tf.tabStops = [ 100 ];
 			style.setForAllStates( "format" , tf );

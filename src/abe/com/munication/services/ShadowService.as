@@ -21,17 +21,17 @@ package abe.com.munication.services
 			_aborted = true;
 		}
 
-		override protected function fireServiceResultEvent ( result : *) : void
+		override protected function fireServiceRespondedSignal ( result : *) : void
 		{
 			if(!_aborted)
-				dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_RESULT, result ) );
+				serviceResponded.dispatch( result );
 			else _aborted = false;
 		}
 
-		override protected function fireServiceErrorEvent ( error : *) : void
+		override protected function fireServiceErrorOcurredSignal ( error : *) : void
 		{
 			if(!_aborted)
-				dispatchEvent( new ServiceEvent( ServiceEvent.SERVICE_ERROR, error ) );
+				serviceErrorOccured.dispatch( error );
 			else _aborted = false;
 		}
 	}

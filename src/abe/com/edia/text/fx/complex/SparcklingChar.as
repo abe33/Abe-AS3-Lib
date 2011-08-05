@@ -7,7 +7,6 @@ package abe.com.edia.text.fx.complex
 	import abe.com.edia.text.core.Char;
 	import abe.com.edia.text.fx.AbstractCharEffect;
 	import abe.com.mon.utils.AllocatorInstance;
-	import abe.com.motion.ImpulseEvent;
 
 	import flash.display.DisplayObject;
 	import flash.utils.Dictionary;
@@ -24,9 +23,9 @@ package abe.com.edia.text.fx.complex
 			super( autoStart );
 		}
 
-		override public function tick (e : ImpulseEvent) : void
+		override public function tick (bias : Number, biasInSeconds : Number, time : Number) : void
 		{
-			super.tick( e );
+			super.tick( bias, biasInSeconds, time );
 			for each( var c : Char in chars )
 			{
 				if( c.visible )

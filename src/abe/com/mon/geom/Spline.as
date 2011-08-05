@@ -20,7 +20,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
-	public interface Spline extends Geometry, Path
+	public interface Spline extends Geometry
 	{
 		/**
 		 * A reference to the array containing the objects <code>Point</code>

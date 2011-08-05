@@ -1,15 +1,15 @@
 package abe.com.ponents.tools
 {
     import abe.com.mon.colors.Color;
-    import abe.com.mon.utils.MathUtils;
     import abe.com.mon.geom.*;
+    import abe.com.mon.utils.MathUtils;
     import abe.com.ponents.core.*;
-    import abe.com.ponents.events.*;
     import abe.com.ponents.layouts.display.*;
     import abe.com.ponents.skinning.*;
 
+    import org.osflash.signals.Signal;
+
     import flash.display.Shape;
-    import flash.display.Sprite;
     import flash.events.*;
     import flash.geom.Matrix;
     
@@ -43,8 +43,11 @@ package abe.com.ponents.tools
         private var _colorBlend : Shape;
         private var _colorBorders : Shape;
         
+        public var dataChanged : Signal;
+        
         public function ColorGrid ( color : Color, mode : uint = 0 )
         {
+            dataChanged = new Signal();
             _childrenLayout = new DONoLayout();
             super();
             
@@ -126,7 +129,7 @@ package abe.com.ponents.tools
                     else
                         _color.red = Math.floor( ( height - y ) / height * 255 );
                     
-                    fireDataChangeEvent();
+                    fireDataChangedSignal();
                     break;
                  case MODE_G : 
                     if( onLeft )
@@ -137,7 +140,7 @@ package abe.com.ponents.tools
                     else
                         _color.green = Math.floor( ( height - y ) / height * 255 );
                     
-                    fireDataChangeEvent();   
+                    fireDataChangedSignal();   
                     break;
                  case MODE_B : 
                     if( onLeft )
@@ -148,7 +151,7 @@ package abe.com.ponents.tools
                     else
                         _color.blue = Math.floor( ( height - y ) / height * 255 );
                    
-                    fireDataChangeEvent();     
+                    fireDataChangedSignal();     
                     break;
                  case MODE_H : 
                     if( onLeft )
@@ -160,7 +163,7 @@ package abe.com.ponents.tools
                         h = Math.floor( ( height - y ) / height * 360 );
                     
                     _color.hsv = [h,s,v];
-                    fireDataChangeEvent();     
+                    fireDataChangedSignal();     
                     break;
                 case MODE_S : 
                     if( onLeft )
@@ -172,7 +175,7 @@ package abe.com.ponents.tools
                         s = Math.floor( ( height - y ) / height * 100 );
                     
                     _color.hsv = [h,s,v];
-                    fireDataChangeEvent();     
+                    fireDataChangedSignal();     
                     break;   
                 case MODE_V : 
                     if( onLeft )
@@ -184,15 +187,15 @@ package abe.com.ponents.tools
                         v = Math.floor( ( height - y ) / height * 100 );
                     
                     _color.hsv = [h,s,v];
-                    fireDataChangeEvent();     
+                    fireDataChangedSignal();     
                     break;   
                 default :
                     break;
             }
         }
-        public function fireDataChangeEvent():void
+        public function fireDataChangedSignal():void
         {
-            dispatchEvent( new ComponentEvent( ComponentEvent.DATA_CHANGE) );
+           dataChanged.dispatch( this, value );
         }
         
         public function draw() : void

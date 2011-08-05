@@ -1,8 +1,12 @@
 package abe.com.ponents.actions.builtin
 {
+	import abe.com.mands.*;
+	import abe.com.mon.core.Cancelable;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.ponents.actions.AbstractAction;
 	import abe.com.ponents.skinning.icons.Icon;
+
+	import org.osflash.signals.Signal;
 
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -12,7 +16,7 @@ package abe.com.ponents.actions.builtin
 	/**
 	 * @author Cédric Néhémie
 	 */
-	public class SaveFileAction extends AbstractAction
+	public class SaveFileAction extends AbstractAction implements Cancelable
 	{
 		TARGET::AIR 
 		protected var _fileReference : File;
@@ -22,6 +26,9 @@ package abe.com.ponents.actions.builtin
 		protected var _fileName : String;
 		protected var _validationFunction : Function;
 		protected var _data : *;
+		
+		protected var _commandCancelled : Signal;
+		protected var _isCancelled : Boolean;
 
 		public function SaveFileAction ( fileName : String = null,
 										 data : * = null,
@@ -31,6 +38,7 @@ package abe.com.ponents.actions.builtin
 										 accelerator : KeyStroke = null)
 		{
 			super( name, icon, longDescription, accelerator );
+			_commandCancelled = new Signal( Command );
 			_fileName = fileName;
 			_data = data;
 		}
@@ -51,8 +59,10 @@ package abe.com.ponents.actions.builtin
 		{
 			_fileName = fileName;
 		}
-		override public function execute (e : Event = null) : void
+		override public function execute( ... args ) : void
 		{
+			_isCancelled = false;
+			_isRunning = true;
 			if( _data && _fileName && ( _validationFunction == null || _validationFunction() ) )
 			{
 				TARGET::AIR { _fileReference = new File(); }
@@ -76,18 +86,34 @@ package abe.com.ponents.actions.builtin
 		}
 		protected function ioError (event : IOErrorEvent) : void
 		{
-			fireCommandFailed();
+			_isRunning = false;
+			commandFailed.dispatch( this, event.text );
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
 		protected function browseCancel (event : Event) : void
 		{
-			fireCommandEnd();
+			_isRunning = false;
+			_isCancelled = true;
+			commandCancelled.dispatch( this );
 			unregisterFromFileReferenceEvents(_fileReference);
 		}
 		protected function complete (event : Event) : void
 		{
-			fireCommandEnd();
+			_isRunning = false;
+			commandEnded.dispatch( this );
 			unregisterFromFileReferenceEvents(_fileReference );
+		}
+		public function get commandCancelled () : Signal { return _commandCancelled; }
+		public function cancel () : void
+		{
+			_isRunning = false;
+			_isCancelled = true;
+			_fileReference.cancel();
+			_commandCancelled.dispatch( this );
+		}
+		public function isCancelled () : Boolean
+		{
+			return _isCancelled;
 		}
 	}
 }
