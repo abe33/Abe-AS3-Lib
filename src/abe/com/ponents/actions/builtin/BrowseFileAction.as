@@ -21,10 +21,10 @@ package abe.com.ponents.actions.builtin
      */
     public class BrowseFileAction extends AbstractAction implements Command, Action, Cancelable
     {
-        TARGET::AIR
-        protected var _fileReference : File;
         TARGET::WEB 
         protected var _fileReference : FileReference;
+        TARGET::AIR
+        protected var _fileReference : File;
 
         protected var _filters : Array;
         protected var _isCanceled : Boolean;
@@ -42,10 +42,10 @@ package abe.com.ponents.actions.builtin
             _filters = filters;
         }
 
-        TARGET::AIR
-        public function get fileReference () : File { return _fileReference; }
         TARGET::WEB
         public function get fileReference () : FileReference {return _fileReference; }
+        TARGET::AIR
+        public function get fileReference () : File { return _fileReference; }
         
         public function get size (): Number { return _fileReference.size; }
         
@@ -59,8 +59,8 @@ package abe.com.ponents.actions.builtin
             _isCanceled = false;
             _isRunning = true;
 
-            TARGET::AIR { _fileReference = new File(); }
             TARGET::WEB { _fileReference = new FileReference(); }
+            TARGET::AIR { _fileReference = new File(); }
 
             registerToFileReferenceEvents( _fileReference );
             _fileReference.browse(_filters);

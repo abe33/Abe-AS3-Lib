@@ -159,7 +159,7 @@ package abe.com.ponents.menus
 					if( !_childrenContainer.contains( nextCell as DisplayObject) )
 						_childrenContainer.addChild( nextCell as DisplayObject );
 				}
-				return nextCell;			
+				return nextCell;	
 			}
 			else return null;		
 		}

@@ -22,7 +22,7 @@ package abe.com.edia.particles.core
         /**
          * The composed <code>DisplayObject</code> to manipulate.
          */
-        public var _displayObject : DisplayObject;
+        protected var _displayObject : DisplayObject;
         /**
          * The scale of the <code>DisplayObject</code> specified as a <code>Point</code>
          */

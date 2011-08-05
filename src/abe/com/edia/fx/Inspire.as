@@ -55,10 +55,9 @@ package abe.com.edia.fx
 			this.timed = timed;
 			this.duration = duration;
 			this.color = color ? color : Color.White;
-			_randomSource = RandomUtils.RANDOM;
-		}
-
-		protected var _randomSource : Random;
+			_randomSource = RandomUtils;
+        }
+        protected var _randomSource : Random;
 		public function get randomSource () : Random { return _randomSource; }
 		public function set randomSource (randomSource : Random) : void
 		{

@@ -1,18 +1,17 @@
 package abe.com.mon.geom 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Randomizable;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Randomizable;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.PointUtils;
+    import abe.com.mon.utils.StringUtils;
 
-	import avmplus.getQualifiedClassName;
-
-	import flash.display.Graphics;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.display.Graphics;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * 
 	 * 

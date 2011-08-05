@@ -1,23 +1,23 @@
 package abe.com.edia.particles.core
 {
-    import abe.com.edia.particles.strategy.ActionStrategy;
-    import abe.com.edia.particles.strategy.InitializeStrategy;
-    import abe.com.edia.particles.strategy.actions.NullActionStrategy;
-    import abe.com.edia.particles.strategy.initialize.NullInitializer;
+    import abe.com.edia.particles.actions.ActionStrategy;
+    import abe.com.edia.particles.actions.NullActionStrategy;
+    import abe.com.edia.particles.initializers.Initializer;
+    import abe.com.edia.particles.initializers.NullInitializer;
     import abe.com.mon.utils.magicToReflectionSource;
     import abe.com.mon.utils.magicToSource;
-
     import flash.utils.getTimer;
+
 
 	public class BaseParticleSystem extends AbstractParticleSystem
 	{
 		protected var _action : ActionStrategy;
-		protected var _initializer : InitializeStrategy;
+		protected var _initializer : Initializer;
         protected var _particlesDeathSubSystem : SubParticleSystem;
 		/*-----------------------------------------------------------------
 				PUBLIC METHODS
 		------------------------------------------------------------------*/
-		public function BaseParticleSystem( initializer : InitializeStrategy = null, 
+		public function BaseParticleSystem( initializer : Initializer = null, 
         									action : ActionStrategy = null, 
                                             particlesDeathSubSystem : SubParticleSystem = null )
 		{
@@ -37,8 +37,8 @@ package abe.com.edia.particles.core
             _action.system = this;
         }
 		
-		public function get initializer () : InitializeStrategy { return _initializer; }
-		public function set initializer( initializer : InitializeStrategy ) : void 
+		public function get initializer () : Initializer { return _initializer; }
+		public function set initializer( initializer : Initializer ) : void 
         { 
             _initializer = initializer ? initializer : new NullInitializer();
             _initializer.system = this; 
@@ -49,12 +49,12 @@ package abe.com.edia.particles.core
 		override protected function _initializeParticle( particle : Particle, time : Number) : void
 		{
 			_initializer.initialize( particle );
-			_action.prepareAction( time, time / 1000, getTimer() );
+			_action.prepare( time, time / 1000, getTimer() );
 			_action.process( particle );
 		}
 		override protected function _prepareAction( bias : Number, biasInSeconds : Number, currentTime : Number ) : void
 		{
-			_action.prepareAction( bias, biasInSeconds, currentTime );
+			_action.prepare( bias, biasInSeconds, currentTime );
 		}
 		override protected function _processParticle( particle : Particle ) : void
 		{

@@ -3,24 +3,24 @@
  */
 package abe.com.edia.camera
 {
-	import abe.com.mon.core.Randomizable;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.Range;
-	import abe.com.mon.geom.Rectangle2;
-	import abe.com.mon.geom.pt;
-	import abe.com.mon.randoms.Random;
-	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.RandomUtils;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.motion.Impulse;
+    import abe.com.mon.core.Randomizable;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.Range;
+    import abe.com.mon.geom.Rectangle2;
+    import abe.com.mon.geom.pt;
+    import abe.com.mon.randoms.Random;
+    import abe.com.mon.utils.PointUtils;
+    import abe.com.mon.utils.RandomUtils;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.motion.Impulse;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
-	import flash.display.DisplayObject;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.display.DisplayObject;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 	/**
 	 * Un objet <code>Camera</code> permet de créer des effets de scrolling,
 	 * de zoom et de parallax sur toute une scène flash de façon naturelle.
@@ -192,8 +192,9 @@ package abe.com.edia.camera
 								 silent : Boolean = false )
 		{
 			cameraChanged = new Signal(Camera);
-			_randomSource = RandomUtils.RANDOM;
-			_screen = screen ? screen : new Rectangle2( 0, 0, StageUtils.stage.stageWidth, StageUtils.stage.stageHeight );
+			_randomSource = RandomUtils;
+            
+        	_screen = screen ? screen : new Rectangle2( 0, 0, StageUtils.stage.stageWidth, StageUtils.stage.stageHeight );
 
 			_safeWidth = _screen.width;
 			_safeHeight = _screen.height;

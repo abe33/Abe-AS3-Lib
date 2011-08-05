@@ -117,7 +117,7 @@ package  abe.com.motion
 			this._pastValuesSum = 0;
 			this._listenersCount = 0;
 			this._listernersDict = new Dictionary(true);
-			tick = new Signal(Number,Number,Number);
+			tick = new Signal();
 		}
 		/**
 		 */

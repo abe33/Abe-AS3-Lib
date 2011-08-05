@@ -45,10 +45,9 @@ package abe.com.edia.fx
 			this.vel = vel;
 			this.color = color;
 			this.length = length;
-			_randomSource = RandomUtils.RANDOM;
-		}
-
-		protected var _randomSource : Random;
+			_randomSource = RandomUtils;
+        }
+        protected var _randomSource : Random;
 		public function get randomSource () : Random { return _randomSource; }
 		public function set randomSource (randomSource : Random) : void
 		{

@@ -32,10 +32,9 @@ package abe.com.edia.fx
 		{
 			_target = target;
 			_numParticles = numParticles;
-			_randomSource = RandomUtils.RANDOM;
-		}
-
-		protected var _randomSource : Random;
+			_randomSource = RandomUtils;
+        }
+        protected var _randomSource : Random;
 		public function get randomSource () : Random { return _randomSource; }
 		public function set randomSource (randomSource : Random) : void
 		{

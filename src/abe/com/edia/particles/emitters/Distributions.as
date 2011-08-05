@@ -57,8 +57,9 @@ package abe.com.edia.particles.emitters
 		static public function randomize ( f : Function, amplitude : Number = 0, randomSource : Random = null, restrict : Boolean = false ) : Function 
 		{
 			if( !randomSource )
-				randomSource = RandomUtils.RANDOM;
-			return function(n:Number):Number
+				randomSource = RandomUtils;
+        
+        	return function(n:Number):Number
 			{
 				return f( restrict ? 
 							 MathUtils.restrict( n + randomSource.balance( amplitude ), 0, 1 ) :

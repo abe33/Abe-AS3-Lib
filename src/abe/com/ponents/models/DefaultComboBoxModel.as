@@ -1,6 +1,6 @@
 package abe.com.ponents.models 
 {
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -15,6 +15,33 @@ package abe.com.ponents.models
 			_selectedIndex = 0;
 			_selectionChanged = new Signal();
 		}
+        
+        
+        override public function addElementAt ( el : *, id : uint ) : void
+        {
+            if( id < _selectedIndex )
+            	_selectedIndex++;
+            super.addElementAt ( el, id );
+        }
+
+        override public function removeElement ( el : * ) : void
+        {
+            if( indexOf(el) < _selectedIndex )
+            	_selectedIndex--;
+            else if( indexOf(el) == _selectedIndex )
+            	_selectedIndex = 0;
+            
+            super.removeElement ( el );
+        }
+
+        override public function removeElementAt ( id : uint ) : void
+        {
+            super.removeElementAt ( id );
+            if( id < _selectedIndex )
+            	_selectedIndex--;
+            else if( id == _selectedIndex )
+            	_selectedIndex = 0;
+        }
 		
 		public function get selectionChanged() : Signal { return _selectionChanged; }
 

@@ -1,15 +1,16 @@
 package abe.com.edia.particles.core
 {
-    import abe.com.edia.particles.strategy.EmissionStrategy;
+    import abe.com.edia.particles.emissions.ParticleEmission;
     import abe.com.mands.AbstractCommand;
     import abe.com.mon.utils.AllocatorInstance;
     import abe.com.motion.Impulse;
     import abe.com.patibility.lang._;
     import abe.com.patibility.lang._$;
-
+    import flash.utils.getQualifiedClassName;
+    import flash.utils.getTimer;
     import org.osflash.signals.Signal;
 
-    import flash.utils.getQualifiedClassName;
+
 
 	/**
 	 * <code>AbstractParticleSystem</code> provides a basic implementation for
@@ -55,7 +56,7 @@ package abe.com.edia.particles.core
             init();
 		}
 		
-		public function emit ( emission : EmissionStrategy = null ) : void
+		public function emit ( emission : ParticleEmission = null ) : void
 		{
 			if( emission == null )
 				throw new Error( _$(_("$0.emit was called with a null emission"), this ) );
@@ -66,7 +67,7 @@ package abe.com.edia.particles.core
 			
 			start();
 		}
-        public function stopEmission( emission : EmissionStrategy ) : void
+        public function stopEmission( emission : ParticleEmission ) : void
         {
             if( !emission.isFinish() )
             	_removeEmission(emission);
@@ -120,10 +121,13 @@ package abe.com.edia.particles.core
 				PROTECTED MEMBERS
 		---------------------------------------------------------*/
 		
-		protected function _startEmission ( emission : EmissionStrategy ) : void
+		protected function _startEmission ( emission : ParticleEmission ) : void
 		{
             emissionStarted.dispatch( this, emission );
             var a : Array = [];
+            
+            emission.prepare( 0, 0, getTimer() );
+            
 			while( emission.hasNext() )
 			{
 				var time : Number = emission.nextTime(); 
@@ -147,9 +151,9 @@ package abe.com.edia.particles.core
 			var a : Array = [];
 			while ( l-- )
 			{
-				var emission : EmissionStrategy = _emissions[ l ] as EmissionStrategy;
+				var emission : ParticleEmission = _emissions[ l ] as ParticleEmission;
 				
-				emission.prepareEmission( bias, biasInSeconds, currentTime );
+				emission.prepare( bias, biasInSeconds, currentTime );
                 
 				while( emission.hasNext() )
 				{
@@ -168,7 +172,7 @@ package abe.com.edia.particles.core
             particlesCreated.dispatch(this,a);
 		}
 		
-		protected function _removeEmission ( emission : EmissionStrategy ) : void
+		protected function _removeEmission ( emission : ParticleEmission ) : void
 		{
 			var i : Number = _emissions.indexOf( emission );
             if( i != -1)
@@ -182,7 +186,7 @@ package abe.com.edia.particles.core
 			{
 				_processParticle( particle );
 				
-				if( particle.life >= particle.maxLife )
+				if( particle.isDead() )
 					_unregisterParticle( particle );
 			}
 		}

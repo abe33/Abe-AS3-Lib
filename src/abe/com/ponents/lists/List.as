@@ -8,7 +8,6 @@ package abe.com.ponents.lists
     import abe.com.mon.core.IDisplayObjectContainer;
     import abe.com.mon.core.IInteractiveObject;
     import abe.com.mon.geom.Dimension;
-    import abe.com.mon.logs.Log;
     import abe.com.mon.utils.AllocatorInstance;
     import abe.com.mon.utils.KeyStroke;
     import abe.com.mon.utils.Keys;
@@ -19,7 +18,6 @@ package abe.com.ponents.lists
     import abe.com.ponents.containers.ScrollPane;
     import abe.com.ponents.containers.Viewport;
     import abe.com.ponents.core.*;
-    import abe.com.ponents.core.Container;
     import abe.com.ponents.core.edit.Editable;
     import abe.com.ponents.core.focus.Focusable;
     import abe.com.ponents.dnd.*;
@@ -35,6 +33,8 @@ package abe.com.ponents.lists
     import abe.com.ponents.utils.ScrollUtils;
     import abe.com.ponents.utils.ToolKit;
 
+    import org.osflash.signals.Signal;
+
     import flash.display.DisplayObject;
     import flash.display.InteractiveObject;
     import flash.events.Event;
@@ -45,8 +45,6 @@ package abe.com.ponents.lists
     import flash.geom.Rectangle;
     import flash.utils.clearInterval;
     import flash.utils.setInterval;
-    
-    import org.osflash.signals.Signal;
 
     [Skinable(skin="List")]
     [Skin(define="List",
@@ -174,11 +172,6 @@ package abe.com.ponents.lists
             _loseSelectionOnFocusOut = loseSelectionOnFocusOut;
         }
         
-        public function get preferredViewportSize () : Dimension { return preferredSize; }
-        
-        public function get tracksViewportH () : Boolean { return true; }        
-        public function get tracksViewportV () : Boolean { return !ScrollUtils.isContentHeightExceedContainerHeight( this ); }
-        
         public function get firstVisibleIndex () : int { return _firstVisibleIndex; }        
         public function get lastVisibleIndex () : int { return _lastVisibleIndex; }
         
@@ -201,8 +194,16 @@ package abe.com.ponents.lists
         {
             return _itemFormatingFunction != null;
         }
-
         public function get sampleCell () : ListCell { return _sampleListCellInstance; }
+        
+/*-----------------------------------------------------------------------------------
+ * SCROLLABLE IMPLEMENTATIONS
+ *----------------------------------------------------------------------------------*/       
+        public function get preferredViewportSize () : Dimension { return preferredSize; }
+        
+        public function get tracksViewportH () : Boolean { return true; }        
+        public function get tracksViewportV () : Boolean { return !ScrollUtils.isContentHeightExceedContainerHeight( this ); }
+        
         public function getScrollableUnitIncrementV ( r : Rectangle = null, direction : Number = 1 ) : Number 
         { 
             var increment : Number;
@@ -259,13 +260,13 @@ package abe.com.ponents.lists
             var old : Boolean = _enabled;
             super.enabled = b;
             FEATURES::DND { 
-            if( old != _enabled )
-            {
-                if( _enabled && _allowDrag )
-                    DnDManagerInstance.registerDropTarget( this );
-                else if( !_enabled && _allowDrag )
-                    DnDManagerInstance.unregisterDropTarget( this );
-            }
+	            if( old != _enabled )
+	            {
+	                if( _enabled && _allowDrag )
+	                    DnDManagerInstance.registerDropTarget( this );
+	                else if( !_enabled && _allowDrag )
+	                    DnDManagerInstance.unregisterDropTarget( this );
+	            }
             } 
         }
 
@@ -336,7 +337,7 @@ package abe.com.ponents.lists
                                                                 allowEdit:_editEnabled
                                                             } );
             FEATURES::DND { 
-            _sampleListCellInstance.allowDrag = _allowDrag;
+            	_sampleListCellInstance.allowDrag = _allowDrag;
             } 
             
             //_sampleListCellInstance = getCell();
@@ -665,7 +666,7 @@ package abe.com.ponents.lists
             var j : uint;
             for( i = _firstVisibleIndex, j=0; j <= l; i++, j++ )
             {
-                item = getCell( i, j );//_children[ j ] as ListCell;
+                item = getCell( i, j );
                 if( i < _model.size && i <= _lastVisibleIndex )
                 {
                     a.push( item );
@@ -679,6 +680,8 @@ package abe.com.ponents.lists
             TARGET::FLASH_9 { _children = a; }
             TARGET::FLASH_10 { _children = Vector.<Component>( a ); }
             TARGET::FLASH_10_1 { _children = Vector.<Component>( a ); } 
+            
+            repaintSelection();
         }
         public function updateCellsData () : void
         {
@@ -711,8 +714,9 @@ package abe.com.ponents.lists
                                                                 focusParent:this, 
                                                                 enabled:_enabled, 
                                                                 interactive:_interactive,
-                                                                allowEdit:_editEnabled
-                                                                 } );
+                                                                allowEdit:_editEnabled,
+                                                                index:itemIndex
+                                                              } );
                 FEATURES::DND { 
                     cell.allowDrag = _allowDrag;
                 } 
@@ -775,13 +779,16 @@ package abe.com.ponents.lists
             var i : Number;
             var l : Number = _children.length;
             var item : ListCell;
+            var selected : Boolean;
             if( _allowMultiSelection )
             {
                 for( i = 0; i < l; i++ )
                 {
                     item = _children[ i ] as ListCell;
-                    applySelection( item, _selectedIndices.indexOf( item.index ) != -1 );
-                    if( _selectedIndices.indexOf( item.index ) != -1 )
+                    selected = _selectedIndices.indexOf( item.index ) != -1;
+                    applySelection( item, selected );
+                    
+                    if( selected )
                         a.push(item);
                 }
             }
@@ -790,9 +797,10 @@ package abe.com.ponents.lists
                 for( i = 0; i < l; i++ )
                 {
                     item = _children[ i ] as ListCell;
-                    applySelection( item, _selectedIndex == item.index );
+                    selected = _selectedIndex == item.index;
+                    applySelection( item, selected );
                     
-                    if( _selectedIndex == item.index )
+                    if( selected )
                         a.push(item);
                 }
             }
@@ -801,8 +809,6 @@ package abe.com.ponents.lists
         override protected function calculateComponentSize () : Dimension
         {
             return super.calculateComponentSize();
-            //var d : Dimension = super.calculateComponentSize( );
-            //return new Dimension( d.width, _childrenLayout.preferredSize.height );
         }
         
         override public function focusNextChild (child : Focusable) : void
@@ -1297,7 +1303,6 @@ package abe.com.ponents.lists
         } 
     }
 }
-
 import abe.com.patibility.lang._;
 import abe.com.ponents.history.AbstractUndoable;
 import abe.com.ponents.lists.List;

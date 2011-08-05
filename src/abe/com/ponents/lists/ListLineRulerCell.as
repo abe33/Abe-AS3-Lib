@@ -27,7 +27,8 @@ package abe.com.ponents.lists
 		override public function set index (id : uint) : void
 		{
 			super.index = id;
-			indexStartAt0 = indexStartAt0;
+            if( _owner )
+				indexStartAt0 = indexStartAt0;
 		}
 
 		override public function invalidatePreferredSizeCache () : void

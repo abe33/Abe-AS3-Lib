@@ -188,10 +188,9 @@ package abe.com.mon.geom
 		{
 			this.vertices = vertices;
 			this.pathBasedOnLength = pathBasedOnLength;
-			_randomSource = RandomUtils.RANDOM;
-		}
-		
-		/**
+			_randomSource = RandomUtils;
+        }
+        /**
 		 * An array containing all the vertices of the polygon.
 		 * <p>
 		 * The table must have a mininum three vertices to be valid, 

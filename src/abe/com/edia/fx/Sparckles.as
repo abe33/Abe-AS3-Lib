@@ -42,10 +42,9 @@ package abe.com.edia.fx
 			this.sparcklesSize = sparcklesSize;
 			this.sparcklesColor = sparcklesColor ? sparcklesColor : Color.White;
 			this.glowColor = glowColor ? glowColor : Color.DeepSkyBlue;
-			_randomSource = RandomUtils.RANDOM;
-		}
-
-		protected var _randomSource : Random;
+			_randomSource = RandomUtils;
+        }
+        protected var _randomSource : Random;
 		public function get randomSource () : Random { return _randomSource; }
 		public function set randomSource (randomSource : Random) : void
 		{

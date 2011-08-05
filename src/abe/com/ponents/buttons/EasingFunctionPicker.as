@@ -129,6 +129,7 @@ package abe.com.ponents.buttons
             
             _easingFunctions = new ComboBox( getModel() );
             _easingFunctions.popupMenu.scrollLayout = PopupMenu.SCROLLBAR_SCROLL_LAYOUT;
+            _easingFunctions.popupMenu.maximumVisibleItems = 8;
             _easingFunctions.itemFormatingFunction = function( f : Function ) : String {
                 return ( _easingFunctions.model as LabelComboBoxModel ).getLabel( f );
             };

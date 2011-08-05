@@ -38,6 +38,9 @@ package abe.com.mon.utils
             {
                 x = Math.floor ( o.x );
                 y = Math.floor ( o.y );
+                
+                if( x < 0 || x > bmp.width || y < 0 || y > bmp.height )
+                	continue;
 
                 if ( pixelLookup ( bmp, x, y ) )
                     b.push ( pt ( x, y ) );
@@ -112,6 +115,22 @@ package abe.com.mon.utils
             }
 
             return rtnArray;
+        }
+        
+        public static function radialBitmapScan ( bmp : BitmapData, center : Point, angle : Number, pixelLookup : Function ) : Array
+        {	
+            
+            var dir : Point = pt( Math.cos(angle), Math.sin(angle) );
+            dir.normalize( 1000 );
+            
+            var intersection : Array = GeometryUtils.vectorGeomIntersection(center, center.add(dir), new Rectangle2(bmp.rect) );
+            if( !intersection )
+            	return [];
+            
+            return linearBitmapScan(bmp, 
+            						center, 
+                                    intersection[0], 
+                                    pixelLookup);
         }
 
         /**

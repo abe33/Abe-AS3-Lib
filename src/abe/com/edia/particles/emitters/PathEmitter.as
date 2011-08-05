@@ -83,10 +83,10 @@ package abe.com.edia.particles.emitters
 			this.thicknessEasing = thicknessEasing != null ? thicknessEasing : Constant.easeOne;
 			this.pathDistribution = pathDistribution != null ? pathDistribution : Distributions.constant;			this.sizeDistribution = sizeDistribution != null ? sizeDistribution : Distributions.constant;
 			this.minThickness = minThickness;
-			_randomSource = RandomUtils.RANDOM;
-		}
-		/**
-		 * @inheritDoc
+			_randomSource = RandomUtils;
+        }
+        /** 
+         * @inheritDoc
 		 */
 		public function get randomSource () : Random { return _randomSource; }
 		public function set randomSource (randomSource : Random) : void
@@ -101,13 +101,13 @@ package abe.com.edia.particles.emitters
 		 */
 		public function get ( n : Number = NaN ) : Point
 		{
-			var r : Number = pathDistribution( isNaN( n ) ? RandomUtils.random() : n );
-			var s : Number = sizeDistribution( RandomUtils.random() ); 
-			var p : Point = path.getPathPoint( r );
+			var r : Number = pathDistribution( isNaN( n ) ? _randomSource.random() : n );
+			var s : Number = sizeDistribution( _randomSource.random() );
+            var p : Point = path.getPathPoint( r );
 			var a : Number = path.getPathOrientation( r );
 			var p2 : Point = pt(0,1);
 			p2 = PointUtils.rotate(p2, a);
-			p2.normalize( thicknessEasing( r, minThickness, thickness-minThickness, 1 ) * RandomUtils.sign() * s );
+			p2.normalize( thicknessEasing( r, minThickness, thickness-minThickness, 1 ) * _randomSource.sign() * s );
 			return p.add( p2 );
         }
 

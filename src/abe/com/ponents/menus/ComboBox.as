@@ -91,8 +91,8 @@ package abe.com.ponents.menus
 			childrenLayout = layout;
 			
 			dropDownIcon = _popupAsDropDown || !_popupAlignOnSelection ? 
-						_style.dropDownIcon.clone() :
-						_style.popupIcon.clone();
+							_style.dropDownIcon.clone() :
+							_style.popupIcon.clone();
 						
 			if( args.length > 1 )
 				model = new DefaultComboBoxModel( args );
@@ -205,10 +205,14 @@ package abe.com.ponents.menus
 		override public function set value (val : *) : void
 		{
 			if( _model.contains( val ) )
+            {
+                var sv : * = _value;
 				_value = val;
+                if( _value != sv )
+                	_model.selectedElement = val;
+            }
 			else
 				_value = _model.getElementAt(0);
-            
 			label = formatLabel( _value );
 		}
 		public function get itemDescriptionProvider () : Function { return _itemDescriptionProvider; }
@@ -333,6 +337,7 @@ package abe.com.ponents.menus
 				if( _itemDescriptionProvider != null )
 					( item.action as SelectAction ).longDescription = _itemDescriptionProvider.call( this, _model.getElementAt( i ) );
 				item.columnsSizes = [0,0,0,0];
+                
 				FEATURES::DND { 
 				    item.allowDrag = false;
 				} 

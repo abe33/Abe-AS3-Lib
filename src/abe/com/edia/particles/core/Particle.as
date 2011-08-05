@@ -21,7 +21,7 @@ package abe.com.edia.particles.core
          */
         public var position : Point;
         /**
-         * The last position of the particle.
+         * The last position of the particle for verlet based engine.
          * 
          * <p>Updated at the end of the animation process, before modifying
          * the particle's position.</p>
@@ -39,8 +39,13 @@ package abe.com.edia.particles.core
          * The maximum life time of the particle, generally specified in milliseconds.
          */
         public var maxLife : Number;
-        
+        /**
+         * 
+         */
         public var died : Signal;
+        public var revived : Signal;
+        
+        private var _dead : Boolean;
 
         /**
          * Creates a new particle.
@@ -61,9 +66,25 @@ package abe.com.edia.particles.core
         {
             return StringUtils.stringify( this, {'life':life} );
         }
+        
+        public function die():void
+        {
+            _dead = true;
+            
+			life = maxLife;
+        	died.dispatch( this );   
+        }
+        public function revive():void
+        {
+            _dead = false;
+            
+            life = 0;
+            revived.dispatch( this );
+        }
 
         public function init () : void 
         {
+            _dead = false;
             life = 0;
             maxLife = 0;
             velocity = new Point ();
@@ -77,9 +98,6 @@ package abe.com.edia.particles.core
             lastPosition = null;
         }
 
-        public function isDead () : Boolean
-        {
-            return life >= maxLife;
-        }
+        public function isDead () : Boolean { return _dead; }
     }
 }

@@ -1,10 +1,9 @@
 package abe.com.ponents.lists 
 {
     import abe.com.mon.geom.*;
-    import abe.com.ponents.core.*;
-    import abe.com.ponents.models.*;
+    import abe.com.mon.logs.Log;
     import abe.com.ponents.containers.*;
-    import abe.com.ponents.events.*;
+    import abe.com.ponents.core.*;
     import abe.com.ponents.skinning.cursors.Cursor;
 
     import flash.events.*;
@@ -22,7 +21,7 @@ package abe.com.ponents.lists
           state__all__insets="new cutils::Insets(0)"
     )]
     public class ListLineRuler extends List 
-    {
+    {	
         FEATURES::BUILDER { 
         static public function defaultListLineRulerPreview () : ScrollPane
         {
@@ -192,7 +191,9 @@ package abe.com.ponents.lists
             var c : ListLineRulerCell = super.getCell( itemIndex, childIndex ) as ListLineRulerCell;
             
             if( c )
+            {
                 c.indexStartAt0 = _indexStartAt0;
+            }
             
             return c;
         }
@@ -212,7 +213,6 @@ package abe.com.ponents.lists
         public function set list (list : List) : void { _list = list; }
     }
 }
-
 import abe.com.ponents.models.DefaultListModel;
 
 internal class ListLineRulerModel extends DefaultListModel

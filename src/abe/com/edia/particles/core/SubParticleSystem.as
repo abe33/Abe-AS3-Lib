@@ -1,7 +1,7 @@
 package abe.com.edia.particles.core
 {
-    import abe.com.edia.particles.strategy.ActionStrategy;
-    import abe.com.edia.particles.strategy.InitializeStrategy;
+    import abe.com.edia.particles.actions.ActionStrategy;
+    import abe.com.edia.particles.initializers.Initializer;
     import abe.com.mon.utils.getReflectionSource;
     import abe.com.mon.utils.getSource;
     import abe.com.mon.utils.magicToReflectionSource;
@@ -14,7 +14,7 @@ package abe.com.edia.particles.core
     {
         protected var _emissionFactory : Function;
         
-        public function SubParticleSystem ( initializer : InitializeStrategy = null, 
+        public function SubParticleSystem ( initializer : Initializer = null, 
         									action : ActionStrategy = null,
                                             emissionFactory : Function = null,
                                             particlesDeathSubSystem : SubParticleSystem = null )

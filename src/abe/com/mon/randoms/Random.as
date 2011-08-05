@@ -1,5 +1,6 @@
 package abe.com.mon.randoms 
 {
+    import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Range;
 	import abe.com.mon.geom.pt;
@@ -294,7 +295,7 @@ package abe.com.mon.randoms
 			var n : Number = generator.random ();
 			if( isNaN ( total ) && !cumulativeRatios )
 			{
-				var t : Number = 0
+				var t : Number = 0;
 				ratios.forEach(function( n : Number, ... args ) : void { t += n; } );
 				total = t;
 			}
@@ -423,7 +424,7 @@ package abe.com.mon.randoms
 			var n : Number = generator.random();
 			if( isNaN( total) )
 			{
-				var t : Number = 0
+				var t : Number = 0;
 				ratios.forEach(function( n : Number, ... args ) : void { t += n; } );
 				total = t;
 			}
@@ -446,7 +447,7 @@ package abe.com.mon.randoms
 			}
 			return a[index];
 		}
-		
+		public function inValues ( ... args ) : Color { return inArray( args ); }
 		/**
 		 * Renvoie une valeur booléenne choisie aléatoirement selon le taux
 		 * passé en paramètre.
@@ -538,6 +539,6 @@ package abe.com.mon.randoms
 			for( var i : uint = 0; i < length; i++ )
 				a.push(rangeAB(start, end));
 			return a;
-		}
+        }
 	}
 }

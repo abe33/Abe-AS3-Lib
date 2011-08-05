@@ -34,7 +34,7 @@ package abe.com.ponents.utils
 			level.init();
 			_levels.push( level );
 			
-			ToolKit.popupLevel.addChild( level.mouseCatcher );
+			ToolKit.mouseCatcherLevel.addChild( level.mouseCatcher );
 			StageUtils.lockToStage( level.mouseCatcher );
 			if( animateModal )
 			{
@@ -104,7 +104,7 @@ package abe.com.ponents.utils
 		}
 		static protected function tweenEnded ( t : Tween ) : void
 		{
-			ToolKit.popupLevel.removeChild( tween.target as DisplayObject );
+			ToolKit.mouseCatcherLevel.removeChild( tween.target as DisplayObject );
 			tween.tweenEnded.remove( tweenEnded );
 		}
 		static public function pop () : void
@@ -123,11 +123,11 @@ package abe.com.ponents.utils
 					tween.reversed = true;
 					tween.execute();
 				}
-				else if( ToolKit.popupLevel.contains( level.mouseCatcher ) )
-					ToolKit.popupLevel.removeChild( level.mouseCatcher );
+				else if( ToolKit.mouseCatcherLevel.contains( level.mouseCatcher ) )
+					ToolKit.mouseCatcherLevel.removeChild( level.mouseCatcher );
 			}			
-			else if( ToolKit.popupLevel.contains( level.mouseCatcher ) )
-				ToolKit.popupLevel.removeChild( level.mouseCatcher );
+			else if( ToolKit.mouseCatcherLevel.contains( level.mouseCatcher ) )
+				ToolKit.mouseCatcherLevel.removeChild( level.mouseCatcher );
 			
 			StageUtils.unlockFromStage( level.mouseCatcher );
 			for each(var c : DisplayObject in level.components)

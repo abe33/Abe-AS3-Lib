@@ -32,9 +32,9 @@ package abe.com.edia.particles.emitters
 		public function PointEmitter ( point : Point )
 		{
 			this.point = point;
-			_randomSource = RandomUtils.RANDOM;
-		}
-		/**
+			_randomSource = RandomUtils;
+        }
+        /**
 		 * @inheritDoc
 		 */
 		public function get randomSource () : Random { return _randomSource; }

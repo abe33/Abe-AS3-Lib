@@ -1,10 +1,10 @@
 package abe.com.edia.particles.core
 {
-    import abe.com.mon.core.Cloneable;
-    import abe.com.mon.core.Serializable;
-    import abe.com.edia.particles.strategy.EmissionStrategy;
+    import abe.com.edia.particles.emissions.ParticleEmission;
     import abe.com.mands.Command;
     import abe.com.mon.core.Allocable;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Serializable;
     import abe.com.mon.core.Suspendable;
     import abe.com.motion.ImpulseListener;
 
@@ -55,8 +55,8 @@ package abe.com.edia.particles.core
 		 * @throws com.bourre.error.UnsupportedOperationException The current
 		 * 		   class don't support the <code>emit<code> method
 		 */
-		function emit ( emission : EmissionStrategy = null ) : void;
-		function stopEmission ( emission : EmissionStrategy ) : void;
+		function emit ( emission : ParticleEmission = null ) : void;
+		function stopEmission ( emission : ParticleEmission ) : void;
 
 		function set particles ( particles : Array ) : void;
 		function get particles () : Array;

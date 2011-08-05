@@ -2,6 +2,7 @@ package abe.com.ponents.menus
 {
     import abe.com.mands.ProxyCommand;
     import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
     import abe.com.mon.utils.KeyStroke;
     import abe.com.mon.utils.Keys;
     import abe.com.mon.utils.StageUtils;
@@ -16,6 +17,8 @@ package abe.com.ponents.menus
     import abe.com.ponents.models.DefaultListModel;
     import abe.com.ponents.utils.ToolKit;
 
+    import org.osflash.signals.Signal;
+
     import flash.display.InteractiveObject;
     import flash.events.Event;
     import flash.events.MouseEvent;
@@ -23,8 +26,6 @@ package abe.com.ponents.menus
     import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.utils.Dictionary;
-    
-    import org.osflash.signals.Signal;
 
     /**
      * @author Cédric Néhémie
@@ -64,14 +65,16 @@ package abe.com.ponents.menus
             return [new DropShadowFilter(2,45,0,.5,2,2)];
         }
         
+        static public const SCROLLBAR_SCROLL_LAYOUT : uint = 0;
+        static public const SLIDER_SCROLL_LAYOUT : uint = 1;
+        
         protected var _menuList : MenuList;
         protected var _invoker : InteractiveObject;
         
         protected var _scrollContainer : AbstractScrollContainer;
         protected var _scrollLayout : uint;
         
-        static public const SCROLLBAR_SCROLL_LAYOUT : uint = 0;
-        static public const SLIDER_SCROLL_LAYOUT : uint = 1;
+        protected var _maximumVisibleItems : int;
         
         public var popupClosedOnCancel : Signal;
         public var popupClosedOnAction : Signal;
@@ -88,6 +91,7 @@ package abe.com.ponents.menus
             _allowChildrenFocus = false;
             //_allowFocus = false;
             _childrenLayout = new GridLayout( this, 1, 1, 0, 0 );
+            _maximumVisibleItems = -1;
             
             _menuList = new MenuList( new DefaultListModel() );
             _menuList.model.dataChanged.add( dataChanged );
@@ -104,6 +108,8 @@ package abe.com.ponents.menus
 	            _keyboardContext[ KeyStroke.getKeyStroke( Keys.ESCAPE ) ] = new ProxyCommand( escape          );
             } 
         }
+        public function get maximumVisibleItems():int { return _maximumVisibleItems; }
+        public function set maximumVisibleItems( n:int ):void { _maximumVisibleItems = n; invalidatePreferredSizeCache(); }
 
         protected function dataChanged ( a : int = 0, i : Array = null, v : Array = null ) : void 
         {
@@ -313,6 +319,7 @@ package abe.com.ponents.menus
             _menuList.model.addElement( m );
             m.mouseEntered.add( overMenuItem );
             m.menuContainer = this;
+            m.index = _menuList.model.indexOf( m );
             invalidatePreferredSizeCache();
         }
         public function addMenuItems ( ... args ) : void
@@ -321,7 +328,6 @@ package abe.com.ponents.menus
                 if( m )
                     addMenuItem( m );
         }
-        
         
         TARGET::FLASH_9
         public function addMenuItemsVector ( args : Array ) : void { for each ( var m : MenuItem in args ) addMenuItem( m ); }
@@ -410,7 +416,12 @@ package abe.com.ponents.menus
                                          (_scrollContainer as ScrollPane).vscrollbar.preferredWidth :
                                          0 ) :
                                      0 );
-                _preferredSizeCache = _menuList.preferredSize.grow( _style.insets.horizontal + w, style.insets.vertical );
+				var d : Dimension = _menuList.preferredSize;
+                
+                if( _maximumVisibleItems != -1 )                	
+                	_preferredSizeCache = dm(d.width, ( _menuList.preferredHeight / numMenuItems ) * _maximumVisibleItems ).grow( _style.insets.horizontal + w, style.insets.vertical );
+                else
+                	_preferredSizeCache = d.grow( _style.insets.horizontal + w, style.insets.vertical );
             }
             else
                 super.invalidatePreferredSizeCache();

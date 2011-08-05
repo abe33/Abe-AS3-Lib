@@ -166,9 +166,9 @@ package abe.com.mon.geom
 				this.rotation = rotation;
 			}
 			this.pathBasedOnLength = pathBasedOnLength;
-			_randomSource = RandomUtils.RANDOM;
-		}
-		/**
+			_randomSource = RandomUtils;
+        }
+        /**
 		 * An object representing the vector of the upper edge.
 		 * <fr>
 		 * Un objet représentant le vecteur de l'arête supérieur.

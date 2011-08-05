@@ -1,15 +1,14 @@
 package abe.com.ponents.utils 
 {
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	
-	import flash.display.DisplayObjectContainer;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.events.MouseEvent;
-	
-	import org.osflash.signals.Signal;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.skinning.cursors.Cursor;
+
+    import org.osflash.signals.Signal;
+
+    import flash.display.DisplayObjectContainer;
+    import flash.events.EventDispatcher;
+    import flash.events.MouseEvent;
 
 	/**
 	 * @author Cédric Néhémie
@@ -304,24 +303,24 @@ package abe.com.ponents.utils
 				resizeMode == CardinalPoints.NORTH_WEST )
 			{ 
 					_component.y = mouseY - _offsetY;
-					_component.preferredHeight = ( _safeY + _safeHeight ) - mouseY - _offsetY;
+					_component.preferredHeight = Math.max( ( _safeY + _safeHeight ) - mouseY - _offsetY, 10 );
 			}
 			else if( resizeMode == CardinalPoints.SOUTH || 
 					 resizeMode == CardinalPoints.SOUTH_EAST ||
 					 resizeMode == CardinalPoints.SOUTH_WEST )
-					_component.preferredHeight = mouseY - _safeY + offsetY2;
+					_component.preferredHeight = Math.max( mouseY - _safeY + offsetY2, 10 );
 			
 			if( resizeMode == CardinalPoints.WEST || 
 				resizeMode == CardinalPoints.SOUTH_WEST ||
 				resizeMode == CardinalPoints.NORTH_WEST )
 			{ 
 					_component.x = mouseX - _offsetX;
-					_component.preferredWidth = ( _safeX + _safeWidth ) - mouseX - _offsetX;
+					_component.preferredWidth = Math.max( ( _safeX + _safeWidth ) - mouseX - _offsetX, 10 );
 			}
 			else if( resizeMode == CardinalPoints.EAST || 
 					 resizeMode == CardinalPoints.SOUTH_EAST ||
 					 resizeMode == CardinalPoints.NORTH_EAST ) 
-					_component.preferredWidth = mouseX - _safeX + offsetX2;
+					_component.preferredWidth = Math.max( mouseX - _safeX + offsetX2, 10 );
 
 			componentResized.dispatch( this );
 		}

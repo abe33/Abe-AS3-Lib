@@ -37,9 +37,9 @@ package abe.com.edia.bitmaps
 			_cols = Math.floor( _grid.width / _cellSize.width );
 			_rows = Math.floor( _grid.height / _cellSize.height );
 			cellCenter = new Point( );
-			_randomSource = RandomUtils.RANDOM;
-		}
-		public function get rows () : uint { return _rows; }
+			_randomSource = RandomUtils;
+        }
+        public function get rows () : uint { return _rows; }
 		public function get cols () : uint { return _cols; }
 		
 		public function get cellSize () : Dimension { return _cellSize; }

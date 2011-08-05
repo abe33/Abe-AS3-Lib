@@ -163,9 +163,9 @@ package  abe.com.mon.geom
 
 			clockWisePath = true;
 			pathOffset = 0;
-			_randomSource = RandomUtils.RANDOM;
-		}
-		/**
+			_randomSource = RandomUtils;
+        }
+        /**
 		 * Reference to the internal <code>Random</code> object used in random based methods.
 		 */
 		protected var _randomSource : Random;
