@@ -259,7 +259,7 @@ package abe.com.ponents.tabs
                 case  CardinalPoints.NORTH : 
                 case  CardinalPoints.SOUTH : 
                 default:
-                    return preferredWidth < _tabbedPane.width;
+                    return preferredWidth < _tabbedPane.tabScroller.width;
             }
         }
         
@@ -269,7 +269,7 @@ package abe.com.ponents.tabs
             {
                 case  CardinalPoints.EAST : 
                 case  CardinalPoints.WEST :
-                    return preferredHeight < _tabbedPane.height;
+                    return preferredHeight < _tabbedPane.tabScroller.height;
                 case  CardinalPoints.NORTH : 
                 case  CardinalPoints.SOUTH : 
                 default:
