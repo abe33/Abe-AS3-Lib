@@ -649,7 +649,8 @@ package abe.com.ponents.core
             c.focusParent = this;
             c.interactive = _interactive;
             c.componentResized.add( childrenResized );
-            c.mouseWheelRolled.add( childMouseWhellRolled );
+            c.mouseWheelRolled.add( childMouseWheelRolled );
+            c.visibleChanged.add( childVisibleChanged );
         }
         /**
          * Remet à zéro les propriétés d'un composant nouvellement supprimé de ce <code>Container</code>.
@@ -660,14 +661,19 @@ package abe.com.ponents.core
         {
             c.focusParent = null;
             c.componentResized.remove( childrenResized );
-            c.mouseWheelRolled.remove( childMouseWhellRolled );
+            c.mouseWheelRolled.remove( childMouseWheelRolled );
+            c.visibleChanged.remove( childVisibleChanged );
         }
         
+        protected function childVisibleChanged ( c : Component, b : Boolean ):void
+        {
+            invalidatePreferredSizeCache();
+        }
         protected function childrenResized( c : Component, d : Dimension ) : void
         {
             _childResized.dispatch( this, c, d );
         }
-        protected function childMouseWhellRolled( c : Component, d : Number ) : void
+        protected function childMouseWheelRolled( c : Component, d : Number ) : void
         {
             mouseWheelRolled.dispatch( this, d );
         } 

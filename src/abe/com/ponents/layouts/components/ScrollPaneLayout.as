@@ -70,7 +70,7 @@ package abe.com.ponents.layouts.components
 			var innerWidth : Number = prefDim.width;			var innerHeight : Number = prefDim.height;
 			var innerX : Number = 0;			var innerY : Number = 0;
 			
-			if( _colHead.view )
+			if( _colHead.view && _colHead.view.visible )
 			{
 				innerHeight -= _colHead.view.preferredSize.height;
 				innerY += _colHead.view.preferredSize.height;
@@ -79,7 +79,7 @@ package abe.com.ponents.layouts.components
 			else
 				_colHead.visible = false;
 			
-			if( _rowHead.view )
+			if( _rowHead.view && _rowHead.view.visible )
 			{
 				innerWidth -= _rowHead.view.preferredSize.width;
 				innerX += _rowHead.view.preferredSize.width;
@@ -177,7 +177,7 @@ package abe.com.ponents.layouts.components
 			_hscrollbar.x = insets.left + innerX;
 			_hscrollbar.y = insets.top + innerY + innerHeight;
 			
-			if( _colHead.view )
+			if( _colHead.view && _colHead.view.visible )
 			{
 				_colHead.x = insets.left + innerX;				_colHead.y = insets.top;
 				_colHead.size = new Dimension( innerWidth , innerY );
@@ -193,7 +193,7 @@ package abe.com.ponents.layouts.components
 					_upperRight.visible = false;
 					
 				
-				if( _rowHead.view && _upperLeft )
+				if( _rowHead.view && _rowHead.view.visible && _upperLeft )
 				{
 					_upperLeft.visible = true;
 					_upperLeft.x = insets.left;					_upperLeft.y = insets.top;
@@ -203,7 +203,7 @@ package abe.com.ponents.layouts.components
 					_upperLeft.visible = false;
 				
 			}
-			if( _rowHead.view )
+			if( _rowHead.view && _rowHead.view.visible )
 			{
 				_rowHead.y = insets.top + innerY;				_rowHead.x = insets.left;
 				_rowHead.size = new Dimension( innerX, innerHeight );
