@@ -91,22 +91,7 @@ package abe.com.ponents.containers
         public function getScrollableUnitIncrementH (r : Rectangle = null, direction : Number = 1) : Number { return direction * 10; }
         public function getScrollableBlockIncrementV (r : Rectangle = null, direction : Number = 1) : Number { return direction * 50; }
         public function getScrollableBlockIncrementH (r : Rectangle = null, direction : Number = 1) : Number { return direction * 50; }
-        
-        override protected function setupChildren (c : Component) : void 
-        {
-            super.setupChildren( c );
-            c.componentResized.add( childComponentResized );
-        }
-        override protected function teardownChildren (c : Component) : void 
-        {
-            super.teardownChildren( c );
-            c.componentResized.remove( childComponentResized );
-        }
-        protected function childComponentResized ( c : Component, d : Dimension ) : void 
-        {
-            invalidatePreferredSizeCache();
-            fireComponentResizedSignal();
-        }
+
         private var _childrenInvalidationSetProgramatically : Boolean;
         override public function invalidatePreferredSizeCache () : void 
         {

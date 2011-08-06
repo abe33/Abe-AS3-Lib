@@ -668,10 +668,13 @@ package abe.com.ponents.core
         protected function childVisibleChanged ( c : Component, b : Boolean ):void
         {
             invalidatePreferredSizeCache();
+            fireComponentResizedSignal();
         }
         protected function childrenResized( c : Component, d : Dimension ) : void
         {
+            invalidatePreferredSizeCache();
             _childResized.dispatch( this, c, d );
+            fireComponentResizedSignal();
         }
         protected function childMouseWheelRolled( c : Component, d : Number ) : void
         {
