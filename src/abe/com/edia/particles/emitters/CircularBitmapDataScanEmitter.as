@@ -12,51 +12,53 @@ package abe.com.edia.particles.emitters
     /**
      * @author cedric
      */
-    public class RadialBitmapDataScanEmitter extends AbstractBitmapDataEmitter implements FixedCoordsEmitter
+    public class CircularBitmapDataScanEmitter extends AbstractBitmapDataEmitter implements FixedCoordsEmitter
     {
-        protected var _center: Point;
         protected var _pixelLookup : Function;
-        protected var _angle : Number;
         protected var _coords : Array;
         protected var _iterator : int;
+        protected var _center : Point;
+        protected var _radius : Number;
         
-        public function RadialBitmapDataScanEmitter ( bmp : BitmapData, 
-        											  center : Point, 
-                                                      angle : Number = 0,
-                                                      pixelLookup : Function = null )
+        public function CircularBitmapDataScanEmitter ( bmp : BitmapData, 
+        												center : Point, 
+                                                        radius : Number, 
+                                                        pixelLookup : Function )
         {
             super ( bmp );
             _center = center;
+            _radius = radius;
             _pixelLookup = pixelLookup;
-            _angle = angle;
+            
             updateCoordinates();
         }
+        
         public function get coords () : Array { return _coords; }
         
-        public function get angle () : Number { return _angle; }
-        public function set angle ( angle : Number ) : void { _angle = angle; updateCoordinates(); }
-
-		public function get center () : Point { return _center; }
-        public function set center ( center : Point ) : void { _center = center; updateCoordinates(); }
-
         public function get pixelLookup () : Function { return _pixelLookup;}
         public function set pixelLookup ( pixelLookup : Function ) : void 
         { 
             _pixelLookup = pixelLookup;
             updateCoordinates();
         }
+        
+        public function get center () : Point { return _center; }
+        public function set center ( center : Point ) : void { _center = center; updateCoordinates(); }
+        
+        public function get radius () : Number { return _radius; }
+        public function set radius ( radius : Number ) : void { _radius = radius; updateCoordinates(); }
 
         public function updateCoordinates () : void
         {
             _iterator = 0;
-            _coords = BitmapUtils.radialBitmapScan( _bitmapData, _center, _angle, _pixelLookup);
+            _coords = BitmapUtils.circularBitmapScan( _bitmapData, _center, _radius, _pixelLookup);
         }
-
+        
         override public function get ( n : Number = NaN ) : Point
         {
             if( _coords.length == 0 )
             	return pt();
-                
+            
             if( _iterator >= _coords.length )
             	_iterator %= _coords.length;
             
@@ -67,16 +69,15 @@ package abe.com.edia.particles.emitters
         {
             return [ getSource( _bitmapData ), 
             		 _$("new flash.geom.Point($0,$1)", _center.x, _center.y),
-                     _angle,
+            		 _radius,
                      getSource( _pixelLookup ) ].join(", ");
         }
         override protected function getReflectionSourceArguments () : String
         {
             return [ getReflectionSource( _bitmapData ), 
             		 _$("new flash.geom::Point($0,$1)", _center.x, _center.y), 
-                     _angle, 
+            		 _radius,
                      getReflectionSource ( _pixelLookup ) ].join ( ", " );
         }
-       
     }
 }

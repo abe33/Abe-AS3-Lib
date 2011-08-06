@@ -33,6 +33,9 @@ package abe.com.mon.utils
             var y : Number;
 
             d.normalize ( 1 );
+            
+            if( !bmp.rect.containsPoint( from ) && !bmp.rect.containsPoint( to ) )
+            	return [];
 
             while ( m < l )
             {
@@ -161,17 +164,7 @@ package abe.com.mon.utils
             var b : Boolean  = isEmpty(  x, y+1);
             var br : Boolean = isEmpty(x+1, y+1);
             
-//            return !isEmpty(x,y) && ( 
-//            	!ul && ( u && l ) || 
-//            	!u  && (ul && ur) || 
-//            	!ur && ( u && r ) || 
-//            	!l  && (ul && bl) || 
-//            	!r  && (ur && br) || 
-//            	!bl && ( l && b ) || 
-//            	!b  && (bl && br) || 
-//            	!br && ( b && r )              
-//              );
-            return /*!isEmpty(x,y) &&*/ ( 
+            return ( 
             	!ul && (bl && ur) || 
             	!u  && ( l && r ) || 
             	!ur && (ul && br) || 
