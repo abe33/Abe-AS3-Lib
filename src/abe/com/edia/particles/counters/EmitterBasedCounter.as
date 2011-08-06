@@ -1,7 +1,9 @@
 package abe.com.edia.particles.counters
 {
     import abe.com.edia.particles.emitters.FixedCoordsEmitter;
-    import abe.com.edia.particles.counters.Counter;
+    import abe.com.patibility.lang._$;
+
+    import flash.utils.getQualifiedClassName;
 
     /**
      * @author cedric
@@ -25,13 +27,13 @@ package abe.com.edia.particles.counters
         {
             _count = _emitter.coords.length;
         }
-        public function toSource () : String
+        public function toSource():String
         {
-            return null;
+            return _$("new $0(${emitter})", getQualifiedClassName(this).replace("::", "."));
         }
-        public function toReflectionSource () : String
+        public function toReflectionSource():String
         {
-            return null;
+            return _$("new $0(${emitter})", getQualifiedClassName(this) );
         }
         public function clone () : *
         {
