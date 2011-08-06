@@ -156,6 +156,7 @@ package abe.com.ponents.core
         protected var _componentEnableChanged : Signal;
         protected var _componentRepainted : Signal;
         protected var _propertyChanged : Signal;
+        protected var _visibleChanged : Signal;
         
         public function AbstractComponent ()
         {
@@ -173,6 +174,7 @@ package abe.com.ponents.core
             _componentResized = new Signal( Component, Dimension );
             _componentScrollChanged = new Signal( Component );
             _propertyChanged = new Signal();
+            _visibleChanged = new Signal();
             
             mouseWheelRolledBubble = new DeluxeSignal(this);
             
@@ -247,6 +249,7 @@ package abe.com.ponents.core
         public function get componentEnableChanged () : Signal { return _componentEnableChanged; }
         public function get componentRepainted () : Signal { return _componentRepainted; }
         public function get propertyChanged () : Signal { return _propertyChanged; }
+        public function get visibleChanged () : Signal { return _visibleChanged; }
         
         public function get mouseEntered () : Signal { return _mouseEntered; }
         public function get mouseLeaved () : Signal { return _mouseLeaved; }
@@ -322,6 +325,13 @@ package abe.com.ponents.core
             fireComponentChangedSignal();
             firePropertyChangedSignal( "position", position );
             fireComponentPositionChangedSignal();
+        }
+        
+        
+        override public function set visible ( value : Boolean ) : void {
+            super.visible = value;
+            _propertyChanged.dispatch("visible", value);
+            _visibleChanged.dispatch( this, value );
         }
         
         override public function get width () : Number { return _size ? _size.width : preferredWidth; }

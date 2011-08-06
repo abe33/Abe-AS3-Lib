@@ -39,6 +39,13 @@ package abe.com.ponents.layouts.components
 			preferredSize = preferredSize ? preferredSize : computeSize().grow( insets.horizontal, insets.vertical );
 			
 			var n : uint = _container.childrenCount;
+            var n2 : uint = n;
+            var i : uint;
+            
+			for( i = 0; i < n2; i++ )
+            	if( !_container.children[i].visible )
+                	n--;
+            
 			var astart : Number;
 			
 			if( _counterClockWise )
@@ -54,9 +61,13 @@ package abe.com.ponents.layouts.components
 			var cy : Number = preferredSize.height / 2;
 			var c : Component;
 			
-			for( var i : uint = 0; i<n; i++ )
+			for( i = 0; i<n2; i++ )
 			{
 				c = _container.children[i];
+                
+                if( !c.visible )
+                	continue;
+                
 				d = c.preferredSize;
 				x = Math.sin( a ) * _radius;
 				y = Math.cos( a ) * _radius;
@@ -84,8 +95,14 @@ package abe.com.ponents.layouts.components
 		protected function computeSize () : Dimension 
 		{
 			var n : uint = _container.childrenCount;
+            var n2 : uint = n;
+            var i : uint;
+            
+			for( i = 0; i < n2; i++ )
+            	if( !_container.children[i].visible )
+                	n--;
+                            
 			var astart : Number;
-			
 			if( _counterClockWise )
 				astart = _angleStart - ( _angleInterval * ( n-1 ) / 2 );
 			else
@@ -97,9 +114,14 @@ package abe.com.ponents.layouts.components
 			var x : Number;
 			var y : Number;
 			var a : Number = astart;
-			for( var i : uint = 0; i < n; i++ )
+            var c : Component; 
+			for( i = 0; i < n2; i++ )
 			{
-				d = _container.children[i].preferredSize;
+                c = _container.children[i];
+                if( !c.visible )
+                	continue;
+                
+				d = c.preferredSize;
 				x = Math.sin( a ) * _radius;
 				y = Math.cos( a ) * _radius;
 				r2 = new Rectangle( x - d.width / 2, y - d.height / 2, d.width, d.height);

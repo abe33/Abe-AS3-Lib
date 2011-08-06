@@ -95,7 +95,9 @@ package abe.com.ponents.layouts.components
 					for(i=0;i<l;i++)
 					{
 						c = _container.children[ i ];
-						
+						if(!c.visible)
+                        	continue;
+                        
 						if( _fixedSize )
 						{
 							c.width = prefDim.width-insets.horizontal;
@@ -113,7 +115,9 @@ package abe.com.ponents.layouts.components
 					for(i=0;i<l;i++)
 					{
 						c = _container.children[ i ];
-						
+						if(!c.visible)
+                        	continue;
+                        
 						if( _fixedSize )
 						{
 							c.width = prefDim.width-insets.horizontal;
@@ -130,6 +134,9 @@ package abe.com.ponents.layouts.components
 					for(i=0;i<l;i++)
 					{
 						c = _container.children[ i ];
+                        if(!c.visible)
+                        	continue;
+                        
 						if( _fixedSize )
 						{
 							c.height = prefDim.height-insets.vertical;
@@ -147,6 +154,9 @@ package abe.com.ponents.layouts.components
 					for(i=0;i<l;i++)
 					{
 						c = _container.children[ i ];
+                        if(!c.visible)
+                        	continue;
+                        
 						if( _fixedSize )
 						{
 							c.height = prefDim.height-insets.vertical;
@@ -181,6 +191,9 @@ package abe.com.ponents.layouts.components
 					for(i=0;i<l;i++)
 					{
 						c = _container.children[ i ];
+                        if(!c.visible)
+                        	continue;
+                        
 						w = Math.max(w,c.preferredSize.width );
 						h += c.preferredSize.height;
 						
@@ -196,6 +209,9 @@ package abe.com.ponents.layouts.components
 					for(i=0;i<l;i++)
 					{
 						c = _container.children[ i ];
+                        if(!c.visible)
+                        	continue;
+                        
 						h = Math.max(h,c.preferredSize.height);
 						w += c.preferredSize.width;
 						
