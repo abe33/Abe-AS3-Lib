@@ -152,7 +152,7 @@ package abe.com.ponents.tabs
             
             _tabBar.tabbedPane = this;
             _tabScroller = new SlidePane ();    
-            
+            // inspect root.debugLevel.debugPanel.childrenContainer.tabPanel.childrenContainer.tabSlidePane
             l.center = _tabScroller;
             _tabPanel.addComponent( _tabScroller );
             
@@ -329,6 +329,14 @@ package abe.com.ponents.tabs
                     return tab;
             return null;
         }
-        public function numDocks () : uint { return _tabBar.children.length; }
+
+        public function numDocks () : uint
+        {
+            return _tabBar.children.length;
+        }
+
+        public function get tabPanel () : Panel {
+            return _tabPanel;
+        }
     }
 }
