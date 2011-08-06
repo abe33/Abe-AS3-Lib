@@ -91,7 +91,7 @@ package abe.com.ponents.layouts.components
 			{
 				if( _direction == SplitPane.HORIZONTAL_SPLIT )
 				{
-					if( _firstComponent )
+					if( _firstComponent && _firstComponent.visible )
 					{
 						_firstComponent.x = x;						_firstComponent.y = y;
 						
@@ -114,7 +114,7 @@ package abe.com.ponents.layouts.components
 					}
 					
 					
-					if( _secondComponent )
+					if( _secondComponent && _secondComponent.visible )
 					{
 						_secondComponent.x = x;
 						_secondComponent.y = y;
@@ -124,7 +124,7 @@ package abe.com.ponents.layouts.components
 				}
 				else
 				{
-					if( _firstComponent )
+					if( _firstComponent && _firstComponent.visible )
 					{
 						_firstComponent.x = x;
 						_firstComponent.y = y;
@@ -149,7 +149,7 @@ package abe.com.ponents.layouts.components
 					}
 					
 					
-					if( _secondComponent )
+					if( _secondComponent && _secondComponent.visible )
 					{
 						_secondComponent.x = x;
 						_secondComponent.y = y;
@@ -171,7 +171,7 @@ package abe.com.ponents.layouts.components
 						fw = refw * _resizeWeight;
 						sw = refw * (1 - _resizeWeight);
 						
-						if( _firstComponent )
+						if( _firstComponent && _firstComponent.visible )
 						{
 							_firstComponent.x = x;
 							_firstComponent.y = y;
@@ -189,7 +189,7 @@ package abe.com.ponents.layouts.components
 						x += _divider.preferredSize.width;
 						
 						
-						if( _secondComponent )
+						if( _secondComponent && _secondComponent.visible )
 						{
 							_secondComponent.x = x;
 							_secondComponent.y = y;
@@ -204,7 +204,7 @@ package abe.com.ponents.layouts.components
 						fh = refh * _resizeWeight;
 						sh = refh * (1 - _resizeWeight);
 						
-						if( _firstComponent )
+						if( _firstComponent && _firstComponent.visible )
 						{
 							_firstComponent.x = x;
 							_firstComponent.y = y;
@@ -224,7 +224,7 @@ package abe.com.ponents.layouts.components
 						y += _divider.preferredSize.height;
 						
 						
-						if( _secondComponent )
+						if( _secondComponent && _secondComponent.visible )
 						{
 							_secondComponent.x = x;
 							_secondComponent.y = y;
@@ -246,7 +246,7 @@ package abe.com.ponents.layouts.components
 						fw = _dividerLocation;
 						sw = refw - _dividerLocation;
 						
-						if( _firstComponent )
+						if( _firstComponent && _firstComponent.visible )
 						{
 							_firstComponent.x = x;
 							_firstComponent.y = y;
@@ -266,7 +266,7 @@ package abe.com.ponents.layouts.components
 						_divider.height = prefDim.height;
 						x += _divider.preferredSize.width;
 						
-						if( _secondComponent )
+						if( _secondComponent && _secondComponent.visible )
 						{
 							_secondComponent.x = x;
 							_secondComponent.y = y;
@@ -284,7 +284,7 @@ package abe.com.ponents.layouts.components
 						fh = _dividerLocation;
 						sh = refh - _dividerLocation;
 						
-						if( _firstComponent )
+						if( _firstComponent && _firstComponent.visible )
 						{
 							_firstComponent.x = x;
 							_firstComponent.y = y;
@@ -304,7 +304,7 @@ package abe.com.ponents.layouts.components
 						_divider.width = prefDim.width;
 						y += _divider.preferredSize.height;
 						
-						if( _secondComponent )
+						if( _secondComponent && _secondComponent.visible )
 						{
 							_secondComponent.x = x;
 							_secondComponent.y = y;

@@ -310,6 +310,7 @@ package abe.com.ponents.core
         function get componentEnableChanged () : Signal;
         function get componentRepainted () : Signal;
         function get propertyChanged () : Signal;
+        function get visibleChanged () : Signal;
         
         function get mouseEntered () : Signal;
         function get mouseLeaved () : Signal;

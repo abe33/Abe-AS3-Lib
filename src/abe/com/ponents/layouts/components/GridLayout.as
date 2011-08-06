@@ -61,6 +61,9 @@ package abe.com.ponents.layouts.components
 			for(i=0;i<l;i++)
 			{
 				c = _container.children[i];
+                
+                if( !c.visible )
+                	continue;
 				
 				c.size = new Dimension( cellWidth, cellHeight );
 				c.x = x;
@@ -89,11 +92,20 @@ package abe.com.ponents.layouts.components
 			
 			var cols : Number = _cols;
 			var rows : Number = _rows;
+            
+            var n : uint = _container.childrenCount;
+            var n2 : uint = n;
+            var i : uint;
+            
+			for( i = 0; i < n2; i++ )
+            	if( !_container.children[i].visible )
+                	n--;
+            
 			if( isNaN( rows ) )
-				rows = Math.ceil( _container.childrenCount / _cols );
+				rows = Math.ceil( n / _cols );
 			else 
 			if( _container.childrenCount > _cols * _rows )
-				cols = Math.ceil( _container.childrenCount / _rows );
+				cols = Math.ceil( n / _rows );
 			
 			_lastMaximumContentSize = dm( maxSize.width, maxSize.height );
 			

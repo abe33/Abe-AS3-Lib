@@ -31,13 +31,13 @@ package abe.com.ponents.layouts.components
         }
         override public function get preferredSize () : Dimension 
         {
-            return menuComponent ? super.preferredSize.grow( 0, menuComponent.preferredHeight ) : super.preferredSize;
+            return (menuComponent && menuComponent.visible) ? super.preferredSize.grow( 0, menuComponent.preferredHeight ) : super.preferredSize;
         }
         
         override public function layout (preferredSize : Dimension = null, insets : Insets = null) : void 
         {
             insets = insets ? insets : new Insets();
-            if( menuComponent )
+            if( menuComponent && menuComponent.visible )
             {
                 menuComponent.x = insets.left; 
                 menuComponent.y = insets.top;

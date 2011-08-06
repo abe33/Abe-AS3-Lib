@@ -65,79 +65,79 @@ package abe.com.ponents.layouts.components
 			var innerX : Number = 0;
 			var innerY : Number = 0;
 			
-			if( _upper )
+			if( _upper && _upper.visible )
 			{
 				innerHeight -= _upper.preferredSize.height;
 				innerY += _upper.preferredSize.height;
 			}
-			if( _left )
+			if( _left && _left.visible )
 			{
 				innerWidth -= _left.preferredSize.width;
 				innerX += _left.preferredSize.width;
 			}
-			if( _right )
+			if( _right && _right.visible )
 			{
 				innerWidth -= _right.preferredSize.width;
 			}
-			if( _lower )
+			if( _lower && _lower.visible )
 			{
 				innerHeight -= _lower.preferredSize.height;
 			}
 			
 						
-			if( _upper )
+			if( _upper && _upper.visible )
 			{
 				_upper.x = insets.left + innerX;
 				_upper.y = insets.top;
 				_upper.size = new Dimension( innerWidth , innerY );
 				
-				if( _right && _upperRight )
+				if( _right && _right.visible && _upperRight && _upperRight.visible )
 				{
 					_upperRight.visible = true;
 					_upperRight.x = insets.left + innerX + innerWidth;
 					_upperRight.y = insets.top;
 					_upperRight.size = new Dimension( _right.width, innerY );
 				}
-				else if( _upperRight )
+				else if( _upperRight && _upperRight.visible )
 					_upperRight.visible = false;
 					
 				
-				if( _left && _upperLeft )
+				if( _left && _left.visible && _upperLeft && _upperLeft.visible )
 				{
 					_upperLeft.visible = true;
 					_upperLeft.x = insets.left;
 					_upperLeft.y = insets.top;
 					_upperLeft.size = new Dimension( innerX, innerY );
 				}
-				else if( _upperLeft )
+				else if( _upperLeft && _upperLeft.visible )
 					_upperLeft.visible = false;
 				
 			}
-			if( _left )
+			if( _left && _left.visible )
 			{
 				_left.y = insets.top + innerY;
 				_left.x = insets.left;
 				_left.size = new Dimension( innerX, innerHeight );
 				
-				if( _lower && _lowerLeft )
+				if( _lower && _lower.visible && _lowerLeft && _lowerLeft.visible )
 				{
 					_lowerLeft.visible = true;
 					_lowerLeft.y = insets.top + innerY + innerHeight;
 					_lowerLeft.x = insets.left;
 					_lowerLeft.size = new Dimension( innerX, _lower.height );
 				}
-				else if( _lowerLeft )
+				else if( _lowerLeft && _lowerLeft.visible )
 					_lowerLeft.visible = false;
 			}
 			
-			if( _lower && _right && _lowerRight )
+			if( _lower && _lower.visible && _right && _right.visible && _lowerRight && _lowerRight.visible )
 			{
 				_lowerRight.visible = true;
 				_lowerRight.x = insets.left + innerX + innerWidth;
 				_lowerRight.y = insets.top + innerY + innerHeight;
 				_lowerRight.size = new Dimension( _right.width, _lower.height );
 			}
-			else if( _lowerRight )
+			else if( _lowerRight && _lowerRight.visible )
 				_lowerRight.visible = false;
 			
 			_center.x = insets.left + innerX;
@@ -152,17 +152,17 @@ package abe.com.ponents.layouts.components
 			var w : Number = 0;
 			var h : Number = 0;
 			
-			if( _upper )
+			if( _upper && _upper.visible )
 				h += _upper.preferredHeight;
-			if( _lower )
+			if( _lower && _lower.visible )
 				h += _lower.preferredHeight;
 			
-			if( _left )
+			if( _left && _left.visible )
 				w += _left.preferredWidth;
-			if( _right )
+			if( _right && _right.visible )
 				w += _right.preferredWidth;
 				
-			if( _center )
+			if( _center && _center.visible );
 			{
 				w += _center.preferredWidth;
 				h += _center.preferredHeight;
