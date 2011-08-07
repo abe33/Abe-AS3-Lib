@@ -1,32 +1,35 @@
-package abe.com.prehension.examples {
-	import abe.com.edia.commands.ColorFlash;
-	import abe.com.edia.commands.GradientTween;
-	import abe.com.edia.fx.FireBall;
-	import abe.com.edia.fx.Inspire;
-	import abe.com.edia.fx.LightningBolt;
-	import abe.com.edia.fx.ParticlesTwirl;
-	import abe.com.edia.fx.RocksLiftUp;
-	import abe.com.edia.fx.ShinyObject;
-	import abe.com.edia.fx.SmokeRingGenerator;
-	import abe.com.edia.fx.TwinklingObject;
-	import abe.com.edia.fx.TwirlRibbons;
-	import abe.com.edia.fx.WaterBall;
-	import abe.com.edia.particles.emitters.PathEmitter;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Gradient;
-	import abe.com.mon.core.impl.LayeredSpriteImpl;
-	import abe.com.mon.geom.Circle;
-	import abe.com.mon.geom.LinearSpline;
-	import abe.com.mon.geom.Spline;
-	import abe.com.mon.geom.pt;
-	import abe.com.mon.logs.Log;
-	import abe.com.ponents.utils.ToolKit;
-	import flash.display.GradientType;
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-	import flash.filters.GlowFilter;
-	import flash.geom.Matrix;
+package abe.com.prehension.examples
+{
+    import abe.com.edia.commands.ColorFlash;
+    import abe.com.edia.commands.GlowFlash;
+    import abe.com.edia.commands.GradientTween;
+    import abe.com.edia.fx.FireBall;
+    import abe.com.edia.fx.Inspire;
+    import abe.com.edia.fx.LightningBolt;
+    import abe.com.edia.fx.ParticlesTwirl;
+    import abe.com.edia.fx.RocksLiftUp;
+    import abe.com.edia.fx.ShinyObject;
+    import abe.com.edia.fx.SmokeRingGenerator;
+    import abe.com.edia.fx.TwinklingObject;
+    import abe.com.edia.fx.TwirlRibbons;
+    import abe.com.edia.fx.WaterBall;
+    import abe.com.edia.particles.emitters.PathEmitter;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Gradient;
+    import abe.com.mon.core.impl.LayeredSpriteImpl;
+    import abe.com.mon.geom.Circle;
+    import abe.com.mon.geom.LinearSpline;
+    import abe.com.mon.geom.Spline;
+    import abe.com.mon.geom.pt;
+    import abe.com.mon.logs.Log;
+    import abe.com.ponents.utils.ToolKit;
+
+    import flash.display.GradientType;
+    import flash.display.Shape;
+    import flash.display.Sprite;
+    import flash.events.MouseEvent;
+    import flash.filters.GlowFilter;
+    import flash.geom.Matrix;
 
 
     /**
@@ -45,6 +48,7 @@ package abe.com.prehension.examples {
         protected var twinklingObj : TwinklingObject;
         protected var colorFlash : ColorFlash;
         protected var gradientTween : GradientTween;
+        protected var glowFlash : GlowFlash;
 
         public function ShinyObjectDemo ()
         {
@@ -163,7 +167,7 @@ package abe.com.prehension.examples {
                 spr.x = 360;
                 spr.y = 160;
 
-                colorFlash = new ColorFlash( spr, Color.Orange, 400, null, true );
+                colorFlash = new ColorFlash( spr, Color.Orange, true, 400, null, true );
                 colorFlash.execute();
 
                 ToolKit.mainLevel.addChild( spr );
@@ -175,6 +179,16 @@ package abe.com.prehension.examples {
 
                 gradientTween = new GradientTween( spr, Gradient.COLOR_SPECTRUM, 2000, true );
 				gradientTween.execute();
+
+                ToolKit.mainLevel.addChild( spr );
+                
+                ///////////////////////////////////////////////////////////////////////
+				spr = getLayeredSprite( Color.Black );
+                spr.x = 560;
+                spr.y = 160;
+
+                glowFlash = new GlowFlash( spr, Color.Orange, 15, 400, null, true );
+                glowFlash.execute();
 
                 ToolKit.mainLevel.addChild( spr );
             }

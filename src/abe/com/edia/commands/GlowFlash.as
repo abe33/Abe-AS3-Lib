@@ -12,11 +12,11 @@ package abe.com.edia.commands
     import abe.com.motion.easing.Linear;
 
     import flash.display.DisplayObject;
-    import flash.geom.ColorTransform;
+    import flash.filters.GlowFilter;
 	/**
 	 * @author Cédric Néhémie
-	 */
-	public class ColorFlash extends AbstractCommand implements Suspendable, Command, Runnable
+     */
+    public class GlowFlash extends AbstractCommand implements Suspendable, Command, Runnable
 	{
 		private var target : DisplayObject;
 		private var color : Color;
@@ -24,16 +24,21 @@ package abe.com.edia.commands
 		private var t : Number;
 		private var easing : Function;
         private var looping : Boolean;
-        private var add : Boolean;
+        private var maxGlowSize : Number;
 
-		public function ColorFlash ( target : DisplayObject, color : Color, add : Boolean = false, duration : Number = 400, easing : Function = null, looping : Boolean = false )
+        public function GlowFlash ( target : DisplayObject, 
+        							color : Color, 
+                                    maxGlowSize : Number = 6,
+                                    duration : Number = 400, 
+                                    easing : Function = null, 
+                                    looping : Boolean = false )
 		{
 			this.target = target;
 			this.color = color;
-            this.add = add;
 			this.duration = duration;
 			this.easing = easing != null ? easing : Linear.easeNone;
 			this.looping = looping;
+            this.maxGlowSize = maxGlowSize;
 		}
 		override public function execute ( ... args ) : void
 		{
@@ -42,7 +47,7 @@ package abe.com.edia.commands
 		}
 		public function reset () : void
 		{
-			target.transform.colorTransform = new ColorTransform ();
+			target.filters = [];
 		}
 		public function start () : void
 		{
@@ -68,18 +73,7 @@ package abe.com.edia.commands
 			var amount : Number = easing( a, 0, 1, 1 );
 			var mult : Number = 1 - amount;
 			
-            if( add )
-            	target.transform.colorTransform = new ColorTransform ( 1, 1, 1, 1, 
-																	   color.red * mult, 
-																	   color.green * mult, 
-																	   color.blue * mult,
-																	   0 );
-            else
-				target.transform.colorTransform = new ColorTransform ( amount, amount, amount, 1, 
-																	   color.red * mult, 
-																	   color.green * mult, 
-																	   color.blue * mult,
-																	   0 );
+			target.filters = [ new GlowFilter(color.hexa, color.alpha/255, maxGlowSize*mult, maxGlowSize*mult, 1, 2 ) ];
 			
 			if( t >= duration)
 			{
