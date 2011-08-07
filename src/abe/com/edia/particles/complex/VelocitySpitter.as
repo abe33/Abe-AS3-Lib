@@ -32,12 +32,13 @@ package abe.com.edia.particles.complex
         protected var _lastVelocity : Point;
         
         protected var _count : int;
+        protected var _fcount : Number;
         protected var _iterator : int;
         
         public function VelocitySpitter ( target : Object, 
         								  velocityMin : Number = 60,
                                           velocityCountRatio : Number = 0.1,
-                                          velocityMult : Number = 3 )
+                                          velocityMult : Number = 1 )
         {
             this.target = target;
             
@@ -45,13 +46,13 @@ package abe.com.edia.particles.complex
             _velocityMult = velocityMult;
             _velocityCountRatio = velocityCountRatio;
             
-            _lastPosition = pt( target.x, target.y );
-            _currentPosition = pt( target.x, target.y );
-            _lastVelocity = pt( 0,0 );
-            _currentVelocity = pt( 0, 0 );
-            
+            _lastPosition 		= pt( target.x, target.y );
+            _currentPosition 	= pt( target.x, target.y );
+            _lastVelocity 		= pt( 0,0 );
+            _currentVelocity 	= pt( 0, 0 );
             
             _count = 0; 
+            _fcount = 0;
         }
 
         public function get count () : int { return _count; }
@@ -65,12 +66,25 @@ package abe.com.edia.particles.complex
         }
         public function get system () : ParticleSystem { return _system; }
         public function set system ( s : ParticleSystem ) : void { _system = s; }
-        
+
+		public function get currentPosition () : Point { return _currentPosition; }
+        public function get currentVelocity () : Point { return _currentVelocity; }
+        public function get lastPosition () : Point { return _lastPosition; }
+        public function get lastVelocity () : Point { return _lastVelocity; }
+
+        public function get velocityMin () : Number { return _velocityMin; }
+        public function set velocityMin ( velocityMin : Number ) : void { _velocityMin = velocityMin; }
+
+        public function get velocityMult () : Number { return _velocityMult; }
+        public function set velocityMult ( velocityMult : Number ) : void { _velocityMult = velocityMult; }
+
+        public function get velocityCountRatio () : Number { return _velocityCountRatio; }
+        public function set velocityCountRatio ( velocityCountRatio : Number ) : void { _velocityCountRatio = velocityCountRatio; }
 
         public function get ( n : Number = NaN ) : Point
         {
-            var l : Number = _currentVelocity.length;
-            var p : Point = _currentVelocity.clone();
+            var p : Point = _currentPosition.subtract(_lastPosition );
+            var l : Number = p.length;
             p.normalize(l * _iterator/_count);
             p = p.add(_lastPosition);
             _iterator++;
@@ -79,7 +93,10 @@ package abe.com.edia.particles.complex
         
         public function initialize ( particle : Particle ) : void
         {
-            particle.velocity = PointUtils.scaleNew( _currentVelocity, _velocityMult );
+            if( particle.hasParasite("parentParticle") )
+            	particle.velocity = PointUtils.scaleNew( ( particle.getParasite("parentParticle") as Particle ).velocity, _velocityMult );
+            else
+            	particle.velocity = PointUtils.scaleNew( _currentVelocity, _velocityMult );
         }
         
         public function prepare ( t : Number, ts : Number, time : Number ) : void
@@ -87,30 +104,41 @@ package abe.com.edia.particles.complex
             _lastPosition = _currentPosition;
             _currentPosition = pt( _target.x, _target.y );
             _lastVelocity = _currentVelocity;
-            _currentVelocity = pt( _target.x - _lastPosition.x, _target.y - _lastPosition.y );
+            _currentVelocity = pt( ( _target.x - _lastPosition.x ) / t * 1000, 
+            					   ( _target.y - _lastPosition.y ) / t * 1000 );
             _iterator = 0;
             
             var l2 : Number = _currentVelocity.length;
-            if( l2 > _velocityMin * ts )
-            	_count = l2 * _velocityCountRatio;
+            if( l2 >= _velocityMin )
+            {
+                _fcount += l2 * _velocityCountRatio;
+	            _count = Math.floor( _fcount );
+	            _fcount -= _count;
+            }
             else
+            {
             	_count = 0; 
+                _fcount = 0;
+            }
         }
 
 		public function toSource():String
 		{
-		    return _$("new $0($1)", getQualifiedClassName(this).replace("::", "."), getSource( _target, "${target}" ) );
+		    return _$( "new $0($1)", 
+            		   getQualifiedClassName(this).replace("::", "."), 
+                       getSource( _target, "${target}" ) );
 		}
 		public function toReflectionSource():String
 		{
-		    return _$("new $0($1)", getQualifiedClassName(this), getReflectionSource( _target, "${target}" ) );
+		    return _$( "new $0($1)", 
+            		   getQualifiedClassName(this), 
+                       getReflectionSource( _target, "${target}" ) );
 		}
-
         public function clone () : *
         {
-            return new VelocitySpitter(_target);
+            return new VelocitySpitter ( _target );
         }
 
-     
+        
     }
 }
