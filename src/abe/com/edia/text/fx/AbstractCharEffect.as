@@ -3,16 +3,15 @@
  */
 package abe.com.edia.text.fx 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.mon.core.Allocable;
-	import abe.com.mon.core.Clearable;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
-	import abe.com.motion.ImpulseListener;
+    import abe.com.edia.text.core.Char;
+    import abe.com.mon.core.Allocable;
+    import abe.com.mon.core.Clearable;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.motion.Impulse;
+    import abe.com.motion.ImpulseListener;
 
-	import flash.display.DisplayObject;
-	import flash.events.EventDispatcher;
+    import flash.display.DisplayObject;
+    import flash.events.EventDispatcher;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -71,7 +70,7 @@ package abe.com.edia.text.fx
 			}
 		}
 		
-		public function tick ( e : ImpulseEvent ) : void {}		
+		public function tick ( bias:Number, biasInSecond : Number, time : Number ) : void {}		
 		public function isRunning () : Boolean { return _isRunning; }
 	}
 }

@@ -3,13 +3,12 @@
  */
 package abe.com.edia.text.fx.hide 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.fx.AbstractCharEffect;
-	import abe.com.mands.Timeout;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.fx.AbstractCharEffect;
+    import abe.com.mands.Timeout;
+    import abe.com.motion.Impulse;
 
-	import flash.events.Event;
+    import flash.events.Event;
 
 	[Event(name="complete", type="flash.events.Event")]
 	/**
@@ -62,9 +61,9 @@ package abe.com.edia.text.fx.hide
 			}
 		}
 
-		override public function tick ( e : ImpulseEvent ) : void
+		override public function tick ( bias:Number, biasInSecond : Number, time : Number ) : void
 		{
-			time += e.bias;
+			time += bias;
 			
 			for each (var i : Char in chars)
 			{

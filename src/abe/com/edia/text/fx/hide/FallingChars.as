@@ -3,12 +3,11 @@
  */
 package abe.com.edia.text.fx.hide 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.fx.show.DefaultTimedDisplayEffect;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.fx.show.DefaultTimedDisplayEffect;
+    import abe.com.motion.Impulse;
 
-	import flash.utils.Dictionary;
+    import flash.utils.Dictionary;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -103,15 +102,15 @@ package abe.com.edia.text.fx.hide
 		{
 			
 		}
-		override public function tick ( e : ImpulseEvent ) : void
+		override public function tick ( bias:Number, biasInSecond : Number, time : Number ) : void
 		{
 			if( activeChars.length > 0 )
 			{
 				for each( var char : Char in activeChars )
 				{
-					speedY[ char ] += e.biasInSeconds * gravity;
+					speedY[ char ] += biasInSecond * gravity;
 					char.y += speedY[ char ];
-					char.alpha -= e.biasInSeconds;
+					char.alpha -= biasInSecond;
 					
 					if( char.alpha <= 0 )
 						activeChars.splice( activeChars.indexOf( char ), 1 );

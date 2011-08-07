@@ -3,21 +3,20 @@
  */
 package abe.com.edia.text.fx.complex 
 {
-	import abe.com.edia.fx.Confetti;
-	import abe.com.edia.fx.Dust;
-	import abe.com.edia.fx.Streamer;
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.fx.show.RandomTimeTweenScaleDisplayEffect;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.utils.AllocatorInstance;
-	import abe.com.mon.utils.RandomUtils;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
+    import abe.com.edia.fx.Confetti;
+    import abe.com.edia.fx.Dust;
+    import abe.com.edia.fx.Streamer;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.fx.show.RandomTimeTweenScaleDisplayEffect;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.utils.AllocatorInstance;
+    import abe.com.mon.utils.RandomUtils;
+    import abe.com.motion.Impulse;
 
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.display.DisplayObject;
+    import flash.display.DisplayObjectContainer;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -64,7 +63,7 @@ package abe.com.edia.text.fx.complex
 			char.charContent.x = ( sizexs[ char ] - sizexs[ char ] * r ) / 2;
 			char.charContent.y = ( sizeys[ char ] - sizeys[ char ] * r ) / 2 + Math.cos( angle + frequency * char.x ) * amplitude;
 		}
-		public function wavetick ( e : ImpulseEvent ) : void
+		public function wavetick ( bias:Number, biasInSecond : Number, time : Number ) : void
 		{
 			var l : Number = chars.length;
 			
@@ -75,7 +74,7 @@ package abe.com.edia.text.fx.complex
 				if( char != null )
 					updateCharPos(char, char.scaleX);
 			}
-			angle += speed * e.biasInSeconds;	
+			angle += speed * biasInSecond;	
 		}
 		override protected function processChar () : Char
 		{
