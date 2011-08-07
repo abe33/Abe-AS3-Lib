@@ -1,5 +1,6 @@
 package abe.com.edia.particles.core
 {
+    import flash.utils.Dictionary;
     import org.osflash.signals.Signal;
     import abe.com.mon.core.Allocable;
     import abe.com.mon.utils.StringUtils;
@@ -39,13 +40,12 @@ package abe.com.edia.particles.core
          * The maximum life time of the particle, generally specified in milliseconds.
          */
         public var maxLife : Number;
-        /**
-         * 
-         */
+
+        private var _dead : Boolean;
+        private var _parasites : Dictionary;
+
         public var died : Signal;
         public var revived : Signal;
-        
-        private var _dead : Boolean;
 
         /**
          * Creates a new particle.
@@ -53,20 +53,12 @@ package abe.com.edia.particles.core
          * <p>A particle constructor won't accept any arguments.
          * To initialize a particle you should create an <code>InitializeStrategy</code>.
          */
-        public function Particle () {
+        public function Particle () 
+        {
             died = new Signal();
         }
-
-        /**
-         * Returns the <code>String</code> representation of this object.
-         * 
-         * @return <code>String</code> representation of this object.
-         */
-        public function toString () : String
-        {
-            return StringUtils.stringify( this, {'life':life} );
-        }
         
+        public function isDead () : Boolean { return _dead; }
         public function die():void
         {
             _dead = true;
@@ -85,19 +77,49 @@ package abe.com.edia.particles.core
         public function init () : void 
         {
             _dead = false;
+            _parasites = new Dictionary(true);
+            
             life = 0;
             maxLife = 0;
             velocity = new Point ();
             position = new Point ();
             lastPosition = new Point ();
         }
-
-        public function dispose () : void {
+        public function dispose () : void 
+        {
+            _parasites = null;
+            
             velocity = null;
             position = null;
             lastPosition = null;
         }
+        
+        public function setParasite( key : *, data : * ):void
+        {
+            _parasites[key] = data;
+        }
+        public function removeParasite( key : * ):void
+        {
+            delete _parasites[key];
+        }
+        public function getParasite( key : * ) : * 
+        {
+            return _parasites[key];
+        }
+        public function hasParasite( key : * ) : Boolean
+        {
+            return _parasites[key] != undefined;
+        }
 
-        public function isDead () : Boolean { return _dead; }
+        /**
+         * Returns the <code>String</code> representation of this object.
+         * 
+         * @return <code>String</code> representation of this object.
+         */
+        public function toString () : String
+        {
+            return StringUtils.stringify( this, {'life':life} );
+        }
+
     }
 }

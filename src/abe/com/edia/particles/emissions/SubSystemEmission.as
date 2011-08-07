@@ -20,6 +20,9 @@ package abe.com.edia.particles.emissions
             _particle = particle;
             particle.died.addOnce(particleDied);
         }
+        
+        public function get particle () : Particle { return _particle; }
+        public function get emission () : ParticleEmission { return _emission; }
 
         public function get system () : ParticleSystem { return _system; }
         public function set system ( s : ParticleSystem ):void { _system = s; _emission.system = s; }
@@ -42,7 +45,9 @@ package abe.com.edia.particles.emissions
         }
         public function next () : *
         {
-            return _emission.next();
+            var p : Particle = _emission.next();
+            p.setParasite( "parentParticle", _particle );
+            return p;
         }
         public function remove () : void
         {
@@ -75,5 +80,6 @@ package abe.com.edia.particles.emissions
             _system.stopEmission( this );
             _particle = null;
         }
+
     }
 }
