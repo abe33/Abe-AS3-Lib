@@ -2,18 +2,22 @@ package abe.com.edia.particles.actions
 {
     import abe.com.edia.particles.core.DisplayObjectParticle;
     import abe.com.edia.particles.core.Particle;
+    import abe.com.mon.core.Randomizable;
+    import abe.com.mon.randoms.Random;
     import abe.com.mon.utils.RandomUtils;
+
     import flash.utils.Dictionary;
 
     /**
      * @author cedric
      */
-    public class RotateActionStrategy extends AbstractActionStrategy
+    public class RotateActionStrategy extends AbstractActionStrategy implements Randomizable
     {
         protected var _minRotationSpeed : Number;
         protected var _maxRotationSpeed : Number;
         protected var _perParticle : Boolean;
         protected var _allParticlesRotationSpeed : Number;
+        protected var _randomSource : Random;
         
         protected var _particlesRotationSpeeds : Dictionary;
         
@@ -23,9 +27,13 @@ package abe.com.edia.particles.actions
         {
             _minRotationSpeed = minRotationSpeed;
             _maxRotationSpeed = maxRotationSpeed;
-            this.perParticle = perParticle;
+            _randomSource = RandomUtils;
             
+            this.perParticle = perParticle;
         }
+        
+        public function get randomSource () : Random { return _randomSource; }
+        public function set randomSource ( randomSource : Random ) : void { _randomSource = randomSource; }
         
         public function get perParticle () : Boolean { return _perParticle; }
         public function set perParticle ( perParticle : Boolean ) : void {
@@ -36,7 +44,7 @@ package abe.com.edia.particles.actions
             else 
             {
             	_particlesRotationSpeeds = null;
-                _allParticlesRotationSpeed = RandomUtils.rangeAB( _minRotationSpeed, _maxRotationSpeed );
+                _allParticlesRotationSpeed = _randomSource.rangeAB( _minRotationSpeed, _maxRotationSpeed );
             }
         }
         public function get maxRotationSpeed () : Number { return _maxRotationSpeed; }
@@ -51,14 +59,12 @@ package abe.com.edia.particles.actions
             if( _perParticle )
             {
                 if( !_particlesRotationSpeeds[ particle ] )
-                	_particlesRotationSpeeds[ particle ] = RandomUtils.rangeAB( _minRotationSpeed, _maxRotationSpeed );
+                	_particlesRotationSpeeds[ particle ] = _randomSource.rangeAB( _minRotationSpeed, _maxRotationSpeed );
                 
                 doparticle.rotation += _particlesRotationSpeeds[ particle ] * _nTimeStep;
             }
             else
-            {
                 doparticle.rotation += _allParticlesRotationSpeed * _nTimeStep;
-            }
         }
         override protected function getSourceArguments () : String
         {

@@ -7,7 +7,7 @@ package abe.com.edia.particles.actions
 	{
 		protected var _nFriction : Number;
 
-        public function FrictionActionStrategy ( friction : Number )
+        public function FrictionActionStrategy ( friction : Number = 0.99 )
 		{
 			_nFriction = friction;
 		}
