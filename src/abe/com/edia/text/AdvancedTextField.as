@@ -3,52 +3,51 @@
  */
 package abe.com.edia.text
 {
-	import abe.com.edia.text.builds.BasicBuild;
-	import abe.com.edia.text.builds.CharBuild;
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.core.CharEvent;
-	import abe.com.edia.text.core.NewLineChar;
-	import abe.com.edia.text.core.ParagraphChar;
-	import abe.com.edia.text.core.TextFieldChar;
-	import abe.com.edia.text.core.WordWrapNewLineChar;
-	import abe.com.edia.text.layouts.BasicLayout;
-	import abe.com.edia.text.layouts.CharLayout;
-	import abe.com.mon.core.Clearable;
-	import abe.com.mon.core.IDisplayObject;
-	import abe.com.mon.core.IDisplayObjectContainer;
-	import abe.com.mon.core.IInteractiveObject;
-	import abe.com.mon.core.ITextField;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.Range;
-	import abe.com.mon.geom.rect;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.mon.utils.arrays.firstIn;
-	import abe.com.mon.utils.arrays.lastIn;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
-	import abe.com.motion.ImpulseListener;
+    import abe.com.edia.text.builds.BasicBuild;
+    import abe.com.edia.text.builds.CharBuild;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.core.CharEvent;
+    import abe.com.edia.text.core.NewLineChar;
+    import abe.com.edia.text.core.ParagraphChar;
+    import abe.com.edia.text.core.TextFieldChar;
+    import abe.com.edia.text.core.WordWrapNewLineChar;
+    import abe.com.edia.text.layouts.BasicLayout;
+    import abe.com.edia.text.layouts.CharLayout;
+    import abe.com.mon.core.Clearable;
+    import abe.com.mon.core.IDisplayObject;
+    import abe.com.mon.core.IDisplayObjectContainer;
+    import abe.com.mon.core.IInteractiveObject;
+    import abe.com.mon.core.ITextField;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.Range;
+    import abe.com.mon.geom.rect;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.arrays.firstIn;
+    import abe.com.mon.utils.arrays.lastIn;
+    import abe.com.motion.Impulse;
+    import abe.com.motion.ImpulseListener;
 
-	import flash.display.BlendMode;
-	import flash.display.DisplayObject;
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.FocusEvent;
-	import flash.events.KeyboardEvent;
-	import flash.events.MouseEvent;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
-	import flash.text.TextFieldType;
-	import flash.text.TextFormat;
-	import flash.text.TextLineMetrics;
-	import flash.ui.Mouse;
-	import flash.ui.MouseCursor;
-	import flash.utils.Dictionary;
+    import flash.display.BlendMode;
+    import flash.display.DisplayObject;
+    import flash.display.Shape;
+    import flash.display.Sprite;
+    import flash.events.Event;
+    import flash.events.FocusEvent;
+    import flash.events.KeyboardEvent;
+    import flash.events.MouseEvent;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.text.TextField;
+    import flash.text.TextFieldAutoSize;
+    import flash.text.TextFieldType;
+    import flash.text.TextFormat;
+    import flash.text.TextLineMetrics;
+    import flash.ui.Mouse;
+    import flash.ui.MouseCursor;
+    import flash.utils.Dictionary;
 
 	[Event(name="change", type="flash.events.Event")]	[Event(name="link", type="flash.events.TextEvent")]
 	public class AdvancedTextField extends Sprite implements IDisplayObject,
@@ -113,7 +112,7 @@ package abe.com.edia.text
 			
 			registerToBuildEvents( _build );
 			
-			Impulse.addEventListener( ImpulseEvent.TICK, tick, false, -1 );
+			
 		}
 
 /*-------------------------------------------------------------------------
@@ -573,7 +572,7 @@ package abe.com.edia.text
 			
 			return b;
 		}
-		public function tick (e : ImpulseEvent) : void
+		public function tick (t:Number,ts:Number,time:Number) : void
 		{
 			drawCharBackground();
 		}
@@ -661,12 +660,16 @@ package abe.com.edia.text
 			addEventListener(KeyboardEvent.KEY_DOWN, keyDown );
 			addEventListener( FocusEvent.FOCUS_OUT, focusOut );
 			addEventListener( FocusEvent.FOCUS_IN, focusIn );
+            
+            Impulse.register(tick);
 		}
 		protected function removedFromStage (event : Event) : void 
 		{
 			removeEventListener(KeyboardEvent.KEY_DOWN, keyDown );
 			removeEventListener( FocusEvent.FOCUS_OUT, focusOut );
 			removeEventListener( FocusEvent.FOCUS_IN, focusIn );
+            
+            Impulse.unregister(tick);
 		}
 		protected function focusOut (event : FocusEvent) : void 
 		{

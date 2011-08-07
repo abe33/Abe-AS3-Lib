@@ -3,10 +3,9 @@
  */
 package abe.com.edia.text.fx.loop 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.fx.AbstractCharEffect;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.fx.AbstractCharEffect;
+    import abe.com.motion.Impulse;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -60,7 +59,7 @@ package abe.com.edia.text.fx.loop
 			Impulse.unregister( tick );
 		}
 
-		override public function tick ( e : ImpulseEvent ) : void
+		override public function tick ( bias:Number, biasInSecond : Number, time : Number ) : void
 		{
 			var l : Number = chars.length;
 			
@@ -74,7 +73,7 @@ package abe.com.edia.text.fx.loop
 					char.charContent.y = Math.cos( angle + frequency * char.y ) * amplitude;
 				}
 			}
-			angle += speed * e.biasInSeconds;	
+			angle += speed * biasInSecond;	
 		}
 	}
 }

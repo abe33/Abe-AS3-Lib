@@ -83,7 +83,7 @@ package abe.com.edia.text.fx.show
 			}
 			
 			if( !iterator.hasNext() )
-				charProcessingComplete()
+				charProcessingComplete();
 			
 			return char;
 		}

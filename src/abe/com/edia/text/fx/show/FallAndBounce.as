@@ -3,14 +3,13 @@
  */
 package abe.com.edia.text.fx.show 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
-	import abe.com.motion.ImpulseListener;
+    import abe.com.edia.text.core.Char;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.motion.Impulse;
+    import abe.com.motion.ImpulseListener;
 
-	import flash.utils.Dictionary;
+    import flash.utils.Dictionary;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -98,13 +97,13 @@ package abe.com.edia.text.fx.show
 			super.stop();
 			Impulse.unregister( tick );
 		}
-		override public function tick (e : ImpulseEvent) : void
+		override public function tick (bias:Number, biasInSecond : Number, time : Number) : void
 		{
 			if( activeChars.length > 0 )
 			{
 				for each( var char : Char in activeChars )
 				{
-					speedY[ char ] += e.biasInSeconds * gravity;					speedY[ char ] *= 0.9;
+					speedY[ char ] += biasInSecond * gravity;					speedY[ char ] *= 0.9;
 					char.y += speedY[ char ];
 					if( char.y >= ys[char] )
 					{

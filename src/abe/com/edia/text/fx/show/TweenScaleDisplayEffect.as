@@ -3,12 +3,11 @@
  */
 package abe.com.edia.text.fx.show 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseEvent;
-	import abe.com.motion.easing.Linear;
+    import abe.com.edia.text.core.Char;
+    import abe.com.motion.Impulse;
+    import abe.com.motion.easing.Linear;
 
-	import flash.utils.Dictionary;
+    import flash.utils.Dictionary;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -73,7 +72,7 @@ package abe.com.edia.text.fx.show
 			super.addChar(l);
 		}
 
-		override public function tick ( e : ImpulseEvent ) : void
+		override public function tick ( bias:Number, biasInSecond : Number, time : Number ) : void
 		{
 			if( activeChars.length > 0 )
 			{
@@ -89,7 +88,7 @@ package abe.com.edia.text.fx.show
 					
 					updateCharPos( char, r );
 					
-					l = charsLife[ char ] += e.bias;
+					l = charsLife[ char ] += bias;
 					
 					if( l > tweenDuration )
 					{
@@ -158,7 +157,6 @@ package abe.com.edia.text.fx.show
 		}
 	}
 }
-
 import abe.com.edia.text.core.Char;
 import abe.com.mon.core.ListIterator;
 
