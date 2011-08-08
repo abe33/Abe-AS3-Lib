@@ -57,6 +57,7 @@ package abe.com.edia.text
 															 ITextField,
 															 Clearable,
 														 	 ImpulseListener
+                                                             
 	{
 		protected var _text : String;			
 		protected var _build : CharBuild;

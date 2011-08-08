@@ -104,7 +104,7 @@ package abe.com.edia.text.fx.hide
 		}
 		override public function tick ( bias:Number, biasInSecond : Number, time : Number ) : void
 		{
-			if( activeChars.length > 0 )
+			if( activeChars && activeChars.length > 0 )
 			{
 				for each( var char : Char in activeChars )
 				{

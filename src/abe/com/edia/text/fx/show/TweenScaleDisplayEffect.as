@@ -74,17 +74,21 @@ package abe.com.edia.text.fx.show
 
 		override public function tick ( bias:Number, biasInSecond : Number, time : Number ) : void
 		{
-			if( activeChars.length > 0 )
+			if( activeChars && activeChars.length > 0 )
 			{
 				for each( var char : Char in activeChars )
 				{
+                    if( !char )
+                    	continue;
+                    
 					var l : Number = charsLife[ char ];
 					if( isNaN( l ) )
 						charsLife[ char ] = l = 0;
 					
 					var r : Number = this.easing ( l, 0, 1, tweenDuration );
 					
-					char.charContent.scaleX = char.charContent.scaleY = r;
+                    if( char.charContent )
+						char.charContent.scaleX = char.charContent.scaleY = r;
 					
 					updateCharPos( char, r );
 					
@@ -92,9 +96,12 @@ package abe.com.edia.text.fx.show
 					
 					if( l > tweenDuration )
 					{
-						char.charContent.scaleX = char.charContent.scaleY = 1;
-						char.charContent.x = 0;
-						char.charContent.y = 0;
+                        if( char.charContent )
+                        {
+							char.charContent.scaleX = char.charContent.scaleY = 1;
+							char.charContent.x = 0;
+							char.charContent.y = 0;
+                        }
 						activeChars.splice( activeChars.indexOf( char ), 1 );
 					}
 						

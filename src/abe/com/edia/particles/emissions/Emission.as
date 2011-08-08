@@ -1,5 +1,6 @@
 package abe.com.edia.particles.emissions
 {
+    import abe.com.edia.particles.initializers.Initializer;
     import abe.com.edia.particles.core.Particle;
     import abe.com.edia.particles.core.ParticleSystem;
     import abe.com.edia.particles.counters.Counter;
@@ -24,17 +25,23 @@ package abe.com.edia.particles.emissions
         protected var _counter : Counter;
         protected var _timer : Timer;
         protected var _emitter : Emitter;
+        protected var _initializer : Initializer;
         
         protected var _currentCount : int;
         protected var _currentTime : int;
         protected var _iterator : int;
         
-        public function Emission ( type : Class, emitter : Emitter, timer : Timer, counter : Counter )
+        public function Emission ( type : Class, 
+        						   emitter : Emitter, 
+                                   timer : Timer, 
+                                   counter : Counter,
+                                   initializer : Initializer = null )
         {
             _particleType = type ? type : Particle;
             _emitter = emitter ? emitter : new PointEmitter(pt());
             _timer = timer ? timer : new NullTimer();
             _counter = counter ? counter : new NullCounter();
+            _initializer = initializer;
         }
 
         public function get system () : ParticleSystem { return _system; }
@@ -59,6 +66,9 @@ package abe.com.edia.particles.emissions
             var p : Particle = AllocatorInstance.get(  _particleType ) as Particle; 
 			p.position = _emitter.get();
             _iterator++;
+            
+            if( _initializer )
+            	_initializer.initialize( p );
 			return p;
         }
         public function isFinish () : Boolean {  return _timer.isFinish; }
