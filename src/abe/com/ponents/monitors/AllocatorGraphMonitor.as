@@ -1,0 +1,60 @@
+package abe.com.ponents.monitors
+{
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.Range;
+    import abe.com.mon.utils.AllocatorInstance;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.monitors.recorders.AllocatorRecorder;
+
+    /**
+     * @author cedric
+     */
+    public class AllocatorGraphMonitor extends Panel
+    {
+        protected var _monitor : GraphMonitor;
+        protected var _caption : GraphMonitorCaption;
+        protected var _rulerLeft : GraphMonitorRuler;
+        protected var _rulerRight : GraphMonitorRuler;
+        protected var _toolbar : ToolBar;
+
+        public function AllocatorGraphMonitor ()
+        {
+            var l : BorderLayout = new BorderLayout(this);
+            _childrenLayout = l;
+            
+            super();
+            
+            _monitor = new GraphMonitor();
+                                                     
+			_monitor.addRecorder( new AllocatorRecorder( AllocatorInstance, null, 0, new Range(0,400), Color.OrangeRed ) );
+                                                                  
+            _caption = new GraphMonitorCaption(_monitor, GraphMonitorCaption.LONG_LABEL_MODE, GraphMonitorCaption.COLUMN_1_LAYOUT_MODE );
+            _rulerLeft = new GraphMonitorRuler( _monitor, _monitor.recorders[0], "right" );
+//            _rulerRight = new GraphMonitorRuler( _monitor, _monitor.recorders[1], "left" );
+            
+            _toolbar = new ToolBar();
+            
+            l.north = _toolbar;
+            l.center = _monitor;
+            l.south = _caption;
+            l.west = _rulerLeft;
+//            l.east = _rulerRight;
+            
+            addComponents ( _monitor, _toolbar, _caption , _rulerLeft/*, _rulerRight*/ );
+        }
+
+        public function get toolbar () : ToolBar {
+            return _toolbar;
+        }
+
+        public function get monitor () : GraphMonitor {
+            return _monitor;
+        }
+
+        public function get caption () : GraphMonitorCaption {
+            return _caption;
+        }
+    }
+}

@@ -57,7 +57,6 @@ package abe.com.edia.text
 															 ITextField,
 															 Clearable,
 														 	 ImpulseListener
-                                                             
 	{
 		protected var _text : String;			
 		protected var _build : CharBuild;
@@ -198,16 +197,19 @@ package abe.com.edia.text
 		public function set autoSize (s : String) : void
 		{
 			_layout.autoSize = s;
+//            _layout.layout( _build.chars );
 		}
 		public function get multiline () : Boolean { return _layout.multiline; }
 		public function set multiline (b : Boolean) : void
 		{
 			_layout.multiline = b;
+//            _layout.layout( _build.chars );
 		}
 		public function get wordWrap () : Boolean { return _layout.wordWrap; }
 		public function set wordWrap (b : Boolean) : void
 		{
 			_layout.wordWrap = b;
+//            _layout.layout( _build.chars );
 		}
 		public function get defaultTextFormat () : TextFormat { return _build.defaultTextFormat; }
 		public function set defaultTextFormat (tf : TextFormat) : void
@@ -671,6 +673,8 @@ package abe.com.edia.text
 			removeEventListener( FocusEvent.FOCUS_IN, focusIn );
             
             Impulse.unregister(tick);
+            
+//            clear();
 		}
 		protected function focusOut (event : FocusEvent) : void 
 		{

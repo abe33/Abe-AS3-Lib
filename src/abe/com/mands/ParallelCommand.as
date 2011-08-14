@@ -63,7 +63,7 @@ package  abe.com.mands
 			var l : Number = _aCommands.length;
 			for( var i : Number = 0; i < l; i++ )
 			{
-				( _aCommands[ i ] as Command ).execute( e );
+				( _aCommands[ i ] as Command ).execute.apply( _aCommands[i], args );
 			} 
 		}
 		/**
@@ -76,7 +76,7 @@ package  abe.com.mands
 		
 		/**
 		 */
-		protected function onCommandEnded ( command : Command ) : void
+		override protected function onCommandEnded ( command : Command ) : void
 		{
 			_nCallbackCount++;
 			if( _nCallbackCount == _aCommands.length )

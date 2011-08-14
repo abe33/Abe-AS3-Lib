@@ -3,8 +3,6 @@
  */
 package abe.com.ponents.core
 {
-    import abe.com.ponents.events.ComponentSignalEvent;
-    import org.osflash.signals.DeluxeSignal;
     import abe.com.mon.core.IDisplayObject;
     import abe.com.mon.core.IDisplayObjectContainer;
     import abe.com.mon.core.IInteractiveObject;
@@ -21,6 +19,7 @@ package abe.com.ponents.core
     import abe.com.ponents.core.paint.RepaintManagerInstance;
     import abe.com.ponents.dnd.DragSource;
     import abe.com.ponents.dnd.gestures.DragGesture;
+    import abe.com.ponents.events.ComponentSignalEvent;
     import abe.com.ponents.skinning.ComponentStyle;
     import abe.com.ponents.skinning.SkinManagerInstance;
     import abe.com.ponents.skinning.StyleProperties;
@@ -30,6 +29,7 @@ package abe.com.ponents.core
     import abe.com.ponents.transfer.Transferable;
     import abe.com.ponents.utils.Insets;
 
+    import org.osflash.signals.DeluxeSignal;
     import org.osflash.signals.Signal;
 
     import flash.display.DisplayObject;
@@ -39,7 +39,6 @@ package abe.com.ponents.core
     import flash.events.ContextMenuEvent;
     import flash.events.Event;
     import flash.events.FocusEvent;
-    import flash.events.IEventDispatcher;
     import flash.events.MouseEvent;
     import flash.geom.Point;
     import flash.geom.Rectangle;
@@ -193,7 +192,7 @@ package abe.com.ponents.core
             _background = new Sprite();
             _foreground = new Sprite();
             _childrenContainer = new Sprite();            
-            _style = SkinManagerInstance.getComponentStyle( this );
+            _style = _style ? _style : SkinManagerInstance.getComponentStyle( this );
             _contentScrollH = 0;
             _tooltipOverlayOnMouseOver = false;
             _contentScrollV = 0;
@@ -1472,6 +1471,7 @@ package abe.com.ponents.core
             
             if( StageUtils.stage.focus == this )
                 StageUtils.stage.focus = null;
+               
         }
         
         protected function onPropertyChanged ( propertyName : String, propertyValue : * ) : void {}

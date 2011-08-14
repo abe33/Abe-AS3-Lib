@@ -22,14 +22,14 @@ package  abe.com.mands
 		/**
 		 * Vecteur contenant toutes les sous-commandes de cette instance.
 		 */
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		protected var _aCommands : Array;
 		
 		TARGET::FLASH_10
 		protected var _aCommands : Vector.<Command>;
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		protected var _aCommands : Vector.<Command>;
 		
 		/**
@@ -41,7 +41,7 @@ package  abe.com.mands
 		public function AbstractMacroCommand()
 		{
 			super();
-			/*FDT_IGNORE*/
+			
 			TARGET::FLASH_9 {
 				_aCommands = [];
 			}
@@ -49,9 +49,9 @@ package  abe.com.mands
 			TARGET::FLASH_10 {
 				_aCommands = new Vector.<Command>();
 			}
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
+			TARGET::FLASH_10_1 { 
 			_aCommands = new Vector.<Command>();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			} 
 		}
 		
 		/**
@@ -84,7 +84,7 @@ package  abe.com.mands
 			
 			return b;
 		}
-		/*FDT_IGNORE*/
+		
 		TARGET::FLASH_9
 		public function addCommandsVector ( commands : Array ) : Boolean
 		{
@@ -104,7 +104,7 @@ package  abe.com.mands
 			return b;
 		}
 		
-		TARGET::FLASH_10_1 /*FDT_IGNORE*/
+		TARGET::FLASH_10_1 
 		public function addCommandsVector ( commands : Vector.<Command> ) : Boolean
 		{
 			var b : Boolean = false;
@@ -159,16 +159,10 @@ package  abe.com.mands
 					unregisterToCommandSignals( c );
 				}
 			}
-			/*FDT_IGNORE*/
-			TARGET::FLASH_9 {
-			_aCommands = [];
-			}
-			TARGET::FLASH_10 {
-			_aCommands = new Vector.<Command>();
-			}
-			TARGET::FLASH_10_1 { /*FDT_IGNORE*/
-			_aCommands = new Vector.<Command>();
-			/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+			
+			TARGET::FLASH_9 { _aCommands = []; }
+			TARGET::FLASH_10 { _aCommands = new Vector.<Command>(); }
+			TARGET::FLASH_10_1 { _aCommands = new Vector.<Command>(); } 
 		}
 		
 		/**

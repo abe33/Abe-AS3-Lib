@@ -408,7 +408,7 @@ package abe.com.ponents.text
 
 			updateTextFormat( );
 
-			var size : Dimension = calculateComponentSize( );
+			var size : Dimension = calculateComponentSize();
 
 			_childrenLayout.layout( size, _style.insets );
 			super.repaint( );

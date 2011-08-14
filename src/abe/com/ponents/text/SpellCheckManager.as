@@ -1,11 +1,11 @@
 package abe.com.ponents.text 
 {
-	import abe.com.mon.geom.Range;
+    import abe.com.mon.geom.Range;
 
-	import com.adobe.linguistics.spelling.HunspellDictionary;
-	import com.adobe.linguistics.spelling.SpellChecker;
+    import com.adobe.linguistics.spelling.HunspellDictionary;
+    import com.adobe.linguistics.spelling.SpellChecker;
 
-	import flash.events.Event;
+    import flash.events.Event;
 	public class SpellCheckManager 
 	{
 		protected var _spellCheckers : Object;

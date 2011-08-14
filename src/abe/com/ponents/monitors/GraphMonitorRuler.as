@@ -56,6 +56,7 @@ package abe.com.ponents.monitors
 			for( var i:uint=0;i<5;i++ )
 			{
 				var n : Number = max - max * (i/4);
+                
 				var txt : TextField = new TextField();
 				txt.autoSize = "left";
 				txt.defaultTextFormat = _style.format;
@@ -77,9 +78,9 @@ package abe.com.ponents.monitors
 				var txt : TextField = _textFields[i] as TextField;
 				txt.x = Alignments.alignHorizontal( txt.width, size.width, insets, _align );
 				if( i == 0 )
-					txt.y = insets.top;
+					txt.y = insets.top - 4;
 				else if( i == 4 )
-					txt.y = size.height - insets.bottom - txt.height;
+					txt.y = size.height - insets.bottom - txt.height + 4;
 				else
 					txt.y = size.height * (i/4) - txt.height/2;
 			}

@@ -3,34 +3,32 @@
  */
 package abe.com.edia.text.builds 
 {
-	import abe.com.edia.text.AdvancedTextField;
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.core.CharEvent;
-	import abe.com.edia.text.core.NewLineChar;
-	import abe.com.edia.text.core.NonBreakingSpaceChar;
-	import abe.com.edia.text.core.NullChar;
-	import abe.com.edia.text.core.ParagraphChar;
-	import abe.com.edia.text.core.ParagraphEndChar;
-	import abe.com.edia.text.core.SpriteChar;
-	import abe.com.edia.text.core.TabChar;
-	import abe.com.edia.text.core.TextFieldChar;
-	import abe.com.edia.text.fx.CharEffect;
-	import abe.com.mon.core.Clearable;
-	import abe.com.mon.iterators.StringIterator;
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.AllocatorInstance;
-	import abe.com.mon.utils.Reflection;
+    import abe.com.edia.text.AdvancedTextField;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.core.CharEvent;
+    import abe.com.edia.text.core.NewLineChar;
+    import abe.com.edia.text.core.NonBreakingSpaceChar;
+    import abe.com.edia.text.core.NullChar;
+    import abe.com.edia.text.core.ParagraphChar;
+    import abe.com.edia.text.core.ParagraphEndChar;
+    import abe.com.edia.text.core.SpriteChar;
+    import abe.com.edia.text.core.TabChar;
+    import abe.com.edia.text.core.TextFieldChar;
+    import abe.com.edia.text.fx.CharEffect;
+    import abe.com.mon.core.Clearable;
+    import abe.com.mon.iterators.StringIterator;
+    import abe.com.mon.logs.Log;
+    import abe.com.mon.utils.AllocatorInstance;
+    import abe.com.mon.utils.Reflection;
 
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.filters.BitmapFilter;
-	import flash.text.TextFieldAutoSize;
-	import flash.text.TextFormat;
+    import flash.display.Bitmap;
+    import flash.display.DisplayObject;
+    import flash.events.Event;
+    import flash.events.EventDispatcher;
+    import flash.filters.BitmapFilter;
+    import flash.text.TextFieldAutoSize;
+    import flash.text.TextFormat;
 
-	[Event(name="charsCreated", 	type="core.CharEvent")]	[Event(name="charsRemoved", 	type="core.CharEvent")]	[Event(name="buildComplete", 	type="core.CharEvent")]
-	[Event(name="init", 			type="flash.events.Event")]
 	public class BasicBuild extends EventDispatcher implements CharBuild, Clearable
 	{
 		// le suffix utilisé pour les fonctions de traitement de fin de balise,	
@@ -249,8 +247,11 @@ package abe.com.edia.text.builds
 							}
 							// on force la réaffectation de l'embed si changement
 							if( char is TextFieldChar )
+                            {
+                                ( char as TextFieldChar ).reset();
 								( char as TextFieldChar ).embedFonts = currentBuildContext.embedFonts;
 								
+                            }
 							// on ajoute le format de texte et les filtres
 							currentStyleContext.chars.push( char );
 							//char.format = currentBuildContext.format;							//char.format = currentStyleContext.format;
@@ -265,9 +266,7 @@ package abe.com.edia.text.builds
 							
 							// on définit le texte de ce caractère selon qu'un lien est défini dans le currentBuildContexte ou non
 							if( currentBuildContext.link )
-							{
 								char.text = "<a href='event:" + currentBuildContext.link + "'>" + l + "</a>";
-							}
 							else
 								char.text = l;
 						}

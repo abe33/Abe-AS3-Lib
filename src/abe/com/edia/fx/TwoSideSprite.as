@@ -241,7 +241,7 @@ package abe.com.edia.fx
 			}
 		}
 
-		protected function update( event:Event = null ):void
+		public function update( event:Event = null ):void
 		{
 			if ( !hasFront && !hasBack )
 			{
