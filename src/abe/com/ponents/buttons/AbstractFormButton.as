@@ -1,16 +1,10 @@
 package abe.com.ponents.buttons
 {
     import abe.com.mands.*;
-	import abe.com.mon.utils.*;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
-	import abe.com.ponents.containers.*;
+    import abe.com.patibility.lang._;
     import abe.com.ponents.forms.*;
-	import abe.com.ponents.forms.managers.*;
     import abe.com.ponents.skinning.icons.*;
-    import abe.com.ponents.utils.*;
-    
+
     import org.osflash.signals.Signal;
 
     public class AbstractFormButton extends AbstractButton implements FormComponent
@@ -63,7 +57,7 @@ package abe.com.ponents.buttons
                 case FormComponentDisabledModes.NORMAL :
                 case FormComponentDisabledModes.INHERITED : 
                 default : 
-                    disabledValue = _action ? _action.name : _safeLabel;
+                    disabledValue = _action ? _action.name : ( _safeLabel ? _safeLabel : _label );
                     affectLabelText();
                 break;
             }

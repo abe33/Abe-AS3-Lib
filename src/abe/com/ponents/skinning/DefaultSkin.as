@@ -4,7 +4,6 @@ package abe.com.ponents.skinning
     import abe.com.mon.colors.Color;
     import abe.com.mon.colors.Gradient;
     import abe.com.mon.geom.ColorMatrix;
-    import abe.com.patibility.lang._;
     import abe.com.ponents.skinning.decorations.EmptyFill;
     import abe.com.ponents.skinning.decorations.GradientBorders;
     import abe.com.ponents.skinning.decorations.GradientFill;
@@ -14,6 +13,12 @@ package abe.com.ponents.skinning
     import flash.filters.ColorMatrixFilter;
     import flash.filters.DropShadowFilter;
 
+	[Skin(define="FormPanel",
+		  inherit="EmptyComponent",
+
+		  state__all__insets="new cutils::Insets(5)"
+	)]
+	
 	[Skin(define="EmptyComponent",
 		  inherit="DefaultComponent",
 

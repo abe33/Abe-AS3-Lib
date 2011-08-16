@@ -158,6 +158,14 @@ package abe.com.ponents.forms
 					fd.push(new FormField(n, n, c,i++, Reflection.get( t ) ));
 				}
 			}
+            fo.fields.sort(function(a:FormField, b:FormField):int{
+                if( a.name > b.name )
+                	return 1;
+                else if( a.name < b.name )
+                	return -1;
+                else
+                	return 0;
+            });
 			var fo : FormObject = new FormObject( o , fd);
 			return fo;
 		}
@@ -644,7 +652,16 @@ package abe.com.ponents.forms
 				var f : FormField = new FormField( i, i, getComponentForValue(o[i]), n++, Reflection.getClass(o[i]) );
 				fields.push(f);
 			}
-			return new FormObject( o, fields );
+            var fo : FormObject = new FormObject( o, fields );
+            fo.fields.sort(function(a:FormField, b:FormField):int{
+                if( a.name > b.name )
+                	return 1;
+                else if( a.name < b.name )
+                	return -1;
+                else
+                	return 0;
+            });
+			return fo;
 		}
 	}
 }

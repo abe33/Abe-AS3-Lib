@@ -1,16 +1,18 @@
 package abe.com.ponents.forms.renderers 
 {
-	import abe.com.ponents.containers.FieldSet;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ScrollablePanel;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.forms.FormCategory;
-	import abe.com.ponents.forms.FormField;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.HBoxLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.text.Label;
+    import abe.com.ponents.layouts.display.DOInlineLayout;
+    import abe.com.ponents.buttons.CheckBox;
+    import abe.com.ponents.containers.FieldSet;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ScrollablePanel;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.forms.FormCategory;
+    import abe.com.ponents.forms.FormField;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.HBoxLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.text.Label;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -70,23 +72,35 @@ package abe.com.ponents.forms.renderers
 
 		protected function createPanelForField ( field : FormField ) : Panel
 		{
-			var l : Label = new Label( field.name + " : ", field.component );
-			
-			if( field.description && field.description != "" )
-				l.tooltip = field.description;
-			
-			if( field.component )
-			{
-				l.enabled = field.component.enabled;
-				field.component.componentEnableChanged.add( function( c : Component, b : Boolean ) : void
-				{
-					if( c == l.forComponent )
-						l.enabled = b;
-				} );
+            if( field.component && field.component is CheckBox )
+            {
+                var cb : CheckBox = field.component as CheckBox;
+                ( cb.childrenLayout as DOInlineLayout ).horizontalAlign = "left";
+                cb.label = field.name;
+                _tmpMaxLabelSize = 0;
+                _tmpMaxCompSize = Math.max( field.component.preferredSize.width, _tmpMaxCompSize );
+            }
+            else
+            {
+				var l : Label = new Label( field.name + " : ", field.component );
 				
-				_tmpMaxCompSize = Math.max( field.component.preferredSize.width, _tmpMaxCompSize );
-			}
-			_tmpMaxLabelSize = Math.max( l.preferredSize.width, _tmpMaxLabelSize );
+				if( field.description && field.description != "" )
+					l.tooltip = field.description;
+				
+				if( field.component )
+				{
+					l.enabled = field.component.enabled;
+					field.component.componentEnableChanged.add( function( c : Component, b : Boolean ) : void
+					{
+						if( c == l.forComponent )
+							l.enabled = b;
+					} );
+					
+					_tmpMaxCompSize = Math.max( field.component.preferredSize.width, _tmpMaxCompSize );
+				}
+				_tmpMaxLabelSize = Math.max( l.preferredSize.width, _tmpMaxLabelSize );
+            }
+            
 			
 			var p : Panel = new Panel();
 			p.childrenLayout = new HBoxLayout(p,

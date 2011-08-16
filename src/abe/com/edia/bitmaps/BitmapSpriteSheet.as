@@ -120,11 +120,11 @@ package abe.com.edia.bitmaps
             area.height = frameSize ? frameSize.height : 32;
             _totalFrames = Math.ceil( data ? data.width / area.width : 1 );
             _startFrame = 0;
-            currentFrame = 0;
             _elapsedTime = 0;
             _looping = true;
 
             framerate = rate;
+            currentFrame = 0;
 		}
 
 		/**
@@ -254,10 +254,12 @@ package abe.com.edia.bitmaps
 		 */
 		protected function computeCurrentFrame () : void
 		{
-            var f : Number = Math.floor( MathUtils.map( _elapsedTime, 0, _animDuration, _startFrame, _startFrame + _totalFrames - 1 ) );
-
+            var f : Number = Math.floor( MathUtils.map( _elapsedTime, 0, _animDuration, _startFrame, _startFrame + _totalFrames ) );
             if( f != currentFrame )
             {
+				if( f >= _startFrame + _totalFrames )
+                	f = _startFrame + _totalFrames - 1;
+                    
             	_currentFrame = f;
 				updatePlayhead ();
             }

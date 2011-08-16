@@ -101,7 +101,7 @@ package abe.com.ponents.buttons
             _tooltipOverlayTarget = _labelTextField as DisplayObject;
 
             if( actionOrLabel != null && actionOrLabel is Action )
-                this.action = actionOrLabel;
+                action = actionOrLabel;
             else if ( actionOrLabel != null && actionOrLabel is String )
                 label = actionOrLabel;
             else

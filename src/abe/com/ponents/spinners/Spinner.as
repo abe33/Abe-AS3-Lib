@@ -190,7 +190,7 @@ package abe.com.ponents.spinners
 		public function set value ( n : * ) : void
 		{
 			_model.value = n;
-		}
+        }
 
 		public function get model () : SpinnerModel	{ return _model; }		
 		public function set model (model : SpinnerModel) : void
@@ -201,7 +201,6 @@ package abe.com.ponents.spinners
 				_model.dataChanged.remove( modelDataChanged );
 				_model.propertyChanged.remove( modelPropertyChanged );
 				hadModel = true;
-				
 			}
 			_model = model;
 			

@@ -262,9 +262,8 @@ package abe.com.ponents.core
         override public function set enabled (b : Boolean) : void
         {
             super.enabled = b;
-            /*
             for each ( var c : Component in _children )
-                c.enabled = b;*/
+                c.invalidate();
         }
         /**
          * @inheritDoc
@@ -706,7 +705,7 @@ package abe.com.ponents.core
                 c.repaint();
 
             _repaint(size);
-            _childrenContainer.filters=[];
+            _childrenContainer.filters = [];
         }
         /**
          * @inheritDoc

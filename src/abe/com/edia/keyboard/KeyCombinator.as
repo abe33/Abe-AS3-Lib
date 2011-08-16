@@ -27,6 +27,7 @@ package abe.com.edia.keyboard
 		
 		protected var _keysHolded : Number;
 		protected var _keysPressed : Object;
+		protected var _labelPressed : Object;
 		protected var _simultaneousKeysEnabled : Boolean;
 		protected var _chainedKeysEnabled : Boolean;
 		protected var _holdedKeysEnabled : Boolean;
@@ -41,6 +42,7 @@ package abe.com.edia.keyboard
 			_keysHolded = 0;
 			_lastSequence = "";
 			_keysPressed = {};			
+			_labelPressed = {};			
 			_filter = filter;
 			_simultaneousKeysEnabled = simultaneousKeysEnabled;
 			_chainedKeysEnabled = chainedKeysEnabled;
@@ -93,7 +95,11 @@ package abe.com.edia.keyboard
 		public function isPressed ( key : Number ) : Boolean
 		{
 			return _keysPressed[ key ];
-		}	
+		}
+        public function isKeyActive ( key : String ) : Boolean
+		{
+			return _labelPressed[ key ];
+		}
 		public function checkForPressedKey () : void
 		{
 			loop : for( var i : String in _keysPressed )
@@ -174,6 +180,7 @@ package abe.com.edia.keyboard
 			_keysHolded++;
 			_lastKey = actionKey;
 			_keysPressed[ keyCode ] = true;
+			_labelPressed[ _filter.getKeyMap(keyCode) ] = true;
 			_lastTime = time;
 			
 			// firing events
@@ -213,6 +220,7 @@ package abe.com.edia.keyboard
 			// updating controller states
 			_lastKey = "";
 			_keysPressed[ keyCode ] = false;
+            _labelPressed[ _filter.getKeyMap(keyCode) ] = false;
 			_keysHolded--;
 			if( _keysHolded < 0 )
 				_keysHolded = 0;
