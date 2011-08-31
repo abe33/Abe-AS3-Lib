@@ -3,7 +3,7 @@ package abe.com.patibility.settings.backends
     import abe.com.mon.utils.Cookie;
     import abe.com.mon.utils.Reflection;
     import abe.com.mon.utils.StringUtils;
-    
+
     import org.osflash.signals.Signal;
     /**
      * @author cedric

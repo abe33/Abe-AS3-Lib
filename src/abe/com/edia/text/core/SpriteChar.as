@@ -14,11 +14,14 @@ package abe.com.edia.text.core
 	public class SpriteChar extends Sprite implements Char 
 	{
 		protected var _text : String;
-
+		private var _do : DisplayObject;
 		public function SpriteChar ( spr : DisplayObject = null, text : String = "" ) 
 		{
 			if( spr )
+            {
+                _do = spr;
 				addChild( spr );
+            }  
 			_text = text;
 		}
 
@@ -32,14 +35,14 @@ package abe.com.edia.text.core
 			addEventListener( MouseEvent.MOUSE_UP, mouseUp );
 		}
 		public function get link () : String 					{ return _link; }
-		public function get charWidth () : Number				{ return width; }
-		public function get charHeight () : Number 				{ return height; }
+		public function get charWidth () : Number				{ return _do.width; }
+		public function get charHeight () : Number 				{ return _do.height; }
 		public function get text () : String 					{ return _text; }
 		public function get format () : TextFormat				{ return null; }
 		public function get background () : Boolean 			{ return false; }
 		public function get backgroundColor () : uint 			{ return 0xffffff; }
 		public function get charContent () : DisplayObject		{ return getChildAt(0); }
-		public function get baseline () : Number 				{ return height; }
+		public function get baseline () : Number 				{ return _do.height; }
 		public function set text (s : String) : void 			{}
 		public function set format (tf : TextFormat) : void 	{}
 		public function set background (b : Boolean) : void 	{}

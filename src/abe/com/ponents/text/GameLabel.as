@@ -1,6 +1,5 @@
 package abe.com.ponents.text 
 {
-    import abe.com.mon.logs.Log;
     import abe.com.edia.text.AdvancedTextField;
     import abe.com.edia.text.builds.BasicBuild;
     import abe.com.edia.text.layouts.BasicLayout;
@@ -9,7 +8,6 @@ package abe.com.ponents.text
     import abe.com.ponents.layouts.display.DOInlineLayout;
     import abe.com.ponents.skinning.SkinManagerInstance;
 
-    import flash.events.Event;
     import flash.filters.GlowFilter;
 
 	/**
@@ -28,12 +26,14 @@ package abe.com.ponents.text
 		}
 		static private const SKIN_DEPENDENCIES:Array = [GlowFilter];
 
-        public function GameLabel ( text : String = "Label", forComponent : Component = null )
+        public function GameLabel ( text : String = "Label", configure : Function = null, forComponent : Component = null )
 		{
 			_style = SkinManagerInstance.getComponentStyle(this);
 			var l : AdvancedTextField = new AdvancedTextField( new BasicBuild(_style.format,false,_style.embedFonts), new BasicLayout() );
 			l.allowMask = false;
 			_label = l;
+            if( configure != null )
+            	configure( l );
 			super( text, forComponent );
 			
 			childrenLayout = new DOInlineLayout( _childrenContainer, 0, "center" );
@@ -47,7 +47,7 @@ package abe.com.ponents.text
             
 //            ( atf.build as BasicBuild ).rebuildChars();
 //            atf.layout.layout( atf.build.chars );
-	        _label.width = _preferredSizeCache ? width : 100;
+	        _label.width = _preferredSizeCache ? _preferredSizeCache.width : 100;
 	        _label.height = _label.textHeight + 4;
             super.invalidatePreferredSizeCache ();
         }

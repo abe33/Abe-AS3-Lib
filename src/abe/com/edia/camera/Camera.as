@@ -160,7 +160,8 @@ package abe.com.edia.camera
 		 */
 		protected var _randomSource : Random;
 		
-		public var cameraChanged : Signal;
+        public var cameraChanged : Signal;
+        protected var _zoomPrecision : Number;
 		
 		/**
 		 * Créer une nouvelle instance de la classe <code>Camera</code>. Si aucun paramètre n'est
@@ -204,6 +205,7 @@ package abe.com.edia.camera
 			_zoomRange = zoomRange ? zoomRange : new Range( Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY );
 			_rotation = _screen.rotation;
 			silentMode = silent;
+            _zoomPrecision = 1000;
 			_shaking = false;
 			zoom = _zoom;
 		}
@@ -268,8 +270,10 @@ package abe.com.edia.camera
 		{
 			if( _zoomRange.surround( zoom ) )
 			{
-				_zoom = zoom;
+                var c : Point = _screen.center;
+				_zoom = Math.floor( zoom * _zoomPrecision ) / _zoomPrecision;
 				computeZoom();
+                center( c );
 			}
 		}
 		/**
@@ -772,18 +776,18 @@ package abe.com.edia.camera
 		{
 			if( _zoom == 0)
 				return;
-
-			var oldRatio : Number = _screen.width / _safeWidth;
-			_screen.scaleAroundCenter ( _zoom / oldRatio );
+            
+            var r : Number = _screen.rotation;
+            var c : Point = screenCenter;
+            
+            _screen.rotation = 0;
+            _screen.width = _safeWidth;
+            _screen.height = _safeHeight;
+			_screen.center = c;
+			_screen.scaleAroundCenter ( _zoom );
+            _screen.rotateAroundCenter( r );
 
 			fireCameraChangedSignal();
-			//var width : Number = _safeWidth / _zoom;
-			//var height : Number = _safeHeight / _zoom;
-
-			//_screen.width = width;
-			//_screen.height = height;
-
-			//center( p );
 		}
 /*--------------------------------------------------------------------
  *	EFFECTS METHODS

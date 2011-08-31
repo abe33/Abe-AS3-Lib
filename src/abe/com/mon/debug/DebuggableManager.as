@@ -117,14 +117,20 @@ package abe.com.mon.debug
         {
             if( containsClass(cl) )
             	return _instances[ cl ] as Array; 
-            else return null;
+            else 
+            	return null;
         }
         public function registerInstance( cl : Class, instance : * ) : void
         {
             if(!containsInstance(cl, instance))
+            {
             	_instances[ cl ].push( instance );
             
-            instanceAdded.dispatch( this, cl, instance );
+	            if( instance is Debuggable )
+	              ( instance as Debuggable ).debugActivated = isClassDebugActive(cl);
+	            
+	            instanceAdded.dispatch( this, cl, instance );
+            }
         }
         public function findInstance( cl : Class, instance : * ) : int
         {
@@ -137,9 +143,11 @@ package abe.com.mon.debug
         public function removeInstance( cl : Class, instance : * ):void
         {
             if( containsInstance(cl, instance) )
+            {
             	_instances[cl].splice( findInstance(cl, instance), 1 );
 
-            instanceRemoved.dispatch ( this, cl, instance );
+            	instanceRemoved.dispatch ( this, cl, instance );
+            }
         }
     }
 }

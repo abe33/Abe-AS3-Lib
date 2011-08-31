@@ -16,7 +16,6 @@ package abe.com.ponents.tools.canvas.geom
 		
 		override public function get y():Number { return rectangle.y; }
 		override public function set y(value:Number):void{ rectangle.y = value; render(); }
-	
 		
 		override public function get rotation():Number { return rectangle.rotation; }
 		override public function set rotation(value:Number):void{ rectangle.rotation = value; }

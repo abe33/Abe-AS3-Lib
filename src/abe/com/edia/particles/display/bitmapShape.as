@@ -1,5 +1,7 @@
 package abe.com.edia.particles.display
 {
+    import abe.com.edia.particles.core.Particle;
+
     import flash.display.Bitmap;
     import flash.display.BitmapData;
     import flash.display.Shape;
@@ -18,7 +20,7 @@ package abe.com.edia.particles.display
         if( !( bmp is BitmapData)  )
         	throw new Error( "bitmapShape only accept BitmapData instance, Bitmap instance or BitmapData Class as argument, was "+ bmp +"." );
         
-        return function():Shape {
+        return function(p:Particle):Shape {
             
             var w : Number = bmp.width;
             var h : Number = bmp.height;

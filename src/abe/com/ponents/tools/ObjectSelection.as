@@ -3,21 +3,22 @@
  */
 package abe.com.ponents.tools 
 {
-	import abe.com.ponents.events.ComponentEvent;
-
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
+    import org.osflash.signals.Signal;
 
 	/**
 	 * 
 	 */
-	public class ObjectSelection extends EventDispatcher
+	public class ObjectSelection
 	{
-		public var objects : Array;
 		protected var _numObjects : Number;
+        
+		public var objects : Array;
+        
+        public var selectionChanged : Signal;
 		
 		public function ObjectSelection ()
 		{
+            selectionChanged = new Signal();
 			objects = [];
 			_numObjects = 0;
 		}
@@ -78,16 +79,9 @@ package abe.com.ponents.tools
 			fireSelectionChangeEvent ();
 		}
 		
-		protected function fireSelectionChangeEvent () : void
+		public function fireSelectionChangeEvent () : void
 		{
-			dispatchEvent( new ComponentEvent( ComponentEvent.SELECTION_CHANGE ) );
-		}
-
-		override public function dispatchEvent( evt : Event ) : Boolean 
-		{
-		 	if (hasEventListener(evt.type) || evt.bubbles) 
-		  		return super.dispatchEvent(evt);
-		 	return true;
+			selectionChanged.dispatch( this );
 		}
 		
 		public function get numObjects () : Number

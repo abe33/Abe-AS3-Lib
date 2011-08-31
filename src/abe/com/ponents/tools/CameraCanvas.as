@@ -39,7 +39,6 @@ package abe.com.ponents.tools
             super( );
             allowMask = false;
             _camera = new Camera( null, 1, new Range ( 0.2, 2 ) );
-            
             TARGET::FLASH_9 { _layers = []; }
             TARGET::FLASH_10 { _layers = new Vector.<CameraLayer>(); }
             TARGET::FLASH_10_1 { _layers = new Vector.<CameraLayer>(); }
@@ -119,10 +118,30 @@ package abe.com.ponents.tools
         {
             return new CameraLayer();
         }
-
+        
         /*---------------------------------------------------------------
          * LAYERS CONTENT
          *--------------------------------------------------------------*/
+        
+        public function addLayerObject( o : DisplayObject, l : uint ):void
+        {
+            getLayerAt(l).addChild( o );
+        }
+        public function removeLayerObject( o : DisplayObject, l : uint ):void
+        {
+            getLayerAt(l).removeChild( o );
+        }
+        public function addBillboardLayerObject( o : DisplayObject, l : uint ):void
+        {
+            addLayerObject(o, l);
+            setBillboardObject(o);
+        }
+        public function removeBillboardLayerObject( o : DisplayObject, l : uint ):void
+        {
+            removeLayerObject(o, l);
+            unsetBillboardObject(o);
+            
+        }
         override public function addComponent (c : Component) : void 
         {
             c.doubleClickEnabled = doubleClickEnabled;
@@ -175,7 +194,7 @@ package abe.com.ponents.tools
                 while( cl--)
                 {
                     var o : DisplayObject = layer.getChildAt( cl );                
-                    if( o.hitTestPoint( StageUtils.stage.mouseX, StageUtils.stage.mouseY, true ) )
+                    if( o.visible && o.hitTestPoint( StageUtils.stage.mouseX, StageUtils.stage.mouseY, true ) )
                         return o;
                 }
             }
@@ -185,7 +204,7 @@ package abe.com.ponents.tools
         {
             return new Rectangle( c.x,
                                   c.y,
-                                   c.width,
+                                  c.width,
                                   c.height);
             _childrenContainer.buttonMode = true;
         }
@@ -215,6 +234,11 @@ package abe.com.ponents.tools
                 _camera.safeHeight = height;
             }
             super.repaint();
+        }
+
+        public function getLayerDepth ( cameraLayer : CameraLayer ) : int
+        {
+            return _layers.indexOf( cameraLayer );
         }
     }
 }

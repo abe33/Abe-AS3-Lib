@@ -1,5 +1,6 @@
 package abe.com.ponents.containers
 {
+    import abe.com.ponents.skinning.icons.Icon;
     import abe.com.ponents.core.Component;
     import abe.com.ponents.layouts.components.InlineLayout;
     import abe.com.ponents.skinning.icons.magicIconBuild;
@@ -22,14 +23,14 @@ package abe.com.ponents.containers
         
         public var expanded : Signal;
         
-        public function ExpandablePanel ( label : String, content : Component, expanded : Boolean = true )
+        public function ExpandablePanel ( label : String, content : Component, expanded : Boolean = true, icon : Icon = null )
         {
             this.expanded = new Signal();
             
             _childrenLayout = new InlineLayout(this, 0, "left", "top", "topToBottom", true );
             super();
             
-            _label = new ExpandablePanelTitle(label);
+            _label = new ExpandablePanelTitle(label,icon);
             _label.mouseReleased.add(function( c : ExpandablePanelTitle ):void{
                 swapContent();
             });
@@ -48,12 +49,14 @@ package abe.com.ponents.containers
         {
             if( _content.visible )
             {
-                _label.icon = magicIconBuild( EXPAND_ICON );
+                _label.removeComponentChildAt(_label.childrenCount-1);
+                _label.addComponentChild( magicIconBuild( EXPAND_ICON ) );
                 _content.visible = false;
             }
             else
             {
-                _label.icon = magicIconBuild( COLLAPSE_ICON );
+                _label.removeComponentChildAt(_label.childrenCount-1);
+                _label.addComponentChild( magicIconBuild( COLLAPSE_ICON ) );
                  _content.visible = true;
             }
             expanded.dispatch( this, _content.visible );

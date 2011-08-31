@@ -1,5 +1,6 @@
 package abe.com.ponents.tools.canvas.actions
 {
+	import abe.com.ponents.nodes.core.CanvasElement;
 	import abe.com.mon.utils.KeyStroke;
 	import abe.com.patibility.settings.SettingsManagerInstance;
 	import abe.com.ponents.actions.AbstractAction;
@@ -18,17 +19,20 @@ package abe.com.ponents.tools.canvas.actions
 	{
 		private var _canvas:CameraCanvas;
 		private var _selection:ObjectSelection;
+		private var _subObjectSelection:ObjectSelection;
 		
 		public function DeleteSelection( canvas : CameraCanvas, 
 										 selection : ObjectSelection, 
 										 name:String="", 
 										 icon:Icon=null, 
 										 longDescription:String=null, 
-										 accelerator:KeyStroke=null)
+										 accelerator:KeyStroke=null,
+										 subObjectSelection : ObjectSelection = null)
 		{
 			super(name, icon, longDescription, accelerator);
 			_canvas = canvas;
 			_selection = selection;
+            _subObjectSelection = subObjectSelection;
 		}
 		override public function execute(...args):void
 		{
@@ -51,14 +55,20 @@ package abe.com.ponents.tools.canvas.actions
 		{
 			if( result == Dialog.RESULTS_YES )
 			{
-				for each( var o : DisplayObject in _selection.objects )
+                var sel : ObjectSelection = (_subObjectSelection && !_subObjectSelection.isEmpty() ) ? 
+                	_subObjectSelection : 
+                    _selection;
+                var objects : Array = sel.objects;
+				for each( var o : DisplayObject in objects )
 				{
-					if( o is Component )
+                    if( o is CanvasElement )
+                    	( o as CanvasElement ).remove();
+					else if( o is Component )
 						( o as Component ).parentContainer.removeComponent( o as Component );
 					else
 						o.parent.removeChild( o );
 				}
-				_selection.removeAll();
+				sel.removeAll();
 			}
 			_commandEnded.dispatch( this );
 		}

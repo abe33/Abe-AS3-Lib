@@ -719,7 +719,11 @@ package abe.com.edia.text
 		{
 			removeEventListener( MouseEvent.MOUSE_OVER, mouseOver );			removeEventListener( MouseEvent.MOUSE_OUT, mouseOut );			removeEventListener( MouseEvent.MOUSE_DOWN, mouseDown );
 			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_UP, mouseUp );
-			StageUtils.stage.removeEventListener( MouseEvent.MOUSE_MOVE, mouseMove );
-		}
+            StageUtils.stage.removeEventListener ( MouseEvent.MOUSE_MOVE, mouseMove );
+        }
+
+        public function get size () : Dimension {
+            return _size;
+        }
 	}
 }

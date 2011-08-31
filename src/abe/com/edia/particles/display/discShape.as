@@ -1,5 +1,6 @@
 package abe.com.edia.particles.display
 {
+    import abe.com.edia.particles.core.Particle;
     import abe.com.mon.colors.Color;
 
     import flash.display.Shape;
@@ -9,7 +10,7 @@ package abe.com.edia.particles.display
     public function discShape ( radius : Number = 1, color : Color = null ) : Function
     {
         color = color ? color : Color.White;
-        return function():Shape
+        return function(p:Particle):Shape
         {
             var s : Shape =  new Shape();
                 s.graphics.beginFill(color.hexa, color.alpha/255);

@@ -139,7 +139,7 @@ package abe.com.ponents.monitors
 		}
 		override public function invalidatePreferredSizeCache () : void
 		{
-			if( _target )
+			if( _target && _target.parentContainer )
 			{
 				switch ( _direction ) 
 				{
@@ -153,6 +153,7 @@ package abe.com.ponents.monitors
 			}
 			else 
 				_preferredSizeCache = new Dimension(  rulerSize, rulerSize );
+            invalidate();
 		}
 	}
 }

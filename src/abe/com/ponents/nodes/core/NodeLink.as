@@ -1,29 +1,28 @@
 package abe.com.ponents.nodes.core 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.mon.utils.magicCopy;
-	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
-	import abe.com.ponents.containers.Window;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.forms.managers.SimpleFormManager;
-	import abe.com.ponents.history.UndoManagerInstance;
-	import abe.com.ponents.nodes.renderers.links.LinkRendererFactoryInstance;
-	
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Point;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.utils.PointUtils;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.magicCopy;
+    import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
+    import abe.com.ponents.containers.Window;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.forms.managers.SimpleFormManager;
+    import abe.com.ponents.history.UndoManagerInstance;
+    import abe.com.ponents.nodes.renderers.links.LinkRendererFactoryInstance;
+
+    import flash.display.DisplayObject;
+    import flash.display.Sprite;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.geom.Point;
+    import flash.text.TextField;
+    import flash.text.TextFormat;
 
 	/**
 	 * @author cedric
@@ -84,6 +83,8 @@ package abe.com.ponents.nodes.core
 		
 			addEventListener(Event.ADDED_TO_STAGE, addedToStage);			addEventListener(Event.REMOVED_FROM_STAGE, removedFromStage );
 		}
+        public function get hasSubObjects () : Boolean { return false; }
+        public function get isSelectable () : Boolean { return true; }
 		public function get isMovable () : Boolean { return false; }
 		
 		[Form(type="String", label="A label", category="Display", categoryOrder="2", order="1")]
@@ -148,6 +149,8 @@ package abe.com.ponents.nodes.core
 		public function get allowEdit () : Boolean { return _allowEdit; }
 		public function set allowEdit (allowEdit : Boolean) : void { _allowEdit = allowEdit; }
 
+		public function isSubObject( o : DisplayObject ) : Boolean { return false; }
+		public function remove():void{}
 		protected function addedToStage (event : Event) : void 
 		{
 			_onStage = true;
@@ -297,7 +300,6 @@ package abe.com.ponents.nodes.core
 		}
 	}
 }
-
 import abe.com.mon.utils.magicCopy;
 import abe.com.patibility.lang._;
 import abe.com.ponents.history.AbstractUndoable;

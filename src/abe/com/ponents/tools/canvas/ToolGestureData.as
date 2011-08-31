@@ -1,13 +1,14 @@
 package abe.com.ponents.tools.canvas
 {
-	import abe.com.ponents.tools.CameraCanvas;
-	
-	import flash.geom.Point;
+    import abe.com.ponents.tools.CameraCanvas;
+
+    import flash.geom.Point;
 
 	public class ToolGestureData
 	{
 		public var manager : ToolManager;
 		public var mousePosition : Point;
+		public var canvasMousePosition : Point;
 		public var altPressed : Boolean;
 		public var ctrlPressed : Boolean;
 		public var shiftPressed : Boolean;
@@ -25,6 +26,10 @@ package abe.com.ponents.tools.canvas
 			this.ctrlPressed = ctrlPressed;
 			this.shiftPressed = shiftPressed;
 			this.altPressed = altPressed;
+            
+            var p : Point = mousePosition.add( canvas.screenVisibleArea.topLeft );
+            canvasMousePosition = canvas.topLayer.globalToLocal( p );
+            
 		}
 	}
 }

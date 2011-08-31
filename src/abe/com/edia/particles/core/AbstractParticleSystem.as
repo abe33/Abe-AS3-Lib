@@ -6,9 +6,11 @@ package abe.com.edia.particles.core
     import abe.com.motion.Impulse;
     import abe.com.patibility.lang._;
     import abe.com.patibility.lang._$;
+
+    import org.osflash.signals.Signal;
+
     import flash.utils.getQualifiedClassName;
     import flash.utils.getTimer;
-    import org.osflash.signals.Signal;
 
 
 
@@ -40,7 +42,9 @@ package abe.com.edia.particles.core
         
         public var emissionStarted : Signal;
         public var emissionFinished : Signal;
-		
+        
+        public var autoStart : Boolean;
+        
 		public function AbstractParticleSystem ( manager : ParticleManager = null ) 
 		{
             particlesCreated = new Signal();
@@ -52,6 +56,8 @@ package abe.com.edia.particles.core
 			_manager = manager ? manager : ParticleManagerInstance;
 			_particles = [];
 			_emissions = [];
+            
+            autoStart = true;
             
             init();
 		}
@@ -65,7 +71,8 @@ package abe.com.edia.particles.core
             emission.system = this;
 			_startEmission( emission );
 			
-			start();
+            if( autoStart )
+				start();
 		}
         public function stopEmission( emission : ParticleEmission ) : void
         {

@@ -1,5 +1,6 @@
 package abe.com.edia.particles.display
 {
+    import abe.com.edia.particles.core.Particle;
     import abe.com.mon.colors.Color;
 
     import flash.display.GradientType;
@@ -19,7 +20,7 @@ package abe.com.edia.particles.display
         color2 = color2 ? color2 : color1.alphaClone(0x88);
         
         if( blurred )
-            return function():Shape
+            return function(p:Particle):Shape
             {
                 var s : Shape = new Shape(); 
                 var m1 : Matrix = new Matrix();
@@ -41,7 +42,7 @@ package abe.com.edia.particles.display
                 return s;
             };
 		else
-        	return function():Shape
+        	return function(p:Particle):Shape
             {
                 var s : Shape = new Shape(); 
                 

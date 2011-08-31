@@ -7,22 +7,13 @@ package abe.com.mon.geom
      */
     public function tmpPt ( x : Number = 0, y : Number = 0 ) : Point
     {
-        var p : Point = __tmp__[__iter__++];
+        var p : Point = pool.get();
         p.x = x;
         p.y = y;
-        if( __iter__ >= 30 )
-        	__iter__ = 0;
         return p;
     }
 }
-import abe.com.mon.geom.pt;
+import abe.com.mon.utils.ObjectPool;
 
-internal var __iter__ : Number = 0;
-internal const __tmp__ : Array = [ 
-	pt(),pt(),pt(),pt(),pt(),
-    pt(),pt(),pt(),pt(),pt(), 
-    pt(),pt(),pt(),pt(),pt(), 
-    pt(),pt(),pt(),pt(),pt(), 
-	pt(),pt(),pt(),pt(),pt(),
-    pt(),pt(),pt(),pt(),pt() 
-];
+import flash.geom.Point;
+internal const pool : ObjectPool = new ObjectPool( Point, 30 );

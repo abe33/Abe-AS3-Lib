@@ -252,11 +252,11 @@ package abe.com.ponents.text
 		}
 		override public function get maxContentScrollV () : Number
 		{
-			return _childrenLayout.preferredSize.height - ( _childrenContainer.scrollRect.height - _style.insets.vertical );
+			return _childrenContainer.scrollRect ? _childrenLayout.preferredSize.height - ( _childrenContainer.scrollRect.height - _style.insets.vertical ) : 0;
 		}
 		override public function get maxContentScrollH () : Number
 		{
-			return _childrenLayout.preferredSize.width - ( _childrenContainer.scrollRect.width - _style.insets.vertical );
+			return  _childrenContainer.scrollRect ? _childrenLayout.preferredSize.width - ( _childrenContainer.scrollRect.width - _style.insets.vertical ) : 0;
 		}
 		override public function isValidateRoot () : Boolean
 		{

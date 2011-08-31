@@ -338,6 +338,7 @@ package abe.com.mon.geom
 		 * a per-vertices basis.
 		 */
 		protected var _verticesCurvature : Array;
+        protected var _originalPoints : Array;
 		
 		/**
 		 * <code>SmoothSpline</code> class constructor.
@@ -376,6 +377,7 @@ package abe.com.mon.geom
 						verticesCurvature[i] = curvature;
 				}
 			}
+            _originalPoints = v.concat();
 			_verticesSmoothingModes = verticesSmoothingModes;			_verticesCurvature = verticesCurvature;
 
 			super( v, bias );
@@ -559,7 +561,7 @@ package abe.com.mon.geom
 		{
 			return StringUtils.tokenReplace( "new $0 ($1,$2,$3)",
 						getQualifiedClassName ( this ),
-						magicToReflectionSource ( _vertices ),
+						magicToReflectionSource ( _originalPoints ),
 						_curvature,
 						drawBias );
 		}

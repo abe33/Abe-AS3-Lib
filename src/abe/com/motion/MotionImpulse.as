@@ -3,12 +3,15 @@
  */
 package  abe.com.motion
 {
-	import org.osflash.signals.Signal;
+    import abe.com.mon.debug.DebuggableManagerInstance;
+    import abe.com.mon.core.Debuggable;
 
-	import flash.display.Shape;
-	import flash.events.Event;
-	import flash.utils.Dictionary;
-	import flash.utils.getTimer;
+    import org.osflash.signals.Signal;
+
+    import flash.display.Shape;
+    import flash.events.Event;
+    import flash.utils.Dictionary;
+    import flash.utils.getTimer;
 	/**
 	 * Un <code>MotionImpulse</code> est un métronome réglant les animations
 	 * d'une séries d'objets afin de les synchroniser. Il agit comme un
@@ -34,8 +37,46 @@ package  abe.com.motion
 	 * @see ImpulseListener
 	 * @see ImpulseEvent
 	 */
-	public class MotionImpulse extends Shape
+	public class MotionImpulse extends Shape implements Debuggable
 	{
+        CONFIG::DEBUG {
+            static public const OPTIONS : Object = {
+                'Speed Factor':1.0,
+                'Smooth Factor':0,
+                'Max Bias':0
+            };
+            DebuggableManagerInstance.registerClass( MotionImpulse, OPTIONS );
+            
+            private var _debugActivated : Boolean;
+            
+	        public function optionsChanged ( options : Object ) : void {}
+	
+	        public function optionChanged ( option : String, value : * ) : void 
+            {
+                switch( option )
+                {
+                    case 'Speed Factor':
+                    	speedFactor = value;
+                    	break;
+                    case 'Smooth Factor':
+                    	smoothFactor = value;
+                    	break;
+                    case 'Max Bias' : 
+                    	maxBias = value;
+                        break;
+                    default : break;
+                }
+            }
+	
+	        public function get debugActivated ( ) : Boolean { return _debugActivated; }
+	        public function set debugActivated ( b : Boolean ) : void {
+                _debugActivated = b;
+                
+                speedFactor = b ? OPTIONS[ 'Speed Factor' ] : 1;
+                smoothFactor = b ? OPTIONS[ 'Smooth Factor' ] : 0;
+	        } 
+        }
+        
 		public var tick : Signal;
 		/**
 		 * Facteur d'altération de la vitesse d'écoulement du temps.
@@ -233,6 +274,6 @@ package  abe.com.motion
 		{
 			var l : Number = maxBias * speedFactor;
 			 return n > l ? l : n;
-		}
+        }
 	}
 }

@@ -283,7 +283,8 @@ package abe.com.ponents.monitors
 		public function clear (... args) : void
 		{
 			_logs = [];
-			printLogs();
+            if( args.length == 0 || args[0] != true )
+				printLogs();
 		}
 		public function logAdded ( msg : String, level : LogLevel, keepHTML : Boolean ) : void
 		{

@@ -463,7 +463,7 @@ package abe.com.ponents.buttons
             }
             catch( e : Error )
             {
-                Log.debug( "It failed for " + action );
+                Log.error( e );
             }
         }
         protected function unregisterToCommandSignals (action : Action) : void

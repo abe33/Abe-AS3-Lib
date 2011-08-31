@@ -8,10 +8,12 @@ package abe.com.ponents.lists
     import abe.com.mon.core.IDisplayObjectContainer;
     import abe.com.mon.core.IInteractiveObject;
     import abe.com.mon.geom.Dimension;
+    import abe.com.mon.logs.Log;
     import abe.com.mon.utils.AllocatorInstance;
     import abe.com.mon.utils.KeyStroke;
     import abe.com.mon.utils.Keys;
     import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.arrays.lastIn;
     import abe.com.patibility.lang._;
     import abe.com.ponents.containers.AbstractScrollContainer;
     import abe.com.ponents.containers.DropPanel;
@@ -451,14 +453,7 @@ package abe.com.ponents.lists
         public function addToSelection ( item : ListCell ) : void
         {
             if( _allowMultiSelection )
-            {
-                _selectedIndices.push( item.index );
-                _selectedValues.push ( _model.getElementAt(item.index) );
-                
-                ensureCellIsVisible( item );
-                selectionChanged.dispatch( selectedIndices );
-                repaintSelection ();
-            }
+                addToSelectionIndex( item.index );
         }
         public function addToSelectionIndex ( index : Number  ) : void
         {
@@ -492,21 +487,14 @@ package abe.com.ponents.lists
         public function removeFromSelection ( item : ListCell ) : void
         {
             if( _allowMultiSelection )
-            {
-                var i : Number = item.index;
-                _selectedIndices.splice( _selectedIndices.indexOf( i ), 1 );
-                _selectedValues.splice( _model.getElementAt( i ), 1 );
-
-                selectionChanged.dispatch( selectedIndices );
-                repaintSelection ();
-            }
+                removeFromSelectionIndex(item.index);
         }
         public function removeFromSelectionIndex ( index : Number ) : void
         {
             if( _allowMultiSelection )
             {
                 _selectedIndices.splice( _selectedIndices.indexOf( index ), 1 );
-                _selectedValues.splice( _model.getElementAt( index ), 1 );
+                _selectedValues.splice( _selectedValues.indexOf( _model.getElementAt( index ) ), 1 );
                 
                 selectionChanged.dispatch( selectedIndices );
                 repaintSelection ();
@@ -631,13 +619,17 @@ package abe.com.ponents.lists
         protected function shiftUp () : void
         {
             if( _allowMultiSelection )
-                if( _selectedIndices.length > 1 )
-                    removeFromSelectionIndex( _selectedIndices[ _selectedIndices.length - 1 ] );
+                if( _selectedIndices.length >= 1 )
+                    removeFromSelectionIndex( lastIn(_selectedIndices) );
         }
         protected function shiftDown () : void
         {
             if( _allowMultiSelection )
-                addToSelectionIndex( _selectedIndices[ _selectedIndices.length - 1 ] + 1 );
+            {
+                var i : int = lastIn( _selectedIndices);
+                if( i+1 < _model.size )
+                	addToSelectionIndex( i + 1 );
+            }
         }
 
         protected function buildChildren () : void
@@ -782,6 +774,7 @@ package abe.com.ponents.lists
             var selected : Boolean;
             if( _allowMultiSelection )
             {
+                _selectedIndices.sort();
                 for( i = 0; i < l; i++ )
                 {
                     item = _children[ i ] as ListCell;

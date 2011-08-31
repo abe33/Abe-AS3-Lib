@@ -84,7 +84,18 @@ package abe.com.ponents.layouts.components
 				innerHeight -= _lower.preferredSize.height;
 			}
 			
-						
+			if( _right && _right.visible )
+			{
+                _right.x = insets.left + innerX + innerWidth;
+				_right.y = insets.top + innerY;
+				_right.size = new Dimension( prefDim.width - innerWidth - innerX, innerHeight );			
+            }
+            if( _lower && _lower.visible )
+			{
+                _lower.x = insets.left + innerX;
+				_lower.y = insets.top + innerY + innerHeight;
+				_lower.size = new Dimension( innerWidth , prefDim.height - innerHeight - innerY );		
+            }
 			if( _upper && _upper.visible )
 			{
 				_upper.x = insets.left + innerX;
@@ -162,7 +173,7 @@ package abe.com.ponents.layouts.components
 			if( _right && _right.visible )
 				w += _right.preferredWidth;
 				
-			if( _center && _center.visible );
+			if( _center && _center.visible )
 			{
 				w += _center.preferredWidth;
 				h += _center.preferredHeight;

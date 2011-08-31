@@ -256,7 +256,7 @@ package abe.com.edia.text.layouts
 					
 					default : 
 						if( _wordwrap && 
-							__x__ + char.charWidth > _owner.width - 4 )
+							__x__ + char.charWidth > _owner.size.width - 4 )
 						{
 							i = lookupWordStart( i, _chars, currentAlignLine );
 							_chars.splice(i+1, 0, new WordWrapNewLineChar());
@@ -311,13 +311,13 @@ package abe.com.edia.text.layouts
 		
 		protected function alignRight ( line : Array, w : Number ) : void
 		{
-			var dif : Number = _owner.width - w - 4;
+			var dif : Number = _owner.size.width - w - 4;
 			for each( var c : Char in line )
 				c.x += dif;
 		}
 		protected function alignCenter ( line : Array, w : Number ) : void
 		{ 
-			var dif : Number = (_owner.width - w) / 2;
+			var dif : Number = (_owner.size.width - w) / 2;
 			for each ( var c : Char in line )
 				c.x += dif;
 		}

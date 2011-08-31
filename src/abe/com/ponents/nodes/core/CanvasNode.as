@@ -21,11 +21,12 @@ package abe.com.ponents.nodes.core
     import abe.com.ponents.skinning.decorations.SimpleEllipsisBorders;
     import abe.com.ponents.skinning.decorations.SimpleEllipsisFill;
     import abe.com.ponents.utils.Inspect;
-    
+
+    import org.osflash.signals.Signal;
+
+    import flash.display.DisplayObject;
     import flash.events.Event;
     import flash.events.MouseEvent;
-    
-    import org.osflash.signals.Signal;
 
     [Skinable(skin="SquareNode")]
     [Skin(define="RoundNode",
@@ -102,6 +103,8 @@ package abe.com.ponents.nodes.core
         TARGET::FLASH_10_1
         public function get connections () : Vector.<NodeLink> { return _connections; }
         
+        public function get hasSubObjects () : Boolean { return false; }
+        public function get isSelectable () : Boolean { return true; }
         public function get isMovable () : Boolean { return true; }
         public function get userObject () : * {    return _userObject;    }
         public function set userObject (userObject : *) : void
@@ -166,6 +169,10 @@ package abe.com.ponents.nodes.core
         }
         public function get editObjectCallback () : Function { return _editObjectCallback; }
         public function set editObjectCallback (editObjectCallback : Function) : void {    _editObjectCallback = editObjectCallback; }
+    	
+        public function isSubObject( o : DisplayObject ) : Boolean { return false; }
+    
+    	public function remove():void{}
     
         public function createConnection( o : CanvasNode, relashionship : String = "undefined", relashionshipDirection : String = "none" ) : NodeLink
         {
@@ -303,7 +310,6 @@ package abe.com.ponents.nodes.core
         }
     }
 }
-
 import abe.com.mon.utils.magicCopy;
 import abe.com.patibility.lang._;
 import abe.com.ponents.history.AbstractUndoable;

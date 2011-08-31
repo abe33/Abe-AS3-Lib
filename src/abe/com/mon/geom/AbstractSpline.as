@@ -3,14 +3,17 @@
  */
 package abe.com.mon.geom
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.GeometryUtils;
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.GeometryUtils;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.arrays.firstIn;
+    import abe.com.mon.utils.arrays.lastIn;
 
-	import flash.display.Graphics;
-	import flash.geom.Point;
+    import flash.display.Graphics;
+    import flash.geom.Point;
 	/**
 	 * The <code>AbstractSpline</code> class provide a number of methods common
 	 * to all implementations of the interface <code>Spline</code>.
@@ -60,7 +63,7 @@ package abe.com.mon.geom
 		 * </fr>
 		 * @default 20
 		 */
-		public var drawBias : uint;
+		protected var _drawBias : uint;
 		/**
 		 * A boolean value indicating whether the <code>draw</code> method
 		 * draws also the vertices of the spline.
@@ -84,6 +87,10 @@ package abe.com.mon.geom
 		 */
 		public var drawOnlySegmentVertices : Boolean;
 
+        protected var _pathBasedOnLength : Boolean;
+        protected var _pathPoints : Array;
+        protected var _pathLengths : Array;
+        
 		/**
 		 * <code>AbstractSpline</code> constructor.
 		 * <fr>
@@ -100,11 +107,12 @@ package abe.com.mon.geom
 		 */
 		public function AbstractSpline ( v : Array = null, segmentSize : uint = 2, bias : uint = 20 )
 		{
-			this._segmentSize = segmentSize;
-			this.vertices = v;
-			this.drawBias = bias;
-			this.drawVertices = false;
-			this.drawOnlySegmentVertices = false;
+            _pathBasedOnLength = false;
+			_segmentSize = segmentSize;
+			_drawBias = bias;
+			drawVertices = false;
+			drawOnlySegmentVertices = false;
+			vertices = v;
 		}
 		/**
 		 * @inheritDoc
@@ -118,8 +126,18 @@ package abe.com.mon.geom
 				return;
 			}
 			if( checkVertices( v ) )
+            {
 				_vertices = v;
+                if( _pathBasedOnLength )
+                	updatePathLengthCache ();
+            }
 		}
+        public function get drawBias () : uint { return _drawBias; }
+        public function set drawBias ( drawBias : uint ) : void {
+            _drawBias = drawBias;
+            if( _pathBasedOnLength )
+                updatePathLengthCache ();
+        }        
 		/**
 		 * An integer representing the number of segments in this <code>Spline</code>.
 		 * <fr>
@@ -128,7 +146,7 @@ package abe.com.mon.geom
 		 */
 		public function get numSegments () : uint
 		{
-			return _vertices.length == 0 ? 0 : ( _vertices.length - 1 ) / _segmentSize;
+			return ( !_vertices || _vertices.length == 0 ) ? 0 : ( _vertices.length - 1 ) / _segmentSize;
 		}
 		/**
 		 * A number representing the length of this <code>Spline</code> computed using
@@ -138,7 +156,7 @@ package abe.com.mon.geom
 		 * en utilisant la valeur de <code>drawBias</code> de cette instance.
 		 * </fr>
 		 */
-		public function get length () : Number { return getLength( drawBias );	}
+		public function get length () : Number { return getLength( _drawBias );	}
 		/**
 		 * An integer indicating the number of vertices required to form
 		 * a segment for this <code>Spline</code>.
@@ -154,21 +172,79 @@ package abe.com.mon.geom
 		public function get points () : Array
 		{
 			var a : Array = [];
-			for( var i : int = 0; i <= drawBias;i++)
-				a.push ( getPathPoint( ( i / drawBias ) ) );
+			for( var i : int = 0; i <= _drawBias;i++)
+				a.push ( _getPathPoint( ( i / _drawBias ) ) );
 			return a;
 		}
 		/**
 		 * @inheritDoc
 		 */
-		public function get isClosedSpline () : Boolean { return (_vertices[0] as Point).equals( _vertices[_vertices.length-1] ); }
+		public function get isClosedSpline () : Boolean 
+        { 
+            return 	_vertices && 
+            		_vertices.length > _segmentSize &&
+            		(firstIn(_vertices) as Point).equals( lastIn(_vertices) ); 
+        }
+
+		public function get pathBasedOnLength () : Boolean { return _pathBasedOnLength; }
+        public function set pathBasedOnLength ( pathBasedOnLength : Boolean ) : void 
+        { 
+            _pathBasedOnLength = pathBasedOnLength;
+            if( _pathBasedOnLength )
+            {
+                updatePathLengthCache();
+            }
+            else
+            {
+                _pathLengths = null;
+                _pathPoints = null;
+            }
+        }
+        private function updatePathLengthCache () : void
+        {
+            var l : Number = length;
+            _pathLengths = [];
+            _pathPoints = points;
+            _pathLengths.push(0);
+            for ( var i:int =1; i<_pathPoints.length; i++ )
+            {
+                var p1 : Point = _pathPoints[i-1];
+                var p2 : Point = _pathPoints[i];
+                _pathLengths.push(Point.distance(p1, p2)/l);
+            }
+        }
 
 		/**
 		 * @inheritDoc
 		 */
 		public function getPathPoint (path : Number) : Point
 		{
-			var p : Number = path * numSegments;
+            if( _pathBasedOnLength )
+            {
+                var tp : Number = 0;
+                var l : int = _pathLengths.length;
+                for(var i : int = 1;i<l;i++)
+                {
+                    var cp : Number = _pathLengths[i];
+                    if( tp + cp > path )
+                    {
+                        var p1 : Point = _pathPoints[i-1];
+                        var p2 : Point = _pathPoints[i];
+                        var lr : Number = MathUtils.map( path, tp, tp+cp, 0, 1 );
+                        var d : Point = p2.subtract(p1);
+                        d.normalize(d.length * lr);
+                        return p1.add(d);
+                    }                    
+                    tp += cp;
+                }
+                return lastIn( _pathPoints );
+            }
+            else
+	            return _getPathPoint( path );
+		}
+        protected function _getPathPoint( path : Number ): Point
+        {
+            var p : Number = path * numSegments;
 			var seg : uint = Math.floor( p );
 
 			if( seg == numSegments )
@@ -176,7 +252,7 @@ package abe.com.mon.geom
 
 			var inseg : Number = p - seg;
 			return getInnerSegmentPoint( inseg, getSegment( seg ) );
-		}
+        }
 		/**
 		 * @inheritDoc
 		 */
@@ -284,7 +360,7 @@ package abe.com.mon.geom
 		{
 			var t1 : Number = 1 - path;
 			return new Point( seg[0].x * t1 + seg[1].x * path,
-										seg[0].y * t1 + seg[1].y * path );
+							  seg[0].y * t1 + seg[1].y * path );
 		}
 		/**
 		 * Returns the length of the segment <code>seg</code> computed based
@@ -317,7 +393,7 @@ package abe.com.mon.geom
 		 */
 		public function clone () : *
 		{
-			return new AbstractSpline( _vertices.concat(), _segmentSize, drawBias );
+			return new AbstractSpline( _vertices.concat(), _segmentSize, _drawBias );
 		}
 		/**
 		 * @inheritDoc
@@ -338,7 +414,7 @@ package abe.com.mon.geom
 		 */
 		public function toSource () : String
 		{
-			return toReflectionSource().replace("::", ".");
+			return toReflectionSource().replace( /::/g , ".");
 		}
 		/**
 		 * @inheritDoc
@@ -391,9 +467,9 @@ package abe.com.mon.geom
 		 */
 		public function fill ( g : Graphics, c : Color ) : void
 		{
-			if( !isClosedSpline )
-				throw new Error ("The fill method is supported only for closed curves.");
-			else
+			if( isClosedSpline )
+//				throw new Error ("The fill method is supported only for closed curves.");
+//			else
 			{
 				var l : Number = numSegments;
 				var i : Number;
@@ -497,7 +573,7 @@ package abe.com.mon.geom
 		 */
 		protected function drawSegment ( seg : Array, g : Graphics, c : Color ) : void
 		{
-			var l : Number = drawBias;
+			var l : Number = _drawBias;
 			var step : Number = 1/l;
 			var i : Number;
 
@@ -506,7 +582,7 @@ package abe.com.mon.geom
 				var pt1 : Point = getInnerSegmentPoint( ( i - 1 ) * step , seg );				var pt2 : Point = getInnerSegmentPoint( ( i ) * step , seg );
 
 				g.moveTo( pt1.x, pt1.y );				g.lineTo( pt2.x, pt2.y );
-			}
-		}
+            }
+        }
 	}
 }

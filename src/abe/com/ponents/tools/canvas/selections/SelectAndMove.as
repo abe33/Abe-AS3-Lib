@@ -1,24 +1,19 @@
 package abe.com.ponents.tools.canvas.selections 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.pt;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.nodes.core.CanvasElement;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.tools.CameraCanvas;
-	import abe.com.ponents.tools.ObjectSelection;
-	import abe.com.ponents.tools.canvas.Tool;
-	import abe.com.ponents.tools.canvas.ToolGestureData;
-	import abe.com.ponents.tools.canvas.core.AbstractCanvasDragTool;
-	import abe.com.ponents.tools.canvas.core.AbstractTool;
-	import abe.com.ponents.utils.ToolKit;
-	
-	import flash.display.DisplayObject;
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.utils.Dictionary;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.pt;
+    import abe.com.ponents.nodes.core.CanvasElement;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.tools.CameraCanvas;
+    import abe.com.ponents.tools.ObjectSelection;
+    import abe.com.ponents.tools.canvas.Tool;
+    import abe.com.ponents.tools.canvas.ToolGestureData;
+    import abe.com.ponents.tools.canvas.core.AbstractCanvasDragTool;
+
+    import flash.display.DisplayObject;
+    import flash.display.Sprite;
+    import flash.geom.Rectangle;
+    import flash.utils.Dictionary;
 
 	/**
 	 * @author Cédric Néhémie
@@ -26,8 +21,14 @@ package abe.com.ponents.tools.canvas.selections
 	public class SelectAndMove extends AbstractCanvasDragTool implements Tool 
 	{
 		static public var SELECTION_COLOR : Color = new Color( "52aed3" );
+        
+        static public function noFilter( o : DisplayObject ):Boolean{
+            return true;
+        }
 		
 		static protected const NONE : Number = 0;		static protected const SELECT : Number = 1;		static protected const MOVE : Number = 2;
+        
+        public var selectionFilter : Function = noFilter;
 		
 		protected var mode : Number;
 		protected var selection : ObjectSelection;
@@ -50,9 +51,9 @@ package abe.com.ponents.tools.canvas.selections
 		{
 			var o : DisplayObject = e.manager.canvasChildUnderTheMouse;
 			
-			if( o == null )
+			initDragGesture();
+			if( o == null || !selectionFilter(o) )
 			{
-				initDragGesture();
 				mode = SELECT;
 			}
 			else if( allowMoves )
@@ -68,7 +69,7 @@ package abe.com.ponents.tools.canvas.selections
 				
 				_objectsOffset = new Dictionary(true);
 				for each( var obj:DisplayObject in selection.objects  )
-					_objectsOffset[obj] = pt( obj.x - pressPoint.x, obj.y - pressPoint.y );
+					_objectsOffset[obj] = pt( obj.x - e.canvasMousePosition.x, obj.y - e.canvasMousePosition.y );
 			}
 		}
 		override public function actionFinished (e : ToolGestureData) : void
@@ -96,6 +97,10 @@ package abe.com.ponents.tools.canvas.selections
 				for( var j : Number = 0; j<cl;j++)
 				{
 					var o : DisplayObject = layer.getChildAt( j );
+                    
+                    if( !o.visible || !selectionFilter(o) )
+                    	continue;
+                    
 					var bb : Rectangle = o.getBounds( layer );
 					if( bb.intersects( area ) )
 						a.push( o );

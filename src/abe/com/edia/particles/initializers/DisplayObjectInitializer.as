@@ -34,7 +34,7 @@ package abe.com.edia.particles.initializers
 		
 		override public function initialize( particle : Particle ) : void
 		{
-			var doObj : DisplayObject = _factory() as DisplayObject;
+			var doObj : DisplayObject = _factory(particle) as DisplayObject;
             
             if( !doObj )
             	throw new Error(_("The provided factory function doesn't return a DisplayObject"));

@@ -163,8 +163,6 @@ package abe.com.ponents.layouts.components
 			if( p )
 				d2 = dm( p.width, p.height ).grow( -_container.style.insets.horizontal, -_container.style.insets.vertical );
 			
-			if( p )
-				Log.debug( p + ", " + d2 );
 			/*
 			if( _adjustToScrollContainer )
 			{
@@ -185,14 +183,12 @@ package abe.com.ponents.layouts.components
 					if( d2 )
 					{
 						//if( lw + c.preferredSize.width > sc.contentSize.width )
-						Log.debug( ( lw + c.preferredSize.width ) + " > "+ d2.width );
 						if( lw + c.preferredSize.width > d2.width )
 						{
 							h += lh + _hgap;
 							w = Math.max(w, lw);
 							lw = c.preferredSize.width + (_gapAtExtremity ? _hgap : 0);
 							lh = c.preferredSize.height;
-							Log.debug( lw );
 						}
 						else
 						{

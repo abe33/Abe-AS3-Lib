@@ -37,7 +37,7 @@ package abe.com.ponents.tools
 		{
 			super( tabsPosition );
 			_dataChanged = new Signal();
-			preferredSize = new Dimension(290, 250);
+			preferredSize = new Dimension(290, 350);
 			
 			_tabBar.buttonDisplayMode = ButtonDisplayModes.ICON_ONLY;
 			

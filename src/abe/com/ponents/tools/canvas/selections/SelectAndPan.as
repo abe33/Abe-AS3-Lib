@@ -1,16 +1,16 @@
 package abe.com.ponents.tools.canvas.selections
 {
-	import abe.com.edia.camera.Camera;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.tools.CameraCanvas;
-	import abe.com.ponents.tools.ObjectSelection;
-	import abe.com.ponents.tools.canvas.ToolGestureData;
-	import abe.com.ponents.utils.ToolKit;
-	
-	import flash.display.StageQuality;
-	import flash.geom.Point;
-	import flash.ui.MouseCursor;
+    import abe.com.edia.camera.Camera;
+    import abe.com.mon.logs.Log;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.tools.CameraCanvas;
+    import abe.com.ponents.tools.ObjectSelection;
+    import abe.com.ponents.tools.canvas.ToolGestureData;
+
+    import flash.display.StageQuality;
+    import flash.geom.Point;
+    import flash.ui.MouseCursor;
 
 	/**
 	 * @author cedric
@@ -38,30 +38,40 @@ package abe.com.ponents.tools.canvas.selections
 
 		override public function mousePositionChanged (e : ToolGestureData) : void
 		{
-			var pt : Point = new Point( e.canvas.stage.mouseX, e.canvas.stage.mouseY );
-			var dif : Point = stagePressPoint.subtract( pt );
-
-			if( dif.length > 10 && mode != PAN && mode != MOVE )
-			{
-				mode = PAN;
-				
-				clearDrag();
-				
-				if( _changeQualityDuringPan )
-					StageUtils.stage.quality = StageQuality.LOW;
-			}
-
-			if( mode == PAN )
-			{
-				dif.normalize( dif.length / _camera.zoom );
-				_camera.translate( dif );
-				stagePressPoint = pt;
-				Cursor.setCursor( _panCursor );
-			}
-			else 
-			{
-				super.mousePositionChanged(e);
-			}
+            try
+            {
+				var pt : Point = new Point( e.canvas.stage.mouseX, e.canvas.stage.mouseY );
+				var dif : Point = stagePressPoint.subtract( pt );
+	
+				if( dif.length > 10 && mode != PAN && mode != MOVE )
+				{
+					mode = PAN;
+					
+					clearDrag();
+					
+					if( _changeQualityDuringPan )
+						StageUtils.stage.quality = StageQuality.LOW;
+				}
+	
+				if( mode == PAN )
+				{
+					dif.normalize( dif.length / _camera.zoom );
+					_camera.translate( dif );
+					stagePressPoint = pt;
+					Cursor.setCursor( _panCursor );
+				}
+				else 
+				{
+					super.mousePositionChanged(e);
+				}                
+            }
+            catch(e : Error)
+            {
+                Log.error(e);
+                Log.info(pt);
+                Log.info(stagePressPoint);
+                Log.info(dif);
+            }
 		}
 
 		override public function actionFinished (e : ToolGestureData) : void

@@ -42,7 +42,7 @@ package abe.com.ponents.tools.canvas.geom
 		public function render():void {
 			this.graphics.clear();
 			
-			_geometry.fill( this.graphics, GEOMETRY_COLOR.alphaClone(0) ); 
+			_geometry.fill( this.graphics, GEOMETRY_COLOR.alphaClone(0x11) ); 
 			_geometry.draw( this.graphics, GEOMETRY_COLOR ); 
 		}
 	}
