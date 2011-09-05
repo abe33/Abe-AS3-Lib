@@ -12,7 +12,7 @@ package abe.com.ponents.tools.canvas.dummies
     /**
      * @author cedric
      */
-    public class CurvePointDummy extends AbstractDummy
+    public class CurvePointDummy extends SquareDummy
     {
         public var moved : Signal;
         public var point : Point;
@@ -103,16 +103,7 @@ package abe.com.ponents.tools.canvas.dummies
                 updateTypeMenuItemCaptions();
             }
         }
-      
-        override public function draw () : void
-        {
-            clear();
-            graphics.beginFill(0, 0);
-            graphics.drawCircle(0, 0, 8);
-            graphics.endFill();
-            graphics.lineStyle(0, _selected ? SELECTED_COLOR.hexa : DEFAULT_COLOR.hexa );
-            graphics.drawRect(-3, -3, 6, 6);
-        }
+
         override public function remove():void
         {
             curve.deletePoint( this );

@@ -21,9 +21,18 @@ package abe.com.ponents.tools.canvas.dummies
         static public const DEFAULT_COLOR : Color = Color.Gray;
         static public const SELECTED_COLOR : Color = Color.Black;
         
+        protected var _defaultColor : Color;
+        protected var _selectedColor : Color;
+        
         protected var _selected : Boolean;
         
-        public function AbstractDummy () {}
+        public function AbstractDummy () 
+        {
+            _defaultColor = _defaultColor ? _defaultColor : DEFAULT_COLOR;
+            _selectedColor = _selectedColor ? _selectedColor : SELECTED_COLOR; 
+        }
+        
+        public function get color():Color { return  _selected ? _selectedColor : _defaultColor; } 
         
         public function get hasSubObjects () : Boolean { return false; }
         public function get isSelectable () : Boolean { return false; }

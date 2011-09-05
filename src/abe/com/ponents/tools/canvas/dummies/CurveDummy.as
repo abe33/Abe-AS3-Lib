@@ -20,9 +20,7 @@ package abe.com.ponents.tools.canvas.dummies
      */
     public class CurveDummy extends AbstractDummy
     {
-        static public const DEFAULT_COLOR : Color = Color.Black;
-        static public const SELECTED_COLOR : Color = Color.Red;
-                
+
         protected var _dummies : Array;
         protected var _curve : FreeFormSpline;
         
@@ -34,6 +32,8 @@ package abe.com.ponents.tools.canvas.dummies
         
         public function CurveDummy ( curve : FreeFormSpline )
         {
+            _defaultColor = Color.Black;
+            _selectedColor = Color.Red;
             _x = _y = 0;
             _curve = curve;
             removed = new Signal();
@@ -155,7 +155,7 @@ package abe.com.ponents.tools.canvas.dummies
             if( !_curve )
             	return;
             
-			_curve.draw( graphics, _selected ? SELECTED_COLOR : DEFAULT_COLOR );
+			_curve.draw( graphics, color );
             var l : Number = _curve.numSegments * _curve.bias;
             
             if( l == 0 )

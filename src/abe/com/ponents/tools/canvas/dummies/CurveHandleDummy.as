@@ -64,11 +64,11 @@ package abe.com.ponents.tools.canvas.dummies
             graphics.drawCircle(0, 0, 8);
             graphics.endFill();
             
-            graphics.beginFill(_selected ? SELECTED_COLOR.hexa : DEFAULT_COLOR.hexa, 1);
+            graphics.beginFill(color.hexa, 1);
             graphics.drawRect(-2, -2, 4, 4);
             graphics.endFill();
             
-            graphics.lineStyle(0, DEFAULT_COLOR.hexa );
+            graphics.lineStyle(0, color.hexa );
             var d : Point = ptTarget.subtract(point);
             var d2 : Point = d.clone();
             d2.normalize(4);
