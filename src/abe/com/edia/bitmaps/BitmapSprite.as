@@ -64,13 +64,13 @@ package abe.com.edia.bitmaps
          *
          * @param	data	les données graphique pour cet objet
          */
-        public function BitmapSprite( data : BitmapData = null )
+        public function BitmapSprite( data : BitmapData = null, center : Point = null )
         {
         	if( data )
         		this.data = data;
 
 			position = new Point();
-            center = new Point();
+            this.center = center ? center :new Point();
             area = new Rectangle( 0, 0, data ? data.width : 32, data ? data.height : 32);
             visible = true;
             reversed = false;
@@ -83,8 +83,7 @@ package abe.com.edia.bitmaps
          */
         public function clone () : *
         {
-            var bs : BitmapSprite = new BitmapSprite( data );
-            bs.center = center.clone();
+            var bs : BitmapSprite = new BitmapSprite( data, center.clone() );
             bs.position = position.clone();
             bs.area = area.clone();
             bs.visible = visible;

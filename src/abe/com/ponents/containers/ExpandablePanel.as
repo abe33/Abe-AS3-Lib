@@ -20,6 +20,7 @@ package abe.com.ponents.containers
         
         protected var _label : ExpandablePanelTitle;
         protected var _content : Component;
+        protected var _expanded : Boolean;
         
         public var expanded : Signal;
         
@@ -35,7 +36,7 @@ package abe.com.ponents.containers
                 swapContent();
             });
             _content = content;
-            _content.visible = expanded;
+            _content.visible = _expanded = expanded;
             
             if( _content.visible )
                 _label.icon = magicIconBuild( COLLAPSE_ICON );
@@ -47,19 +48,36 @@ package abe.com.ponents.containers
 
         protected function swapContent () : void
         {
-            if( _content.visible )
+            if( _expanded )
             {
                 _label.removeComponentChildAt(_label.childrenCount-1);
                 _label.addComponentChild( magicIconBuild( EXPAND_ICON ) );
-                _content.visible = false;
+                _content.visible = _expanded = false;
             }
             else
             {
                 _label.removeComponentChildAt(_label.childrenCount-1);
                 _label.addComponentChild( magicIconBuild( COLLAPSE_ICON ) );
-                 _content.visible = true;
+                 _content.visible = _expanded = true;
             }
-            expanded.dispatch( this, _content.visible );
+            expanded.dispatch ( this, _content.visible );
+        }
+
+        public function get content () : Component {
+            return _content;
+        }
+
+        public function set content ( content : Component ) : void {
+            if( _content )
+            	removeComponent( _content);
+            
+            _content = content;
+           	if( _content )
+            {                
+                _content.visible =  _expanded;
+            	addComponent( _content );
+            }
+            
         }
     }
 }

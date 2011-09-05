@@ -18,15 +18,23 @@ package abe.com.edia.commands
 	 */
 	public class ColorFlash extends AbstractCommand implements Suspendable, Command, Runnable
 	{
-		private var target : DisplayObject;
-		private var color : Color;
-		private var duration : Number;
 		private var t : Number;
-		private var easing : Function;
-        private var looping : Boolean;
-        private var add : Boolean;
+		
+        public var duration : Number;
+		public var easing : Function;
+		public var target : DisplayObject;
+		public var color : Color;
+        public var looping : Boolean;
+        public var add : Boolean;
+        public var colorRatio : Number;
 
-		public function ColorFlash ( target : DisplayObject, color : Color, add : Boolean = false, duration : Number = 400, easing : Function = null, looping : Boolean = false )
+		public function ColorFlash ( target : DisplayObject, 
+        							 color : Color, 
+                                     add : Boolean = false, 
+                                     duration : Number = 400, 
+                                     easing : Function = null, 
+                                     looping : Boolean = false,
+                                     colorRatio : Number = 1 )
 		{
 			this.target = target;
 			this.color = color;
@@ -34,6 +42,7 @@ package abe.com.edia.commands
 			this.duration = duration;
 			this.easing = easing != null ? easing : Linear.easeNone;
 			this.looping = looping;
+            this.colorRatio = colorRatio;
 		}
 		override public function execute ( ... args ) : void
 		{
@@ -64,21 +73,21 @@ package abe.com.edia.commands
 		{
 			t += bias;
 			
-			var a : Number = Math.abs( 1 - ( t / duration ) * 2 );
-			var amount : Number = easing( a, 0, 1, 1 );
+			var a : Number = 1 - Math.abs( 1 - ( t / duration ) * 2 );
+			var amount : Number = easing( a, 0, 1, 1 ) * colorRatio;
 			var mult : Number = 1 - amount;
 			
             if( add )
             	target.transform.colorTransform = new ColorTransform ( 1, 1, 1, 1, 
-																	   color.red * mult, 
-																	   color.green * mult, 
-																	   color.blue * mult,
+																	   color.red * amount, 
+																	   color.green * amount, 
+																	   color.blue * amount,
 																	   0 );
             else
-				target.transform.colorTransform = new ColorTransform ( amount, amount, amount, 1, 
-																	   color.red * mult, 
-																	   color.green * mult, 
-																	   color.blue * mult,
+				target.transform.colorTransform = new ColorTransform ( mult, mult, mult, 1, 
+																	   color.red * amount, 
+																	   color.green * amount, 
+																	   color.blue * amount,
 																	   0 );
 			
 			if( t >= duration)

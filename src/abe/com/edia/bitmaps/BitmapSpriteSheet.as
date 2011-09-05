@@ -3,16 +3,17 @@
  */
 package abe.com.edia.bitmaps
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseListener;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.motion.Impulse;
+    import abe.com.motion.ImpulseListener;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
-	import flash.display.BitmapData;
+    import flash.display.BitmapData;
+    import flash.geom.Point;
 	/**
 	 * Version animée de la classe <code>BitmapSprite</code>. La classe <code>BitmapSpriteSheet</code>
 	 * reprend les mêmes principe que sa classe mère et fournie en plus des contrôles d'animations rudimentaires.
@@ -112,9 +113,10 @@ package abe.com.edia.bitmaps
 		 */
 		public function BitmapSpriteSheet ( data : BitmapData = null,
 											frameSize : Dimension = null,
+                                            center : Point = null,
 											rate : Number = 24  )
 		{
-			super( data );
+			super( data, center );
 			animationEnded = new Signal();
 			area.width = frameSize ? frameSize.width : 32;
             area.height = frameSize ? frameSize.height : 32;
@@ -271,9 +273,8 @@ package abe.com.edia.bitmaps
          */
 		override public function clone () : *
 		{
-			var bas : BitmapSpriteSheet = new BitmapSpriteSheet( data , new Dimension( area.width, area.height ), 1000 / _animRate );
+			var bas : BitmapSpriteSheet = new BitmapSpriteSheet( data , new Dimension( area.width, area.height ), center.clone(), 1000 / _animRate );
 			bas.currentFrame = _currentFrame;
-			bas.center = center.clone();
             bas.position = position.clone();
             bas.visible = visible;
 			return bas;
