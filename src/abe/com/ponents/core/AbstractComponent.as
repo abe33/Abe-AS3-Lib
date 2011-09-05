@@ -503,17 +503,13 @@ package abe.com.ponents.core
             var p : Container = parentContainer;
             var rp : Rectangle;
 
-            if( _childrenContainer.scrollRect || !p )
-            {
-                r.x += x;
-                r.y += y;
-            }
+            r.x += x;
+            r.y += y;
 
             while( p )
             {
                 rp = p.visibleArea;
                 r = r.intersection( rp );
-                //r = intersection( r, rp );
 
                 r.x += p.x;
                 r.y += p.y;

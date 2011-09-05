@@ -64,7 +64,7 @@ package abe.com.ponents.utils
 		    componentResized = new Signal();
 			_component = c;
 			_policy = policy;
-			
+			_enabled = true;
 			registerToComponentEvents( _component );
 		}
 		public function get policy () : uint { return _policy; }		

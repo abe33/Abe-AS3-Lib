@@ -74,12 +74,11 @@ package abe.com.ponents.menus
             
 			_popupMenu = new PopupMenu();
 			_popupMenu.menuList.itemFormatingFunction = formatLabel;
+            
 			_popupMenu.popupClosedOnAction.add( popupClosed );
 			_popupMenu.popupClosedOnCancel.add( popupClosed );
             
             _menuItemClass = _menuItemClass ? _menuItemClass : MenuItem;
-            
-            
 				
 			var layout : DOHBoxLayout = new DOHBoxLayout( _childrenContainer, 0, 
 											new DOBoxSettings( _popupMenu.preferredWidth, "left", "center", null, true, true, true ), 
@@ -334,6 +333,7 @@ package abe.com.ponents.menus
 			{
 				var item : MenuItem; 
 				item = new _menuItemClass( new SelectAction( formatLabel(_model.getElementAt( i )), i, this ) );
+                item.value = _model.getElementAt( i );
 				if( _itemDescriptionProvider != null )
 					( item.action as SelectAction ).longDescription = _itemDescriptionProvider.call( this, _model.getElementAt( i ) );
 				item.columnsSizes = [0,0,0,0];
@@ -479,7 +479,7 @@ package abe.com.ponents.menus
 		}
 		protected function selectionChanged ( m : ComboBoxModel, i : uint, v : * ) : void
 		{
-			_popupMenu.selectedIndex = _model.indexOf( _model.selectedElement );
+			var index : int = _popupMenu.selectedIndex = _model.indexOf( _model.selectedElement );
 			this.value = _model.selectedElement;
 			fireDataChangedSignal();
 			

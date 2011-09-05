@@ -42,19 +42,19 @@ package abe.com.ponents.tools
 	public class DebugPanel extends TabbedPane
 	{
 		[Embed(source="../skinning/icons/components/graph.png")]
-		static private var monitorIcon : Class;
+		static public var monitorIcon : Class;
 
 		[Embed(source="../skinning/icons/components/logs.png")]
-		static private var logsIcon : Class;
+		static public var logsIcon : Class;
 		
 		[Embed(source="../skinning/icons/tools/zoom.png")]
-		static private var inspectIcon : Class;
+		static public var inspectIcon : Class;
 		
 		[Embed(source="../skinning/icons/page_white_text.png")]
-		static private var saveLogsIcon : Class;
+		static public var saveLogsIcon : Class;
 		
 		[Embed(source="../skinning/icons/database_delete.png")]
-		static private var clearSettingsIcon : Class;
+		static public var clearSettingsIcon : Class;
 		
 		static private var msgTpl : String = "<p><font color='#008800'>exec command $0</font>\n$1</p>";
 		

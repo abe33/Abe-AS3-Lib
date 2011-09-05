@@ -276,6 +276,29 @@ package abe.com.mon.utils
 
 			return new Point( cx , cy );
 		}
+		static public function intersect( sp1 : Point, ep1 : Point, sp2 : Point, ep2 : Point ):Boolean
+        {
+            var cross : Point;
 
+			var d1 : Point;
+			var d2 : Point;
+			var d3 : Point;
+			var d4 : Point;
+            
+            var v1 : Point = ep1.subtract(sp1);
+            var v2 : Point = ep2.subtract(sp2);
+            
+            cross = perCrossing(sp1, v1, sp2, v2 );
+
+			d1 = cross.subtract( ep1 );
+			d2 = cross.subtract( sp1 );
+			d3 = cross.subtract( sp2 );
+			d4 = cross.subtract( ep2 );
+
+			return ( d1.length <= v1.length &&
+					 d2.length <= v1.length &&
+					 d3.length <= v2.length &&
+					 d4.length <= v2.length );
+        }
 	}
 }
