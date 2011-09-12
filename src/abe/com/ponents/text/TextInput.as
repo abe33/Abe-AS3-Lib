@@ -135,7 +135,7 @@ package abe.com.ponents.text
 			FEATURES::SPELLING { 
 				checkContent();
 			} 
-//            fireDataChangedSignal();
+            textChanged.dispatch( this, _value );
 		}
 		public function comfirmInput ( ... args ) : void
 		{
