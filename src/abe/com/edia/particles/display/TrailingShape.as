@@ -26,8 +26,7 @@ package abe.com.edia.particles.display
         public function TrailingShape ( target : Object = null, 
         								trailColor : Color = null,
         								trailThickness : Number = 2, 
-                                        trailLength : Number = 10
-                                      )
+                                        trailLength : Number = 10 )
         {
             this.target = target;
             this.trailColor = trailColor;

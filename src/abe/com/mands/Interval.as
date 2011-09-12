@@ -3,13 +3,13 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Cancelable;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.motion.Impulse;
+    import abe.com.mon.core.Cancelable;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.motion.Impulse;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 	/**
 	 * Une commande <code>Interval</code> réalise un appel de fonction à interval régulier,
 	 * à l'instar de la fonction <code>setInterval</code>, mais en étant soumis au contrôle
@@ -17,13 +17,13 @@ package  abe.com.mands
 	 */
 	public class Interval extends AbstractCommand implements Suspendable, Cancelable, Runnable, Command
 	{
-		private var _n : Number;
-		private var _i : uint;
-		private var _closure : Function;
-		private var _delay : uint;
-		private var _count : uint;
-		private var _args : Array;
-		private var _cancelled : Boolean;
+		protected var _n : Number;
+		protected var _i : uint;
+		protected var _closure : Function;
+		protected var _delay : uint;
+		protected var _count : uint;
+		protected var _args : Array;
+		protected var _cancelled : Boolean;
 		protected var _commandCancelled : Signal;
 		/**
 		 * Créer une instance de la classe <code>Interval</code>.
@@ -113,11 +113,12 @@ package  abe.com.mands
 			
 				if( _n >= _delay )
 	            {
+                    ++_i;
 					if( _closure != null )
 	            		_closure.apply( null, _args );
 	            	_n -= _delay;
 					
-					if( _count != 0 && ++_i >= _count )
+					if( _count != 0 && _i >= _count )
 					{
 						stop();
 						reset();
