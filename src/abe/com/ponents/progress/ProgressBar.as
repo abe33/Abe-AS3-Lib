@@ -39,7 +39,7 @@ package abe.com.ponents.progress
 																  IDisplayObjectContainer,
 																  ImpulseListener,
 																  Suspendable
-	{
+    {
 		FEATURES::BUILDER { 
 		    static public function defaultProgressBarPreview () : ProgressBar
 		    {
@@ -58,13 +58,14 @@ package abe.com.ponents.progress
 		
 		protected var _t : Number;
 		
+        protected var _alignRight : Boolean;
 		protected var _displayLabel : Boolean;
 		protected var _label : ITextField;
 		protected var _labelUnit : String;
 		protected var _labelPlacement : String;
 		protected var _forcePercentageInLabel : Boolean;
 		
-		public function ProgressBar ( model : BoundedRangeModel = null, displayLabel : Boolean = true )
+		public function ProgressBar ( model : BoundedRangeModel = null, displayLabel : Boolean = true, alignRight : Boolean = false )
 		{
 			super();
 			dataChanged = new Signal();
@@ -73,6 +74,7 @@ package abe.com.ponents.progress
 			_determinate = true;
 			_labelUnit = "%";
 			_labelPlacement = Alignments.CENTER;
+        	_alignRight = alignRight;
 			
 			allowFocus = false;
 			mouseChildren = false;
@@ -184,8 +186,8 @@ package abe.com.ponents.progress
 			_bar.height = size.height;
 			if( _determinate )
 			{
-				_bar.x = 0;
 				_bar.width = _model.valuePositionInRange * size.width;
+				_bar.x = _alignRight ? size.width - _bar.width : 0;
 			}
 			else
 			{
@@ -269,6 +271,7 @@ package abe.com.ponents.progress
 		public function set forcePercentageInLabel (forcePercentageInLabel : Boolean) : void
 		{
 			_forcePercentageInLabel = forcePercentageInLabel;
+            invalidate(true);
 		}
 		protected function fireDataChangedSignal () : void 
 		{
@@ -276,8 +279,17 @@ package abe.com.ponents.progress
 		}
 		
 		public function get bar () : Bar {
-			return _bar;
-		}
+            return _bar;
+        }
+
+        public function get alignRight () : Boolean {
+            return _alignRight;
+        }
+
+        public function set alignRight ( alignRight : Boolean ) : void {
+            _alignRight = alignRight;
+            invalidate(true);
+        }
 	}
 }
 
