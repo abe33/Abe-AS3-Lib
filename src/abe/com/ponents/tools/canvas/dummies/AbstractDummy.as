@@ -4,7 +4,6 @@ package abe.com.ponents.tools.canvas.dummies
     import abe.com.mon.utils.StageUtils;
     import abe.com.patibility.lang._;
     import abe.com.patibility.lang._$;
-    import abe.com.ponents.nodes.core.CanvasElement;
 
     import flash.display.DisplayObject;
     import flash.display.Sprite;
@@ -16,7 +15,7 @@ package abe.com.ponents.tools.canvas.dummies
     /**
      * @author cedric
      */
-    public class AbstractDummy extends Sprite implements Dummy, CanvasElement
+    public class AbstractDummy extends Sprite implements Dummy
     {
         static public const DEFAULT_COLOR : Color = Color.Gray;
         static public const SELECTED_COLOR : Color = Color.Black;

@@ -30,7 +30,7 @@ package abe.com.ponents.tools.canvas.selections
 									  changeQualityDuringPan : Boolean = false, 
 									  allowMoves : Boolean = true )
 		{
-			super( canvas, selection, cursor, allowMoves );
+			super( canvas, selection, allowMoves, cursor );
 			_panCursor = panCursor ? panCursor : Cursor.get(MouseCursor.HAND );
 			this._camera = canvas.camera;
 			this._changeQualityDuringPan = changeQualityDuringPan;

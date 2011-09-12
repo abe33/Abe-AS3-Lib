@@ -200,7 +200,7 @@ package abe.com.ponents.tools.canvas
 
         protected function registerTools () : void
         {
-            var sam : SelectAndMove = new SelectAndMove( _canvas, _selection, Cursor.get( MouseCursor.ARROW ) )
+            var sam : SelectAndMove = new SelectAndMove( _canvas, _selection, true, Cursor.get( MouseCursor.ARROW ) )
 			var sop : SelectAndPan = new SelectAndPan( _canvas, _selection, Cursor.get( MouseCursor.ARROW ), Cursor.get( MouseCursor.HAND ) );
 			var pan : Pan = new Pan( _canvas.camera, Cursor.get( MouseCursor.HAND ) );
 			var zi : ZoomIn = new ZoomIn( _canvas.camera );

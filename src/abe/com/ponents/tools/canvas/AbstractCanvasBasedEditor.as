@@ -41,6 +41,9 @@ package abe.com.ponents.tools.canvas
         protected var _panDoneProgramatically : Boolean;
         protected var _scrollDoneProgramatically : Boolean;
         
+        protected var _sceneColor : Color;
+        protected var _canvasColor : Color;
+        
         private var _leftMin : Number;
         private var _topMin : Number;
 
@@ -113,14 +116,41 @@ package abe.com.ponents.tools.canvas
             while(--n-(-1))
                 layer.removeChildAt(n);
         }
+        public function get sceneSize() : Dimension {
+            return _sceneDummy ? _sceneDummy.sceneSize : null;
+        }
+        public function set sceneSize( d : Dimension ) : void 
+        {
+            if( d )
+            {
+	            if( !_sceneDummy )
+	            {
+	                _canvas.style.background = _canvasColor ;
+	                _sceneDummy = new SceneDummy( d, Color.White );
+		            _canvas.addLayerObject( _sceneDummy, 0 );
+	            }
+	            _sceneDummy.sceneSize = d;
+            }
+            else
+            {
+                if( _sceneDummy )
+                {
+                	_canvas.topLayer.removeChild( _sceneDummy );
+                    _sceneDummy = null;
+                }
+                _canvas.style.background = _sceneColor ;
+            }
+        }
         public function setupScene( color : Color = null, size : Dimension = null, canvasColor : Color = null ):void
         {
             clearScene();
+            _canvasColor = canvasColor ? canvasColor : Color.Silver;
+            _sceneColor = color ? color : Color.White;
             if( size )
             {
-	            _canvas.style.background = canvasColor ? canvasColor : Color.Silver;
-	            _sceneDummy = new SceneDummy( size ? size : dm(200,150), color ? color : Color.White );
-	            _canvas.topLayer.addChild( _sceneDummy );
+	            _canvas.style.background = _canvasColor ;
+	            _sceneDummy = new SceneDummy( size ? size : dm(200,150), _sceneColor );
+	            _canvas.addLayerObject( _sceneDummy, 0 );
 	            _canvas.camera.centerDisplayObject( _sceneDummy );
             }
             else

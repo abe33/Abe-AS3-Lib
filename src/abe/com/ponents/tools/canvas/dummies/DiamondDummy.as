@@ -28,7 +28,7 @@ package abe.com.ponents.tools.canvas.dummies
             graphics.lineTo(0,-_radius-2);
             graphics.endFill();
             
-            graphics.lineStyle(0, _selected ? SELECTED_COLOR.hexa : DEFAULT_COLOR.hexa);
+            graphics.lineStyle(0, color.hexa);
             graphics.moveTo(0, -_radius );
             graphics.lineTo(_radius, 0);
             graphics.lineTo(0,_radius);
