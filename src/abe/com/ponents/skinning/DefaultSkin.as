@@ -93,10 +93,50 @@ package abe.com.ponents.skinning
 	dynamic public class DefaultSkin
 	{
 		static public const DEPENDENCIES : Array = [ GradientFill, GradientBorders ];
+        
+        static public const GradientBrightness : uint = 15;
+		static public const GradientRatios : Array = [ .1,.5,.9];
 		
 		static public const PastelYellow 		: Color = new Color("#fff7f5ef", "PastelYellow" );		static public const OverYellow 			: Color = new Color("#ffdde0d9", "OverYellow");
 		static public const FocusGreen 			: Color = new Color("#ff9eb923", "FocusGreen");		static public const SelectionLightCyan 	: Color = new Color("#ffb7d8cc", "SelectionLightCyan");		static public const SelectionBlue 		: Color = new Color("#ff8abac8", "SelectionBlue");		static public const SelectionGreen 		: Color = new Color("#ffd7e2c0", "SelectionGreen");		static public const SelectionYellow 	: Color = new Color("#ffeeebcb", "SelectionYellow");
 		static public const BorderBlue 			: Color = new Color("#ff8ea5ac", "BorderBlue");		static public const ListColor 			: Color = new Color("#ffffffff", "ListColor");		static public const RulerBlue 			: Color = new Color("#ffa9bfc6", "RulerBlue");		static public const DarkBlue 			: Color = new Color("#ff3a545c", "DarkBlue" );
+        
+        static public const PastelYellowGradient : Gradient = new Gradient( [ 
+				PastelYellow.brighterClone(GradientBrightness), 
+				PastelYellow,
+				PastelYellow.brighterClone(GradientBrightness) 
+			], 
+			GradientRatios );
+        static public const OverYellowGradient : Gradient = new Gradient( [ 
+				OverYellow.brighterClone(GradientBrightness), 
+				OverYellow,
+				OverYellow.brighterClone(GradientBrightness) 
+			], 
+			GradientRatios );
+        static public const SelectionLightCyanGradient : Gradient = new Gradient( [ 
+				SelectionLightCyan.brighterClone(GradientBrightness), 
+				SelectionLightCyan,
+				SelectionLightCyan.brighterClone(GradientBrightness) 
+			], 
+			GradientRatios );
+        static public const SelectionBlueGradient : Gradient = new Gradient( [ 
+				SelectionBlue.brighterClone(GradientBrightness), 
+				SelectionBlue,
+				SelectionBlue.brighterClone(GradientBrightness) 
+			], 
+			GradientRatios );
+        static public const SelectionGreenGradient : Gradient = new Gradient( [ 
+				SelectionGreen.brighterClone(GradientBrightness), 
+				SelectionGreen,
+				SelectionGreen.brighterClone(GradientBrightness) 
+			], 
+			GradientRatios );
+        static public const SelectionYellowGradient : Gradient = new Gradient( [ 
+				SelectionYellow.brighterClone(GradientBrightness), 
+				SelectionYellow,
+				SelectionYellow.brighterClone(GradientBrightness) 
+			], 
+			GradientRatios );
         
         static public const COMPONENTS_PALETTE : Palette = new Palette(
         	"Components Colors Palette", 
@@ -119,59 +159,13 @@ package abe.com.ponents.skinning
 		 * Constant Decoration
 		 */
 		static public const noDecoration:NoDecoration = new NoDecoration();
-		static public const emptyDecoration:EmptyFill = new EmptyFill();
 		
-		static public const GradientBrightness : uint = 15;		static public const GradientRatios : Array = [ .1,.5,.9];
-		
-		static public const NormalGradient : GradientFill = new GradientFill( 
-															new Gradient( 
-															[ 
-																PastelYellow.brighterClone(GradientBrightness), 
-																PastelYellow,
-																PastelYellow.brighterClone(GradientBrightness) 
-															], 
-															GradientRatios ), 90 );
-		
-		static public const OverGradient : GradientFill = new GradientFill( 
-															new Gradient( 
-															[ 
-																OverYellow.brighterClone(GradientBrightness), 
-																OverYellow,
-																OverYellow.brighterClone(GradientBrightness) 
-															], 
-															GradientRatios ), 90 );
-		static public const SelectedGradient : GradientFill = new GradientFill( 
-															new Gradient( 
-															[ 
-																SelectionLightCyan.brighterClone(GradientBrightness), 
-																SelectionLightCyan,
-																SelectionLightCyan.brighterClone(GradientBrightness) 
-															], 
-															GradientRatios ), 90 );
-		static public const DisabledSelectedGradient : GradientFill = new GradientFill( 
-															new Gradient( 
-															[ 
-																SelectionLightCyan.brighterClone(GradientBrightness).alphaClone(0x66), 
-																SelectionLightCyan.alphaClone(0x66),
-																SelectionLightCyan.brighterClone(GradientBrightness).alphaClone(0x66) 
-															], 
-															GradientRatios ), 90 );
-		static public const OverSelectedGradient : GradientFill = new GradientFill( 
-															new Gradient( 
-															[ 
-																SelectionGreen.brighterClone(GradientBrightness), 
-																SelectionGreen,
-																SelectionGreen.brighterClone(GradientBrightness) 
-															], 
-															GradientRatios ), 90 );
-		static public const PressedSelectedGradient : GradientFill = new GradientFill( 
-															new Gradient( 
-															[ 
-																SelectionYellow.brighterClone(GradientBrightness), 
-																SelectionYellow,
-																SelectionYellow.brighterClone(GradientBrightness) 
-															], 
-															GradientRatios ), 90 );
+		static public const NormalGradient : GradientFill = new GradientFill( PastelYellowGradient, 90 );
+		static public const OverGradient : GradientFill = new GradientFill( OverYellowGradient, 90 );
+		static public const SelectedGradient : GradientFill = new GradientFill( SelectionLightCyanGradient, 90 );
+		static public const DisabledSelectedGradient : GradientFill = new GradientFill( SelectionLightCyanGradient, 90 );
+		static public const OverSelectedGradient : GradientFill = new GradientFill( SelectionGreenGradient, 90 );
+		static public const PressedSelectedGradient : GradientFill = new GradientFill( SelectionYellowGradient, 90 );
 		
 		/*
 		 * DnD Colors
