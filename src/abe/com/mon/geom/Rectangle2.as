@@ -3,6 +3,7 @@
  */
 package abe.com.mon.geom
 {
+	import abe.com.mon.core.FormMetaProvider;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.core.Copyable;
 	import abe.com.mon.core.Randomizable;
@@ -55,7 +56,8 @@ package abe.com.mon.geom
 														 ClosedGeometry,
 														 Surface,
 														 Randomizable,
-														 Copyable
+														 Copyable,
+                                                         FormMetaProvider
 	{
 		/**
 		 * @copy abe.com.mon.core.Randomizable#randomSource
@@ -101,6 +103,7 @@ package abe.com.mon.geom
 		 * </fr>
 		 * @default true
 		 */
+        [Form]
 		public var pathBasedOnLength : Boolean;
 		/**
 		 * Angle in radians of rotation of the object <code>Rectangle2</code>.
@@ -108,6 +111,7 @@ package abe.com.mon.geom
 		 * Angle en radians de la rotation de cet objet <code>Rectangle2</code>.
 		 * </fr>
 		 */
+        [Form]
 		public var rotation : Number;
 		/**
 		 * <code>Rectangle2</code> class constructor

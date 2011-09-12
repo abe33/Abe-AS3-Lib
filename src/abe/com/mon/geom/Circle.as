@@ -67,7 +67,7 @@ package  abe.com.mon.geom
 			  label="Radius",
 			  range="0,Number.POSITIVE_INFINITY",
 			  step="1",
-			  order="0")]
+			  order="2")]
 		/**
 		 * Radius of this circle.
 		 * 

@@ -115,9 +115,9 @@ package  abe.com.mon.geom
 		 */
 		public var clockWisePath : Boolean;
 
-		[Form(type="boolean",
-			  label="Clockwise Path",
-			  order="5")]
+		[Form(type="floatSpinner",
+			  label="Path Offset",
+			  order="6")]
 		/**
 		 * The offset made on the path of the ellipse.
 		 * <fr>Le décalage opéré sur le chemin de l'ellipse.</fr>
