@@ -38,6 +38,9 @@ package abe.com.ponents.forms
 		static public const POINT_INT : String = "pointInt";
 		static public const POINT_UINT : String = "pointUint";
 		static public const POINT_FLOAT : String = "pointFloat";
+        
+        static public const RECTANGLE_INT : String = "rectangleInt";
+		static public const RECTANGLE_FLOAT : String = "rectangleFloat";
 		
 		static public const INSETS_INT : String = "insetsInt";
 		static public const INSETS_UINT : String = "insetsUint";

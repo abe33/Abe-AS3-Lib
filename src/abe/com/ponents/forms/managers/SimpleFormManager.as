@@ -1,13 +1,14 @@
 package abe.com.ponents.forms.managers 
 {
-	import abe.com.mon.core.Allocable;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.forms.FormField;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.text.AbstractTextComponent;
+    import abe.com.ponents.forms.fields.SubObjectFormComponent;
+    import abe.com.mon.core.Allocable;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.forms.FormField;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.text.AbstractTextComponent;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie
@@ -70,9 +71,11 @@ package abe.com.ponents.forms.managers
 				{
 					f.component["value"] = _formObject.target[ f.memberName ];
 					f.component.invalidate(true);
+                    
+                    if( f.component is SubObjectFormComponent )
+                        ( f.component as SubObjectFormComponent ).owner = _formObject.target;
 				}
 			}
-				
 			fireFormChangedSignal ();
 		}
 		

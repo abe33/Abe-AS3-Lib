@@ -1,5 +1,6 @@
 package abe.com.ponents.forms
 {
+    import flash.geom.Rectangle;
     import abe.com.mon.geom.Dimension;
 
     import flash.geom.Point;
@@ -18,12 +19,18 @@ package abe.com.ponents.forms
 		FormUtils.addTypeMapFunction( FormFieldsType.POINT_UINT, getPointUint)  ;
 		FormUtils.addTypeMapFunction( FormFieldsType.POINT_FLOAT, getPointFloat)  ;
 		FormUtils.addTypeMapFunction( getQualifiedClassName(Point), getPointFloat)  ;
+        
+        FormUtils.addTypeMapFunction( FormFieldsType.RECTANGLE_INT, getRectangleInt )  ;
+		FormUtils.addTypeMapFunction( FormFieldsType.RECTANGLE_FLOAT, getRectangleFloat )  ;
+		FormUtils.addTypeMapFunction( getQualifiedClassName(Rectangle), getRectangleFloat)  ;
     }
 }
 import abe.com.mon.geom.Dimension;
+import abe.com.ponents.forms.fields.RectangleFormComponent;
 import abe.com.ponents.spinners.DoubleSpinner;
 
 import flash.geom.Point;
+import flash.geom.Rectangle;
 internal  function getDimensionInt ( v : Dimension, args : Object ) : *
 		{
 			var min : int;
@@ -154,7 +161,7 @@ internal  function getPointUint ( v : Point, args : Object ) : *
 	}	
 	return new DoubleSpinner( v, "x", "y", min, max, step, true );
 }
-internal  function getPointFloat ( v : Point, args : Object ) : *
+internal function getPointFloat ( v : Point, args : Object ) : *
 {
 	var min : Number;
 	var max : Number;
@@ -180,3 +187,12 @@ internal  function getPointFloat ( v : Point, args : Object ) : *
 	}	
 	return new DoubleSpinner( v, "x", "y", min, max, step );
 }
+internal function getRectangleFloat( v : Rectangle, args : Object ):*
+{
+    return new RectangleFormComponent( v );
+}
+internal function getRectangleInt( v : Rectangle, args : Object ):*
+{
+    return new RectangleFormComponent( v );
+}
+

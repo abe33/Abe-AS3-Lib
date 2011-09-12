@@ -536,6 +536,7 @@ package abe.com.ponents.forms
 				fn = _typesMap[ type ];
 				if( fn != null )
 				{
+                    args["owner"] = o;
 					c = fn(value,args);
 					
 					if( c )

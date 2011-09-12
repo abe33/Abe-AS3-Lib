@@ -3,16 +3,16 @@
  */
 package abe.com.mon.utils
 {
-	import abe.com.mon.closures.core.isA;
-	import abe.com.mon.logs.Log;
+    import abe.com.mon.closures.core.isA;
+    import abe.com.mon.logs.Log;
 
-	import flash.errors.IllegalOperationError;
-	import flash.net.URLRequest;
-	import flash.system.ApplicationDomain;
-	import flash.utils.Dictionary;
-	import flash.utils.describeType;
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
+    import flash.errors.IllegalOperationError;
+    import flash.net.URLRequest;
+    import flash.system.ApplicationDomain;
+    import flash.utils.Dictionary;
+    import flash.utils.describeType;
+    import flash.utils.getDefinitionByName;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * The <code>Reflection</code> class provides a set of methods to inspect objects
 	 * and to evaluate strings.
@@ -714,6 +714,9 @@ package abe.com.mon.utils
         	}
         	catch( e : Error )
         	{
+                CONFIG::DEBUG {
+                    Log.error(e);
+                }
         		throw new IllegalOperationError( "Can't instanciate the class '" + clazz + "' with arguments '[" + args + "]'" );
         	}
         	return null;
