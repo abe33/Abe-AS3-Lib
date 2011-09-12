@@ -62,6 +62,8 @@ package abe.com.ponents.spinners
 			_spinner3 = new Spinner( new SpinnerNumberModel( 0, min, max, step, intOnly ) );
 			_spinner4 = new Spinner( new SpinnerNumberModel( 0, min, max, step, intOnly ) );
 			
+            _spinner1.preferredWidth = _spinner2.preferredWidth = _spinner3.preferredWidth = _spinner4.preferredWidth = 60;
+            
 			_label1 = new Label( property1 );
 			_label2 = new Label( property2 );
 			_label3 = new Label( property3 );

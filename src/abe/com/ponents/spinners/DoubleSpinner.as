@@ -1,15 +1,14 @@
 package abe.com.ponents.spinners 
 {
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.buttons.LockerButton;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.layouts.components.ColumnSettings;
-	import abe.com.ponents.layouts.components.ColumnsLayout;
-	import abe.com.ponents.models.SpinnerNumberModel;
-	import abe.com.ponents.text.Label;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.buttons.LockerButton;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.layouts.components.ColumnSettings;
+    import abe.com.ponents.layouts.components.ColumnsLayout;
+    import abe.com.ponents.models.SpinnerNumberModel;
+    import abe.com.ponents.text.Label;
 
     import org.osflash.signals.Signal;
 	/**
@@ -57,6 +56,8 @@ package abe.com.ponents.spinners
 			_label2 = new Label( property2 );
 			_lockButton = new LockerButton();
 			_lockButton.allowFocus = false;
+            
+            _spinner1.preferredWidth = _spinner2.preferredWidth = 60;
 			
 			_label1.isComponentIndependent = false;
 			_label2.isComponentIndependent = false;

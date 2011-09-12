@@ -1,5 +1,6 @@
 package abe.com.ponents.spinners 
 {
+	import abe.com.ponents.layouts.components.InlineLayout;
 	import abe.com.mands.ProxyCommand;
 	import abe.com.mon.core.IDisplayObject;
 	import abe.com.mon.core.IDisplayObjectContainer;
@@ -56,7 +57,7 @@ package abe.com.ponents.spinners
 		  preview="abe.com.ponents.spinners::Spinner.defaultSpinnerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__insets="new cutils::Insets( 4, 0, 4, 0 )",
+		  state__all__insets="new cutils::Insets( 3, 2, 4, 2 )",
 		  state__all__borders="new cutils::Borders( 0,1,1,1 )",
 		  state__all__corners="new cutils::Corners( 0, 6, 0, 0 )"
 	)]
@@ -65,7 +66,7 @@ package abe.com.ponents.spinners
 		  preview="abe.com.ponents.spinners::Spinner.defaultSpinnerPreview",
 		  previewAcceptStyleSetup="false",
 		  
-		  state__all__insets="new cutils::Insets( 4, 0, 4, 0 )",
+		  state__all__insets="new cutils::Insets( 3, 1, 4, 2 )",
 		  state__all__borders="new cutils::Borders( 0,0,1,1 )",
 		  state__all__corners="new cutils::Corners( 0, 0, 0, 6 )"
 	)]
@@ -143,7 +144,7 @@ package abe.com.ponents.spinners
 			
 			_buttonContainer.addComponent( _upButton );
 			_buttonContainer.addComponent( _downButton );
-			_buttonContainer.childrenLayout = new GridLayout( _buttonContainer, 2, 1, 0, 0 );
+			_buttonContainer.childrenLayout = new InlineLayout( _buttonContainer, 0, "left", "center", "topToBottom" );
 
 			var layout : BorderLayout = new BorderLayout( this );		
 			
