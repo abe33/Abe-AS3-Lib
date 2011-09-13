@@ -1,18 +1,18 @@
 package abe.com.ponents.text
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.core.edit.Editable;
-	import abe.com.ponents.core.edit.Editor;
-	import abe.com.ponents.utils.ToolKit;
-	
-	import flash.display.DisplayObject;
-	import flash.display.InteractiveObject;
-	import flash.events.FocusEvent;
-	import flash.geom.Rectangle;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.core.edit.Editable;
+    import abe.com.ponents.core.edit.Editor;
+    import abe.com.ponents.utils.ToolKit;
+
+    import flash.display.DisplayObject;
+    import flash.display.InteractiveObject;
+    import flash.events.FocusEvent;
+    import flash.geom.Rectangle;
 	
 	public class TextAreaEditor extends TextArea implements Editor
 	{

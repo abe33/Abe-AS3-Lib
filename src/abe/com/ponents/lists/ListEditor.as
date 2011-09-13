@@ -1,27 +1,26 @@
 package abe.com.ponents.lists 
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.magicClone;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.edit.Editable;
-	import abe.com.ponents.core.edit.Editor;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.menus.ComboBox;
-	import abe.com.ponents.models.DefaultListModel;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.text.TextInput;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.mon.utils.magicClone;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.edit.Editable;
+    import abe.com.ponents.core.edit.Editor;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.menus.ComboBox;
+    import abe.com.ponents.models.DefaultListModel;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.text.TextInput;
 
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
+
+    import flash.display.DisplayObject;
 
 	[Skinable(skin="ListEditor")]
 	[Skin(define="ListEditor",

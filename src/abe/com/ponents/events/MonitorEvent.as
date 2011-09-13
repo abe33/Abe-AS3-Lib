@@ -1,8 +1,8 @@
 package abe.com.ponents.events 
 {
-	import abe.com.ponents.monitors.recorders.Recorder;
+    import abe.com.ponents.monitors.recorders.Recorder;
 
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

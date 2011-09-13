@@ -1,9 +1,9 @@
 package abe.com.ponents.utils
 {
-	import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Component;
 
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
+    import flash.display.DisplayObject;
+    import flash.display.DisplayObjectContainer;
 
 
 

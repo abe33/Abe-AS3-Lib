@@ -1,10 +1,10 @@
 package abe.com.patibility.hamcrest 
 {
-	import abe.com.patibility.humanize.plural;
+    import abe.com.patibility.humanize.plural;
 
-	import org.hamcrest.BaseMatcher;
-	import org.hamcrest.Description;
-	import org.hamcrest.Matcher;
+    import org.hamcrest.BaseMatcher;
+    import org.hamcrest.Description;
+    import org.hamcrest.Matcher;
 	/**
 	 * @author cedric
 	 */

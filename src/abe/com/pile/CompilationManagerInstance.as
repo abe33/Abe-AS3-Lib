@@ -1,6 +1,5 @@
 package abe.com.pile
 {
-    import abe.com.pile.CompilationManager;
 
     /**
      * @author cedric

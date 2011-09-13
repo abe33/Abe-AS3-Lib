@@ -1,25 +1,25 @@
 package abe.com.prehension.examples.dockables 
 {
-	import abe.com.mon.geom.Range;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.containers.FieldSet;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.containers.ScrollablePanel;
-	import abe.com.ponents.factory.ComponentFactory;
-	import abe.com.ponents.layouts.components.GridLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.models.DefaultBoundedRangeModel;
-	import abe.com.ponents.models.RangeBoundedRangeModel;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.sliders.HLogarithmicSlider;
-	import abe.com.ponents.sliders.HRangeSlider;
-	import abe.com.ponents.sliders.HSlider;
-	import abe.com.ponents.sliders.VLogarithmicSlider;
-	import abe.com.ponents.sliders.VRangeSlider;
-	import abe.com.ponents.sliders.VSlider;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Range;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.containers.FieldSet;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.containers.ScrollablePanel;
+    import abe.com.ponents.factory.ComponentFactory;
+    import abe.com.ponents.layouts.components.GridLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.models.DefaultBoundedRangeModel;
+    import abe.com.ponents.models.RangeBoundedRangeModel;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.sliders.HLogarithmicSlider;
+    import abe.com.ponents.sliders.HRangeSlider;
+    import abe.com.ponents.sliders.HSlider;
+    import abe.com.ponents.sliders.VLogarithmicSlider;
+    import abe.com.ponents.sliders.VRangeSlider;
+    import abe.com.ponents.sliders.VSlider;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric
 	 */

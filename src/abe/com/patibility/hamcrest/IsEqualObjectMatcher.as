@@ -1,10 +1,10 @@
 package abe.com.patibility.hamcrest 
 {
-	import abe.com.mon.utils.magicEquals;
-	import abe.com.ponents.utils.Inspect;
+    import abe.com.mon.utils.magicEquals;
+    import abe.com.ponents.utils.Inspect;
 
-	import org.hamcrest.BaseMatcher;
-	import org.hamcrest.Description;
+    import org.hamcrest.BaseMatcher;
+    import org.hamcrest.Description;
 	/**
 	 * @author cedric
 	 */

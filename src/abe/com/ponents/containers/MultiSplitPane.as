@@ -11,12 +11,12 @@ package abe.com.ponents.containers
     import abe.com.ponents.transfer.ComponentsFlavors;
     import abe.com.ponents.transfer.Transferable;
 
+    import org.osflash.signals.Signal;
+
     import flash.events.Event;
     import flash.events.MouseEvent;
     import flash.geom.Point;
     import flash.geom.Rectangle;
-
-    import org.osflash.signals.Signal;
 
     /**
      * @author Cédric Néhémie

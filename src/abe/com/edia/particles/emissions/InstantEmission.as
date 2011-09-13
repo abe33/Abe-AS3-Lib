@@ -1,6 +1,5 @@
 package abe.com.edia.particles.emissions
 {
-    import flash.utils.getQualifiedClassName;
     import abe.com.edia.particles.emitters.Emitter;
 
 	[Serialize(constructorArgs="particleType,emitter,count")]

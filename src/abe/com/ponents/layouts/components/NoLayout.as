@@ -3,8 +3,8 @@
  */
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.Container;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.Container;
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -1,15 +1,15 @@
 package abe.com.prehension.examples.dockables 
 {
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.factory.ComponentFactory;
-	import abe.com.ponents.layouts.components.GridLayout;
-	import abe.com.ponents.lists.ListLineRuler;
-	import abe.com.ponents.models.TreeModel;
-	import abe.com.ponents.models.TreeNode;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.trees.Tree;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.factory.ComponentFactory;
+    import abe.com.ponents.layouts.components.GridLayout;
+    import abe.com.ponents.lists.ListLineRuler;
+    import abe.com.ponents.models.TreeModel;
+    import abe.com.ponents.models.TreeNode;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.trees.Tree;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric
 	 */

@@ -1,9 +1,9 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.MathUtils;
 
-	import flash.display.Shape;
-	import flash.events.Event;
+    import flash.display.Shape;
+    import flash.events.Event;
 	/**
 	 * @author Cédric Néhémie
 	 */

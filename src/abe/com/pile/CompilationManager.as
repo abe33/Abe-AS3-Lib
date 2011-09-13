@@ -1,15 +1,11 @@
 package abe.com.pile
 {
-    import abe.com.mon.logs.Log;
-    import flash.utils.Dictionary;
     import abe.com.pile.units.CompilationUnit;
-
-    import com.hurlant.eval.ByteLoader;
-    import com.hurlant.eval.Evaluator;
 
     import org.osflash.signals.Signal;
 
     import flash.utils.ByteArray;
+    import flash.utils.Dictionary;
     /**
      * @author cedric
      */

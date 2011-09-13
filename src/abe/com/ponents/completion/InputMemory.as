@@ -1,7 +1,7 @@
 package abe.com.ponents.completion 
 {
-	import abe.com.patibility.settings.SettingsManagerInstance;
-	import abe.com.ponents.text.AbstractTextComponent;
+    import abe.com.patibility.settings.SettingsManagerInstance;
+    import abe.com.ponents.text.AbstractTextComponent;
 	public class InputMemory extends AutoCompletion
 	{
 		// id du champ en mémoire

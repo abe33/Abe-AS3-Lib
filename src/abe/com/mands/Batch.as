@@ -3,11 +3,11 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Cancelable;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.core.Suspendable;
+    import abe.com.mon.core.Cancelable;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Suspendable;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 	/**
 	 * Une commande <code>Batch</code> éxécute un lot de commandes les unes à la suites des autres
 	 * avec les mêmes paramètres d'entrée que la commande <code>Batch</code> elle-même. 

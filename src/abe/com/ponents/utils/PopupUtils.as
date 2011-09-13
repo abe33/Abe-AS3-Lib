@@ -1,11 +1,11 @@
 package abe.com.ponents.utils 
 {
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.motion.SingleTween;
-	import abe.com.motion.Tween;
-	import abe.com.ponents.core.Component;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.motion.SingleTween;
+    import abe.com.motion.Tween;
+    import abe.com.ponents.core.Component;
 
-	import flash.display.DisplayObject;
+    import flash.display.DisplayObject;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -144,7 +144,6 @@ package abe.com.ponents.utils
 		}
 	}
 }
-
 import abe.com.mon.core.Allocable;
 import abe.com.ponents.core.Component;
 import abe.com.ponents.utils.PopupUtils;

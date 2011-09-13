@@ -1,8 +1,8 @@
 package abe.com.patibility.types 
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
+    import abe.com.mon.logs.Log;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
 	/**
 	 * @author cedric
 	 */

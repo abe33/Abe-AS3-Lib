@@ -1,11 +1,11 @@
 package abe.com.ponents.tools.canvas.core 
 {
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.tools.canvas.Tool;
-	import abe.com.ponents.tools.canvas.ToolGestureData;
-	
-	import flash.utils.Dictionary;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.tools.canvas.Tool;
+    import abe.com.ponents.tools.canvas.ToolGestureData;
+
+    import flash.utils.Dictionary;
 
 	/**
 	 * @author Cédric Néhémie

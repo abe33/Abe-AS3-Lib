@@ -1,6 +1,6 @@
 package abe.com.ponents.skinning.icons 
 {
-	import flash.display.Shape;
+    import flash.display.Shape;
 	/**
 	 * @author Cédric Néhémie
 	 */

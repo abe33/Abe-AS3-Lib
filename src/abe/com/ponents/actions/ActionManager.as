@@ -3,16 +3,16 @@
  */
 package abe.com.ponents.actions 
 {
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.builtin.BuiltInActionsList;
-	import abe.com.ponents.actions.builtin.ForceGC;
-	import abe.com.ponents.actions.builtin.RedoAction;
-	import abe.com.ponents.actions.builtin.UndoAction;
-	import abe.com.ponents.history.UndoManagerInstance;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.builtin.BuiltInActionsList;
+    import abe.com.ponents.actions.builtin.ForceGC;
+    import abe.com.ponents.actions.builtin.RedoAction;
+    import abe.com.ponents.actions.builtin.UndoAction;
+    import abe.com.ponents.history.UndoManagerInstance;
 
-	import flash.utils.Dictionary;
+    import flash.utils.Dictionary;
 	/**
 	 * La classe <code>ActionManager</code> fournie un moyen d'enregistrer des actions
 	 * permettant ainsi de mutualiser simplement des commandes au sein d'une interface

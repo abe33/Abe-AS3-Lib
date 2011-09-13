@@ -1,13 +1,13 @@
 package abe.com.ponents.ressources.handlers 
 {
-	import abe.com.mon.utils.Reflection;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.ressources.ClassCollectionViewer;
-	import abe.com.ponents.ressources.preview.DisplayObjectPreview;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.ressources.ClassCollectionViewer;
+    import abe.com.ponents.ressources.preview.DisplayObjectPreview;
 
-	import flash.display.DisplayObject;
+    import flash.display.DisplayObject;
 	/**
 	 * @author cedric
 	 */

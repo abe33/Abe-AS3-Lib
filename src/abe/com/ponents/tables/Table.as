@@ -3,10 +3,9 @@
  */
 package  abe.com.ponents.tables 
 {
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.models.ListModel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.models.ListModel;
 
 	public class Table extends ScrollPane
 	{		

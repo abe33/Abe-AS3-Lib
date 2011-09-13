@@ -3,8 +3,8 @@
  */
 package  abe.com.ponents.actions
 {
-	import abe.com.mands.Command;
-	import abe.com.mon.core.Runnable;
+    import abe.com.mands.Command;
+    import abe.com.mon.core.Runnable;
 	/**
 	 * Interface définissant les propriétés spécifique que doit fournir une commande
 	 * pour être utilisée dans le <code>Terminal</code>.

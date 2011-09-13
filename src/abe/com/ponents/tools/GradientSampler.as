@@ -1,26 +1,24 @@
 package abe.com.ponents.tools
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Gradient;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.skinning.decorations.ArrowSideBorders;
-	import abe.com.ponents.skinning.decorations.ArrowSideFill;
-	import abe.com.ponents.skinning.icons.ColorIcon;
-	import abe.com.ponents.skinning.icons.GradientIcon;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Gradient;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.skinning.decorations.ArrowSideBorders;
+    import abe.com.ponents.skinning.decorations.ArrowSideFill;
+    import abe.com.ponents.skinning.icons.ColorIcon;
+    import abe.com.ponents.skinning.icons.GradientIcon;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.events.ContextMenuEvent;
-	import flash.events.MouseEvent;
-	import flash.ui.ContextMenuItem;
-    
     import org.osflash.signals.Signal;
+
+    import flash.events.ContextMenuEvent;
+    import flash.events.MouseEvent;
     
 	/**
 	 * @author Cédric Néhémie

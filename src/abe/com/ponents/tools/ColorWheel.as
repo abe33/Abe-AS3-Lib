@@ -3,16 +3,14 @@ package abe.com.ponents.tools
     import abe.com.mon.colors.*;
     import abe.com.mon.geom.*;
     import abe.com.mon.utils.*;
-    import abe.com.mon.logs.*;
     import abe.com.ponents.core.SimpleDOContainer;
-    import abe.com.ponents.events.*;
     import abe.com.ponents.layouts.display.*;
 
-    import flash.geom.*;
+    import org.osflash.signals.Signal;
+
     import flash.display.*;
     import flash.events.*;
-    
-    import org.osflash.signals.Signal;
+    import flash.geom.*;
 
     [Skinable(skin="ColorWheel")]
     [Skin(define="ColorWheel",

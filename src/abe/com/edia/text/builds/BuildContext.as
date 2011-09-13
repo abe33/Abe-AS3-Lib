@@ -3,11 +3,11 @@
  */
 package abe.com.edia.text.builds 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.core.TextFieldChar;
-	import abe.com.edia.text.fx.CharEffect;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.core.TextFieldChar;
+    import abe.com.edia.text.fx.CharEffect;
 
-	import flash.display.DisplayObject;
+    import flash.display.DisplayObject;
 	public class BuildContext
 	{
 		//public var format : TextFormat;

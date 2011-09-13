@@ -1,11 +1,11 @@
 package abe.com.ponents.tables 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.AbstractComponent;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.skinning.decorations.SeparatorDecoration;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.AbstractComponent;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.skinning.decorations.SeparatorDecoration;
 
-	import flash.events.MouseEvent;
+    import flash.events.MouseEvent;
 
 	/**
 	 * @author Cédric Néhémie

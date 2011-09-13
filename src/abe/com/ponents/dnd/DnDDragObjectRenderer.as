@@ -1,12 +1,11 @@
 package abe.com.ponents.dnd 
 {
-	import abe.com.ponents.utils.ToolKit;
-	import abe.com.ponents.dnd.*;
-	import abe.com.ponents.transfer.*;
+    import abe.com.ponents.transfer.*;
+    import abe.com.ponents.utils.ToolKit;
 
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.display.DisplayObject;
 	/**
 	 * @author Cédric Néhémie
 	 */

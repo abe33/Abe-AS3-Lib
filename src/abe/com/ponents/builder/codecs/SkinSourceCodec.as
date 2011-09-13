@@ -1,9 +1,9 @@
 package abe.com.ponents.builder.codecs 
 {
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.skinning.ComponentStyle;
-	import abe.com.ponents.skinning.SkinManagerInstance;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.skinning.ComponentStyle;
+    import abe.com.ponents.skinning.SkinManagerInstance;
 	/**
 	 * @author cedric
 	 */

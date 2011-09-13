@@ -3,15 +3,14 @@
  */
 package  abe.com.mon.geom
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.StringUtils;
 
-	import flash.geom.Point;
-	import flash.utils.getQualifiedClassName;
+    import flash.geom.Point;
 	/**
 	 * A <code>Dimension</code> object contains the data needed to
 	 * represent a surface in two dimensions.

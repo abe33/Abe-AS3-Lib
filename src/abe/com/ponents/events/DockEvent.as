@@ -1,8 +1,8 @@
 package abe.com.ponents.events 
 {
-	import abe.com.ponents.core.Dockable;
+    import abe.com.ponents.core.Dockable;
 
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

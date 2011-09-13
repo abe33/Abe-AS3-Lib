@@ -3,8 +3,6 @@ package abe.com.edia.particles.emissions
     import abe.com.edia.particles.emitters.Emitter;
     import abe.com.mon.core.Cloneable;
 
-    import flash.utils.getQualifiedClassName;
-
 	/**
 	 * Emits particles indefinitely according to a fixed generation rate.
 	 * 

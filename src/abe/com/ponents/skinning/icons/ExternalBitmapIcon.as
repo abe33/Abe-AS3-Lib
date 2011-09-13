@@ -1,10 +1,10 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.ponents.allocators.ExternalBitmapAllocatorInstance;
+    import abe.com.ponents.allocators.ExternalBitmapAllocatorInstance;
 
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.net.URLRequest;
+    import flash.display.Bitmap;
+    import flash.display.DisplayObject;
+    import flash.net.URLRequest;
 	/**
 	 * @author Cédric Néhémie
 	 */

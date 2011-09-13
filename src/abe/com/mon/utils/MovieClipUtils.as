@@ -3,8 +3,8 @@
  */
 package abe.com.mon.utils
 {
-	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
+    import flash.display.DisplayObject;
+    import flash.display.MovieClip;
 	/**
 	 * Classe utilitaire contenant des méthodes opérant sur des objets
 	 * <code>MovieClip</code>.

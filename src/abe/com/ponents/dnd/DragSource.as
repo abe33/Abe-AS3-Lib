@@ -3,12 +3,12 @@
  */
 package  abe.com.ponents.dnd 
 {
-	import abe.com.mon.core.IInteractiveObject;
-	import abe.com.ponents.dnd.gestures.DragGesture;
-	import abe.com.ponents.transfer.Transferable;
+    import abe.com.mon.core.IInteractiveObject;
+    import abe.com.ponents.dnd.gestures.DragGesture;
+    import abe.com.ponents.transfer.Transferable;
 
-	import flash.display.DisplayObject;
-	import flash.display.InteractiveObject;
+    import flash.display.DisplayObject;
+    import flash.display.InteractiveObject;
 	public interface DragSource extends IInteractiveObject
 	{
 		 /*FDT_IGNORE*/ FEATURES::DND { /*FDT_IGNORE*/

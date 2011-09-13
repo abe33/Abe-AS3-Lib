@@ -1,27 +1,27 @@
 package abe.com.ponents.utils 
 {
-	import abe.com.mon.geom.dm;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.ponents.actions.Action;
-	import abe.com.ponents.actions.ActionManagerInstance;
-	import abe.com.ponents.containers.DockableMultiSplitPane;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.containers.ToolBarSpacer;
-	import abe.com.ponents.core.Dockable;
-	import abe.com.ponents.layouts.components.splits.Divider;
-	import abe.com.ponents.layouts.components.splits.Leaf;
-	import abe.com.ponents.layouts.components.splits.Node;
-	import abe.com.ponents.layouts.components.splits.Split;
-	import abe.com.ponents.menus.Menu;
-	import abe.com.ponents.menus.MenuBar;
-	import abe.com.ponents.menus.MenuItem;
-	import abe.com.ponents.menus.MenuSeparator;
-	import abe.com.ponents.tabs.ClosableTab;
-	import abe.com.ponents.tabs.SimpleTab;
-	import abe.com.ponents.tabs.Tab;
-	import abe.com.ponents.tabs.TabbedPane;
+    import abe.com.mon.geom.dm;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.ponents.actions.Action;
+    import abe.com.ponents.actions.ActionManagerInstance;
+    import abe.com.ponents.containers.DockableMultiSplitPane;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.containers.ToolBarSpacer;
+    import abe.com.ponents.core.Dockable;
+    import abe.com.ponents.layouts.components.splits.Divider;
+    import abe.com.ponents.layouts.components.splits.Leaf;
+    import abe.com.ponents.layouts.components.splits.Node;
+    import abe.com.ponents.layouts.components.splits.Split;
+    import abe.com.ponents.menus.Menu;
+    import abe.com.ponents.menus.MenuBar;
+    import abe.com.ponents.menus.MenuItem;
+    import abe.com.ponents.menus.MenuSeparator;
+    import abe.com.ponents.tabs.ClosableTab;
+    import abe.com.ponents.tabs.SimpleTab;
+    import abe.com.ponents.tabs.Tab;
+    import abe.com.ponents.tabs.TabbedPane;
 	/**
 	 * @author cedric
 	 */

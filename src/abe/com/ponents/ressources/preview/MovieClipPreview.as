@@ -1,19 +1,19 @@
 package abe.com.ponents.ressources.preview 
 {
-	import abe.com.ponents.buttons.ToggleButton;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.geom.dm;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseListener;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.models.SpinnerNumberModel;
-	import abe.com.ponents.spinners.Spinner;
-	import abe.com.ponents.text.Label;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.geom.dm;
+    import abe.com.motion.Impulse;
+    import abe.com.motion.ImpulseListener;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.buttons.ToggleButton;
+    import abe.com.ponents.events.ComponentEvent;
+    import abe.com.ponents.models.SpinnerNumberModel;
+    import abe.com.ponents.spinners.Spinner;
+    import abe.com.ponents.text.Label;
 
-	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
-	import flash.events.Event;
+    import flash.display.DisplayObject;
+    import flash.display.MovieClip;
+    import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

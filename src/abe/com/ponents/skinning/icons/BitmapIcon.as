@@ -1,6 +1,6 @@
 package abe.com.ponents.skinning.icons 
 {
-	import flash.display.Bitmap;
+    import flash.display.Bitmap;
 	/**
 	 * @author Cédric Néhémie
 	 */

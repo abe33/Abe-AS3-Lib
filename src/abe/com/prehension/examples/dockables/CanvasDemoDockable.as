@@ -3,7 +3,6 @@ package abe.com.prehension.examples.dockables
     import abe.com.edia.camera.CameraLayer;
     import abe.com.mon.geom.Dimension;
     import abe.com.mon.utils.*;
-    import abe.com.mon.utils.objects.keys;
     import abe.com.patibility.lang.*;
     import abe.com.ponents.actions.*;
     import abe.com.ponents.buttons.*;
@@ -24,7 +23,7 @@ package abe.com.prehension.examples.dockables
     import abe.com.ponents.tools.canvas.actions.*;
     import abe.com.ponents.tools.canvas.navigations.*;
     import abe.com.ponents.tools.canvas.selections.*;
-    
+
     import flash.display.DisplayObject;
     import flash.events.Event;
     import flash.events.MouseEvent;

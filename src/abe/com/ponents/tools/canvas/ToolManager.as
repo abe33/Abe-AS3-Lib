@@ -6,15 +6,15 @@ package abe.com.ponents.tools.canvas
     import abe.com.ponents.tools.CameraCanvas;
     import abe.com.ponents.tools.canvas.core.NullTool;
     import abe.com.ponents.utils.preventToolOperation;
-    
+
+    import org.osflash.signals.Signal;
+
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
     import flash.events.Event;
     import flash.events.KeyboardEvent;
     import flash.events.MouseEvent;
     import flash.geom.Point;
-    
-    import org.osflash.signals.Signal;
 
     public class ToolManager
     {

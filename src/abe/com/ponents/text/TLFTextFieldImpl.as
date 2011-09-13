@@ -1,14 +1,12 @@
 package abe.com.ponents.text 
 {
-	import abe.com.mon.core.ITextField;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.ponents.scrollbars.Scrollable;
+    import abe.com.mon.core.ITextField;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.ponents.scrollbars.Scrollable;
 
-	import fl.text.TLFTextField;
-
-	import flash.display.DisplayObject;
-	import flash.geom.Rectangle;
+    import flash.display.DisplayObject;
+    import flash.geom.Rectangle;
 	/**
 	 * @author cedric
 	 */

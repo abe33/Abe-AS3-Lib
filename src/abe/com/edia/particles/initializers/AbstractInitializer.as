@@ -2,8 +2,6 @@ package abe.com.edia.particles.initializers
 {
     import abe.com.edia.particles.core.Particle;
     import abe.com.edia.particles.core.ParticleSystem;
-    import abe.com.patibility.lang._$;
-    import flash.utils.getQualifiedClassName;
 
 
     /**

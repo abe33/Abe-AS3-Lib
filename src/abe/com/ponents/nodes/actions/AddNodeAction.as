@@ -6,7 +6,7 @@ package abe.com.ponents.nodes.actions
     import abe.com.ponents.nodes.core.CanvasNode;
     import abe.com.ponents.skinning.icons.Icon;
     import abe.com.ponents.tools.CameraCanvas;
-    
+
     import flash.events.ContextMenuEvent;
     import flash.ui.ContextMenuItem;
     /**
@@ -91,7 +91,6 @@ package abe.com.ponents.nodes.actions
         }
     }
 }
-
 import abe.com.patibility.lang._;
 import abe.com.ponents.history.AbstractUndoable;
 import abe.com.ponents.nodes.core.CanvasNode;

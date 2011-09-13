@@ -3,11 +3,11 @@
  */
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.utils.Insets;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */

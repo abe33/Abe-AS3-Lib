@@ -9,7 +9,6 @@ package abe.com.edia.particles.emissions
     import abe.com.mon.utils.StringUtils;
     import abe.com.patibility.lang._;
     import abe.com.patibility.lang._$;
-    import flash.utils.getQualifiedClassName;
 
 	[Serialize(constructorArgs="particleType,emitter")]
     public class AbstractEmission implements ParticleEmission

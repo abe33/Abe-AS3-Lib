@@ -1,8 +1,8 @@
 package abe.com.ponents.menus 
 {
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.text.TextFormat;
+    import flash.text.TextFormat;
 	/**
 	 * @author cedric
 	 */

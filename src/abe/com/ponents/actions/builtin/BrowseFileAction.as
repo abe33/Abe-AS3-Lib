@@ -15,7 +15,10 @@ package abe.com.ponents.actions.builtin
     import flash.events.Event;
     import flash.net.FileReference;
 
-    TARGET::AIR { import flash.filesystem.File; }
+    TARGET::AIR
+    {
+		import flash.filesystem.File;
+    }
     /**
      * @author Cédric Néhémie
      */

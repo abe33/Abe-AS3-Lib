@@ -1,8 +1,5 @@
 package abe.com.edia.particles.timers
 {
-    import abe.com.patibility.lang._$;
-
-    import flash.utils.getQualifiedClassName;
 
     /**
      * @author cedric

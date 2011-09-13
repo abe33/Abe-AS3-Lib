@@ -5,10 +5,8 @@ package abe.com.edia.particles.emitters
 {
     import abe.com.mon.randoms.Random;
     import abe.com.mon.utils.RandomUtils;
-    import abe.com.patibility.lang._$;
 
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 	/**
 	 * La classe <code>PointEmitter</code> sert à la génération
 	 * d'objet à partir de coordonnées spécifiques.

@@ -2,14 +2,12 @@ package abe.com.ponents.dnd
 {
     import abe.com.mon.utils.StageUtils;
     import abe.com.motion.SingleTween;
-    import abe.com.ponents.dnd.*;
-    import abe.com.ponents.transfer.*;
-    import abe.com.ponents.layouts.components.*;
     import abe.com.ponents.core.*;
+    import abe.com.ponents.layouts.components.*;
+    import abe.com.ponents.transfer.*;
     import abe.com.ponents.utils.ToolKit;
 
     import flash.display.Shape;
-    import flash.events.Event;
     import flash.geom.Rectangle;
     /**
      * @author Cédric Néhémie

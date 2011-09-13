@@ -1,6 +1,6 @@
 package abe.com.mon.randoms 
 {
-	import abe.com.mon.core.Randomizable;
+    import abe.com.mon.core.Randomizable;
 	/**
 	 * @author cedric
 	 */

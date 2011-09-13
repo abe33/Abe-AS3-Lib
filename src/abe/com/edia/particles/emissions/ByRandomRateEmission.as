@@ -2,7 +2,6 @@ package abe.com.edia.particles.emissions
 {
     import abe.com.edia.particles.emitters.Emitter;
     import abe.com.mon.utils.RandomUtils;
-    import flash.utils.getQualifiedClassName;
 
 
 	/**

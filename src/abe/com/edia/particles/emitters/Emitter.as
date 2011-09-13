@@ -3,8 +3,9 @@
  */
 package abe.com.edia.particles.emitters 
 {
-    import abe.com.mon.core.Serializable;
     import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Serializable;
+
     import flash.geom.Point;
 	/**
 	 * L'interface <code>Emitter</code> définie la méthode <code>get</code>

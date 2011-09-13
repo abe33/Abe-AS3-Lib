@@ -3,9 +3,9 @@
  */
 package abe.com.edia.text.fx.show 
 {
-	import abe.com.edia.text.fx.CharEffect;
+    import abe.com.edia.text.fx.CharEffect;
 
-	import flash.events.IEventDispatcher;
+    import flash.events.IEventDispatcher;
 	/**
 	 * @author Cédric Néhémie
 	 */

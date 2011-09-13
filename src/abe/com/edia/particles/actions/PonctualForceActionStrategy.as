@@ -1,7 +1,7 @@
 package abe.com.edia.particles.actions
 {
-    import abe.com.patibility.serialize.sourcesDictionary;
     import abe.com.edia.particles.core.Particle;
+    import abe.com.patibility.serialize.sourcesDictionary;
 
     import flash.geom.Point;
 

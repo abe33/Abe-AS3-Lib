@@ -3,12 +3,12 @@
  */
 package abe.com.ponents.core.paint 
 {
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Container;
 
-	import flash.events.Event;
-	import flash.utils.Dictionary;
+    import flash.events.Event;
+    import flash.utils.Dictionary;
 	/**
 	 * La classe <code>RepaintManager</code> implémente la gestion des redessin 
 	 * des composants.

@@ -3,16 +3,16 @@
  */
 package abe.com.ponents.actions.builtin 
 {
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.history.UndoManager;
-	import abe.com.ponents.history.Undoable;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.history.UndoManager;
+    import abe.com.ponents.history.Undoable;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
 
-	import flash.events.ContextMenuEvent;
-	import flash.ui.ContextMenuItem;
+    import flash.events.ContextMenuEvent;
+    import flash.ui.ContextMenuItem;
 	/**
 	 * @author Cédric Néhémie
 	 */

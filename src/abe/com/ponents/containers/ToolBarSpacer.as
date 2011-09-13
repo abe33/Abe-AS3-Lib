@@ -1,11 +1,11 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.ponents.core.AbstractComponent;
-	import abe.com.ponents.core.Component;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.ponents.core.AbstractComponent;
+    import abe.com.ponents.core.Component;
 
-	import flash.ui.ContextMenuItem;
+    import flash.ui.ContextMenuItem;
 
 	/**
 	 * @author cedric

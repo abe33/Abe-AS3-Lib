@@ -3,7 +3,7 @@
  */
 package abe.com.motion
 {
-	import abe.com.mon.debug.DebuggableManagerInstance;
+    import abe.com.mon.debug.DebuggableManagerInstance;
 	/**
 	 * Instance globale de la classe <code>MotionImpulse</code>.
 	 *

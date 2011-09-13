@@ -3,12 +3,12 @@
  */
 package  abe.com.mands.load
 {
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
-	import flash.net.URLRequest;
-	import flash.net.URLVariables;
+    import flash.display.DisplayObject;
+    import flash.display.Sprite;
+    import flash.display.StageAlign;
+    import flash.display.StageScaleMode;
+    import flash.net.URLRequest;
+    import flash.net.URLVariables;
 
 	[SWF(backgroundColor="#000000")]
 	public class RootLoader extends Sprite

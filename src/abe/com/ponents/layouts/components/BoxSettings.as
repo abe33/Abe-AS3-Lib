@@ -1,6 +1,6 @@
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Component;
 	/**
 	 * @author Cédric Néhémie
 	 */

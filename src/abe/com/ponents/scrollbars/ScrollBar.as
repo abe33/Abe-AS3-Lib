@@ -1,19 +1,17 @@
 package abe.com.ponents.scrollbars
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.models.BoundedRangeModel;
-	import abe.com.ponents.models.DefaultBoundedRangeModel;
-	import abe.com.ponents.utils.Orientations;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.models.BoundedRangeModel;
+    import abe.com.ponents.models.DefaultBoundedRangeModel;
+    import abe.com.ponents.utils.Orientations;
 
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
+
+    import flash.events.MouseEvent;
 
 	[Skinable(skin="ScrollBar")]
 	[Skin(define="ScrollBar",
@@ -439,10 +437,8 @@ package abe.com.ponents.scrollbars
 		}
 	}
 }
-
 import abe.com.ponents.actions.Action;
 import abe.com.ponents.buttons.Button;
-import abe.com.ponents.events.PropertyEvent;
 import abe.com.ponents.scrollbars.ScrollBar;
 
 import flash.events.Event;

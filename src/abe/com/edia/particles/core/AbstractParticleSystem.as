@@ -9,7 +9,6 @@ package abe.com.edia.particles.core
 
     import org.osflash.signals.Signal;
 
-    import flash.utils.getQualifiedClassName;
     import flash.utils.getTimer;
 
 

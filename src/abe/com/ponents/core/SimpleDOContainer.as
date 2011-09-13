@@ -1,10 +1,10 @@
 package abe.com.ponents.core
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.layouts.display.DOInlineLayout;
-	import abe.com.ponents.layouts.display.DisplayObjectLayout;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.layouts.display.DOInlineLayout;
+    import abe.com.ponents.layouts.display.DisplayObjectLayout;
 
-	import flash.display.DisplayObject;
+    import flash.display.DisplayObject;
 	/**
 	 * Implémentation standard d'un composant n'ayant que des objets <code>DisplayObject</code>
 	 * comme sous-objets.

@@ -1,9 +1,9 @@
 package abe.com.ponents.ressources.handlers 
 {
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.text.Label;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.text.Label;
 	/**
 	 * @author cedric
 	 */

@@ -1,7 +1,8 @@
 package abe.com.ponents.models 
 {
-	import flash.ui.ContextMenuItem;
     import org.osflash.signals.Signal;
+
+    import flash.ui.ContextMenuItem;
 	 
 	/**
 	 * @author Cédric Néhémie

@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.buttons 
 {
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
 	/**
 	 * La classe <code>ButtonGroup</code> permet de définir un groupe de bouton

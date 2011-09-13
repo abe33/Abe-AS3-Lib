@@ -3,8 +3,8 @@
  */
 package  abe.com.ponents.dnd 
 {
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.transfer.*;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.transfer.*;
 	public interface DropTarget
 	{
 		function get component () : Component;

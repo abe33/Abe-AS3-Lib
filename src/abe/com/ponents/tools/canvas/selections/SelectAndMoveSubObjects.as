@@ -26,7 +26,7 @@ package abe.com.ponents.tools.canvas.selections
                                                   cursor : Cursor = null, 
                                                   allowMoves : Boolean = true )
         {
-            super ( canvas, selection, cursor, allowMoves );
+            super ( canvas, selection, allowMoves, cursor );
             _subObjectsSelection = subObjectSelection;
             _objectsSelection = selection;
         }

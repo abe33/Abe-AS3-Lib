@@ -3,10 +3,10 @@
  */
 package abe.com.mon.core.impl
 {
-	import abe.com.mon.core.LayeredSprite;
+    import abe.com.mon.core.LayeredSprite;
 
-	import flash.display.Sprite;
-	import flash.events.Event;
+    import flash.display.Sprite;
+    import flash.events.Event;
 	/**
 	 * A standard implementation of the <code>LayeredSprite</code> interface.
 	 * <fr>

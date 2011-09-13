@@ -1,9 +1,9 @@
 package abe.com.ponents.skinning.icons 
 {
-	import flash.text.Font;
-	import flash.text.FontStyle;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
+    import flash.text.Font;
+    import flash.text.FontStyle;
+    import flash.text.TextField;
+    import flash.text.TextFormat;
 	/**
 	 * @author Cédric Néhémie
 	 */

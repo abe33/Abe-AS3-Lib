@@ -1,21 +1,21 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Dockable;
-	import abe.com.ponents.core.DockableContainer;
-	import abe.com.ponents.dnd.*;
-	import abe.com.ponents.events.*;
-	import abe.com.ponents.layouts.components.splits.Leaf;
-	import abe.com.ponents.tabs.ClosableTab;
-	import abe.com.ponents.tabs.SimpleTab;
-	import abe.com.ponents.tabs.Tab;
-	import abe.com.ponents.tabs.TabbedPane;
-	import abe.com.ponents.transfer.*;
-	
-	import flash.geom.Point;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Dockable;
+    import abe.com.ponents.core.DockableContainer;
+    import abe.com.ponents.dnd.*;
+    import abe.com.ponents.events.*;
+    import abe.com.ponents.layouts.components.splits.Leaf;
+    import abe.com.ponents.tabs.ClosableTab;
+    import abe.com.ponents.tabs.SimpleTab;
+    import abe.com.ponents.tabs.Tab;
+    import abe.com.ponents.tabs.TabbedPane;
+    import abe.com.ponents.transfer.*;
 
     import org.osflash.signals.events.IBubbleEventHandler;
     import org.osflash.signals.events.IEvent;
+
+    import flash.geom.Point;
 	/**
 	 * @author cedric
 	 */

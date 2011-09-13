@@ -3,12 +3,12 @@
  */
 package abe.com.patibility.codecs
 {
-	import abe.com.edia.bitmaps.MultiSideBitmapSprite;
-	import abe.com.mon.geom.pt;
-	import abe.com.patibility.lang._;
+    import abe.com.edia.bitmaps.MultiSideBitmapSprite;
+    import abe.com.mon.geom.pt;
+    import abe.com.patibility.lang._;
 
-	import flash.display.BitmapData;
-	import flash.utils.ByteArray;
+    import flash.display.BitmapData;
+    import flash.utils.ByteArray;
 	/**
 	 * La classe <code>SPZCodec2</code> permet d'encoder et de décoder
 	 * des objets de types <code>MultiSideBitmapSprite</code> sauvegardés

@@ -3,7 +3,7 @@
  */
 package abe.com.mon.randoms
 {
-	import abe.com.mon.core.Randomizable;
+    import abe.com.mon.core.Randomizable;
 	/**
 	 * Classe implémentant l'algorithme de génération de nombre pseudo aléatoire Mersenne Twister.
 	 * <p>

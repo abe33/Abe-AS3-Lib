@@ -3,9 +3,9 @@
  */
 package  abe.com.patibility.lang 
 {
-	import abe.com.mon.core.Sealable;
+    import abe.com.mon.core.Sealable;
 
-	import flash.utils.getQualifiedClassName;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * Un objet <code>Locale</code> contient tout les éléments constitutifs d'une localisation.
 	 * Un objet <code>Locale</code> est identifié à l'aide de la combinaison des codes de langues

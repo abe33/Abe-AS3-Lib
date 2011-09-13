@@ -11,7 +11,6 @@ package abe.com.mon.utils
 			return _hashes[o] = _currentHash++;
 	}
 }
-
 import flash.utils.Dictionary;
 
 internal var _currentHash : uint = 0;

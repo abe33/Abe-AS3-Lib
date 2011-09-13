@@ -1,36 +1,32 @@
 package abe.com.ponents.containers
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.settings.SettingsManagerInstance;
-	import abe.com.ponents.actions.Action;
-	import abe.com.ponents.buttons.AbstractButton;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.dnd.*;
-	import abe.com.ponents.transfer.*;
-	import abe.com.ponents.dnd.gestures.PressAndMoveGesture;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.menus.DropDownMenu;
-	import abe.com.ponents.menus.Menu;
-	import abe.com.ponents.menus.MenuItem;
-	import abe.com.ponents.scrollbars.Scrollable;
-	import abe.com.ponents.skinning.SkinManagerInstance;
-	import abe.com.ponents.transfer.ComponentsFlavors;
-	import abe.com.ponents.transfer.DataFlavor;
-	import abe.com.ponents.transfer.ToolBarTransferable;
-	import abe.com.ponents.transfer.Transferable;
-	import abe.com.ponents.utils.Alignments;
-	import abe.com.ponents.utils.ContextMenuItemUtils;
-	import abe.com.ponents.utils.Directions;
-	import abe.com.ponents.utils.ScrollUtils;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.settings.SettingsManagerInstance;
+    import abe.com.ponents.actions.Action;
+    import abe.com.ponents.buttons.AbstractButton;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.dnd.*;
+    import abe.com.ponents.dnd.gestures.PressAndMoveGesture;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.menus.DropDownMenu;
+    import abe.com.ponents.menus.Menu;
+    import abe.com.ponents.menus.MenuItem;
+    import abe.com.ponents.scrollbars.Scrollable;
+    import abe.com.ponents.skinning.SkinManagerInstance;
+    import abe.com.ponents.transfer.*;
+    import abe.com.ponents.utils.Alignments;
+    import abe.com.ponents.utils.ContextMenuItemUtils;
+    import abe.com.ponents.utils.Directions;
+    import abe.com.ponents.utils.ScrollUtils;
 
-	import flash.display.DisplayObject;
-	import flash.display.InteractiveObject;
-	import flash.events.ContextMenuEvent;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.display.DisplayObject;
+    import flash.display.InteractiveObject;
+    import flash.events.ContextMenuEvent;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 
 	/**
 	 * @author Cédric Néhémie

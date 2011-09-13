@@ -1,18 +1,18 @@
 package abe.com.ponents.nodes.core
 {
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.core.edit.Editable;
-	import abe.com.ponents.core.edit.Editor;
-	import abe.com.ponents.core.edit.EditorFactoryInstance;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.nodes.renderers.nodes.NodeRendererFactoryInstance;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.text.TextAreaEditor;
-	import abe.com.ponents.utils.ComponentResizer;
-	
-	import flash.events.Event;
-	
-	import org.osflash.signals.Signal;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.core.edit.Editable;
+    import abe.com.ponents.core.edit.Editor;
+    import abe.com.ponents.core.edit.EditorFactoryInstance;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.nodes.renderers.nodes.NodeRendererFactoryInstance;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.text.TextAreaEditor;
+    import abe.com.ponents.utils.ComponentResizer;
+
+    import org.osflash.signals.Signal;
+
+    import flash.events.Event;
 
 	[Skinable(skin="Note")]
 	[Skin(define="Note",

@@ -1,6 +1,5 @@
 package abe.com.ponents.tools.canvas.selections 
 {
-    import abe.com.ponents.tools.canvas.dummies.Duplicable;
     import abe.com.mon.closures.core.isA;
     import abe.com.mon.colors.Color;
     import abe.com.mon.geom.pt;
@@ -11,6 +10,7 @@ package abe.com.ponents.tools.canvas.selections
     import abe.com.ponents.tools.canvas.Tool;
     import abe.com.ponents.tools.canvas.ToolGestureData;
     import abe.com.ponents.tools.canvas.core.AbstractCanvasDragTool;
+    import abe.com.ponents.tools.canvas.dummies.Duplicable;
 
     import flash.display.DisplayObject;
     import flash.display.Sprite;

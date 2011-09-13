@@ -1,7 +1,7 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.AbstractComponent;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.AbstractComponent;
 
 	[Skinable(skin="HorizontalLine")]
 	[Skin(define="HorizontalLine",

@@ -3,7 +3,7 @@
  */
 package  abe.com.motion
 {
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * La classe <code>TweenEvent</code> est utilisé par les objets <code>Tween</code>
 	 * ou <code>MultiTween</code> lors de la diffusion des évènements relatifs à leur

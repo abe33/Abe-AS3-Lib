@@ -5,12 +5,9 @@ package abe.com.mon.geom
     import abe.com.mon.core.Randomizable;
     import abe.com.mon.randoms.Random;
     import abe.com.mon.utils.RandomUtils;
-    import abe.com.mon.utils.StringUtils;
-    import abe.com.mon.utils.getSource;
 
     import flash.display.BitmapData;
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 
     /**
      * @author cedric

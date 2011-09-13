@@ -3,16 +3,16 @@
  */
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.utils.magicClone;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.utils.magicClone;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
 
-	import flash.display.BitmapData;
-	import flash.display.Graphics;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.display.BitmapData;
+    import flash.display.Graphics;
+    import flash.geom.Matrix;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */

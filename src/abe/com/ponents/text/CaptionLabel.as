@@ -1,7 +1,7 @@
 package abe.com.ponents.text 
 {
-	import abe.com.ponents.layouts.display.DOInlineLayout;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.layouts.display.DOInlineLayout;
+    import abe.com.ponents.skinning.icons.Icon;
 	/**
 	 * @author Cédric Néhémie
 	 */

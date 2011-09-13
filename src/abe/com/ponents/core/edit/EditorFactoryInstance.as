@@ -3,13 +3,13 @@
  */
 package abe.com.ponents.core.edit 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.ponents.actions.builtin.ColorPickerAction;
-	import abe.com.ponents.models.SpinnerNumberModel;
-	import abe.com.ponents.spinners.Spinner;
-	import abe.com.ponents.text.TextEditor;
+    import abe.com.mon.colors.Color;
+    import abe.com.ponents.actions.builtin.ColorPickerAction;
+    import abe.com.ponents.models.SpinnerNumberModel;
+    import abe.com.ponents.spinners.Spinner;
+    import abe.com.ponents.text.TextEditor;
 
-	import flash.utils.getQualifiedClassName;
+    import flash.utils.getQualifiedClassName;
 
 
 

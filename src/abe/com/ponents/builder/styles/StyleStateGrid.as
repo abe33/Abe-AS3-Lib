@@ -1,23 +1,23 @@
 package abe.com.ponents.builder.styles 
 {
-	import abe.com.mon.utils.Delegate;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.builder.events.StyleSelectionEvent;
-	import abe.com.ponents.builder.models.StyleSelectionModel;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.ComponentStates;
-	import abe.com.ponents.core.Dockable;
-	import abe.com.ponents.core.SimpleDockable;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.Box9Layout;
-	import abe.com.ponents.layouts.components.GridLayout;
-	import abe.com.ponents.skinning.ComponentStyle;
-	import abe.com.ponents.skinning.SkinManagerInstance;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.mon.utils.Delegate;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.builder.events.StyleSelectionEvent;
+    import abe.com.ponents.builder.models.StyleSelectionModel;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.core.AbstractContainer;
+    import abe.com.ponents.core.ComponentStates;
+    import abe.com.ponents.core.Dockable;
+    import abe.com.ponents.core.SimpleDockable;
+    import abe.com.ponents.events.ComponentEvent;
+    import abe.com.ponents.layouts.components.Box9Layout;
+    import abe.com.ponents.layouts.components.GridLayout;
+    import abe.com.ponents.skinning.ComponentStyle;
+    import abe.com.ponents.skinning.SkinManagerInstance;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
 
-	import flash.events.Event;
-	import flash.events.MouseEvent;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
 
 	[Event(name="selectionChange", type="abe.com.ponents.events.ComponentEvent")]
 	/**
@@ -319,7 +319,6 @@ package abe.com.ponents.builder.styles
 		}
 	}
 }
-
 import abe.com.ponents.builder.styles.DefaultComponentPreview;
 import abe.com.ponents.core.AbstractContainer;
 import abe.com.ponents.layouts.components.GridLayout;

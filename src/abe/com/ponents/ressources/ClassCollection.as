@@ -1,6 +1,6 @@
 package abe.com.ponents.ressources 
 {
-	import flash.display.Sprite;
+    import flash.display.Sprite;
 	/**
 	 * @author cedric
 	 */

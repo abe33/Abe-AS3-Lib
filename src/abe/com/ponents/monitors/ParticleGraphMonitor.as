@@ -1,6 +1,5 @@
 package abe.com.ponents.monitors
 {
-    import abe.com.ponents.containers.ToolBar;
     import abe.com.edia.particles.core.ParticleManagerInstance;
     import abe.com.edia.particles.recorders.EmissionsRecorder;
     import abe.com.edia.particles.recorders.ParticleRecorder;
@@ -8,6 +7,7 @@ package abe.com.ponents.monitors
     import abe.com.mon.geom.Range;
     import abe.com.patibility.lang._;
     import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ToolBar;
     import abe.com.ponents.layouts.components.BorderLayout;
 
     /**

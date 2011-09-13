@@ -3,8 +3,8 @@
  */
 package  abe.com.motion
 {
-    import abe.com.mon.debug.DebuggableManagerInstance;
     import abe.com.mon.core.Debuggable;
+    import abe.com.mon.debug.DebuggableManagerInstance;
 
     import org.osflash.signals.Signal;
 

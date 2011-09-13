@@ -3,9 +3,9 @@
  */
 package  abe.com.mands.load
 {
-	import flash.events.Event;
-	import flash.events.ProgressEvent;
-	import flash.net.URLLoader;
+    import flash.events.Event;
+    import flash.events.ProgressEvent;
+    import flash.net.URLLoader;
 	public class URLLoaderEstimator extends AbstractLoaderEstimator
 	{
 		protected var _loader : URLLoader;

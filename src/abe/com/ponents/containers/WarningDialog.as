@@ -1,10 +1,10 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.settings.SettingsManagerInstance;
-	import abe.com.ponents.buttons.CheckBox;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.settings.SettingsManagerInstance;
+    import abe.com.ponents.buttons.CheckBox;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.layouts.components.InlineLayout;
 	/**
 	 * @author cedric
 	 */

@@ -3,13 +3,13 @@
  */
 package abe.com.edia.text.layouts 
 {
-	import abe.com.edia.text.AdvancedTextField;
-	import abe.com.edia.text.core.Char;
-	import abe.com.mon.core.Clearable;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.Range;
+    import abe.com.edia.text.AdvancedTextField;
+    import abe.com.edia.text.core.Char;
+    import abe.com.mon.core.Clearable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.Range;
 
-	import flash.text.TextLineMetrics;
+    import flash.text.TextLineMetrics;
 	/**
 	 * @author Cédric Néhémie
 	 */

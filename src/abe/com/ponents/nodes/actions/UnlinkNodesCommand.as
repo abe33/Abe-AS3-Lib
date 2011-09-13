@@ -1,8 +1,8 @@
 package abe.com.ponents.nodes.actions 
 {
-	import abe.com.mands.AbstractCommand;
-	import abe.com.ponents.history.UndoManagerInstance;
-	import abe.com.ponents.nodes.core.NodeLink;
+    import abe.com.mands.AbstractCommand;
+    import abe.com.ponents.history.UndoManagerInstance;
+    import abe.com.ponents.nodes.core.NodeLink;
 	/**
 	 * @author cedric
 	 */
@@ -23,7 +23,6 @@ package abe.com.ponents.nodes.actions
 		}
 	}
 }
-
 import abe.com.patibility.lang._;
 import abe.com.ponents.history.AbstractUndoable;
 import abe.com.ponents.nodes.core.NodeLink;

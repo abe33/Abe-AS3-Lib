@@ -1,14 +1,14 @@
 package abe.com.ponents.core.edit 
 {
-	import abe.com.mands.Command;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.mon.utils.magicCopy;
-	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
-	import abe.com.ponents.containers.Window;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.forms.managers.SimpleFormManager;
+    import abe.com.mands.Command;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.magicCopy;
+    import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
+    import abe.com.ponents.containers.Window;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.forms.managers.SimpleFormManager;
 
-	import flash.display.DisplayObject;
+    import flash.display.DisplayObject;
 	/**
 	 * La classe <code>ObjectPropertiesEditor</code> est un éditeur
 	 * générique permettant l'édition des propriétés d'objets complexes.

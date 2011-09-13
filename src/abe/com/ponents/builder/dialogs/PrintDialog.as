@@ -1,26 +1,25 @@
 package abe.com.ponents.builder.dialogs 
 {
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.Window;
-	import abe.com.ponents.containers.WindowTitleBar;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.layouts.display.DOBoxSettings;
-	import abe.com.ponents.layouts.display.DOHBoxLayout;
-	import abe.com.ponents.text.TextArea;
-	import abe.com.ponents.text.TextFieldImpl;
-	import abe.com.ponents.text.TextLineRuler;
-	import abe.com.ponents.tools.prettify.GPrettify;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.ProxyAction;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.Window;
+    import abe.com.ponents.containers.WindowTitleBar;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.layouts.display.DOBoxSettings;
+    import abe.com.ponents.layouts.display.DOHBoxLayout;
+    import abe.com.ponents.text.TextArea;
+    import abe.com.ponents.text.TextFieldImpl;
+    import abe.com.ponents.text.TextLineRuler;
+    import abe.com.ponents.tools.prettify.GPrettify;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.system.System;
-	import flash.text.StyleSheet;
-	import flash.text.TextFieldType;
+    import flash.system.System;
+    import flash.text.StyleSheet;
+    import flash.text.TextFieldType;
 	/**
 	 * @author cedric
 	 */

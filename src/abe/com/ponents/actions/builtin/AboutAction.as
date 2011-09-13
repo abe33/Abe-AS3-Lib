@@ -1,14 +1,14 @@
 package abe.com.ponents.actions.builtin 
 {
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.containers.Dialog;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.text.Label;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.containers.Dialog;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.text.Label;
 	/**
 	 * @author cedric
 	 */

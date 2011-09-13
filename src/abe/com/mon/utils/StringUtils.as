@@ -3,7 +3,7 @@
  */
 package abe.com.mon.utils
 {
-	import flash.utils.getQualifiedClassName;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * Classe utilitaires fournissant des méthodes opérant sur
 	 * des chaînes de caractères.

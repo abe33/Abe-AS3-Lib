@@ -1,28 +1,26 @@
 package abe.com.ponents.tables
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.AllocatorInstance;
-	import abe.com.ponents.containers.DropPanel;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.containers.Viewport;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.dnd.*;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.HBoxLayout;
-	import abe.com.ponents.models.DefaultListModel;
-	import abe.com.ponents.models.ListModel;
-	import abe.com.ponents.skinning.decorations.GradientFill;
-	import abe.com.ponents.transfer.*;
-
-	import flash.display.Sprite;
-	import flash.events.Event;
-	import flash.geom.Point;
-	import flash.utils.clearInterval;
-	import flash.utils.setInterval;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.AllocatorInstance;
+    import abe.com.ponents.containers.DropPanel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.containers.Viewport;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.dnd.*;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.HBoxLayout;
+    import abe.com.ponents.models.DefaultListModel;
+    import abe.com.ponents.models.ListModel;
+    import abe.com.ponents.skinning.decorations.GradientFill;
+    import abe.com.ponents.transfer.*;
 
     import org.osflash.signals.Signal;
+
+    import flash.display.Sprite;
+    import flash.geom.Point;
+    import flash.utils.clearInterval;
+    import flash.utils.setInterval;
 
 	/**
 	 * @author Cédric Néhémie

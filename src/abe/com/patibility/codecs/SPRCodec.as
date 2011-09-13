@@ -3,12 +3,12 @@
  */
 package abe.com.patibility.codecs
 {
-	import abe.com.edia.bitmaps.BitmapSprite;
-	import abe.com.patibility.lang._;
+    import abe.com.edia.bitmaps.BitmapSprite;
+    import abe.com.patibility.lang._;
 
-	import flash.display.BitmapData;
-	import flash.geom.Point;
-	import flash.utils.ByteArray;
+    import flash.display.BitmapData;
+    import flash.geom.Point;
+    import flash.utils.ByteArray;
 	/**
 	 * La classe <code>SPRCodec</code> permet d'encoder et de décoder des objets
 	 * de type <code>BitmapSprite</code> sauvegardé dans des fichiers de type

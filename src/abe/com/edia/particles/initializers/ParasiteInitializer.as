@@ -1,7 +1,6 @@
  package abe.com.edia.particles.initializers
 {
     import abe.com.edia.particles.core.Particle;
-    import abe.com.edia.particles.initializers.AbstractInitializer;
 
     /**
      * @author cedric

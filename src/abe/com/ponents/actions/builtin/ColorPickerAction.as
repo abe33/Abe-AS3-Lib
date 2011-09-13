@@ -128,7 +128,6 @@ package abe.com.ponents.actions.builtin
         public function get commandCancelled () : Signal { return _commandCancelled; }
     }
 }
-
 import abe.com.ponents.tools.ColorEditor;
 
 internal const ColorEditorInstance : ColorEditor = new ColorEditor();

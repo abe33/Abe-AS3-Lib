@@ -1,8 +1,9 @@
 package abe.com.edia.particles.actions
 {
-	import abe.com.edia.particles.core.Particle;
-	import abe.com.mon.geom.pt;
-	import flash.geom.Point;
+    import abe.com.edia.particles.core.Particle;
+    import abe.com.mon.geom.pt;
+
+    import flash.geom.Point;
 
     /**
      * @author cedric

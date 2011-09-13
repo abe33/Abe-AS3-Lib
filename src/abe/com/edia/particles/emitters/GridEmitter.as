@@ -2,10 +2,8 @@ package abe.com.edia.particles.emitters
 {
     import abe.com.mon.geom.Dimension;
     import abe.com.mon.geom.pt;
-    import abe.com.patibility.lang._$;
 
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 
     /**
      * @author cedric

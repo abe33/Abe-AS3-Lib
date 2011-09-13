@@ -1,11 +1,11 @@
 package abe.com.mands.load 
 {
-	import flash.display.Loader;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.ProgressEvent;
-	import flash.net.URLLoader;
-	import flash.net.URLRequest;
+    import flash.display.Loader;
+    import flash.events.Event;
+    import flash.events.IOErrorEvent;
+    import flash.events.ProgressEvent;
+    import flash.net.URLLoader;
+    import flash.net.URLRequest;
 	/**
 	 * @author Cédric Néhémie
 	 */

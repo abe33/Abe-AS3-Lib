@@ -3,7 +3,7 @@
  */
 package abe.com.edia.text.core 
 {
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.StringUtils;
 	/**
 	 * @author Cédric Néhémie
 	 */

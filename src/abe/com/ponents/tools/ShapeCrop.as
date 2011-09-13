@@ -1,18 +1,18 @@
 package abe.com.ponents.tools
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.mon.geom.pt;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.mon.geom.pt;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.display.BitmapData;
-	import flash.display.BitmapDataChannel;
-	import flash.display.BlendMode;
-	import flash.display.Graphics;
-	import flash.display.Shape;
-	import flash.geom.Matrix;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.display.BitmapData;
+    import flash.display.BitmapDataChannel;
+    import flash.display.BlendMode;
+    import flash.display.Graphics;
+    import flash.display.Shape;
+    import flash.geom.Matrix;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -1,12 +1,10 @@
 package abe.com.mon.geom
 {
     import abe.com.mon.core.Serializable;
-    import abe.com.patibility.lang._$;
 
     import org.osflash.signals.Signal;
 
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 
     /**
      * @author cedric

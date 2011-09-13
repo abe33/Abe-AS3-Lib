@@ -1,10 +1,10 @@
 package abe.com.mands.load 
 {
-	import abe.com.mands.AbstractCommand;
+    import abe.com.mands.AbstractCommand;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
-	import flash.net.URLRequest;
+    import flash.net.URLRequest;
 	/**
 	 * @author Cédric Néhémie
 	 */

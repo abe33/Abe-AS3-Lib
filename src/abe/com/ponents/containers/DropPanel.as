@@ -1,10 +1,10 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.dnd.*;
-	import abe.com.ponents.transfer.*;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.dnd.*;
+    import abe.com.ponents.transfer.*;
 
-	import flash.display.Shape;
+    import flash.display.Shape;
 
 	/**
 	 * 

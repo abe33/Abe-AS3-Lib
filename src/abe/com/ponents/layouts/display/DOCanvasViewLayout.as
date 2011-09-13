@@ -1,12 +1,12 @@
 package abe.com.ponents.layouts.display 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.display.Bitmap;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Shape;
+    import flash.display.Bitmap;
+    import flash.display.DisplayObjectContainer;
+    import flash.display.Shape;
 	/**
 	 * @author cedric
 	 */

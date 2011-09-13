@@ -1,26 +1,25 @@
 package abe.com.ponents.progress 
 {
-	import abe.com.mon.core.IDisplayObject;
-	import abe.com.mon.core.IDisplayObjectContainer;
-	import abe.com.mon.core.IInteractiveObject;
-	import abe.com.mon.core.ITextField;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseListener;
-	import abe.com.ponents.core.AbstractComponent;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.models.BoundedRangeModel;
-	import abe.com.ponents.models.DefaultBoundedRangeModel;
-	import abe.com.ponents.skinning.decorations.GradientFill;
-	import abe.com.ponents.text.TextFieldImpl;
-	import abe.com.ponents.utils.Alignments;
+    import abe.com.mon.core.IDisplayObject;
+    import abe.com.mon.core.IDisplayObjectContainer;
+    import abe.com.mon.core.IInteractiveObject;
+    import abe.com.mon.core.ITextField;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.motion.Impulse;
+    import abe.com.motion.ImpulseListener;
+    import abe.com.ponents.core.AbstractComponent;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.models.BoundedRangeModel;
+    import abe.com.ponents.models.DefaultBoundedRangeModel;
+    import abe.com.ponents.skinning.decorations.GradientFill;
+    import abe.com.ponents.text.TextFieldImpl;
+    import abe.com.ponents.utils.Alignments;
 
-	import flash.display.BlendMode;
-	import flash.display.DisplayObject;
-	
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
+
+    import flash.display.BlendMode;
+    import flash.display.DisplayObject;
 
 	[Skinable(skin="ProgressBar")]
 	[Skin(define="ProgressBar",
@@ -292,7 +291,6 @@ package abe.com.ponents.progress
         }
 	}
 }
-
 import abe.com.mon.geom.Dimension;
 import abe.com.ponents.core.AbstractComponent;
 

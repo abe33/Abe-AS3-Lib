@@ -3,23 +3,22 @@
  */
 package abe.com.ponents.monitors
 {
-	import abe.com.mands.Command;
-	import abe.com.mands.events.CommandEvent;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.Cancelable;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.TerminalAction;
-	import abe.com.ponents.actions.TerminalActionOption;
-	import abe.com.ponents.text.TextArea;
+    import abe.com.mands.Command;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.Cancelable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.Keys;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.TerminalAction;
+    import abe.com.ponents.actions.TerminalActionOption;
+    import abe.com.ponents.text.TextArea;
 
-	import flash.events.ErrorEvent;
-	import flash.events.Event;
-	import flash.events.FocusEvent;
-	import flash.events.KeyboardEvent;
-	import flash.events.MouseEvent;
+    import flash.events.ErrorEvent;
+    import flash.events.Event;
+    import flash.events.FocusEvent;
+    import flash.events.KeyboardEvent;
+    import flash.events.MouseEvent;
 
 	/**
 	 * Un objet <code>Terminal</code> peut être placé sur la scène et permet

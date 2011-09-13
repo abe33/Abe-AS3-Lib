@@ -1,14 +1,15 @@
 /**
  * @license 
  */
-package  abe.com.ponents.actions
-{	
-	import abe.com.mands.Command;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.skinning.icons.Icon;
+package abe.com.ponents.actions
+{
+    import abe.com.mands.Command;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.skinning.icons.Icon;
+	
 	/**
 	 * Classe de base pour les commandes spécifiques à un usage dans le <code>Terminal</code>.
 	 * <p>

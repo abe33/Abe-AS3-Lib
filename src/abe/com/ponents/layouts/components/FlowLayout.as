@@ -1,13 +1,12 @@
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.mon.logs.Log;
-	import abe.com.ponents.containers.AbstractScrollContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.utils.Alignments;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.ponents.containers.AbstractScrollContainer;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.utils.Alignments;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric
 	 */
@@ -35,24 +34,7 @@ package abe.com.ponents.layouts.components
 			_gapAtExtremity = gapAtExtremity;
 			_adjustToScrollContainer = adjustToScrollContainer;
 		}
-		/*
-		override public function set container (o : Container) : void 
-		{
-			if( _container )
-				_container.removeEventListener( ComponentEvent.COMPONENT_RESIZE, onResize );
-			super.container = o;
-			
-			if( _container )
-				_container.addEventListener( ComponentEvent.COMPONENT_RESIZE, onResize );
-		}
-		public function onResize ( event : ComponentEvent ) : void 
-		{
-			_container.size = null;
-			( _container as AbstractComponent ).invalidatePreferredSizeCache();
-			var p : Container = _container.parentContainer;
-			if( p )
-				p.invalidate();
-		}*/
+
 		override public function get preferredSize () : Dimension 
 		{
 			return estimateSize();
@@ -159,19 +141,8 @@ package abe.com.ponents.layouts.components
 			var sc : AbstractScrollContainer;
 			var d2 : Dimension;
 			p = _container.parentContainer;
-			
-			if( p )
-				d2 = dm( p.width, p.height ).grow( -_container.style.insets.horizontal, -_container.style.insets.vertical );
-			
-			/*
-			if( _adjustToScrollContainer )
-			{
-				if( p is Viewport )
-				{
-					sc = p.parentContainer as AbstractScrollContainer;
-				}
-			}
-			*/
+			if( p && p.size )
+				d2 = dm( p.width+16, p.height ).grow( -_container.style.insets.horizontal, -_container.style.insets.vertical );
 			for( i = 0; i < l; i++ )
 			{
 				var isFirstComponent : Boolean = i == 0;
@@ -189,6 +160,7 @@ package abe.com.ponents.layouts.components
 							w = Math.max(w, lw);
 							lw = c.preferredSize.width + (_gapAtExtremity ? _hgap : 0);
 							lh = c.preferredSize.height;
+                            
 						}
 						else
 						{
@@ -213,7 +185,6 @@ package abe.com.ponents.layouts.components
 					}
 				}
 			}
-			
 			h += lh;
 			w = Math.max(w, lw);
 			
@@ -221,13 +192,7 @@ package abe.com.ponents.layouts.components
 			{
 				h += _vgap*2;
 			}
-			/*
-			while( p )
-			{
-				Log.debug( p + ", size = " + p.size );
-				p = p.parentContainer;
-			}
-			*/
+			
 			return new Dimension( w, h );
 		}
 	}

@@ -1,10 +1,10 @@
 package abe.com.ponents.completion 
 {
-	import abe.com.ponents.text.AbstractTextComponent;
+    import abe.com.ponents.text.AbstractTextComponent;
 
-	import org.osflash.signals.Signal;
-	
-	import flash.events.Event;
+    import org.osflash.signals.Signal;
+
+    import flash.events.Event;
 	/**
 	 * @author Cédric Néhémie
 	 */

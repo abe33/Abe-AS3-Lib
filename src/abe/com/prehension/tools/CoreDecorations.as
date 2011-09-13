@@ -1,7 +1,7 @@
 package abe.com.prehension.tools
 {
-	import abe.com.ponents.ressources.ClassCollection;
-	import abe.com.ponents.skinning.decorations.*;
+    import abe.com.ponents.ressources.ClassCollection;
+    import abe.com.ponents.skinning.decorations.*;
 
 	/**
 	 * The <code>CoreDecoration</code> purpopse is to embed all the core decorations the <code>StyleEditor</code> 

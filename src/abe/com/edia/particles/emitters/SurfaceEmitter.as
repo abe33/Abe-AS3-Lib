@@ -3,12 +3,10 @@
  */
 package abe.com.edia.particles.emitters
 {
-    import abe.com.mon.utils.magicClone;
     import abe.com.mon.geom.Surface;
-    import abe.com.patibility.lang._$;
+    import abe.com.mon.utils.magicClone;
 
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 	/**
 	 * La classe <code>SurfaceEmitter</code> permet la génération
 	 * d'objets au sein d'un objet <code>Surface</code>.

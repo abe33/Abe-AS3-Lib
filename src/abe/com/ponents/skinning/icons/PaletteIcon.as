@@ -1,9 +1,9 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Palette;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Palette;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric
 	 */

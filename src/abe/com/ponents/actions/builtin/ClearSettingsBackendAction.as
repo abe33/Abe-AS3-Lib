@@ -1,10 +1,10 @@
 package abe.com.ponents.actions.builtin 
 {
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.patibility.settings.SettingsManagerInstance;
-	import abe.com.patibility.settings.backends.SettingsBackend;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.patibility.settings.SettingsManagerInstance;
+    import abe.com.patibility.settings.backends.SettingsBackend;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.skinning.icons.Icon;
 	/**
 	 * @author cedric
 	 */

@@ -3,22 +3,21 @@
  */
 package abe.com.ponents.skinning 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.skinning.decorations.ComponentDecoration;
-	import abe.com.ponents.skinning.decorations.NoDecoration;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.skinning.decorations.NoDecoration;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
+    import abe.com.ponents.utils.Insets;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
-	import flash.display.Graphics;
-	import flash.geom.Rectangle;
-	import flash.text.TextFormat;
-	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;
+    import flash.display.Graphics;
+    import flash.geom.Rectangle;
+    import flash.text.TextFormat;
+    import flash.utils.Proxy;
+    import flash.utils.flash_proxy;
 	/**
 	 * @author Cédric Néhémie
 	 */

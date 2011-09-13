@@ -3,14 +3,12 @@
  */
 package  abe.com.mon.geom
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.StringUtils;
-
-	import flash.utils.getQualifiedClassName;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.StringUtils;
 	/**
 	 * Class <code>Range</code> represents a range of values.
 	 * <fr>

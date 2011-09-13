@@ -3,7 +3,7 @@
  */
 package abe.com.edia.text.core 
 {
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * @author Cédric Néhémie
 	 */

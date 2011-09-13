@@ -1,19 +1,19 @@
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.layouts.components.splits.Divider;
-	import abe.com.ponents.layouts.components.splits.Leaf;
-	import abe.com.ponents.layouts.components.splits.Node;
-	import abe.com.ponents.layouts.components.splits.Split;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.layouts.components.splits.Divider;
+    import abe.com.ponents.layouts.components.splits.Leaf;
+    import abe.com.ponents.layouts.components.splits.Node;
+    import abe.com.ponents.layouts.components.splits.Split;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.geom.Rectangle;
-	
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
+
+    import flash.geom.Rectangle;
 
 	/**
 	 * @author Cédric Néhémie

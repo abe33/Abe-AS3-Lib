@@ -3,28 +3,28 @@
  */
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.utils.ComponentResizer;
-	import abe.com.ponents.utils.Insets;
-	import abe.com.ponents.utils.PopupUtils;
-	import abe.com.ponents.utils.ToolKit;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.ProxyAction;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.core.AbstractContainer;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.utils.ComponentResizer;
+    import abe.com.ponents.utils.Insets;
+    import abe.com.ponents.utils.PopupUtils;
+    import abe.com.ponents.utils.ToolKit;
 
-	import flash.events.Event;
-	import flash.filters.DropShadowFilter;
-	
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
+
+    import flash.events.Event;
+    import flash.filters.DropShadowFilter;
 
 	[Skinable(skin="Window")]
 	[Skin(define="Window",

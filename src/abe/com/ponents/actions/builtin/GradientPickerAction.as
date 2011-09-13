@@ -86,7 +86,6 @@ package abe.com.ponents.actions.builtin
         }
     }
 }
-
 import abe.com.ponents.tools.GradientEditor;
 
 internal const GradientEditorInstance : GradientEditor = new GradientEditor();

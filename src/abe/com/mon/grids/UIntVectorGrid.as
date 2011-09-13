@@ -1,16 +1,16 @@
 package abe.com.mon.grids 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.MathUtils;
 
-	import flash.events.Event;
-	import flash.events.EventDispatcher;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.events.Event;
+    import flash.events.EventDispatcher;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * @author Cédric Néhémie
 	 */

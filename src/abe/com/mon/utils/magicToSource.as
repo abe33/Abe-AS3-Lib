@@ -3,8 +3,7 @@
  */
 package abe.com.mon.utils
 {
-	import abe.com.patibility.serialize.SourceSerializer;
-	import abe.com.mon.core.Serializable;
+    import abe.com.patibility.serialize.SourceSerializer;
 
 	/**
 	 * Renvoie le code source de l'objet <code>o</code> permettant

@@ -1,8 +1,8 @@
 package abe.com.ponents.actions.builtin
 {
-    import abe.com.mon.utils.magicToSource;
     import abe.com.mon.core.Cancelable;
     import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.magicToSource;
     import abe.com.patibility.lang._;
     import abe.com.ponents.actions.AbstractAction;
     import abe.com.ponents.buttons.EasingFunctionPicker;

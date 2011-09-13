@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.tables 
 {
-	import abe.com.ponents.lists.ListCell;
+    import abe.com.ponents.lists.ListCell;
 	public interface TableCell extends ListCell 
 	{
 		function set table ( t : Table ) : void;		

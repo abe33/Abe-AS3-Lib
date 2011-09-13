@@ -1,6 +1,6 @@
 package abe.com.motion.easing 
 {
-	import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.MathUtils;
 	/**
 	 * @author cedric
 	 */

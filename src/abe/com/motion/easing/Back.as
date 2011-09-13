@@ -21,7 +21,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 package  abe.com.motion.easing
 {
-	import abe.com.patibility.serialize.sourcesDictionary;
+    import abe.com.patibility.serialize.sourcesDictionary;
 	public class Back
 	{
 		static public function easeIn ( t : Number, b : Number, c : Number, d : Number, s : Number = NaN ) : Number

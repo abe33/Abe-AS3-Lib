@@ -1,31 +1,30 @@
 package abe.com.ponents.sliders 
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.VBoxLayout;
-	import abe.com.ponents.models.BoundedRangeModel;
-	import abe.com.ponents.models.DefaultBoundedRangeModel;
-	import abe.com.ponents.skinning.decorations.VSliderTrackFill;
-	import abe.com.ponents.text.TextInput;
-	import abe.com.ponents.utils.Alignments;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.core.AbstractContainer;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.VBoxLayout;
+    import abe.com.ponents.models.BoundedRangeModel;
+    import abe.com.ponents.models.DefaultBoundedRangeModel;
+    import abe.com.ponents.skinning.decorations.VSliderTrackFill;
+    import abe.com.ponents.text.TextInput;
+    import abe.com.ponents.utils.Alignments;
 
-	import flash.events.FocusEvent;
-	import flash.events.MouseEvent;
-	import flash.text.TextField;
-	
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
+
+    import flash.events.FocusEvent;
+    import flash.events.MouseEvent;
+    import flash.text.TextField;
 
 	[Style(name="inputWidth", type="Number")]
 	[Style(name="buttonSize", type="Number")]

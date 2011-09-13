@@ -1,10 +1,10 @@
 package abe.com.edia.particles.initializers
 {
-    import abe.com.mon.utils.RandomUtils;
     import abe.com.edia.particles.core.Particle;
     import abe.com.mon.core.Randomizable;
     import abe.com.mon.randoms.Random;
     import abe.com.mon.utils.PointUtils;
+    import abe.com.mon.utils.RandomUtils;
 
     /**
      * @author cedric

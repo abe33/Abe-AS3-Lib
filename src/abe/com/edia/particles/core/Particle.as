@@ -1,10 +1,12 @@
 package abe.com.edia.particles.core
 {
-    import flash.utils.Dictionary;
-    import org.osflash.signals.Signal;
     import abe.com.mon.core.Allocable;
     import abe.com.mon.utils.StringUtils;
+
+    import org.osflash.signals.Signal;
+
     import flash.geom.Point;
+    import flash.utils.Dictionary;
 
     /**
      * The <code>Particle</code> class is the base class for all particles used in Atomos. It contains

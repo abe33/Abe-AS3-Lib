@@ -1,19 +1,19 @@
 package abe.com.ponents.tools.canvas.actions
 {
-	import abe.com.ponents.nodes.core.CanvasElement;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.patibility.settings.SettingsManagerInstance;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.containers.Dialog;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.nodes.dialogs.PreventDeleteSelectionDialog;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.tools.CameraCanvas;
-	import abe.com.ponents.tools.ObjectSelection;
-	
-	import flash.display.DisplayObject;
-	import flash.events.ContextMenuEvent;
-	import flash.ui.ContextMenuItem;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.patibility.settings.SettingsManagerInstance;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.containers.Dialog;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.nodes.core.CanvasElement;
+    import abe.com.ponents.nodes.dialogs.PreventDeleteSelectionDialog;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.tools.CameraCanvas;
+    import abe.com.ponents.tools.ObjectSelection;
+
+    import flash.display.DisplayObject;
+    import flash.events.ContextMenuEvent;
+    import flash.ui.ContextMenuItem;
 	
 	public class DeleteSelection extends AbstractAction
 	{

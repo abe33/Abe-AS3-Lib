@@ -1,24 +1,22 @@
 package abe.com.ponents.trees
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.PropertyEvent;
-	import abe.com.ponents.history.UndoManagerInstance;
-	import abe.com.ponents.layouts.display.DOBoxSettings;
-	import abe.com.ponents.layouts.display.DOHBoxLayout;
-	import abe.com.ponents.lists.DefaultListCell;
-	import abe.com.ponents.models.TreeNode;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.transfer.ComponentsTransferModes;
-	import abe.com.ponents.transfer.Transferable;
+    import abe.com.mon.colors.Color;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.history.UndoManagerInstance;
+    import abe.com.ponents.layouts.display.DOBoxSettings;
+    import abe.com.ponents.layouts.display.DOHBoxLayout;
+    import abe.com.ponents.lists.DefaultListCell;
+    import abe.com.ponents.models.TreeNode;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.transfer.ComponentsTransferModes;
+    import abe.com.ponents.transfer.Transferable;
 
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.display.Graphics;
-	import flash.events.ContextMenuEvent;
-	import flash.events.Event;
-	import flash.geom.Point;
+    import flash.display.Bitmap;
+    import flash.display.DisplayObject;
+    import flash.display.Graphics;
+    import flash.events.ContextMenuEvent;
+    import flash.geom.Point;
 
 	/**
 	 * @author Cédric Néhémie
@@ -345,7 +343,6 @@ package abe.com.ponents.trees
 		} 
 	}
 }
-
 import abe.com.patibility.lang._;
 import abe.com.ponents.history.AbstractUndoable;
 import abe.com.ponents.history.Undoable;

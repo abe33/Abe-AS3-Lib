@@ -1,17 +1,14 @@
 package abe.com.ponents.tools 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Gradient;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.containers.FieldSet;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.forms.managers.SimpleFormManager;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.utils.Insets;
-
-	import flash.events.Event;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Gradient;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.containers.FieldSet;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.forms.managers.SimpleFormManager;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author Cédric Néhémie
 	 */

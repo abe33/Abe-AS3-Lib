@@ -1,10 +1,10 @@
 package abe.com.ponents.lists
 {
-	import abe.com.ponents.history.UndoManagerInstance;
-	import abe.com.ponents.transfer.ComponentsFlavors;
-	import abe.com.ponents.transfer.ComponentsTransferModes;
-	import abe.com.ponents.transfer.DataFlavor;
-	import abe.com.ponents.transfer.Transferable;
+    import abe.com.ponents.history.UndoManagerInstance;
+    import abe.com.ponents.transfer.ComponentsFlavors;
+    import abe.com.ponents.transfer.ComponentsTransferModes;
+    import abe.com.ponents.transfer.DataFlavor;
+    import abe.com.ponents.transfer.Transferable;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -52,7 +52,6 @@ package abe.com.ponents.lists
 		}
 	}
 }
-
 import abe.com.ponents.history.AbstractUndoable;
 import abe.com.ponents.lists.List;
 

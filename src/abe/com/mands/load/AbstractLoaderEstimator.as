@@ -1,10 +1,10 @@
 package abe.com.mands.load 
 {
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
-	import flash.events.Event;
-	import flash.events.ProgressEvent;
-	import flash.utils.getTimer;
+    import flash.events.Event;
+    import flash.events.ProgressEvent;
+    import flash.utils.getTimer;
 	public class AbstractLoaderEstimator implements Estimator
 	{
 		protected var _time : Number;

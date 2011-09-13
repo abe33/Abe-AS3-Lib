@@ -1,12 +1,12 @@
 package abe.com.edia.text.fx.simple 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.fx.AbstractCharEffect;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.MatrixUtils;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.fx.AbstractCharEffect;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.MatrixUtils;
 
-	import flash.display.DisplayObject;
-	import flash.geom.Matrix;
+    import flash.display.DisplayObject;
+    import flash.geom.Matrix;
 	/**
 	 * @author cedric
 	 */

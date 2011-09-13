@@ -1,15 +1,11 @@
 package abe.com.prehension.examples.dockables 
 {
-    import abe.com.mon.colors.*; 
-    import abe.com.patibility.lang._;
     import abe.com.ponents.containers.*;
-    import abe.com.ponents.tabs.*;
-    import abe.com.ponents.skinning.icons.*;
     import abe.com.ponents.factory.ComponentFactory;
     import abe.com.ponents.layouts.components.GridLayout;
+    import abe.com.ponents.skinning.icons.*;
+    import abe.com.ponents.tabs.*;
     import abe.com.ponents.utils.Insets;
-    
-    import flash.filters.*
     /**
      * @author cedric
      */

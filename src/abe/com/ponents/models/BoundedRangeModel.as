@@ -1,6 +1,6 @@
 package abe.com.ponents.models 
 {
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */

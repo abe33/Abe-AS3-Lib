@@ -3,20 +3,15 @@
  */
 package abe.com.ponents.buttons 
 {
-	import abe.com.mands.*;
-	import abe.com.mon.core.IDisplayObject;
-	import abe.com.mon.core.IDisplayObjectContainer;
-	import abe.com.mon.core.IInteractiveObject;
-	import abe.com.mon.core.LayeredSprite;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.builtin.EditFiltersAction;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.forms.FormComponentDisabledModes;
-	import abe.com.ponents.skinning.icons.Icon;
-
-    import org.osflash.signals.Signal;
+    import abe.com.mon.core.IDisplayObject;
+    import abe.com.mon.core.IDisplayObjectContainer;
+    import abe.com.mon.core.IInteractiveObject;
+    import abe.com.mon.core.LayeredSprite;
+    import abe.com.ponents.actions.builtin.EditFiltersAction;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.skinning.icons.Icon;
 
 	/**
 	 * La classe <code>FiltersPicker</code> permet l'édition d'un tableau de filtres

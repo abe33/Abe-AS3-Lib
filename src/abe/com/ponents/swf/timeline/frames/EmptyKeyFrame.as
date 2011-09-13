@@ -1,6 +1,6 @@
 package abe.com.ponents.swf.timeline.frames
 {
-	import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Color;
 
 	[Skinable(skin="EmptyKeyFrame")]
 	[Skin(define="EmptyKeyFrame",

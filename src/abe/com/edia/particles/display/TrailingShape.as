@@ -1,9 +1,9 @@
 package abe.com.edia.particles.display
 {
-    import abe.com.mon.utils.AllocatorInstance;
     import abe.com.mon.colors.Color;
     import abe.com.mon.core.Allocable;
     import abe.com.mon.geom.pt;
+    import abe.com.mon.utils.AllocatorInstance;
     import abe.com.motion.Impulse;
     import abe.com.motion.ImpulseListener;
 

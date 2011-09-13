@@ -1,9 +1,9 @@
 package abe.com.ponents.scrollbars 
 {
-	import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.Dimension;
 
-	import flash.events.IEventDispatcher;
-	import flash.geom.Rectangle;
+    import flash.events.IEventDispatcher;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */

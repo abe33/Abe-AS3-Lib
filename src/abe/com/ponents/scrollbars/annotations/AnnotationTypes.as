@@ -1,6 +1,6 @@
 package abe.com.ponents.scrollbars.annotations
 {
-	import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Color;
 	/**
 	 * @author Cédric Néhémie
 	 */

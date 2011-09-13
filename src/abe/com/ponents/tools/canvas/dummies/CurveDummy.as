@@ -1,6 +1,5 @@
 package abe.com.ponents.tools.canvas.dummies
 {
-    import abe.com.patibility.serialize.SourceSerializer;
     import abe.com.edia.camera.CameraLayer;
     import abe.com.mon.colors.Color;
     import abe.com.mon.geom.FreeFormSpline;
@@ -8,6 +7,7 @@ package abe.com.ponents.tools.canvas.dummies
     import abe.com.mon.logs.Log;
     import abe.com.mon.utils.PointUtils;
     import abe.com.patibility.lang._;
+    import abe.com.patibility.serialize.SourceSerializer;
     import abe.com.ponents.builder.dialogs.PrintDialog;
     import abe.com.ponents.tools.CameraCanvas;
 

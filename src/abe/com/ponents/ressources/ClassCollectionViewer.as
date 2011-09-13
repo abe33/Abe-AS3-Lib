@@ -1,30 +1,29 @@
 package abe.com.ponents.ressources 
 {
-	import abe.com.ponents.ressources.handlers.HandlerUtils;
-	import abe.com.mands.events.CommandEvent;
-	import abe.com.mon.geom.dm;
-	import abe.com.mon.logs.Log;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.containers.MultiSplitPane;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.containers.ScrollablePanel;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.GridLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.layouts.components.splits.Leaf;
-	import abe.com.ponents.layouts.components.splits.Split;
-	import abe.com.ponents.lists.List;
-	import abe.com.ponents.models.DefaultListModel;
-	import abe.com.ponents.ressources.handlers.DefaultHandler;
-	import abe.com.ponents.ressources.handlers.DisplayObjectHandler;
-	import abe.com.ponents.ressources.handlers.FontHandler;
-	import abe.com.ponents.ressources.handlers.MovieClipHandler;
-	import abe.com.ponents.ressources.handlers.TypeHandler;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.utils.ComponentResizer;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.dm;
+    import abe.com.mon.logs.Log;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.containers.MultiSplitPane;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.containers.ScrollablePanel;
+    import abe.com.ponents.events.ComponentEvent;
+    import abe.com.ponents.layouts.components.GridLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.layouts.components.splits.Leaf;
+    import abe.com.ponents.layouts.components.splits.Split;
+    import abe.com.ponents.lists.List;
+    import abe.com.ponents.models.DefaultListModel;
+    import abe.com.ponents.ressources.handlers.DefaultHandler;
+    import abe.com.ponents.ressources.handlers.DisplayObjectHandler;
+    import abe.com.ponents.ressources.handlers.FontHandler;
+    import abe.com.ponents.ressources.handlers.HandlerUtils;
+    import abe.com.ponents.ressources.handlers.MovieClipHandler;
+    import abe.com.ponents.ressources.handlers.TypeHandler;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.utils.ComponentResizer;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric
 	 */

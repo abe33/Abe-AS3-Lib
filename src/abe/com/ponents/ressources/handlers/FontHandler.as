@@ -1,9 +1,9 @@
 package abe.com.ponents.ressources.handlers 
 {
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.ressources.preview.FontPreview;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.ressources.preview.FontPreview;
 
-	import flash.text.Font;
+    import flash.text.Font;
 	/**
 	 * @author cedric
 	 */

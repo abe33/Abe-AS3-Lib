@@ -3,16 +3,16 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Cancelable;
-	import abe.com.mon.core.Iterator;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.logs.Log;
-	import abe.com.motion.Impulse;
+    import abe.com.mon.core.Cancelable;
+    import abe.com.mon.core.Iterator;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.logs.Log;
+    import abe.com.motion.Impulse;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
-	import flash.utils.getTimer;	
+    import flash.utils.getTimer;
 	/**
 	 * Une commande <code>LoopCommand</code> encapsule une boucle au sein d'un objet 
 	 * et différe les itérations dans le temps.

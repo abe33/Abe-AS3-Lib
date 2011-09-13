@@ -3,9 +3,8 @@
  */
 package  abe.com.mands
 {
-
-	import abe.com.mon.core.Cancelable;
-	import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Cancelable;
+    import abe.com.mon.core.Runnable;
 
 	/**
 	 * Implémentation de base de l'interface <code>MacroCommand</code>. En règle

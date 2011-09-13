@@ -3,15 +3,15 @@
  */
 package abe.com.edia.text.core 
 {
-	import abe.com.mon.core.Allocable;
-	import abe.com.mon.core.ITextField;
+    import abe.com.mon.core.Allocable;
+    import abe.com.mon.core.ITextField;
 
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.geom.Rectangle;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
-	import flash.text.TextLineMetrics;
+    import flash.display.DisplayObject;
+    import flash.display.Sprite;
+    import flash.geom.Rectangle;
+    import flash.text.TextField;
+    import flash.text.TextFormat;
+    import flash.text.TextLineMetrics;
 	/**
 	 * @author Cédric Néhémie
 	 */

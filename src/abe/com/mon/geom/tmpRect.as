@@ -15,6 +15,7 @@ package abe.com.mon.geom
         return p;
     }
 }
-import flash.geom.Rectangle;
 import abe.com.mon.utils.ObjectPool;
+
+import flash.geom.Rectangle;
 internal const pool : ObjectPool = new ObjectPool(Rectangle, 20);

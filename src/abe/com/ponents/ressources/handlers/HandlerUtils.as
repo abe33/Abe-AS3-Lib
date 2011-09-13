@@ -1,7 +1,7 @@
 package abe.com.ponents.ressources.handlers 
 {
-	import abe.com.mon.utils.objects.keys;
-	import abe.com.patibility.lang._$;
+    import abe.com.mon.utils.objects.keys;
+    import abe.com.patibility.lang._$;
 	/**
 	 * @author cedric
 	 */

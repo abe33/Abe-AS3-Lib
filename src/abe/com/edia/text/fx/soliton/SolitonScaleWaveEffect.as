@@ -3,9 +3,9 @@
  */
 package abe.com.edia.text.fx.soliton 
 {
-	import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.core.Char;
 
-	import flash.utils.Dictionary;
+    import flash.utils.Dictionary;
 	/**
 	 * @author Cédric Néhémie
 	 */

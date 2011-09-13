@@ -3,11 +3,11 @@
  */
 package abe.com.ponents.allocators 
 {
-	import abe.com.mon.core.Allocator;
+    import abe.com.mon.core.Allocator;
 
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.utils.Dictionary;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.utils.Dictionary;
 	/**
 	 * 
 	 * 

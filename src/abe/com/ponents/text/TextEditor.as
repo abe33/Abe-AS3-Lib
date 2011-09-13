@@ -1,18 +1,18 @@
 package abe.com.ponents.text 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.completion.InputMemory;
-	import abe.com.ponents.core.edit.Editable;
-	import abe.com.ponents.core.edit.Editor;
-	import abe.com.ponents.utils.ToolKit;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.completion.InputMemory;
+    import abe.com.ponents.core.edit.Editable;
+    import abe.com.ponents.core.edit.Editor;
+    import abe.com.ponents.utils.ToolKit;
 
-	import flash.display.DisplayObject;
-	import flash.display.InteractiveObject;
-	import flash.events.Event;
-	import flash.events.FocusEvent;
-	import flash.events.KeyboardEvent;
-	import flash.geom.Rectangle;
+    import flash.display.DisplayObject;
+    import flash.display.InteractiveObject;
+    import flash.events.Event;
+    import flash.events.FocusEvent;
+    import flash.events.KeyboardEvent;
+    import flash.geom.Rectangle;
 
 	/**
 	 * @author Cédric Néhémie

@@ -1,12 +1,12 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.display.BitmapData;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
+    import flash.display.BitmapData;
+    import flash.geom.Matrix;
+    import flash.geom.Rectangle;
 
 	[Skinable(skin="ColorIcon")]
 	[Skin(define="ColorIcon",

@@ -3,10 +3,10 @@
  */
 package  abe.com.motion
 {
-	import abe.com.mands.Command;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.logs.Log;
+    import abe.com.mands.Command;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.logs.Log;
 	/**
 	 * La classe <code>MultiTween</code> permet de réaliser une interpolation
 	 * sur plusieurs propriété d'un même objet dans le temps.

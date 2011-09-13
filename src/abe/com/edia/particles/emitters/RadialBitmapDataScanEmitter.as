@@ -2,9 +2,6 @@ package abe.com.edia.particles.emitters
 {
     import abe.com.mon.geom.pt;
     import abe.com.mon.utils.BitmapUtils;
-    import abe.com.mon.utils.getReflectionSource;
-    import abe.com.mon.utils.getSource;
-    import abe.com.patibility.lang._$;
 
     import flash.display.BitmapData;
     import flash.geom.Point;

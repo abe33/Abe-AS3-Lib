@@ -7,12 +7,8 @@ package abe.com.edia.particles.complex
     import abe.com.edia.particles.initializers.Initializer;
     import abe.com.mon.geom.pt;
     import abe.com.mon.utils.PointUtils;
-    import abe.com.mon.utils.getReflectionSource;
-    import abe.com.mon.utils.getSource;
-    import abe.com.patibility.lang._$;
 
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 
 
     /**

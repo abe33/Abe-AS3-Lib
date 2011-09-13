@@ -1,8 +1,9 @@
 package abe.com.ponents.models 
 {
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import org.osflash.signals.Signal;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+
+    import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie

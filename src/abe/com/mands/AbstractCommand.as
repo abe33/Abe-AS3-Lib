@@ -3,9 +3,9 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Runnable;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 	/**
 	 * Implémentation de base de l'interface <code>Command</code>. En règle
 	 * générale, il suffit d'étendre <code>AbstractCommand</code> et de réécrire

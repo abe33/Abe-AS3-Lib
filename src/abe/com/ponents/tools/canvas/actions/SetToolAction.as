@@ -4,7 +4,6 @@ package abe.com.ponents.tools.canvas.actions
     import abe.com.ponents.actions.AbstractAction;
     import abe.com.ponents.buttons.ToolButton;
     import abe.com.ponents.core.Component;
-    import abe.com.ponents.events.ToolEvent;
     import abe.com.ponents.skinning.icons.Icon;
     import abe.com.ponents.tools.canvas.Tool;
     import abe.com.ponents.tools.canvas.ToolManager;

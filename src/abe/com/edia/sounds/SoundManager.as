@@ -1,17 +1,17 @@
 package abe.com.edia.sounds
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.motion.SingleTween;
-	import abe.com.motion.properties.SoundShortcuts;
+    import abe.com.mon.logs.Log;
+    import abe.com.motion.SingleTween;
+    import abe.com.motion.properties.SoundShortcuts;
 
-	import flash.events.Event;
-	import flash.media.Sound;
-	import flash.media.SoundChannel;
-	import flash.media.SoundLoaderContext;
-	import flash.media.SoundTransform;
-	import flash.net.URLRequest;
-	import flash.utils.Dictionary;
-	import flash.utils.getQualifiedClassName;
+    import flash.events.Event;
+    import flash.media.Sound;
+    import flash.media.SoundChannel;
+    import flash.media.SoundLoaderContext;
+    import flash.media.SoundTransform;
+    import flash.net.URLRequest;
+    import flash.utils.Dictionary;
+    import flash.utils.getQualifiedClassName;
 	public class SoundManager
 	{
 		/*-----------------------------------------------------------------------------*
@@ -480,7 +480,6 @@ package abe.com.edia.sounds
 		}
 	}
 }
-
 import flash.media.Sound;
 import flash.media.SoundChannel;
 

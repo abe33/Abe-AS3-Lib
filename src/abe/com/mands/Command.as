@@ -3,9 +3,9 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Runnable;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
 	/**
 	 * Encapsule une opération au sein d'un objet. Par simplicité

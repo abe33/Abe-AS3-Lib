@@ -3,12 +3,12 @@
  */
 package  abe.com.ponents.utils 
 {
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.tools.DebugPanel;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.tools.DebugPanel;
 
-	import flash.display.Sprite;
-	import flash.display.DisplayObjectContainer;
+    import flash.display.DisplayObjectContainer;
+    import flash.display.Sprite;
 	/**
 	 * La classe utilitaire <code>Toolkit</code> fournit quelques méthodes
 	 * bien pratique pour la configuration rapide d'une scène Flash.

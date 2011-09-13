@@ -1,23 +1,19 @@
 package abe.com.ponents.ressources 
 {
-	import abe.com.mands.load.LoaderQueue;
-	import abe.com.mands.load.URLLoaderEntry;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.mon.utils.arrays.firstIn;
-	import abe.com.mon.utils.arrays.lastIn;
-	import abe.com.mon.utils.url;
-	import abe.com.patibility.humanize.capitalize;
-	import abe.com.patibility.humanize.spaceOut;
+    import abe.com.mands.load.LoaderQueue;
+    import abe.com.mands.load.URLLoaderEntry;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.mon.utils.arrays.firstIn;
+    import abe.com.mon.utils.arrays.lastIn;
+    import abe.com.mon.utils.url;
+    import abe.com.patibility.humanize.capitalize;
+    import abe.com.patibility.humanize.spaceOut;
 
-	import com.kode80.swf.SWF;
-	import com.kode80.swf.tags.SymbolClassTag;
-	import com.kode80.swf.tags.TagCodes;
-
-	import flash.display.Loader;
-	import flash.events.Event;
-	import flash.net.URLLoaderDataFormat;
-	import flash.system.ApplicationDomain;
-	import flash.utils.ByteArray;
+    import flash.display.Loader;
+    import flash.events.Event;
+    import flash.net.URLLoaderDataFormat;
+    import flash.system.ApplicationDomain;
+    import flash.utils.ByteArray;
 
 	[Event(type="flash.events.ProgressEvent", name="progress")]
 	public class CollectionsLoader extends LoaderQueue 

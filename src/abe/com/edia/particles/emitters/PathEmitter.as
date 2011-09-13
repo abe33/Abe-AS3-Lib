@@ -11,10 +11,8 @@ package abe.com.edia.particles.emitters
     import abe.com.mon.utils.RandomUtils;
     import abe.com.mon.utils.magicClone;
     import abe.com.motion.easing.Constant;
-    import abe.com.patibility.lang._$;
 
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 
     /**
      * La classe <code>PathEmitter</code> permet la génération d'objet

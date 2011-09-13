@@ -3,14 +3,14 @@
  */
 package abe.com.ponents.core 
 {
-	import abe.com.mon.core.IDisplayObject;
-	import abe.com.mon.core.IDisplayObjectContainer;
-	import abe.com.mon.core.IInteractiveObject;
-	import abe.com.ponents.core.focus.FocusGroup;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.layouts.components.ComponentLayout;
+    import abe.com.mon.core.IDisplayObject;
+    import abe.com.mon.core.IDisplayObjectContainer;
+    import abe.com.mon.core.IInteractiveObject;
+    import abe.com.ponents.core.focus.FocusGroup;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.layouts.components.ComponentLayout;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 	/**
 	 * Un objet <code>Container</code> est un <code>Component</code> pouvant contenir
 	 * d'autre <code>Component</code> en tant que sous-composants. Un <code>Container</code>

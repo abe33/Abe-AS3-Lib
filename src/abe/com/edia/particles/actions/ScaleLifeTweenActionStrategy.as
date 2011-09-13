@@ -2,9 +2,6 @@ package abe.com.edia.particles.actions
 {
     import abe.com.edia.particles.core.DisplayObjectParticle;
     import abe.com.edia.particles.core.Particle;
-    import abe.com.mon.utils.getReflectionSource;
-    import abe.com.mon.utils.getSource;
-    import abe.com.patibility.lang._$;
 
     import flash.geom.Point;
 

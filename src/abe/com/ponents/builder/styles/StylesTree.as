@@ -1,32 +1,32 @@
 package abe.com.ponents.builder.styles
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.Action;
-	import abe.com.ponents.actions.ActionManagerInstance;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.containers.Dialog;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.events.DialogEvent;
-	import abe.com.ponents.lists.ListCell;
-	import abe.com.ponents.models.TreeModel;
-	import abe.com.ponents.models.TreeNode;
-	import abe.com.ponents.models.TreePath;
-	import abe.com.ponents.skinning.ComponentStateStyle;
-	import abe.com.ponents.skinning.ComponentStyle;
-	import abe.com.ponents.skinning.SkinManager;
-	import abe.com.ponents.skinning.SkinManagerInstance;
-	import abe.com.ponents.skinning.decorations.NoDecoration;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.text.TextInput;
-	import abe.com.ponents.trees.Tree;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.colors.Color;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.Action;
+    import abe.com.ponents.actions.ActionManagerInstance;
+    import abe.com.ponents.actions.ProxyAction;
+    import abe.com.ponents.containers.Dialog;
+    import abe.com.ponents.events.ComponentEvent;
+    import abe.com.ponents.events.DialogEvent;
+    import abe.com.ponents.lists.ListCell;
+    import abe.com.ponents.models.TreeModel;
+    import abe.com.ponents.models.TreeNode;
+    import abe.com.ponents.models.TreePath;
+    import abe.com.ponents.skinning.ComponentStateStyle;
+    import abe.com.ponents.skinning.ComponentStyle;
+    import abe.com.ponents.skinning.SkinManager;
+    import abe.com.ponents.skinning.SkinManagerInstance;
+    import abe.com.ponents.skinning.decorations.NoDecoration;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.text.TextInput;
+    import abe.com.ponents.trees.Tree;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.events.ContextMenuEvent;
-	import flash.text.TextFormat;
+    import flash.events.ContextMenuEvent;
+    import flash.text.TextFormat;
 	/**
 	 * @author cedric
 	 */

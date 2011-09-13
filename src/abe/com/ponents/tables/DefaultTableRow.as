@@ -13,17 +13,15 @@ package abe.com.ponents.tables
     import abe.com.ponents.core.edit.Editable;
     import abe.com.ponents.core.edit.Editor;
     import abe.com.ponents.core.focus.Focusable;
-    import abe.com.ponents.events.ComponentEvent;
     import abe.com.ponents.layouts.components.BoxSettings;
     import abe.com.ponents.layouts.components.HBoxLayout;
     import abe.com.ponents.lists.List;
     import abe.com.ponents.lists.ListCell;
     import abe.com.ponents.transfer.Transferable;
 
-    import flash.events.Event;
-    import flash.geom.Rectangle;
-    
     import org.osflash.signals.Signal;
+
+    import flash.geom.Rectangle;
 
     [Skinable(skin="ListCell")]
     public class DefaultTableRow extends DraggablePanel implements ListCell, 
@@ -371,9 +369,8 @@ package abe.com.ponents.tables
         }
     }
 }
-
-import abe.com.ponents.core.*;
 import abe.com.ponents.actions.AbstractAction;
+import abe.com.ponents.core.*;
 import abe.com.ponents.lists.List;
 import abe.com.ponents.tables.DefaultTableRow;
 

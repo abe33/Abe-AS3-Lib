@@ -1,10 +1,10 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.mon.colors.Gradient;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.colors.Gradient;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.display.GradientType;
-	import flash.geom.Matrix;
+    import flash.display.GradientType;
+    import flash.geom.Matrix;
 	/**
 	 * @author Cédric Néhémie
 	 */

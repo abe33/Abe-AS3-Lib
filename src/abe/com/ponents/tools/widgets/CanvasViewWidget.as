@@ -1,28 +1,27 @@
 package abe.com.ponents.tools.widgets 
 {
-	import abe.com.edia.camera.CameraEvent;
-	import abe.com.edia.camera.CameraLayer;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.SimpleDOContainer;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.display.DOCanvasViewLayout;
-	import abe.com.ponents.models.DefaultBoundedRangeModel;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.sliders.HSlider;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.tools.CameraCanvas;
+    import abe.com.edia.camera.CameraLayer;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.core.AbstractContainer;
+    import abe.com.ponents.core.SimpleDOContainer;
+    import abe.com.ponents.events.ComponentEvent;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.layouts.display.DOCanvasViewLayout;
+    import abe.com.ponents.models.DefaultBoundedRangeModel;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.sliders.HSlider;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.tools.CameraCanvas;
 
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Shape;
-	import flash.events.ContextMenuEvent;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
-	import flash.ui.MouseCursor;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.display.Shape;
+    import flash.events.ContextMenuEvent;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.geom.Matrix;
+    import flash.geom.Rectangle;
+    import flash.ui.MouseCursor;
 
 	[Skinable(skin="CanvasViewWidget")]
 	[Skin(define="CanvasViewWidget",

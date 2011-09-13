@@ -1,14 +1,14 @@
 package abe.com.ponents.monitors.recorders 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.impl.AllocatorImpl;
-	import abe.com.mon.geom.Range;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.monitors.GraphCurveSettings;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.impl.AllocatorImpl;
+    import abe.com.mon.geom.Range;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.monitors.GraphCurveSettings;
 
-	import flash.utils.setInterval;
+    import flash.utils.setInterval;
 	/**
 	 * @author Cédric Néhémie
 	 */

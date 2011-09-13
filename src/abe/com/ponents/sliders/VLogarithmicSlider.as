@@ -1,11 +1,9 @@
 package abe.com.ponents.sliders 
 {
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.models.BoundedRangeModel;
-	import abe.com.ponents.utils.Alignments;
-
-	import flash.events.MouseEvent;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.models.BoundedRangeModel;
+    import abe.com.ponents.utils.Alignments;
 	/**
 	 * @author cedric
 	 */

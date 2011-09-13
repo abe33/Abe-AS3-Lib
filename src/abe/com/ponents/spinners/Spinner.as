@@ -1,44 +1,42 @@
 package abe.com.ponents.spinners 
 {
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.core.IDisplayObject;
-	import abe.com.mon.core.IDisplayObjectContainer;
-	import abe.com.mon.core.IInteractiveObject;
-	import abe.com.mon.core.LayeredSprite;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.edit.Editable;
-	import abe.com.ponents.core.edit.Editor;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.dnd.DragSource;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.forms.FormComponentDisabledModes;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.components.GridLayout;
-	import abe.com.ponents.models.SpinnerModel;
-	import abe.com.ponents.models.SpinnerNumberModel;
-	import abe.com.ponents.text.TextInput;
-	import abe.com.ponents.utils.ToolKit;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.core.IDisplayObject;
+    import abe.com.mon.core.IDisplayObjectContainer;
+    import abe.com.mon.core.IInteractiveObject;
+    import abe.com.mon.core.LayeredSprite;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.core.AbstractContainer;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.edit.Editable;
+    import abe.com.ponents.core.edit.Editor;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.dnd.DragSource;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.forms.FormComponentDisabledModes;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.models.SpinnerModel;
+    import abe.com.ponents.models.SpinnerNumberModel;
+    import abe.com.ponents.text.TextInput;
+    import abe.com.ponents.utils.ToolKit;
 
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.FocusEvent;
-	import flash.events.IEventDispatcher;
-	import flash.events.MouseEvent;
-	import flash.geom.Rectangle;
-	import flash.text.TextField;
-	import flash.utils.clearInterval;
-	import flash.utils.setInterval;
-	
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
+
+    import flash.display.DisplayObject;
+    import flash.events.FocusEvent;
+    import flash.events.IEventDispatcher;
+    import flash.events.MouseEvent;
+    import flash.geom.Rectangle;
+    import flash.text.TextField;
+    import flash.utils.clearInterval;
+    import flash.utils.setInterval;
 
 	[Style(name="inputWidth", type="Number")]
 	[Style(name="upIcon", type="abe.com.ponents.skinning.icons.Icon")]

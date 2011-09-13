@@ -1,9 +1,9 @@
 package abe.com.mon.utils
 {
-	import abe.com.mon.geom.Geometry;
-	import abe.com.mon.geom.Surface;
+    import abe.com.mon.geom.Geometry;
+    import abe.com.mon.geom.Surface;
 
-	import flash.geom.Point;
+    import flash.geom.Point;
 	/**
 	 * Classe utilitaire réalisant des calculs sur des objets géométriques.
 	 *

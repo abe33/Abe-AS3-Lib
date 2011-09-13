@@ -1,8 +1,8 @@
 package abe.com.mon.randoms 
 {
-	import abe.com.mon.core.Randomizable;
+    import abe.com.mon.core.Randomizable;
 
-	import flash.display.BitmapData;
+    import flash.display.BitmapData;
 	/**
 	 * @author cedric
 	 */

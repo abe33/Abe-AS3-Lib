@@ -1,18 +1,21 @@
 package abe.com.ponents.actions.builtin
 {
-	import abe.com.mands.*;
-	import abe.com.mon.core.Cancelable;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.mands.*;
+    import abe.com.mon.core.Cancelable;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.skinning.icons.Icon;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.net.FileReference;
-	
-	TARGET::AIR { import flash.filesystem.File; }
+    import flash.events.Event;
+    import flash.events.IOErrorEvent;
+    import flash.net.FileReference;
+
+    TARGET::AIR
+    {
+		import flash.filesystem.File;
+    }
 	/**
 	 * @author Cédric Néhémie
 	 */

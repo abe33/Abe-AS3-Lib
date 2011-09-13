@@ -3,12 +3,12 @@
  */
 package abe.com.edia.text.fx.show 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.fx.AbstractCharEffect;
-	import abe.com.mands.Interval;
-	import abe.com.mands.Timeout;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.fx.AbstractCharEffect;
+    import abe.com.mands.Interval;
+    import abe.com.mands.Timeout;
 
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -124,7 +124,6 @@ package abe.com.edia.text.fx.show
 		}
 	}
 }
-
 import abe.com.edia.text.core.Char;
 import abe.com.mon.core.ListIterator;
 

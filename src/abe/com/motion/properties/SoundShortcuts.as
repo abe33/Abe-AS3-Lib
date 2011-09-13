@@ -1,8 +1,8 @@
 package abe.com.motion.properties
 {
-	import abe.com.motion.AbstractTween;
+    import abe.com.motion.AbstractTween;
 
-	import flash.media.SoundTransform;
+    import flash.media.SoundTransform;
 	/**
 	 * @author Cédric Néhémie
 	 */

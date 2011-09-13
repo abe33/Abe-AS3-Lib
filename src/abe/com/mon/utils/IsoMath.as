@@ -3,9 +3,9 @@
  */
 package abe.com.mon.utils
 {
-	import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.Dimension;
 
-	import flash.geom.Point;
+    import flash.geom.Point;
 	/**
 	 * La classe <code>IsoMath</code> est une classe utilitaire fournissant
 	 * des méthodes permettant de travailler dans un espace isométrique.

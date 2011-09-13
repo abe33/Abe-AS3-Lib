@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.core.focus 
 {
-	import flash.events.FocusEvent;
+    import flash.events.FocusEvent;
 	/**
 	 * L'interface <code>Focusable</code> définie les méthodes qu'un composant
 	 * doit implémenter s'il souhaite être pris en compte par la gestion du focus

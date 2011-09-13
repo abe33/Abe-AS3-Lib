@@ -3,14 +3,14 @@
  */
 package abe.com.mon.utils
 {
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Stage;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
-	import flash.events.Event;
-	import flash.ui.ContextMenu;
-	import flash.ui.ContextMenuItem;
+    import flash.display.DisplayObject;
+    import flash.display.DisplayObjectContainer;
+    import flash.display.Stage;
+    import flash.display.StageAlign;
+    import flash.display.StageScaleMode;
+    import flash.events.Event;
+    import flash.ui.ContextMenu;
+    import flash.ui.ContextMenuItem;
 	/**
 	 * Classe utilitaire fournissant des contrôles sur l'objet <code>Stage</code> de manière globale.
 	 * Pour fonctionner correctement un certain nombre d'objets (notamment parmis les composants) nécessite
@@ -525,7 +525,6 @@ package abe.com.mon.utils
 		}
 	}
 }
-
 import abe.com.mon.utils.StageUtils;
 
 import flash.display.DisplayObject;

@@ -1,9 +1,9 @@
 package abe.com.ponents.builder.dialogs 
 {
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.containers.WarningDialog;
-	import abe.com.ponents.text.Label;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.containers.WarningDialog;
+    import abe.com.ponents.text.Label;
 	/**
 	 * @author cedric
 	 */

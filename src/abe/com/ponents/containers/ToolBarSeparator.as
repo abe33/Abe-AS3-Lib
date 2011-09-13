@@ -1,15 +1,15 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.AbstractComponent;
-	import abe.com.ponents.skinning.decorations.SeparatorDecoration;
-	import abe.com.ponents.transfer.ComponentTransferable;
-	import abe.com.ponents.transfer.Transferable;
-	import abe.com.ponents.utils.Directions;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.AbstractComponent;
+    import abe.com.ponents.skinning.decorations.SeparatorDecoration;
+    import abe.com.ponents.transfer.ComponentTransferable;
+    import abe.com.ponents.transfer.Transferable;
+    import abe.com.ponents.utils.Directions;
 
-	import flash.display.DisplayObject;
-	import flash.events.FocusEvent;
-	import flash.ui.ContextMenuItem;
+    import flash.display.DisplayObject;
+    import flash.events.FocusEvent;
+    import flash.ui.ContextMenuItem;
 
 	/**
 	 * @author Cédric Néhémie

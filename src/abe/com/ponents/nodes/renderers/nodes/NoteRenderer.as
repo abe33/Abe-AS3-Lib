@@ -1,6 +1,6 @@
 package abe.com.ponents.nodes.renderers.nodes
 {
-	import abe.com.ponents.text.Label;
+    import abe.com.ponents.text.Label;
 
 	public class NoteRenderer extends DefaultNodeRenderer
 	{

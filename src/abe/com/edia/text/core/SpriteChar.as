@@ -3,11 +3,11 @@
  */
 package abe.com.edia.text.core 
 {
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-	import flash.events.TextEvent;
-	import flash.text.TextFormat;
+    import flash.display.DisplayObject;
+    import flash.display.Sprite;
+    import flash.events.MouseEvent;
+    import flash.events.TextEvent;
+    import flash.text.TextFormat;
 	/**
 	 * @author Cédric Néhémie
 	 */

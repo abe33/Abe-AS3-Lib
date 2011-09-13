@@ -1,7 +1,7 @@
 package abe.com.prehension.tools
 {
-	import abe.com.ponents.ressources.ClassCollection;
-	import abe.com.ponents.skinning.icons.*;
+    import abe.com.ponents.ressources.ClassCollection;
+    import abe.com.ponents.skinning.icons.*;
 
 	/**
 	 * @author cedric

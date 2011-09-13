@@ -1,9 +1,6 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.allocators.EmbeddedBitmapAllocatorInstance;
-
-	import flash.utils.getQualifiedClassName;
+    import abe.com.ponents.allocators.EmbeddedBitmapAllocatorInstance;
 	/**
 	 * @author Cédric Néhémie
 	 */

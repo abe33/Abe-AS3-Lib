@@ -1,11 +1,11 @@
 package abe.com.ponents.skinning.icons 
 {
-	import flash.display.DisplayObject;
-	import flash.display.Loader;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.SecurityErrorEvent;
-	import flash.net.URLRequest;
+    import flash.display.DisplayObject;
+    import flash.display.Loader;
+    import flash.events.Event;
+    import flash.events.IOErrorEvent;
+    import flash.events.SecurityErrorEvent;
+    import flash.net.URLRequest;
 	/**
 	 * @author Cédric Néhémie
 	 */

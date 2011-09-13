@@ -3,9 +3,9 @@
  */
 package abe.com.edia.text.fx 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.mon.core.Allocable;
-	import abe.com.mon.core.Clearable;
+    import abe.com.edia.text.core.Char;
+    import abe.com.mon.core.Allocable;
+    import abe.com.mon.core.Clearable;
 	/**
 	 * @author Cédric Néhémie
 	 */

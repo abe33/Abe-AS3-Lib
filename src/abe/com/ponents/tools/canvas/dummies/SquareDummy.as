@@ -1,6 +1,5 @@
 package abe.com.ponents.tools.canvas.dummies
 {
-    import abe.com.ponents.tools.canvas.dummies.AbstractDummy;
 
     /**
      * @author cedric
