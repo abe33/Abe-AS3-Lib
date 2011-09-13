@@ -1,8 +1,8 @@
 package abe.com.ponents.actions.builtin
 {
+    import abe.com.mon.utils.magicToSource;
     import abe.com.mon.core.Cancelable;
     import abe.com.mon.utils.KeyStroke;
-    import abe.com.mon.utils.getSource;
     import abe.com.patibility.lang._;
     import abe.com.ponents.actions.AbstractAction;
     import abe.com.ponents.buttons.EasingFunctionPicker;
@@ -63,7 +63,7 @@ package abe.com.ponents.actions.builtin
                     {
                         var f : Function = lm.getElementAt( i );
                         var s : String = lm.getLabel( f );
-                        var src : String = getSource( f );
+                        var src : String = magicToSource( f );
                         EasingFunctionPicker.EASING_FUNCTIONS.push( [ f, s, src ] );     	
                     }
                 	

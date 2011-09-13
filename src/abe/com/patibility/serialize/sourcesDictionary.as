@@ -1,4 +1,4 @@
-package abe.com.mon.utils
+package abe.com.patibility.serialize
 {
     import flash.utils.Dictionary;
 

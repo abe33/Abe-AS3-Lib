@@ -21,6 +21,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 package  abe.com.motion.easing
 {
+	import abe.com.patibility.serialize.sourcesDictionary;
 	public class Back
 	{
 		static public function easeIn ( t : Number, b : Number, c : Number, d : Number, s : Number = NaN ) : Number
@@ -39,5 +40,8 @@ package  abe.com.motion.easing
 			if ((t/=d/2) < 1) return c/2*(t*t*(((s*=(1.525))+1)*t - s)) + b;
 			return c/2*((t-=2)*t*(((s*=(1.525))+1)*t + s) + 2) + b;
 		}
+        sourcesDictionary[ easeIn ] = "abe.com.motion.easing::Back.easeIn";
+        sourcesDictionary[ easeOut ] = "abe.com.motion.easing::Back.easeOut";
+        sourcesDictionary[ easeInOut ] = "abe.com.motion.easing::Back.easeInOut";
 	}
 }

@@ -57,6 +57,8 @@ package abe.com.patibility.serialize
             
             if( o == null )
             	output = String(o);
+            else if( sourcesDictionary[ o ] )
+            	output = sourcesDictionary[ o ];
             else if( o is Class )
             	output = ( _typeMap[ Class ] as Function ).call( this, o, c );
             else if( _typeMap[ c ] != null  )

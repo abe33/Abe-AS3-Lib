@@ -1,11 +1,8 @@
 package abe.com.edia.particles.actions
 {
+    import abe.com.patibility.serialize.sourcesDictionary;
     import abe.com.edia.particles.core.Particle;
-    import abe.com.mon.utils.getReflectionSource;
-    import abe.com.mon.utils.getSource;
-    import abe.com.mon.utils.reflectionSourcesDictionary;
-    import abe.com.mon.utils.sourcesDictionary;
-    import abe.com.patibility.lang._$;
+
     import flash.geom.Point;
 
 	[Serialize(constructorArgs="forcePosition, forceRadius, forceStrength, forceDecay")]
@@ -22,6 +19,9 @@ package abe.com.edia.particles.actions
         static public function expDecay ( n : Number ) : Number {
             return 1-n*n;
         }
+        sourcesDictionary[ noDecay ] = "abe.com.edia.particles.actions::PonctualForceActionStrategy.noDecay";
+        sourcesDictionary[ linearDecay ] = "abe.com.edia.particles.actions::PonctualForceActionStrategy.linearDecay";
+        sourcesDictionary[ expDecay ] = "abe.com.edia.particles.actions::PonctualForceActionStrategy.expDecay";
         
 		protected var _forcePosition : Point;
 		protected var _forceStrength : Number;

@@ -21,6 +21,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 package  abe.com.motion.easing
 {
+    import abe.com.patibility.serialize.sourcesDictionary;
 	public class Sine
 	{
 		static public function easeIn (t:Number, b:Number, c:Number, d:Number):Number
@@ -35,5 +36,8 @@ package  abe.com.motion.easing
 		{
 			return -c/2 * (Math.cos(Math.PI*t/d) - 1) + b;
 		}
+        sourcesDictionary[ easeIn ] = "abe.com.motion.easing::Sine.easeIn";
+        sourcesDictionary[ easeOut ] = "abe.com.motion.easing::Sine.easeOut";
+        sourcesDictionary[ easeInOut ] = "abe.com.motion.easing::Sine.easeInOut";
 	}
 }
