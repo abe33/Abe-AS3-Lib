@@ -3,20 +3,19 @@
  */
 package abe.com.mon.utils 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.core.Serializable;
-	import abe.com.patibility.lang._$;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.core.Serializable;
 
-	import flash.utils.IDataInput;
-	import flash.utils.IDataOutput;
-	import flash.utils.IExternalizable;
-	import flash.utils.getQualifiedClassName;
+    import flash.utils.IDataInput;
+    import flash.utils.IDataOutput;
+    import flash.utils.IExternalizable;
 	/**
 	 * Represents an interval of time 
-	 */     
+	 */ 
+    [Serialize(constructorArgs="start,end")]    
 	public class TimeDelta implements IExternalizable, FormMetaProvider, Copyable, Cloneable, Serializable, Equatable
 	{
 /*----------------------------------------------------------------------*
@@ -217,8 +216,6 @@ package abe.com.mon.utils
 		public function writeExternal (output : IDataOutput) : void { output.writeInt( _totalMilliseconds ); }
 		public function readExternal (input : IDataInput) : void { _totalMilliseconds = input.readInt(); }
 		
-		public function toSource () : String { return toReflectionSource().replace("::", "."); }
-		public function toReflectionSource () : String { return _$("new $0($1)", getQualifiedClassName( this ), _totalMilliseconds ); }
 		public function toString() : String { return StringUtils.stringify( this, {'days':days, 'hours':hours, 'minutes':minutes, 'seconds':seconds } ) ; }
 		
 	}

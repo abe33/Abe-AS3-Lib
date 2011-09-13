@@ -1,11 +1,11 @@
 package abe.com.ponents.tools.canvas.core 
 {
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.tools.canvas.Tool;
-	import abe.com.ponents.tools.canvas.ToolGestureData;
-	
-	import flash.utils.Dictionary;
-	import flash.utils.getQualifiedClassName;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.tools.canvas.Tool;
+    import abe.com.ponents.tools.canvas.ToolGestureData;
+
+    import flash.utils.Dictionary;
+    import flash.utils.getQualifiedClassName;
 
 	/**
 	 * @author Cédric Néhémie

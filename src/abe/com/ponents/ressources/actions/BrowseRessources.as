@@ -1,20 +1,19 @@
 package abe.com.ponents.ressources.actions 
 {
-	import abe.com.mon.geom.dm;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.containers.Dialog;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.events.DialogEvent;
-	import abe.com.ponents.lists.List;
-	import abe.com.ponents.models.DefaultListModel;
-	import abe.com.ponents.ressources.AssetListCell;
-	import abe.com.ponents.ressources.CollectionsLoader;
-	import abe.com.ponents.ressources.LibraryAsset;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.mon.geom.dm;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.containers.Dialog;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.lists.List;
+    import abe.com.ponents.models.DefaultListModel;
+    import abe.com.ponents.ressources.AssetListCell;
+    import abe.com.ponents.ressources.CollectionsLoader;
+    import abe.com.ponents.ressources.LibraryAsset;
+    import abe.com.ponents.skinning.icons.Icon;
 	/**
 	 * @author cedric
 	 */

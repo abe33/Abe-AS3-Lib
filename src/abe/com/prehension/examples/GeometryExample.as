@@ -1,39 +1,37 @@
 package abe.com.prehension.examples
 {
-	import abe.com.edia.particles.emitters.Distributions;
-	import abe.com.edia.particles.emitters.Emitter;
-	import abe.com.edia.particles.emitters.PathEmitter;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.Circle;
-	import abe.com.mon.geom.CubicBezier;
-	import abe.com.mon.geom.Ellipsis;
-	import abe.com.mon.geom.LinearSpline;
-	import abe.com.mon.geom.Polygon;
-	import abe.com.mon.geom.Rectangle2;
-	import abe.com.mon.geom.RoundRectangle;
-	import abe.com.mon.geom.SmoothSpline;
-	import abe.com.mon.geom.Spiral;
-	import abe.com.mon.geom.Spline;
-	import abe.com.mon.geom.Triangle;
-	import abe.com.mon.geom.pt;
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.GeometryUtils;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.motion.PathTween;
-	import abe.com.motion.TweenEvent;
-	import abe.com.motion.easing.Constant;
-	import abe.com.motion.easing.Cubic;
-	import abe.com.motion.easing.Easing;
-	import abe.com.motion.easing.Linear;
-	import abe.com.ponents.tools.DebugPanel;
-	import abe.com.ponents.utils.KeyboardControllerInstance;
-	import abe.com.ponents.utils.ToolKit;
-	import flash.display.Graphics;
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-	import flash.geom.Point;
+    import abe.com.edia.particles.emitters.Distributions;
+    import abe.com.edia.particles.emitters.Emitter;
+    import abe.com.edia.particles.emitters.PathEmitter;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.Circle;
+    import abe.com.mon.geom.CubicBezier;
+    import abe.com.mon.geom.Ellipsis;
+    import abe.com.mon.geom.LinearSpline;
+    import abe.com.mon.geom.Polygon;
+    import abe.com.mon.geom.Rectangle2;
+    import abe.com.mon.geom.RoundRectangle;
+    import abe.com.mon.geom.SmoothSpline;
+    import abe.com.mon.geom.Spiral;
+    import abe.com.mon.geom.Spline;
+    import abe.com.mon.geom.Triangle;
+    import abe.com.mon.geom.pt;
+    import abe.com.mon.logs.Log;
+    import abe.com.mon.utils.GeometryUtils;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.motion.PathTween;
+    import abe.com.motion.TweenEvent;
+    import abe.com.motion.easing.Constant;
+    import abe.com.motion.easing.Cubic;
+    import abe.com.motion.easing.Easing;
+    import abe.com.motion.easing.Linear;
+    import abe.com.ponents.utils.ToolKit;
+
+    import flash.display.Graphics;
+    import flash.display.Shape;
+    import flash.display.Sprite;
+    import flash.events.MouseEvent;
+    import flash.geom.Point;
 
 
 	[SWF(backgroundColor="#333333",width="650",height="400")]

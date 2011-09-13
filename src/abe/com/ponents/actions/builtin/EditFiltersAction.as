@@ -90,7 +90,6 @@ package abe.com.ponents.actions.builtin
         public function get commandCancelled () : Signal { return _commandCancelled; }
     }
 }
-
 import abe.com.ponents.tools.FilterEditorPane;
 
 internal const FilterEditorPaneInstance : FilterEditorPane = new FilterEditorPane();

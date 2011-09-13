@@ -1,12 +1,11 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.layouts.components.SplitPaneLayout;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.utils.CardinalPoints;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.layouts.components.SplitPaneLayout;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.utils.CardinalPoints;
 
-	import flash.events.Event;
-	import flash.events.MouseEvent;
+    import flash.events.MouseEvent;
 
 	/**
 	 * @author Cédric Néhémie
@@ -268,12 +267,10 @@ package abe.com.ponents.containers
 		}
 	}
 }
-
 import abe.com.mon.geom.Dimension;
 import abe.com.ponents.buttons.Button;
 import abe.com.ponents.core.AbstractComponent;
 import abe.com.ponents.utils.CardinalPoints;
-import abe.com.ponents.skinning.decorations.*;
 
 [Skinable(skin="SplitPane_Divider")]
 [Skin(define="SplitPane_Divider",

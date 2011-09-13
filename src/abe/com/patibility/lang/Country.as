@@ -3,9 +3,7 @@
  */
 package  abe.com.patibility.lang 
 {
-	import abe.com.mon.core.Serializable;
-
-	import flash.utils.getQualifiedClassName;
+    import abe.com.mon.core.Serializable;
 	/**
 	 * Enumération de tout les codes de pays tel que définit
 	 * par la norme ISO 3166-1. Chaque objet <code>Country</code>
@@ -14,6 +12,7 @@ package  abe.com.patibility.lang
 	 * 
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="code,name")]    
 	public class Country implements Serializable
 	{
 		/*
@@ -1093,20 +1092,6 @@ package  abe.com.patibility.lang
 		{
 			return name +" (" + code + ")";
 		}
-		/**
-		 * Renvoie la représentation du code source ayant permis
-		 * de créer l'instance courante.
-		 * 
-		 * @return 	la représentation du code source ayant permis
-		 * 			de créer l'instance courante
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this)+ "('"+ code + "', '" + name + "')";
-		}
+		
 	}
 }

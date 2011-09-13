@@ -1,14 +1,14 @@
 package abe.com.ponents.tools.canvas.navigations 
 {
-	import abe.com.edia.camera.Camera;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.tools.canvas.Tool;
-	import abe.com.ponents.tools.canvas.ToolGestureData;
-	import abe.com.ponents.tools.canvas.core.AbstractTool;
-	
-	import flash.display.StageQuality;
-	import flash.geom.Point;
+    import abe.com.edia.camera.Camera;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.tools.canvas.Tool;
+    import abe.com.ponents.tools.canvas.ToolGestureData;
+    import abe.com.ponents.tools.canvas.core.AbstractTool;
+
+    import flash.display.StageQuality;
+    import flash.geom.Point;
 
 	/**
 	 * @author Cédric Néhémie

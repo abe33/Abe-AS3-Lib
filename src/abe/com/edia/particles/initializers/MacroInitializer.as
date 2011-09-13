@@ -6,6 +6,7 @@ package abe.com.edia.particles.initializers
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="...initializers")]
     public class MacroInitializer extends AbstractInitializer
     {
         protected var _initializers : Array;
@@ -29,13 +30,6 @@ package abe.com.edia.particles.initializers
             for each( var i : Initializer in _initializers )
                 i.initialize ( particle );
         }
-		override protected function getSourceArguments () : String
-        {
-            return "\n\t"+_initializers.map( function(o:Initializer,... args):String{ return o.toSource().replace(/\n/g,"\n\t"); } ).join(",\n\t");
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return "\n\t"+_initializers.map( function(o:Initializer,... args):String{ return o.toReflectionSource().replace(/\n/g,"\n\t"); } ).join(",\n\t");
-        }	
+		
     }
 }

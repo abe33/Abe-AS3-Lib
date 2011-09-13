@@ -1,11 +1,9 @@
 package abe.com.ponents.tables 
 {
-	import abe.com.ponents.events.PropertyEvent;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.transfer.Transferable;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.transfer.Transferable;
 
-	import flash.events.Event;
-	import flash.events.FocusEvent;
+    import flash.events.FocusEvent;
 
 	/**
 	 * @author Cédric Néhémie

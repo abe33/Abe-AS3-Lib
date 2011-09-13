@@ -3,7 +3,7 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Runnable;
 	/**
 	 * Une <code>MacroCommand</code> est une commande aggrégeant d'autres
 	 * commandes.

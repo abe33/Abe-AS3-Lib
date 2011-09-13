@@ -3,18 +3,18 @@
  */
 package abe.com.ponents.allocators 
 {
-	import abe.com.mands.load.LoaderQueue;
-	import abe.com.mon.utils.RandomUtils;
+    import abe.com.mands.load.LoaderQueue;
+    import abe.com.mon.utils.RandomUtils;
 
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Loader;
-	import flash.display.LoaderInfo;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.SecurityErrorEvent;
-	import flash.net.URLRequest;
-	import flash.utils.setTimeout;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.display.Loader;
+    import flash.display.LoaderInfo;
+    import flash.events.Event;
+    import flash.events.IOErrorEvent;
+    import flash.events.SecurityErrorEvent;
+    import flash.net.URLRequest;
+    import flash.utils.setTimeout;
 	/**
 	 * @author Cédric Néhémie
 	 */

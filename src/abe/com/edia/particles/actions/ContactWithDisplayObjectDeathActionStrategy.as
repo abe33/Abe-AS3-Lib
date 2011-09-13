@@ -6,6 +6,7 @@ package abe.com.edia.particles.actions
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="displayObject")]
     public class ContactWithDisplayObjectDeathActionStrategy extends AbstractActionStrategy
     {
         protected var _displayObject : DisplayObject;

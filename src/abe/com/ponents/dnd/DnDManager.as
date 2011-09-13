@@ -8,13 +8,13 @@ package  abe.com.ponents.dnd
     import abe.com.ponents.transfer.Transferable;
     import abe.com.ponents.utils.ToolKit;
 
+    import org.osflash.signals.Signal;
+
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
     import flash.display.InteractiveObject;
     import flash.events.Event;
     import flash.geom.Rectangle;
-    
-    import org.osflash.signals.Signal;
 
     public class DnDManager
     {        

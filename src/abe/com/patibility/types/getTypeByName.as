@@ -1,6 +1,6 @@
 package abe.com.patibility.types
 {
-	import flash.utils.getDefinitionByName;
+    import flash.utils.getDefinitionByName;
 
 	/**
 	 * @author cedric

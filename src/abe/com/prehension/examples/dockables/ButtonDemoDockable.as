@@ -1,27 +1,27 @@
 package abe.com.prehension.examples.dockables 
 {
-    import abe.com.mon.colors.*; 
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.buttons.ButtonGroup;
-	import abe.com.ponents.buttons.CheckBox;
-	import abe.com.ponents.buttons.ColorPicker;
-	import abe.com.ponents.buttons.FiltersPicker;
-	import abe.com.ponents.buttons.GradientPicker;
-	import abe.com.ponents.buttons.DatePicker;
-	import abe.com.ponents.buttons.RadioButton;
-	import abe.com.ponents.buttons.ToggleButton;
-	import abe.com.ponents.containers.FieldSet;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.containers.ScrollablePanel;
-	import abe.com.ponents.factory.ComponentFactory;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.utils.Insets;
-	
-	import flash.filters.*
+    import abe.com.mon.colors.*;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonGroup;
+    import abe.com.ponents.buttons.CheckBox;
+    import abe.com.ponents.buttons.ColorPicker;
+    import abe.com.ponents.buttons.DatePicker;
+    import abe.com.ponents.buttons.FiltersPicker;
+    import abe.com.ponents.buttons.GradientPicker;
+    import abe.com.ponents.buttons.RadioButton;
+    import abe.com.ponents.buttons.ToggleButton;
+    import abe.com.ponents.containers.FieldSet;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.containers.ScrollablePanel;
+    import abe.com.ponents.factory.ComponentFactory;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.utils.Insets;
+
+    import flash.filters.*;
 	/**
 	 * @author cedric
 	 */

@@ -1,8 +1,8 @@
 package abe.com.patibility.humanize
 {
-	import abe.com.mon.utils.DateUtils;
-	import abe.com.mon.utils.TimeDelta;
-	import abe.com.patibility.lang._;
+    import abe.com.mon.utils.DateUtils;
+    import abe.com.mon.utils.TimeDelta;
+    import abe.com.patibility.lang._;
 	/**
 	 * @author cedric
 	 */

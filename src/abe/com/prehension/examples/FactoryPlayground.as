@@ -18,7 +18,7 @@ package abe.com.prehension.examples
     import abe.com.ponents.tools.ServiceTesterPanel;
     import abe.com.ponents.utils.ToolKit;
     import abe.com.prehension.examples.dockables.*;
-    
+
     import flash.events.ContextMenuEvent;
 
     [SWF(width="800",height="600", backgroundColor="#3a545c")]

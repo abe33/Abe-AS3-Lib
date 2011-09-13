@@ -1,11 +1,11 @@
 package abe.com.ponents.actions.builtin 
 {
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.net.URLRequest;
-	import flash.net.navigateToURL;
+    import flash.net.URLRequest;
+    import flash.net.navigateToURL;
 	/**
 	 * @author cedric
 	 */

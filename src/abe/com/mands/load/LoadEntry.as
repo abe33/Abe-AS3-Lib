@@ -1,9 +1,8 @@
 package abe.com.mands.load 
 {
+    import org.osflash.signals.Signal;
 
-	import org.osflash.signals.Signal;
-
-	import flash.net.URLRequest;
+    import flash.net.URLRequest;
 	/**
 	 * @author Cédric Néhémie
 	 */

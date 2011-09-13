@@ -82,7 +82,6 @@ package abe.com.ponents.actions.builtin
         public function get commandCancelled () : Signal { return _commandCancelled; }
     }
 }
-
 import abe.com.ponents.tools.Calendar;
 
 internal const CalendarInstance : Calendar = new Calendar();

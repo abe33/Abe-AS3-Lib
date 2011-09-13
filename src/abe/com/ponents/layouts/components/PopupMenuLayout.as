@@ -1,9 +1,9 @@
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.menus.MenuItem;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.menus.MenuItem;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author Cédric Néhémie
 	 */

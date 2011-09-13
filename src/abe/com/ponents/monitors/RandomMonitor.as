@@ -1,27 +1,27 @@
 package abe.com.ponents.monitors 
 {
-	import abe.com.patibility.humanize.capitalize;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.Suspendable;
-	import abe.com.mon.geom.pt;
-	import abe.com.mon.geom.rect;
-	import abe.com.mon.randoms.RandomGenerator;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.motion.Impulse;
-	import abe.com.motion.ImpulseListener;
-	import abe.com.patibility.humanize.spaceOut;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.SimpleDOContainer;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.VBoxLayout;
-	import abe.com.ponents.layouts.display.DOInlineLayout;
-	import abe.com.ponents.text.Label;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.Suspendable;
+    import abe.com.mon.geom.pt;
+    import abe.com.mon.geom.rect;
+    import abe.com.mon.randoms.RandomGenerator;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.motion.Impulse;
+    import abe.com.motion.ImpulseListener;
+    import abe.com.patibility.humanize.capitalize;
+    import abe.com.patibility.humanize.spaceOut;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.core.SimpleDOContainer;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.VBoxLayout;
+    import abe.com.ponents.layouts.display.DOInlineLayout;
+    import abe.com.ponents.text.Label;
 
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.PixelSnapping;
-	import flash.utils.getTimer;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.display.PixelSnapping;
+    import flash.utils.getTimer;
 
 	/**
 	 * @author cedric
@@ -145,7 +145,6 @@ package abe.com.ponents.monitors
 		}
 	}
 }
-
 import abe.com.mon.colors.Color;
 import abe.com.mon.geom.Dimension;
 import abe.com.mon.utils.MathUtils;

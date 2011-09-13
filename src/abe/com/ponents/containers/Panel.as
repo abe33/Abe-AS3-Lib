@@ -1,11 +1,11 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.factory.*;
-	import abe.com.ponents.buttons.*;
-	import abe.com.ponents.text.*;
-	import abe.com.ponents.layouts.components.*;
-	import abe.com.ponents.utils.*;
+    import abe.com.ponents.buttons.*;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.factory.*;
+    import abe.com.ponents.layouts.components.*;
+    import abe.com.ponents.text.*;
+    import abe.com.ponents.utils.*;
 
 	[Skinable(skin="EmptyComponent")]
 	public class Panel extends AbstractContainer 

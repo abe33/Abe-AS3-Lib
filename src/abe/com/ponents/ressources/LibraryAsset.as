@@ -1,9 +1,9 @@
 package abe.com.ponents.ressources
 {
-	import abe.com.mon.utils.Reflection;
+    import abe.com.mon.utils.Reflection;
 
-	import flash.system.ApplicationDomain;
-	import flash.utils.getQualifiedClassName;
+    import flash.system.ApplicationDomain;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * @author cedric
 	 */

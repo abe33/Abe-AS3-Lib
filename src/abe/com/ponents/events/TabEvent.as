@@ -1,6 +1,6 @@
 package abe.com.ponents.events 
 {
-	import abe.com.ponents.tabs.Tab;
+    import abe.com.ponents.tabs.Tab;
 	/**
 	 * @author cedric
 	 */

@@ -1,27 +1,24 @@
 package abe.com.ponents.sliders 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.Range;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ButtonEvent;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.VBoxLayout;
-	import abe.com.ponents.models.BoundedRangeModel;
-	import abe.com.ponents.models.RangeBoundedRangeModel;
-	import abe.com.ponents.skinning.decorations.VRangeSliderTrackFill;
-	import abe.com.ponents.text.TextInput;
-	import abe.com.ponents.utils.Alignments;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.Range;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.core.AbstractContainer;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.VBoxLayout;
+    import abe.com.ponents.models.BoundedRangeModel;
+    import abe.com.ponents.models.RangeBoundedRangeModel;
+    import abe.com.ponents.skinning.decorations.VRangeSliderTrackFill;
+    import abe.com.ponents.text.TextInput;
+    import abe.com.ponents.utils.Alignments;
 
-	import flash.events.MouseEvent;
-	
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
+
+    import flash.events.MouseEvent;
 
 	[Style(name="inputWidth", type="Number")]
 	[Style(name="buttonSize", type="Number")]

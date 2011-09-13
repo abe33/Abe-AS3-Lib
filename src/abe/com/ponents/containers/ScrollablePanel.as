@@ -1,12 +1,12 @@
 package abe.com.ponents.containers 
 {
     import abe.com.mon.geom.*;
-    import abe.com.ponents.core.*;
     import abe.com.ponents.buttons.*;
-    import abe.com.ponents.text.*;
+    import abe.com.ponents.core.*;
     import abe.com.ponents.factory.*;
     import abe.com.ponents.layouts.components.*;
     import abe.com.ponents.scrollbars.Scrollable;
+    import abe.com.ponents.text.*;
     import abe.com.ponents.utils.*;
 
     import flash.geom.Rectangle;

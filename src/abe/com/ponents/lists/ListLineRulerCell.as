@@ -1,7 +1,6 @@
 package abe.com.ponents.lists 
 {
-	import abe.com.mon.logs.*;
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.StringUtils;
 
 	/**
 	 * @author Cédric Néhémie

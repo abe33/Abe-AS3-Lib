@@ -3,9 +3,9 @@
  */
 package abe.com.patibility.codecs
 {
-	import flash.errors.IOError;
-	import flash.utils.ByteArray;
-	import flash.utils.Endian;
+    import flash.errors.IOError;
+    import flash.utils.ByteArray;
+    import flash.utils.Endian;
 	/**
 	 * La classe <code>MOCodec</code> permet de décoder des traductions au format <code>MO</code>
 	 * de <code>gettext</code>.

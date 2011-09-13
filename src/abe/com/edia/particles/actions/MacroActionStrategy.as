@@ -2,13 +2,11 @@ package abe.com.edia.particles.actions
 {
     import abe.com.edia.particles.core.Particle;
     import abe.com.edia.particles.core.ParticleSystem;
-    import abe.com.patibility.lang._$;
-    import flash.utils.getQualifiedClassName;
-
 
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="...actions")]
     public class MacroActionStrategy implements ActionStrategy
     {
         protected var _actions : Array;
@@ -39,23 +37,6 @@ package abe.com.edia.particles.actions
         {
             for each( var a : ActionStrategy in _actions )
             	a.process(particle);
-        }
-		public function toSource () : String
-        {
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ).replace("::","."), getSourceArguments () );
-        }
-        
-        public function toReflectionSource () : String { 
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ), getReflectionSourceArguments () ); 
-        }
-       
-        protected function getSourceArguments () : String
-        {
-            return "\n\t" + _actions.map( function(o:ActionStrategy,... args):String{ return o.toSource().replace(/\n/g,"\n\t"); } ).join(",\n\t");
-        }
-        protected function getReflectionSourceArguments () : String
-        {
-            return "\n\t" + _actions.map( function(o:ActionStrategy,... args):String{ return o.toReflectionSource().replace(/\n/g,"\n\t"); } ).join(",\n\t");
         }
     }
 }

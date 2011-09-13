@@ -3,8 +3,8 @@
  */
 package abe.com.ponents.buttons 
 {
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.core.Component;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.core.Component;
 
 	[Skinable(skin="LockerButton")]
 	[Skin(define="LockerButton",

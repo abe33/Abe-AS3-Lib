@@ -1,30 +1,29 @@
 package abe.com.ponents.ressources.actions 
 {
-	import abe.com.mands.Command;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.settings.SettingsManagerInstance;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.actions.builtin.OpenSWFFileAction;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.containers.Dialog;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.events.DialogEvent;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.ressources.ClassCollection;
-	import abe.com.ponents.ressources.CollectionsLoader;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.text.TextInput;
-	import abe.com.ponents.utils.Insets;
-	import abe.com.prehension.tools.StyleEditor;
+    import abe.com.mands.Command;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.settings.SettingsManagerInstance;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.actions.ProxyAction;
+    import abe.com.ponents.actions.builtin.OpenSWFFileAction;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.containers.Dialog;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.ressources.ClassCollection;
+    import abe.com.ponents.ressources.CollectionsLoader;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.text.TextInput;
+    import abe.com.ponents.utils.Insets;
+    import abe.com.prehension.tools.StyleEditor;
 
-	import flash.display.Loader;
-	import flash.display.LoaderInfo;
-	import flash.events.Event;
-	import flash.system.ApplicationDomain;
-	import flash.system.LoaderContext;
+    import flash.display.Loader;
+    import flash.display.LoaderInfo;
+    import flash.events.Event;
+    import flash.system.ApplicationDomain;
+    import flash.system.LoaderContext;
 	/**
 	 * @author cedric
 	 */

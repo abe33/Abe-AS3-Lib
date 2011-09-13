@@ -3,7 +3,7 @@
  */
 package abe.com.mon.geom 
 {
-	import flash.geom.Point;
+    import flash.geom.Point;
 	/**
 	 * A <code>ClosedGeometry</code> is a geometry which is closed and which can returns
 	 * coordinates in its path using an angle.

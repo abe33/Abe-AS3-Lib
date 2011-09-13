@@ -3,24 +3,22 @@
  */
 package  abe.com.mon.geom
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.core.Randomizable;
-	import abe.com.mon.core.Serializable;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.core.Randomizable;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.randoms.Random;
+    import abe.com.mon.utils.GeometryUtils;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.PointUtils;
+    import abe.com.mon.utils.RandomUtils;
+    import abe.com.mon.utils.StringUtils;
 
-	import abe.com.mon.randoms.Random;
-	import abe.com.mon.utils.GeometryUtils;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.RandomUtils;
-	import abe.com.mon.utils.StringUtils;
-
-	import flash.display.Graphics;
-	import flash.geom.Point;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.Graphics;
+    import flash.geom.Point;
 	/**
 	 * The <code>Ellipsis</code> class provides a mathematical representation
 	 * of an elliptical geometry.
@@ -30,6 +28,7 @@ package  abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="x,y,radius1,radius2")]
 	public class Ellipsis implements Cloneable,
 									 Copyable,
 									 Serializable,
@@ -419,27 +418,7 @@ package  abe.com.mon.geom
 		{
 			return GeometryUtils.surfaceContainsGeometry(this, geom);
 		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace( "new $0($1,$2,$3,$4,$5,$6)", 
-											  getQualifiedClassName(this), 
-											  x, 
-											  y, 
-											  radius1, 
-											  radius2, 
-											  rotation, 
-											  drawBias );
-		}
+		
 		/**
 		 * Returns the representation of the object as a string.
 		 * <fr>

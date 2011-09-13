@@ -1,8 +1,8 @@
 package abe.com.patibility.accessors 
 {
-	import abe.com.mon.utils.Reflection;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.patibility.settings.SettingsManager;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.patibility.settings.SettingsManager;
 	/**
 	 * @author cedric
 	 */

@@ -3,15 +3,14 @@
  */
 package  abe.com.mon.geom
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.StringUtils;
 
-	import flash.geom.Point;
-	import flash.utils.getQualifiedClassName;
+    import flash.geom.Point;
 	/**
 	 * A <code>Dimension</code> object contains the data needed to
 	 * represent a surface in two dimensions.
@@ -21,6 +20,7 @@ package  abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="width,height")]
 	public class Dimension implements Cloneable, 
 									  Copyable,
 									  Serializable, 
@@ -217,20 +217,7 @@ package  abe.com.mon.geom
 		{
 			return new Point( width, height );
 		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this) + "(" + width + ", "+ height + ")";
-		}
+		
 		/**
 		 * Returns the representation of the object as a string.
 		 * <fr>

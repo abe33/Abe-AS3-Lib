@@ -1,11 +1,11 @@
 package abe.com.ponents.forms.managers 
 {
-    import abe.com.ponents.forms.fields.SubObjectFormComponent;
     import abe.com.mon.core.Allocable;
     import abe.com.ponents.core.Component;
     import abe.com.ponents.forms.FormComponent;
     import abe.com.ponents.forms.FormField;
     import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.forms.fields.SubObjectFormComponent;
     import abe.com.ponents.text.AbstractTextComponent;
 
     import org.osflash.signals.Signal;

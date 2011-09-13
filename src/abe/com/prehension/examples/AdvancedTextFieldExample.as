@@ -1,28 +1,25 @@
 package  abe.com.prehension.examples
 {
-	import abe.com.edia.text.AdvancedTextField;
-	import abe.com.edia.text.builds.BasicBuild;
-	import abe.com.edia.text.builds.BuildContext;
-	import abe.com.edia.text.builds.StyleContext;
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.core.SpaceChar;
-	import abe.com.edia.text.core.SpriteChar;
-	import abe.com.edia.text.fx.complex.TwinklingChar;
-	import abe.com.edia.text.fx.hide.RandomFallingChars;
-	import abe.com.edia.text.fx.loop.CircularWaveEffect;
-	import abe.com.edia.text.fx.loop.TrembleEffect;
-	import abe.com.edia.text.fx.loop.WaveEffect;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.tools.DebugPanel;
-	import abe.com.ponents.utils.KeyboardControllerInstance;
-	import abe.com.ponents.utils.ToolKit;
+    import abe.com.edia.text.AdvancedTextField;
+    import abe.com.edia.text.builds.BasicBuild;
+    import abe.com.edia.text.builds.BuildContext;
+    import abe.com.edia.text.builds.StyleContext;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.core.SpaceChar;
+    import abe.com.edia.text.core.SpriteChar;
+    import abe.com.edia.text.fx.complex.TwinklingChar;
+    import abe.com.edia.text.fx.hide.RandomFallingChars;
+    import abe.com.edia.text.fx.loop.CircularWaveEffect;
+    import abe.com.edia.text.fx.loop.TrembleEffect;
+    import abe.com.edia.text.fx.loop.WaveEffect;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.logs.Log;
+    import abe.com.ponents.utils.ToolKit;
 
-	import flash.display.Sprite;
-	import flash.events.TextEvent;
-	import flash.filters.GlowFilter;
-	import flash.text.TextFormat;
+    import flash.display.Sprite;
+    import flash.events.TextEvent;
+    import flash.filters.GlowFilter;
+    import flash.text.TextFormat;
 
 	/**
 	 * @author cedric
@@ -213,7 +210,6 @@ package  abe.com.prehension.examples
 		}
 	}
 }
-
 import abe.com.edia.text.core.NewLineChar;
 import abe.com.edia.text.core.TabChar;
 

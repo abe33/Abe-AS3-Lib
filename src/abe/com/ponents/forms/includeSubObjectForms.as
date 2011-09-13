@@ -10,8 +10,8 @@ package abe.com.ponents.forms
         
     }
 }
-import abe.com.ponents.forms.fields.SubObjectFormComponent;
 import abe.com.mon.utils.Reflection;
+import abe.com.ponents.forms.fields.SubObjectFormComponent;
 internal function getSubObject ( o : Object, args : Object ):*
 {
     return Reflection.buildInstance( SubObjectFormComponent, [ args.owner, o, args.allowNull ].concat( args.types ) );

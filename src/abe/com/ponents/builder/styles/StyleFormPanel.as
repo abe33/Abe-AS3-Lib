@@ -1,26 +1,26 @@
 package abe.com.ponents.builder.styles 
 {
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.builder.events.StyleSelectionEvent;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.FormEvent;
-	import abe.com.ponents.events.PropertyEvent;
-	import abe.com.ponents.forms.FormField;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.forms.FormUtils;
-	import abe.com.ponents.forms.managers.MultiTargetFormManager;
-	import abe.com.ponents.forms.renderers.FieldSetFormRenderer;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.HBoxLayout;
-	import abe.com.ponents.skinning.ComponentStateStyle;
-	import abe.com.ponents.skinning.ComponentStyle;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.builder.events.StyleSelectionEvent;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.events.FormEvent;
+    import abe.com.ponents.events.PropertyEvent;
+    import abe.com.ponents.forms.FormField;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.forms.FormUtils;
+    import abe.com.ponents.forms.managers.MultiTargetFormManager;
+    import abe.com.ponents.forms.renderers.FieldSetFormRenderer;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.HBoxLayout;
+    import abe.com.ponents.skinning.ComponentStateStyle;
+    import abe.com.ponents.skinning.ComponentStyle;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

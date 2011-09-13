@@ -1,9 +1,9 @@
 package abe.com.edia.particles.recorders
 {
-    import abe.com.mon.utils.arrays.lastIn;
     import abe.com.edia.particles.core.ParticleManager;
     import abe.com.mon.colors.Color;
     import abe.com.mon.geom.Range;
+    import abe.com.mon.utils.arrays.lastIn;
     import abe.com.motion.Impulse;
     import abe.com.motion.ImpulseListener;
     import abe.com.patibility.lang._;

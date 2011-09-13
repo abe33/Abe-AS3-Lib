@@ -3,17 +3,17 @@
  */
 package abe.com.ponents.tips 
 {
-	import abe.com.ponents.buttons.AbstractButton;
-	import abe.com.ponents.skinning.DefaultSkin;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.utils.ToolKit;
+    import abe.com.ponents.buttons.AbstractButton;
+    import abe.com.ponents.skinning.DefaultSkin;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.utils.ToolKit;
 
-	import flash.display.DisplayObject;
-	import flash.filters.DropShadowFilter;
-	import flash.geom.Rectangle;
-	import flash.text.TextFieldAutoSize;
-	import flash.utils.clearTimeout;
-	import flash.utils.setTimeout;
+    import flash.display.DisplayObject;
+    import flash.filters.DropShadowFilter;
+    import flash.geom.Rectangle;
+    import flash.text.TextFieldAutoSize;
+    import flash.utils.clearTimeout;
+    import flash.utils.setTimeout;
 
 	/**
 	 * @author Cédric Néhémie

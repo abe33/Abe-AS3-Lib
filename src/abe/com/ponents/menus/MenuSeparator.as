@@ -1,6 +1,6 @@
 package abe.com.ponents.menus 
 {
-	import abe.com.ponents.skinning.decorations.SeparatorDecoration;
+    import abe.com.ponents.skinning.decorations.SeparatorDecoration;
 
 	/**
 	 * @author Cédric Néhémie

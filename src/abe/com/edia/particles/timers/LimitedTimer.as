@@ -1,12 +1,10 @@
 package abe.com.edia.particles.timers
 {
-    import abe.com.patibility.lang._$;
-
-    import flash.utils.getQualifiedClassName;
 
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="duration,since")]
     public class LimitedTimer implements Timer
     {
         protected var _duration : Number;
@@ -38,17 +36,26 @@ package abe.com.edia.particles.timers
             
             _time += t;
         }
-        public function toSource():String
-        {
-            return _$("new $0($1,$2)", getQualifiedClassName(this).replace("::", "."), _duration, _since );
-        }
-        public function toReflectionSource():String
-        {
-            return _$("new $0($1,$2)", getQualifiedClassName(this), _duration, _since );
-        }
+        
         public function clone () : *
         {
-            return new LimitedTimer(_duration, _since);
+            return new LimitedTimer ( _duration, _since );
+        }
+
+        public function get duration () : Number {
+            return _duration;
+        }
+
+        public function set duration ( duration : Number ) : void {
+            _duration = duration;
+        }
+
+        public function get since () : Number {
+            return _since;
+        }
+
+        public function set since ( since : Number ) : void {
+            _since = since;
         }
     }
 }

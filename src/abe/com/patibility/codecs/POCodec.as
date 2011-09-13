@@ -3,7 +3,7 @@
  */
 package abe.com.patibility.codecs
 {
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.StringUtils;
 	/**
 	 * La classe <code>POCodec</code> permet d'encoder et de décoder
 	 * des fichiers de traductions au format <code>PO</code> de <code>gettext</code>.

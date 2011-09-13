@@ -1,9 +1,9 @@
 package abe.com.ponents.tabs 
 {
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Dockable;
-	
-	import org.osflash.signals.Signal;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Dockable;
+
+    import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */

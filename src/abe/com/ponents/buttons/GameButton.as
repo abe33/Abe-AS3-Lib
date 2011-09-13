@@ -1,12 +1,13 @@
 package abe.com.ponents.buttons 
 {
-    import flash.events.Event;
     import abe.com.edia.text.AdvancedTextField;
     import abe.com.edia.text.builds.BasicBuild;
     import abe.com.edia.text.layouts.BasicLayout;
     import abe.com.mon.core.Clearable;
     import abe.com.ponents.skinning.SkinManagerInstance;
     import abe.com.ponents.skinning.icons.Icon;
+
+    import flash.events.Event;
 
 	/**
 	 * @author Cédric Néhémie

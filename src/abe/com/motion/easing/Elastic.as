@@ -21,6 +21,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 package  abe.com.motion.easing
 {
+    import abe.com.patibility.serialize.sourcesDictionary;
 	public class Elastic
 	{
 		static public function easeIn (t:Number, b:Number, c:Number, d:Number, a:Number = NaN, p:Number = NaN):Number
@@ -48,5 +49,8 @@ package  abe.com.motion.easing
 			if (t < 1) return -.5*(a*Math.pow(2,10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )) + b;
 			return a*Math.pow(2,-10*(t-=1)) * Math.sin( (t*d-s)*(2*Math.PI)/p )*.5 + c + b;
 		}
+        sourcesDictionary[ easeIn ] = "abe.com.motion.easing::Elastic.easeIn";
+        sourcesDictionary[ easeOut ] = "abe.com.motion.easing::Elastic.easeOut";
+        sourcesDictionary[ easeInOut ] = "abe.com.motion.easing::Elastic.easeInOut";
 	}
 }

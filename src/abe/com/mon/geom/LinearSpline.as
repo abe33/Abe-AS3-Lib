@@ -3,14 +3,14 @@
  */
 package abe.com.mon.geom
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.mon.utils.magicToReflectionSource;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.magicToReflectionSource;
 
-	import flash.display.Graphics;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.Graphics;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * The <code>LinearSpline</code> class is a concret implementation 
 	 * of <code>AbstractSpline</code> with segments of size <code>1</code>. 

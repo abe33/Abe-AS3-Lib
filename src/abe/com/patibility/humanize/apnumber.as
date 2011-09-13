@@ -15,7 +15,6 @@ package abe.com.patibility.humanize
 			return String( v );
 	}
 }
-
 import abe.com.patibility.lang._;
 
 internal const NUMBERS : Array = [ _("one"), _("two"), _("three"), _("four"), _("five"), _("six"), _("seven"), _("eight"), _("nine") ];

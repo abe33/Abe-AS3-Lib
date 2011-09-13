@@ -4,7 +4,6 @@ package abe.com.ponents.skinning.decorations
     import abe.com.mon.geom.pt;
     import abe.com.mon.utils.GeometryUtils;
     import abe.com.mon.utils.PointUtils;
-    import abe.com.patibility.lang._$;
     import abe.com.ponents.core.Component;
     import abe.com.ponents.utils.Borders;
     import abe.com.ponents.utils.CardinalPoints;
@@ -13,10 +12,10 @@ package abe.com.ponents.skinning.decorations
     import flash.display.Graphics;
     import flash.geom.Point;
     import flash.geom.Rectangle;
-    import flash.utils.getQualifiedClassName;
 	/**
 	 * @author cedric
 	 */
+    [Serialize(constructorArgs="color,tailPlacement,tailSize,tailWidth,tailPosition,tailOrientation")]
 	public class BubbleBorders implements ComponentDecoration 
 	{
 		public var color : Color;
@@ -173,14 +172,6 @@ package abe.com.ponents.skinning.decorations
 		public function clone () : *
 		{
 			return new BubbleBorders(color);
-		}
-		public function toSource () : String
-		{
-			return _$("new $0($1)", getQualifiedClassName(this).replace("::", "."), color.toSource() );
-		}
-		public function toReflectionSource () : String
-		{
-			return _$("new $0($1)", getQualifiedClassName(this), color.toReflectionSource() );
 		}
 	}
 }

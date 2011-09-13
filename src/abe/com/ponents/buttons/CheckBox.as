@@ -3,20 +3,20 @@
  */
 package abe.com.ponents.buttons 
 {
-	import abe.com.mon.core.IDisplayObject;
-	import abe.com.mon.core.IDisplayObjectContainer;
-	import abe.com.mon.core.IInteractiveObject;
-	import abe.com.mon.core.LayeredSprite;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.layouts.display.DOInlineLayout;
-	import abe.com.ponents.skinning.icons.CheckBoxCheckedIcon;
-	import abe.com.ponents.skinning.icons.CheckBoxUncheckedIcon;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.utils.Directions;
+    import abe.com.mon.core.IDisplayObject;
+    import abe.com.mon.core.IDisplayObjectContainer;
+    import abe.com.mon.core.IInteractiveObject;
+    import abe.com.mon.core.LayeredSprite;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.layouts.display.DOInlineLayout;
+    import abe.com.ponents.skinning.icons.CheckBoxCheckedIcon;
+    import abe.com.ponents.skinning.icons.CheckBoxUncheckedIcon;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.utils.Directions;
 
-	import flash.display.DisplayObject;
+    import flash.display.DisplayObject;
 
 	/**
 	 * Une propriété du style contenant l'icône de référence lorsque le composant

@@ -1,19 +1,19 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.Range;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.models.BoundedRangeModel;
-	import abe.com.ponents.sliders.VRangeSlider;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.Range;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.models.BoundedRangeModel;
+    import abe.com.ponents.sliders.VRangeSlider;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
 
-	import flash.display.Graphics;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.Graphics;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="backgroundColor,borderColor,rangeColor,trackWidth,trackOffset")]
 	public class VRangeSliderTrackFill implements ComponentDecoration 
 	{
 		protected var _backgroundColor : Color;
@@ -145,17 +145,5 @@ package abe.com.ponents.skinning.decorations
 			}
 			return false;
 		}
-		public function toSource () : String 
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		public function toReflectionSource () : String 
-		{
-			return "new "+ getQualifiedClassName(this) + "(color(0x" + backgroundColor.rgba+ 
-															  "), color(0x" + borderColor.rgba + 
-															  "), " + trackWidth + 
-															  ", " + trackOffset + ")";
-		}
-		
 	}
 }

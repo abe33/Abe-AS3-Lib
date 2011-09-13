@@ -1,18 +1,19 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
 
-	import flash.display.GradientType;
-	import flash.display.Graphics;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
+    import flash.display.GradientType;
+    import flash.display.Graphics;
+    import flash.geom.Matrix;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="borderColor,gradientColor1,gradientColor2,borders,gradientRotation")]    
 	public class BorderedGradientFill implements ComponentDecoration 
 	{
 		protected var _borderColor : Color;
@@ -95,14 +96,5 @@ package abe.com.ponents.skinning.decorations
 			return false;
 		}
 		
-		public function toSource () : String
-		{
-			return null;
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return null;
-		}
 	}
 }

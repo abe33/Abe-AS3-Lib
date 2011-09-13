@@ -1,6 +1,6 @@
 package abe.com.ponents.builder.models 
 {
-	import abe.com.ponents.ressources.CollectionsLoader;
+    import abe.com.ponents.ressources.CollectionsLoader;
 	/**
 	 * @author cedric
 	 */

@@ -1,20 +1,20 @@
 package abe.com.patibility.types 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.mon.utils.magicClone;
-	import abe.com.mon.utils.magicEquals;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.logs.Log;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.mon.utils.magicClone;
+    import abe.com.mon.utils.magicEquals;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
 
-	import flash.utils.IDataInput;
-	import flash.utils.IDataOutput;
-	import flash.utils.IExternalizable;
-	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;
+    import flash.utils.IDataInput;
+    import flash.utils.IDataOutput;
+    import flash.utils.IExternalizable;
+    import flash.utils.Proxy;
+    import flash.utils.flash_proxy;
 	/**
 	 * @author cedric
 	 */

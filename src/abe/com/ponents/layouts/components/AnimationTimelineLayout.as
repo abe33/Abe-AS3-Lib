@@ -1,12 +1,12 @@
 package abe.com.ponents.layouts.components
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.swf.timeline.AnimationTimeline;
-	import abe.com.ponents.swf.timeline.TimelineLayer;
-	import abe.com.ponents.swf.timeline.frames.KeyFrame;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.swf.timeline.AnimationTimeline;
+    import abe.com.ponents.swf.timeline.TimelineLayer;
+    import abe.com.ponents.swf.timeline.frames.KeyFrame;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author Cédric Néhémie
 	 */

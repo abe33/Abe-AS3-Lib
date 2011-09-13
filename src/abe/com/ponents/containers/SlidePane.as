@@ -1,14 +1,14 @@
 package abe.com.ponents.containers 
 {
-	import abe.com.mon.geom.*;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.factory.*;
-	import abe.com.ponents.layouts.components.SlidePaneLayout;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.mon.geom.*;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.factory.*;
+    import abe.com.ponents.layouts.components.SlidePaneLayout;
+    import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.utils.clearInterval;
-	import flash.utils.setInterval;
+    import flash.utils.clearInterval;
+    import flash.utils.setInterval;
 
 	/**
 	 * @author Cédric Néhémie

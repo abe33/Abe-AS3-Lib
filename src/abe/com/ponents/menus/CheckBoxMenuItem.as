@@ -1,11 +1,11 @@
 package abe.com.ponents.menus 
 {
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.skinning.icons.CheckBoxCheckedIcon;
-	import abe.com.ponents.skinning.icons.CheckBoxUncheckedIcon;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.skinning.icons.CheckBoxCheckedIcon;
+    import abe.com.ponents.skinning.icons.CheckBoxUncheckedIcon;
+    import abe.com.ponents.skinning.icons.Icon;
 
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie

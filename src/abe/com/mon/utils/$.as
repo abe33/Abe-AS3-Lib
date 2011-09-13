@@ -3,7 +3,7 @@
  */
 package abe.com.mon.utils
 {
-	import flash.system.ApplicationDomain;
+    import flash.system.ApplicationDomain;
 	
 	/**
 	 * @param	query	<code>String</code> to be evaluated according to the rules below

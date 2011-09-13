@@ -1,17 +1,17 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.CardinalPoints;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.colors.Color;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.CardinalPoints;
+    import abe.com.ponents.utils.Corners;
 
-	import flash.display.Graphics;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.Graphics;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="color,arrowPlacement,arrowSize")]    
 	public class ArrowSideFill implements ComponentDecoration 
 	{
 		public var color : Color;
@@ -27,14 +27,6 @@ package abe.com.ponents.skinning.decorations
 		public function clone () : *
 		{
 			return new ArrowSideFill( color, arrowPlacement, arrowSize );
-		}
-		public function toSource () : String
-		{
-			return "new "+ getQualifiedClassName(this).replace("::",".") + "(" + color.toSource() + ",'" + arrowPlacement + "', " + arrowSize + ")" ;
-		}
-		public function toReflectionSource () : String
-		{
-			return "new "+ getQualifiedClassName(this) + "(" + color.toReflectionSource() + ",'" + arrowPlacement + "', " + arrowSize + ")" ;
 		}
 		
 		public function equals (o : *) : Boolean

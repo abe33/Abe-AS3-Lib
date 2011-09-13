@@ -1,16 +1,15 @@
 package abe.com.mon.geom
 {
     import abe.com.mon.core.Serializable;
-    import abe.com.patibility.lang._$;
 
     import org.osflash.signals.Signal;
 
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="x,y,type,preHandle,postHandle")]
     public class FreeFormSplineVertex extends Point implements Serializable
     {
         static public const CORNER 			: uint = 0;
@@ -93,33 +92,5 @@ package abe.com.mon.geom
         {
             return new FreeFormSplineVertex(x, y, _type, _preHandle, _postHandle);
         }
-        public function toSource():String
-        {
-            return _$( "new $0($1)" , getQualifiedClassName( this ).replace("::","."), getSourceArguments() );
-        }
-        public function toReflectionSource():String
-        {
-            return _$( "new $0($1)" , getQualifiedClassName( this ), getReflectionSourceArguments() );
-        }
-        protected function getSourceArguments():String
-        {
-            return [
-            	x, 
-                y, 
-            	_type, 
-                _$("new flash.geom.Point($0,$1)", _preHandle.x, _preHandle.y), 
-                _$("new flash.geom.Point($0,$1)", _postHandle.x, _postHandle.y) 
-            ].join(", ");
-        }
-        protected function getReflectionSourceArguments():String
-        {
-            return [
-            	x, 
-                y, 
-            	_type, 
-                _$("new flash.geom::Point($0,$1)", _preHandle.x, _preHandle.y), 
-                _$("new flash.geom::Point($0,$1)", _postHandle.x, _postHandle.y) 
-            ].join(", ");
-        } 
     }
 }

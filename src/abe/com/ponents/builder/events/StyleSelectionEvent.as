@@ -1,8 +1,8 @@
 package abe.com.ponents.builder.events 
 {
-	import abe.com.ponents.skinning.ComponentStyle;
+    import abe.com.ponents.skinning.ComponentStyle;
 
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

@@ -3,8 +3,8 @@
  */
 package abe.com.ponents.layouts 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * L'interface <code>Layout</code> définie les méthodes de base qu'un
 	 * objet chargé de mettre en page des objets graphiques se doit d'implémenter.

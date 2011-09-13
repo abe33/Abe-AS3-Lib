@@ -69,7 +69,7 @@
  */
 package abe.com.ponents.tools.prettify
 {
-	import abe.com.mon.logs.Log;
+    import abe.com.mon.logs.Log;
 	public class GPrettify
 	{
 		/** the number of characters between tab columns */

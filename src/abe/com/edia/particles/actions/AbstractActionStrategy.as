@@ -2,9 +2,6 @@ package abe.com.edia.particles.actions
 {
     import abe.com.edia.particles.core.Particle;
     import abe.com.edia.particles.core.ParticleSystem;
-    import abe.com.patibility.lang._$;
-    import flash.utils.getQualifiedClassName;
-
 
     public class AbstractActionStrategy implements ActionStrategy
 	{
@@ -21,22 +18,5 @@ package abe.com.edia.particles.actions
 		public function process( particle : Particle ) : void
 		{
 		}
-        public function toSource () : String
-        {
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ).replace("::","."), getSourceArguments () );
-        }
-        
-        public function toReflectionSource () : String { 
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ), getReflectionSourceArguments () ); 
-        }
-       
-        protected function getSourceArguments () : String
-        {
-            return "";
-        }
-        protected function getReflectionSourceArguments () : String
-        {
-            return "";
-        }
 	}
 }

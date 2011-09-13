@@ -1,18 +1,17 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Gradient;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Gradient;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
 
-	import flash.display.GradientType;
-	import flash.display.Graphics;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.GradientType;
+    import flash.display.Graphics;
+    import flash.geom.Matrix;
+    import flash.geom.Rectangle;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -45,10 +44,6 @@ package abe.com.ponents.skinning.decorations
 					   	g.arrowSize == arrowSize;
 			}
 			return false;
-		}
-		override public function toReflectionSource () : String
-		{
-			return "new "+ getQualifiedClassName(this) + "(" + gradient.toReflectionSource() + "," + gradientRotation + ", '" + arrowPlacement + "', " + arrowSize + ")" ;
 		}
 		override public function draw (r : Rectangle, g : Graphics, c : Component, borders : Borders = null, corners : Corners = null, smoothing : Boolean = false) : void
 		{

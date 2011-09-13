@@ -1,8 +1,10 @@
 package abe.com.mon.debug
 {
-	import abe.com.mon.core.Debuggable;
-	import org.osflash.signals.Signal;
-	import flash.utils.Dictionary;
+    import abe.com.mon.core.Debuggable;
+
+    import org.osflash.signals.Signal;
+
+    import flash.utils.Dictionary;
     /**
      * @author cedric
      */

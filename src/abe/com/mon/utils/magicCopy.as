@@ -1,6 +1,6 @@
 package abe.com.mon.utils
 {
-	import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Copyable;
 	/**
 	 * @author cedric
 	 */

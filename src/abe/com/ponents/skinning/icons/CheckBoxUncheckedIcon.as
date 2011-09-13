@@ -1,8 +1,8 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.ponents.skinning.DefaultSkin;
+    import abe.com.ponents.skinning.DefaultSkin;
 
-	import flash.display.Shape;
+    import flash.display.Shape;
 	/**
 	 * @author Cédric Néhémie
 	 */

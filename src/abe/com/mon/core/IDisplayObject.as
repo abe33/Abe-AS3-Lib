@@ -3,13 +3,13 @@
  */
 package abe.com.mon.core 
 {
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.Stage;
-	import flash.events.IEventDispatcher;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.geom.Transform;
+    import flash.display.DisplayObject;
+    import flash.display.DisplayObjectContainer;
+    import flash.display.Stage;
+    import flash.events.IEventDispatcher;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
+    import flash.geom.Transform;
 	/**
 	 * An interface that mimic the structure of the <code>DisplayObject</code>
 	 * class in order to allow an access to its members from an interface which

@@ -1,30 +1,30 @@
 package abe.com.ponents.builder.styles
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.settings.SettingsManagerInstance;
-	import abe.com.ponents.builder.codecs.SkinSourceCodec;
-	import abe.com.ponents.builder.codecs.StyleMetaCodec;
-	import abe.com.ponents.builder.codecs.StyleSourceCodec;
-	import abe.com.ponents.builder.dialogs.PreventRenameDefault;
-	import abe.com.ponents.builder.dialogs.PreventRenameSkin;
-	import abe.com.ponents.builder.dialogs.PreventRenameStyle;
-	import abe.com.ponents.builder.dialogs.PrintDialog;
-	import abe.com.ponents.containers.Dialog;
-	import abe.com.ponents.core.edit.EditorFactoryInstance;
-	import abe.com.ponents.events.DialogEvent;
-	import abe.com.ponents.events.EditEvent;
-	import abe.com.ponents.models.TreeNode;
-	import abe.com.ponents.skinning.ComponentStyle;
-	import abe.com.ponents.skinning.SkinManager;
-	import abe.com.ponents.skinning.SkinManagerInstance;
-	import abe.com.ponents.text.TextInput;
-	import abe.com.ponents.trees.DefaultTreeCell;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.settings.SettingsManagerInstance;
+    import abe.com.ponents.builder.codecs.SkinSourceCodec;
+    import abe.com.ponents.builder.codecs.StyleMetaCodec;
+    import abe.com.ponents.builder.codecs.StyleSourceCodec;
+    import abe.com.ponents.builder.dialogs.PreventRenameDefault;
+    import abe.com.ponents.builder.dialogs.PreventRenameSkin;
+    import abe.com.ponents.builder.dialogs.PreventRenameStyle;
+    import abe.com.ponents.builder.dialogs.PrintDialog;
+    import abe.com.ponents.containers.Dialog;
+    import abe.com.ponents.core.edit.EditorFactoryInstance;
+    import abe.com.ponents.events.DialogEvent;
+    import abe.com.ponents.events.EditEvent;
+    import abe.com.ponents.models.TreeNode;
+    import abe.com.ponents.skinning.ComponentStyle;
+    import abe.com.ponents.skinning.SkinManager;
+    import abe.com.ponents.skinning.SkinManagerInstance;
+    import abe.com.ponents.text.TextInput;
+    import abe.com.ponents.trees.DefaultTreeCell;
 
-	import flash.display.DisplayObject;
-	import flash.events.Event;
+    import flash.display.DisplayObject;
+    import flash.events.Event;
 
 	[Skinable(skin="StylesTreeCell")]
 	[Skin(define="StylesTreeCell",

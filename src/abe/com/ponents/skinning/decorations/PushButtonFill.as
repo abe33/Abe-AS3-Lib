@@ -1,12 +1,12 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.colors.Color;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
 
-	import flash.display.Graphics;
-	import flash.geom.Rectangle;
+    import flash.display.Graphics;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */
@@ -156,16 +156,6 @@ package abe.com.ponents.skinning.decorations
 		public function equals (o : *) : Boolean
 		{
 			return false;
-		}
-		
-		public function toSource () : String
-		{
-			return null;
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return null;
 		}
 	}
 }

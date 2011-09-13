@@ -1,7 +1,7 @@
 package abe.com.ponents.tables 
 {
-	import abe.com.ponents.history.UndoManagerInstance;
-	import abe.com.ponents.lists.DefaultListCell;
+    import abe.com.ponents.history.UndoManagerInstance;
+    import abe.com.ponents.lists.DefaultListCell;
 
 	/**
 	 * @author Cédric Néhémie
@@ -86,7 +86,6 @@ package abe.com.ponents.tables
 		}
 	}
 }
-
 import abe.com.patibility.lang._;
 import abe.com.ponents.history.AbstractUndoable;
 import abe.com.ponents.history.Undoable;

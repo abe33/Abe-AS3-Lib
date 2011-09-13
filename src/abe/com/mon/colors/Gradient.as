@@ -3,13 +3,11 @@
  */
 package  abe.com.mon.colors 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.StringUtils;
-
-	import flash.utils.getQualifiedClassName;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.StringUtils;
 	/**
 	 * Un objet <code>Gradient</code> représente une rampe de dégradé coloré
 	 * à l'aide d'objet <code>Color</code>.
@@ -22,6 +20,7 @@ package  abe.com.mon.colors
 	 * @author Cédric Néhémie
 	 * @see	Color
 	 */
+    [Serialize(constructorArgs="colors,positions,name")]
 	public class Gradient implements Serializable, Cloneable, Equatable
     {
         static public const COLOR_SPECTRUM : Gradient = new Gradient([	Color.Red, Color.Yellow, Color.Green, 
@@ -123,40 +122,7 @@ package  abe.com.mon.colors
 			return new Gradient( _colors.map( function(i:Color,...args) : Color { return i.clone();} ), 
 								 _positions.concat() );
 		}
-		/**
-		 * Renvoie la représentation du code source permettant 
-		 * de recréer l'instance courante.
-		 * 
-		 * @return 	la représentation du code source ayant permis
-		 * 			de créer l'instance courante
-		 */
-		public function toSource () : String
-		{
-			var f : Function = function ( col : Color, ... args ) : String
-			{
-				return col.toSource();
-			};
-			_colors.forEach( f, this );
-			
-			return "new "+getQualifiedClassName(this).replace("::",".")+"( [ " + _colors.map( f, this ) + " ], [ " + _positions + " ] )";  	
-		}
-		/**
-		 *  Renvoie la représentation du code source permettant 
-		 * de recréer l'instance courante à l'aide de la méthode
-		 * <code>Reflection.get</code>.
-		 * 
-		 * @return 	la représentation du code source ayant permis
-		 * 			de créer l'instance courante
-		 * @see	Reflection#get()
-		 */
-		public function toReflectionSource () : String
-		{
-			var f : Function = function ( col : Color, ... args ) : String
-			{
-				return col.toReflectionSource();
-			};
-			return "gradient([" + _colors.map( f, this ) + "],[" + _positions + "])";  	
-		}
+		
 		/**
 		 * Renvoie la représentation de l'objet sous forme de chaîne.
 		 * 

@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.events
 {
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * Classe d'évènement diffusé par les composants.
 	 *

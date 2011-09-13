@@ -1,12 +1,12 @@
 package abe.com.prehension.examples.dockables 
 {
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.core.SimpleDockable;
-	import abe.com.ponents.factory.ComponentBuildUnit;
-	import abe.com.ponents.factory.ComponentFactory;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.core.SimpleDockable;
+    import abe.com.ponents.factory.ComponentBuildUnit;
+    import abe.com.ponents.factory.ComponentFactory;
+    import abe.com.ponents.skinning.icons.Icon;
 	/**
 	 * @author cedric
 	 */

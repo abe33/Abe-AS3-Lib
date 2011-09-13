@@ -3,26 +3,26 @@
  */
 package abe.com.ponents.buttons
 {
-	import abe.com.mands.*;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.mon.utils.magicCopy;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
-	import abe.com.ponents.builder.models.BuilderCollections;
-	import abe.com.ponents.containers.Window;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.forms.FormComponentDisabledModes;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.forms.managers.SimpleFormManager;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.HBoxLayout;
-	import abe.com.ponents.menus.DropDownMenu;
-	import abe.com.ponents.menus.MenuItem;
-	import abe.com.ponents.models.DefaultListModel;
-	import abe.com.ponents.skinning.decorations.ComponentDecoration;
+    import abe.com.mands.*;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.magicCopy;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.ProxyAction;
+    import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
+    import abe.com.ponents.builder.models.BuilderCollections;
+    import abe.com.ponents.containers.Window;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.forms.FormComponentDisabledModes;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.forms.managers.SimpleFormManager;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.HBoxLayout;
+    import abe.com.ponents.menus.DropDownMenu;
+    import abe.com.ponents.menus.MenuItem;
+    import abe.com.ponents.models.DefaultListModel;
+    import abe.com.ponents.skinning.decorations.ComponentDecoration;
 
     import org.osflash.signals.Signal;
 

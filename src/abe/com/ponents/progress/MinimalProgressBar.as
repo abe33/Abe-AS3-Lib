@@ -1,11 +1,11 @@
 package abe.com.ponents.progress 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.dm;
-	import abe.com.ponents.core.SimpleDOContainer;
-	import abe.com.ponents.layouts.display.DONoLayout;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.dm;
+    import abe.com.ponents.core.SimpleDOContainer;
+    import abe.com.ponents.layouts.display.DONoLayout;
 
-	import flash.display.Shape;
+    import flash.display.Shape;
 
 	[Skinable(skin="MinimalProgress")]
 	[Skin(define="MinimalProgress",

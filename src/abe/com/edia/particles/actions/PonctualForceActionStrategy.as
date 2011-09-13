@@ -1,33 +1,27 @@
 package abe.com.edia.particles.actions
 {
     import abe.com.edia.particles.core.Particle;
-    import abe.com.mon.utils.getReflectionSource;
-    import abe.com.mon.utils.getSource;
-    import abe.com.mon.utils.reflectionSourcesDictionary;
-    import abe.com.mon.utils.sourcesDictionary;
-    import abe.com.patibility.lang._$;
+    import abe.com.patibility.serialize.sourcesDictionary;
+
     import flash.geom.Point;
 
-
+	[Serialize(constructorArgs="forcePosition, forceRadius, forceStrength, forceDecay")]
 	public class PonctualForceActionStrategy extends AbstractActionStrategy implements ActionStrategy
 	{
         static public function noDecay ( n : Number ) : Number {
             return 1;
         }
-        sourcesDictionary[ noDecay ] = "abe.com.edia.particles.strategy.actions.PonctualForceActionStrategy.noDecay";
-        reflectionSourcesDictionary[ noDecay ] = "abe.com.edia.particles.strategy.actions::PonctualForceActionStrategy.noDecay";
         
         static public function linearDecay ( n : Number ) : Number {
             return 1-n;
         }
-        sourcesDictionary[ linearDecay ] = "abe.com.edia.particles.strategy.actions.PonctualForceActionStrategy.linearDecay";
-        reflectionSourcesDictionary[ linearDecay ] = "abe.com.edia.particles.strategy.actions::PonctualForceActionStrategy.linearDecay";
-       
+        
         static public function expDecay ( n : Number ) : Number {
             return 1-n*n;
         }
-        sourcesDictionary[ expDecay ] = "abe.com.edia.particles.strategy.actions.PonctualForceActionStrategy.expDecay";
-        reflectionSourcesDictionary[ expDecay ] = "abe.com.edia.particles.strategy.actions::PonctualForceActionStrategy.expDecay";
+        sourcesDictionary[ noDecay ] = "abe.com.edia.particles.actions::PonctualForceActionStrategy.noDecay";
+        sourcesDictionary[ linearDecay ] = "abe.com.edia.particles.actions::PonctualForceActionStrategy.linearDecay";
+        sourcesDictionary[ expDecay ] = "abe.com.edia.particles.actions::PonctualForceActionStrategy.expDecay";
         
 		protected var _forcePosition : Point;
 		protected var _forceStrength : Number;
@@ -67,22 +61,15 @@ package abe.com.edia.particles.actions
 			var l : Number = strength * decay( distLength / radius ) * _nTimeStep;
 			
 			pForce.normalize( l );			
-			particle.velocity = particle.velocity.add( pForce );
+            particle.velocity = particle.velocity.add ( pForce );
         }
-        
-        override protected function getSourceArguments () : String
-        {
-            return [ _$("new flash.geom.Point($0,$1)", _forcePosition.x, _forcePosition.y),
-            		 _forceRadius,
-                     _forceStrength, 
-                     getSource( _forceDecay, "${decayFunction}" ) ].join(", ");
+
+        public function get forceDecay () : Function {
+            return _forceDecay;
         }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ _$("new flash.geom::Point($0,$1)", _forcePosition.x, _forcePosition.y),
-            		 _forceRadius,
-                     _forceStrength, 
-                     getReflectionSource( _forceDecay, "${decayFunction}" ) ].join(", ");
+
+        public function set forceDecay ( forceDecay : Function ) : void {
+            _forceDecay = forceDecay;
         }
 	}
 }

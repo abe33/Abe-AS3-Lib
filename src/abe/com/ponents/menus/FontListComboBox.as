@@ -1,12 +1,12 @@
 package abe.com.ponents.menus 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.models.DefaultComboBoxModel;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.models.DefaultComboBoxModel;
 
-	import flash.text.Font;
-	import flash.text.TextFormat;
+    import flash.text.Font;
+    import flash.text.TextFormat;
 	/**
 	 * @author cedric
 	 */

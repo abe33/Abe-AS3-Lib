@@ -1,13 +1,14 @@
 package abe.com.ponents.utils 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.Serializable;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.Serializable;
 
-	import flash.utils.getQualifiedClassName;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="topLeft,topRight,bottomLeft,bottomRight")]
 	public class Corners implements Cloneable, Equatable, Serializable
 	{
 		public var topLeft : Number;		public var topRight : Number;
@@ -35,14 +36,7 @@ package abe.com.ponents.utils
 		{
 			return new Corners(topLeft, topRight, bottomLeft, bottomRight);
 		}
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this)+"("+topLeft+","+topRight+","+bottomLeft+","+bottomRight+")";
-		}
+		
 		public function equals (o : *) : Boolean
 		{
 			if( o is Corners )

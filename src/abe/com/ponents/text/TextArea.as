@@ -3,13 +3,13 @@
  */
 package abe.com.ponents.text
 {
-    import abe.com.ponents.layouts.components.InlineLayout;
     import abe.com.mands.ProxyCommand;
     import abe.com.mon.geom.Dimension;
     import abe.com.mon.utils.KeyStroke;
     import abe.com.mon.utils.Keys;
     import abe.com.ponents.completion.AutoCompletion;
     import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.layouts.components.InlineLayout;
     import abe.com.ponents.layouts.display.DOBoxSettings;
     import abe.com.ponents.layouts.display.DOHBoxLayout;
     import abe.com.ponents.menus.CompletionDropDown;

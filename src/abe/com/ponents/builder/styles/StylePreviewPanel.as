@@ -1,18 +1,18 @@
 package abe.com.ponents.builder.styles 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.builder.events.StyleSelectionEvent;
-	import abe.com.ponents.buttons.CheckBox;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.skinning.ComponentStyle;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.builder.events.StyleSelectionEvent;
+    import abe.com.ponents.buttons.CheckBox;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.events.ComponentEvent;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.skinning.ComponentStyle;
 
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

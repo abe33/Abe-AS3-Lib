@@ -11,10 +11,8 @@ package abe.com.edia.particles.emitters
     import abe.com.mon.utils.RandomUtils;
     import abe.com.mon.utils.magicClone;
     import abe.com.motion.easing.Constant;
-    import abe.com.patibility.lang._$;
 
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 
     /**
      * La classe <code>PathEmitter</code> permet la génération d'objet
@@ -23,6 +21,7 @@ package abe.com.edia.particles.emitters
      * @author Cédric Néhémie
      * @see	abe.com.mon.geom.Path
      */
+    [Serialize(constructorArgs="path,thickness,thicknessEasing,pathDistribution,sizeDistribution,minThickness,randomSource")]
     public class PathEmitter implements Emitter, Randomizable
     {
         /**
@@ -61,6 +60,7 @@ package abe.com.edia.particles.emitters
         public var pathDistribution : Function;
         public var sizeDistribution : Function;
         public var minThickness : Number;
+        
         protected var _randomSource : Random;
 
         /**
@@ -71,7 +71,7 @@ package abe.com.edia.particles.emitters
          * @param	thickness	épaisseur de la zone de pathDistribution
          * @param	thicknessEasing		une fonction de variation de l'épaisseur
          */
-        public function PathEmitter ( path : Path = null, thickness : Number = 1, thicknessEasing : Function = null, pathDistribution : Function = null, sizeDistribution : Function = null, minThickness : Number = 0 )
+        public function PathEmitter ( path : Path = null, thickness : Number = 1, thicknessEasing : Function = null, pathDistribution : Function = null, sizeDistribution : Function = null, minThickness : Number = 0, random : Random = null )
         {
             this.path = path;
             this.thickness = thickness;
@@ -79,7 +79,7 @@ package abe.com.edia.particles.emitters
             this.pathDistribution = pathDistribution != null ? pathDistribution : Distributions.constant;
             this.sizeDistribution = sizeDistribution != null ? sizeDistribution : Distributions.constant;
             this.minThickness = minThickness;
-            _randomSource = RandomUtils;
+            _randomSource = random ? random : RandomUtils;
         }
 
         /** 
@@ -117,14 +117,5 @@ package abe.com.edia.particles.emitters
             return new PathEmitter ( p, thickness, thicknessEasing, pathDistribution, sizeDistribution, minThickness );
         }
 
-        public function toSource () : String
-        {
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ).replace ( "::", "." ), path.toSource () );
-        }
-
-        public function toReflectionSource () : String
-        {
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ), path.toReflectionSource () );
-        }
     }
 }

@@ -1,5 +1,6 @@
 package abe.com.ponents.events {
-	import abe.com.ponents.models.TreePath;	/**
+    import abe.com.ponents.models.TreePath;
+	/**
 	 * @author Cédric Néhémie
 	 */
 	public class TreeEvent extends ListEvent 	{		public var path : TreePath;

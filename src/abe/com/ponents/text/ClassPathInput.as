@@ -1,7 +1,7 @@
 package abe.com.ponents.text 
 {
-	import flash.utils.getDefinitionByName;
-	import flash.utils.getQualifiedClassName;
+    import flash.utils.getDefinitionByName;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * @author cedric
 	 */

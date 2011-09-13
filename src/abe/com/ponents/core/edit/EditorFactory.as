@@ -3,10 +3,10 @@
  */
 package abe.com.ponents.core.edit 
 {
-	import abe.com.mon.utils.AllocatorInstance;
+    import abe.com.mon.utils.AllocatorInstance;
 
-	import flash.display.DisplayObject;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.DisplayObject;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * La classe <code>EditorFactory</code> fournie un moyen simple
 	 * d'enregistrer des objets ou des classes <code>Editor</code>

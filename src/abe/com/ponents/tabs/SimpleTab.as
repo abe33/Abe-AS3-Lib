@@ -1,15 +1,15 @@
 package abe.com.ponents.tabs
 {
-	import abe.com.ponents.buttons.DraggableButton;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.layouts.display.DOInlineLayout;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.transfer.Transferable;
-	import abe.com.ponents.utils.Alignments;
-	import abe.com.ponents.utils.CardinalPoints;
-	import abe.com.ponents.utils.Directions;
+    import abe.com.ponents.buttons.DraggableButton;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.layouts.display.DOInlineLayout;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.transfer.Transferable;
+    import abe.com.ponents.utils.Alignments;
+    import abe.com.ponents.utils.CardinalPoints;
+    import abe.com.ponents.utils.Directions;
 
-    import org.osflash.signals.Signal; 
+    import org.osflash.signals.Signal;
 	/**
 	 * @author Cédric Néhémie
 	 */

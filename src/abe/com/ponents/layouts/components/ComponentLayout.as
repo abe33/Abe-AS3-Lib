@@ -3,8 +3,8 @@
  */
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.ponents.core.Container;
-	import abe.com.ponents.layouts.Layout;
+    import abe.com.ponents.core.Container;
+    import abe.com.ponents.layouts.Layout;
 
 	/**
 	 * L'interface <code>ComponentLayout</code> définie le type de container

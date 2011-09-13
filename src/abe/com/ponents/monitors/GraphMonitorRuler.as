@@ -1,14 +1,14 @@
 package abe.com.ponents.monitors 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.monitors.recorders.Recorder;
-	import abe.com.ponents.utils.Alignments;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.monitors.recorders.Recorder;
+    import abe.com.ponents.utils.Alignments;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.text.TextField;
+    import flash.text.TextField;
 
 	/**
 	 * 

@@ -3,7 +3,7 @@
  */
 package  abe.com.munication.host 
 {
-	import flash.external.ExternalInterface;
+    import flash.external.ExternalInterface;
 	public class HTMLSniffer 
 	{
 		static protected const HEADER_SOLE_NODES : Array = ["link","style","meta"];		static protected const BODY_SOLE_NODES : Array = ["br","img","embed","object","input"];

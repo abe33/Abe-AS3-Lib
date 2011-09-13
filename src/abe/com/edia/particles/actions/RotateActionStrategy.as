@@ -11,6 +11,7 @@ package abe.com.edia.particles.actions
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="minRotationSpeed, maxRotationSpeed, perParticle, randomSource")]
     public class RotateActionStrategy extends AbstractActionStrategy implements Randomizable
     {
         protected var _minRotationSpeed : Number;
@@ -23,11 +24,12 @@ package abe.com.edia.particles.actions
         
         public function RotateActionStrategy ( minRotationSpeed : Number = -3, 
         									   maxRotationSpeed : Number = 3, 
-                                               perParticle : Boolean = true )
+                                               perParticle : Boolean = true,
+                                               random : Random = null )
         {
             _minRotationSpeed = minRotationSpeed;
             _maxRotationSpeed = maxRotationSpeed;
-            _randomSource = RandomUtils;
+            _randomSource = random ? random : RandomUtils;
             
             this.perParticle = perParticle;
         }
@@ -65,14 +67,6 @@ package abe.com.edia.particles.actions
             }
             else
                 doparticle.rotation += _allParticlesRotationSpeed * _nTimeStep;
-        }
-        override protected function getSourceArguments () : String
-        {
-            return [ _minRotationSpeed, _maxRotationSpeed, _perParticle ].join(", ");
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ _minRotationSpeed, _maxRotationSpeed, _perParticle ].join(", ");
         }
     }
 }

@@ -1,8 +1,8 @@
 package abe.com.ponents.skinning.icons
 {
-	import abe.com.mon.utils.MovieClipUtils;
+    import abe.com.mon.utils.MovieClipUtils;
 
-	import flash.display.MovieClip;
+    import flash.display.MovieClip;
 	/**
 	 * @author Cédric Néhémie
 	 */

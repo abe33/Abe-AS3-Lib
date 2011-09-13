@@ -1,15 +1,15 @@
 package abe.com.ponents.containers
 {
-	import abe.com.mon.geom.dm;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.components.ComponentLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.skinning.decorations.FieldSetBorders;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.utils.Alignments;
-	import abe.com.ponents.utils.CardinalPoints;
+    import abe.com.mon.geom.dm;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.layouts.components.ComponentLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.skinning.decorations.FieldSetBorders;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.utils.Alignments;
+    import abe.com.ponents.utils.CardinalPoints;
 
 	/**
 	 * @author Cédric Néhémie

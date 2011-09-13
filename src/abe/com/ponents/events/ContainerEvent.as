@@ -1,6 +1,6 @@
 package abe.com.ponents.events 
 {
-	import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Component;
 	/**
 	 * Classe d'évènement diffusé par les <code>Container</code>.
 	 * 

@@ -3,14 +3,14 @@
  */
 package abe.com.edia.text.fx.complex 
 {
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.fx.AbstractCharEffect;
-	import abe.com.mon.utils.AllocatorInstance;
-	import abe.com.mon.utils.RandomUtils;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.fx.AbstractCharEffect;
+    import abe.com.mon.utils.AllocatorInstance;
+    import abe.com.mon.utils.RandomUtils;
 
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.utils.Dictionary;
+    import flash.display.DisplayObject;
+    import flash.display.DisplayObjectContainer;
+    import flash.utils.Dictionary;
 	/**
 	 * @author Cédric Néhémie
 	 */

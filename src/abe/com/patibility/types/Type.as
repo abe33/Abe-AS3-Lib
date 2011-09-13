@@ -1,12 +1,12 @@
 package abe.com.patibility.types 
 {
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
 
-	import flash.utils.IDataInput;
-	import flash.utils.IDataOutput;
-	import flash.utils.IExternalizable;
+    import flash.utils.IDataInput;
+    import flash.utils.IDataOutput;
+    import flash.utils.IExternalizable;
 	/**
 	 * @author cedric
 	 */

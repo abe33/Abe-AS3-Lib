@@ -1,38 +1,38 @@
 package abe.com.ponents.flexunit
 {
-	import abe.com.mon.closures.objects.hasProperty;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.patibility.humanize.capitalize;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.containers.SplitPane;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.Dockable;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.models.DefaultBoundedRangeModel;
-	import abe.com.ponents.models.TreeModel;
-	import abe.com.ponents.models.TreeNode;
-	import abe.com.ponents.progress.ProgressBar;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.text.TextArea;
-	import abe.com.ponents.trees.TreeHeader;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.closures.objects.hasProperty;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.patibility.humanize.capitalize;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.containers.SplitPane;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.Dockable;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.models.DefaultBoundedRangeModel;
+    import abe.com.ponents.models.TreeModel;
+    import abe.com.ponents.models.TreeNode;
+    import abe.com.ponents.progress.ProgressBar;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.text.TextArea;
+    import abe.com.ponents.trees.TreeHeader;
+    import abe.com.ponents.utils.Insets;
 
-	import flex.lang.reflect.metadata.MetaDataAnnotation;
-	import flex.lang.reflect.metadata.MetaDataArgument;
+    import flex.lang.reflect.metadata.MetaDataAnnotation;
+    import flex.lang.reflect.metadata.MetaDataArgument;
 
-	import org.flexunit.runner.IDescription;
-	import org.flexunit.runner.Result;
-	import org.flexunit.runner.notification.Failure;
-	import org.flexunit.runner.notification.IRunListener;
+    import org.flexunit.runner.IDescription;
+    import org.flexunit.runner.Result;
+    import org.flexunit.runner.notification.Failure;
+    import org.flexunit.runner.notification.IRunListener;
 
-	import flash.text.TextFormat;
+    import flash.text.TextFormat;
 	/**
 	 * @author cedric
 	 */

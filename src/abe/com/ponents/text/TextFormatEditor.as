@@ -1,30 +1,29 @@
 package abe.com.ponents.text 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.buttons.ColorPicker;
-	import abe.com.ponents.buttons.ToggleButton;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.core.edit.Editable;
-	import abe.com.ponents.core.edit.Editor;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.VBoxLayout;
-	import abe.com.ponents.menus.FontListComboBox;
-	import abe.com.ponents.models.SpinnerNumberModel;
-	import abe.com.ponents.skinning.DefaultSkin;
-	import abe.com.ponents.skinning.decorations.SimpleFill;
-	import abe.com.ponents.spinners.Spinner;
-	import abe.com.ponents.utils.Insets;
-
-	import flash.display.DisplayObject;
-	import flash.text.Font;
-	import flash.text.FontType;
-	import flash.text.TextFormat;
+    import abe.com.mon.colors.Color;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.buttons.ColorPicker;
+    import abe.com.ponents.buttons.ToggleButton;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.core.edit.Editable;
+    import abe.com.ponents.core.edit.Editor;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.VBoxLayout;
+    import abe.com.ponents.menus.FontListComboBox;
+    import abe.com.ponents.models.SpinnerNumberModel;
+    import abe.com.ponents.skinning.DefaultSkin;
+    import abe.com.ponents.skinning.decorations.SimpleFill;
+    import abe.com.ponents.spinners.Spinner;
+    import abe.com.ponents.utils.Insets;
 
     import org.osflash.signals.Signal;
+
+    import flash.display.DisplayObject;
+    import flash.text.Font;
+    import flash.text.FontType;
+    import flash.text.TextFormat;
 	/**
 	 * @author cedric
 	 */
@@ -215,7 +214,6 @@ package abe.com.ponents.text
 		}
 	}
 }
-
 import abe.com.ponents.core.AbstractComponent;
 import abe.com.ponents.layouts.display.DOStretchLayout;
 

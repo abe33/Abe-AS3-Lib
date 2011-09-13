@@ -9,6 +9,7 @@ package abe.com.motion
     import abe.com.mon.core.Suspendable;
     import abe.com.mon.logs.Log;
     import abe.com.motion.properties.SpecialProperty;
+    import abe.com.patibility.serialize.sourcesDictionary;
 
     import org.osflash.signals.Signal;
 
@@ -140,6 +141,7 @@ package abe.com.motion
 		{
 			return c * t / d + b;
 		};
+        sourcesDictionary[ noEasing] = "abe.com.motion::AbstractTween.noEasing";
 		/*---------------------------------------------------------------*
 		 * 	INSTANCES MEMBERS
 		 *---------------------------------------------------------------*/

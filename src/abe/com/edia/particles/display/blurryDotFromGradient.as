@@ -1,13 +1,13 @@
 package abe.com.edia.particles.display
 {
-	import abe.com.edia.particles.core.Particle;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Gradient;
-	import abe.com.mon.randoms.Random;
-	import abe.com.mon.utils.RandomUtils;
-	import flash.display.Shape;
-	import flash.filters.BlurFilter;
-	import flash.geom.Matrix;
+    import abe.com.edia.particles.core.Particle;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Gradient;
+    import abe.com.mon.randoms.Random;
+    import abe.com.mon.utils.RandomUtils;
+
+    import flash.display.Shape;
+    import flash.geom.Matrix;
     /**
      * @author cedric
      */

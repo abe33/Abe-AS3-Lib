@@ -1,7 +1,7 @@
 package abe.com.munication.http 
 {
-	import flash.utils.ByteArray;
-	import flash.utils.Endian;
+    import flash.utils.ByteArray;
+    import flash.utils.Endian;
 	/**
 	 * Take a fileName, byteArray, and parameters object as input and return ByteArray post data suitable for a UrlRequest as output
 	 *

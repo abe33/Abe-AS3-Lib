@@ -7,20 +7,19 @@ package abe.com.ponents.factory
     import abe.com.mon.utils.url;
     import abe.com.patibility.codecs.MOCodec;
     import abe.com.patibility.codecs.POCodec;
+    import abe.com.patibility.lang.GetTextInstance;
     import abe.com.patibility.lang._;
     import abe.com.patibility.lang._$;
-    import abe.com.patibility.lang.GetTextInstance;
-    import abe.com.patibility.settings.backends.SettingsBackend;
     import abe.com.patibility.settings.SettingsManagerInstance;
-    import abe.com.ponents.events.*;
-    
+    import abe.com.patibility.settings.backends.SettingsBackend;
+
     import flash.display.*;
     import flash.events.*;
     import flash.filters.*;
+    import flash.geom.*;
     import flash.net.*;
     import flash.text.*;
     import flash.utils.*;
-    import flash.geom.*;
     
     /**
      * @author cedric

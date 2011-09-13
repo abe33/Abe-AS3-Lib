@@ -1,13 +1,13 @@
 package abe.com.ponents.builder.codecs 
 {
-	import abe.com.mon.utils.magicEquals;
-	import abe.com.mon.utils.magicToSource;
-	import abe.com.patibility.codecs.Codec;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.skinning.ComponentStyle;
+    import abe.com.mon.utils.magicEquals;
+    import abe.com.mon.utils.magicToSource;
+    import abe.com.patibility.codecs.Codec;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.skinning.ComponentStyle;
 
-	import flash.utils.Dictionary;
-	import flash.utils.getQualifiedClassName;
+    import flash.utils.Dictionary;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * @author cedric
 	 */

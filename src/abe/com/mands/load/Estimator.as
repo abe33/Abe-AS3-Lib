@@ -1,7 +1,6 @@
 package abe.com.mands.load 
 {
-
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie

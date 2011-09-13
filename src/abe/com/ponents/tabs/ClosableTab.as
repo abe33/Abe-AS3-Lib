@@ -1,27 +1,27 @@
 package abe.com.ponents.tabs 
 {
-	import abe.com.mon.geom.dm;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.containers.DraggablePanel;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.events.*;
-	import abe.com.ponents.dnd.DragSource;
-	import abe.com.ponents.layouts.components.BoxSettings;
-	import abe.com.ponents.layouts.components.HBoxLayout;
-	import abe.com.ponents.layouts.display.DOInlineLayout;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.transfer.Transferable;
-	import abe.com.ponents.utils.Alignments;
-	import abe.com.ponents.utils.CardinalPoints;
-	import abe.com.ponents.utils.Directions;
+    import abe.com.mon.geom.dm;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.actions.ProxyAction;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.containers.DraggablePanel;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.dnd.DragSource;
+    import abe.com.ponents.events.*;
+    import abe.com.ponents.layouts.components.BoxSettings;
+    import abe.com.ponents.layouts.components.HBoxLayout;
+    import abe.com.ponents.layouts.display.DOInlineLayout;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.transfer.Transferable;
+    import abe.com.ponents.utils.Alignments;
+    import abe.com.ponents.utils.CardinalPoints;
+    import abe.com.ponents.utils.Directions;
 
-	import org.osflash.signals.Signal;
-	import org.osflash.signals.DeluxeSignal;
+    import org.osflash.signals.DeluxeSignal;
+    import org.osflash.signals.Signal;
 
 	/**
 	 * @author Cédric Néhémie

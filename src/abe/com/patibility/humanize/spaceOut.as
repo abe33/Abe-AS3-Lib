@@ -1,6 +1,6 @@
 package abe.com.patibility.humanize
 {
-	import com.adobe.linguistics.spelling.core.utils.StringUtils;
+    import com.adobe.linguistics.spelling.core.utils.StringUtils;
 	/**
 	 * Returns a <code>String</code> spaced out such as a string 
 	 * like <code>hello-world<code> will be returned as <code>hello world</code>.

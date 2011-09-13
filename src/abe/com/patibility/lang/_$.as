@@ -1,6 +1,6 @@
 package abe.com.patibility.lang
 {
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.StringUtils;
 	/**
 	 * Renvoie la chaîne <code>str</code> où les jetons d'insertions ont été
 	 * remplacés par les arguments transmis dans le paramètre <code>args</code>.

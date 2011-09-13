@@ -3,21 +3,16 @@
  */
 package abe.com.ponents.buttons 
 {
-	import abe.com.mands.*;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.IDisplayObject;
-	import abe.com.mon.core.IDisplayObjectContainer;
-	import abe.com.mon.core.IInteractiveObject;
-	import abe.com.mon.core.LayeredSprite;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.builtin.ColorPickerAction;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.core.focus.Focusable;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.forms.FormComponentDisabledModes;
-	import abe.com.ponents.layouts.display.DOStretchLayout;
-
-	import org.osflash.signals.Signal;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.IDisplayObject;
+    import abe.com.mon.core.IDisplayObjectContainer;
+    import abe.com.mon.core.IInteractiveObject;
+    import abe.com.mon.core.LayeredSprite;
+    import abe.com.ponents.actions.builtin.ColorPickerAction;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.core.focus.Focusable;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.layouts.display.DOStretchLayout;
 
 	/**
 	 * La classe <code>ColorPicker</code> permet de créer un bouton servant

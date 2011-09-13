@@ -17,12 +17,12 @@ package abe.com.ponents.factory
     import abe.com.ponents.skinning.decorations.*;
     import abe.com.ponents.tabs.ClosableTab;
     import abe.com.ponents.utils.*;
-    
-    import flash.display.Sprite;
-    import flash.ui.ContextMenuItem;
-    
+
     import org.osflash.signals.*;
     import org.osflash.signals.events.*;
+
+    import flash.display.Sprite;
+    import flash.ui.ContextMenuItem;
     /**
      * @author cedric
      */

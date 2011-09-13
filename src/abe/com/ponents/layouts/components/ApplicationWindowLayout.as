@@ -8,7 +8,7 @@ package abe.com.ponents.layouts.components
     import abe.com.ponents.transfer.*;
     import abe.com.ponents.utils.Directions;
     import abe.com.ponents.utils.Insets;
-    
+
     import org.osflash.signals.Signal;
     /**
      * @author cedric
@@ -217,7 +217,6 @@ package abe.com.ponents.layouts.components
         }
     }
 }
-
 import abe.com.ponents.core.AbstractContainer;
 
 internal class ToolBarDropper extends AbstractContainer

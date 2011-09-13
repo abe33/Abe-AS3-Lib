@@ -1,14 +1,15 @@
 package abe.com.ponents.skinning.icons 
 {
-	import flash.display.DisplayObject;
-	import flash.display.Loader;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.events.SecurityErrorEvent;
-	import flash.net.URLRequest;
+    import flash.display.DisplayObject;
+    import flash.display.Loader;
+    import flash.events.Event;
+    import flash.events.IOErrorEvent;
+    import flash.events.SecurityErrorEvent;
+    import flash.net.URLRequest;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="url")]
 	public class SWFIcon extends Icon 
 	{
 		protected var _url : URLRequest;
@@ -90,14 +91,5 @@ package abe.com.ponents.skinning.icons
 			return new SWFIcon(_url );
 		}
 
-		override public function toSource () : String
-		{
-			return super.toReflectionSource().replace("(", "(new flash.net.URLRequest('" + _url.url + "')" ).replace("::", ".");
-		}
-
-		override public function toReflectionSource () : String
-		{
-			return "@'" + _url.url +"'";
-		}
 	}
 }

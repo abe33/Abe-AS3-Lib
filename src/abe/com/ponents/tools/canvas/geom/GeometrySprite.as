@@ -1,9 +1,9 @@
 package abe.com.ponents.tools.canvas.geom
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.Geometry;
-	
-	import flash.display.Sprite;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.Geometry;
+
+    import flash.display.Sprite;
 	
 	public class GeometrySprite extends Sprite
 	{

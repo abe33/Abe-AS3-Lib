@@ -1,6 +1,5 @@
 package abe.com.mon.geom
 {
-    import abe.com.mon.logs.Log;
     import abe.com.mon.colors.Color;
     import abe.com.mon.core.Cloneable;
     import abe.com.mon.core.Serializable;
@@ -9,17 +8,14 @@ package abe.com.mon.geom
     import abe.com.mon.utils.arrays.firstIn;
     import abe.com.mon.utils.arrays.lastIn;
     import abe.com.mon.utils.magicClone;
-    import abe.com.mon.utils.magicToReflectionSource;
-    import abe.com.mon.utils.magicToSource;
-    import abe.com.patibility.lang._$;
 
     import flash.display.Graphics;
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="vertices,bias")]
     public class FreeFormSpline implements Spline, Path, Geometry, Cloneable, Serializable
     {	
         protected var _vertices : Array;
@@ -309,22 +305,6 @@ package abe.com.mon.geom
 			return tan;
 		}
         
-        public function toSource():String
-        {
-            return _$( "new $0($1)" , getQualifiedClassName( this ).replace("::","."), getSourceArguments() );
-        }
-        public function toReflectionSource():String
-        {
-            return _$( "new $0($1)" , getQualifiedClassName( this ), getReflectionSourceArguments() );
-        }
-        protected function getSourceArguments():String
-        {
-            return [ magicToSource(_vertices), _bias ].join(", ");
-        }
-        protected function getReflectionSourceArguments():String
-        {
-            return [ magicToReflectionSource( _vertices ), _bias ].join(", ");
-        } 
         /**
 		 * Bezier function for the first vertex of a segment.
 		 * <fr>

@@ -1,7 +1,7 @@
 package abe.com.patibility.humanize
 {
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
 	/**
 	 * @author cedric
 	 */
@@ -14,7 +14,6 @@ package abe.com.patibility.humanize
 			return _$(_("$0$1"), v, ORDINALS[r2] );
 	}
 }
-
 import abe.com.patibility.lang._;
 
 internal const ORDINALS : Array = [_("th"),_("st"), _("nd"), _("rd"), _("th"), _("th"), _("th"), _("th"), _("th"), _("th")];

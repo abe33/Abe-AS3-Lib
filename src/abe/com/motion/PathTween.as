@@ -1,10 +1,10 @@
 package abe.com.motion
 {
-	import abe.com.mon.geom.Path;
-	import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.geom.Path;
+    import abe.com.mon.utils.MathUtils;
 
-	import flash.display.DisplayObject;
-	import flash.geom.Point;
+    import flash.display.DisplayObject;
+    import flash.geom.Point;
 	/**
 	 * @author Cédric Néhémie
 	 */

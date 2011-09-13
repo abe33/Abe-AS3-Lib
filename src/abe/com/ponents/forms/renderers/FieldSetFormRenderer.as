@@ -1,6 +1,5 @@
 package abe.com.ponents.forms.renderers 
 {
-    import abe.com.ponents.layouts.display.DOInlineLayout;
     import abe.com.ponents.buttons.CheckBox;
     import abe.com.ponents.containers.FieldSet;
     import abe.com.ponents.containers.Panel;
@@ -12,6 +11,7 @@ package abe.com.ponents.forms.renderers
     import abe.com.ponents.layouts.components.BoxSettings;
     import abe.com.ponents.layouts.components.HBoxLayout;
     import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.layouts.display.DOInlineLayout;
     import abe.com.ponents.text.Label;
 	/**
 	 * @author Cédric Néhémie

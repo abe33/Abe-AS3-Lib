@@ -1,11 +1,11 @@
 package abe.com.ponents.swf.timeline.frames
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.ponents.core.SimpleDOContainer;
+    import abe.com.mon.colors.Color;
+    import abe.com.ponents.core.SimpleDOContainer;
 
-	import flash.display.BitmapData;
-	import flash.geom.Matrix;
-	import flash.text.TextField;
+    import flash.display.BitmapData;
+    import flash.geom.Matrix;
+    import flash.text.TextField;
 
 	[Skinable(skin="KeyFrame")]
 	[Skin(define="KeyFrame",

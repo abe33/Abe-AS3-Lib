@@ -3,9 +3,9 @@
  */
 package abe.com.ponents.layouts.display 
 {
-	import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.Dimension;
 
-	import flash.display.DisplayObjectContainer;
+    import flash.display.DisplayObjectContainer;
 	/**
 	 * @author Cédric Néhémie
 	 */

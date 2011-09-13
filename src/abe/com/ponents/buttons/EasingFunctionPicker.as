@@ -2,8 +2,6 @@ package abe.com.ponents.buttons
 {
     import abe.com.mands.Command;
     import abe.com.mon.utils.StageUtils;
-    import abe.com.mon.utils.reflectionSourcesDictionary;
-    import abe.com.mon.utils.sourcesDictionary;
     import abe.com.motion.AbstractTween;
     import abe.com.motion.easing.Back;
     import abe.com.motion.easing.Bounce;
@@ -32,6 +30,7 @@ package abe.com.ponents.buttons
     import abe.com.ponents.utils.ToolKit;
 
     import org.osflash.signals.Signal;
+
 
     /**
      * @author cedric
@@ -94,11 +93,6 @@ package abe.com.ponents.buttons
 	        	[ Sine.easeOut, 	"Sine.easeOut", 	"abe.com.motion.easing::Sine.easeOut" ],
 	        	[ Sine.easeInOut, 	"Sine.easeInOut", 	"abe.com.motion.easing::Sine.easeInOut" ], 
 	        ];
-        	for each( var a : Array in easingFunctionList )
-	        {
-	            sourcesDictionary[ a[0] ] = String(a[2]).replace("::",".");
-	            reflectionSourcesDictionary[ a[0] ] = String(a[2]);
-	        }
         
             return easingFunctionList;
         }
@@ -123,16 +117,14 @@ package abe.com.ponents.buttons
             var values : Array = [];
             var labels : Array = [];
             
-            
             _popupGraph = new EasingFunctionGraph();
             _graph = new EasingFunctionGraph( v );
             
             _easingFunctions = new ComboBox( getModel() );
             _easingFunctions.popupMenu.scrollLayout = PopupMenu.SCROLLBAR_SCROLL_LAYOUT;
             _easingFunctions.popupMenu.maximumVisibleItems = 8;
-            _easingFunctions.itemFormatingFunction = function( f : Function ) : String {
-                return ( _easingFunctions.model as LabelComboBoxModel ).getLabel( f );
-            };
+            _easingFunctions.itemFormatingFunction = ( _easingFunctions.model as LabelComboBoxModel ).getLabel;
+            _easingFunctions.popupMenu.menuList.itemFormatingFunction = ( _easingFunctions.model as LabelComboBoxModel ).getLabel;
             _easingFunctions.popupMenu.menuList.selectionChanged.add( function( i : int ):void {
                 _popupGraph.easingFunction = _easingFunctions.model.getElementAt( i );
             } );

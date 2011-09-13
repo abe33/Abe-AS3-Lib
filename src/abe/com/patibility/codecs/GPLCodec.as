@@ -3,12 +3,12 @@
  */
 package abe.com.patibility.codecs
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Palette;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.patibility.lang._;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Palette;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.patibility.lang._;
 
-	import flash.utils.ByteArray;
+    import flash.utils.ByteArray;
 	/**
 	 * La classe <code>GPLCodec</code> permet d'encoder et de décoder
 	 * des objets <code>Palette</code> au format <code>GPL</code> de GIMP.

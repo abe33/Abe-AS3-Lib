@@ -1,35 +1,34 @@
 package abe.com.ponents.ressources.preview 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.dm;
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.MatrixUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.buttons.ColorPicker;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.core.SimpleDOContainer;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.layouts.display.DONoLayout;
-	import abe.com.ponents.models.DefaultBoundedRangeModel;
-	import abe.com.ponents.skinning.DefaultSkin;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.skinning.decorations.SimpleFill;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.sliders.VLogarithmicSlider;
-	import abe.com.ponents.sliders.VSlider;
-	import abe.com.ponents.utils.Alignments;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.dm;
+    import abe.com.mon.utils.MatrixUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.ProxyAction;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.buttons.ColorPicker;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.core.SimpleDOContainer;
+    import abe.com.ponents.events.ComponentEvent;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.layouts.display.DONoLayout;
+    import abe.com.ponents.models.DefaultBoundedRangeModel;
+    import abe.com.ponents.skinning.DefaultSkin;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.skinning.decorations.SimpleFill;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.sliders.VLogarithmicSlider;
+    import abe.com.ponents.sliders.VSlider;
+    import abe.com.ponents.utils.Alignments;
 
-	import flash.display.DisplayObject;
-	import flash.events.MouseEvent;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
-	import flash.ui.MouseCursor;
+    import flash.display.DisplayObject;
+    import flash.events.MouseEvent;
+    import flash.geom.Matrix;
+    import flash.geom.Rectangle;
+    import flash.ui.MouseCursor;
 	/**
 	 * @author cedric
 	 */

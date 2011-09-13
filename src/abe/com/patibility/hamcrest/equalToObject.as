@@ -1,6 +1,6 @@
 package abe.com.patibility.hamcrest
 {
-	import org.hamcrest.Matcher;
+    import org.hamcrest.Matcher;
 	
 	/**
 	 * Provides deep equality comparison using the <code>magicEquals</code> function for testing.

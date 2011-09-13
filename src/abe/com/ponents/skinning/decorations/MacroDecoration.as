@@ -1,16 +1,16 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
 
-	import flash.display.Graphics;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.Graphics;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="...decorations")]
 	public class MacroDecoration implements ComponentDecoration, FormMetaProvider
 	{
 		[Form(type="array", 
@@ -87,23 +87,6 @@ package abe.com.ponents.skinning.decorations
 		public function containsComponentDecoration ( o : ComponentDecoration ) : Boolean
 		{
 			return decorations.indexOf( o ) != -1;
-		}
-		
-		public function toSource () : String
-		{
-			return  "new "+ getQualifiedClassName(this).replace("::", ".") + "(" + decorations.map(
-					function(c:ComponentDecoration,...args):String
-					{
-						return c.toSource();
-					}) + ")";
-		}
-		public function toReflectionSource () : String
-		{
-			return  "new "+ getQualifiedClassName(this) + "(" + decorations.map(
-					function(c:ComponentDecoration,...args):String
-					{
-						return c.toReflectionSource();
-					}) + ")";
 		}
 	}
 }

@@ -3,14 +3,14 @@
  */
 package abe.com.patibility.codecs
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.patibility.lang._;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.patibility.lang._;
 
-	import flash.display.BitmapData;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
-	import flash.utils.ByteArray;
+    import flash.display.BitmapData;
+    import flash.geom.Matrix;
+    import flash.geom.Rectangle;
+    import flash.utils.ByteArray;
 	/**
 	 * La classe <code>PNGCodec</code> permet d'encoder et de décoder des images
 	 * au format <code>PNG</code>.

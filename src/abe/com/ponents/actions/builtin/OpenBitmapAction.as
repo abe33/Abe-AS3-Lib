@@ -1,17 +1,17 @@
 package abe.com.ponents.actions.builtin
 {
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.Loader;
-	import flash.events.Event;
-	import flash.events.IOErrorEvent;
-	import flash.net.FileFilter;
-	import flash.utils.clearTimeout;
-	import flash.utils.setTimeout;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.display.Loader;
+    import flash.events.Event;
+    import flash.events.IOErrorEvent;
+    import flash.net.FileFilter;
+    import flash.utils.clearTimeout;
+    import flash.utils.setTimeout;
 	/**
 	 * @author Cédric Néhémie
 	 */

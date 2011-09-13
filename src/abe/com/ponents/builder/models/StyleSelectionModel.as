@@ -1,10 +1,10 @@
 package abe.com.ponents.builder.models 
 {
-	import abe.com.ponents.builder.events.StyleSelectionEvent;
-	import abe.com.ponents.skinning.ComponentStyle;
-	import abe.com.ponents.skinning.SkinManagerInstance;
+    import abe.com.ponents.builder.events.StyleSelectionEvent;
+    import abe.com.ponents.skinning.ComponentStyle;
+    import abe.com.ponents.skinning.SkinManagerInstance;
 
-	import flash.events.EventDispatcher;
+    import flash.events.EventDispatcher;
 	/**
 	 * @author cedric
 	 */

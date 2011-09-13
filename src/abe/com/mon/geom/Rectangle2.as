@@ -3,22 +3,21 @@
  */
 package abe.com.mon.geom
 {
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Randomizable;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.randoms.Random;
-	import abe.com.mon.utils.GeometryUtils;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.RandomUtils;
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.core.Randomizable;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.randoms.Random;
+    import abe.com.mon.utils.GeometryUtils;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.PointUtils;
+    import abe.com.mon.utils.RandomUtils;
+    import abe.com.mon.utils.StringUtils;
 
-	import flash.display.Graphics;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.Graphics;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 	/**
 	 * The <code>Rectangle2</code> class extends the <code>Rectangle</code>
 	 * class primarily to provide a rotation control on the rectangle.
@@ -50,6 +49,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="x,y,width,height,rotation,pathBasedOnLength")]
 	public class Rectangle2 extends Rectangle implements Serializable,
 														 Path,
 														 Geometry,
@@ -877,25 +877,7 @@ package abe.com.mon.geom
 			else
 				return super.equals ( toCompare ) && rotation == 0;
 		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace("new $0($1,$2,$3,$4,$5,$6)",
-					   getQualifiedClassName(this),
-					   x,
-					   y,
-					   width,
-					   height, rotation, pathBasedOnLength );
-		}
+		
 		/**
 		 * @copy Dimension#toString()
 		 */

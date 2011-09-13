@@ -3,7 +3,7 @@
  */
 package abe.com.mon.geom 
 {
-	import flash.geom.Point;
+    import flash.geom.Point;
 	/**
 	 * Returns a new instance of the class <code>Point</code> with the
 	 * data passed as arguments.

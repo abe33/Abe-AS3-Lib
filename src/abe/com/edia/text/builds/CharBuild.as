@@ -3,12 +3,12 @@
  */
 package abe.com.edia.text.builds 
 {
-	import abe.com.edia.text.AdvancedTextField;
-	import abe.com.edia.text.core.Char;
-	import abe.com.mon.core.Clearable;
+    import abe.com.edia.text.AdvancedTextField;
+    import abe.com.edia.text.core.Char;
+    import abe.com.mon.core.Clearable;
 
-	import flash.events.IEventDispatcher;
-	import flash.text.TextFormat;
+    import flash.events.IEventDispatcher;
+    import flash.text.TextFormat;
 
 	/**
 	 * @author Cédric Néhémie

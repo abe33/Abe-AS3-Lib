@@ -1,20 +1,20 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Alignments;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Alignments;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.display.BitmapData;
-	import flash.display.Graphics;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.BitmapData;
+    import flash.display.Graphics;
+    import flash.geom.Matrix;
+    import flash.geom.Rectangle;
 	/**
 	 * @author cedric
 	 */
+    [Serialize(constructorArgs="bitmap,halign,valign,margins")] 
 	public class BitmapDecoration implements ComponentDecoration, FormMetaProvider
 	{
 		protected var _bitmap : BitmapData;
@@ -122,14 +122,5 @@ package abe.com.ponents.skinning.decorations
 			else return false;
 		}
 		
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this) +"()";
-		}
 	}
 }

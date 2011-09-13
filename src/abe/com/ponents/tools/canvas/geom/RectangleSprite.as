@@ -1,7 +1,7 @@
 package abe.com.ponents.tools.canvas.geom
 {
-	import abe.com.mon.geom.Geometry;
-	import abe.com.mon.geom.Rectangle2;
+    import abe.com.mon.geom.Geometry;
+    import abe.com.mon.geom.Rectangle2;
 	
 	public class RectangleSprite extends GeometrySprite
 	{

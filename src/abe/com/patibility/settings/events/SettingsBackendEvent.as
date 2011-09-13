@@ -1,6 +1,6 @@
 package abe.com.patibility.settings.events 
 {
-	import flash.events.Event;
+    import flash.events.Event;
 	/**
 	 * @author cedric
 	 */

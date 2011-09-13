@@ -12,13 +12,13 @@ package abe.com.ponents.monitors
     import abe.com.ponents.utils.ContextMenuItemUtils;
     import abe.com.ponents.utils.Insets;
 
+    import org.osflash.signals.Signal;
+
     import flash.display.Graphics;
     import flash.events.ContextMenuEvent;
     import flash.events.Event;
     import flash.ui.ContextMenuItem;
     import flash.utils.Dictionary;
-    
-    import org.osflash.signals.Signal;
 
     [Skinable(skin="GraphMonitor")]
     [Skin(define="GraphMonitor",

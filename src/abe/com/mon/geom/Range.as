@@ -3,14 +3,12 @@
  */
 package  abe.com.mon.geom
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.StringUtils;
-
-	import flash.utils.getQualifiedClassName;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.StringUtils;
 	/**
 	 * Class <code>Range</code> represents a range of values.
 	 * <fr>
@@ -18,6 +16,7 @@ package  abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="min,max")]
 	public class Range implements Cloneable, 
 								  Copyable, 
 								  Serializable, 
@@ -173,20 +172,7 @@ package  abe.com.mon.geom
 			min = o["min"];
 			max = o["max"];
 		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this) + "(" + min + ", " + max + ")";
-		}
+		
 		/**
 		 * @copy Dimension#toString()
 		 */

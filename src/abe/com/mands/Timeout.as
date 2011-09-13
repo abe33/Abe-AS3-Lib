@@ -3,9 +3,9 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Cancelable;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.core.Suspendable;
+    import abe.com.mon.core.Cancelable;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Suspendable;
 	/**
 	 * Une commande <code>Timeout</code> est une commande <code>Interval</code>
 	 * n'éxécutant qu'un seul appel, à l'instar de la fonction <code>setTimeout</code>.

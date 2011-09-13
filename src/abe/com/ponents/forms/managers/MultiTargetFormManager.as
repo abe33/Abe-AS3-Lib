@@ -12,6 +12,7 @@ package abe.com.ponents.forms.managers
     import abe.com.ponents.containers.Dialog;
     import abe.com.ponents.containers.WarningDialog;
     import abe.com.ponents.core.*;
+    import abe.com.ponents.events.ComponentEvent;
     import abe.com.ponents.forms.FormComponent;
     import abe.com.ponents.forms.FormComponentDisabledModes;
     import abe.com.ponents.forms.FormField;
@@ -20,11 +21,11 @@ package abe.com.ponents.forms.managers
     import abe.com.ponents.menus.ComboBox;
     import abe.com.ponents.utils.firstIndependentComponent;
 
+    import org.osflash.signals.Signal;
+
     import flash.display.DisplayObject;
     import flash.events.MouseEvent;
     import flash.utils.getQualifiedClassName;
-    
-    import org.osflash.signals.Signal;
 
     /**
      * @author cedric

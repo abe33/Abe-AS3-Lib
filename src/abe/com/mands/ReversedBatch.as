@@ -3,7 +3,7 @@
  */
 package  abe.com.mands
 {
-	import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Runnable;
 
 	/**
 	 * Une commande <code>Batch</code> éxécute un lot de commandes les unes à la suites des autres

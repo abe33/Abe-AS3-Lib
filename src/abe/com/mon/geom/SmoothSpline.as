@@ -3,14 +3,14 @@
  */
 package abe.com.mon.geom 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.PointUtils;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.mon.utils.magicToReflectionSource;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.PointUtils;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.magicToReflectionSource;
 
-	import flash.geom.Point;
-	import flash.utils.getQualifiedClassName;
+    import flash.geom.Point;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * Class <code>SmoothSpline</code> allows the creation of smooth 
 	 * curves with automatic customizable.

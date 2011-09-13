@@ -1,18 +1,18 @@
 package abe.com.ponents.builder.styles
 {
-	import abe.com.patibility.lang._$;
+    import abe.com.patibility.lang._$;
 
-	import flash.filters.BevelFilter;
-	import flash.filters.BlurFilter;
-	import flash.filters.ColorMatrixFilter;
-	import flash.filters.ConvolutionFilter;
-	import flash.filters.DropShadowFilter;
-	import flash.filters.GlowFilter;
-	import flash.filters.GradientBevelFilter;
-	import flash.filters.GradientGlowFilter;
-	import flash.geom.Point;
-	import flash.text.TextFormat;
-	import flash.utils.getQualifiedClassName;
+    import flash.filters.BevelFilter;
+    import flash.filters.BlurFilter;
+    import flash.filters.ColorMatrixFilter;
+    import flash.filters.ConvolutionFilter;
+    import flash.filters.DropShadowFilter;
+    import flash.filters.GlowFilter;
+    import flash.filters.GradientBevelFilter;
+    import flash.filters.GradientGlowFilter;
+    import flash.geom.Point;
+    import flash.text.TextFormat;
+    import flash.utils.getQualifiedClassName;
 
 
 	/**

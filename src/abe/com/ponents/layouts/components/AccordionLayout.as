@@ -1,10 +1,10 @@
 package abe.com.ponents.layouts.components
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.ponents.containers.Accordion;
-	import abe.com.ponents.containers.AccordionTab;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.ponents.containers.Accordion;
+    import abe.com.ponents.containers.AccordionTab;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric
 	 */

@@ -1,13 +1,13 @@
 package abe.com.ponents.swf.timeline.frames
 {
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.ponents.utils.Borders;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.ponents.utils.Borders;
 
-	import flash.display.GradientType;
-	import flash.display.Graphics;
-	import flash.display.SpreadMethod;
-	import flash.geom.Matrix;
+    import flash.display.GradientType;
+    import flash.display.Graphics;
+    import flash.display.SpreadMethod;
+    import flash.geom.Matrix;
 
 	[Skinable(skin="MotionTweenKeyFrame")]
 	[Skin(define="MotionTweenKeyFrame",

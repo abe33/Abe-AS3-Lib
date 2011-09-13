@@ -1,8 +1,8 @@
 package abe.com.ponents.layouts.components.splits 
 {
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.StringUtils;
 
-	import flash.geom.Rectangle;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */

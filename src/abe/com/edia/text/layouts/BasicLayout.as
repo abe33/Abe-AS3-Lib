@@ -3,21 +3,21 @@
  */
 package abe.com.edia.text.layouts 
 {
-	import abe.com.edia.text.AdvancedTextField;
-	import abe.com.edia.text.core.Char;
-	import abe.com.edia.text.core.NewLineChar;
-	import abe.com.edia.text.core.NullChar;
-	import abe.com.edia.text.core.ParagraphChar;
-	import abe.com.edia.text.core.ParagraphEndChar;
-	import abe.com.edia.text.core.SpriteChar;
-	import abe.com.edia.text.core.TabChar;
-	import abe.com.edia.text.core.TextFieldChar;
-	import abe.com.edia.text.core.WordWrapNewLineChar;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.Range;
+    import abe.com.edia.text.AdvancedTextField;
+    import abe.com.edia.text.core.Char;
+    import abe.com.edia.text.core.NewLineChar;
+    import abe.com.edia.text.core.NullChar;
+    import abe.com.edia.text.core.ParagraphChar;
+    import abe.com.edia.text.core.ParagraphEndChar;
+    import abe.com.edia.text.core.SpriteChar;
+    import abe.com.edia.text.core.TabChar;
+    import abe.com.edia.text.core.TextFieldChar;
+    import abe.com.edia.text.core.WordWrapNewLineChar;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.Range;
 
-	import flash.text.TextFieldAutoSize;
-	import flash.text.TextLineMetrics;
+    import flash.text.TextFieldAutoSize;
+    import flash.text.TextLineMetrics;
 	/**
 	 * @author Cédric Néhémie
 	 */

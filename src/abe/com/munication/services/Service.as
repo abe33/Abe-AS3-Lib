@@ -3,11 +3,12 @@
  */
 package abe.com.munication.services
 {
-	import org.osflash.signals.Signal;
-	import flash.net.NetConnection;
-	import flash.net.Responder;
-	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;
+    import org.osflash.signals.Signal;
+
+    import flash.net.NetConnection;
+    import flash.net.Responder;
+    import flash.utils.Proxy;
+    import flash.utils.flash_proxy;
 
 	/**
 	 * La classe <code>Service</code> représente un proxy vers un service distant.

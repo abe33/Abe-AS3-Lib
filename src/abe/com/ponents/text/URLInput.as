@@ -1,6 +1,6 @@
 package abe.com.ponents.text 
 {
-	import flash.net.URLRequest;
+    import flash.net.URLRequest;
 	/**
 	 * @author cedric
 	 */

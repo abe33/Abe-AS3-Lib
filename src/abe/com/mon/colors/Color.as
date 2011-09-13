@@ -3,17 +3,16 @@
  */
 package  abe.com.mon.colors 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Copyable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.mon.utils.objects.safePropertyCopy;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Copyable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.objects.safePropertyCopy;
 
-	import flash.geom.ColorTransform;
-	import flash.utils.getQualifiedClassName;
+    import flash.geom.ColorTransform;
 	/**
 	 * La classe <code>Color</code> fournit des contrôles de base
 	 * pour manipuler des couleurs au format RGB et RGBA. De même
@@ -185,6 +184,7 @@ package  abe.com.mon.colors
 	 * 
 	 * @author 	Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="red,green,blue,alpha,name")]
 	public class Color implements Serializable, Equatable, Cloneable, Copyable, FormMetaProvider
 	{
 		
@@ -2343,36 +2343,6 @@ package  abe.com.mon.colors
 		public function toString () : String
 		{
 			return StringUtils.stringify(this, {rgba:"0x"+rgba} );
-		}
-		/**
-		 * Renvoie la représentation du code source permettant 
-		 * de recréer l'instance courante.
-		 * 
-		 * @return 	la représentation du code source ayant permis
-		 * 			de créer l'instance courante
-		 */
-		public function toSource () : String
-		{
-			return StringUtils.tokenReplace("new $0($1,$2,$3,$4,'$5')",
-											getQualifiedClassName(this).replace("::","."),
-											red,
-											green,
-											blue,
-											alpha,
-											_name );
-		}
-		/**
-		 * Renvoie la représentation du code source permettant 
-		 * de recréer l'instance courante à l'aide de la méthode
-		 * <code>Reflection.get</code>.
-		 * 
-		 * @return 	la représentation du code source ayant permis
-		 * 			de créer l'instance courante
-		 * @see	Reflection#get()
-		 */
-		public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace( "color(0x$0)", rgba );
 		}
 		
 		/**

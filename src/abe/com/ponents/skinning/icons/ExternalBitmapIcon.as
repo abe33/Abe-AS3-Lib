@@ -1,13 +1,14 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.ponents.allocators.ExternalBitmapAllocatorInstance;
+    import abe.com.ponents.allocators.ExternalBitmapAllocatorInstance;
 
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.net.URLRequest;
+    import flash.display.Bitmap;
+    import flash.display.DisplayObject;
+    import flash.net.URLRequest;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="url")]
 	public class ExternalBitmapIcon extends BitmapIcon
 	{
 		protected var _url : URLRequest;
@@ -71,14 +72,5 @@ package abe.com.ponents.skinning.icons
 			return new ExternalBitmapIcon( _url );
 		}
 
-		override public function toSource () : String
-		{
-			return super.toReflectionSource().replace("::", ".").replace("(", "(new flash.net.URLRequest('"+_url.url+"')");
-		}
-
-		override public function toReflectionSource () : String
-		{
-			return "icon(@'" + _url.url + "')";
-		}
 	}
 }

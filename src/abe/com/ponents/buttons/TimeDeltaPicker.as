@@ -1,20 +1,16 @@
 package abe.com.ponents.buttons 
 {
-	import abe.com.mands.*;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.mon.utils.TimeDelta;
-	import abe.com.mon.utils.magicCopy;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
-	import abe.com.ponents.containers.Window;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.forms.FormComponentDisabledModes;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.forms.managers.SimpleFormManager;
-	import abe.com.ponents.skinning.icons.Icon;
-	
-	import org.osflash.signals.Signal;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.TimeDelta;
+    import abe.com.mon.utils.magicCopy;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.actions.builtin.EditObjectPropertiesAction;
+    import abe.com.ponents.containers.Window;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.forms.managers.SimpleFormManager;
+    import abe.com.ponents.skinning.icons.Icon;
 	/**
 	 * @author cedric
 	 */

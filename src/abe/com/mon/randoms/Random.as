@@ -1,11 +1,11 @@
 package abe.com.mon.randoms 
 {
     import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.Range;
-	import abe.com.mon.geom.pt;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.Range;
+    import abe.com.mon.geom.pt;
 
-	import flash.geom.Point;
+    import flash.geom.Point;
 	/**
 	 * @author cedric
 	 */

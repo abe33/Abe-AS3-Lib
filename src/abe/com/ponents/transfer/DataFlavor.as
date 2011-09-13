@@ -3,9 +3,9 @@
  */
 package  abe.com.ponents.transfer 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.utils.StringUtils;
 	/**
 	 * Un objet <code>DataFlavor</code> représente un type de saveur 
 	 * pour un objet <code>Transferable</code>.
@@ -64,17 +64,6 @@ package  abe.com.ponents.transfer
 		public function clone () : *
 		{
 			return new DataFlavor( this.type );
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return "new abe.com.ponents.transfer.DataFlavor( '" + this.type +"' )";
-		}
-		public function toReflectionSource () : String
-		{
-			return "new abe.com.ponents.transfer::DataFlavor( '" + this.type +"' )";
 		}
 		/**
 		 * Renvoie la représentation de l'objet sous forme de chaîne.

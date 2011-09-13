@@ -15,11 +15,9 @@ package abe.com.mon.geom
     import abe.com.mon.utils.PointUtils;
     import abe.com.mon.utils.RandomUtils;
     import abe.com.mon.utils.StringUtils;
-    import abe.com.mon.utils.magicToReflectionSource;
 
     import flash.display.Graphics;
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 	/**
 	 * The <code>Triangle</code> class provides a representation 
 	 * of a triangle defined by three objects <code>Point</code>. 
@@ -40,6 +38,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="a,b,c,pathBasedOnLength")]
 	public class Triangle implements Serializable,
 									 Cloneable,
 									 Equatable,
@@ -520,25 +519,6 @@ package abe.com.mon.geom
 						c.equals( o.c ) ;
 			}
 			else return false;
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource ().replace("::", "." );
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace("new $0($1,$2,$3,$4)",
-						getQualifiedClassName( this ),
-						magicToReflectionSource( a ),
-						magicToReflectionSource( b ),
-						magicToReflectionSource( c ),
-						pathBasedOnLength );
 		}
 		/**
 		 * @copy Dimension#toString()

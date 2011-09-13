@@ -1,16 +1,16 @@
 package abe.com.ponents.skinning.decorations
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.colors.Color;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
 
-	import flash.display.Graphics;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.Graphics;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="color,lineWidth")]
 	public class LineBorders implements ComponentDecoration
 	{
 		public var color : Color;
@@ -46,14 +46,6 @@ package abe.com.ponents.skinning.decorations
 				return ( o as LineBorders ).color.equals( color );
 				
 			return false;
-		}
-		public function toSource () : String
-		{
-			return "new " + getQualifiedClassName ( this ).replace ( "::", "." ) + "(" + color.toSource () + ", " + lineWidth + ")" ;
-		}
-		public function toReflectionSource () : String
-		{
-			return "new "+ getQualifiedClassName(this) + "(" + color.toReflectionSource() + ", " + lineWidth + ")" ;
 		}
 	}
 }

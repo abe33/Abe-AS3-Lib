@@ -1,27 +1,24 @@
 package abe.com.ponents.monitors
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.logs.LogLevel;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.layouts.display.DOBoxSettings;
-	import abe.com.ponents.layouts.display.DOHBoxLayout;
-	import abe.com.ponents.scrollbars.annotations.Annotation;
-	import abe.com.ponents.scrollbars.annotations.AnnotationTypes;
-	import abe.com.ponents.scrollbars.annotations.ScrollBarAnnotations;
-	import abe.com.ponents.text.TextArea;
-	import abe.com.ponents.text.TextLineRuler;
-	import abe.com.ponents.utils.ContextMenuItemUtils;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.logs.LogLevel;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.patibility.lang._$;
+    import abe.com.ponents.scrollbars.annotations.Annotation;
+    import abe.com.ponents.scrollbars.annotations.AnnotationTypes;
+    import abe.com.ponents.scrollbars.annotations.ScrollBarAnnotations;
+    import abe.com.ponents.text.TextArea;
+    import abe.com.ponents.text.TextLineRuler;
+    import abe.com.ponents.utils.ContextMenuItemUtils;
 
-	import flash.display.DisplayObject;
-	import flash.events.ContextMenuEvent;
-	import flash.events.Event;
-	import flash.text.TextFieldType;
-	
-	import org.osflash.signals.Signal;
+    import org.osflash.signals.Signal;
+
+    import flash.events.ContextMenuEvent;
+    import flash.events.Event;
+    import flash.text.TextFieldType;
 
 	[Skinable(skin="LogView")]
 	[Skin(define="LogView",

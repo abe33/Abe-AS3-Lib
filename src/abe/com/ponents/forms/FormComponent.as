@@ -1,7 +1,8 @@
 package abe.com.ponents.forms 
 {
-	import abe.com.ponents.core.Component;
-	import org.osflash.signals.Signal;
+    import abe.com.ponents.core.Component;
+
+    import org.osflash.signals.Signal;
 	/**
 	 * @author cedric
 	 */

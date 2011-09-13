@@ -1,12 +1,12 @@
 package abe.com.ponents.skinning.icons 
 {
-	import flash.display.Bitmap;
-	import flash.display.BitmapData;
-	import flash.display.DisplayObject;
-	import flash.display.MovieClip;
-	import flash.media.Sound;
-	import flash.net.URLRequest;
-	import flash.text.Font;
+    import flash.display.Bitmap;
+    import flash.display.BitmapData;
+    import flash.display.DisplayObject;
+    import flash.display.MovieClip;
+    import flash.media.Sound;
+    import flash.net.URLRequest;
+    import flash.text.Font;
 
 	/**
 	 * Fonction de magie noire permettant de construire rapidement n'importe quel type
@@ -113,7 +113,6 @@ package abe.com.ponents.skinning.icons
 		return ( _dict[ o ] as Icon ).clone();
 	}
 }
-
 import flash.utils.Dictionary;
 
 internal var _dict : Dictionary = new Dictionary();

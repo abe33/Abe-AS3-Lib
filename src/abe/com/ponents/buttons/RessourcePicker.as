@@ -1,17 +1,16 @@
 package abe.com.ponents.buttons 
 {
-	import abe.com.mands.*;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.forms.FormComponent;
-	import abe.com.ponents.forms.FormComponentDisabledModes;
-	import abe.com.ponents.ressources.CollectionsLoader;
-	import abe.com.ponents.ressources.LibraryAsset;
-	import abe.com.ponents.ressources.actions.BrowseRessources;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.mands.*;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.forms.FormComponent;
+    import abe.com.ponents.ressources.CollectionsLoader;
+    import abe.com.ponents.ressources.LibraryAsset;
+    import abe.com.ponents.ressources.actions.BrowseRessources;
+    import abe.com.ponents.skinning.icons.Icon;
 
-	import flash.system.ApplicationDomain;
+    import flash.system.ApplicationDomain;
 	/**
 	 * @author cedric
 	 */

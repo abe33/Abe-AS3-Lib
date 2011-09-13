@@ -1,11 +1,13 @@
 package abe.com.edia.particles.actions
 {
     import abe.com.edia.particles.core.Particle;
+
     import flash.geom.Rectangle;
 
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="box")]
     public class OutOfBoxReboundActionStrategy extends AbstractActionStrategy
     {
         protected var _box : Rectangle;

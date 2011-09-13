@@ -1,6 +1,7 @@
 package abe.com.edia.particles.emissions
 {
     import abe.com.edia.particles.emitters.Emitter;
+
     import flash.utils.getTimer;
 
 	/**

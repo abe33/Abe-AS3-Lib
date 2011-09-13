@@ -1,7 +1,6 @@
 package abe.com.mon.randoms 
 {
-	import abe.com.mon.logs.Log;
-	import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.utils.MathUtils;
 	/**
 	 * @author cedric
 	 */

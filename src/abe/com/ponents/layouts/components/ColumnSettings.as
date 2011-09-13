@@ -1,9 +1,9 @@
 package abe.com.ponents.layouts.components 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Alignments;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Alignments;
+    import abe.com.ponents.utils.Insets;
 	/**
 	 * @author cedric
 	 */

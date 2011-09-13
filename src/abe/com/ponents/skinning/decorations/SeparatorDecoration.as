@@ -1,17 +1,17 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
-	import abe.com.ponents.utils.Orientations;
+    import abe.com.mon.colors.Color;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
+    import abe.com.ponents.utils.Orientations;
 
-	import flash.display.Graphics;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.Graphics;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="colorLight,colorShadow,orientation,bevelSize,padding")]
 	public class SeparatorDecoration extends EmptyFill implements ComponentDecoration 
 	{
 		public var colorLight : Color;
@@ -35,14 +35,6 @@ package abe.com.ponents.skinning.decorations
 		override public function clone () : *
 		{
 			return new SeparatorDecoration(colorLight, colorShadow, orientation, bevelSize, padding);
-		}
-		override public function toReflectionSource () : String 
-		{
-			return "new "+ getQualifiedClassName(this) + "(color(0x" + colorLight.rgba+ 
-															  "), color(0x" + colorShadow.rgba + 
-															  "), " + orientation + 
-															  ", " + bevelSize +
-															  ", " + padding + ")";
 		}
 
 		override public function equals (o : *) : Boolean 

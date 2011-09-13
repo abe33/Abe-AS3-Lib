@@ -3,19 +3,19 @@
  */
 package  abe.com.ponents.skinning.cursors
 {
-	import abe.com.ponents.skinning.icons.LoadingIcon;
+    import abe.com.ponents.skinning.icons.LoadingIcon;
 
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.display.DisplayObjectContainer;
-	import flash.display.InteractiveObject;
-	import flash.display.PixelSnapping;
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-	import flash.geom.Point;
-	import flash.ui.Mouse;
-	import flash.ui.MouseCursor;
-	import flash.utils.Dictionary;
+    import flash.display.Bitmap;
+    import flash.display.DisplayObject;
+    import flash.display.DisplayObjectContainer;
+    import flash.display.InteractiveObject;
+    import flash.display.PixelSnapping;
+    import flash.display.Sprite;
+    import flash.events.MouseEvent;
+    import flash.geom.Point;
+    import flash.ui.Mouse;
+    import flash.ui.MouseCursor;
+    import flash.utils.Dictionary;
 	/**
 	 * Classe de gestion du curseur, des objets peuvent s'enregistrer, et
 	 * laisser la classe s'occuper de l'affichage du curseur. A l'inverse,

@@ -3,9 +3,9 @@
  */
 package abe.com.mon.core 
 {
-	import flash.geom.Rectangle;
-	import flash.text.TextFormat;
-	import flash.text.TextLineMetrics;
+    import flash.geom.Rectangle;
+    import flash.text.TextFormat;
+    import flash.text.TextLineMetrics;
 	/**
 	 * An interface that mimic the structure of the <code>TextField</code>
 	 * class in order to allow an access to its members from an interface which

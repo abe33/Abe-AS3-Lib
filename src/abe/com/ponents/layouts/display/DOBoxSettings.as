@@ -1,8 +1,8 @@
 package abe.com.ponents.layouts.display
 {
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.StringUtils;
 
-	import flash.display.DisplayObject;
+    import flash.display.DisplayObject;
 	/**
 	 * @author Cédric Néhémie
 	 */

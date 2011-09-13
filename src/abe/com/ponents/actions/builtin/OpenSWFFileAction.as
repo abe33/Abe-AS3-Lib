@@ -1,13 +1,11 @@
 package abe.com.ponents.actions.builtin
 {
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.ponents.skinning.icons.Icon;
 
-	import com.kode80.swf.SWF;
-
-	import flash.events.Event;
-	import flash.net.FileFilter;
-	import flash.utils.ByteArray;
+    import flash.events.Event;
+    import flash.net.FileFilter;
+    import flash.utils.ByteArray;
 	/**
 	 * @author Cédric Néhémie
 	 */

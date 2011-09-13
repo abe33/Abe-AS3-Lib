@@ -1,17 +1,16 @@
 package abe.com.ponents.menus 
 {
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.core.*;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.utils.ToolKit;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.core.*;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.utils.ToolKit;
 
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.FocusEvent;
-	import flash.geom.Point;
-	import flash.geom.Rectangle;
+    import flash.display.DisplayObject;
+    import flash.events.FocusEvent;
+    import flash.geom.Point;
+    import flash.geom.Rectangle;
 
 	/**
 	 * @author Cédric Néhémie

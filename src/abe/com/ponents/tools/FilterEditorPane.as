@@ -1,47 +1,45 @@
 package abe.com.ponents.tools
 {
-	import abe.com.mon.logs.*;
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.Reflection;
-	import abe.com.mon.utils.magicClone;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.allocators.EmbeddedBitmapAllocatorInstance;
-	import abe.com.ponents.buttons.ButtonDisplayModes;
-	import abe.com.ponents.buttons.ColorPicker;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.core.AbstractContainer;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.events.ComponentEvent;
-	import abe.com.ponents.forms.FormObject;
-	import abe.com.ponents.forms.FormUtils;
-	import abe.com.ponents.forms.managers.SimpleFormManager;
-	import abe.com.ponents.forms.renderers.FieldSetFormRenderer;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.lists.ListEditor;
-	import abe.com.ponents.menus.ComboBox;
-	import abe.com.ponents.skinning.decorations.SimpleFill;
-	import abe.com.ponents.text.Label;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.Reflection;
+    import abe.com.mon.utils.magicClone;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.allocators.EmbeddedBitmapAllocatorInstance;
+    import abe.com.ponents.buttons.ButtonDisplayModes;
+    import abe.com.ponents.buttons.ColorPicker;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.core.AbstractContainer;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.forms.FormObject;
+    import abe.com.ponents.forms.FormUtils;
+    import abe.com.ponents.forms.managers.SimpleFormManager;
+    import abe.com.ponents.forms.renderers.FieldSetFormRenderer;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.lists.ListEditor;
+    import abe.com.ponents.menus.ComboBox;
+    import abe.com.ponents.skinning.decorations.SimpleFill;
+    import abe.com.ponents.text.Label;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.display.Bitmap;
-	import flash.display.Shape;
-	import flash.events.Event;
-	import flash.filters.BevelFilter;
-	import flash.filters.BitmapFilter;
-	import flash.filters.BlurFilter;
-	import flash.filters.ColorMatrixFilter;
-	import flash.filters.ConvolutionFilter;
-	import flash.filters.DisplacementMapFilter;
-	import flash.filters.DropShadowFilter;
-	import flash.filters.GlowFilter;
-	import flash.filters.GradientBevelFilter;
-	import flash.filters.GradientGlowFilter;
-	import flash.text.TextField;
-	import flash.text.TextFormat;
+    import flash.display.Bitmap;
+    import flash.display.Shape;
+    import flash.events.Event;
+    import flash.filters.BevelFilter;
+    import flash.filters.BitmapFilter;
+    import flash.filters.BlurFilter;
+    import flash.filters.ColorMatrixFilter;
+    import flash.filters.ConvolutionFilter;
+    import flash.filters.DisplacementMapFilter;
+    import flash.filters.DropShadowFilter;
+    import flash.filters.GlowFilter;
+    import flash.filters.GradientBevelFilter;
+    import flash.filters.GradientGlowFilter;
+    import flash.text.TextField;
+    import flash.text.TextFormat;
 	/**
 	 * @author cedric
 	 */
@@ -239,7 +237,6 @@ package abe.com.ponents.tools
 		}
 	}
 }
-
 import abe.com.mon.colors.Color;
 import abe.com.mon.geom.Dimension;
 import abe.com.ponents.core.AbstractComponent;

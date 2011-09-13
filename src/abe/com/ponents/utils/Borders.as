@@ -1,13 +1,14 @@
 package abe.com.ponents.utils 
 {
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.Equatable;
-	import abe.com.mon.core.Serializable;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.Equatable;
+    import abe.com.mon.core.Serializable;
 
-	import flash.utils.getQualifiedClassName;
+    import flash.utils.getQualifiedClassName;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="left,top,right,bottom")]
 	public class Borders implements Cloneable, Serializable, Equatable
 	{
 		public var left : Number;
@@ -45,15 +46,6 @@ package abe.com.ponents.utils
 		public function clone () : *
 		{
 			return new Borders(left, top, right, bottom);
-		}
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this)+"("+left+","+top+","+right+","+bottom+")";
 		}
 		
 		public function equals (o : *) : Boolean

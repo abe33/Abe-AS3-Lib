@@ -3,9 +3,7 @@
  */
 package  abe.com.edia.dialogues
 {
-	import abe.com.mon.core.Serializable;
-
-	import flash.utils.getQualifiedClassName;
+    import abe.com.mon.core.Serializable;
 	/**
 	 * La classe <code>Speech</code> est la classe de base de tout les types
 	 * de paroles échangées avec les <acronym title="Personnages Non Joueurs">PNJ</acronym>.
@@ -14,6 +12,7 @@ package  abe.com.edia.dialogues
 	 * parole peut être suivie d'une autre parole, du même personnage ou d'un autre personnage.
 	 * </p>
 	 */
+    [Serialize(constructorArgs="message,speaker,nextSpeech")]
 	public class Speech implements Serializable
 	{
 		/**
@@ -43,27 +42,6 @@ package  abe.com.edia.dialogues
 			this.speaker = speaker;
 			this.message = message;
 			this.nextSpeech = nextSpeech;
-		}
-		/**
-		 * Renvoie le code source permettant de reconstruire cette instance.
-		 * 
-		 * @return le code source permettant de reconstruire cette instance
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::","."); 
-		}
-		/**
-		 * Renvoie le code source permettant de reconstruire cette instance à l'aide de
-		 * la méthode <code>Reflection.get</code>.
-		 * 
-		 * @return 	le code source permettant de reconstruire cette instance à l'aide de
-		 * 			la méthode <code>Reflection.get</code>
-		 * @see abe.com.mon.utils.Reflection#get() Reflection.get()
-		 */
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName( this ) + " ( \"" + message + "\", \"" + speaker + "\" );" ; ;
 		}
 	}
 }

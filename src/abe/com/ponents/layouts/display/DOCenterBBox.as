@@ -1,11 +1,11 @@
 package abe.com.ponents.layouts.display 
 {
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.geom.dm;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.geom.dm;
+    import abe.com.ponents.utils.Insets;
 
-	import flash.display.DisplayObjectContainer;
-	import flash.geom.Rectangle;
+    import flash.display.DisplayObjectContainer;
+    import flash.geom.Rectangle;
 	/**
 	 * @author Cédric Néhémie
 	 */

@@ -1,7 +1,7 @@
 package abe.com.ponents.progress 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Gradient;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Gradient;
 	/**
 	 * @author Cédric Néhémie
 	 */

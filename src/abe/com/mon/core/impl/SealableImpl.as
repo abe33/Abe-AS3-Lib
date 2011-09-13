@@ -3,10 +3,10 @@
  */
 package  abe.com.mon.core.impl 
 {
-	import abe.com.mon.core.Sealable;
+    import abe.com.mon.core.Sealable;
 
-	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;
+    import flash.utils.Proxy;
+    import flash.utils.flash_proxy;
 	/**
 	 * A standard implementation of the <code>Sealable</code> interface.
 	 * <fr>

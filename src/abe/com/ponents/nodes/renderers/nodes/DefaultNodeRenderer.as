@@ -1,7 +1,7 @@
 package abe.com.ponents.nodes.renderers.nodes 
 {
-	import abe.com.ponents.nodes.core.CanvasNode;
-	import abe.com.ponents.text.Label;
+    import abe.com.ponents.nodes.core.CanvasNode;
+    import abe.com.ponents.text.Label;
 	/**
 	 * @author cedric
 	 */

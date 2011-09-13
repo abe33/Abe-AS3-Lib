@@ -1,6 +1,6 @@
 package abe.com.patibility.humanize
 {
-	import abe.com.mon.utils.StringUtils;
+    import abe.com.mon.utils.StringUtils;
 	/**
 	 * @author cedric
 	 */

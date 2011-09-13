@@ -3,9 +3,9 @@
  */
 package  abe.com.motion
 {
-	import abe.com.mands.Command;
-	import abe.com.mon.core.Runnable;
-	import abe.com.mon.core.Suspendable;
+    import abe.com.mands.Command;
+    import abe.com.mon.core.Runnable;
+    import abe.com.mon.core.Suspendable;
 	public interface Tween extends Command, Runnable, Suspendable, ImpulseListener
 	{
 		/**

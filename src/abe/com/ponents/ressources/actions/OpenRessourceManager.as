@@ -1,31 +1,29 @@
 package abe.com.ponents.ressources.actions 
 {
-	import abe.com.mands.load.URLLoaderEntry;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.mon.utils.url;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.AbstractAction;
-	import abe.com.ponents.actions.ProxyAction;
-	import abe.com.ponents.buttons.Button;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.containers.Window;
-	import abe.com.ponents.containers.WindowTitleBar;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.layouts.components.InlineLayout;
-	import abe.com.ponents.ressources.ClassCollection;
-	import abe.com.ponents.ressources.ClassCollectionViewer;
-	import abe.com.ponents.ressources.CollectionsLoader;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.utils.Insets;
+    import abe.com.mands.load.URLLoaderEntry;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.url;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.AbstractAction;
+    import abe.com.ponents.actions.ProxyAction;
+    import abe.com.ponents.buttons.Button;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.containers.Window;
+    import abe.com.ponents.containers.WindowTitleBar;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.layouts.components.InlineLayout;
+    import abe.com.ponents.ressources.ClassCollection;
+    import abe.com.ponents.ressources.ClassCollectionViewer;
+    import abe.com.ponents.ressources.CollectionsLoader;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.utils.Insets;
 
-	import com.kode80.swf.SWF;
-
-	import flash.net.URLLoaderDataFormat;
-	import flash.net.URLRequest;
-	import flash.utils.ByteArray;
+    import flash.net.URLLoaderDataFormat;
+    import flash.net.URLRequest;
+    import flash.utils.ByteArray;
 	/**
 	 * @author cedric
 	 */

@@ -1,6 +1,6 @@
 package abe.com.ponents.core 
 {
-	import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.skinning.icons.Icon;
 	/**
 	 * @author cedric
 	 */

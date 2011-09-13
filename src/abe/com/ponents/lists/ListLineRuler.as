@@ -1,7 +1,6 @@
 package abe.com.ponents.lists 
 {
     import abe.com.mon.geom.*;
-    import abe.com.mon.logs.Log;
     import abe.com.ponents.containers.*;
     import abe.com.ponents.core.*;
     import abe.com.ponents.skinning.cursors.Cursor;

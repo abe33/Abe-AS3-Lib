@@ -3,7 +3,7 @@
  */
 package abe.com.mon.geom
 {
-	import flash.geom.Rectangle;
+    import flash.geom.Rectangle;
 
 	/**
 	 * Returns a new instance of the class <code>Rectangle</code>

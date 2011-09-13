@@ -3,9 +3,9 @@
  */
 package  abe.com.mon.geom
 {
-	import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Color;
 
-	import flash.display.Graphics;
+    import flash.display.Graphics;
 	/**
 	 * The <code>Geometry</code> interface defines the methods that a geometric object
 	 * have to implement in order to interact with other geometric objects.

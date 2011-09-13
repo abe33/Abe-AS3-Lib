@@ -1,24 +1,23 @@
 package abe.com.ponents.menus 
 {
-	import abe.com.mands.ProxyCommand;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.mon.utils.StringUtils;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.completion.AutoCompletion;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ScrollPane;
-	import abe.com.ponents.layouts.components.GridLayout;
-	import abe.com.ponents.lists.List;
-	import abe.com.ponents.models.DefaultListModel;
-	import abe.com.ponents.text.AbstractTextComponent;
-	import abe.com.ponents.utils.ToolKit;
+    import abe.com.mands.ProxyCommand;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.mon.utils.StringUtils;
+    import abe.com.ponents.completion.AutoCompletion;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ScrollPane;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.layouts.components.GridLayout;
+    import abe.com.ponents.lists.List;
+    import abe.com.ponents.models.DefaultListModel;
+    import abe.com.ponents.text.AbstractTextComponent;
+    import abe.com.ponents.utils.ToolKit;
 
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.geom.Rectangle;
+    import flash.events.MouseEvent;
+    import flash.geom.Rectangle;
 
 	/**
 	 * @author Cédric Néhémie

@@ -1,9 +1,9 @@
 package abe.com.ponents.forms
 {
-    import flash.geom.Rectangle;
     import abe.com.mon.geom.Dimension;
 
     import flash.geom.Point;
+    import flash.geom.Rectangle;
     import flash.utils.getQualifiedClassName;
     /**
      * @author cedric

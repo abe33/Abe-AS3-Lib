@@ -1,10 +1,10 @@
 package abe.com.ponents.dnd.gestures 
 {
-	import abe.com.mon.utils.StageUtils;
-	import abe.com.ponents.dnd.DnDManagerInstance;
-	import abe.com.ponents.dnd.DragSource;
+    import abe.com.mon.utils.StageUtils;
+    import abe.com.ponents.dnd.DnDManagerInstance;
+    import abe.com.ponents.dnd.DragSource;
 
-	import flash.events.MouseEvent;
+    import flash.events.MouseEvent;
 	/**
 	 * @author cedric
 	 */

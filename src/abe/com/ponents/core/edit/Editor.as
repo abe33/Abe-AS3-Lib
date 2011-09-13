@@ -3,7 +3,7 @@
  */
 package abe.com.ponents.core.edit 
 {
-	import flash.display.DisplayObject;
+    import flash.display.DisplayObject;
 	/**
 	 * Un objet <code>Editor</code> est un objet utilisable par un composant 
 	 * <code>Editable</code> afin de permettre à l'utilisateur de modifier

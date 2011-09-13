@@ -5,16 +5,14 @@ package abe.com.mon.geom
     import abe.com.mon.core.Randomizable;
     import abe.com.mon.randoms.Random;
     import abe.com.mon.utils.RandomUtils;
-    import abe.com.mon.utils.StringUtils;
-    import abe.com.mon.utils.getSource;
 
     import flash.display.BitmapData;
     import flash.geom.Point;
-    import flash.utils.getQualifiedClassName;
 
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="bitmapData,minWeight")]
     public class BitmapDataSurface implements Surface, 
     										  Randomizable, 
                                               Cloneable, 
@@ -98,17 +96,14 @@ package abe.com.mon.geom
         }
         
         public function clone () : * { return new BitmapDataSurface( _bitmapData, _minWeight ); }
-        public function toSource () : String
-        {
-            return StringUtils.tokenReplace("new $0($1)", 
-            									getQualifiedClassName( this ), 
-                                                getSource( _bitmapData, "" ) );
+        
+
+        public function get minWeight () : Number {
+            return _minWeight;
         }
-        public function toReflectionSource () : String
-        {
-            return StringUtils.tokenReplace("new $0($1)", 
-            									getQualifiedClassName( this ).replace("::", "."), 
-                                                getSource( _bitmapData, "" ) );
+
+        public function set minWeight ( minWeight : Number ) : void {
+            _minWeight = minWeight;
         }
 
     }

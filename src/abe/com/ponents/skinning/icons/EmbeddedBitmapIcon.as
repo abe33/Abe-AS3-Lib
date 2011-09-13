@@ -1,12 +1,10 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.allocators.EmbeddedBitmapAllocatorInstance;
-
-	import flash.utils.getQualifiedClassName;
+    import abe.com.ponents.allocators.EmbeddedBitmapAllocatorInstance;
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="clazz")]
 	public class EmbeddedBitmapIcon extends BitmapIcon 
 	{
 		protected var _class : Class;
@@ -50,16 +48,6 @@ package abe.com.ponents.skinning.icons
 		override public function clone () : *
 		{
 			return new EmbeddedBitmapIcon( _class );
-		}
-
-		override public function toSource () : String
-		{
-			return super.toReflectionSource().replace("(", "(" + getQualifiedClassName( _class ) + ")" ).replace("::", ".");
-		}
-
-		override public function toReflectionSource () : String
-		{
-			return _$("icon($0)", getQualifiedClassName(_class));
 		}
 	}
 }

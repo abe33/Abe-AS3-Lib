@@ -2,9 +2,10 @@
  * @license
  */
 package  abe.com.ponents.dnd 
-{	import abe.com.ponents.transfer.Transferable;
+{
+    import abe.com.ponents.transfer.Transferable;
 
-	import flash.events.Event;
+    import flash.events.Event;
 	public class DropTargetDragEvent extends Event 
 	{
 		public var transferable : Transferable;

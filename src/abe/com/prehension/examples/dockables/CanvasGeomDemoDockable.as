@@ -1,41 +1,39 @@
 package abe.com.prehension.examples.dockables
 {
-	import abe.com.edia.camera.CameraLayer;
-	import abe.com.mon.utils.KeyStroke;
-	import abe.com.mon.utils.Keys;
-	import abe.com.patibility.lang._;
-	import abe.com.ponents.actions.Action;
-	import abe.com.ponents.actions.ActionManagerInstance;
-	import abe.com.ponents.buttons.ButtonGroup;
-	import abe.com.ponents.buttons.ToolButton;
-	import abe.com.ponents.containers.Panel;
-	import abe.com.ponents.containers.ToolBar;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.factory.ComponentFactory;
-	import abe.com.ponents.factory.contextArgs;
-	import abe.com.ponents.layouts.components.BorderLayout;
-	import abe.com.ponents.skinning.cursors.Cursor;
-	import abe.com.ponents.skinning.icons.Icon;
-	import abe.com.ponents.skinning.icons.magicIconBuild;
-	import abe.com.ponents.tools.CameraCanvas;
-	import abe.com.ponents.tools.ObjectSelectionInstance;
-	import abe.com.ponents.tools.canvas.ToolManager;
-	import abe.com.ponents.tools.canvas.actions.DeleteSelection;
-	import abe.com.ponents.tools.canvas.actions.SetToolAction;
-	import abe.com.ponents.tools.canvas.geom.CreateRectangleTool;
-	import abe.com.ponents.tools.canvas.navigations.Pan;
-	import abe.com.ponents.tools.canvas.navigations.ZoomDrag;
-	import abe.com.ponents.tools.canvas.navigations.ZoomIn;
-	import abe.com.ponents.tools.canvas.navigations.ZoomOut;
-	import abe.com.ponents.tools.canvas.selections.SelectAndMove;
-	import abe.com.ponents.tools.canvas.selections.SelectAndPan;
-	
-	import flash.display.DisplayObject;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.filters.GlowFilter;
-	import flash.geom.Point;
-	import flash.ui.MouseCursor;
+    import abe.com.edia.camera.CameraLayer;
+    import abe.com.mon.utils.KeyStroke;
+    import abe.com.mon.utils.Keys;
+    import abe.com.patibility.lang._;
+    import abe.com.ponents.actions.ActionManagerInstance;
+    import abe.com.ponents.buttons.ButtonGroup;
+    import abe.com.ponents.buttons.ToolButton;
+    import abe.com.ponents.containers.Panel;
+    import abe.com.ponents.containers.ToolBar;
+    import abe.com.ponents.factory.ComponentFactory;
+    import abe.com.ponents.factory.contextArgs;
+    import abe.com.ponents.layouts.components.BorderLayout;
+    import abe.com.ponents.skinning.cursors.Cursor;
+    import abe.com.ponents.skinning.icons.Icon;
+    import abe.com.ponents.skinning.icons.magicIconBuild;
+    import abe.com.ponents.tools.CameraCanvas;
+    import abe.com.ponents.tools.ObjectSelectionInstance;
+    import abe.com.ponents.tools.canvas.ToolManager;
+    import abe.com.ponents.tools.canvas.actions.DeleteSelection;
+    import abe.com.ponents.tools.canvas.actions.SetToolAction;
+    import abe.com.ponents.tools.canvas.geom.CreateRectangleTool;
+    import abe.com.ponents.tools.canvas.navigations.Pan;
+    import abe.com.ponents.tools.canvas.navigations.ZoomDrag;
+    import abe.com.ponents.tools.canvas.navigations.ZoomIn;
+    import abe.com.ponents.tools.canvas.navigations.ZoomOut;
+    import abe.com.ponents.tools.canvas.selections.SelectAndMove;
+    import abe.com.ponents.tools.canvas.selections.SelectAndPan;
+
+    import flash.display.DisplayObject;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.filters.GlowFilter;
+    import flash.geom.Point;
+    import flash.ui.MouseCursor;
 	
 	public class CanvasGeomDemoDockable extends DemoDockable
 	{
