@@ -12,6 +12,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="color,arrowPlacement,arrowSize")]    
 	public class ArrowSideFill implements ComponentDecoration 
 	{
 		public var color : Color;
@@ -27,14 +28,6 @@ package abe.com.ponents.skinning.decorations
 		public function clone () : *
 		{
 			return new ArrowSideFill( color, arrowPlacement, arrowSize );
-		}
-		public function toSource () : String
-		{
-			return "new "+ getQualifiedClassName(this).replace("::",".") + "(" + color.toSource() + ",'" + arrowPlacement + "', " + arrowSize + ")" ;
-		}
-		public function toReflectionSource () : String
-		{
-			return "new "+ getQualifiedClassName(this) + "(" + color.toReflectionSource() + ",'" + arrowPlacement + "', " + arrowSize + ")" ;
 		}
 		
 		public function equals (o : *) : Boolean

@@ -1,24 +1,22 @@
 package abe.com.ponents.skinning.decorations 
 {
-	import abe.com.mon.colors.Color;
-	import abe.com.mon.colors.Gradient;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.utils.MathUtils;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.core.Component;
-	import abe.com.ponents.utils.Borders;
-	import abe.com.ponents.utils.Corners;
+    import abe.com.mon.colors.Color;
+    import abe.com.mon.colors.Gradient;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.ponents.core.Component;
+    import abe.com.ponents.utils.Borders;
+    import abe.com.ponents.utils.Corners;
 
-	import flash.display.GradientType;
-	import flash.display.Graphics;
-	import flash.display.SpreadMethod;
-	import flash.geom.Matrix;
-	import flash.geom.Rectangle;
-	import flash.utils.getQualifiedClassName;
+    import flash.display.GradientType;
+    import flash.display.Graphics;
+    import flash.display.SpreadMethod;
+    import flash.geom.Matrix;
+    import flash.geom.Rectangle;
 	/**
 	 * @author cedric
 	 */
+    [Serialize(constructorArgs="colors,stripSizes,orientation")]
 	public class StripFill implements ComponentDecoration, FormMetaProvider
 	{
 		protected var _colors : Array;		protected var _stripSizes : Array;
@@ -112,14 +110,7 @@ package abe.com.ponents.skinning.decorations
 				_gradient = new Gradient( c, p );
 			}
 		}
-		public function toSource () : String
-		{
-			return _$("new $0([$1],[$2],$3)",
-						getQualifiedClassName(this).replace("::", "."),
-						_colors.map(function(o:Serializable, ...arfs):String{ return o.toSource();}).join(","), 
-						_stripSizes.join(","), 
-						_orientation );
-		}
+		
 		public function equals (o : *) : Boolean
 		{
 			if( o is StripFill )
@@ -133,13 +124,6 @@ package abe.com.ponents.skinning.decorations
 			}
 			else return false;
 		}
-		public function toReflectionSource () : String
-		{
-			return _$("new $0([$1],[$2],$3)",
-						getQualifiedClassName(this),
-						_colors.map(function(o:Serializable, ...arfs):String{ return o.toReflectionSource();}).join(","), 
-						_stripSizes.join(","), 
-						_orientation );
-		}
+		
 	}
 }

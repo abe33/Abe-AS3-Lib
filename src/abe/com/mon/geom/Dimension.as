@@ -21,6 +21,7 @@ package  abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="width,height")]
 	public class Dimension implements Cloneable, 
 									  Copyable,
 									  Serializable, 
@@ -217,20 +218,7 @@ package  abe.com.mon.geom
 		{
 			return new Point( width, height );
 		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this) + "(" + width + ", "+ height + ")";
-		}
+		
 		/**
 		 * Returns the representation of the object as a string.
 		 * <fr>

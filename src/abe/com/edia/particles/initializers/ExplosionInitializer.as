@@ -6,6 +6,7 @@ package abe.com.edia.particles.initializers
     import abe.com.mon.randoms.Random;
     import abe.com.mon.utils.RandomUtils;
 
+	[Serialize(constructorArgs="radiusMin,radiusMax,angleRange,randomSource")]
 	public class ExplosionInitializer extends AbstractInitializer implements Randomizable
 	{
 		protected var _angleRange : Range;
@@ -13,13 +14,13 @@ package abe.com.edia.particles.initializers
 		protected var _radiusMax : Number;
         protected var _randomSource : Random;
 		
-		public function ExplosionInitializer ( radiusMin : Number, radiusMax : Number, angle : Range = null )
+		public function ExplosionInitializer ( radiusMin : Number, radiusMax : Number, angle : Range = null, random : Random = null )
 		{
 			_radiusMin = isNaN( radiusMin ) ? 0 : radiusMin;
 			_radiusMax = isNaN( radiusMax ) ? 0 : radiusMax;
 			_angleRange = angle ? angle : new Range( 0, Math.PI * 2 );
             
-            _randomSource = RandomUtils;
+            _randomSource = random ? random : RandomUtils;
 		}
         public function get randomSource () : Random { return _randomSource; }
         public function set randomSource ( randomSource : Random ) : void { _randomSource = randomSource; }
@@ -41,17 +42,5 @@ package abe.com.edia.particles.initializers
 			particle.velocity.x = Math.sin( a ) * rad;
 			particle.velocity.y = Math.cos( a ) * rad;
         }
-
-        override protected function getSourceArguments () : String
-        {
-            return [ _radiusMin, _radiusMax, _angleRange.toSource() ].join(", ");
-        }
-
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ _radiusMin, _radiusMax, _angleRange.toReflectionSource () ].join ( ", " );
-        }
-
-
 	}
 }

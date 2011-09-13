@@ -3,6 +3,7 @@ package abe.com.edia.particles.actions
     import abe.com.edia.particles.core.Particle;
     import abe.com.mon.utils.PointUtils;
 
+	[Serialize(constructorArgs="friction")]
     public class FrictionActionStrategy extends AbstractActionStrategy implements ActionStrategy
 	{
 		protected var _nFriction : Number;
@@ -18,15 +19,5 @@ package abe.com.edia.particles.actions
 		
 		public function get friction () : Number { return _nFriction; }
 		public function set friction( friction : Number ) : void { _nFriction = isNaN( friction ) ? 1 : friction; }	
-        
-        override protected function getSourceArguments () : String
-        {
-            return String( _nFriction );
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return String( _nFriction );
-        }
-	
 	}
 }

@@ -14,6 +14,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="backgroundColor,borderColor,rangeColor,trackWidth,trackOffset")]
 	public class VRangeSliderTrackFill implements ComponentDecoration 
 	{
 		protected var _backgroundColor : Color;
@@ -145,17 +146,5 @@ package abe.com.ponents.skinning.decorations
 			}
 			return false;
 		}
-		public function toSource () : String 
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		public function toReflectionSource () : String 
-		{
-			return "new "+ getQualifiedClassName(this) + "(color(0x" + backgroundColor.rgba+ 
-															  "), color(0x" + borderColor.rgba + 
-															  "), " + trackWidth + 
-															  ", " + trackOffset + ")";
-		}
-		
 	}
 }

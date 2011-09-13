@@ -10,6 +10,7 @@ package abe.com.edia.particles.emissions
 	 * 
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="particleType,emitter,rate")]
 	public class ByRateEmission extends AbstractEmission implements Cloneable
 	{
 		protected var _nRate : Number;
@@ -49,13 +50,6 @@ package abe.com.edia.particles.emissions
 			_nRate = rate;	
 			_nTimeStep = 1000/_nRate;
 		}
-        override protected function getSourceArguments () : String
-        {
-            return [ getQualifiedClassName(_particleType).replace("::", "."), _emitter.toSource(), _nRate ].join(", ");
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ getQualifiedClassName(_particleType), _emitter.toReflectionSource(), _nRate ].join(", ");
-        }
+        
 	}
 }

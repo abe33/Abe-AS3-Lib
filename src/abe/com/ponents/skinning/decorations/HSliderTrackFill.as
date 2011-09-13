@@ -11,6 +11,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="backgroundColor,borderColor,trackHeight,trackOffset")]
 	public class HSliderTrackFill implements ComponentDecoration 
 	{
 		protected var _backgroundColor : Color;		protected var _borderColor : Color;
@@ -92,17 +93,6 @@ package abe.com.ponents.skinning.decorations
 						hs.borderColor == borderColor;
 			}
 			return false;
-		}
-		public function toSource () : String 
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		public function toReflectionSource () : String 
-		{
-			return "new "+ getQualifiedClassName(this) + "(color(0x" + backgroundColor.rgba+ 
-															  "), color(0x" + borderColor.rgba + 
-															  "), " + trackHeight + 
-															  ", " + trackOffset + ")";
 		}
 		
 	}

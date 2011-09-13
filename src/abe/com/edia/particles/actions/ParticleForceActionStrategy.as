@@ -1,12 +1,11 @@
 package abe.com.edia.particles.actions
 {
     import abe.com.edia.particles.core.Particle;
-    import abe.com.mon.utils.getReflectionSource;
-    import abe.com.mon.utils.getSource;
 
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="forceRadius, forceStrength, forceDecay")]
     public class ParticleForceActionStrategy extends PonctualForceActionStrategy
     {
         public function ParticleForceActionStrategy ( forceRadius : Number = 100, 
@@ -20,19 +19,6 @@ package abe.com.edia.particles.actions
         {
             for each( var p : Particle in _system.particles )
                 processForce(particle, p.position, _forceRadius, _forceStrength, _forceDecay );
-        }
-        
-		override protected function getSourceArguments () : String
-        {
-            return [ _forceRadius,
-                     _forceStrength, 
-                     getSource( _forceDecay, "${decayFunction}" ) ].join(", ");
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ _forceRadius,
-                     _forceStrength, 
-                     getReflectionSource( _forceDecay, "${decayFunction}" ) ].join(", ");
         }
     }
 }

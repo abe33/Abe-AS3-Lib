@@ -30,6 +30,7 @@ package abe.com.edia.particles.core
 	 * @see	   ParticleSystem
 	 * @see	   com.kairos.engine.RTObject
 	 */
+    [Serialize(constructorArgs="manager")]
 	public class AbstractParticleSystem extends AbstractCommand implements ParticleSystem
 	{
         protected var _manager : ParticleManager;
@@ -217,24 +218,6 @@ package abe.com.edia.particles.core
 			_particles.splice( _particles.indexOf(particle), 1 );
             
             AllocatorInstance.release( particle );
-        }
-
-        public function toSource () : String
-        {
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ).replace("::","."), getSourceArguments () );
-        }
-        
-        public function toReflectionSource () : String { 
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ), getReflectionSourceArguments () ); 
-        }
-       
-        protected function getSourceArguments () : String
-        {
-            return "";
-        }
-        protected function getReflectionSourceArguments () : String
-        {
-            return "";
         }
 
         public function clone () : *

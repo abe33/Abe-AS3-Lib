@@ -12,14 +12,7 @@ package abe.com.edia.particles.initializers
     public class NullInitializer implements Initializer
     {
         public function initialize ( particle : Particle ) : void {}
-        public function toSource () : String
-        {
-            return _$ ( "new $0()", getQualifiedClassName ( this ).replace("::",".") );
-        }
-        public function toReflectionSource () : String { 
-            return _$ ( "new $0()", getQualifiedClassName ( this ) ); 
-        }
-
+        
         public function get system () : ParticleSystem {
             return null;
         }

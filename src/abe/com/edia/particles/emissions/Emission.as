@@ -1,23 +1,22 @@
 package abe.com.edia.particles.emissions
 {
-    import abe.com.edia.particles.initializers.Initializer;
     import abe.com.edia.particles.core.Particle;
     import abe.com.edia.particles.core.ParticleSystem;
     import abe.com.edia.particles.counters.Counter;
     import abe.com.edia.particles.counters.NullCounter;
     import abe.com.edia.particles.emitters.Emitter;
     import abe.com.edia.particles.emitters.PointEmitter;
+    import abe.com.edia.particles.initializers.Initializer;
     import abe.com.edia.particles.timers.NullTimer;
     import abe.com.edia.particles.timers.Timer;
     import abe.com.mon.geom.pt;
     import abe.com.mon.utils.AllocatorInstance;
-    import abe.com.patibility.lang._$;
-    import flash.utils.getQualifiedClassName;
 
 
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="particleType,emitter,timer,couter,initializer")]
     public class Emission implements ParticleEmission
     {
         protected var _particleType:Class;
@@ -86,28 +85,48 @@ package abe.com.edia.particles.emissions
             return new Emission(_particleType, 
             					_emitter.clone(), 
                                 _timer.clone(), 
-                                _counter.clone() );
+                                _counter.clone () );
         }
-        public function toSource () : String
-        {
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ).replace("::","."), getSourceArguments () );
+
+        public function get particleType () : Class {
+            return _particleType;
         }
-        public function toReflectionSource () : String { 
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ), getReflectionSourceArguments () ); 
+
+        public function set particleType ( particleType : Class ) : void {
+            _particleType = particleType;
         }
-        protected function getSourceArguments () : String
-        {
-            return [ getQualifiedClassName(_particleType).replace("::","."), 
-            		 _emitter.toSource(),
-                     _timer.toSource(), 
-                     _counter.toSource() ].join(", ");
+
+        public function get emitter () : Emitter {
+            return _emitter;
         }
-        protected function getReflectionSourceArguments () : String
-        {
-            return [ getQualifiedClassName(_particleType), 
-            		 _emitter.toReflectionSource(),
-                     _timer.toReflectionSource(), 
-                     _counter.toReflectionSource() ].join(", ");
+
+        public function set emitter ( emitter : Emitter ) : void {
+            _emitter = emitter;
         }
+
+        public function get initializer () : Initializer {
+            return _initializer;
+        }
+
+        public function set initializer ( initializer : Initializer ) : void {
+            _initializer = initializer;
+        }
+
+        public function get timer () : Timer {
+            return _timer;
+        }
+
+        public function set timer ( timer : Timer ) : void {
+            _timer = timer;
+        }
+
+        public function get counter () : Counter {
+            return _counter;
+        }
+
+        public function set counter ( counter : Counter ) : void {
+            _counter = counter;
+        }
+        
     }
 }

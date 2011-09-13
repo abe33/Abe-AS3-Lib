@@ -50,6 +50,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="x,y,width,height,rotation,pathBasedOnLength")]
 	public class Rectangle2 extends Rectangle implements Serializable,
 														 Path,
 														 Geometry,
@@ -877,25 +878,7 @@ package abe.com.mon.geom
 			else
 				return super.equals ( toCompare ) && rotation == 0;
 		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace("new $0($1,$2,$3,$4,$5,$6)",
-					   getQualifiedClassName(this),
-					   x,
-					   y,
-					   width,
-					   height, rotation, pathBasedOnLength );
-		}
+		
 		/**
 		 * @copy Dimension#toString()
 		 */

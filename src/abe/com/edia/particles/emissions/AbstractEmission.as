@@ -11,7 +11,7 @@ package abe.com.edia.particles.emissions
     import abe.com.patibility.lang._$;
     import flash.utils.getQualifiedClassName;
 
-
+	[Serialize(constructorArgs="particleType,emitter")]
     public class AbstractEmission implements ParticleEmission
 	{
 		protected var _particleType : Class;
@@ -75,22 +75,6 @@ package abe.com.edia.particles.emissions
             	throw new Error(_$(_("Particle's class passed to $0 is not a subclass of the Particle class : $1"),this,c) );
         }
 
-        public function toSource () : String
-        {
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ).replace("::","."), getSourceArguments () );
-        }
-        
-        public function toReflectionSource () : String { 
-            return _$ ( "new $0($1)", getQualifiedClassName ( this ), getReflectionSourceArguments () ); 
-        }
-        protected function getSourceArguments () : String
-        {
-            return "";
-        }
-        protected function getReflectionSourceArguments () : String
-        {
-            return "";
-        }
         public function clone () : *
         {
             return null;

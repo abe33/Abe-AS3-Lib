@@ -18,6 +18,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="gradient,gradientRotation")]    
 	public class GradientBorders implements ComponentDecoration
 	{
 		public var gradientRotation : Number;
@@ -73,14 +74,6 @@ package abe.com.ponents.skinning.decorations
 					   g.gradientRotation == gradientRotation;
 			}
 			return false;
-		}
-		public function toSource () : String
-		{
-			return "new "+ getQualifiedClassName(this).replace("::", ".") + "("+gradient.toSource()+"," + gradientRotation + ")" ;
-		}
-		public function toReflectionSource () : String
-		{
-			return "new "+ getQualifiedClassName(this) + "("+gradient.toReflectionSource()+"," + gradientRotation + ")" ;
 		}
 	}
 }

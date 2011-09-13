@@ -19,14 +19,6 @@ package abe.com.ponents.skinning.decorations
 		{
 			return o is NoDecoration;
 		}
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		public function toReflectionSource () : String
-		{
-			return "new "+ getQualifiedClassName(this) + "()" ;
-		}
 		public function clone () : *
 		{
 			return new NoDecoration();

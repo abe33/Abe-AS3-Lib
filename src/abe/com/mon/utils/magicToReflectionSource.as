@@ -3,7 +3,7 @@
  */
 package abe.com.mon.utils
 {
-	import abe.com.mon.core.Serializable;
+    import abe.com.patibility.serialize.SourceSerializer;
 
 	/**
 	 * Renvoie le code source de l'objet <code>o</code> permettant
@@ -37,43 +37,6 @@ package abe.com.mon.utils
 	 */
 	public function magicToReflectionSource ( o : Object ) : String
 	{
-		if( o == null )
-			return "null";
-		
-		if( o is Serializable )
-			return (o as Serializable).toReflectionSource();
-
-		else if( typeof o == "string" )
-			return "\'"+o+"\'";
-
-		else if( typeof o != "object" )
-			return String(o);
-
-		else if( o["toReflectionSource"] != null )
-			return o.toReflectionSource();
-		
-        else if ( Reflection.isObject( o ) )
-        {
-            var a : Array = [];
-            for(var i : String in o)
-            	a.push( StringUtils.tokenReplace("'$0':$1", i, magicToReflectionSource( o[i] ) ) );
-                
-        	return StringUtils.tokenReplace ( "{$0}" , a.join(", ")  );
-        }
-		else
-			return getConstructorCall( o );
+		return new SourceSerializer( true ).serialize(o);
 	}
-}
-
-import abe.com.mon.utils.magicToReflectionSource;
-
-import flash.utils.getQualifiedClassName;
-
-
-internal function getConstructorCall( o : * ) : String
-{
-	if( o is Array )
-		return "[" + (o as Array).map(function(o:*,...args):String{ return magicToReflectionSource(o); }).join(",")+"]";
-	else
-		return "new " + getQualifiedClassName(o)+"()";
 }

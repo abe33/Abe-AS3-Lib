@@ -15,6 +15,7 @@ package abe.com.edia.particles.emitters
 	 * 
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="point")]
 	public class PointEmitter implements Emitter
 	{
 		/**
@@ -56,14 +57,5 @@ package abe.com.edia.particles.emitters
         {
         }
 
-        public function toSource () : String
-        {
-            return _$("new $0(new flash.geom.Point($1,$2))", getQualifiedClassName(this).replace("::","."), point.x, point.y );
-        }
-
-        public function toReflectionSource () : String
-        {
-            return _$("new $0(new flash.geom.Point($1,$2))", getQualifiedClassName(this), point.x, point.y );
-        }
 	}
 }

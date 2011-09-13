@@ -36,6 +36,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="vertices,segmentSize,bias")]
 	public class AbstractSpline implements Spline, Path, Geometry, Cloneable, Serializable
 	{
 		/**
@@ -408,20 +409,6 @@ package abe.com.mon.geom
 		public function intersections ( geom : Geometry ) : Array
 		{
 			return GeometryUtils.geometriesIntersections( this, geom );
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace( /::/g , ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return "";
 		}
 		/**
 		 * Returns the representation of the object as a string.

@@ -40,6 +40,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="a,b,c,pathBasedOnLength")]
 	public class Triangle implements Serializable,
 									 Cloneable,
 									 Equatable,
@@ -520,25 +521,6 @@ package abe.com.mon.geom
 						c.equals( o.c ) ;
 			}
 			else return false;
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource ().replace("::", "." );
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace("new $0($1,$2,$3,$4)",
-						getQualifiedClassName( this ),
-						magicToReflectionSource( a ),
-						magicToReflectionSource( b ),
-						magicToReflectionSource( c ),
-						pathBasedOnLength );
 		}
 		/**
 		 * @copy Dimension#toString()

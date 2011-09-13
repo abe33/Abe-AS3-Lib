@@ -3,6 +3,7 @@
  */
 package abe.com.mon.utils
 {
+	import abe.com.patibility.serialize.SourceSerializer;
 	import abe.com.mon.core.Serializable;
 
 	/**
@@ -35,43 +36,6 @@ package abe.com.mon.utils
 	 */
 	public function magicToSource ( o : Object ) : String
 	{
-        if( o == null )
-        	return "null";
-        
-		else if( o is Serializable )
-			return (o as Serializable).toSource();
-
-		else if ( o is String )
-			return "\'" + o + "\'";
-
-		else if( typeof o != "object" )
-			return String(o);
-
-		else if( o["toSource"] != null )
-			return o.toSource();
-        
-        else if ( Reflection.isObject( o ) )
-        {
-            var a : Array = [];
-            for(var i : String in o)
-            	a.push( StringUtils.tokenReplace("'$0':$1", i, magicToSource( o[i] ) ) );
-                
-        	return StringUtils.tokenReplace ( "{$0}" , a.join(", ")  );
-        }
-		else
-			return getConstructorCall( o );
+        return new SourceSerializer().serialize(o);
 	}
-}
-
-import abe.com.mon.utils.magicToSource;
-
-import flash.utils.getQualifiedClassName;
-
-
-internal function getConstructorCall( o : * ) : String
-{
-	if( o is Array )
-		return "[" + (o as Array).map(function(o:*,...args):String{ return magicToSource(o); }).join(",")+"]";
-	else
-		return "new " + getQualifiedClassName(o).replace("::", ".")+"()";
 }

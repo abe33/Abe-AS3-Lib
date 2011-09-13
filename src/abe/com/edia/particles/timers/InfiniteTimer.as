@@ -7,6 +7,7 @@ package abe.com.edia.particles.timers
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="since")]
     public class InfiniteTimer implements Timer
     {
         protected var _nextTime : Number;
@@ -36,14 +37,6 @@ package abe.com.edia.particles.timers
             	_nextTime = t;
         }
 
-        public function toSource():String
-        {
-            return _$("new $0($1)", getQualifiedClassName(this).replace("::", "."), _since );
-        }
-        public function toReflectionSource():String
-        {
-            return _$("new $0($1)", getQualifiedClassName(this), _since );
-        }
         public function clone () : *
         {
             return new InfiniteTimer (_since);

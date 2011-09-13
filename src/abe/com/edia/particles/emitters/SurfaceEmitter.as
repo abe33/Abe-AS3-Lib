@@ -16,6 +16,7 @@ package abe.com.edia.particles.emitters
 	 * @author Cédric Néhémie
 	 * @see	abe.com.mon.geom.Surface
 	 */
+    [Serialize(constructorArgs="surface")]
 	public class SurfaceEmitter implements Emitter
 	{
 		/**
@@ -47,15 +48,6 @@ package abe.com.edia.particles.emitters
         public function clone () : *
         {
             return new SurfaceEmitter( magicClone( surface ) );
-        }
-
-        public function toSource () : String
-        {
-            return _$("new $0($1)", getQualifiedClassName(this).replace("::", "."), surface.toSource() );
-        }
-        public function toReflectionSource () : String
-        {
-            return _$("new $0($1)", getQualifiedClassName(this), surface.toReflectionSource() );
         }
 	}
 }

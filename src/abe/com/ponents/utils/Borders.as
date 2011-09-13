@@ -8,6 +8,7 @@ package abe.com.ponents.utils
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="left,top,right,bottom")]
 	public class Borders implements Cloneable, Serializable, Equatable
 	{
 		public var left : Number;
@@ -45,15 +46,6 @@ package abe.com.ponents.utils
 		public function clone () : *
 		{
 			return new Borders(left, top, right, bottom);
-		}
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this)+"("+left+","+top+","+right+","+bottom+")";
 		}
 		
 		public function equals (o : *) : Boolean

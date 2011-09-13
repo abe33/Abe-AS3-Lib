@@ -10,6 +10,7 @@ package abe.com.edia.particles.emitters
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="cellSize,rows,cols")]
     public class GridEmitter implements FixedCoordsEmitter
     {
         protected var _cellSize : Dimension;
@@ -64,23 +65,7 @@ package abe.com.edia.particles.emitters
             _iterator = 0;
             _coords = a;
         }
-        
-        public function toSource():String
-        {
-            return _$( "new $0($1)" , getQualifiedClassName( this ).replace("::","."), getSourceArguments() );
-        }
-        public function toReflectionSource():String
-        {
-            return _$( "new $0($1)" , getQualifiedClassName( this ).replace("::","."), getReflectionSourceArguments() );
-        }
-        protected function getSourceArguments():String
-        {
-            return [ _cellSize.toSource(), _rows, _cols ].join(", ");
-        }
-        protected function getReflectionSourceArguments():String
-        {
-            return [ _cellSize.toReflectionSource(), _rows, _cols ].join(", ");
-        } 
+ 
         public function clone () : *
         {
             return new GridEmitter(_cellSize.clone(), _rows, _cols );

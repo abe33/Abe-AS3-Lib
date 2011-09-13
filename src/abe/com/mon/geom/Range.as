@@ -18,6 +18,7 @@ package  abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="min,max")]
 	public class Range implements Cloneable, 
 								  Copyable, 
 								  Serializable, 
@@ -173,20 +174,7 @@ package  abe.com.mon.geom
 			min = o["min"];
 			max = o["max"];
 		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this) + "(" + min + ", " + max + ")";
-		}
+		
 		/**
 		 * @copy Dimension#toString()
 		 */

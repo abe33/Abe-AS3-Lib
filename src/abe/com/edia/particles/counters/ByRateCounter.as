@@ -1,12 +1,10 @@
 package abe.com.edia.particles.counters
 {
-    import abe.com.patibility.lang._$;
-
-    import avmplus.getQualifiedClassName;
 
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="rate")]
     public class ByRateCounter implements Counter
     {
         protected var _rate : Number;
@@ -30,14 +28,6 @@ package abe.com.edia.particles.counters
 
         public function get count () : int { return _count; }
 
-        public function toSource():String
-        {
-            return _$("new $0($1)", getQualifiedClassName(this).replace("::", "."), _rate );
-        }
-        public function toReflectionSource():String
-        {
-            return _$("new $0($1)", getQualifiedClassName(this), _rate );
-        }
         public function clone () : *
         {
             return new ByRateCounter(_rate);

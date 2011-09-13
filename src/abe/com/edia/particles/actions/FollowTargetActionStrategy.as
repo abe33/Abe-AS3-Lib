@@ -7,6 +7,7 @@ package abe.com.edia.particles.actions
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="target,influence")]
     public class FollowTargetActionStrategy extends AbstractActionStrategy
     {
         protected var _target : Object;

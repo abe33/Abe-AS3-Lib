@@ -4,11 +4,10 @@ package abe.com.edia.particles.core
     import abe.com.edia.particles.actions.NullActionStrategy;
     import abe.com.edia.particles.initializers.Initializer;
     import abe.com.edia.particles.initializers.NullInitializer;
-    import abe.com.mon.utils.magicToReflectionSource;
-    import abe.com.mon.utils.magicToSource;
+
     import flash.utils.getTimer;
 
-
+	[Serialize(constructorArgs="initializer,action,particlesDeathSubSystem")]
 	public class BaseParticleSystem extends AbstractParticleSystem
 	{
 		protected var _action : ActionStrategy;
@@ -73,17 +72,5 @@ package abe.com.edia.particles.core
             return new BaseParticleSystem(_initializer, _action, particlesDeathSubSystem.clone() );
         }
         
-        override protected function getSourceArguments () : String
-        {
-            return "\n\t" + [ _initializer.toSource().replace( /\n/g, "\n\t" ), 
-            		 _action.toSource().replace( /\n/g, "\n\t" ), 
-                     magicToSource( _particlesDeathSubSystem ).replace( /\n/g, "\n\t" ) ].join(",\n\t");
-        }
-		override protected function getReflectionSourceArguments () : String
-        {
-            return "\n\t" + [ _initializer.toReflectionSource().replace( /\n/g, "\n\t" ), 
-            		 _action.toReflectionSource().replace( /\n/g, "\n\t" ), 
-                     magicToReflectionSource( _particlesDeathSubSystem ).replace( /\n/g, "\n\t" ) ].join(",\n\t");
-        }
 	}
 }

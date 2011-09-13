@@ -8,7 +8,7 @@ package abe.com.edia.particles.initializers
     import abe.com.patibility.lang._$;
 
     import flash.geom.Point;
-
+	[Serialize(constructorArgs="stream,randomLength,randomDirection,randomSource")]
 	public class StreamInitializer extends AbstractInitializer implements Randomizable
 	{
 		protected var _stream : Point;
@@ -16,13 +16,13 @@ package abe.com.edia.particles.initializers
         protected var _randomDirection : Number;
         protected var _randomSource : Random;
 		
-		public function StreamInitializer ( stream : Point, randomLength : Number = 0, randomDirection : Number = 0 )
+		public function StreamInitializer ( stream : Point, randomLength : Number = 0, randomDirection : Number = 0, random : Random = null )
 		{
 			_stream = stream ? stream : new Point();
 			_randomLength = isNaN( randomLength ) ? 0 : randomLength;
 			_randomDirection = isNaN ( randomDirection ) ? 0 : randomDirection;
             
-            _randomSource = RandomUtils;
+            _randomSource = random ? random : RandomUtils;
 		}
         public function get stream () : Point { return _stream; }
         public function set stream ( stream : Point ) : void { _stream = stream; }
@@ -52,14 +52,5 @@ package abe.com.edia.particles.initializers
 			particle.velocity.y = p.y;
         }
 
-         
-        override protected function getSourceArguments () : String
-        {
-            return [ _$("new flash.geom.Point($0,$1)", _stream.x, _stream.y ), _randomDirection, _randomLength ].join(", ");
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ _$("new flash.geom::Point($0,$1)", _stream.x, _stream.y ), _randomDirection, _randomLength ].join(", ");
-        }
 	}
 }

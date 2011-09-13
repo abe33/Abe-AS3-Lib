@@ -9,6 +9,7 @@ package abe.com.ponents.skinning.icons
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="url")]
 	public class SWFIcon extends Icon 
 	{
 		protected var _url : URLRequest;
@@ -90,14 +91,5 @@ package abe.com.ponents.skinning.icons
 			return new SWFIcon(_url );
 		}
 
-		override public function toSource () : String
-		{
-			return super.toReflectionSource().replace("(", "(new flash.net.URLRequest('" + _url.url + "')" ).replace("::", ".");
-		}
-
-		override public function toReflectionSource () : String
-		{
-			return "@'" + _url.url +"'";
-		}
 	}
 }

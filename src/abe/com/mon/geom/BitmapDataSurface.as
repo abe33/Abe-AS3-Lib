@@ -15,6 +15,7 @@ package abe.com.mon.geom
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="bitmapData,minWeight")]
     public class BitmapDataSurface implements Surface, 
     										  Randomizable, 
                                               Cloneable, 
@@ -98,17 +99,14 @@ package abe.com.mon.geom
         }
         
         public function clone () : * { return new BitmapDataSurface( _bitmapData, _minWeight ); }
-        public function toSource () : String
-        {
-            return StringUtils.tokenReplace("new $0($1)", 
-            									getQualifiedClassName( this ), 
-                                                getSource( _bitmapData, "" ) );
+        
+
+        public function get minWeight () : Number {
+            return _minWeight;
         }
-        public function toReflectionSource () : String
-        {
-            return StringUtils.tokenReplace("new $0($1)", 
-            									getQualifiedClassName( this ).replace("::", "."), 
-                                                getSource( _bitmapData, "" ) );
+
+        public function set minWeight ( minWeight : Number ) : void {
+            _minWeight = minWeight;
         }
 
     }

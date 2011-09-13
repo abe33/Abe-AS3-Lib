@@ -6,6 +6,7 @@ package abe.com.edia.particles.actions
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="surface")]
     public class ContactWithSurfaceDeathActionStrategy extends AbstractActionStrategy
     {
         protected var _surface : Surface;
@@ -23,7 +24,15 @@ package abe.com.edia.particles.actions
                 	particle.die();
             }
             else if( _surface && _surface.containsPoint( particle.position ) )
-            	particle.die();
+                particle.die ();
+        }
+
+        public function get surface () : Surface {
+            return _surface;
+        }
+
+        public function set surface ( surface : Surface ) : void {
+            _surface = surface;
         }
     }
 }

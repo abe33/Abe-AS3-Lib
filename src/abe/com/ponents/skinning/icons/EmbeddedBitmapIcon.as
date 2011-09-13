@@ -7,6 +7,7 @@ package abe.com.ponents.skinning.icons
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="clazz")]
 	public class EmbeddedBitmapIcon extends BitmapIcon 
 	{
 		protected var _class : Class;
@@ -50,16 +51,6 @@ package abe.com.ponents.skinning.icons
 		override public function clone () : *
 		{
 			return new EmbeddedBitmapIcon( _class );
-		}
-
-		override public function toSource () : String
-		{
-			return super.toReflectionSource().replace("(", "(" + getQualifiedClassName( _class ) + ")" ).replace("::", ".");
-		}
-
-		override public function toReflectionSource () : String
-		{
-			return _$("icon($0)", getQualifiedClassName(_class));
 		}
 	}
 }

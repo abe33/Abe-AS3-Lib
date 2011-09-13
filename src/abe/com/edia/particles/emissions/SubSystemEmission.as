@@ -8,6 +8,7 @@ package abe.com.edia.particles.emissions
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="emission,particle")]
     public class SubSystemEmission implements ParticleEmission
     {
         protected var _emission : ParticleEmission;
@@ -57,20 +58,7 @@ package abe.com.edia.particles.emissions
         {
             _emission.reset();
         }
-        public function toSource () : String
-        {
-            return _$(	"new $0($1,$2)", 
-            			getQualifiedClassName(this).replace("::", "."), 
-                        _emission.toSource(), 
-                        "${particle}" );
-        }
-        public function toReflectionSource () : String
-        {
-            return _$(	"new $0($1,$2)", 
-            			getQualifiedClassName(this), 
-                        _emission.toReflectionSource(), 
-                        "${particle}" );
-        }
+       
         public function clone () : *
         {
             return new SubSystemEmission( _emission.clone(), _particle );

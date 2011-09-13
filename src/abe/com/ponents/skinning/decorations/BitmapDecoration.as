@@ -15,6 +15,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author cedric
 	 */
+    [Serialize(constructorArgs="bitmap,halign,valign,margins")] 
 	public class BitmapDecoration implements ComponentDecoration, FormMetaProvider
 	{
 		protected var _bitmap : BitmapData;
@@ -122,14 +123,5 @@ package abe.com.ponents.skinning.decorations
 			else return false;
 		}
 		
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this) +"()";
-		}
 	}
 }

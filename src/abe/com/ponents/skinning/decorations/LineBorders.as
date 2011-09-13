@@ -11,6 +11,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="color,lineWidth")]
 	public class LineBorders implements ComponentDecoration
 	{
 		public var color : Color;
@@ -46,14 +47,6 @@ package abe.com.ponents.skinning.decorations
 				return ( o as LineBorders ).color.equals( color );
 				
 			return false;
-		}
-		public function toSource () : String
-		{
-			return "new " + getQualifiedClassName ( this ).replace ( "::", "." ) + "(" + color.toSource () + ", " + lineWidth + ")" ;
-		}
-		public function toReflectionSource () : String
-		{
-			return "new "+ getQualifiedClassName(this) + "(" + color.toReflectionSource() + ", " + lineWidth + ")" ;
 		}
 	}
 }

@@ -13,6 +13,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="borderColor,gradientColor1,gradientColor2,borders,gradientRotation")]    
 	public class BorderedGradientFill implements ComponentDecoration 
 	{
 		protected var _borderColor : Color;
@@ -95,14 +96,5 @@ package abe.com.ponents.skinning.decorations
 			return false;
 		}
 		
-		public function toSource () : String
-		{
-			return null;
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return null;
-		}
 	}
 }

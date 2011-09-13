@@ -1,5 +1,6 @@
 package abe.com.ponents.tools.canvas.dummies
 {
+    import abe.com.patibility.serialize.SourceSerializer;
     import abe.com.edia.camera.CameraLayer;
     import abe.com.mon.colors.Color;
     import abe.com.mon.geom.FreeFormSpline;
@@ -135,13 +136,15 @@ package abe.com.ponents.tools.canvas.dummies
             }
 	        private function printSource (... args) : void
 	        {
-                Log.debug( _curve.toSource());
-                new PrintDialog(_curve.toSource(), _("Source")).open();
+                var s : String = new SourceSerializer().serialize(_curve);
+                Log.debug( s );
+                new PrintDialog( s , _("Source")).open();
 	        }
             private function printReflectionSource (... args) : void
 	        {
-                Log.debug( _curve.toReflectionSource());
-                new PrintDialog(_curve.toReflectionSource(), _("Reflection Source")).open();
+                var s : String = new SourceSerializer(true).serialize(_curve);
+                Log.debug( s);
+                new PrintDialog(s, _("Reflection Source")).open();
 	        }
         }
         

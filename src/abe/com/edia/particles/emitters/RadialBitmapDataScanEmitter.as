@@ -12,6 +12,7 @@ package abe.com.edia.particles.emitters
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="bitmapData,center,angle,pixelLookup")]
     public class RadialBitmapDataScanEmitter extends AbstractBitmapDataEmitter implements FixedCoordsEmitter
     {
         protected var _center: Point;
@@ -63,20 +64,5 @@ package abe.com.edia.particles.emitters
             return _coords[ _iterator++ ];
         }
         
-        override protected function getSourceArguments () : String
-        {
-            return [ getSource( _bitmapData ), 
-            		 _$("new flash.geom.Point($0,$1)", _center.x, _center.y),
-                     _angle,
-                     getSource( _pixelLookup ) ].join(", ");
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ getReflectionSource( _bitmapData ), 
-            		 _$("new flash.geom::Point($0,$1)", _center.x, _center.y), 
-                     _angle, 
-                     getReflectionSource ( _pixelLookup ) ].join ( ", " );
-        }
-       
     }
 }

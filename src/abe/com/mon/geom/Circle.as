@@ -12,7 +12,6 @@ package  abe.com.mon.geom
 	import flash.geom.Point;
 	import flash.utils.getQualifiedClassName;
 
-	[FormList(fields="radius1,radius2,rotation")]
 	/**
 	 * The <code>Circle</code> class extends the <code>Ellipsis</code> class
 	 * to handle the specific case of circles.
@@ -22,6 +21,8 @@ package  abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+	[FormList(fields="radius1,radius2,rotation")]
+	[Serialize(constructorArgs="x,y,radius")]     
 	public class Circle extends Ellipsis implements Cloneable,
 													Serializable,
 													Equatable,
@@ -130,24 +131,7 @@ package  abe.com.mon.geom
 			radius = o["radius"];
 			rotation = o["rotation"];
 		}
-		/**
-		 * @inheritDoc
-		 */
-		override public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		override public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace( "new $0($1,$2,$3)", 
-											 getQualifiedClassName(this),
-											 x, 
-											 y, 
-											 radius1 );
-		}
+		
 		/**
 		 * @inheritDoc
 		 */

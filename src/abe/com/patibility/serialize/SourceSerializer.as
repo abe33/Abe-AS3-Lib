@@ -1,7 +1,5 @@
 package abe.com.patibility.serialize
 {
-    import flash.geom.ColorTransform;
-    import abe.com.mon.logs.Log;
     import abe.com.mon.utils.Reflection;
     import abe.com.mon.utils.StringUtils;
     import abe.com.patibility.lang._$;
@@ -16,11 +14,13 @@ package abe.com.patibility.serialize
     {
         private var _typeMap : Dictionary;
         private var _constructorArgumentsMap : Object;
+        private var _reflectionForm : Boolean;
 
-        public function SourceSerializer ()
+        public function SourceSerializer ( reflectionForm : Boolean = false )
         {
             _typeMap = new Dictionary();
             _constructorArgumentsMap = {};
+            _reflectionForm = reflectionForm;
             
             addTypeHandler( int, 		primiteHandler );
             addTypeHandler( uint, 		primiteHandler );
@@ -30,6 +30,7 @@ package abe.com.patibility.serialize
             addTypeHandler( Object, 	objectHandler );
             addTypeHandler( Array, 		arrayHandler );
             addTypeHandler( RegExp, 	regexpHandler );
+            addTypeHandler( Class, 		classHandler );
             
             addTypeConstructorArgument( "flash.geom::Point", 			"x", "y" );
             addTypeConstructorArgument( "flash.geom::Rectangle", 		"x", "y", "width", "height" );
@@ -50,16 +51,18 @@ package abe.com.patibility.serialize
         
         public function serialize ( o : * ) : String
         {
-            if( o == null )
-            	return String(o);
-            
+            var output : String;
             var c : Class = Reflection.getClass(o);
             var sc : String = getQualifiedClassName(o);
             
-            if( _typeMap[ c ] != null  )
-            	return ( _typeMap[ c ] as Function ).call( this, o, c );
+            if( o == null )
+            	output = String(o);
+            else if( o is Class )
+            	output = ( _typeMap[ Class ] as Function ).call( this, o, c );
+            else if( _typeMap[ c ] != null  )
+            	output = ( _typeMap[ c ] as Function ).call( this, o, c );
             else if( _typeMap[ sc ] != null  )
-            	return ( _typeMap[ sc ] as Function ).call( this, o, c );
+            	output = ( _typeMap[ sc ] as Function ).call( this, o, c );
             else
             {
                 var constructArgs : Array;
@@ -70,28 +73,32 @@ package abe.com.patibility.serialize
                 else
                 {
 		            var m : XMLList = Reflection.getClassAndAncestorMeta( o, "Serialize" );
-			        var s : String = "";
-			        constructArgs = String( m..arg.( @key == 'constructorArgs' ).@value ).split(",");
+                    if( m.length() != 0)
+			        	constructArgs = String( m[ m.length()-1].arg.( @key == 'constructorArgs' ).@value ).split(",");
+                    else
+                    	constructArgs = [];
                 }
 		        
-		        s = _$("new $0($1)", sc, constructArgs.map(function(s:*,...args):String
+		        output = _$("new $0($1)", sc, constructArgs.map(function(s:String,...args):String
 		        {
-                    try
+                    if( StringUtils.trim(s).indexOf("...") == 0 )
                     {
-			            return serialize( o[s] );
+                        s = StringUtils.trim(s.substr(3));
+                        var a : Array = o[s];
+                        var b : Array = [];
+                        for each( var e:* in a )
+                        	b.push( serialize( e ) );
+                        
+                        return b.join(",");
                     }
-                    catch( e : Error )
-                    {
-                        CONFIG::DEBUG{
-                            Log.error(e);
-                            Log.info( "property '" + s + "' can't be found on " + o );
-                        }
-                    }
-                    return "";
+                    else
+			        	return serialize( o[StringUtils.trim(s)] );
 		        }) );
-		        
-		        return s.replace(/::/g, "." );
             }
+	        if( _reflectionForm )
+            	return output;
+	        else
+            	return output.replace(/::/g, "." );
         }
 
         public function addTypeHandler ( type : *, handler : Function ) : void
@@ -153,6 +160,10 @@ package abe.com.patibility.serialize
                     'flags':flags
                 }
             );
+        }
+        private function classHandler( o : Class, c : Class ):String
+        {
+            return getQualifiedClassName( o );
         }
     }
 }

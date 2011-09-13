@@ -1,7 +1,5 @@
 package abe.com.edia.particles.actions
 {
-    import abe.com.motion.AbstractTween;
-    import abe.com.mon.logs.Log;
     import abe.com.edia.particles.core.DisplayObjectParticle;
     import abe.com.edia.particles.core.Particle;
     import abe.com.mon.utils.getReflectionSource;
@@ -22,15 +20,5 @@ package abe.com.edia.particles.actions
 			
 			p.alpha = value;
         }
-
-        override protected function getSourceArguments () : String
-        {
-            return [ getSource( _fEasing, "${easingFunction}" ), _nStartValue, _nEndValue ].join(", ");
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ getReflectionSource( _fEasing, "${easingFunction}" ), _nStartValue, _nEndValue ].join(", ");
-        }
-		
 	}
 }

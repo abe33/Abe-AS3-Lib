@@ -11,7 +11,8 @@ package abe.com.ponents.skinning.decorations
 	import flash.display.Graphics;
 	import flash.geom.Matrix;
 	import flash.geom.Rectangle;
-	public class SlicedBitmapFill implements ComponentDecoration
+	[Serialize(constructorArgs="bitmap,scale9grid")]
+    public class SlicedBitmapFill implements ComponentDecoration
 	{
 		public var bitmap : BitmapData;
 		public var scale9Grid : Rectangle;
@@ -235,14 +236,5 @@ package abe.com.ponents.skinning.decorations
 			return false;
 		}
 		
-		public function toSource () : String
-		{
-			return null;
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return null;
-		}
 	}
 }

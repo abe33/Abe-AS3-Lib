@@ -14,6 +14,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="color")]
 	public class SimpleBorders implements ComponentDecoration
 	{
 		public var color : Color;
@@ -54,14 +55,6 @@ package abe.com.ponents.skinning.decorations
 				return ( o as SimpleBorders ).color.equals( color );
 				
 			return false;
-		}
-		public function toSource () : String
-		{
-			return "new "+ getQualifiedClassName(this).replace("::", ".") + "(" + color.toSource() + ")" ;
-		}
-		public function toReflectionSource () : String
-		{
-			return "new "+ getQualifiedClassName(this) + "(" + color.toReflectionSource() + ")" ;
 		}
 	}
 }

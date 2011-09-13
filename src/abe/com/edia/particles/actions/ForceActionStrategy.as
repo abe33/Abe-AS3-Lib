@@ -4,7 +4,7 @@ package abe.com.edia.particles.actions
     import abe.com.patibility.lang._$;
     import flash.geom.Point;
 
-
+	[Serialize(constructorArgs="force")]
     public class ForceActionStrategy extends AbstractActionStrategy implements ActionStrategy
 	{
 		protected var _force : Point;
@@ -25,14 +25,6 @@ package abe.com.edia.particles.actions
 		public function get force () : Point
 		{
 			return _force;
-        }
-        override protected function getSourceArguments () : String
-        {
-            return _$("new flash.geom.Point($0,$1)", _force.x, _force.y );
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return _$("new flash.geom::Point($0,$1)", _force.x, _force.y );
         }
 	}
 }

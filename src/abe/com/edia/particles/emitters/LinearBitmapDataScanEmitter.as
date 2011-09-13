@@ -2,9 +2,6 @@ package abe.com.edia.particles.emitters
 {
     import abe.com.mon.geom.pt;
     import abe.com.mon.utils.BitmapUtils;
-    import abe.com.mon.utils.getReflectionSource;
-    import abe.com.mon.utils.getSource;
-    import abe.com.patibility.lang._$;
 
     import flash.display.BitmapData;
     import flash.geom.Point;
@@ -12,6 +9,7 @@ package abe.com.edia.particles.emitters
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="bitmapData,from,to,pixelLookup")]
     public class LinearBitmapDataScanEmitter extends AbstractBitmapDataEmitter implements FixedCoordsEmitter
     {
         protected var _from: Point;
@@ -61,21 +59,6 @@ package abe.com.edia.particles.emitters
             	_iterator %= _coords.length;
             
             return _coords[ _iterator++ ];
-        }
-        
-        override protected function getSourceArguments () : String
-        {
-            return [ getSource( _bitmapData ), 
-            		 _$("new flash.geom.Point($0,$1)", _from.x, _from.y),
-            		 _$("new flash.geom.Point($0,$1)", _to.x, _to.y),
-                     getSource( _pixelLookup ) ].join(", ");
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ getReflectionSource( _bitmapData ), 
-            		 _$("new flash.geom::Point($0,$1)", _from.x, _from.y), 
-            		 _$("new flash.geom::Point($0,$1)", _to.x, _to.y), 
-                     getReflectionSource ( _pixelLookup ) ].join ( ", " );
         }
     }
 }

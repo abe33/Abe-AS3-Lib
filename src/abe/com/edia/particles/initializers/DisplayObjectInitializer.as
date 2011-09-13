@@ -2,15 +2,12 @@ package abe.com.edia.particles.initializers
 {
     import abe.com.edia.particles.core.DisplayObjectParticle;
     import abe.com.edia.particles.core.Particle;
-    import abe.com.mon.utils.getReflectionSource;
-    import abe.com.mon.utils.getSource;
-    import abe.com.mon.utils.magicToReflectionSource;
-    import abe.com.mon.utils.magicToSource;
     import abe.com.patibility.lang._;
 
     import flash.display.DisplayObject;
     import flash.display.DisplayObjectContainer;
-
+	
+    [Serialize(constructorArgs="factory,parent,defaults,method")]
 	public class DisplayObjectInitializer extends AbstractInitializer
 	{
 		static public const BACK : uint = 0;
@@ -53,24 +50,39 @@ package abe.com.edia.particles.initializers
 				case FRONT :
                 default :  
                 	_parent.addChild( doObj ); break;
-			}
+            }
         }
 
-        override protected function getSourceArguments () : String
-        {
-            return [ getSource( _factory, "${graphicFactory}" ), 
-            		 getSource( _parent, "${container}" ), 
-                     magicToSource( _defaults ), 
-                     _method ].join(", ");
+        public function get factory () : Function {
+            return _factory;
         }
 
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ getReflectionSource( _factory, "${graphicFactory}" ), 
-            		 getReflectionSource( _parent, "${container}" ), 
-                     magicToReflectionSource( _defaults ), 
-                     _method ].join(", ");
+        public function set factory ( factory : Function ) : void {
+            _factory = factory;
         }
 
+        public function get parent () : DisplayObjectContainer {
+            return _parent;
+        }
+
+        public function set parent ( parent : DisplayObjectContainer ) : void {
+            _parent = parent;
+        }
+
+        public function get method () : uint {
+            return _method;
+        }
+
+        public function set method ( method : uint ) : void {
+            _method = method;
+        }
+
+        public function get defaults () : Object {
+            return _defaults;
+        }
+
+        public function set defaults ( defaults : Object ) : void {
+            _defaults = defaults;
+        }
 	}
 }

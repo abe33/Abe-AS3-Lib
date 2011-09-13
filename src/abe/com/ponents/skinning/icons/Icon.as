@@ -1,16 +1,13 @@
 package abe.com.ponents.skinning.icons 
 {
-	import abe.com.mon.core.Allocable;
-	import abe.com.mon.core.Cloneable;
-	import abe.com.mon.core.FormMetaProvider;
-	import abe.com.mon.core.Serializable;
-	import abe.com.mon.geom.Dimension;
-	import abe.com.patibility.lang._$;
-	import abe.com.ponents.core.AbstractComponent;
-	import abe.com.ponents.layouts.display.DOStretchLayout;
-	import abe.com.ponents.layouts.display.DisplayObjectLayout;
-
-	import flash.utils.getQualifiedClassName;
+    import abe.com.mon.core.Allocable;
+    import abe.com.mon.core.Cloneable;
+    import abe.com.mon.core.FormMetaProvider;
+    import abe.com.mon.core.Serializable;
+    import abe.com.mon.geom.Dimension;
+    import abe.com.ponents.core.AbstractComponent;
+    import abe.com.ponents.layouts.display.DOStretchLayout;
+    import abe.com.ponents.layouts.display.DisplayObjectLayout;
 
 	[Skinable(skin="EmptyComponent")]
 	public class Icon extends AbstractComponent implements Allocable, Cloneable, FormMetaProvider, Serializable
@@ -74,14 +71,5 @@ package abe.com.ponents.skinning.icons
 		}
 		public function clone () : * { return new Icon(); }
 		
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return _$("new $0()", getQualifiedClassName(this));
-		}
 	}
 }

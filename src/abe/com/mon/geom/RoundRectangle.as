@@ -11,12 +11,12 @@ package abe.com.mon.geom
     import flash.display.Graphics;
     import flash.geom.Point;
     import flash.geom.Rectangle;
-    import flash.utils.getQualifiedClassName;
 	/**
 	 * 
 	 * 
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="x,y,width,height,rotation,cornerRadius,pathBasedOnLength")]
 	public class RoundRectangle extends Rectangle2 implements Geometry, 
 															 Path, 
 															 ClosedGeometry, 
@@ -416,28 +416,7 @@ package abe.com.mon.geom
 			else
 				return super.equals ( toCompare ) && cornerRadius == 0;
 		}
-		/**
-		 * @inheritDoc
-		 */
-		override public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		override public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace("new $0($1,$2,$3,$4,$5,$6,$7)",
-					   getQualifiedClassName(this),
-					   x,
-					   y,
-					   width,
-					   height, 
-					   rotation, 
-					   cornerRadius,
-					   pathBasedOnLength );
-		}
+		
 		/**
 		 * @copy Dimension#toString()
 		 */

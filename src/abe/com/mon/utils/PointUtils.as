@@ -15,28 +15,7 @@ package  abe.com.mon.utils
 	 */
 	public final class PointUtils
 	{
-		/**
-		 * Renvoie le code source permettant de recréer l'objet <code>Point</code>.
-		 *
-		 * @param	p	objet <code>Point</code> à transformer en code source
-		 * @return	le code source de <code>p</code>
-		 */
-		static public function toSource ( p : Point ) : String
-		{
-			return toReflectionSource ( p ).replace("::", ".");
-		}
-		/**
-		 * Renvoie le code source permettant de recréer l'objet <code>Point</code>
-		 * à l'aide de la méthode <code>Reflection.get</code>.
-		 *
-		 * @param	p	objet <code>Point</code> à transformer en code source
-		 * @return	le code source de <code>p</code>
-		 * @see		Reflection#get()
-		 */
-		static public function toReflectionSource ( p : Point ) : String
-		{
-			return "new flash.geom::Point(" + p.x + ", " + p.y + ")";
-		}
+		
 		/**
 		 * Renvoie l'objet <code>p</code> transformé après une rotation
 		 * de <code>r</code> radians.

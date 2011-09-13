@@ -157,15 +157,5 @@ package abe.com.ponents.skinning.decorations
 		{
 			return false;
 		}
-		
-		public function toSource () : String
-		{
-			return null;
-		}
-		
-		public function toReflectionSource () : String
-		{
-			return null;
-		}
 	}
 }

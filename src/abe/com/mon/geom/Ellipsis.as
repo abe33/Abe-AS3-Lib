@@ -30,6 +30,7 @@ package  abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="x,y,radius1,radius2")]
 	public class Ellipsis implements Cloneable,
 									 Copyable,
 									 Serializable,
@@ -419,27 +420,7 @@ package  abe.com.mon.geom
 		{
 			return GeometryUtils.surfaceContainsGeometry(this, geom);
 		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		/**
-		 * @inheritDoc
-		 */
-		public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace( "new $0($1,$2,$3,$4,$5,$6)", 
-											  getQualifiedClassName(this), 
-											  x, 
-											  y, 
-											  radius1, 
-											  radius2, 
-											  rotation, 
-											  drawBias );
-		}
+		
 		/**
 		 * Returns the representation of the object as a string.
 		 * <fr>

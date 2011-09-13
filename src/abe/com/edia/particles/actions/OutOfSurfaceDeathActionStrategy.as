@@ -3,6 +3,7 @@ package abe.com.edia.particles.actions
     import abe.com.edia.particles.core.Particle;
     import abe.com.mon.geom.Surface;
 
+	[Serialize(constructorArgs="surface")]
     public class OutOfSurfaceDeathActionStrategy extends AbstractActionStrategy
 	{
 		protected var _surface : Surface;
@@ -21,14 +22,5 @@ package abe.com.edia.particles.actions
 				particle.life = particle.maxLife;
             }
         }
-        override protected function getSourceArguments () : String
-        {
-            return _surface.toSource();
-        }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return _surface.toReflectionSource();
-        }
-
 	}
 }

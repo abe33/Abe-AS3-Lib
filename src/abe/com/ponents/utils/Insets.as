@@ -11,6 +11,7 @@ package abe.com.ponents.utils
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="left,top,right,bottom")]
 	public class Insets implements Cloneable, Serializable, Equatable
 	{
 		public var left : Number;		public var right : Number;		public var top : Number;		public var bottom : Number;
@@ -52,14 +53,6 @@ package abe.com.ponents.utils
 			return new Insets(left, top, right, bottom );
 		}
 		
-		public function toSource () : String
-		{
-			return toReflectionSource().replace("::", ".");
-		}
-		public function toReflectionSource () : String
-		{
-			return "new " + getQualifiedClassName(this)+"("+left+","+top+","+right+","+bottom+")";
-		}
 		
 		public function equals (o : *) : Boolean
 		{

@@ -16,6 +16,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="bitmap,scale9Grid,scale9Rules")]    
 	public class AdvancedSlicedBitmapFill implements ComponentDecoration
 	{
 		static public const STANDARD_REPEAT_BOX : Array = [ {h:'stretch', v:'stretch'}, {h:'tile', v:'stretch'}, {h:'stretch', v:'stretch'},
@@ -339,16 +340,5 @@ package abe.com.ponents.skinning.decorations
 			g.endFill( );
 		}
 		
-		public function toSource () : String
-		{
-			// TODO: Auto-generated method stub
-			return null;
-		}
-		
-		public function toReflectionSource () : String
-		{
-			// TODO: Auto-generated method stub
-			return null;
-		}
 	}
 }

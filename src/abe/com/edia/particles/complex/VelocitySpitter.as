@@ -18,6 +18,7 @@ package abe.com.edia.particles.complex
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="target,velocityMin,velocityCountRatio,velocityMult")]
     public class VelocitySpitter implements Counter, Emitter, Initializer
     {
         protected var _target : Object;
@@ -121,19 +122,6 @@ package abe.com.edia.particles.complex
                 _fcount = 0;
             }
         }
-
-		public function toSource():String
-		{
-		    return _$( "new $0($1)", 
-            		   getQualifiedClassName(this).replace("::", "."), 
-                       getSource( _target, "${target}" ) );
-		}
-		public function toReflectionSource():String
-		{
-		    return _$( "new $0($1)", 
-            		   getQualifiedClassName(this), 
-                       getReflectionSource( _target, "${target}" ) );
-		}
         public function clone () : *
         {
             return new VelocitySpitter ( _target );

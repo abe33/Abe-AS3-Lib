@@ -11,6 +11,7 @@ package abe.com.edia.particles.emissions
 	 * @author Cédric Néhémie
 	 * 
 	 */
+    [Serialize(constructorArgs="particleType,emitter,rateMin,rateMax")]
 	public class ByRandomRateEmission extends ByRateEmission implements ParticleEmission
 	{
 		protected var _rateMin : Number; 
@@ -33,15 +34,23 @@ package abe.com.edia.particles.emissions
 			
 			rate =  RandomUtils.rangeAB( _rateMin, _rateMax );
 			
-			_nParticlesRest = ( t - ( _nTimeRest = ( t % _nTimeStep ) ) ) / _nTimeStep;
-		}
-        override protected function getSourceArguments () : String
-        {
-            return [ getQualifiedClassName(_particleType).replace("::", "."), _emitter.toSource(), _rateMin, _rateMax ].join(", ");
+            _nParticlesRest = ( t - ( _nTimeRest = ( t % _nTimeStep ) ) ) / _nTimeStep;
         }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [ getQualifiedClassName(_particleType), _emitter.toReflectionSource(), _rateMin, _rateMax ].join(", ");
+
+        public function get rateMin () : Number {
+            return _rateMin;
+        }
+
+        public function set rateMin ( rateMin : Number ) : void {
+            _rateMin = rateMin;
+        }
+
+        public function get rateMax () : Number {
+            return _rateMax;
+        }
+
+        public function set rateMax ( rateMax : Number ) : void {
+            _rateMax = rateMax;
         }
 	}
 }

@@ -12,6 +12,7 @@ package abe.com.ponents.skinning.decorations
 	/**
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="colorLight,colorShadow,orientation,bevelSize,padding")]
 	public class SeparatorDecoration extends EmptyFill implements ComponentDecoration 
 	{
 		public var colorLight : Color;
@@ -35,14 +36,6 @@ package abe.com.ponents.skinning.decorations
 		override public function clone () : *
 		{
 			return new SeparatorDecoration(colorLight, colorShadow, orientation, bevelSize, padding);
-		}
-		override public function toReflectionSource () : String 
-		{
-			return "new "+ getQualifiedClassName(this) + "(color(0x" + colorLight.rgba+ 
-															  "), color(0x" + colorShadow.rgba + 
-															  "), " + orientation + 
-															  ", " + bevelSize +
-															  ", " + padding + ")";
 		}
 
 		override public function equals (o : *) : Boolean 

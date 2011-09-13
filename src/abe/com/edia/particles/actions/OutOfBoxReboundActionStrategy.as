@@ -6,6 +6,7 @@ package abe.com.edia.particles.actions
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="box")]
     public class OutOfBoxReboundActionStrategy extends AbstractActionStrategy
     {
         protected var _box : Rectangle;

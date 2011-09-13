@@ -9,6 +9,7 @@ package abe.com.edia.particles.initializers
     /**
      * @author cedric
      */
+    [Serialize(constructorArgs="randAngle,randLength,randomSource")]
     public class RandomizeVelocityInitializer extends AbstractInitializer implements Randomizable
     {
         protected var _randAngle : Number;
@@ -32,15 +33,24 @@ package abe.com.edia.particles.initializers
             l += _randomSource.balance(_randLength);
             
             particle.velocity = PointUtils.rotate( particle.velocity, _randomSource.balance(_randAngle));
-            particle.velocity.normalize(l);
+            particle.velocity.normalize ( l );
         }
-        override protected function getSourceArguments () : String
-        {
-            return [_randAngle, _randLength].join(",");
+
+        public function get randLength () : Number {
+            return _randLength;
         }
-        override protected function getReflectionSourceArguments () : String
-        {
-            return [_randAngle, _randLength].join(",");
+
+        public function set randLength ( randLength : Number ) : void {
+            _randLength = randLength;
         }
+
+        public function get randAngle () : Number {
+            return _randAngle;
+        }
+
+        public function set randAngle ( randAngle : Number ) : void {
+            _randAngle = randAngle;
+        }
+        
     }
 }
