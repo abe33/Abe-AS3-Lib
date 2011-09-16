@@ -20,12 +20,6 @@ package abe.com.ponents.text
     )]
     public class GameLabel extends Label implements Clearable 
 	{
-		static public function getInnerFilters() : Array
-		{
-			return[new GlowFilter(0,1,2,2,100)];
-		}
-		static private const SKIN_DEPENDENCIES:Array = [GlowFilter];
-
         public function GameLabel ( text : String = "Label", configure : Function = null, forComponent : Component = null )
 		{
 			_style = SkinManagerInstance.getComponentStyle(this);
@@ -55,8 +49,10 @@ package abe.com.ponents.text
         override public function repaint () : void
         {
             super.repaint ();
-            _label.width = width;
-            _label.height = height;
+            _label.x = _style.insets.left;
+            _label.y = _style.insets.top;
+            _label.width = width-_style.insets.horizontal;
+            _label.height = height-_style.insets.vertical;
         }
 		public function clear () : void
 		{
