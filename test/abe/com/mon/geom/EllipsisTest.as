@@ -60,13 +60,9 @@ package abe.com.mon.geom
 		{
 			var e : Ellipsis = new Ellipsis( 2, 5, 7, 12 );
 			
-			var s1 : String = "new abe.com.mon.geom.Ellipsis(2,5,7,12,0,30)";
-			var s2 : String = "new abe.com.mon.geom::Ellipsis(2,5,7,12,0,30)";
-			var s3 : String = "[object Ellipsis(radius1=7, radius2=12)]";
+			var s : String = "[object Ellipsis(radius1=7, radius2=12)]";
 			
-			assertThat( e.toSource(), 			allOf( notNullValue(), equalTo( s1 ) ) );
-			assertThat( e.toReflectionSource(), allOf( notNullValue(), equalTo( s2 ) ) );
-			assertThat( e.toString(), 			allOf( notNullValue(), equalTo( s3 ) ) );
+			assertThat( e.toString(), 			allOf( notNullValue(), equalTo( s ) ) );
 		}
 
 		[Test(description="This test verify the ability of a Ellipsis to clone itself.")] 

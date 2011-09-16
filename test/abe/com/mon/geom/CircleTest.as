@@ -48,11 +48,8 @@ package abe.com.mon.geom
 		[Test(description="This test verify that the serialization methods return the expected results.")] 
 		public function serialization () : void		{
 			var c : Circle = new Circle( 10, 10, 10 );			
-			var s1 : String = "new abe.com.mon.geom.Circle(10,10,10)";
-			var s2 : String = "new abe.com.mon.geom::Circle(10,10,10)";
-			var s3 : String = "[object Circle(radius=10)]";
-						assertThat( c.toSource(), 			allOf( notNullValue(), equalTo( s1 ) ) );			assertThat( c.toReflectionSource(), allOf( notNullValue(), equalTo( s2 ) ) );
-			assertThat( c.toString(), 			allOf( notNullValue(), equalTo( s3 ) ) );
+			var s : String = "[object Circle(radius=10)]";
+						assertThat( c.toString(), 			allOf( notNullValue(), equalTo( s ) ) );
 		}
 
 		[Test(description="This test verify the ability of a Circle to clone itself.")] 

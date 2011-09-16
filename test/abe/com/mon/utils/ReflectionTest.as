@@ -1,5 +1,6 @@
 package abe.com.mon.utils 
 {
+	import org.hamcrest.core.isA;
 	import abe.com.mon.colors.Color;
 	import abe.com.mon.geom.Dimension;
 	import abe.com.mon.geom.Polygon;
@@ -38,6 +39,10 @@ package abe.com.mon.utils
 		{
 			return "testShortcutFunction";
 		}
+        static public function testArgumentsasKeywordFunction( ...args ) : Array 
+		{
+			return args;
+		}
 		
 		[Test(description="This test verify that all the code parsing of the Reflection.get() method works as expected")]  
 		public function get() : void
@@ -48,97 +53,162 @@ package abe.com.mon.utils
 			// cases that we must assert that they return strings due to missing definition or invalid syntax
 			assertThat( Reflection.get("new some.unknown::Class()"), allOf( instanceOf( String ), equalTo("new some.unknown::Class()") ) );
 			assertThat( Reflection.get("Array..prototype"), allOf( instanceOf( String ), equalTo("Array..prototype") ) );						// arrays and tuples
-			assertThat( Reflection.get("[1,2,3,4]"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
-													 array(1,2,3,4), 
-													 "[1,2,3,4]" ) ); 
-			assertThat( Reflection.get("(1,2,3,4)"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
-													 array(1,2,3,4), 
-													 "(1,2,3,4)" ) ); 
-			assertThat( Reflection.get("1,2,3,4"), 	 describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
-													 array(1,2,3,4), 
-													 "1,2,3,4" ) ); 			assertThat( Reflection.get("[1,2,3,4],true"), 	 describedAs( "Reflection.get(%0) should return [[<1>,<2>,<3>,<4>],<true>]", 
-													 array(array(1,2,3,4),true), 
-													 "[1,2,3,4],true" ) ); 
+			assertThat( Reflection.get("[1,2,3,4]"), 
+            	describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
+					 array(1,2,3,4), 
+					 "[1,2,3,4]" ) ); 
+                     
+			assertThat( Reflection.get("(1,2,3,4)"), 
+            	describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
+					 array(1,2,3,4), 
+					 "(1,2,3,4)" ) ); 
+                     
+			assertThat( Reflection.get("1,2,3,4"), 	 
+            	describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
+					 array(1,2,3,4), 
+					 "1,2,3,4" ) ); 
+                     			assertThat( Reflection.get("[1,2,3,4],true"), 	 
+            	describedAs( "Reflection.get(%0) should return [[<1>,<2>,<3>,<4>],<true>]", 
+					 array(array(1,2,3,4),true), 
+					 "[1,2,3,4],true" ) ); 
 			
 			// empty slots in an array should be considered as null
-			assertThat( Reflection.get("[1,2,,3, ,4]"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<null>,<3>,<null>,<4>]", 
-													 array(1,2,null,3,null,4), 
-													 "[1,2,,3, ,4]" ) ); 
-			assertThat( Reflection.get("(1,2,,3, ,4)"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<null>,<3>,<null>,<4>]", 
-													 array(1,2,null,3,null,4), 
-													 "(1,2,,3, ,4)" ) ); 
-			assertThat( Reflection.get("1,2,,3, ,4"), 	 describedAs( "Reflection.get(%0) should return [<1>,<2>,<null>,<3>,<null>,<4>]", 
-													 array(1,2,null,3,null,4), 
-													 "1,2,,3, ,4" ) ); 
+			assertThat( Reflection.get("[1,2,,3, ,4]"), 
+            	describedAs( "Reflection.get(%0) should return [<1>,<2>,<null>,<3>,<null>,<4>]", 
+					 array(1,2,null,3,null,4), 
+					 "[1,2,,3, ,4]" ) ); 
+                     
+			assertThat( Reflection.get("(1,2,,3, ,4)"), 
+            	describedAs( "Reflection.get(%0) should return [<1>,<2>,<null>,<3>,<null>,<4>]", 
+					 array(1,2,null,3,null,4), 
+					 "(1,2,,3, ,4)" ) );
+                      
+			assertThat( Reflection.get("1,2,,3, ,4"), 	 
+            	describedAs( "Reflection.get(%0) should return [<1>,<2>,<null>,<3>,<null>,<4>]", 
+					 array(1,2,null,3,null,4), 
+					 "1,2,,3, ,4" ) ); 
 			
 			// empty arrays and tuples
-			assertThat( Reflection.get("[]"),	 	 describedAs( "Reflection.get(%0) should return []", array(), "[]" ) ); 
-			assertThat( Reflection.get("()"),	 	 describedAs( "Reflection.get(%0) should return []", array(), "()" ) ); 
+			assertThat( Reflection.get("[]"), describedAs( "Reflection.get(%0) should return []", array(), "[]" ) ); 
+			assertThat( Reflection.get("()"), describedAs( "Reflection.get(%0) should return []", array(), "()" ) ); 
 			
 			// nested arrays and tuples
 			assertThat( Reflection.get("[[0,1,2],[3,4,5]]"), 
-									   describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
-									   				array( array(0,1,2), array(3,4,5)), 
-									   				"[[0,1,2],[3,4,5]]" ) ); 
+			    describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
+			   				array( array(0,1,2), array(3,4,5)), 
+			   				"[[0,1,2],[3,4,5]]" ) ); 
+            
 			assertThat( Reflection.get("((0,1,2),(3,4,5))"), 
-									   describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
-									   				array( array(0,1,2), array(3,4,5)), 
-									   				"((0,1,2),(3,4,5))" ) );
+			    describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
+			   				array( array(0,1,2), array(3,4,5)), 
+			   				"((0,1,2),(3,4,5))" ) );
+                                                    
 			assertThat( Reflection.get("([0,1,2],[3,4,5])"), 
-									   describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
-									   				array( array(0,1,2), array(3,4,5)), 
-									   				"([0,1,2],[3,4,5])" ) ); 
+			    describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
+			   				array( array(0,1,2), array(3,4,5)), 
+			   				"([0,1,2],[3,4,5])" ) ); 
+                            
 			assertThat( Reflection.get("[(0,1,2),(3,4,5)]"), 
-									   describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
-									   				array( array(0,1,2), array(3,4,5)), 
-									   				"[(0,1,2),(3,4,5)]" ) ); 
-						// objects			assertThat( Reflection.get("{'foo':15,bar:'foobar'}"), describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
-																	 allOf( notNullValue(), 
-																	 		not( instanceOf( String ) ), 
-																	 		hasProperties({'foo':15,'bar':'foobar'}) ), 
-																	 "{'foo':15,bar:'foobar'}" ) ); 
+			    describedAs( "Reflection.get(%0) should return [[0,1,2],[3,4,5]]", 
+			   				array( array(0,1,2), array(3,4,5)), 
+			   				"[(0,1,2),(3,4,5)]" ) ); 
+						// objects			assertThat( Reflection.get("{'foo':15,bar:'foobar'}"), 
+            	describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
+					 allOf( notNullValue(), 
+					 		not( instanceOf( String ) ), 
+					 		hasProperties({'foo':15,'bar':'foobar'}) ), 
+					 "{'foo':15,bar:'foobar'}" ) );
+			
+            // empty objects
+			assertThat( Reflection.get("{}"), not( instanceOf(String ) ) ); 
+             
 			// empty properties are set to true
-			assertThat( Reflection.get("{foo}"), describedAs( "Reflection.get(%0) should return an object", 
-															  allOf( not( instanceOf(String ) ), 
-															  	     notNullValue(),
-															  	     hasProperties({'foo':true}) ),
-															  "{foo}" ) );
-			assertThat( Reflection.get("{}"),	 	 not( instanceOf(String ) ) ); 
+			assertThat( Reflection.get("{foo}"), 
+            	describedAs( "Reflection.get(%0) should return an object", 
+				  	allOf( 	not( instanceOf(String ) ), 
+				  	    	notNullValue(),
+				  	    	hasProperties({'foo':true}) ),
+				  	"{foo}" ) );
+            
 						// non string keys gives a dictionary
-			assertThat( Reflection.get("{new flash.geom::Point(4,4):'hello'}"), describedAs( "Reflection.get(%0) should return a dictionnary", 
-															  allOf( notNullValue(),
-															  	     instanceOf( Dictionary ) ),
-															  "{new flash.geom::Point(4,4):'hello'}" ) );
+			assertThat( Reflection.get("{new flash.geom::Point(4,4):'hello'}"), 
+            	describedAs( "Reflection.get(%0) should return a dictionnary", 
+				  	allOf( notNullValue(),
+				  	       instanceOf( Dictionary ) ),
+				  	"{new flash.geom::Point(4,4):'hello'}" ) );
 			
 			// empty slots and invalid declarations in an object declaration are ignored
-			assertThat( Reflection.get("{,'foo':15, ,bar:'foobar',foo:,:foo}"), describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
-																	 allOf( notNullValue(), 
-																	 		not( instanceOf( String ) ), 
-																	 		hasProperties({'foo':15,'bar':'foobar'}) ), 
-																	 "{,'foo':15, ,bar:'foobar',foo:,:foo}" ) ); 
+			assertThat( Reflection.get("{,'foo':15, ,bar:'foobar',foo:,:foo}"), 
+            	describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
+					allOf( notNullValue(), 
+				 		   not( instanceOf( String ) ), 
+				 		   hasProperties({'foo':15,'bar':'foobar'}) ), 
+				 	"{,'foo':15, ,bar:'foobar',foo:,:foo}" ) ); 
 			
 			// arrays, tuples and objects allow an extra comma at the end (as python)
-			assertThat( Reflection.get("1,2,3,4,"), 	 describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
-													 array(1,2,3,4), 
-													 "1,2,3,4," ) ); 
-			assertThat( Reflection.get("[1,2,3,4,]"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
-													 array(1,2,3,4), 
-													 "[1,2,3,4]" ) ); 
-			assertThat( Reflection.get("(1,2,3,4,)"), describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
-													 array(1,2,3,4), 
-													 "(1,2,3,4,)" ) ); 
-			assertThat( Reflection.get("{'foo':15,bar:'foobar',}"), describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
-																	 allOf( notNullValue(), 
-																	 		not( instanceOf( String ) ), 
-																	 		hasProperties({'foo':15,'bar':'foobar'}) ), 
-																	 "{'foo':15,bar:'foobar',}" ) ); 										 
+			assertThat( Reflection.get("1,2,3,4,"), 
+            	describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
+					 array(1,2,3,4), 
+					 "1,2,3,4," ) ); 
+            
+			assertThat( Reflection.get("[1,2,3,4,]"), 
+            	describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
+					 array(1,2,3,4), 
+					 "[1,2,3,4]" ) ); 
+                     
+			assertThat( Reflection.get("(1,2,3,4,)"), 
+            	describedAs( "Reflection.get(%0) should return [<1>,<2>,<3>,<4>]", 
+					 array(1,2,3,4), 
+					 "(1,2,3,4,)" ) ); 
+              
+			assertThat( Reflection.get("{'foo':15,bar:'foobar',}"), 
+            	describedAs( "Reflection.get(%0) should return an object such as {'foo':15,'bar':'foobar'}", 
+					 allOf( notNullValue(), 
+					 		not( instanceOf( String ) ), 
+					 		hasProperties({'foo':15,'bar':'foobar'}) ), 
+					 "{'foo':15,bar:'foobar',}" ) ); 										 
 						// dot syntax
 			assertThat( Reflection.get("abe.com.mon.colors::Color.Red"), Color.Red );
 			assertThat( Reflection.get("abe.com.mon.colors::Color.Red.alphaClone(0x55)"), equalToObject( Color.Red.alphaClone(0x55)) );
 			assertThat( Reflection.get("Array.inexistantProperty"), nullValue() );
 			
-			// function calls and arguments detection			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction()"), equalTo( 0 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(1)"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2])"), equalTo( 1 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction(0,1,2)"), equalTo( 3 ) ); 			assertThat( Reflection.get("abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction([0,1,2],true)"), equalTo( 2 ) ); 
-		
+			// function calls and arguments detection
+			var f : String = "abe.com.mon.utils::ReflectionTest.testArgumentsCountFunction";			assertThat( Reflection.get(f + "()"), equalTo( 0 ) ); 			assertThat( Reflection.get(f + "(1)"), equalTo( 1 ) ); 			assertThat( Reflection.get(f + "([0,1,2])"), equalTo( 1 ) ); 			assertThat( Reflection.get(f + "(0,1,2)"), equalTo( 3 ) ); 			assertThat( Reflection.get(f + "([0,1,2],true)"), equalTo( 2 ) ); 
+            
+            // functions calls with keyword arguments
+            f = "abe.com.mon.utils::ReflectionTest.testArgumentsasKeywordFunction";
+		    assertThat( Reflection.get(f + "(foo='bar')"), 
+            	array( 
+                	allOf( 
+	                	instanceOf( Object ),
+	                    hasProperty("foo",equalTo("bar") )
+                	)
+                )
+            );
+		    assertThat( Reflection.get(f + "(foo='bar',20,false,bar='foo')"), 
+            	array( 
+                	allOf( 
+	                	instanceOf( Object ),
+	                    hasProperties({
+                            "foo":equalTo("bar"),
+                            "bar":equalTo("foo")
+                        })
+                	),
+                    20,
+                    false
+                )
+            );
+            assertThat( Reflection.get(f + "(20,"+f+"( foo='bar' ))"), 
+            	array( 
+                	20,
+                    array(
+                    	allOf( 
+		                	instanceOf( Object ),
+		                    hasProperty("foo",equalTo("bar") )
+	                	)
+                    )
+                )
+            );   
 			
 			// native shortcuts
 			assertThat( Reflection.get("color(Red)"), Color.Red );

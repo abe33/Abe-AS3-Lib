@@ -676,12 +676,46 @@ package abe.com.mon.utils
 			var instructions : Array = StringUtils.splitBlock( s );
 			var l : uint = instructions.length;
 			var hasManyTopLevelInstructions : Boolean = l > 1;
-			if( hasManyTopLevelInstructions )
-				res = parseGroup( s, domain ? domain : ApplicationDomain.currentDomain );			else
-				res = [parseGroup( s, domain ? domain : ApplicationDomain.currentDomain )];
+            if( hasOnlyPositionalArguments( instructions ) )
+            {
+				if( hasManyTopLevelInstructions )
+					res = parseGroup( s, domain ? domain : ApplicationDomain.currentDomain );				else
+					res = [parseGroup( s, domain ? domain : ApplicationDomain.currentDomain )];
+            }
+          	else
+                 res = parseKeywordsArguments( instructions, domain ? domain : ApplicationDomain.currentDomain ); 
 
-			return /*res is Array ? res :*/ res;
-		}
+			return res;
+        }
+
+        static private function parseKeywordsArguments ( instructions : Array, domain : ApplicationDomain ) : Array
+        {
+            var a : Array = [];
+            var o : Object = {};
+            
+            for each( var s : String in instructions )
+            {
+	            var delimiterIndex : int = s.search(/\{|\[|\(/);
+                var equalIndex : int = s.indexOf("=");
+                if( equalIndex == -1 || ( delimiterIndex != -1 && equalIndex > delimiterIndex ) )
+                	a.push( parseAtomic(s,domain) );
+                else
+                {
+                    var kv : Array = s.split("=");
+                    o[ kv[ 0 ] ] = parseAtomic( kv[1], domain );
+                }
+            }
+            
+            return [o].concat(a);
+        }
+        static private function hasOnlyPositionalArguments ( instructions : Array ) : Boolean
+        {
+            return instructions.every(function(s : String,... args):Boolean{
+                var delimiterIndex : int = s.search(/\{|\[|\(/);
+                var equalIndex : int = s.indexOf("=");
+                return equalIndex == -1 || ( delimiterIndex != -1 && equalIndex > delimiterIndex );
+            });
+        }
 		/**
 		 * Renvoie une nouvelle instance de la classe <code>clazz</code> construite avec les
 		 * arguments <code>args</code>.

@@ -259,28 +259,7 @@ package abe.com.mon.colors
 			var c : Color = new Color(0xfab5ae41);
 			
 			assertThat( c.toString(), equalTo("[object Color(rgba='0xfab5ae41')]"));			assertThat( Color.Red.toString(), equalTo("[object Color(name='Red', rgba='0xffff0000')]"));
-		}
-		[Test]
-		public function toSource(): void
-		{
-			var c : Color;
-			
-			c = new Color();
-			assertThat( c.toSource(), equalTo( "new abe.com.mon.colors.Color(0,0,0,255,'')" ) );
-			
-			c = new Color(220,156,84,164,"MyColor");
-			assertThat( c.toSource(), equalTo( "new abe.com.mon.colors.Color(220,156,84,164,'MyColor')" ) );
-		}
-		[Test]		public function toReflectionSource(): void
-		{
-			var c : Color;
-			
-			c = new Color();
-			assertThat( c.toReflectionSource(), equalTo( "color(0xff000000)" ) );
-			
-			c = new Color(220,156,84,164,"MyColor");
-			assertThat( c.toReflectionSource(), equalTo( "color(0x"+ c.rgba +")" ) );
-		}		[Test]
+        }		[Test]
 		public function clone(): void
 		{
 			var c1 : Color = Color.YellowGreen;
