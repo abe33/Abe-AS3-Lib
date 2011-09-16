@@ -28,7 +28,7 @@ package  abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
-    [Serialize(constructorArgs="x,y,radius1,radius2")]
+    [Serialize(constructorArgs="x,y,radius1,radius2,rotation,drawBias")]
 	public class Ellipsis implements Cloneable,
 									 Copyable,
 									 Serializable,

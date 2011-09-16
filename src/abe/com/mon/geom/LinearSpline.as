@@ -30,6 +30,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constuctorArgs="vertices,drawBias")]
 	public class LinearSpline extends AbstractSpline implements Spline, Path, Geometry, Cloneable, Serializable
 	{
 		/**
@@ -68,16 +69,7 @@ package abe.com.mon.geom
 		 * @inheritDoc
 		 */
 		override protected function drawVerticesConnections (g : Graphics) : void {}
-		/**
-		 * @inheritDoc
-		 */
-		override public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace( "new $0 ($1,$2)",
-						getQualifiedClassName ( this ),
-						magicToReflectionSource ( _vertices ),
-						drawBias );
-		}
+		
 		/**
 		 * @inheritDoc
 		 */

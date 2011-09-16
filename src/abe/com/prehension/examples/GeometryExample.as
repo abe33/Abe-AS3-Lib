@@ -6,6 +6,7 @@ package abe.com.prehension.examples
     import abe.com.mon.colors.Color;
     import abe.com.mon.geom.Circle;
     import abe.com.mon.geom.CubicBezier;
+    import abe.com.mon.geom.Diamond;
     import abe.com.mon.geom.Ellipsis;
     import abe.com.mon.geom.LinearSpline;
     import abe.com.mon.geom.Polygon;
@@ -20,7 +21,6 @@ package abe.com.prehension.examples
     import abe.com.mon.utils.GeometryUtils;
     import abe.com.mon.utils.MathUtils;
     import abe.com.motion.PathTween;
-    import abe.com.motion.TweenEvent;
     import abe.com.motion.easing.Constant;
     import abe.com.motion.easing.Cubic;
     import abe.com.motion.easing.Easing;
@@ -46,7 +46,8 @@ package abe.com.prehension.examples
 		private var e : Ellipsis;
 		private var pg : Polygon;
 		private var c : Circle;
-		private var rr : RoundRectangle;
+        private var rr : RoundRectangle;
+        private var dmd : Diamond;
 
 		public function GeometryExample ()
 		{
@@ -77,7 +78,7 @@ package abe.com.prehension.examples
 				}
 				s = getShape();
 				ps = new PathTween( s, r, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add(tend );
 				ps.execute( );
 				tweens.push(ps);
 				ToolKit.mainLevel.addChild(s);
@@ -94,7 +95,7 @@ package abe.com.prehension.examples
 				}
 				s = getShape();
 				ps = new PathTween( s, t, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add( tend );
 				ps.execute( );
 				tweens.push(ps);
 				ToolKit.mainLevel.addChild(s);
@@ -111,7 +112,7 @@ package abe.com.prehension.examples
 				}
 				s = getShape();
 				ps = new PathTween( s, rr, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add( tend );
 				ps.execute( );
 				tweens.push(ps);
 				ToolKit.mainLevel.addChild(s);
@@ -128,7 +129,7 @@ package abe.com.prehension.examples
 				}
 				s = getShape();
 				ps = new PathTween( s, e, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add( tend );
 				ps.execute( );
 				tweens.push(ps);
 				ToolKit.mainLevel.addChild(s);
@@ -146,7 +147,25 @@ package abe.com.prehension.examples
 				}
 				s = getShape();
 				ps = new PathTween( s, c, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add( tend );
+				ps.execute( );
+				tweens.push(ps);
+				ToolKit.mainLevel.addChild(s);
+                
+                ///////////////////////////////////////////////////////////////////////
+				dmd = new Diamond(160, 180,35,12,45,24,1);
+				dmd.draw( g, Color.Crimson );
+				dmd.pathBasedOnLength = true;
+				for( i = 0; i< l; i++ )
+				{
+					p = dmd.getRandomPointInSurface();
+					g.beginFill( Color.White.hexa );
+					g.drawRect(p.x, p.y, 1, 1);
+					g.endFill();
+				}
+				s = getShape();
+				ps = new PathTween( s, dmd, 10000 );
+				ps.commandEnded.add( tend );
 				ps.execute( );
 				tweens.push(ps);
 				ToolKit.mainLevel.addChild(s);
@@ -160,7 +179,7 @@ package abe.com.prehension.examples
 
 				s = getShape();
 				ps = new PathTween( s, sp, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add( tend );
 				ps.execute();
 				tweens.push(ps);
 				
@@ -188,7 +207,7 @@ package abe.com.prehension.examples
 
 				s = getShape();
 				ps = new PathTween( s, csp, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add( tend );
 				ps.execute();
 				tweens.push(ps);
 				
@@ -215,7 +234,7 @@ package abe.com.prehension.examples
 
 				s = getShape();
 				ps = new PathTween( s, ssp, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add( tend );
 				ps.execute();
 				tweens.push(ps);
 				
@@ -236,7 +255,7 @@ package abe.com.prehension.examples
 
 				s = getShape();
 				ps = new PathTween( s, spr, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add( tend );
 				ps.execute();
 				tweens.push(ps);
 				
@@ -273,7 +292,7 @@ package abe.com.prehension.examples
 
 				s = getShape();
 				ps = new PathTween( s, pg, 10000 );
-				ps.addEventListener(TweenEvent.TWEEN_END, tend );
+				ps.commandEnded.add( tend );
 				ps.execute();
 				tweens.push(ps);
 				ToolKit.mainLevel.addChild(s);
@@ -344,9 +363,9 @@ package abe.com.prehension.examples
 				Log.info( "click within rounded rectangle" );
 		}
 
-		protected function tend (event : TweenEvent) : void
+		protected function tend ( t : PathTween ) : void
 		{
-			( event.target as PathTween ).execute();
+			t.execute();
 		}
 
 		public function getShape( ) : Shape

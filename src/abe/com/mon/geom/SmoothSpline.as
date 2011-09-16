@@ -95,6 +95,7 @@ package abe.com.mon.geom
 	 * @author Cédric Néhémie
 	 * @see SmoothSplineModes
 	 */
+    [Serialize(constructorArgs="vertices,curvature,smoothingMode,drawBias,verticesSmoothingModes ,verticesCurvature")]
 	public class SmoothSpline extends CubicBezier implements Spline, Path, Geometry, Cloneable, Serializable
 	{
 /*--------------------------------------------------------------------------*
@@ -554,16 +555,6 @@ package abe.com.mon.geom
 		 * @inheritDoc
 		 */
 		override public function clone () : * { return new SmoothSpline( _splineVertices.concat( ), _curvature, drawBias ); }
-		/**
-		 * @inheritDoc
-		 */
-		override public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace( "new $0 ($1,$2,$3)",
-						getQualifiedClassName ( this ),
-						magicToReflectionSource ( _originalPoints ),
-						_curvature,
-						drawBias );
-		}
+		
 	}
 }

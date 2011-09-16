@@ -28,6 +28,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="vertices,drawBias")]
 	public class CubicBezier extends AbstractSpline implements Spline, Path, Geometry, Cloneable, Serializable
 	{
 		/**
@@ -110,15 +111,6 @@ package abe.com.mon.geom
 		 * 			du sommet</fr>
 		 */
 		public function b4 ( t : Number ) : Number { return ( t * t * t ) ; }
-		/**
-		 * @inheritDoc
-		 */
-		override public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace( "new $0 ($1,$2)",
-						getQualifiedClassName ( this ),
-						magicToReflectionSource ( _vertices ),
-						drawBias );
-		}
+		
 	}
 }

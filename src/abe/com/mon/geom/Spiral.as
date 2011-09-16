@@ -21,6 +21,7 @@ package abe.com.mon.geom
 	 * 
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="x,y,radius1,radius2,twirl,rotation,drawBias")]
 	public class Spiral extends Ellipsis implements  Cloneable,
 													 Serializable,
 													 Equatable,
@@ -186,19 +187,7 @@ package abe.com.mon.geom
 		{
 			return new Spiral(x, y, radius1, radius2, twirl, rotation, drawBias );
 		}
-		/**
-		 * @inheritDoc
-		 */
-		override public function toReflectionSource () : String 
-		{
-			return StringUtils.tokenReplace("new $0($1,$2,$3,$4,$5,$6,$7)", 
-											getQualifiedClassName( this ),
-											x, y, 
-											radius1, radius2,
-											twirl,
-											rotation,
-											drawBias );
-		}
+		
 		/**
 		 * @inheritDoc
 		 */

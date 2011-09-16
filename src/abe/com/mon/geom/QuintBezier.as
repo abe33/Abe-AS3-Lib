@@ -26,6 +26,7 @@ package abe.com.mon.geom
 	 * </fr>
 	 * @author Cédric Néhémie
 	 */
+    [Serialize(constructorArgs="vertices,drawBias")]
 	public class QuintBezier extends AbstractSpline implements Spline, Path, Geometry, Cloneable, Serializable
 	{
 		/**
@@ -85,15 +86,5 @@ package abe.com.mon.geom
 		 * @copy CubicBezier#b4()
 		 */
 		public function b5 ( t : Number ) : Number { return ( t * t * t * t ) ; }
-		/**
-		 * @inheritDoc
-		 */
-		override public function toReflectionSource () : String
-		{
-			return StringUtils.tokenReplace( "new $0 ($1,$2)",
-						getQualifiedClassName ( this ),
-						magicToReflectionSource ( _vertices ),
-						drawBias );
-		}
 	}
 }
