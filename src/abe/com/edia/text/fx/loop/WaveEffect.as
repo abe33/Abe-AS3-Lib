@@ -62,7 +62,19 @@ package abe.com.edia.text.fx.loop
 				if( char.charContent )
 					char.charContent.y = Math.cos( angle + frequency * char.x ) * amplitude;
 			}
-			angle += speed * biasInSecond;	
-		}
+            angle += speed * biasInSecond;
+        }
+
+        public function reset () : void
+        {
+            var l : Number = chars.length;
+			
+			for(var i : Number = 0; i < l; i++ )
+			{
+				var char : Char = chars[ i ];
+                if( char.charContent )
+					char.charContent.y = 0; 
+            }
+        }
 	}
 }

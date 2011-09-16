@@ -98,8 +98,8 @@ package abe.com.edia.text.core
 		{			scaleX = scaleY = 1;
 			_textField.scaleX = _textField.scaleY = 1;
 			_textField.x = _textField.y = 0;
-            _textField.text = "";
             _textField.defaultTextFormat = new TextFormat();
+            _textField.text = "";
 			alpha = 1;
 		}
 		

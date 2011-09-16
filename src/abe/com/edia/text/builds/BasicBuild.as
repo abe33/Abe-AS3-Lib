@@ -221,6 +221,8 @@ package abe.com.edia.text.builds
 									lt = new NullChar();
 									break;
 							}
+                            if( char )
+                            	removed[ currentBuildContext.i ] = char;
 							
 							currentBuildContext.setChar( lt );
 							continue;
