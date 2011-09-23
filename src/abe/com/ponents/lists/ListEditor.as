@@ -122,7 +122,8 @@ package abe.com.ponents.lists
 		public function get toolBar () : ToolBar { return _toolBar; }	
 		public function get addButton () : Button { return _addButton; }
 		public function get removeButton () : Button { return _removeButton; }
-		
+		public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 		public function get newValueProvider () : Component { return _newValueProvider; }		
 		public function set newValueProvider ( newValueProvider : Component ) : void
 		{

@@ -17,7 +17,6 @@ package abe.com.ponents.text
 
     import flash.display.DisplayObject;
     import flash.events.Event;
-    import flash.events.FocusEvent;
     import flash.events.MouseEvent;
 
 	[Skinable(skin="Text")]
@@ -75,13 +74,7 @@ package abe.com.ponents.text
 		}
 
 		public function get scrollbar () : ScrollBar { return _scrollbar; }
-
-		override public function focusOut (e : FocusEvent) : void
-		{
-			fireDataChangedSignal();
-			super.focusOut(e);
-		}
-
+		
 		override public function set enabled (b : Boolean) : void
 		{
 			super.enabled = b;
@@ -231,10 +224,5 @@ package abe.com.ponents.text
 			    _autoCompleteDropDown.maxVisibleItems = maxCompletionVisibleItems;
 		    }
 		} 
-
-		protected function fireDataChangedSignal () : void
-		{
-			_dataChanged.dispatch( this, _value );
-		}
 	}
 }

@@ -268,7 +268,8 @@ package abe.com.ponents.sliders
 			else if( _displayInput && !containsComponent( _inputRight ) )
 				addComponent( _inputRight );
 		}
-		
+		public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 
 /*----------------------------------------------------------------------------------*
  *  BUILD AND INIT

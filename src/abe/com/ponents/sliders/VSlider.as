@@ -273,6 +273,9 @@ package abe.com.ponents.sliders
 				(childrenLayout as VBoxLayout).setObjectForBox( _postComponent, 0 );
 			}
 		}
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
+        
 		override protected function registerToOnStageEvents () : void 
 		{
 			super.registerToOnStageEvents( );

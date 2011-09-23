@@ -18,5 +18,8 @@ package abe.com.ponents.forms
 		function set value ( v : * ) : void;
 		
 		function get dataChanged () : Signal;
+        
+        function get canValidateForm () : Boolean;
+        function get formValidated() : Signal;
 	}
 }

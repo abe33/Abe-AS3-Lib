@@ -74,6 +74,8 @@ package abe.com.ponents.buttons
 			buildChildren();
 		}
 		public function get dataChanged () : Signal { return _dataChanged; }
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; };
 		/**
 		 * Construit les sous composants nécessaires au fonctionnement
 		 * du <code>ComponentDecorationPicker</code>.

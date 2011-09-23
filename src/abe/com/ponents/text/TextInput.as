@@ -11,6 +11,8 @@ package abe.com.ponents.text
     import abe.com.ponents.forms.FormComponentDisabledModes;
     import abe.com.ponents.menus.CompletionDropDown;
 
+    import org.osflash.signals.Signal;
+
     import flash.events.Event;
     import flash.events.FocusEvent;
     import flash.events.KeyboardEvent;
@@ -18,7 +20,8 @@ package abe.com.ponents.text
 
 	public class TextInput extends AbstractTextComponent 
 	{
-		protected var _displayAsPassword : Boolean;
+        protected var _displayAsPassword : Boolean;
+        protected var _formValidated : Signal;
         
 		public function TextInput ( maxChars : int = 0, 
 									password : Boolean = false, 
@@ -27,6 +30,7 @@ package abe.com.ponents.text
 								  )
 		{
 			super();
+            _formValidated = new Signal();
 			_label.maxChars = maxChars;
 			_displayAsPassword = _label.displayAsPassword = password;
 			
@@ -61,7 +65,10 @@ package abe.com.ponents.text
 		{ 
 			_displayAsPassword = _label.displayAsPassword = m; 
 		}
-		
+        
+		override public function get canValidateForm () : Boolean { return true; }
+        override public function get formValidated() : Signal { return _formValidated; };
+        
 		FEATURES::SETTINGS_MEMORY 
 		override public function set id (id : String) : void 
 		{
@@ -154,11 +161,14 @@ package abe.com.ponents.text
 			        if( _autoComplete is InputMemory )
 			          ( _autoComplete as InputMemory ).registerCurrent();
 		        } 
-			} 
-				
-			registerValue();
-			//StageUtils.stage.focus = null;
-			fireDataChangedSignal();
+			}
+            if( _beforeFocusValue != _label.text )
+            {
+				registerValue();
+				//StageUtils.stage.focus = null;
+				fireDataChangedSignal();
+            }
+            _formValidated.dispatch(this);
 			focusNext();
 		}
 		public function cancelInput () : void
@@ -262,14 +272,6 @@ package abe.com.ponents.text
 			    }
 		    }	
         } 
-        override public function focusOut ( e : FocusEvent ) : void
-        {
-            super.focusOut ( e );
-            fireDataChangedSignal();
-        }
-		protected function fireDataChangedSignal () : void 
-		{
-			_dataChanged.dispatch( this, value );
-		}
+
 	}
 }

@@ -57,6 +57,8 @@ package abe.com.ponents.forms.fields
             _positionSpinner.disabledValue = v;
             _sizeSpinner.disabledValue = v;
         }
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 		private function positionChanged ( s : DoubleSpinner, r : Rectangle ) : void
         {
             dataChanged.dispatch( this, r );

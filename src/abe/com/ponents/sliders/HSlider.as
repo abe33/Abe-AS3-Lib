@@ -180,7 +180,8 @@ package abe.com.ponents.sliders
 		public function get input () : TextInput { return _input; }		
 		public function get track () : Button { return _track; }	
 		public function get knob () : Button { return _knob; }
-		
+		public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 		public function get value () : * { return _model.value; }
 		public function set value ( n : * ) : void
 		{

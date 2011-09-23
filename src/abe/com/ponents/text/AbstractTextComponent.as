@@ -66,8 +66,8 @@ package abe.com.ponents.text
 		protected var _safeTextType : String;
 		protected var _disabledMode : uint;
 		protected var _disabledValue : *;
-		protected var _allowHTML : Boolean;
-        
+        protected var _allowHTML : Boolean;
+        protected var _beforeFocusValue : *;
 
 		public function AbstractTextComponent ()
 		{
@@ -218,6 +218,8 @@ package abe.com.ponents.text
 		{
 			_allowHTML = allowHTML;
 		}
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 		public function reset () : void
 		{
 			value = "";
@@ -518,6 +520,7 @@ package abe.com.ponents.text
 		}
 		override public function focusIn (e : FocusEvent) : void
 		{
+            _beforeFocusValue = _label.text;
 			if( e.target != _label )
 			{
 				e.stopPropagation( );
@@ -527,10 +530,18 @@ package abe.com.ponents.text
 		}
 		override public function focusOut (e : FocusEvent) : void 
 		{
-			registerValue();
+            if( _beforeFocusValue != _label.text )
+            {
+				registerValue();
+                fireDataChangedSignal();
+            }
 			super.focusOut( e );
 		}
 
+		protected function fireDataChangedSignal () : void 
+		{
+			_dataChanged.dispatch( this, value );
+		}
 		/*-----------------------------------------------------------------
 		 * 	CONTEXT MENUS
 		 *----------------------------------------------------------------*/

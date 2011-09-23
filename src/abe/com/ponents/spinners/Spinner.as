@@ -190,7 +190,8 @@ package abe.com.ponents.spinners
 		{
 			_model.value = n;
         }
-
+		public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 		public function get model () : SpinnerModel	{ return _model; }		
 		public function set model (model : SpinnerModel) : void
 		{

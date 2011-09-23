@@ -64,7 +64,8 @@ package abe.com.ponents.buttons
         
         protected var _dataChanged : Signal;
         public function get dataChanged () : Signal { return _dataChanged; }
-
+		public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
         /**
          * Constructeur de la classe <code>IconPicker</code>.
          *

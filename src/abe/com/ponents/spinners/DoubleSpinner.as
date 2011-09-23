@@ -95,6 +95,8 @@ package abe.com.ponents.spinners
 		public function set disabledValue (v : *) : void
 		{
 		}
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 
 		override protected function registerToOnStageEvents () : void 
 		{
