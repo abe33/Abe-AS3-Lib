@@ -169,7 +169,9 @@ package abe.com.ponents.text
 			
 			registerToSubComponentsEvents();
 		}
-
+		public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
+        
 		protected function unregisterFromSubComponentsEvents () : void 
 		{
 			_fontList.dataChanged.add( fontDataChanged );

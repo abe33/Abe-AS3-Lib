@@ -96,6 +96,9 @@ package abe.com.ponents.forms.fields
                 updateForm();
             }
         }
+        
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 
         private function updateForm () : void
         {

@@ -130,7 +130,9 @@ package abe.com.ponents.spinners
 			
 			_valueSetProgrammatically = false;
 		}
-				
+		public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
+        	
 		public function get disabledMode () : uint { return _spinner1.disabledMode;	}
 
 		public function set disabledMode (b : uint) : void

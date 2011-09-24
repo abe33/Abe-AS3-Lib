@@ -51,6 +51,9 @@ package abe.com.ponents.tools
 			addComponent( createInlinePanel( _("Brightness") ,_brightnessSlider ) );
 			addComponent( createInlinePanel( _("Alpha") ,_alphaSlider ) );
 		}
+        
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 
 		override protected function registerToOnStageEvents () : void 
 		{

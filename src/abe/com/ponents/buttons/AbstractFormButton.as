@@ -40,6 +40,9 @@ package abe.com.ponents.buttons
 			checkDisableMode();
 		}
         
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; };
+        
         protected function checkDisableMode() : void
         {
             switch( _disabledMode )

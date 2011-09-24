@@ -11,6 +11,7 @@ package abe.com.ponents.containers
     import abe.com.ponents.actions.ProxyAction;
     import abe.com.ponents.buttons.Button;
     import abe.com.ponents.core.*;
+    import abe.com.ponents.forms.FormComponent;
     import abe.com.ponents.layouts.components.InlineLayout;
     import abe.com.ponents.skinning.decorations.GradientFill;
     import abe.com.ponents.text.Label;
@@ -78,8 +79,9 @@ package abe.com.ponents.containers
 		protected var _yesButton : Button;
 		protected var _noButton : Button;
 		protected var _closeButton : Button;
-		
+        protected var _selectedButton : Button;
 		protected var _buttons : Array;
+        protected var _formValidatingComponents : Array;
 		
 		public var dialogResponded : Signal;
 		
@@ -96,20 +98,24 @@ package abe.com.ponents.containers
 			createButtons( buttons, selectedButton );
 			
 			if( content )
-			{
 				windowContent = content;
-				//FIX ne pas mettre en dur les styles 
-				//content.style.setForAllStates("insets", new Insets( 4 ));
-			}
-		}
+        }
+
 
 		override public function set modal (modal : Boolean) : void	{}
 
 		override public function set windowContent (windowContent : Component) : void 
 		{
+            if( _windowContent )
+            	releaseContent();
+            
 			super.windowContent = windowContent;
+            if( _windowContent )
+            	 browseContent();
 			(_windowTitle as Label ).forComponent = windowContent;
-		}
+        }
+
+        
 		
 		public function get buttons () : Array { return _buttons; }
 		
@@ -155,9 +161,11 @@ package abe.com.ponents.containers
 					if( selectedButton == CANCEL_BUTTON )
 					{
 						_cancelButton.selected = true;
+                        _selectedButton = _cancelButton;
+                        /*
 						FEATURES::KEYBOARD_CONTEXT { 
 							_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( _cancelButton.click, true );
-						} 
+						} */
 					}
 				}
 				if( buttons & NO_BUTTON )
@@ -169,9 +177,11 @@ package abe.com.ponents.containers
 					if( selectedButton == NO_BUTTON )
 					{
 						_noButton.selected = true;
+                        _selectedButton = _noButton;
+                        /*
 						FEATURES::KEYBOARD_CONTEXT { 
 							_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( _noButton.click, true );
-						} 
+						} */
 					}
 				}
 				if( buttons & YES_BUTTON )
@@ -183,9 +193,11 @@ package abe.com.ponents.containers
 					if( selectedButton == YES_BUTTON )
 					{
 						_yesButton.selected = true;
+                        _selectedButton = _yesButton;
+                        /*
 						FEATURES::KEYBOARD_CONTEXT { 
 							_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( _yesButton.click, true );
-						} 
+						} */
 					}
 				}
 				
@@ -198,9 +210,11 @@ package abe.com.ponents.containers
 					if( selectedButton == OK_BUTTON )
 					{
 						_okButton.selected = true;
+                        _selectedButton = _okButton;
+                        /*
 						FEATURES::KEYBOARD_CONTEXT { 
 							_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( _okButton.click, true );
-						} 
+						} */
 					}
 				}
 				if( buttons & CLOSE_BUTTON )
@@ -212,15 +226,63 @@ package abe.com.ponents.containers
 					if( selectedButton == CLOSE_BUTTON )
 					{
 						_closeButton.selected = true;
+                        _selectedButton = _closeButton;
+                        /*
 						FEATURES::KEYBOARD_CONTEXT { 
 							_keyboardContext[ KeyStroke.getKeyStroke( Keys.ENTER ) ] = new ProxyCommand( _closeButton.click, true );
-						} 
+						} */
 					}
 				}
 				
 				windowStatus = panel;
 			}
 		}
+        private function browseContent () : void
+        {
+            _formValidatingComponents = [];
+            if( _windowContent is Container )
+            	browseContainer( _windowContent as Container );
+            else if( _windowContent is FormComponent && ( _windowContent as FormComponent ).canValidateForm )
+            {
+            	_formValidatingComponents.push( _windowContent );
+                ( _windowContent as FormComponent ).formValidated.addOnce( formValidated );
+            }
+        }
+
+        private function browseContainer ( container : Container ) : void
+        {
+            var l : uint = container.childrenCount;
+            for( var i : int = 0;i<l;i++ )
+            {
+                var c : Component = container.children[i];
+                if( c is FormComponent )
+                {
+                    var fc : FormComponent = c as FormComponent;
+                    if( fc.canValidateForm )
+                    {
+                        _formValidatingComponents.push( fc );
+                		fc.formValidated.addOnce( formValidated );
+                    }
+                }
+                else if( c is Container )
+                {
+                    browseContainer( c as Container );
+                }
+            }
+        }        
+        
+        private function releaseContent () : void
+        {
+            for each( var f : FormComponent in _formValidatingComponents )
+            	f.formValidated.remove( formValidated );
+        }
+
+        private function formValidated ( f : FormComponent ) : void
+        {
+            if( _selectedButton )
+            	_selectedButton.click(new UserActionContext(f, UserActionContext.KEYBOARD_ACTION ));
+        }
+        
 		protected function cancel () : void
 		{
 			checkPolicy();

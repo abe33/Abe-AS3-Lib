@@ -30,7 +30,7 @@ package abe.com.ponents.buttons
 				act.name = act.ressource.name;
 			}
 		}
-		override protected function commandEnd ( c : Command ) : void 
+		protected function commandEnd ( c : Command ) : void 
 		{
 			var act : BrowseRessources = _action as BrowseRessources;
 			if( act.ressource )

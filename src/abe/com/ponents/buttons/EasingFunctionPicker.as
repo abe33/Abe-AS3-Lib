@@ -188,6 +188,8 @@ package abe.com.ponents.buttons
             _easingFunctions.value = _value;
             _graph.easingFunction = _value;
         }
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 
 		override public function set enabled (b : Boolean) : void
 		{

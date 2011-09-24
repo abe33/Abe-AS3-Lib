@@ -155,6 +155,8 @@ package abe.com.ponents.sliders
 				modelDataChanged( _model, _model.value );
 			}
 		}
+        public function get canValidateForm () : Boolean { return false; }
+        public function get formValidated() : Signal { return null; }
 		public function get inputLeft () : TextInput { return _inputLeft; }
 		public function get inputRight () : TextInput { return _inputRight; }
 		public function get track () : Button { return _track; }
