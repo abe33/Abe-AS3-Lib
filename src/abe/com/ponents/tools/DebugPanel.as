@@ -338,7 +338,7 @@ package abe.com.ponents.tools
 						
 			_commandInput = new TextInput( 0, false, "commandInput", false );
 			_commandInput.preferredWidth = 250;
-			_commandInput.dataChanged.add( commandInputDataChanged );
+			_commandInput.formValidated.add( commandInputValidated );
             
 			_logsToolbar.addComponents( new Label(_("Input :" ), _commandInput ), _commandInput );
 			_logsToolbar.addSeparator();
@@ -529,9 +529,9 @@ package abe.com.ponents.tools
 			addTab( new SimpleTab( _("Memory"), _monitor1Panel, magicIconBuild( monitorIcon ) ) );
 		}
 
-		protected function commandInputDataChanged ( t : TextInput, v : String ) : void 
+		protected function commandInputValidated ( t : TextInput ) : void 
 		{
-			var s : String = StringUtils.trim( v ).replace(/[\t\n\r\s]+/g, " ");
+			var s : String = StringUtils.trim( t.value ).replace(/[\t\n\r\s]+/g, " ");
 			if( s != "" )
 			{
 				var key : String = s.split(/\s+/g)[0];
