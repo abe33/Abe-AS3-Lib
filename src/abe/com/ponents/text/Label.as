@@ -38,11 +38,12 @@ package abe.com.ponents.text
 
 		override public function focusIn (e : FocusEvent) : void
 		{
+            e.preventDefault();
+			e.stopPropagation();
 			if( _allowFocus )
 			{
 				if( _forComponent && !e.shiftKey )
 				{
-					e.stopPropagation();
 					StageUtils.stage.focus = _forComponent as InteractiveObject;
 					if( _forComponent is AbstractTextComponent )
 					  ( _forComponent as AbstractTextComponent ).selectAll();	

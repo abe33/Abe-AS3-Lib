@@ -29,7 +29,7 @@ package abe.com.ponents.forms.renderers
                 }
                 else
                 {
-                    var l : Label = new Label( f.name +" :");
+                    var l : Label = new Label( f.name +" :", f.component );
                     p.addComponent( l );
                 }
                 p.addComponent( f.component );
