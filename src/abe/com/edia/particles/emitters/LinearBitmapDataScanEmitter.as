@@ -1,7 +1,9 @@
 package abe.com.edia.particles.emitters
 {
     import abe.com.mon.geom.pt;
+    import abe.com.mon.randoms.Random;
     import abe.com.mon.utils.BitmapUtils;
+    import abe.com.mon.utils.RandomUtils;
 
     import flash.display.BitmapData;
     import flash.geom.Point;
@@ -17,16 +19,22 @@ package abe.com.edia.particles.emitters
         protected var _pixelLookup : Function;
         protected var _coords : Array;
         protected var _iterator : int;
+        protected var _randomized : Boolean;
+        protected var _random : Random;
         
         public function LinearBitmapDataScanEmitter ( bmp : BitmapData, 
         											  from : Point, 
                                                       to : Point,
-                                                      pixelLookup : Function = null )
+                                                      pixelLookup : Function = null,
+                                                      randomized : Boolean = true,
+                                                      random : Random = null )
         {
             super ( bmp );
             _from = from;
             _to = to;
             _pixelLookup = pixelLookup;
+            _randomized = randomized;
+            _random = random ? random : RandomUtils;
             updateCoordinates();
         }
         public function get coords () : Array { return _coords; }
@@ -54,11 +62,16 @@ package abe.com.edia.particles.emitters
         {
             if( _coords.length == 0 )
             	return pt();
-            
-            if( _iterator >= _coords.length )
-            	_iterator %= _coords.length;
-            
-            return _coords[ _iterator++ ];
+                
+            if( _randomized )
+                return _random.inArray(_coords);
+            else
+            {
+	            if( _iterator >= _coords.length )
+	            	_iterator %= _coords.length;
+	            
+	            return _coords[ _iterator++ ];
+            }
         }
     }
 }

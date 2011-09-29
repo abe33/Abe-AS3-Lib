@@ -258,8 +258,21 @@ package abe.com.edia.text.layouts
 						if( _wordwrap && 
 							__x__ + char.charWidth > _owner.size.width - 4 )
 						{
+                            var si : int = i;
 							i = lookupWordStart( i, _chars, currentAlignLine );
-							_chars.splice(i+1, 0, new WordWrapNewLineChar());
+                            if( i != 0 )
+                            {
+								_chars.splice(i+1, 0, new WordWrapNewLineChar());
+                            }
+                            else
+                            {
+                            	i = si-1;
+                                
+                                var char2 : TextFieldChar = new TextFieldChar();
+                                char2.text = "-";
+                                char2.format = char.format;
+                                _chars.splice(i, 0, char2, new WordWrapNewLineChar());
+                            }
 							l++;
 						}
 						else
@@ -288,6 +301,7 @@ package abe.com.edia.text.layouts
 
 		protected function lookupWordStart ( i : Number, chars:Vector.<Char>, currentAlignLine : Array ) : Number
 		{
+            
 			for(i=i-1;i>=0;i--)
 			{
 				if( chars[ i ] is NullChar || chars[i].text == " " )

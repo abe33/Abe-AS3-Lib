@@ -122,6 +122,10 @@ package abe.com.edia.particles.core
         }
         public function dispose() : void 
         {
+            var l : int = _particles.length; 
+            while( --l -(-1) )
+            	_unregisterParticle(_particles[l]);
+            
             _manager.removeParticleSystem( this );
         }
 		/*-------------------------------------------------------
