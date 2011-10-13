@@ -3,6 +3,8 @@
  */
 package abe.com.edia.commands 
 {
+    import abe.com.mon.utils.MathUtils;
+    import abe.com.mon.logs.Log;
     import abe.com.mands.AbstractCommand;
     import abe.com.mands.Command;
     import abe.com.mon.colors.Color;
@@ -73,10 +75,10 @@ package abe.com.edia.commands
 		{
 			t += bias;
 			
-			var a : Number = 1 - Math.abs( 1 - ( t / duration ) * 2 );
-			var amount : Number = easing( a, 0, 1, 1 ) * colorRatio;
+			var a : Number =  1 - Math.abs( 1 - ( t / duration ) * 2 );
+			var amount : Number = MathUtils.restrict ( easing( a, 0, 1, 1 ) * colorRatio, 0, 1 );
 			var mult : Number = 1 - amount;
-			
+            
             if( add )
             	target.transform.colorTransform = new ColorTransform ( 1, 1, 1, 1, 
 																	   color.red * amount, 

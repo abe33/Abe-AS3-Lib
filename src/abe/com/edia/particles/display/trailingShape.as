@@ -1,6 +1,7 @@
 package abe.com.edia.particles.display
 {
     import abe.com.edia.particles.core.Particle;
+    import abe.com.edia.particles.display.objects.TrailingShape;
     import abe.com.mon.colors.Color;
     /**
      * @author cedric

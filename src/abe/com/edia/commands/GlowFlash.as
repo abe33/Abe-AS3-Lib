@@ -8,6 +8,7 @@ package abe.com.edia.commands
     import abe.com.mon.colors.Color;
     import abe.com.mon.core.Runnable;
     import abe.com.mon.core.Suspendable;
+    import abe.com.mon.utils.MathUtils;
     import abe.com.motion.Impulse;
     import abe.com.motion.easing.Linear;
 
@@ -70,7 +71,7 @@ package abe.com.edia.commands
 			t += bias;
 			
 			var a : Number = Math.abs( 1 - ( t / duration ) * 2 );
-			var amount : Number = easing( a, 0, 1, 1 );
+			var amount : Number = MathUtils.restrict ( easing( a, 0, 1, 1 ), 0, 1 );
 			var mult : Number = 1 - amount;
 			
 			target.filters = [ new GlowFilter(color.hexa, color.alpha/255, maxGlowSize*mult, maxGlowSize*mult, 1, 2 ) ];

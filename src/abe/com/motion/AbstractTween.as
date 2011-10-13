@@ -251,9 +251,9 @@ package abe.com.motion
 		{
 			if ( isRunning() )
 			{
-				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
-				Log.warn( this + ".target is not writable while playing." );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				CONFIG::DEBUG { 
+					Log.warn( this + ".target is not writable while playing." );
+				}
 			}
 			else
 			{
