@@ -17,25 +17,12 @@ package abe.com.edia.sounds
 		/*-----------------------------------------------------------------------------*
 		 * PRIVATE & PROTECTED VARIABLES
 		 *-----------------------------------------------------------------------------*/
-		// singleton instance
-		private static var _instance:SoundManager;
-
+		
 		private var _soundsDict:Dictionary;
+		private var _channelsDict:Dictionary;
 		private var _sounds:Array;
 
-		private var _channelsDict : Dictionary;
-
-		static public const MAX_CHANNELS_PER_SOUND : uint = 4;
-
-		/**
-		 *
-		 */
-		public static function getInstance():SoundManager
-		{
-			if (SoundManager._instance == null)
-				SoundManager._instance = new SoundManager();
-			return SoundManager._instance;
-		}
+		static public const MAX_CHANNELS_PER_SOUND : uint = 2;
 
 		/**
 		 *
@@ -44,13 +31,13 @@ package abe.com.edia.sounds
 		{
 			SoundShortcuts.init();
 			_soundsDict = new Dictionary(true);
+			_channelsDict = new Dictionary(true);
 			_sounds = new Array();
-			_channelsDict = new Dictionary( true );
 		}
 		/**
 		 *
 		 */
-		public function get sounds():Array { return this._sounds; }
+		public function get sounds():Array { return _sounds; }
 
 		/**
 		 * Adds a sound from the library to the sounds dictionary for playing in the future.
@@ -62,25 +49,26 @@ package abe.com.edia.sounds
 		 */
 		public function addLibrarySound( linkageID:*, name:String, maxChannels : uint = MAX_CHANNELS_PER_SOUND ):Boolean
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
-				if (this._sounds[i].name == name)
+			for (var i:int = 0; i < _sounds.length; i++)
+				if (_sounds[i].name == name)
 					return false;
 
-			var sndObj:SoundObject = new SoundObject();
+			var sndObj:SoundData = new SoundData();
 			var snd:Sound = new linkageID;
 			sndObj.name = name;
 			sndObj.sound = snd;
+			sndObj.numChannels = 0;
+			sndObj.maxChannels = maxChannels;
+			_soundsDict[name] = sndObj;
+			_sounds.push(sndObj);
+/*
 			sndObj.channel = new SoundChannel();
 			sndObj.position = 0;
 			sndObj.paused = true;
 			sndObj.volume = 1;
 			sndObj.startTime = 0;
 			sndObj.loops = 0;
-			sndObj.pausedByAll = false;
-			sndObj.numChannels = 0;
-			sndObj.maxChannels = maxChannels;
-			this._soundsDict[name] = sndObj;
-			this._sounds.push(sndObj);
+			sndObj.pausedByAll = false;*/
 			return true;
 		}
 		/**
@@ -93,27 +81,41 @@ package abe.com.edia.sounds
 		 *
 		 * @return Boolean A boolean value representing if the sound was added successfully
 		 */
-		public function addExternalSound(path:String, name:String, buffer:Number = 1000, checkPolicyFile:Boolean = false, maxChannels : uint = MAX_CHANNELS_PER_SOUND):Boolean
+		public function addExternalSound( path:String, 
+        								  name:String, 
+                                          callback : Function = null,
+                                          buffer:Number = 1000, 
+                                          checkPolicyFile:Boolean = false, 
+                                          maxChannels : uint = MAX_CHANNELS_PER_SOUND
+                                        ) : Boolean
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
-				if (this._sounds[i].name == name)
+            var i : int;
+            var l : int;
+			for ( i = 0, l = _sounds.length; i < l; i++)
+				if (_sounds[i].name == name)
 					return false;
 
-			var sndObj:SoundObject = new SoundObject();
-			var snd:Sound = new Sound(new URLRequest(path), new SoundLoaderContext(buffer, checkPolicyFile));
+			var sndObj:SoundData = new SoundData();
+			var snd:Sound = new Sound();
 			sndObj.name = name;
 			sndObj.sound = snd;
+			sndObj.numChannels = 0;
+			sndObj.maxChannels = maxChannels;
+/*
 			sndObj.channel = new SoundChannel();
 			sndObj.position = 0;
 			sndObj.paused = true;
 			sndObj.volume = 1;
 			sndObj.startTime = 0;
 			sndObj.loops = 0;
-			sndObj.pausedByAll = false;
-			sndObj.numChannels = 0;
-			sndObj.maxChannels = maxChannels;
-			this._soundsDict[name] = sndObj;
-			this._sounds.push(sndObj);
+			sndObj.pausedByAll = false;*/
+			_soundsDict[name] = sndObj;
+			_sounds.push(sndObj);
+            
+            if( callback != null )
+            	snd.addEventListener(Event.COMPLETE, callback );
+            
+            snd.load(new URLRequest(path), new SoundLoaderContext(buffer, checkPolicyFile));
 			return true;
 		}
 		/**
@@ -125,15 +127,16 @@ package abe.com.edia.sounds
 		 */
 		public function removeSound(name:String):void
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
+            var l : int = _sounds.length ;
+			while (--l -(-1))
 			{
-				if (this._sounds[i].name == name)
+				if ( _sounds[l].name == name )
 				{
-					this._sounds[i] = null;
-					this._sounds.splice(i, 1);
+					_sounds[l] = null;
+					_sounds.splice(l, 1);
 				}
 			}
-			delete this._soundsDict[name];
+			delete _soundsDict[name];
 		}
 		/**
 		 * Removes all sounds from the sound dictionary.
@@ -142,11 +145,12 @@ package abe.com.edia.sounds
 		 */
 		public function removeAllSounds():void
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
-				this._sounds[i] = null;
+            var l : int = _sounds.length ;
+			while (--l -(-1))
+				_sounds[l] = null;
 
-			this._sounds = new Array();
-			this._soundsDict = new Dictionary(true);
+			_sounds = new Array();
+			_soundsDict = new Dictionary(true);
 		}
 		/**
 		 * Plays or resumes a sound from the sound dictionary with the specified name.
@@ -158,54 +162,67 @@ package abe.com.edia.sounds
 		 *
 		 * @return void
 		 */
-		public function playSound(name:String, volume:Number = 1, startTime:Number = 0, loops:int = 0):void
+		public function playSound( name:String, 
+        						   volume:Number = 1,
+								   startTime:Number = 0, 
+                                   loops:int = 0,
+                                   processor : SoundProcessor = null
+                                 ) : void
 		{
-			var snd:SoundObject = this._soundsDict[name];
+            var sd : SoundData = _soundsDict[name];
 
-			if( !snd )
+			if( !sd )
 				return;
 
-			if( snd.numChannels + 1 > snd.maxChannels )
+			if( sd.numChannels + 1 > sd.maxChannels )
 				return;
 
 			try
 			{
+				var snd:SoundPlayUnit = new SoundPlayUnit( sd );
+                sd.playUnits.push(snd);
+				sd.numChannels++;
+                
+                snd.processor = processor;
 				snd.volume = volume;
 				snd.startTime = startTime;
 				snd.loops = loops;
-
 
 				if (snd.paused)
 					snd.channel = snd.sound.play( snd.position, 0, new SoundTransform( snd.volume ));
 				else
 					snd.channel = snd.sound.play ( startTime, snd.loops, new SoundTransform ( snd.volume ) );
+				
+                if( snd.processor )
+                	snd.processor.channel = snd.channel;
 
 				snd.channel.addEventListener ( Event.SOUND_COMPLETE, soundComplete );
-				_channelsDict[ snd.channel ] = snd;
 
-				snd.numChannels++;
 				snd.paused = false;
+                
+                _channelsDict[snd.channel] = snd;
 			}
 			catch( e : Error )
 			{
-				/*FDT_IGNORE*/ CONFIG::DEBUG { /*FDT_IGNORE*/
-					Log.error( "Error in SoundManager.playsound for sound " + name +"\n" + e.message + "\n" + e.getStackTrace() );
-				/*FDT_IGNORE*/ } /*FDT_IGNORE*/
+				CONFIG::DEBUG {
+					Log.error( "Error in SoundManager.playsound for sound " + name + "\n" + e.message + "\n" + e.getStackTrace() );
+				}
 			}
 		}
 
 		protected function soundComplete ( event : Event ) : void
 		{
 			var volume : Number = (event.target as SoundChannel).soundTransform.volume;
-			var snd : SoundObject = _channelsDict[event.target];
+			var snd : SoundPlayUnit = _channelsDict[event.target];
 			event.target.removeEventListener ( Event.SOUND_COMPLETE, soundComplete );
-			_channelsDict[event.target].numChannels--;
+            snd.data.playUnits.splice( snd.data.playUnits.indexOf( snd ), 1 );
+            snd.data.numChannels--;
 			delete _channelsDict[event.target];
 
 			if( snd.loops )
 			{
 				snd.loops--;
-				playSound ( snd.name, volume, 0, snd.loops );
+				playSound ( snd.data.name, volume, 0, snd.loops, snd.processor );
 			}
 		}
 		/**
@@ -217,19 +234,22 @@ package abe.com.edia.sounds
 		 */
 		public function stopSound(name:String):void
 		{
-			var snd : SoundObject = this._soundsDict[name];
-			if( snd && snd.channel )
-			{
-				//snd.paused = true;
-				snd.channel.stop();
-				snd.channel.removeEventListener ( Event.SOUND_COMPLETE, soundComplete );
-				snd.numChannels = 0;
-				delete _channelsDict[snd.channel];
-				/*
-				snd.channel.removeEventListener ( Event.SOUND_COMPLETE, soundComplete );
-				snd.numChannels--;
-				delete _channelsDict[snd.channel];*/
-			}
+            var sd : SoundData = _soundsDict[name];
+            for each( var snd : SoundPlayUnit in sd.playUnits )
+            {               
+				if( snd && snd.channel )
+				{
+					//snd.paused = true;
+					snd.channel.stop();
+					snd.channel.removeEventListener ( Event.SOUND_COMPLETE, soundComplete );
+					snd.data.numChannels = 0;
+					delete _channelsDict[snd.channel];
+					/*
+					snd.channel.removeEventListener ( Event.SOUND_COMPLETE, soundComplete );
+					snd.numChannels--;
+					delete _channelsDict[snd.channel];*/
+				}
+            }
 		}
 		/**
 		 * Pauses the specified sound.
@@ -240,16 +260,19 @@ package abe.com.edia.sounds
 		 */
 		public function pauseSound(name:String):void
 		{
-			var snd : SoundObject = this._soundsDict[name];
-			if( snd && snd.channel )
-			{
-				snd.paused = true;
-				snd.position = snd.channel.position;
-				snd.channel.stop ();
-				snd.channel.removeEventListener ( Event.SOUND_COMPLETE, soundComplete );
-				snd.numChannels--;
-				delete _channelsDict[snd.channel];
-			}
+			var sd : SoundData = _soundsDict[name];
+            for each( var snd : SoundPlayUnit in sd.playUnits )
+            {                
+				if( snd && snd.channel )
+				{
+					snd.paused = true;
+					snd.position = snd.channel.position;
+					snd.channel.stop ();
+					snd.channel.removeEventListener ( Event.SOUND_COMPLETE, soundComplete );
+					snd.data.numChannels--;
+					delete _channelsDict[snd.channel];
+				}
+            }
 		}
 		/**
 		 * Plays all the sounds that are in the sound dictionary.
@@ -260,20 +283,20 @@ package abe.com.edia.sounds
 		 */
 		public function playAllSounds(useCurrentlyPlayingOnly:Boolean = false):void
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
+			for (var i:int = 0; i < _sounds.length; i++)
 			{
-				var id:String = this._sounds[i].name;
+				var id:String = _sounds[i].name;
 				if (useCurrentlyPlayingOnly)
 				{
-					if ( this._soundsDict[id] && this._soundsDict[id].pausedByAll)
+					if ( _soundsDict[id] && _soundsDict[id].pausedByAll)
 					{
-						this._soundsDict[id].pausedByAll = false;
-						this.playSound(id, _sounds[i].volume, 0, _sounds[i].loops );
+						_soundsDict[id].pausedByAll = false;
+						playSound(id, _sounds[i].volume, 0, _sounds[i].loops );
 					}
 				}
 				else
 				{
-					this.playSound(id, _sounds[i].volume, 0, _sounds[i].loops);
+					playSound(id, _sounds[i].volume, 0, _sounds[i].loops);
 				}
 			}
 		}
@@ -286,20 +309,20 @@ package abe.com.edia.sounds
 		 */
 		public function stopAllSounds(useCurrentlyPlayingOnly:Boolean = true):void
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
+			for (var i:int = 0; i < _sounds.length; i++)
 			{
-				var id:String = this._sounds[i].name;
+				var id:String = _sounds[i].name;
 				if (useCurrentlyPlayingOnly)
 				{
-					if (!this._soundsDict[id].paused)
+					if (!_soundsDict[id].paused)
 					{
-						//this._soundsDict[id].pausedByAll = true;
-						this.stopSound(id);
+						//_soundsDict[id].pausedByAll = true;
+						stopSound(id);
 					}
 				}
 				else
 				{
-					this.stopSound(id);
+					stopSound(id);
 				}
 			}
 		}
@@ -312,20 +335,20 @@ package abe.com.edia.sounds
 		 */
 		public function pauseAllSounds(useCurrentlyPlayingOnly:Boolean = true):void
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
+			for (var i:int = 0; i < _sounds.length; i++)
 			{
-				var id:String = this._sounds[i].name;
+				var id:String = _sounds[i].name;
 				if (useCurrentlyPlayingOnly)
 				{
-					if (!this._soundsDict[id].paused)
+					if (!_soundsDict[id].paused)
 					{
-						this._soundsDict[id].pausedByAll = true;
-						this.pauseSound(id);
+						_soundsDict[id].pausedByAll = true;
+						pauseSound(id);
 					}
 				}
 				else
 				{
-					this.pauseSound(id);
+					pauseSound(id);
 				}
 			}
 		}
@@ -340,13 +363,15 @@ package abe.com.edia.sounds
 		 */
 		public function fadeSound(name:String, targVolume:Number = 0, fadeLength:Number = 1000 ):void
 		{
-			var snd : SoundObject = this._soundsDict[name];
-			SingleTween.add ( snd.channel, { setter:"sound_volume", end:targVolume, duration:fadeLength } );
+			var sd : SoundData = _soundsDict[name];
+            for each( var snd : SoundPlayUnit in sd.playUnits )
+				SingleTween.add ( snd.channel, { setter:"sound_volume", end:targVolume, duration:fadeLength } );
 		}
 		public function spacializeSound( name:String, position : Number = 0, volume : Number = 1 ):void
 		{
-			var snd : SoundObject = this._soundsDict[name];
-			snd.channel.soundTransform = new SoundTransform(volume, position );
+			var sd : SoundData = _soundsDict[name];
+            for each( var snd : SoundPlayUnit in sd.playUnits )
+				snd.channel.soundTransform = new SoundTransform(volume, position );
 		}
 
 		/**
@@ -356,10 +381,10 @@ package abe.com.edia.sounds
 		 */
 		public function muteAllSounds():void
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
+			for (var i:int = 0; i < _sounds.length; i++)
 			{
-				var id:String = this._sounds[i].name;
-				this.setSoundVolume(id, 0);
+				var id:String = _sounds[i].name;
+				setSoundVolume(id, 0);
 			}
 		}
 		/**
@@ -369,20 +394,24 @@ package abe.com.edia.sounds
 		 */
 		public function unmuteAllSounds():void
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
+			for (var i:int = 0; i < _sounds.length; i++)
 			{
-				var id:String = this._sounds[i].name;
-				var snd:SoundObject = this._soundsDict[id];
-				var curTransform:SoundTransform = snd.channel.soundTransform;
-				curTransform.volume = snd.volume;
-				snd.channel.soundTransform = curTransform;
+				var id:String = _sounds[i].name;
+				var sd : SoundData = _soundsDict[id];
+            	for each( var snd : SoundPlayUnit in sd.playUnits )
+                {
+					var curTransform:SoundTransform = snd.channel.soundTransform;
+					curTransform.volume = snd.volume;
+					snd.channel.soundTransform = curTransform;
+                }
 			}
 		}
+        
 		public function setAllSoundVolume( volume : Number ) : void
 		{
-			for (var i:int = 0; i < this._sounds.length; i++)
+			for (var i:int = 0; i < _sounds.length; i++)
 			{
-				var id:String = this._sounds[i].name;
+				var id:String = _sounds[i].name;
 				setSoundVolume( id, volume);
 			}
 		}
@@ -396,14 +425,17 @@ package abe.com.edia.sounds
 		 */
 		public function setSoundVolume(name:String, volume:Number):void
 		{
-			var snd : SoundObject = this._soundsDict[name];
-			if( snd && snd.channel )
-			{
-				var curTransform:SoundTransform = snd.channel.soundTransform;
-				curTransform.volume = volume;
-				snd.volume = volume;
-				snd.channel.soundTransform = curTransform;
-			}
+			var sd : SoundData = _soundsDict[name];
+            for each( var snd : SoundPlayUnit in sd.playUnits )
+            {
+				if( snd && snd.channel )
+				{
+					var curTransform:SoundTransform = snd.channel.soundTransform;
+					curTransform.volume = volume;
+					snd.volume = volume;
+					snd.channel.soundTransform = curTransform;
+				}
+            }
 		}
 		/**
 		 * Gets the volume of the specified sound.
@@ -414,7 +446,7 @@ package abe.com.edia.sounds
 		 */
 		public function getSoundVolume(name:String):Number
 		{
-			return this._soundsDict[name].channel.soundTransform.volume;
+			return _soundsDict[name].playUnits[0].channel.soundTransform.volume;
 		}
 		/**
 		 * Gets the position of the specified sound.
@@ -425,7 +457,7 @@ package abe.com.edia.sounds
 		 */
 		public function getSoundPosition(name:String):Number
 		{
-			return this._soundsDict[name].channel.position;
+			return _soundsDict[name].playUnits[0].channel.position;
 		}
 		/**
 		 * Gets the duration of the specified sound.
@@ -436,7 +468,7 @@ package abe.com.edia.sounds
 		 */
 		public function getSoundDuration(name:String):Number
 		{
-			return this._soundsDict[name].sound.length;
+			return _soundsDict[name].playUnits[0].sound.length;
 		}
 		/**
 		 * Gets the sound object of the specified sound.
@@ -447,7 +479,7 @@ package abe.com.edia.sounds
 		 */
 		public function getSoundObject(name:String):Sound
 		{
-			return this._soundsDict[name].sound;
+			return _soundsDict[name].sound;
 		}
 		/**
 		 * Identifies if the sound is paused or not.
@@ -458,7 +490,7 @@ package abe.com.edia.sounds
 		 */
 		public function isSoundPaused(name:String):Boolean
 		{
-			return this._soundsDict[name].paused;
+			return _soundsDict[name].playUnits[0].paused;
 		}
 		/**
 		 * Identifies if the sound was paused or stopped by calling the stopAllSounds() or pauseAllSounds() methods.
@@ -469,7 +501,7 @@ package abe.com.edia.sounds
 		 */
 		public function isSoundPausedByAll(name:String):Boolean
 		{
-			return this._soundsDict[name].pausedByAll;
+			return _soundsDict[name].playUnits[0].pausedByAll;
 		}
 		/**
 		 *
@@ -487,6 +519,8 @@ internal class SoundObject
 {
 	public var name : String;
 	public var sound : Sound;
+	public var numChannels : int;	public var maxChannels : uint;
+    
 	public var channel : SoundChannel;
 	public var position : int;
 	public var paused : Boolean;
@@ -494,5 +528,4 @@ internal class SoundObject
 	public var startTime : int;
 	public var loops : int;
 	public var pausedByAll : Boolean;
-	public var numChannels : int;	public var maxChannels : uint;
 }
