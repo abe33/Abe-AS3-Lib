@@ -27,19 +27,23 @@ package abe.com.edia.fx
 		protected var _isRunning : Boolean;
 		protected var _numParticles : uint;
 		protected var _target : LayeredSprite;
+        protected var _randomSource : Random;
 
-		public function TwinklingObject ( target : LayeredSprite, numParticles : uint = 10 )
+		public function TwinklingObject ( target : LayeredSprite = null, numParticles : uint = 10, random : Random = null )
 		{
 			_target = target;
 			_numParticles = numParticles;
-			_randomSource = RandomUtils;
+			_randomSource = random ? random : RandomUtils;
         }
-        protected var _randomSource : Random;
-		public function get randomSource () : Random { return _randomSource; }
-		public function set randomSource (randomSource : Random) : void
-		{
-			_randomSource = randomSource;
-		}
+		
+        public function get randomSource () : Random { return _randomSource; }
+		public function set randomSource (randomSource : Random) : void { _randomSource = randomSource; }
+        
+        public function get target () : LayeredSprite { return _target; }
+        public function set target ( target : LayeredSprite ) : void { _target = target; }
+
+        public function get numParticles () : uint { return _numParticles; }
+        public function set numParticles ( numParticles : uint ) : void { _numParticles = numParticles; }
 
 		public function tick (bias : Number, biasInSeconds : Number, time : Number) : void
 		{
@@ -102,7 +106,7 @@ package abe.com.edia.fx
 		{
 			p.scaleX = p.scaleY = _randomSource.rangeAB(.5,1);
 			p.x = _randomSource.rangeAB( r.x, r.x + r.width );
-			p.y = _randomSource.rangeAB( r.y, r.y + r.height );
-		}
+            p.y = _randomSource.rangeAB ( r.y, r.y + r.height );
+        }
 	}
 }

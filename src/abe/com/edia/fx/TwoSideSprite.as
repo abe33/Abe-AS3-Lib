@@ -1,13 +1,14 @@
 package abe.com.edia.fx
 {
     import abe.com.mon.core.Allocable;
+    import abe.com.mon.core.impl.LayeredSpriteImpl;
+
     import flash.display.DisplayObject;
-    import flash.display.Sprite;
     import flash.events.Event;
     import flash.geom.Point;
     import flash.geom.Rectangle;
 
-    public class TwoSideSprite extends Sprite implements Allocable
+    public class TwoSideSprite extends LayeredSpriteImpl implements Allocable
 	{
 		protected static const POINT_A:Point = new Point(0,   0);
 		protected static const POINT_B:Point = new Point(100, 0);
@@ -70,9 +71,9 @@ package abe.com.edia.fx
 		public function set front( value:DisplayObject ):void
         {
 			if ( _front && contains( _front ) )
-				removeChild( _front );
+				_middle.removeChild( _front );
 			
-			_front = addChild( value );
+			_front = _middle.addChild( value );
 			alignFaces();
 		}
 		
@@ -84,11 +85,9 @@ package abe.com.edia.fx
 		public function set back( value:DisplayObject ):void
 		{
 			if ( _back && contains( _back ) )
-			{
-				removeChild( _back );
-			}
+				_middle.removeChild( _back );
 			
-			_back = addChild( value );
+			_back = _middle.addChild( value );
 			_back.scaleX = -1;
 			alignFaces();
 		}
@@ -99,7 +98,7 @@ package abe.com.edia.fx
 		 * from the display list
 		 */
 		
-		public function get hasFront():Boolean { return _front && contains( _front ); }
+		public function get hasFront():Boolean { return _front && _middle.contains( _front ); }
 		
 		/**
 		 * Indicates whether the PaperSprite has a back face. This method will 
@@ -107,7 +106,7 @@ package abe.com.edia.fx
 		 * from the display list
 		 */
 		
-		public function get hasBack():Boolean { return _back && contains( _back ); }
+		public function get hasBack():Boolean { return _back && _middle.contains( _back ); }
 		
 		/**
 		 * Thanks to Jesse Freeman for suggesting a method to limit unnecessary 
@@ -123,18 +122,14 @@ package abe.com.edia.fx
 			super.x = value;
 			
 			if ( stage )
-			{
 				stage.invalidate();
-			}
 		}
 		override public function set y( value:Number ):void 
 		{
 			super.y = value;
 			
 			if ( stage )
-			{
 				stage.invalidate();
-			}
 		}
 		
 		override public function set z( value:Number ):void 
@@ -142,18 +137,14 @@ package abe.com.edia.fx
 			super.z = value;
 			
 			if ( stage )
-			{
 				stage.invalidate();
-			}
 		}
 		override public function set rotationX( value:Number ):void 
 		{
 			super.rotationX = value;
 			
 			if ( stage )
-			{
 				stage.invalidate();
-			}
 		}
 		
 		override public function set rotationY( value:Number ):void 
@@ -161,9 +152,7 @@ package abe.com.edia.fx
 			super.rotationY = value;
 			
 			if ( stage )
-			{
 				stage.invalidate();
-			}
 		}
 		
 		override public function set rotationZ( value:Number ):void 
@@ -171,9 +160,7 @@ package abe.com.edia.fx
 			super.rotationZ = value;
 			
 			if ( stage )
-			{
 				stage.invalidate();
-			}
 		}
         
         public function frontUp ():void
@@ -208,7 +195,7 @@ package abe.com.edia.fx
 				
 				registration = new Point( _front.width * _pivot.x, _front.height * _pivot.y );
 				
-				bounds = _front.getBounds( this );
+				bounds = _front.getBounds( _middle );
 				registration.x += bounds.x;
 				registration.y += bounds.y;
 				
@@ -225,7 +212,7 @@ package abe.com.edia.fx
 				
 				registration = new Point( _back.width * _pivot.x, _back.height * _pivot.y );
 				
-				bounds = _back.getBounds( this );
+				bounds = _back.getBounds( _middle );
 				registration.x += bounds.x;
 				registration.y += bounds.y;
 				
@@ -236,9 +223,7 @@ package abe.com.edia.fx
 			}
 			
 			if ( stage )
-			{
 				stage.invalidate();
-			}
 		}
 
 		public function update( event:Event = null ):void
