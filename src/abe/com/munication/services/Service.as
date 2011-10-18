@@ -22,6 +22,8 @@ package abe.com.munication.services
 	 */
 	dynamic public class Service extends Proxy
 	{
+        static public var METHOD_SEPARATOR : String = "/";
+        
 		/**
 		 * Le nom du service.
 		 */
@@ -76,7 +78,7 @@ package abe.com.munication.services
 		override flash_proxy function callProperty (name : *, ...args : *) : *
 		{
 			if( _netConnection && _serviceName )
-				_netConnection.call.apply( null, [_serviceName + "." + name, _responder].concat(args) );
+				_netConnection.call.apply( null, [_serviceName + METHOD_SEPARATOR + name, _responder].concat(args) );
 		}
 		/**
 		 * Interrompt la connection avec le service.

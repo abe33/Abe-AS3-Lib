@@ -197,7 +197,7 @@ package abe.com.munication.services
 			if( _resultListener != null )
 				serviceResponded.add( _resultListener );
 			if( _errorListener != null )
-				serviceResponded.add( _errorListener );	
+				serviceErrorOccured.add( _errorListener );	
 			
 			_service.serviceResponded.add( serviceResult );
 			_service.serviceErrorOccured.add( serviceError );
@@ -207,7 +207,7 @@ package abe.com.munication.services
 			if( _resultListener != null )
 				serviceResponded.remove( _resultListener );
 			if( _errorListener != null )
-				serviceResponded.remove( _errorListener );	
+				serviceErrorOccured.remove( _errorListener );	
 				
 			_service.serviceResponded.remove( serviceResult );
 			_service.serviceErrorOccured.remove( serviceError );
