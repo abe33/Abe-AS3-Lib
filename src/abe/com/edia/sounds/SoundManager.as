@@ -437,6 +437,10 @@ package abe.com.edia.sounds
 				}
             }
 		}
+        public function getSoundUnits(name:String):Array
+        {
+            return _soundsDict[name].playUnits;
+        }
 		/**
 		 * Gets the volume of the specified sound.
 		 *

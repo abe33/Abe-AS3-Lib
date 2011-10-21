@@ -1,10 +1,8 @@
 package abe.com.edia.sounds.processors
 {
-    import abe.com.mon.logs.Log;
     import abe.com.edia.sounds.SoundProcessor;
     import abe.com.mon.core.Allocable;
 
-    import flash.events.Event;
     import flash.events.SampleDataEvent;
     import flash.media.Sound;
     import flash.media.SoundChannel;
@@ -13,7 +11,7 @@ package abe.com.edia.sounds.processors
 	/**
 	 * @author Andre Michelle (andre.michelle@gmail.com)
 	 */
-	public class MP3Pitch implements Allocable, SoundProcessor
+	public class Pitch implements Allocable, SoundProcessor
 	{
 		private const BLOCK_SIZE: int = 3072;
 		
@@ -26,7 +24,7 @@ package abe.com.edia.sounds.processors
         private var _rate : Number;
         private var _channel : SoundChannel;
 		
-		public function MP3Pitch( rate : Number = 1.0, targetSound : Sound = null )
+		public function Pitch( rate : Number = 1.0, targetSound : Sound = null )
 		{
 			_targetSound = targetSound;
             _rate = rate;
@@ -104,13 +102,22 @@ package abe.com.edia.sounds.processors
 					
 					//-- SET TARGET READ POSITION
 					_target.position = positionTargetInt << 3;
+					try
+                    {
+						//-- READ TWO STEREO SAMPLES FOR LINEAR INTERPOLATION
+						l0 = _target.readFloat();
+						r0 = _target.readFloat();
 	
-					//-- READ TWO STEREO SAMPLES FOR LINEAR INTERPOLATION
-					l0 = _target.readFloat();
-					r0 = _target.readFloat();
-
-					l1 = _target.readFloat();
-					r1 = _target.readFloat();
+						l1 = _target.readFloat();
+						r1 = _target.readFloat();
+                    }
+                    catch(e:Error)
+                    {
+                        l0 = 0;
+                        r0 = 0;
+                        l1 = 0;
+                        r1 = 0;
+                    }
 				}
 				
 				//-- WRITE INTERPOLATED AMPLITUDES INTO STREAM
@@ -123,23 +130,6 @@ package abe.com.edia.sounds.processors
 				//-- INCREASE FRACTION AND CLAMP BETWEEN 0 AND 1
 				alpha += _rate;
 				while( alpha >= 1.0 ) --alpha;
-			}
-			
-			//-- FILL REST OF STREAM WITH ZEROs
-			if( i == 0 )
-            {
-                _channel.dispatchEvent( new Event( Event.SOUND_COMPLETE ) );
-                _channel.stop();
-            }
-			else if( i < BLOCK_SIZE )
-			{
-				while( i < BLOCK_SIZE )
-				{
-					data.writeFloat( 0.0 );
-					data.writeFloat( 0.0 );
-					
-					++i;
-				}
 			}
 
 			//-- INCREASE SOUND POSITION
