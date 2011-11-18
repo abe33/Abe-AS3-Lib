@@ -1,5 +1,6 @@
 package abe.com.edia.particles.display.objects
 {
+    import abe.com.mon.logs.Log;
     import abe.com.mon.colors.Color;
     import abe.com.mon.core.Allocable;
     import abe.com.mon.geom.pt;
@@ -55,17 +56,17 @@ package abe.com.edia.particles.display.objects
         public function init () : void
         {
             _coords = [];
-            addEventListener(Event.ADDED_TO_STAGE, addedToStage );
-            addEventListener(Event.REMOVED_FROM_STAGE, removedFromStage );
+            
+            addEventListener(Event.ADDED, added );
+            addEventListener(Event.REMOVED, removed );
         }
         
         public function dispose () : void
         {
-            removeEventListener(Event.ADDED_TO_STAGE, addedToStage );
-            removeEventListener(Event.REMOVED_FROM_STAGE, removedFromStage );
+            removeEventListener(Event.ADDED, added );
+            removeEventListener(Event.REMOVED, removed );
         }
-        
-        
+               
         override public function set x ( value : Number ) : void {
 //            super.x = value;
         }
@@ -74,12 +75,12 @@ package abe.com.edia.particles.display.objects
       //      super.y = value;
         }
 
-        private function removedFromStage ( event : Event ) : void
+        private function removed ( event : Event ) : void
         {
             Impulse.unregister( tick );
             AllocatorInstance.release(this);
         }
-        private function addedToStage ( event : Event ) : void
+        private function added ( event : Event ) : void
         { 
             Impulse.register( tick );
         }

@@ -1,9 +1,9 @@
 package abe.com.edia.particles.display
 {
-    import abe.com.mon.logs.Log;
     import abe.com.edia.particles.core.Particle;
     import abe.com.mon.geom.Dimension;
     import abe.com.mon.geom.dm;
+    import abe.com.mon.logs.Log;
     import abe.com.mon.randoms.Random;
     import abe.com.mon.utils.RandomUtils;
     import abe.com.motion.Impulse;
@@ -59,10 +59,7 @@ package abe.com.edia.particles.display
             var r : Number = 1000/frameRate;
 	        var rot : Number = random.random( rotationSpeed ) * random.sign();
             s.scaleX = s.scaleY = scale;
-            var added : Function = function(e:Event):void{
-                Impulse.register( animate );
-                s.addEventListener(Event.REMOVED_FROM_STAGE, removed);
-            };
+
             var animate : Function = function(b:Number, bs:Number,t:Number):void{
                
                 time += b;
@@ -83,14 +80,13 @@ package abe.com.edia.particles.display
 	            s.graphics.endFill();
                 
                 s.rotation += rotationSpeed * bs;
-            };
-            var removed : Function = function(e:Event):void{
-                s.removeEventListener( Event.ADDED_TO_STAGE, added );
-                s.removeEventListener( Event.REMOVED_FROM_STAGE, removed );
-                Impulse.unregister( animate );
-            };            
-            
-            s.addEventListener(Event.ADDED_TO_STAGE, added);
+            };     
+            s.addEventListener( Event.ADDED, function(e:Event):void{
+	            Impulse.register( animate );
+            });
+            s.addEventListener( Event.REMOVED, function(e:Event):void{
+	            Impulse.unregister( animate );
+            });
             
             return s;
         };
