@@ -1,6 +1,6 @@
 package abe.com.ponents.factory 
 {
-    import abe.com.mands.load.URLLoaderQueue;
+	import abe.com.mands.load.URLLoaderQueue;
     import abe.com.mon.logs.Log;
     import abe.com.mon.utils.Reflection;
     import abe.com.mon.utils.StageUtils;
@@ -142,7 +142,7 @@ package abe.com.ponents.factory
         {
             setProgressLabel( "Looking for a backend" );
             
-              var be : SettingsBackend;
+            var be : SettingsBackend;
             var mainClass:Class = getDefinitionByName(__mainClassName__) as Class;
             
             var settings : XMLList = Reflection.getClassMeta( mainClass, "SettingsBackend" );
@@ -324,28 +324,28 @@ package abe.com.ponents.factory
         {
             setProgressValue( Math.round( this.loaderInfo.bytesLoaded / this.loaderInfo.bytesTotal * 100 ) );
             CONFIG::WITHOUT_SERVER { 
-            if ( _n >= 100 ) 
-            {
-               this.removeEventListener(Event.ENTER_FRAME, this.enterFrame);
-               this.nextFrame();
-               setProgressLabel( "Loading complete" );
-               loadLang();
-            }
-            else
-            {
-                _n++;
-                setProgressValue( _n );    
-            }
+	            if ( _n >= 100 ) 
+	            {
+	               this.removeEventListener(Event.ENTER_FRAME, this.enterFrame);
+	               this.nextFrame();
+	               setProgressLabel( "Loading complete" );
+	               loadLang();
+	            }
+	            else
+	            {
+	                _n++;
+	                setProgressValue( _n );    
+	            }
             } 
             
             CONFIG::WITH_DISTANT_SERVER { 
             if (this.framesLoaded >= this.totalFrames) 
-            {
-               this.removeEventListener(Event.ENTER_FRAME, this.enterFrame);
-               this.nextFrame();
-               setProgressLabel( "Loading complete" );
-               loadLang();
-            }
+	            {
+	               this.removeEventListener(Event.ENTER_FRAME, this.enterFrame);
+	               this.nextFrame();
+	               setProgressLabel( "Loading complete" );
+	               loadLang();
+	            }
             } 
         }
         private function loadLang () : void
@@ -429,6 +429,7 @@ package abe.com.ponents.factory
             _langLoader.commandEnded.remove( langLoadingComplete );
             initMain();
         }
+        
         protected function getMessage ( messageId : String ) : String
         {
             switch( messageId )

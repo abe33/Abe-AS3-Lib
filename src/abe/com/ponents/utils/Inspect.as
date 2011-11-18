@@ -261,7 +261,10 @@ package abe.com.ponents.utils
 					
 					a.sort();
 										for each( i in a )
-						s2 += "  '" + escape(i) + "' : " + ( o[i] is String ? "'"+o[i]+"'" : o[i] ) + ",\n";
+						s2 += "  '" + escape( i ) + "' : " + 
+                        ( o[ i ] is String ? 
+                        	"'"+ o[ i ] +"'" : 
+                            ( Reflection.isObject( o[i] ) ? inspect(o[i]) : o[i] ) ) + ",\n";
 						
 					if( s2 != "" )
 						s += "\n"+s2;

@@ -153,7 +153,7 @@ package abe.com.munication.services
 				var errorMsg : String = _$(_("$0\nError Code:$1"), e.description, e.code );
 				serviceErrorOccured.dispatch( errorMsg );
 				anyServiceErrorOccured.dispatch( errorMsg );
-				commandFailed.dispatch( errorMsg );
+				commandFailed.dispatch( this, errorMsg );
 				unregisterFromServiceSignals();
 			}
 			catch( ee : Error )
@@ -173,7 +173,7 @@ package abe.com.munication.services
 
 			serviceErrorOccured.dispatch( errorMsg );
 			anyServiceErrorOccured.dispatch( errorMsg );
-			commandFailed.dispatch( errorMsg );
+			commandFailed.dispatch( this, errorMsg );
 			unregisterFromServiceSignals();
 		}
 		protected function processMiddlewaresResults( res : *, middlewares : Array ) : *
