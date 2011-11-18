@@ -2,13 +2,13 @@ package abe.com.ponents.text
 {
     import abe.com.edia.text.AdvancedTextField;
     import abe.com.edia.text.builds.BasicBuild;
+    import abe.com.edia.text.builds.CharBuild;
     import abe.com.edia.text.layouts.BasicLayout;
+    import abe.com.edia.text.layouts.CharLayout;
     import abe.com.mon.core.Clearable;
     import abe.com.ponents.core.Component;
     import abe.com.ponents.layouts.display.DOInlineLayout;
     import abe.com.ponents.skinning.SkinManagerInstance;
-
-    import flash.filters.GlowFilter;
 
 	/**
 	 * @author Cédric Néhémie
@@ -23,7 +23,7 @@ package abe.com.ponents.text
         public function GameLabel ( text : String = "Label", configure : Function = null, forComponent : Component = null )
 		{
 			_style = SkinManagerInstance.getComponentStyle(this);
-			var l : AdvancedTextField = new AdvancedTextField( new BasicBuild(_style.format,false,_style.embedFonts), new BasicLayout() );
+			var l : AdvancedTextField = new AdvancedTextField( getBuild(), getLayout() );
 			l.allowMask = false;
 			_label = l;
             if( configure != null )
@@ -35,6 +35,16 @@ package abe.com.ponents.text
 			mouseChildren = false;
 			allowMask = false;
         }
+
+        protected function getLayout () : CharLayout
+        {
+            return new BasicLayout();
+        }
+        protected function getBuild () : CharBuild
+        {
+            return new BasicBuild(_style.format,false,_style.embedFonts);
+        }
+        
         override public function invalidatePreferredSizeCache () : void
         {
             var atf : AdvancedTextField = _label as AdvancedTextField;
