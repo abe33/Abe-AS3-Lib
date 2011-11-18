@@ -26,9 +26,11 @@ package abe.com.edia.text.fx.simple
 		}
 		override public function init () : void 
 		{
-			var a : Number = MathUtils.deg2rad(angle);
-			var m : Matrix;
 			for each( var c : Char in chars )
+            {            
+				var m : Matrix;
+				var a : Number = MathUtils.deg2rad(getAngle());
+                
 				if( c.charContent )
 				{
 					var d : DisplayObject = c.charContent;
@@ -57,7 +59,13 @@ package abe.com.edia.text.fx.simple
 					}
 					d.transform.matrix = m;
 				}
-		}
+            }
+        }
+
+        protected function getAngle () : Number
+        {
+            return angle;
+        }
 		override public function dispose () : void 
 		{
 			for each( var c : Char in chars )
