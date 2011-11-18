@@ -100,6 +100,12 @@ package abe.com.edia.text.layouts
 			if( _owner && _owner.build.chars.length )
 				layout( _owner.build.chars );
 		}
+        public function get lineSpacing () : Number { return _lineSpacing; }
+        public function set lineSpacing ( lineSpacing : Number ) : void {
+            _lineSpacing = lineSpacing;
+            if( _owner && _owner.build.chars.length )
+				layout( _owner.build.chars );
+        }
 		
 		public function get textSize () : Dimension
 		{
@@ -380,7 +386,7 @@ package abe.com.edia.text.layouts
 			
 			var metrix : TextLineMetrics = new TextLineMetrics(x, w, h + _lineSpacing, ascent, descent, _lineSpacing );
 			
-			return metrix;
-		}
+            return metrix;
+        }
 	}
 }
